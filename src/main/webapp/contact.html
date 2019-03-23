@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0">
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <title>widgets</title>
+
+    <script src="contact.widget/contact.widget.nocache.js"></script>
+
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        var Configuration = {
+            LOGIN_ID: "pohorelec@turnonline.biz",
+            ACCOUNT_STEWARD_API_ROOT: "https://account.turnon.cloud/api/steward/v1"
+        };
+
+        // simulation of firebase token retrieval
+        var token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZiMDEyZTk5Y2EwYWNhODI2ZTkwODZiMzIyM2JiOTYwZGFhOTFmODEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiSm96ZWYgUG9ob3JlbGVjIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS8tYjEwd1g1VnNHRm8vQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQUNldm9RTnB4NGJhcWNzc0lMVGJobHVCZDViSDdhUDdaZy9tby9waG90by5qcGciLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdHVybi1vbmxpbmUtZXUiLCJhdWQiOiJ0dXJuLW9ubGluZS1ldSIsImF1dGhfdGltZSI6MTU1MzM3NzQzNiwidXNlcl9pZCI6IlMyOHVvc1NWblpUWlhnZGNZVDdMcFRGdjNSdzEiLCJzdWIiOiJTMjh1b3NTVm5aVFpYZ2RjWVQ3THBURnYzUncxIiwiaWF0IjoxNTUzMzc3NDM2LCJleHAiOjE1NTMzODEwMzYsImVtYWlsIjoicG9ob3JlbGVjQHR1cm5vbmxpbmUuYml6IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMDExNDI3ODA3NzA5MDM2NjMxMDkiXSwiZW1haWwiOlsicG9ob3JlbGVjQHR1cm5vbmxpbmUuYml6Il19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.PbupaK8hmpwNlyFdsIsTr7mnwJvCXqgH0UFwgdiuuKoB6b8kXjCsBL38rkUVEm-CKEkWR_3Ajc3z9bA3p7-0V17QnNBjr92VcdjbHBmrY8Rd3J_MBNG1FgqrubSYAZSf8-djVtm50Rxs-ewIZbLd2AWghWb6aHtKfX95zmOpHlxZ-R0d7HNQzWXN5zijpyW9_lVPmXFPP5QkT6ekQVj68cs6UIfdw5LBqMP2NSHYZfUiQzsbkCjtGBU4BOCJknH92dt6Nu3jNdnXkWD44QjTKwYBs3gnZaexko7bpfSy_X3juxMFjP4K02kKjDUcAfK9wGuDVcUcrNNb2B0Vxw4Y3w";
+        firebase = {
+            auth: function () {
+                return {
+                    currentUser: {
+                        getIdToken: function () {
+                            return {
+                                then: function ( callback ) {
+                                    callback.call( this, token );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        /*]]>*/
+    </script>
+
+    <style>
+        :focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+        <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+            Your web browser must have JavaScript enabled
+            in order for this application to display correctly.
+        </div>
+    </noscript>
+
+    <!-- Will add a custom splashscreen for your GMD app -->
+    <script type="text/javascript" src="splash/splash.js"></script>
+
+    <div id="main-content"></div>
+</body>
+</html>

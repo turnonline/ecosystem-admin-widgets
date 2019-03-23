@@ -1,0 +1,233 @@
+<!--
+  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.ctoolkit.maven</groupId>
+        <artifactId>ctoolkit-public</artifactId>
+        <version>1</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.ctoolkit.turnonline</groupId>
+    <artifactId>ecosystem-admin-widgets</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>TurnOnline.biz Ecosystem Administration</name>
+    <description>TurnOnline.biz Ecosystem Administration GWT based widgets, distributed as zip</description>
+    <url>https://github.com/turnonline/ecosystem-admin-widgets</url>
+
+    <scm>
+        <connection>scm:git:[fetch=]git@github.com:turnonline/ecosystem-admin-widgets.git</connection>
+        <developerConnection>scm:git:[push=]git@github.com:turnonline/ecosystem-admin-widgets.git</developerConnection>
+        <url>https://github.com/turnonline/ecosystem-admin-widgets</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <url>https://github.com/turnonline/ecosystem-admin-widgets/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <name>Aurel Medvegy</name>
+            <id>medvegy</id>
+            <email>aurel.medvegy@ctoolkit.org</email>
+        </developer>
+        <developer>
+            <name>Jozef Pohorelec</name>
+            <id>pohorelec</id>
+            <email>jozef.pohorelec@ctoolkit.org</email>
+        </developer>
+    </developers>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt-plugin.version}</version>
+                <configuration>
+                    <deploy>${project.build.directory}/deploy</deploy>
+                    <logLevel>INFO</logLevel>
+                    <extraJvmArgs>-Xmx1024m</extraJvmArgs>
+                    <style>OBFUSCATED</style>
+                </configuration>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <modules>
+                                <module>org.ctoolkit.turnonline.widget.Contact</module>
+                            </modules>
+                        </configuration>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.google.dagger</groupId>
+                            <artifactId>dagger-compiler</artifactId>
+                            <version>2.11</version>
+                        </path>
+                        <dependency>
+                            <groupId>com.google.auto.factory</groupId>
+                            <artifactId>auto-factory</artifactId>
+                            <version>1.0-beta5</version>
+                        </dependency>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/widgets.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- WAR packaging is here only for development purpose. Thus skipping distribution. -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.ctoolkit.maven</groupId>
+                <artifactId>gwt-bom</artifactId>
+                <version>${gwt-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!--turnonline libs-->
+        <dependency>
+            <groupId>org.ctoolkit.gwt</groupId>
+            <artifactId>ctoolkit-tinygwt</artifactId>
+            <version>${ctoolkit-tinygwt.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- resty gwt -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.fusesource.restygwt</groupId>
+            <artifactId>restygwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- gwt -->
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.dagger</groupId>
+            <artifactId>dagger-gwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava-gwt</artifactId>
+        </dependency>
+
+        <!-- GwtMaterial -->
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material</artifactId>
+            <version>${gwt-material.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>apache-jsp</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-themes</artifactId>
+            <version>${gwt-material.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-addins</artifactId>
+            <version>${gwt-material.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-table</artifactId>
+            <version>${gwt-material.version}</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <gwt-bom.version>2.8.1-20170920.033247-2</gwt-bom.version>
+        <gwt-plugin.version>2.8.1</gwt-plugin.version>
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+
+        <gwt-material.version>2.1.1</gwt-material.version>
+
+        <ctoolkit-tinygwt.version>0.5-20190323.210043-9</ctoolkit-tinygwt.version>
+    </properties>
+
+</project>

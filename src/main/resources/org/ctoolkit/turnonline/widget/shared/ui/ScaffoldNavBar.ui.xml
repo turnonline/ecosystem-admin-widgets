@@ -1,0 +1,32 @@
+<!--
+  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'>
+
+    <ui:with field="msg" type="org.ctoolkit.turnonline.widget.shared.AppMessages"/>
+
+    <m:MaterialSideNavPush m:id="sidenav" width="200" active="4" showOnAttach="true">
+        <m:MaterialNavBrand text="">
+            <m:MaterialImage maxWidth="80%" url="https://www.turnonline.biz/images/logo.png"/>
+        </m:MaterialNavBrand>
+        <m:MaterialLink text="Invoices" iconType="ASSIGNMENT"/>
+        <m:MaterialLink text="Orders" iconType="SHOPPING_CART" separator="true" />
+        <m:MaterialLink text="{msg.labelProducts}" iconType="TABLET_MAC" />
+        <m:MaterialLink text="{msg.labelContacts}" iconType="CONTACT_PHONE" />
+    </m:MaterialSideNavPush>
+</ui:UiBinder>
