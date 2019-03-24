@@ -21,8 +21,10 @@ package org.ctoolkit.turnonline.widget.contact;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
-import org.ctoolkit.turnonline.widget.contact.event.Contacts;
+import org.ctoolkit.turnonline.widget.contact.place.Contacts;
+import org.ctoolkit.turnonline.widget.contact.place.EditContact;
 import org.ctoolkit.turnonline.widget.contact.presenter.ContactsPresenter;
+import org.ctoolkit.turnonline.widget.contact.presenter.EditContactPresenter;
 import org.ctoolkit.turnonline.widget.shared.presenter.Presenter;
 
 import javax.inject.Inject;
@@ -39,13 +41,15 @@ public class ContactController
     private static HashMap<String, Presenter> presenters = null;
 
     @Inject
-    public ContactController( ContactsPresenter contactsPresenter )
+    public ContactController( ContactsPresenter contactsPresenter,
+                              EditContactPresenter editContactPresenter )
     {
         if ( presenters == null )
         {
             presenters = new HashMap<>();
 
             presenters.put( Contacts.class.getName(), contactsPresenter );
+            presenters.put( EditContact.class.getName(), editContactPresenter );
         }
     }
 

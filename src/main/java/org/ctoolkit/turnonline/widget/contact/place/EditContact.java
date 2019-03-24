@@ -16,20 +16,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package org.ctoolkit.turnonline.widget.contact.event;
+package org.ctoolkit.turnonline.widget.contact.place;
 
-import com.google.gwt.place.shared.PlaceHistoryMapper;
-import com.google.gwt.place.shared.WithTokenizers;
+import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceTokenizer;
+import com.google.gwt.place.shared.Prefix;
 
 /**
- * Custom tokenizer holder. Put all new tokenizer implementations here.
- *
  * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
  */
-@WithTokenizers( {
-        Contacts.Tokenizer.class
-} )
-public interface HistoryMapper
-        extends PlaceHistoryMapper
+public class EditContact
+        extends Place
 {
+    private Long id;
+
+    public EditContact( Long id )
+    {
+        this.id = id;
+    }
+
+    @Prefix( value = "edit-contact" )
+    public static class Tokenizer
+            implements PlaceTokenizer<EditContact>
+    {
+        @Override
+        public EditContact getPlace( String token )
+        {
+            return new EditContact( "".equals( token ) ? null : Long.valueOf( token ) );
+        }
+
+        @Override
+        public String getToken( EditContact place )
+        {
+            return place.getId() != null ? place.getId().toString() : "";
+        }
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
 }

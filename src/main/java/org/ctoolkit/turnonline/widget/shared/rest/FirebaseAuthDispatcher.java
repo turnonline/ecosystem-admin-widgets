@@ -3,6 +3,7 @@ package org.ctoolkit.turnonline.widget.shared.rest;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestException;
+import gwt.material.design.client.ui.MaterialLoader;
 import org.ctoolkit.gwt.client.facade.FirebaseAuthRequestBuilder;
 import org.fusesource.restygwt.client.Dispatcher;
 import org.fusesource.restygwt.client.Method;
@@ -21,6 +22,7 @@ public class FirebaseAuthDispatcher
     @Override
     public Request send( Method method, RequestBuilder builder ) throws RequestException
     {
+        MaterialLoader.loading( true );
         return super.sendRequest( builder );
     }
 }

@@ -1,20 +1,20 @@
-package org.ctoolkit.turnonline.widget.contact.view;
+package org.ctoolkit.turnonline.widget.contact.ui;
 
-import gwt.material.design.client.data.DataSource;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;
 import gwt.material.design.client.data.loader.LoadResult;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.ctoolkit.turnonline.widget.contact.AppEventBus;
+import org.ctoolkit.turnonline.widget.shared.rest.FacadeCallback;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
+import org.ctoolkit.turnonline.widget.shared.ui.RefreshableDataSource;
 import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class ContactsDataSource
-        implements DataSource<ContactCard>
+        extends RefreshableDataSource<ContactCard>
 {
     private AppEventBus eventBus;
 
@@ -26,6 +26,8 @@ public class ContactsDataSource
     @Override
     public void load( LoadConfig<ContactCard> loadConfig, LoadCallback<ContactCard> callback )
     {
+        super.load( loadConfig, callback );
+
         int limit = loadConfig.getLimit();
         int offset = loadConfig.getOffset();
 
@@ -33,17 +35,12 @@ public class ContactsDataSource
                 offset,
                 limit,
                 null,
-                new MethodCallback<Items<ContactCard>>()
+                new FacadeCallback<Items<ContactCard>>()
                 {
-                    @Override
-                    public void onFailure( Method method, Throwable exception )
-                    {
-                        callback.onFailure( exception );
-                    }
-
                     @Override
                     public void onSuccess( Method method, Items<ContactCard> response )
                     {
+                        super.onSuccess( method, response );
                         callback.onSuccess( new LoadResult<>( response.getItems(), offset, response.getItems().size(), false ) );
                     }
                 } );

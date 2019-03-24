@@ -16,15 +16,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package org.ctoolkit.turnonline.widget.shared.view;
+package org.ctoolkit.turnonline.widget.contact.place;
+
+import com.google.gwt.place.shared.PlaceHistoryMapper;
+import com.google.gwt.place.shared.WithTokenizers;
 
 /**
+ * Custom tokenizer holder. Put all new tokenizer implementations here.
+ *
  * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
  */
-public interface IView<T>
-        extends org.ctoolkit.gwt.client.view.IView
+@WithTokenizers( {
+        Contacts.Tokenizer.class,
+        EditContact.Tokenizer.class
+} )
+public interface HistoryMapper
+        extends PlaceHistoryMapper
 {
-    void setModel( T model );
-
-    T getModel();
 }

@@ -23,14 +23,16 @@
     <ui:with field="msg" type="org.ctoolkit.turnonline.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
+        <s:ConfirmationWindow ui:field="confirmationWindow"/>
+
         <m:MaterialNavBar backgroundColor="GREY_LIGHTEN_5" shadow="0" paddingLeft="20">
             <m:MaterialBreadcrumb textColor="GREY_DARKEN_3" iconPosition="LEFT" iconType="HOME" text="Home"/>
             <m:MaterialBreadcrumb textColor="BLUE" iconPosition="LEFT" iconType="CONTACT_PHONE" text="Contacts"/>
         </m:MaterialNavBar>
 
         <m:MaterialRow paddingTop="20" paddingLeft="20" float="LEFT">
-            <m:MaterialButton marginRight="10" type="RAISED" waves="DEFAULT" backgroundColor="WHITE" textColor="BLACK" iconType="CONTROL_POINT" tooltip="{msg.tooltipNewContact}" text="{msg.labelNew}" ui:field="btnNew"/>
-            <m:MaterialButton ui:field="btnDelete" marginRight="10" type="RAISED" waves="LIGHT" backgroundColor="RED_DARKEN_1" iconType="DELETE" tooltip="{msg.tooltipDeleteContact}" text="{msg.labelDelete}"/>
+            <m:MaterialButton marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE" textColor="WHITE" iconType="CONTROL_POINT" tooltip="{msg.tooltipNewContact}" text="{msg.labelNew}" ui:field="btnNew"/>
+            <m:MaterialButton ui:field="btnDelete" marginRight="10" type="FLAT" waves="LIGHT" textColor="WHITE" backgroundColor="RED_DARKEN_1" iconType="DELETE" tooltip="{msg.tooltipDeleteContact}" text="{msg.labelDelete}"/>
         </m:MaterialRow>
 
         <m:MaterialRow padding="20">

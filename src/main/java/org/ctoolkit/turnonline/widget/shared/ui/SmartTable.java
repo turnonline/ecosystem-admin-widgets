@@ -18,6 +18,7 @@ public class SmartTable<T>
     public void configure( DataSource<T> dataSource )
     {
         MaterialIcon btnRefresh = new MaterialIcon( IconType.REFRESH );
+        btnRefresh.addClickHandler( event -> SmartTable.this.refresh() );
         btnRefresh.addStyleName( "waves-effect waves-light circle" );
 
         setDataSource( dataSource );
@@ -30,5 +31,13 @@ public class SmartTable<T>
         MaterialDataPager<T> pager = new MaterialDataPager<>( this, dataSource );
         pager.setRowSelection( new RowSelection( new MaterialDataPager<>( this, dataSource ) ) );
         add( pager );
+    }
+
+    public void refresh()
+    {
+        if ( getDataSource() instanceof RefreshableDataSource )
+        {
+            ( ( RefreshableDataSource ) getDataSource() ).refresh();
+        }
     }
 }

@@ -27,12 +27,17 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialButton;
 import org.ctoolkit.turnonline.widget.contact.AppEventBus;
+import org.ctoolkit.turnonline.widget.contact.event.DeleteContactEvent;
+import org.ctoolkit.turnonline.widget.contact.event.EditContactEvent;
 import org.ctoolkit.turnonline.widget.contact.presenter.ContactsPresenter;
 import org.ctoolkit.turnonline.widget.contact.ui.ColumnActions;
 import org.ctoolkit.turnonline.widget.contact.ui.ColumnAddress;
+import org.ctoolkit.turnonline.widget.contact.ui.ColumnContacts;
 import org.ctoolkit.turnonline.widget.contact.ui.ColumnName;
 import org.ctoolkit.turnonline.widget.contact.ui.ColumnType;
+import org.ctoolkit.turnonline.widget.contact.ui.ContactsDataSource;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
+import org.ctoolkit.turnonline.widget.shared.ui.ConfirmationWindow;
 import org.ctoolkit.turnonline.widget.shared.ui.SmartTable;
 import org.ctoolkit.turnonline.widget.shared.view.View;
 
@@ -57,6 +62,15 @@ public class ContactsView
     @UiField
     SmartTable<ContactCard> table;
 
+    @UiField
+    ConfirmationWindow confirmationWindow;
+
+    @Override
+    public void refresh()
+    {
+        table.refresh();
+    }
+
     interface ContactsViewUiBinder
             extends UiBinder<HTMLPanel, ContactsView>
     {
@@ -69,24 +83,34 @@ public class ContactsView
 
         add( binder.createAndBindUi( this ) );
         initTable();
+
+        confirmationWindow.getBtnOk().addClickHandler( event -> {
+            List<ContactCard> selectedRowModels = table.getSelectedRowModels( false );
+            bus().fireEvent( new DeleteContactEvent( selectedRowModels ) );
+        } );
     }
 
     private void initTable()
     {
         ColumnType type = new ColumnType();
+        type.setWidth( "5%" );
 
         ColumnName name = new ColumnName();
         name.setWidth( "30%" );
 
         ColumnAddress address = new ColumnAddress();
-        address.setWidth( "50%" );
+        address.setWidth( "30%" );
 
-        ColumnActions actions = new ColumnActions();
+        ColumnContacts contacts = new ColumnContacts();
+        contacts.setWidth( "20%" );
+
+        ColumnActions actions = new ColumnActions( bus() );
         actions.setWidth( "10%" );
 
         table.addColumn( type, "" );
-        table.addColumn( name, "Name" );
-        table.addColumn( address, "Address" );
+        table.addColumn( name, messages.labelName() );
+        table.addColumn( address, messages.labelAddress() );
+        table.addColumn( contacts, messages.labelContacts() );
         table.addColumn( actions );
 
         table.configure( new ContactsDataSource( ( AppEventBus ) bus() ) );
@@ -95,17 +119,15 @@ public class ContactsView
     @UiHandler( "btnNew" )
     public void handleNew( ClickEvent event )
     {
-        // TODO: fire new event
+        bus().fireEvent( new EditContactEvent() );
     }
 
     @UiHandler( "btnDelete" )
     public void handleDelete( ClickEvent event )
     {
-        List<ContactCard> selectedRowModels = table.getSelectedRowModels( false );
-        StringBuilder selected = new StringBuilder();
-        for ( ContactCard contact : selectedRowModels )
+        if ( !table.getSelectedRowModels( false ).isEmpty() )
         {
-            // TODO: fire delete event + MaterialToast.fireToast( "Successfully deleted! - " + selected, "green" );
+            confirmationWindow.open( messages.msgConfirmRecordDelete() );
         }
     }
 }

@@ -24,7 +24,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import org.ctoolkit.turnonline.widget.contact.event.Contacts;
+import org.ctoolkit.turnonline.widget.contact.place.Contacts;
 
 /**
  * @author <a href="mailto:jozef.pohorelec@ctoolkit.org">Jozef Pohorelec</a>

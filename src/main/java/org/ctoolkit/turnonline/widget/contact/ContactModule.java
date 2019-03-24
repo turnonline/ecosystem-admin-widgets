@@ -28,9 +28,11 @@ import com.google.web.bindery.event.shared.EventBus;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
-import org.ctoolkit.turnonline.widget.contact.event.HistoryMapper;
+import org.ctoolkit.turnonline.widget.contact.place.HistoryMapper;
 import org.ctoolkit.turnonline.widget.contact.presenter.ContactsPresenter;
+import org.ctoolkit.turnonline.widget.contact.presenter.EditContactPresenter;
 import org.ctoolkit.turnonline.widget.contact.view.ContactsView;
+import org.ctoolkit.turnonline.widget.contact.view.EditContactView;
 import org.ctoolkit.turnonline.widget.shared.Configuration;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.AccountStewardFacade;
 
@@ -116,4 +118,9 @@ public abstract class ContactModule
     @Binds
     @Singleton
     abstract ContactsPresenter.IView provideContactsView( ContactsView view );
+
+
+    @Binds
+    @Singleton
+    abstract EditContactPresenter.IView provideEditContactView( EditContactView view );
 }

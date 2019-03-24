@@ -20,7 +20,7 @@
 
     <ui:with field="msg" type="org.ctoolkit.turnonline.widget.shared.AppMessages"/>
 
-    <m:MaterialSideNavPush m:id="sidenav" width="200" active="4" showOnAttach="true">
+    <m:MaterialSideNavPush m:id="sidenav" width="200" active="4" showOnAttach="false">
         <m:MaterialNavBrand text="">
             <m:MaterialImage maxWidth="80%" url="https://www.turnonline.biz/images/logo.png"/>
         </m:MaterialNavBrand>

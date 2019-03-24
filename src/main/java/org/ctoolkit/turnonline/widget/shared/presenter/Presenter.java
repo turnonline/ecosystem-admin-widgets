@@ -18,10 +18,10 @@
 
 package org.ctoolkit.turnonline.widget.shared.presenter;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Window;
 import com.google.web.bindery.event.shared.EventBus;
+import gwt.material.design.client.ui.MaterialToast;
 import org.ctoolkit.gwt.client.presenter.BinderyPresenter;
 import org.ctoolkit.gwt.client.ui.feedback.FeedbackEvent;
 import org.ctoolkit.gwt.client.ui.feedback.FeedbackPanel;
@@ -42,6 +42,8 @@ public abstract class Presenter<V extends IView, E extends EventBus>
     public Presenter( E eventBus, V view, PlaceController placeController )
     {
         super( eventBus, view, placeController );
+
+        setTitle( "Turnonline.biz Adminstration" );
     }
 
     @Override
@@ -69,7 +71,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      */
     public void info( String msg )
     {
-        bus().fireEvent( new FeedbackEvent( msg, FeedbackType.INFO ) );
+        MaterialToast.fireToast( msg, "cyan" );
     }
 
     /**
@@ -80,7 +82,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      */
     public void success( String msg )
     {
-        bus().fireEvent( new FeedbackEvent( msg, FeedbackType.SUCCESS ) );
+        MaterialToast.fireToast( msg, "green" );
     }
 
     /**
@@ -91,7 +93,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      */
     public void warn( String msg )
     {
-        bus().fireEvent( new FeedbackEvent( msg, FeedbackType.WARNING ) );
+        MaterialToast.fireToast( msg, "amber" );
     }
 
     /**
@@ -102,20 +104,6 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      */
     public void error( String msg )
     {
-        bus().fireEvent( new FeedbackEvent( msg, FeedbackType.ERROR ) );
-    }
-
-    /**
-     * <p>Show info message.</p>
-     *
-     * @param error exception from which message will be extracted.
-     */
-    public void error( Throwable error )
-    {
-        // show system error to user
-        view().clearScreen();
-
-        // it is not backend or validation exception so log it to GWT console
-        GWT.log( "Unexpected error occurred: " + error );
+        MaterialToast.fireToast( msg, "red" );
     }
 }

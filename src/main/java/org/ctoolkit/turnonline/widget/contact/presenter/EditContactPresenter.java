@@ -18,11 +18,10 @@
 
 package org.ctoolkit.turnonline.widget.contact.presenter;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 import org.ctoolkit.turnonline.widget.contact.AppEventBus;
-import org.ctoolkit.turnonline.widget.contact.event.DeleteContactEvent;
-import org.ctoolkit.turnonline.widget.contact.event.EditContactEvent;
+import org.ctoolkit.turnonline.widget.contact.event.BackEvent;
+import org.ctoolkit.turnonline.widget.contact.place.Contacts;
 import org.ctoolkit.turnonline.widget.contact.place.EditContact;
 import org.ctoolkit.turnonline.widget.shared.presenter.Presenter;
 import org.ctoolkit.turnonline.widget.shared.rest.FacadeCallback;
@@ -34,19 +33,18 @@ import javax.inject.Inject;
 /**
  * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
  */
-public class ContactsPresenter
-        extends Presenter<ContactsPresenter.IView, AppEventBus>
+public class EditContactPresenter
+        extends Presenter<EditContactPresenter.IView, AppEventBus>
 {
     public interface IView
-            extends org.ctoolkit.turnonline.widget.shared.view.IView
+            extends org.ctoolkit.turnonline.widget.shared.view.IView<ContactCard>
     {
-        void refresh();
     }
 
     @Inject
-    public ContactsPresenter( AppEventBus eventBus,
-                              IView view,
-                              PlaceController placeController )
+    public EditContactPresenter( AppEventBus eventBus,
+                                 IView view,
+                                 PlaceController placeController )
     {
         super( eventBus, view, placeController );
     }
@@ -54,35 +52,28 @@ public class ContactsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( EditContactEvent.TYPE, event -> {
-            controller().goTo( new EditContact( event.getContactCard() != null ? event.getContactCard().getId() : null ) );
-        } );
-
-        bus().addHandler( DeleteContactEvent.TYPE, event -> {
-            for ( ContactCard contactCard : event.getContactCards() )
-            {
-                bus().accountSteward().delete( bus().getConfiguration().getLoginId(), contactCard.getId(), new FacadeCallback<Void>()
-                {
-                    @Override
-                    public void onSuccess( Method method, Void response )
-                    {
-                        super.onSuccess( method, response );
-
-                        success( messages.msgRecordDeleted(
-                                contactCard.getBusinessName() != null ? contactCard.getBusinessName() :
-                                        contactCard.getFirstName() + " " + contactCard.getLastName()
-                        ) );
-
-                        Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                    }
-                } );
-            }
-        } );
+        bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Contacts() ) );
     }
 
     @Override
     public void onBackingObject()
     {
+        view().setModel( new ContactCard() );
+
+        EditContact where = ( EditContact ) controller().getWhere();
+        if ( where.getId() != null )
+        {
+            bus().accountSteward().findById( bus().getConfiguration().getLoginId(), where.getId(), new FacadeCallback<ContactCard>()
+            {
+                @Override
+                public void onSuccess( Method method, ContactCard response )
+                {
+                    super.onSuccess( method, response );
+                    view().setModel( response );
+                }
+            } );
+        }
+
         onAfterBackingObject();
     }
 }

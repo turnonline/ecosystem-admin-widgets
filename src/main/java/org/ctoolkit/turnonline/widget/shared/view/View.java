@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialContainer;
 import gwt.material.design.client.ui.MaterialRow;
-import org.ctoolkit.gwt.client.ui.feedback.ClearFeedbackEvent;
 import org.ctoolkit.gwt.client.view.BinderyView;
 import org.ctoolkit.turnonline.widget.shared.AppMessages;
 import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldHeader;
@@ -118,27 +117,6 @@ public abstract class View<T>
     protected final EventBus bus()
     {
         return super.bus();
-    }
-
-    public void show()
-    {
-        clearScreen();
-    }
-
-    @Override
-    public void hide()
-    {
-    }
-
-    @Override
-    public void init()
-    {
-    }
-
-    public void clearScreen()
-    {
-        // remove feedback error
-        bus().fireEvent( new ClearFeedbackEvent() );
     }
 
     public void add( IsWidget w )

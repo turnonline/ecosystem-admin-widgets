@@ -30,13 +30,6 @@ public interface AppMessages
     public static final AppMessages INSTANCE = GWT.create( AppMessages.class );
 
     // labels
-
-    @Key( value = "label.contacts")
-    String labelContacts();
-
-    @Key( value = "label.products")
-    String labelProducts();
-
     @Key( value = "label.new")
     String labelNew();
 
@@ -45,6 +38,60 @@ public interface AppMessages
 
     @Key( value = "label.delete")
     String labelDelete();
+
+    @Key( value = "label.businessName")
+    String labelBusinessName();
+
+    @Key( value = "label.name")
+    String labelName();
+
+    @Key( value = "label.firstName")
+    String labelFirstName();
+
+    @Key( value = "label.lastName")
+    String labelLastName();
+
+    @Key( value = "label.prefix" )
+    String labelPrefix();
+
+    @Key( value = "label.suffix" )
+    String labelSuffix();
+
+    @Key( value = "label.phone")
+    String labelPhone();
+
+    @Key( value = "label.email")
+    String labelEmail();
+
+    @Key( value = "label.ccEmail")
+    String labelCcEmail();
+
+    @Key( value = "label.company")
+    String labelCompany();
+
+    @Key( value = "label.address")
+    String labelAddress();
+
+    @Key( value = "label.contacts")
+    String labelContacts();
+
+    @Key( value = "label.products")
+    String labelProducts();
+
+    @Key( value = "label.confirmation")
+    String labelConfirmation();
+
+    @Key( value = "label.ok")
+    String labelOk();
+
+    @Key( value = "label.cancel")
+    String labelCancel();
+
+    @Key( value = "label.save")
+    String labelSave();
+
+    @Key( value = "label.back")
+    String labelBack();
 
     // tooltips
 
@@ -56,4 +103,22 @@ public interface AppMessages
 
     @Key( value = "tooltip.delete.contact")
     String tooltipDeleteContact();
+
+    @Key( value = "tooltip.save.contact")
+    String tooltipSaveContact();
+
+    @Key( value = "tooltip.back")
+    String tooltipBack();
+
+
+    // messages
+
+    @Key( value = "msg.recordDeleted")
+    String msgRecordDeleted(String detail);
+
+    @Key( value = "msg.errorRemoteServiceCall")
+    String msgErrorRemoteServiceCall();
+
+    @Key( value = "msg.confirmRecordDelete")
+    String msgConfirmRecordDelete();
 }
