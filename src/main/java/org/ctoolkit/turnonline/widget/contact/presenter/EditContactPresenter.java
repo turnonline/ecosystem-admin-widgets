@@ -21,6 +21,8 @@ package org.ctoolkit.turnonline.widget.contact.presenter;
 import com.google.gwt.place.shared.PlaceController;
 import org.ctoolkit.turnonline.widget.contact.AppEventBus;
 import org.ctoolkit.turnonline.widget.contact.event.BackEvent;
+import org.ctoolkit.turnonline.widget.contact.event.SaveContactEvent;
+import org.ctoolkit.turnonline.widget.contact.event.SaveContactEventHandler;
 import org.ctoolkit.turnonline.widget.contact.place.Contacts;
 import org.ctoolkit.turnonline.widget.contact.place.EditContact;
 import org.ctoolkit.turnonline.widget.shared.presenter.Presenter;
@@ -53,12 +55,51 @@ public class EditContactPresenter
     public void bind()
     {
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Contacts() ) );
+
+        bus().addHandler( SaveContactEvent.TYPE, new SaveContactEventHandler()
+        {
+            @Override
+            public void onSaveContact( SaveContactEvent event )
+            {
+                ContactCard contactCard = event.getContactCard();
+                String loginId = bus().getConfiguration().getLoginId();
+
+                if ( contactCard.getId() == null )
+                {
+                    bus().accountSteward().create( loginId, contactCard, new FacadeCallback<ContactCard>()
+                    {
+                        @Override
+                        public void onSuccess( Method method, ContactCard response )
+                        {
+                            super.onSuccess( method, response );
+                            success( messages.msgRecordCreated() );
+
+                            controller().goTo( new Contacts() );
+                        }
+                    } );
+                }
+                else
+                {
+                    bus().accountSteward().update( loginId, contactCard.getId(), contactCard, new FacadeCallback<ContactCard>()
+                    {
+                        @Override
+                        public void onSuccess( Method method, ContactCard response )
+                        {
+                            super.onSuccess( method, response );
+                            success( messages.msgRecordUpdated() );
+
+                            controller().goTo( new Contacts() );
+                        }
+                    } );
+                }
+            }
+        } );
     }
 
     @Override
     public void onBackingObject()
     {
-        view().setModel( new ContactCard() );
+        view().setModel( newContactCard() );
 
         EditContact where = ( EditContact ) controller().getWhere();
         if ( where.getId() != null )
@@ -75,5 +116,14 @@ public class EditContactPresenter
         }
 
         onAfterBackingObject();
+    }
+
+    private ContactCard newContactCard()
+    {
+        ContactCard contactCard = new ContactCard();
+        contactCard.setNumberOfDays( 30 );
+        contactCard.setHasPostalAddress( false );
+
+        return contactCard;
     }
 }

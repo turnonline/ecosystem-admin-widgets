@@ -23,7 +23,7 @@
 
     <m:MaterialHeader>
         <m:MaterialNavBar ui:field="navBar" activates="sidenav" backgroundColor="BLUE">
-            <m:MaterialNavBrand ui:field="title" text="Turnonline.biz admin" fontSize="1.5em"/>
+            <m:MaterialNavBrand ui:field="title" text="Turnonline.biz Admin" fontSize="1.5em"/>
             <m:MaterialNavSection float="RIGHT">
                 <s:InlineSearch ui:field="search" theme="LIGHT" width="40%" placeholder="Search" display="INLINE_BLOCK" marginRight="100"/>
                 <m:MaterialLink iconType="SETTINGS" paddingRight="0"/>

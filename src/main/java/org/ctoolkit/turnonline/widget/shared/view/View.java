@@ -74,8 +74,6 @@ public abstract class View<T>
         content = new MaterialRow(  );
         content.setPaddingTop( 65 );
         contentContainer.add( content );
-
-        // TODO: loading bar
     }
 
     @Override

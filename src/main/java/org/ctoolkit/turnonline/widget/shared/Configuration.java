@@ -17,11 +17,16 @@ public class Configuration
 
     public static final String ACCOUNT_STEWARD_API_ROOT = "ACCOUNT_STEWARD_API_ROOT";
 
+    public static final String MAPS_API_KEY = "MAPS_API_KEY";
+
     private String loginId;
 
-    private Configuration( String loginId )
+    private String mapsApiKey;
+
+    private Configuration( String loginId, String mapsApiKey )
     {
         this.loginId = loginId;
+        this.mapsApiKey = mapsApiKey;
     }
 
     /**
@@ -33,17 +38,23 @@ public class Configuration
     {
         Dictionary dictionary = Dictionary.getDictionary( CONFIGURATION_OBJECT );
         String loginId = dictionary.get( LOGIN_ID );
+        String mapsApiKey = dictionary.get( MAPS_API_KEY );
 
         ServiceRoots.add( ACCOUNT_STEWARD_API_ROOT, dictionary.get( ACCOUNT_STEWARD_API_ROOT ) );
 
         Defaults.setDateFormat( REST_DATE_FORMAT );
         Defaults.ignoreJsonNulls();
 
-        return new Configuration( loginId );
+        return new Configuration( loginId, mapsApiKey );
     }
 
     public String getLoginId()
     {
         return loginId;
+    }
+
+    public String getMapsApiKey()
+    {
+        return mapsApiKey;
     }
 }

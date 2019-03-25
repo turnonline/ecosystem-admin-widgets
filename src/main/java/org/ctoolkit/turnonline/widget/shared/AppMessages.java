@@ -42,6 +42,21 @@ public interface AppMessages
     @Key( value = "label.businessName")
     String labelBusinessName();
 
+    @Key( value = "label.companyId")
+    String labelCompanyId();
+
+    @Key( value = "label.taxId")
+    String labelTaxId();
+
+    @Key( value = "label.vatId")
+    String labelVatId();
+
+    @Key( value = "label.vatPayer")
+    String labelVatPayer();
+
+    @Key( value = "label.numberOfDays")
+    String numberOfDays();
+
     @Key( value = "label.name")
     String labelName();
 
@@ -80,6 +95,33 @@ public interface AppMessages
 
     @Key( value = "label.confirmation")
     String labelConfirmation();
+
+    @Key( value = "label.street")
+    String labelStreet();
+
+    @Key( value = "label.city")
+    String labelCity();
+
+    @Key( value = "label.postCode")
+    String labelPostCode();
+
+    @Key( value = "label.country")
+    String labelCountry();
+
+    @Key( value = "label.postalAddressSame")
+    String labelPostalAddressSame();
+
+    @Key( value = "label.person")
+    String labelPerson();
+
+    @Key( value = "label.invoicing")
+    String labelInvoicing();
+
+    @Key( value = "label.invoiceAddress")
+    String labelInvoiceAddress();
+
+    @Key( value = "label.postalAddress")
+    String labelPostalAddress();
 
     @Key( value = "label.ok")
     String labelOk();
@@ -121,4 +163,10 @@ public interface AppMessages
 
     @Key( value = "msg.confirmRecordDelete")
     String msgConfirmRecordDelete();
+
+    @Key( value = "msg.recordCreated")
+    String msgRecordCreated();
+
+    @Key( value = "msg.recordUpdated")
+    String msgRecordUpdated();
 }
