@@ -38,10 +38,12 @@ import org.ctoolkit.turnonline.widget.contact.ui.ColumnType;
 import org.ctoolkit.turnonline.widget.contact.ui.ContactsDataSource;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
 import org.ctoolkit.turnonline.widget.shared.ui.ConfirmationWindow;
+import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldBreadcrumb;
 import org.ctoolkit.turnonline.widget.shared.ui.SmartTable;
 import org.ctoolkit.turnonline.widget.shared.view.View;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
 /**
@@ -52,6 +54,9 @@ public class ContactsView
         implements ContactsPresenter.IView
 {
     private static ContactsViewUiBinder binder = GWT.create( ContactsViewUiBinder.class );
+
+    @UiField( provided = true )
+    ScaffoldBreadcrumb breadcrumb;
 
     @UiField
     MaterialButton btnNew;
@@ -77,9 +82,11 @@ public class ContactsView
     }
 
     @Inject
-    public ContactsView( EventBus eventBus )
+    public ContactsView( EventBus eventBus, @Named( "ContactsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super( eventBus );
+
+        this.breadcrumb = breadcrumb;
 
         add( binder.createAndBindUi( this ) );
         initTable();

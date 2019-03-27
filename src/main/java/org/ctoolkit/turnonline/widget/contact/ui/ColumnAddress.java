@@ -13,6 +13,7 @@ public class ColumnAddress
     public String getValue( ContactCard object )
     {
         StringBuilder sb = new StringBuilder();
+        sb.append( "<div style='padding: 10px 0;'>" );
         if ( object.getStreet() != null )
         {
             sb.append( "<b>" );
@@ -44,6 +45,7 @@ public class ColumnAddress
             sb.append( "</i>" );
         }
 
+        sb.append( "</div>" );
         return sb.toString();
     }
 

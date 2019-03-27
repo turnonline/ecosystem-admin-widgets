@@ -27,11 +27,7 @@
     <ui:with field="msg" type="org.ctoolkit.turnonline.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
-        <m:MaterialNavBar backgroundColor="GREY_LIGHTEN_5" shadow="0" paddingLeft="20">
-            <m:MaterialBreadcrumb textColor="GREY_DARKEN_3" iconPosition="LEFT" iconType="HOME" text="Home"/>
-            <m:MaterialBreadcrumb textColor="GREY_DARKEN_3" iconPosition="LEFT" text="Contacts"/>
-            <m:MaterialBreadcrumb textColor="BLUE" iconPosition="LEFT" iconType="CONTACT_PHONE" text="Edit contact"/>
-        </m:MaterialNavBar>
+        <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
             <m:MaterialRow marginBottom="0" paddingTop="20">
@@ -115,7 +111,7 @@
                         <m:MaterialTitle description="{msg.labelInvoiceAddress}" textColor="BLUE"/>
                     </m:MaterialSection>
 
-                    <map:AddressLookup label="{msg.labelStreet}" ui:field="street"/>
+                    <map:AddressLookup label="{msg.labelStreet}" ui:field="street" helperText="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="city"/>
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
@@ -144,7 +140,7 @@
                 </m:MaterialColumn>
 
                 <m:MaterialColumn grid="s12 m3" paddingTop="38">
-                    <mat:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet"/>
+                    <mat:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet" helperText="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="postalCity"/>
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">

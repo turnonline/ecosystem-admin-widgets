@@ -25,10 +25,7 @@
     <g:HTMLPanel>
         <s:ConfirmationWindow ui:field="confirmationWindow"/>
 
-        <m:MaterialNavBar backgroundColor="GREY_LIGHTEN_5" shadow="0" paddingLeft="20">
-            <m:MaterialBreadcrumb textColor="GREY_DARKEN_3" iconPosition="LEFT" iconType="HOME" text="Home"/>
-            <m:MaterialBreadcrumb textColor="BLUE" iconPosition="LEFT" iconType="CONTACT_PHONE" text="Contacts"/>
-        </m:MaterialNavBar>
+        <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
 
         <m:MaterialRow paddingTop="20" paddingLeft="20" float="LEFT">
             <m:MaterialButton marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE" textColor="WHITE" iconType="CONTROL_POINT" tooltip="{msg.tooltipNewContact}" text="{msg.labelNew}" ui:field="btnNew"/>

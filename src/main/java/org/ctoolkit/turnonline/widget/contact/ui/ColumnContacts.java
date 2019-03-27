@@ -14,6 +14,7 @@ public class ColumnContacts
     public String getValue( ContactCard object )
     {
         StringBuilder sb = new StringBuilder();
+        sb.append( "<div style='padding: 10px 0;'>" );
         if ( object.getContactEmail() != null )
         {
             constructContact( object.getContactEmail(), IconType.EMAIL, sb );
@@ -24,7 +25,7 @@ public class ColumnContacts
         {
             constructContact( object.getContactPhone(), IconType.PHONE, sb );
         }
-
+        sb.append( "</div>" );
         return sb.toString();
     }
 

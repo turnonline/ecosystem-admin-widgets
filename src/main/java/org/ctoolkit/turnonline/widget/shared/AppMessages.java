@@ -87,8 +87,14 @@ public interface AppMessages
     @Key( value = "label.address")
     String labelAddress();
 
+    @Key( value = "label.home")
+    String labelHome();
+
     @Key( value = "label.contacts")
     String labelContacts();
+
+    @Key( value = "label.editContact")
+    String labelEditContact();
 
     @Key( value = "label.products")
     String labelProducts();
@@ -152,6 +158,8 @@ public interface AppMessages
     @Key( value = "tooltip.back")
     String tooltipBack();
 
+    @Key( value = "tooltip.addressAutocomplete")
+    String tooltipAddressAutocomplete();
 
     // messages
 

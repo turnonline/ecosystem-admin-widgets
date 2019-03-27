@@ -43,9 +43,11 @@ import org.ctoolkit.turnonline.widget.contact.presenter.EditContactPresenter;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCardPostalAddress;
 import org.ctoolkit.turnonline.widget.shared.ui.CountryComboBox;
+import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldBreadcrumb;
 import org.ctoolkit.turnonline.widget.shared.view.View;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Arrays;
 
 /**
@@ -56,6 +58,9 @@ public class EditContactView
         implements EditContactPresenter.IView
 {
     private static EditContactsViewUiBinder binder = GWT.create( EditContactsViewUiBinder.class );
+
+    @UiField( provided = true )
+    ScaffoldBreadcrumb breadcrumb;
 
     @UiField
     MaterialButton btnSave;
@@ -165,9 +170,10 @@ public class EditContactView
     }
 
     @Inject
-    public EditContactView( EventBus eventBus )
+    public EditContactView( EventBus eventBus, @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super( eventBus );
+        this.breadcrumb = breadcrumb;
 
         add( binder.createAndBindUi( this ) );
 

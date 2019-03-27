@@ -28,15 +28,23 @@ import com.google.web.bindery.event.shared.EventBus;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import gwt.material.design.client.constants.IconType;
+import org.ctoolkit.turnonline.widget.contact.place.Contacts;
 import org.ctoolkit.turnonline.widget.contact.place.HistoryMapper;
 import org.ctoolkit.turnonline.widget.contact.presenter.ContactsPresenter;
 import org.ctoolkit.turnonline.widget.contact.presenter.EditContactPresenter;
 import org.ctoolkit.turnonline.widget.contact.view.ContactsView;
 import org.ctoolkit.turnonline.widget.contact.view.EditContactView;
+import org.ctoolkit.turnonline.widget.shared.AppMessages;
 import org.ctoolkit.turnonline.widget.shared.Configuration;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.AccountStewardFacade;
+import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldBreadcrumb;
+import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldBreadcrumb.BreadcrumbItem;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.ctoolkit.turnonline.widget.contact.ContactEntryPoint.DEFAULT_PLACE;
 
@@ -46,6 +54,8 @@ import static org.ctoolkit.turnonline.widget.contact.ContactEntryPoint.DEFAULT_P
 @Module
 public abstract class ContactModule
 {
+    private static AppMessages messages = AppMessages.INSTANCE;
+
     // -- activity & places
 
     @Provides
@@ -105,6 +115,33 @@ public abstract class ContactModule
     static AccountStewardFacade provideContactFacade()
     {
         return GWT.create( AccountStewardFacade.class );
+    }
+
+    // -- breadcrumbs
+
+    @Provides
+    @Singleton
+    @Named( "EditContactBreadcrumb" )
+    static ScaffoldBreadcrumb provideEditContactBreadcrumb( PlaceController placeController )
+    {
+        List<BreadcrumbItem> items = new ArrayList<>();
+        items.add( new BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new BreadcrumbItem( new Contacts(), messages.labelContacts() ) );
+        items.add( new BreadcrumbItem( IconType.CONTACT_PHONE, messages.labelEditContact() ) );
+
+        return new ScaffoldBreadcrumb( items, placeController );
+    }
+
+    @Provides
+    @Singleton
+    @Named( "ContactsBreadcrumb" )
+    static ScaffoldBreadcrumb provideContactsBreadcrumb( PlaceController placeController )
+    {
+        List<BreadcrumbItem> items = new ArrayList<>();
+        items.add( new BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new BreadcrumbItem( IconType.CONTACT_PHONE, messages.labelContacts() ) );
+
+        return new ScaffoldBreadcrumb( items, placeController );
     }
 
     // -- event bus
