@@ -44,6 +44,7 @@ import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCardPostalAddress;
 import org.ctoolkit.turnonline.widget.shared.ui.CountryComboBox;
 import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldBreadcrumb;
+import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldNavBar;
 import org.ctoolkit.turnonline.widget.shared.view.View;
 
 import javax.inject.Inject;
@@ -173,7 +174,9 @@ public class EditContactView
     public EditContactView( EventBus eventBus, @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super( eventBus );
+
         this.breadcrumb = breadcrumb;
+        scaffoldNavBar.setActive( ScaffoldNavBar.Item.CONTACTS );
 
         add( binder.createAndBindUi( this ) );
 

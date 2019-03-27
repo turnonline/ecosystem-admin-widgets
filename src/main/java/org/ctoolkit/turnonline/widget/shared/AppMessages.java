@@ -99,6 +99,12 @@ public interface AppMessages
     @Key( value = "label.products")
     String labelProducts();
 
+    @Key( value = "label.orders")
+    String labelOrders();
+
+    @Key( value = "label.invoices")
+    String labelInvoices();
+
     @Key( value = "label.confirmation")
     String labelConfirmation();
 

@@ -9,9 +9,17 @@ import gwt.material.design.client.ui.MaterialSideNavPush;
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class ScaffoldNavBar
-    extends Composite
+        extends Composite
 {
     private static ScaffoldNavBarUiBinder binder = GWT.create( ScaffoldNavBarUiBinder.class );
+
+    public enum Item
+    {
+        INVOICES,
+        ORDERS,
+        PRODUCTS,
+        CONTACTS
+    }
 
     interface ScaffoldNavBarUiBinder
             extends UiBinder<MaterialSideNavPush, ScaffoldNavBar>
@@ -21,5 +29,11 @@ public class ScaffoldNavBar
     public ScaffoldNavBar()
     {
         initWidget( binder.createAndBindUi( this ) );
+    }
+
+    public void setActive( Item item )
+    {
+        MaterialSideNavPush nav = ( MaterialSideNavPush ) getWidget();
+        nav.setActive( item.ordinal() + 1 );
     }
 }

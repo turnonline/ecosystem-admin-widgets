@@ -39,6 +39,7 @@ import org.ctoolkit.turnonline.widget.contact.ui.ContactsDataSource;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
 import org.ctoolkit.turnonline.widget.shared.ui.ConfirmationWindow;
 import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldBreadcrumb;
+import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldNavBar;
 import org.ctoolkit.turnonline.widget.shared.ui.SmartTable;
 import org.ctoolkit.turnonline.widget.shared.view.View;
 
@@ -87,6 +88,7 @@ public class ContactsView
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
+        scaffoldNavBar.setActive( ScaffoldNavBar.Item.CONTACTS );
 
         add( binder.createAndBindUi( this ) );
         initTable();
