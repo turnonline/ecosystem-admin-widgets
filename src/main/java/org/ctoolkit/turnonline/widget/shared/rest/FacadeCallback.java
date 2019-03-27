@@ -20,8 +20,11 @@ public abstract class FacadeCallback<T>
     public void onFailure( Method method, Throwable exception )
     {
         printError( exception );
+
         MaterialToast.fireToast( messages.msgErrorRemoteServiceCall(), "red" );
         MaterialLoader.loading( false );
+
+        redirectToLoginIfUnauthorized( exception );
     }
 
     @Override
@@ -36,12 +39,23 @@ public abstract class FacadeCallback<T>
         {
             FailedResponseException fre = ( FailedResponseException ) exception;
             GWT.log( "Exception occur during calling remote service: " + fre.getResponse().getText() );
-
-            // TODO: redirect to login if fre.getResponse().getStatusCode() == 401
         }
         else
         {
             GWT.log( "Exception occur during calling remote service", exception );
+        }
+    }
+
+    private void redirectToLoginIfUnauthorized( Throwable exception )
+    {
+        if ( exception instanceof FailedResponseException )
+        {
+            FailedResponseException fre = ( FailedResponseException ) exception;
+
+            if ( fre.getStatusCode() == 401 )
+            {
+//                Window.Location.replace( "/login" );
+            }
         }
     }
 }

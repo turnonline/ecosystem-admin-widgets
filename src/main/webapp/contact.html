@@ -17,8 +17,7 @@
             MAPS_API_KEY: "AIzaSyBcFynhFn5xRAXBDshvHMJqn3BNF2ypEOs"
         };
 
-        // simulation of firebase token retrieval
-        var token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZiMDEyZTk5Y2EwYWNhODI2ZTkwODZiMzIyM2JiOTYwZGFhOTFmODEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiSm96ZWYgUG9ob3JlbGVjIiwicGljdHVyZSI6Imh0dHBzOi8vbGg2Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tTU9FaUN1R0g2ZWsvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQWMvY3BIczdvVW94Mk0vcGhvdG8uanBnIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3R1cm4tb25saW5lLWV1IiwiYXVkIjoidHVybi1vbmxpbmUtZXUiLCJhdXRoX3RpbWUiOjE1NTM1MTYzMzYsInVzZXJfaWQiOiI0U1VoeGhBZFpSWnhmU3gxVGlIRTdrVXExZXgyIiwic3ViIjoiNFNVaHhoQWRaUlp4ZlN4MVRpSEU3a1VxMWV4MiIsImlhdCI6MTU1MzUxNjMzNiwiZXhwIjoxNTUzNTE5OTM2LCJlbWFpbCI6ImpvemVmLnBvaG9yZWxlY0Bhc3BlY3RhLnNrIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTYyMjU2OTAzMzk0MDUwNDAxOTgiXSwiZW1haWwiOlsiam96ZWYucG9ob3JlbGVjQGFzcGVjdGEuc2siXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn19.q0jeUUNfWqY5AVlRFOTiI6veWI9FDuHldJWQRWosCBG84Tio07QOliFp0TOfM8V4jHrKsDLc3M51mChvz5cFwfXKewrgT-Yn3rqfhaJ43b-nLDb9O7Y5GfUFtqs-nAuKVJDnv0fo59jq3EyuY9Kl2PzS4aJPyQNj1x1mmqOlnJm_2XF1dGvNOx29ZmUzsFTCWn5_sHXI7fzIRnf_k88OkLm6jEsH6Zt9nYLu7eLfafC1mrAw3bh-kUsSoSCOKcPN2zat12N4-edzyuyONJjj7rlNED_N07kkPU1ZA0ZuJoa1b5l75BeNqh_NtnqoO9HHf2jtTIXhc4rRXYkZPxYl8Q";
+        var token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZiMDEyZTk5Y2EwYWNhODI2ZTkwODZiMzIyM2JiOTYwZGFhOTFmODEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiSm96ZWYgUG9ob3JlbGVjIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS8tYjEwd1g1VnNHRm8vQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQUNldm9RTnB4NGJhcWNzc0lMVGJobHVCZDViSDdhUDdaZy9tby9waG90by5qcGciLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdHVybi1vbmxpbmUtZXUiLCJhdWQiOiJ0dXJuLW9ubGluZS1ldSIsImF1dGhfdGltZSI6MTU1MzU1MDQ1MCwidXNlcl9pZCI6IlMyOHVvc1NWblpUWlhnZGNZVDdMcFRGdjNSdzEiLCJzdWIiOiJTMjh1b3NTVm5aVFpYZ2RjWVQ3THBURnYzUncxIiwiaWF0IjoxNTUzNTUwNDUwLCJleHAiOjE1NTM1NTQwNTAsImVtYWlsIjoicG9ob3JlbGVjQHR1cm5vbmxpbmUuYml6IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMDExNDI3ODA3NzA5MDM2NjMxMDkiXSwiZW1haWwiOlsicG9ob3JlbGVjQHR1cm5vbmxpbmUuYml6Il19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.nOZGIORJKXC0AwHsq0zCa1Vtr3gSXDJxEYY4PK_VstjNwFJdseaycdn1TwBZJpFUUEB8aLdg5Wmj_Te-DbymmOcWViYzHXelQJ2fjDFLPeuSzKdLwESK4zdqV-FwE_7mmQ95out69O0f7qaQ6ne-deuaeJEmzsc_lmu34WZytURVBWzOURYhgSHxxHqsp9nM6fpU8SloHvSbLgRiAhY7Rl7NHlMHyxS6dm_QnNvlf7v2xt_ms2vT8DMpIxgUiPMK0OTKQhaG8kWDgJaVc5uAz7LcfkjMsDkGGCs-hDzjiPX5SZO-GU9O70xoWayIePXg2wWrup67mDJdX_wuJacz8g";
         firebase = {
             auth: function () {
                 return {
@@ -29,7 +28,9 @@
                                     callback.call( this, token );
                                 }
                             }
-                        }
+                        },
+                        email: "john.foo@turnonline.biz",
+                        photoUrl: "https://www.google.com/s2/photos/public/AIbEiAIAAABDCPeaz9KoqZfZbSILdmNhcmRfcGhvdG8qKDRkMTJhZDMzMzlhOGIzZThmOWY4NmU1N2RiZTgwNjdhOGZmNTY4YjQwAT0MVCzv9oi9rn31QqHvEYzDsYFd?sz=48"
                     }
                 }
             }
@@ -44,17 +45,17 @@
     </style>
 </head>
 <body>
-    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
-    <noscript>
-        <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
-            Your web browser must have JavaScript enabled
-            in order for this application to display correctly.
-        </div>
-    </noscript>
+<!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+<noscript>
+    <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+    </div>
+</noscript>
 
-    <!-- Will add a custom splashscreen for your GMD app -->
-    <script type="text/javascript" src="splash/splash.js"></script>
+<!-- Will add a custom splashscreen for your GMD app -->
+<script type="text/javascript" src="splash/splash.js"></script>
 
-    <div id="main-content"></div>
+<div id="main-content"></div>
 </body>
 </html>

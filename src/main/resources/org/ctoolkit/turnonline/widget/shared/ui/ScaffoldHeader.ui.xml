@@ -27,7 +27,9 @@
             <m:MaterialNavSection float="RIGHT">
                 <s:InlineSearch ui:field="search" theme="LIGHT" width="40%" placeholder="Search" display="INLINE_BLOCK" marginRight="100"/>
                 <m:MaterialLink iconType="SETTINGS" paddingRight="0"/>
-                <m:MaterialLink text="john.foo@gmail.com" iconType="ACCOUNT_CIRCLE"/>
+                <m:MaterialLink ui:field="email">
+                    <m:MaterialImage border="3px solid #fff" marginTop="12" circle="true" float="LEFT" marginRight="10" ui:field="avatar"/>
+                </m:MaterialLink>
                 <m:MaterialLink text="Logout" iconType="POWER_SETTINGS_NEW"/>
             </m:MaterialNavSection>
         </m:MaterialNavBar>
