@@ -1,6 +1,8 @@
 package org.ctoolkit.turnonline.widget.contact.ui;
 
+import org.ctoolkit.turnonline.widget.shared.rest.CodeBookRestFacade;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
+import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.Country;
 import org.ctoolkit.turnonline.widget.shared.ui.NotSafeHtmlColumn;
 
 /**
@@ -39,9 +41,11 @@ public class ColumnAddress
 
         if ( object.getCountry() != null )
         {
+            Country country = CodeBookRestFacade.getCodeBookValue( Country.class, object.getCountry() );
+
             sb.append( " <br/>" );
             sb.append( "<i class='grey-text'>" );
-            sb.append( object.getCountry() );
+            sb.append( country != null ? country.getLabel() : object.getCountry() );
             sb.append( "</i>" );
         }
 

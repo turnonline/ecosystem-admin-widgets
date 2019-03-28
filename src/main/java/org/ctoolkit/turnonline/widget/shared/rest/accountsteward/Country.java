@@ -18,10 +18,13 @@
 
 package org.ctoolkit.turnonline.widget.shared.rest.accountsteward;
 
+import org.ctoolkit.turnonline.widget.shared.rest.CodeBook;
+
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public final class Country
+        implements CodeBook
 {
     private String code;
 

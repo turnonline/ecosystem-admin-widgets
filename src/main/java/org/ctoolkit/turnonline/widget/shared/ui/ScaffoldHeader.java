@@ -31,6 +31,12 @@ public class ScaffoldHeader
     @UiField
     MaterialImage avatar;
 
+    @UiField
+    MaterialLink btnSettings;
+
+    @UiField
+    MaterialLink btnLogout;
+
     public ScaffoldHeader()
     {
         initWidget( binder.createAndBindUi( this ) );
@@ -38,6 +44,9 @@ public class ScaffoldHeader
         email.setText( getFirebaseCurrentUserData("email") );
         avatar.setUrl( getFirebaseCurrentUserData( "photoUrl" ) );
         avatar.getElement().setAttribute( "width", "40" );
+
+        btnSettings.setHref( Route.SETTINGS.url() );
+        btnLogout.setHref( Route.LOGOUT.url() );
     }
 
     public MaterialNavBrand getNavBrand()

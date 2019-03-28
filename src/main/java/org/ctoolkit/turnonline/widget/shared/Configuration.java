@@ -11,7 +11,11 @@ import static org.ctoolkit.gwt.client.Constants.REST_DATE_FORMAT;
  */
 public class Configuration
 {
+    public static Configuration instance;
+
     public static final String CONFIGURATION_OBJECT = "Configuration";
+
+    public static final String DOMICILE = "DOMICILE";
 
     public static final String LOGIN_ID = "LOGIN_ID";
 
@@ -19,33 +23,53 @@ public class Configuration
 
     public static final String MAPS_API_KEY = "MAPS_API_KEY";
 
+    private String domicile;
+
     private String loginId;
 
     private String mapsApiKey;
-
-    private Configuration( String loginId, String mapsApiKey )
-    {
-        this.loginId = loginId;
-        this.mapsApiKey = mapsApiKey;
-    }
 
     /**
      * Builds {@link Configuration} instance taken from the {@link Dictionary}.
      *
      * @return the user profile instance
      */
-    public static Configuration build()
+    private static Configuration build()
     {
         Dictionary dictionary = Dictionary.getDictionary( CONFIGURATION_OBJECT );
-        String loginId = dictionary.get( LOGIN_ID );
-        String mapsApiKey = dictionary.get( MAPS_API_KEY );
 
         ServiceRoots.add( ACCOUNT_STEWARD_API_ROOT, dictionary.get( ACCOUNT_STEWARD_API_ROOT ) );
 
         Defaults.setDateFormat( REST_DATE_FORMAT );
         Defaults.ignoreJsonNulls();
 
-        return new Configuration( loginId, mapsApiKey );
+        Configuration configuration = new Configuration();
+        configuration.setDomicile( dictionary.get( DOMICILE ) );
+        configuration.setLoginId( dictionary.get( LOGIN_ID ) );
+        configuration.setMapsApiKey( dictionary.get( MAPS_API_KEY ) );
+
+        instance = configuration;
+        return configuration;
+    }
+
+    public static Configuration get()
+    {
+        if ( instance == null )
+        {
+            instance = build();
+        }
+
+        return instance;
+    }
+
+    public String getDomicile()
+    {
+        return domicile;
+    }
+
+    public void setDomicile( String domicile )
+    {
+        this.domicile = domicile;
     }
 
     public String getLoginId()
@@ -53,8 +77,18 @@ public class Configuration
         return loginId;
     }
 
+    public void setLoginId( String loginId )
+    {
+        this.loginId = loginId;
+    }
+
     public String getMapsApiKey()
     {
         return mapsApiKey;
+    }
+
+    public void setMapsApiKey( String mapsApiKey )
+    {
+        this.mapsApiKey = mapsApiKey;
     }
 }

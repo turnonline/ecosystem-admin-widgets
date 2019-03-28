@@ -8,35 +8,7 @@
     <title>widgets</title>
 
     <script src="contact.widget/contact.widget.nocache.js"></script>
-
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        var Configuration = {
-            LOGIN_ID: "pohorelec@turnonline.biz",
-            ACCOUNT_STEWARD_API_ROOT: "https://account.turnon.cloud/api/steward/v1",
-            MAPS_API_KEY: "AIzaSyBcFynhFn5xRAXBDshvHMJqn3BNF2ypEOs"
-        };
-
-        var token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZiMDEyZTk5Y2EwYWNhODI2ZTkwODZiMzIyM2JiOTYwZGFhOTFmODEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiSm96ZWYgUG9ob3JlbGVjIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS8tYjEwd1g1VnNHRm8vQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQUNldm9RTnB4NGJhcWNzc0lMVGJobHVCZDViSDdhUDdaZy9tby9waG90by5qcGciLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdHVybi1vbmxpbmUtZXUiLCJhdWQiOiJ0dXJuLW9ubGluZS1ldSIsImF1dGhfdGltZSI6MTU1MzcxODgzMSwidXNlcl9pZCI6IlMyOHVvc1NWblpUWlhnZGNZVDdMcFRGdjNSdzEiLCJzdWIiOiJTMjh1b3NTVm5aVFpYZ2RjWVQ3THBURnYzUncxIiwiaWF0IjoxNTUzNzE4ODMyLCJleHAiOjE1NTM3MjI0MzIsImVtYWlsIjoicG9ob3JlbGVjQHR1cm5vbmxpbmUuYml6IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMDExNDI3ODA3NzA5MDM2NjMxMDkiXSwiZW1haWwiOlsicG9ob3JlbGVjQHR1cm5vbmxpbmUuYml6Il19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.QY9O_HdbBTvherx5yNc2Jo6p1KAYDah95DDZoeyt5WvcZR7NAYzILlBbkrZdrgd8qtnlueeLyvlqTSRvRkgqAdNOkbAdClkkLdVtIvCXTv5XHV3u8GNQfoUSH42ehSvdZICTS3qr2ahZ0i6q6-tLQxmem8Vl8BhUxbd8EsTiCfDv8SSYOZNDAY7a96B1pMQk0hNlk-bOAW-lpxk3KOODSSdNA3Y8TxLzvgnR1yb9Wwjj4_wahfYhhOUEWv211LdgbMZXOIjT3eVpcPuNHv53zoUtnbdZMg2h5dipRDYID1KZZheBsmGnvPdHB0450X39BhvPYbkThGt0AI4S-_5Bog";
-        firebase = {
-            auth: function () {
-                return {
-                    currentUser: {
-                        getIdToken: function () {
-                            return {
-                                then: function ( callback ) {
-                                    callback.call( this, token );
-                                }
-                            }
-                        },
-                        email: "john.foo@turnonline.biz",
-                        photoUrl: "https://www.google.com/s2/photos/public/AIbEiAIAAABDCPeaz9KoqZfZbSILdmNhcmRfcGhvdG8qKDRkMTJhZDMzMzlhOGIzZThmOWY4NmU1N2RiZTgwNjdhOGZmNTY4YjQwAT0MVCzv9oi9rn31QqHvEYzDsYFd?sz=48"
-                    }
-                }
-            }
-        };
-        /*]]>*/
-    </script>
+    <script src="scripts/config.js"></script>
 
     <style>
         :focus {

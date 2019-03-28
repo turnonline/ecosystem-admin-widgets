@@ -67,7 +67,8 @@
                             <m:MaterialTextBox label="{msg.labelTaxId}" ui:field="taxId"/>
                             <m:MaterialTextBox label="{msg.labelVatId}" ui:field="vatId"/>
                             <m:MaterialRow marginBottom="0" paddingTop="20">
-                                <m:MaterialSwitch onLabel="{msg.labelVatPayer}" grid="10" ui:field="vatPayer" paddingLeft="0"
+                                <m:MaterialSwitch onLabel="{msg.labelVatPayer}" grid="10" ui:field="vatPayer"
+                                                  paddingLeft="0"
                                                   marginLeft="-10"/>
                             </m:MaterialRow>
                         </m:MaterialColumn>
@@ -89,7 +90,8 @@
                 <!--invoicing info-->
                 <m:MaterialColumn grid="s12 m3">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="ASSIGNMENT" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                        <m:MaterialIcon iconType="ASSIGNMENT" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
                         <m:MaterialTitle description="{msg.labelInvoicing}" textColor="BLUE"/>
                     </m:MaterialSection>
 
@@ -111,11 +113,13 @@
                         <m:MaterialTitle description="{msg.labelInvoiceAddress}" textColor="BLUE"/>
                     </m:MaterialSection>
 
-                    <map:AddressLookup label="{msg.labelStreet}" ui:field="street" helperText="{msg.tooltipAddressAutocomplete}"/>
+                    <map:AddressLookup label="{msg.labelStreet}" ui:field="street"
+                                       helperText="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="city"/>
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
-                            <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postCode" placeholder="000 00" mask="000 00"/>
+                            <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postCode"
+                                                            placeholder="000 00" mask="000 00"/>
                             <s:CountryComboBox label="{msg.labelCountry}" ui:field="country"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>
@@ -140,11 +144,13 @@
                 </m:MaterialColumn>
 
                 <m:MaterialColumn grid="s12 m3" paddingTop="38">
-                    <mat:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet" helperText="{msg.tooltipAddressAutocomplete}"/>
+                    <mat:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet"
+                                       helperText="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="postalCity"/>
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
-                            <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postalPostCode"  placeholder="000 00" mask="000 00"/>
+                            <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postalPostCode"
+                                                            placeholder="000 00" mask="000 00"/>
                             <s:CountryComboBox label="{msg.labelCountry}" ui:field="postalCountry"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>

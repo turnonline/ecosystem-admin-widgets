@@ -4,15 +4,15 @@ splashcontainer.id = "splashscreen";
 var splashContent = document.createElement('div');
 
 var image = document.createElement("img");
-image.src = "/launcher-icons/launcher4x.png";
+image.src = "/launcher-icons/logo.png";
 
 var title = document.createElement("span");
 title.className = "title";
-title.innerHTML = "turnonline-widgets";
+title.innerHTML = "Turnonline widgets";
 
 var description = document.createElement("span");
 description.className = "description";
-description.innerHTML = "turnonline-widgets";
+description.innerHTML = "Turnonline Ecosystem Administration widgets";
 
 var progress = document.createElement("div");
 progress.className = "progress";

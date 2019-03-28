@@ -191,6 +191,14 @@
             <artifactId>guava-gwt</artifactId>
         </dependency>
 
+        <!-- gwt jackson -->
+        <dependency>
+            <groupId>com.github.nmorel.gwtjackson</groupId>
+            <artifactId>gwt-jackson</artifactId>
+            <version>0.13.0</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- GwtMaterial -->
         <dependency>
             <groupId>com.github.gwtmaterialdesign</groupId>

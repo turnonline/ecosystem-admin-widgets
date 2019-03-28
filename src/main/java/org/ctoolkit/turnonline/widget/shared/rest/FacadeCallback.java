@@ -11,7 +11,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public abstract class FacadeCallback<T>
+public class FacadeCallback<T>
         implements MethodCallback<T>
 {
     private AppMessages messages = GWT.create( AppMessages.class );

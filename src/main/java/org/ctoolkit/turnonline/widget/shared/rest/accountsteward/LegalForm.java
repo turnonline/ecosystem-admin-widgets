@@ -18,7 +18,10 @@
 
 package org.ctoolkit.turnonline.widget.shared.rest.accountsteward;
 
+import org.ctoolkit.turnonline.widget.shared.rest.CodeBook;
+
 public final class LegalForm
+        implements CodeBook
 {
     private String code;
 

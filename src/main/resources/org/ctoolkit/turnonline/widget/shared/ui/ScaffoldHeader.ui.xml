@@ -26,11 +26,11 @@
             <m:MaterialNavBrand ui:field="title" text="Turnonline.biz Admin" fontSize="1.5em"/>
             <m:MaterialNavSection float="RIGHT">
                 <s:InlineSearch ui:field="search" theme="LIGHT" width="40%" placeholder="Search" display="INLINE_BLOCK" marginRight="120"/>
-                <m:MaterialLink iconType="SETTINGS" paddingRight="0"/>
+                <m:MaterialLink iconType="SETTINGS" paddingRight="0" ui:field="btnSettings"/>
                 <m:MaterialLink ui:field="email">
                     <m:MaterialImage border="3px solid #fff" marginTop="12" circle="true" float="LEFT" marginRight="10" ui:field="avatar"/>
                 </m:MaterialLink>
-                <m:MaterialLink text="Logout" iconType="POWER_SETTINGS_NEW"/>
+                <m:MaterialLink text="Logout" iconType="POWER_SETTINGS_NEW" ui:field="btnLogout"/>
             </m:MaterialNavSection>
         </m:MaterialNavBar>
     </m:MaterialHeader>

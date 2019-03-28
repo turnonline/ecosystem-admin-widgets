@@ -24,6 +24,7 @@ import org.ctoolkit.turnonline.widget.contact.AppEventBus;
 import org.ctoolkit.turnonline.widget.contact.event.DeleteContactEvent;
 import org.ctoolkit.turnonline.widget.contact.event.EditContactEvent;
 import org.ctoolkit.turnonline.widget.contact.place.EditContact;
+import org.ctoolkit.turnonline.widget.contact.ui.Formatter;
 import org.ctoolkit.turnonline.widget.shared.presenter.Presenter;
 import org.ctoolkit.turnonline.widget.shared.rest.FacadeCallback;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
@@ -68,11 +69,7 @@ public class ContactsPresenter
                     {
                         super.onSuccess( method, response );
 
-                        success( messages.msgRecordDeleted(
-                                contactCard.getBusinessName() != null ? contactCard.getBusinessName() :
-                                        contactCard.getFirstName() + " " + contactCard.getLastName()
-                        ) );
-
+                        success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
                         Scheduler.get().scheduleDeferred( () -> view().refresh() );
                     }
                 } );

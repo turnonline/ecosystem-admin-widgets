@@ -13,7 +13,7 @@ public class ColumnName
     public String getValue( ContactCard object )
     {
         StringBuilder sb = new StringBuilder();
-        if ( object.getBusinessName() != null )
+        if ( object.getBusinessName() != null && !"".equals( object.getBusinessName() ) )
         {
             sb.append( "<b>" );
             sb.append( object.getBusinessName() );

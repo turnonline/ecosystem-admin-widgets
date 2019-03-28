@@ -105,7 +105,7 @@ public abstract class ContactModule
     @Provides
     static Configuration provideConfiguration()
     {
-        return Configuration.build();
+        return Configuration.get();
     }
 
     // rest facade

@@ -21,12 +21,8 @@
     <ui:with field="msg" type="org.ctoolkit.turnonline.widget.shared.AppMessages"/>
 
     <m:MaterialSideNavPush m:id="sidenav" width="200" showOnAttach="false">
-        <m:MaterialNavBrand text="">
+        <m:MaterialNavBrand text="" href="/">
             <m:MaterialImage maxWidth="80%" url="https://www.turnonline.biz/images/logo.png"/>
         </m:MaterialNavBrand>
-        <m:MaterialLink text="{msg.labelInvoices}" iconType="ASSIGNMENT"/>
-        <m:MaterialLink text="{msg.labelOrders}" iconType="SHOPPING_CART" separator="true" />
-        <m:MaterialLink text="{msg.labelProducts}" iconType="TABLET_MAC" />
-        <m:MaterialLink text="{msg.labelContacts}" iconType="CONTACT_PHONE" />
     </m:MaterialSideNavPush>
 </ui:UiBinder>
