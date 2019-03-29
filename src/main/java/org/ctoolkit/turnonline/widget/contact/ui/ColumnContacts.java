@@ -31,7 +31,7 @@ public class ColumnContacts
 
     private void constructContact( String contact, IconType icon, StringBuilder sb )
     {
-        sb.append( "<i class='blue-text material-icons' style='position:relative;top: 2px;'>" ).append( icon.getCssName() ).append( "</i>" );
+        sb.append( "<i class='orange-text material-icons' style='position:relative;top: 2px;'>" ).append( icon.getCssName() ).append( "</i>" );
         sb.append( "<span style='position:relative;top: -6px;padding-left: 5px;'>" );
         sb.append( contact );
         sb.append( "</span>" );

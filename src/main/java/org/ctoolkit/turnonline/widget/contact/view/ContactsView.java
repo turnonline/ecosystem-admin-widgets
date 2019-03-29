@@ -36,8 +36,10 @@ import org.ctoolkit.turnonline.widget.contact.ui.ColumnContacts;
 import org.ctoolkit.turnonline.widget.contact.ui.ColumnName;
 import org.ctoolkit.turnonline.widget.contact.ui.ColumnType;
 import org.ctoolkit.turnonline.widget.contact.ui.ContactsDataSource;
+import org.ctoolkit.turnonline.widget.contact.ui.Formatter;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
 import org.ctoolkit.turnonline.widget.shared.ui.ConfirmationWindow;
+import org.ctoolkit.turnonline.widget.shared.ui.ConfirmationWindow.Question;
 import org.ctoolkit.turnonline.widget.shared.ui.Route;
 import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldBreadcrumb;
 import org.ctoolkit.turnonline.widget.shared.ui.SmartTable;
@@ -111,10 +113,10 @@ public class ContactsView
         address.setWidth( "30%" );
 
         ColumnContacts contacts = new ColumnContacts();
-        contacts.setWidth( "20%" );
+        contacts.setWidth( "30%" );
 
         ColumnActions actions = new ColumnActions( bus() );
-        actions.setWidth( "10%" );
+        actions.setWidth( "5%" );
 
         table.addColumn( type, "" );
         table.addColumn( name, messages.labelName() );
@@ -134,9 +136,23 @@ public class ContactsView
     @UiHandler( "btnDelete" )
     public void handleDelete( ClickEvent event )
     {
-        if ( !table.getSelectedRowModels( false ).isEmpty() )
+        List<ContactCard> selected = table.getSelectedRowModels( false );
+        if ( !selected.isEmpty() )
         {
-            confirmationWindow.open( messages.msgConfirmRecordDelete() );
+            confirmationWindow.open( new Question()
+            {
+                @Override
+                public int selectedRecords()
+                {
+                    return selected.size();
+                }
+
+                @Override
+                public String name()
+                {
+                    return Formatter.formatContactName( selected.get( 0 ) );
+                }
+            } );
         }
     }
 }

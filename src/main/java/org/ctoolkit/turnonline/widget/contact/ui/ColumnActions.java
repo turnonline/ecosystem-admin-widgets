@@ -1,6 +1,5 @@
 package org.ctoolkit.turnonline.widget.contact.ui;
 
-import com.google.gwt.dom.client.Style;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.ButtonSize;
 import gwt.material.design.client.constants.ButtonType;
@@ -37,17 +36,13 @@ public class ColumnActions
             eventBus.fireEvent( new EditContactEvent( value ) );
         } );
 
-        btnEdit.setType( ButtonType.FLAT );
-        btnEdit.setBackgroundColor( Color.WHITE );
-        btnEdit.setTextColor( Color.BLACK );
+        btnEdit.setType( ButtonType.FLOATING );
+        btnEdit.setBackgroundColor( Color.BLUE );
 
         btnEdit.setIconType( IconType.EDIT );
+        btnEdit.setIconColor( Color.WHITE );
         btnEdit.setWaves( WavesType.DEFAULT );
         btnEdit.setSize( ButtonSize.MEDIUM );
-        btnEdit.setValue( messages.labelEdit() );
-
-        btnEdit.getElement().getStyle().setPaddingLeft( 10, Style.Unit.PX );
-        btnEdit.getElement().getStyle().setPaddingRight( 20, Style.Unit.PX );
 
         btnEdit.setTooltip( messages.tooltipEditContact() );
 

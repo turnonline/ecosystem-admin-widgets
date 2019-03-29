@@ -175,8 +175,11 @@ public interface AppMessages
     @Key( value = "msg.errorRemoteServiceCall")
     String msgErrorRemoteServiceCall();
 
-    @Key( value = "msg.confirmRecordDelete")
-    String msgConfirmRecordDelete();
+    @Key( value = "msg.msgConfirmOneRecordDelete")
+    String msgConfirmOneRecordDelete(String name);
+
+    @Key( value = "msg.msgConfirmMultipleRecordsDelete")
+    String msgConfirmMultipleRecordsDelete(int records);
 
     @Key( value = "msg.recordCreated")
     String msgRecordCreated();

@@ -22,11 +22,11 @@ import org.ctoolkit.turnonline.widget.shared.AppMessages;
 public class ConfirmationWindow
         extends MaterialWindow
 {
-    private static final Color PRIMARY_COLOR = Color.RED;
+    private static final Color PRIMARY_COLOR = Color.LIGHT_GREEN;
 
     private static AppMessages messages = AppMessages.INSTANCE;
 
-    private Heading question = new Heading( HeadingSize.H5 );
+    private Heading question = new Heading( HeadingSize.H6 );
 
     private MaterialButton btnOk;
 
@@ -36,11 +36,11 @@ public class ConfirmationWindow
     {
         super( messages.labelConfirmation() );
 
-        MaterialIcon icon = new MaterialIcon( IconType.HELP_OUTLINE );
+        MaterialIcon icon = new MaterialIcon( IconType.HELP );
         icon.setIconColor( PRIMARY_COLOR );
-        icon.setIconSize( IconSize.LARGE );
+        icon.setIconSize( IconSize.MEDIUM );
 
-        question.getElement().setAttribute( "style", "display:inline;padding: 10px 0 10px 5px;top: -40px;position: relative;" );
+        question.getElement().setAttribute( "style", "display:inline;padding: 20px 0 10px 5px;top: -25px;position: relative;" );
 
         MaterialRow panel = new MaterialRow();
         panel.setSeparator( true );
@@ -64,9 +64,10 @@ public class ConfirmationWindow
 
     }
 
-    public void open( String question )
+    public void open( Question question )
     {
-        this.question.setText( question );
+        String text = question.selectedRecords() > 1 ? question.msgMultipleRecords() : question.msgOneRecord();
+        this.question.setText( text );
         open();
     }
 
@@ -98,5 +99,22 @@ public class ConfirmationWindow
         btn.addClickHandler( event -> ConfirmationWindow.this.close() );
 
         return btn;
+    }
+
+    public interface Question
+    {
+        int selectedRecords();
+
+        String name();
+
+        default String msgOneRecord()
+        {
+            return messages.msgConfirmOneRecordDelete( name() );
+        }
+
+        default String msgMultipleRecords()
+        {
+            return messages.msgConfirmMultipleRecordsDelete( selectedRecords() );
+        }
     }
 }
