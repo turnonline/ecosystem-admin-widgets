@@ -99,6 +99,9 @@ public interface AppMessages
     @Key( value = "label.products")
     String labelProducts();
 
+    @Key( value = "label.editProduct")
+    String labelEditProduct();
+
     @Key( value = "label.orders")
     String labelOrders();
 
@@ -135,6 +138,9 @@ public interface AppMessages
     @Key( value = "label.postalAddress")
     String labelPostalAddress();
 
+    @Key( value = "label.priceExclusiveVat")
+    String labelPriceExclusiveVat();
+
     @Key( value = "label.ok")
     String labelOk();
 
@@ -160,6 +166,18 @@ public interface AppMessages
 
     @Key( value = "tooltip.save.contact")
     String tooltipSaveContact();
+    
+    @Key( value = "tooltip.new.product")
+    String tooltipNewProduct();
+
+    @Key( value = "tooltip.edit.product")
+    String tooltipEditProduct();
+
+    @Key( value = "tooltip.delete.product")
+    String tooltipDeleteProduct();
+
+    @Key( value = "tooltip.save.product")
+    String tooltipSaveProduct();
 
     @Key( value = "tooltip.back")
     String tooltipBack();

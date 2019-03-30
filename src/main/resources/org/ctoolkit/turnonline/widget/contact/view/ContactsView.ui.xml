@@ -33,7 +33,7 @@
         </m:MaterialRow>
 
         <m:MaterialRow padding="20">
-            <s:SmartTable ui:field="table" selectionType="MULTIPLE"/>
+            <s:SmartTable ui:field="table"/>
         </m:MaterialRow>
 
     </g:HTMLPanel>

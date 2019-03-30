@@ -18,9 +18,8 @@
 
 package org.ctoolkit.turnonline.widget.contact;
 
-import com.google.gwt.activity.shared.ActivityManager;
-import com.google.gwt.place.shared.PlaceHistoryHandler;
 import dagger.Component;
+import org.ctoolkit.turnonline.widget.shared.DaggerComponent;
 
 import javax.inject.Singleton;
 
@@ -29,11 +28,7 @@ import javax.inject.Singleton;
  */
 @Singleton
 @Component( modules = ContactModule.class )
-public interface ContactComponent
+public interface ContactComponent extends DaggerComponent
 {
-    PlaceHistoryHandler placeHistoryHandler();
-
     AppEventBus getEventBus();
-
-    ActivityManager getActivityManager();
 }

@@ -18,39 +18,22 @@
 
 package org.ctoolkit.turnonline.widget.contact;
 
-import com.google.gwt.activity.shared.ActivityManager;
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import org.ctoolkit.turnonline.widget.contact.place.Contacts;
+import org.ctoolkit.turnonline.widget.shared.DaggerComponent;
+import org.ctoolkit.turnonline.widget.shared.DaggerEntryPoint;
 
 /**
  * @author <a href="mailto:jozef.pohorelec@ctoolkit.org">Jozef Pohorelec</a>
  */
 public class ContactEntryPoint
-        implements EntryPoint
+        extends DaggerEntryPoint
 {
     public static Place DEFAULT_PLACE = new Contacts();
 
-    private SimplePanel container = new SimplePanel();
-
     @Override
-    public void onModuleLoad()
+    protected DaggerComponent component()
     {
-        // create dagger context
-        ContactComponent component = DaggerContactComponent.create();
-
-        // remove splashcreen
-        DOM.getElementById( "splashscreen" ).removeFromParent();
-
-        // create activity manager and put container in it
-        RootPanel.get( "main-content" ).add( container );
-        ActivityManager activityManager = component.getActivityManager();
-        activityManager.setDisplay( container );
-
-        // handle current history
-        component.placeHistoryHandler().handleCurrentHistory();
+        return DaggerContactComponent.create();
     }
 }

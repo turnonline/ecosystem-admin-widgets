@@ -75,6 +75,7 @@
                         <configuration>
                             <modules>
                                 <module>org.ctoolkit.turnonline.widget.Contact</module>
+                                <module>org.ctoolkit.turnonline.widget.Product</module>
                             </modules>
                         </configuration>
                         <goals>

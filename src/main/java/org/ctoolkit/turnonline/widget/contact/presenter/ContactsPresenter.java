@@ -24,10 +24,10 @@ import org.ctoolkit.turnonline.widget.contact.AppEventBus;
 import org.ctoolkit.turnonline.widget.contact.event.DeleteContactEvent;
 import org.ctoolkit.turnonline.widget.contact.event.EditContactEvent;
 import org.ctoolkit.turnonline.widget.contact.place.EditContact;
-import org.ctoolkit.turnonline.widget.contact.ui.Formatter;
 import org.ctoolkit.turnonline.widget.shared.presenter.Presenter;
 import org.ctoolkit.turnonline.widget.shared.rest.FacadeCallback;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.ContactCard;
+import org.ctoolkit.turnonline.widget.shared.util.Formatter;
 import org.fusesource.restygwt.client.Method;
 
 import javax.inject.Inject;
