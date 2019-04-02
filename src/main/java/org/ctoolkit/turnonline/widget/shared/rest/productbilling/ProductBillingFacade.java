@@ -28,6 +28,8 @@ import org.fusesource.restygwt.client.RestService;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -50,6 +52,24 @@ public interface ProductBillingFacade
                       @QueryParam( "lightList" ) boolean lightList,
                       @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
                       MethodCallback<Items<Product>> callback );
+
+    @GET
+    @Path( "products/{product_id}" )
+    void findById( @PathParam( "product_id" ) Long contactId,
+                   MethodCallback<Product> callback );
+
+    @POST
+    @Path( "products" )
+    void create( @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                 Product product,
+                 MethodCallback<Product> callback );
+
+    @PUT
+    @Path( "products/{product_id}" )
+    void update( @PathParam( "product_id" ) Long contactId,
+                 @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                 Product product,
+                 MethodCallback<Product> callback );
 
     @DELETE
     @Path( "products/{product_id}" )

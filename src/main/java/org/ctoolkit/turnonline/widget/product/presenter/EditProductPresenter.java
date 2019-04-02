@@ -21,9 +21,14 @@ package org.ctoolkit.turnonline.widget.product.presenter;
 import com.google.gwt.place.shared.PlaceController;
 import org.ctoolkit.turnonline.widget.product.AppEventBus;
 import org.ctoolkit.turnonline.widget.product.event.BackEvent;
+import org.ctoolkit.turnonline.widget.product.event.SaveProductEvent;
+import org.ctoolkit.turnonline.widget.product.event.SaveProductEventHandler;
+import org.ctoolkit.turnonline.widget.product.place.EditProduct;
 import org.ctoolkit.turnonline.widget.product.place.Products;
 import org.ctoolkit.turnonline.widget.shared.presenter.Presenter;
+import org.ctoolkit.turnonline.widget.shared.rest.FacadeCallback;
 import org.ctoolkit.turnonline.widget.shared.rest.productbilling.Product;
+import org.fusesource.restygwt.client.Method;
 
 import javax.inject.Inject;
 
@@ -51,74 +56,71 @@ public class EditProductPresenter
     {
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Products() ) );
 
-//        bus().addHandler( SaveContactEvent.TYPE, new SaveContactEventHandler()
-//        {
-//            @Override
-//            public void onSaveContact( SaveContactEvent event )
-//            {
-//                ContactCard contactCard = event.getContactCard();
-//                String loginId = bus().getConfiguration().getLoginId();
-//
-//                if ( contactCard.getId() == null )
-//                {
-//                    bus().accountSteward().create( loginId, contactCard, new FacadeCallback<ContactCard>()
-//                    {
-//                        @Override
-//                        public void onSuccess( Method method, ContactCard response )
-//                        {
-//                            super.onSuccess( method, response );
-//                            success( messages.msgRecordCreated() );
-//
-//                            controller().goTo( new Contacts() );
-//                        }
-//                    } );
-//                }
-//                else
-//                {
-//                    bus().accountSteward().update( loginId, contactCard.getId(), contactCard, new FacadeCallback<ContactCard>()
-//                    {
-//                        @Override
-//                        public void onSuccess( Method method, ContactCard response )
-//                        {
-//                            super.onSuccess( method, response );
-//                            success( messages.msgRecordUpdated() );
-//
-//                            controller().goTo( new Contacts() );
-//                        }
-//                    } );
-//                }
-//            }
-//        } );
+        bus().addHandler( SaveProductEvent.TYPE, new SaveProductEventHandler()
+        {
+            @Override
+            public void onSaveContact( SaveProductEvent event )
+            {
+                Product product = event.getProduct();
+
+                if ( product.getId() == null )
+                {
+                    bus().productBilling().create( false, product, new FacadeCallback<Product>()
+                    {
+                        @Override
+                        public void onSuccess( Method method, Product response )
+                        {
+                            super.onSuccess( method, response );
+                            success( messages.msgRecordCreated() );
+
+                            controller().goTo( new Products() );
+                        }
+                    } );
+                }
+                else
+                {
+                    bus().productBilling().update( product.getId(), false, product, new FacadeCallback<Product>()
+                    {
+                        @Override
+                        public void onSuccess( Method method, Product response )
+                        {
+                            super.onSuccess( method, response );
+                            success( messages.msgRecordUpdated() );
+
+                            controller().goTo( new Products() );
+                        }
+                    } );
+                }
+            }
+        } );
     }
 
     @Override
     public void onBackingObject()
     {
-//        view().setModel( newContactCard() );
-//
-//        EditContact where = ( EditContact ) controller().getWhere();
-//        if ( where.getId() != null )
-//        {
-//            bus().accountSteward().findById( bus().getConfiguration().getLoginId(), where.getId(), new FacadeCallback<ContactCard>()
-//            {
-//                @Override
-//                public void onSuccess( Method method, ContactCard response )
-//                {
-//                    super.onSuccess( method, response );
-//                    view().setModel( response );
-//                }
-//            } );
-//        }
+        view().setModel( newProduct() );
+
+        EditProduct where = ( EditProduct ) controller().getWhere();
+        if ( where.getId() != null )
+        {
+            bus().productBilling().findById( where.getId(), new FacadeCallback<Product>()
+            {
+                @Override
+                public void onSuccess( Method method, Product response )
+                {
+                    super.onSuccess( method, response );
+                    view().setModel( response );
+                }
+            } );
+        }
 
         onAfterBackingObject();
     }
 
-//    private ContactCard newContactCard()
-//    {
-//        ContactCard contactCard = new ContactCard();
-//        contactCard.setNumberOfDays( 30 );
-//        contactCard.setHasPostalAddress( false );
-//
-//        return contactCard;
-//    }
+    private Product newProduct()
+    {
+        Product product = new Product();
+
+        return product;
+    }
 }

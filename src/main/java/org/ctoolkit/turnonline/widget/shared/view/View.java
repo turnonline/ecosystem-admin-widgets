@@ -26,6 +26,7 @@ import gwt.material.design.client.ui.MaterialContainer;
 import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.view.BinderyView;
 import org.ctoolkit.turnonline.widget.shared.AppMessages;
+import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldFooter;
 import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldHeader;
 import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldNavBar;
 
@@ -74,6 +75,10 @@ public abstract class View<T>
         content = new MaterialRow(  );
         content.setPaddingTop( 65 );
         contentContainer.add( content );
+
+        // footer
+        ScaffoldFooter scaffoldFooter = new ScaffoldFooter();
+        root.add( scaffoldFooter );
     }
 
     @Override

@@ -7,9 +7,9 @@ import org.ctoolkit.turnonline.widget.shared.rest.productbilling.Product;
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class SaveProductEvent
-        extends GwtEvent<SaveProudctEventHandler>
+        extends GwtEvent<SaveProductEventHandler>
 {
-    public static Type<SaveProudctEventHandler> TYPE = new Type<SaveProudctEventHandler>();
+    public static Type<SaveProductEventHandler> TYPE = new Type<SaveProductEventHandler>();
 
     private final Product product;
 
@@ -18,12 +18,12 @@ public class SaveProductEvent
         this.product = product;
     }
 
-    public Type<SaveProudctEventHandler> getAssociatedType()
+    public Type<SaveProductEventHandler> getAssociatedType()
     {
         return TYPE;
     }
 
-    protected void dispatch( SaveProudctEventHandler handler )
+    protected void dispatch( SaveProductEventHandler handler )
     {
         handler.onSaveContact( this );
     }

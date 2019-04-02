@@ -18,6 +18,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:s='urn:import:org.ctoolkit.turnonline.widget.shared.ui'
+             xmlns:p='urn:import:org.ctoolkit.turnonline.widget.product.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
 >
 
@@ -25,6 +26,46 @@
 
     <g:HTMLPanel>
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+
+        <m:MaterialPanel shadow="1" margin="20" marginBottom="0">
+            <m:MaterialTab backgroundColor="BLUE_LIGHTEN_1" indicatorColor="BLUE" shadow="1" type="ICON">
+                <m:MaterialTabItem waves="DEFAULT">
+                    <m:MaterialLink text="Detail" href="#tabDetail" textColor="WHITE" iconType="VISIBILITY"/>
+                </m:MaterialTabItem>
+                <m:MaterialTabItem waves="DEFAULT">
+                    <m:MaterialLink text="Publishing" href="#tabPublishing" textColor="WHITE" iconType="PUBLIC"/>
+                </m:MaterialTabItem>
+                <m:MaterialTabItem waves="DEFAULT">
+                    <m:MaterialLink text="Pricing" href="#tabPricing" textColor="WHITE" iconType="ATTACH_MONEY"/>
+                </m:MaterialTabItem>
+                <m:MaterialTabItem waves="DEFAULT">
+                    <m:MaterialLink text="Invoicing" href="#tabInvoicing" textColor="WHITE" iconType="ASSIGNMENT"/>
+                </m:MaterialTabItem>
+                <m:MaterialTabItem waves="DEFAULT">
+                    <m:MaterialLink text="Event" href="#tabEvent" textColor="WHITE" iconType="EVENT"/>
+                </m:MaterialTabItem>
+            </m:MaterialTab>
+        </m:MaterialPanel>
+
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginBottom="20">
+            <m:MaterialRow marginBottom="0" paddingTop="10" paddingBottom="10">
+                <m:MaterialColumn m:id="tabDetail" grid="s12">
+                    <p:ProductDetail ui:field="detail"/>
+                </m:MaterialColumn>
+                <m:MaterialColumn m:id="tabPublishing" grid="s12">
+                    <m:MaterialLabel text="Publishing Content"/>
+                </m:MaterialColumn>
+                <m:MaterialColumn m:id="tabPricing" grid="s12">
+                    <m:MaterialLabel text="Pricing Content"/>
+                </m:MaterialColumn>
+                <m:MaterialColumn m:id="tabInvoicing" grid="s12">
+                    <m:MaterialLabel text="Invoicing Content"/>
+                </m:MaterialColumn>
+                <m:MaterialColumn m:id="tabEvent" grid="s12">
+                    <m:MaterialLabel text="Event Content"/>
+                </m:MaterialColumn>
+            </m:MaterialRow>
+        </m:MaterialPanel>
 
         <m:MaterialRow paddingLeft="20" float="LEFT">
             <m:MaterialButton ui:field="btnSave" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE"

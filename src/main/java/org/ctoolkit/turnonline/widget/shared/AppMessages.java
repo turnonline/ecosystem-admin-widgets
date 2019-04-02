@@ -141,6 +141,24 @@ public interface AppMessages
     @Key( value = "label.priceExclusiveVat")
     String labelPriceExclusiveVat();
 
+    @Key( value = "label.description")
+    String labelDescription();
+
+    @Key( value = "label.itemName")
+    String labelItemName();
+
+    @Key( value = "label.snippet")
+    String labelSnippet();
+
+    @Key( value = "label.metaFields")
+    String labelMetaFields();
+
+    @Key( value = "label.availableFields")
+    String labelAvailableFields();
+
+    @Key( value = "label.mandatoryFields")
+    String labelMandatoryFields();
+
     @Key( value = "label.ok")
     String labelOk();
 
@@ -185,6 +203,9 @@ public interface AppMessages
     @Key( value = "tooltip.addressAutocomplete")
     String tooltipAddressAutocomplete();
 
+    @Key( value = "tooltip.availableFields")
+    String tooltipAvailableFields();
+
     // messages
 
     @Key( value = "msg.recordDeleted")
@@ -204,4 +225,9 @@ public interface AppMessages
 
     @Key( value = "msg.recordUpdated")
     String msgRecordUpdated();
+
+    // other
+
+    @Key( value = "copyright")
+    String copyright();
 }

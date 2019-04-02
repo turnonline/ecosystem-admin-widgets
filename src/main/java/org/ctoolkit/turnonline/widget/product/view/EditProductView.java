@@ -29,6 +29,7 @@ import gwt.material.design.client.ui.MaterialButton;
 import org.ctoolkit.turnonline.widget.product.event.BackEvent;
 import org.ctoolkit.turnonline.widget.product.event.SaveProductEvent;
 import org.ctoolkit.turnonline.widget.product.presenter.EditProductPresenter;
+import org.ctoolkit.turnonline.widget.product.ui.ProductDetail;
 import org.ctoolkit.turnonline.widget.shared.rest.productbilling.Product;
 import org.ctoolkit.turnonline.widget.shared.ui.Route;
 import org.ctoolkit.turnonline.widget.shared.ui.ScaffoldBreadcrumb;
@@ -48,6 +49,9 @@ public class EditProductView
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
+
+    @UiField
+    ProductDetail detail;
 
     @UiField
     MaterialButton btnSave;
@@ -76,13 +80,17 @@ public class EditProductView
     @Override
     protected void bind()
     {
+        Product product = getRawModel();
 
+        detail.bind( product );
     }
 
     @Override
     protected void fill()
     {
+        Product product = getRawModel();
 
+        detail.fill( product );
     }
 
     @UiHandler( "btnBack" )
