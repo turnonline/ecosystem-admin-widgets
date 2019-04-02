@@ -18,7 +18,7 @@ public class ColumnPublished
         boolean published = false;
         if ( object.getPublishing() != null && object.getPublishing().getPublished() != null )
         {
-            published = true;
+            published = object.getPublishing().getPublished();
         }
 
         MaterialIcon icon = new MaterialIcon();

@@ -159,6 +159,39 @@ public interface AppMessages
     @Key( value = "label.mandatoryFields")
     String labelMandatoryFields();
 
+    @Key( value = "label.pictures")
+    String labelPictures();
+
+    @Key( value = "label.settings")
+    String labelSettings();
+
+    @Key( value = "label.comingSoon")
+    String labelComingSoon();
+
+    @Key( value = "label.published")
+    String labelPublished();
+
+    @Key( value = "label.social")
+    String labelSocial();
+
+    @Key( value = "label.facebookLike")
+    String labelFacebookLike();
+
+    @Key( value = "label.googlePlus")
+    String labelGooglePlus();
+
+    @Key( value = "label.linkedInShare")
+    String labelLinkedInShare();
+
+    @Key( value = "label.domain")
+    String labelDomain();
+
+    @Key( value = "label.domainName")
+    String labelDomainName();
+
+    @Key( value = "label.domainUri")
+    String labelDomainUri();
+
     @Key( value = "label.ok")
     String labelOk();
 
@@ -205,6 +238,9 @@ public interface AppMessages
 
     @Key( value = "tooltip.availableFields")
     String tooltipAvailableFields();
+
+    @Key( value = "tooltip.pictures")
+    String tooltipPictures();
 
     // messages
 

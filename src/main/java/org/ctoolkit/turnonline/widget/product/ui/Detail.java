@@ -16,14 +16,14 @@ import javax.inject.Inject;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ProductDetail
+public class Detail
         extends Composite
         implements HasModel<Product>
 {
-    private static ProductDetailUiBinder binder = GWT.create( ProductDetailUiBinder.class );
+    private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
 
-    interface ProductDetailUiBinder
-            extends UiBinder<HTMLPanel, ProductDetail>
+    interface DetailUiBinder
+            extends UiBinder<HTMLPanel, Detail>
     {
     }
 
@@ -40,7 +40,7 @@ public class ProductDetail
     MaterialChipTextBox mandatoryFields;
 
     @Inject
-    public ProductDetail()
+    public Detail()
     {
         initWidget( binder.createAndBindUi( this ) );
 

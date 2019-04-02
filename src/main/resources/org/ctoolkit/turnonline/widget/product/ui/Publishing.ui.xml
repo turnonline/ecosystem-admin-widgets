@@ -1,0 +1,75 @@
+<!--
+  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:ma="urn:import:gwt.material.design.addins.client"
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+    <ui:with field="msg" type="org.ctoolkit.turnonline.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m7">
+                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                    <m:MaterialIcon iconType="PHOTO_CAMERA" iconColor="BLUE" float="LEFT" marginRight="5"
+                                    marginTop="-3"/>
+                    <m:MaterialTitle description="{msg.labelPictures}" textColor="BLUE"/>
+                </m:MaterialSection>
+
+                <ma:fileuploader.MaterialFileUploader ui:field="uploader" url="/pudas" maxFileSize="20" shadow="0"
+                                                      marginTop="10" height="220px" border="1px dashed #ccc">
+                    <ma:fileuploader.MaterialUploadLabel title="{msg.tooltipPictures}"/>
+                </ma:fileuploader.MaterialFileUploader>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m2">
+                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                    <m:MaterialIcon iconType="SETTINGS_APPLICATIONS" iconColor="BLUE" float="LEFT" marginRight="5"
+                                    marginTop="-3"/>
+                    <m:MaterialTitle description="{msg.labelSettings}" textColor="BLUE"/>
+                </m:MaterialSection>
+
+                <m:MaterialRow marginTop="10" marginLeft="-10">
+                    <m:MaterialSwitch ui:field="comingSoon" onLabel="{msg.labelComingSoon}"/>
+                    <m:MaterialSwitch ui:field="published" onLabel="{msg.labelPublished}"/>
+                </m:MaterialRow>
+
+                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                    <m:MaterialIcon iconType="SHARE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                    <m:MaterialTitle description="{msg.labelSocial}" textColor="BLUE"/>
+                </m:MaterialSection>
+
+                <m:MaterialRow marginTop="10" marginLeft="-10">
+                    <m:MaterialSwitch ui:field="facebookLike" onLabel="{msg.labelFacebookLike}"/>
+                    <m:MaterialSwitch ui:field="googlePlus" onLabel="{msg.labelGooglePlus}"/>
+                    <m:MaterialSwitch ui:field="linkedInShare" onLabel="{msg.labelLinkedInShare}"/>
+                </m:MaterialRow>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
+                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                    <m:MaterialIcon iconType="PUBLIC" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                    <m:MaterialTitle description="{msg.labelDomain}" textColor="BLUE"/>
+                </m:MaterialSection>
+
+                <m:MaterialTextBox ui:field="atName" label="{msg.labelDomainName}"/>
+                <m:MaterialTextBox ui:field="atUri" label="{msg.labelDomainUri}"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+    </g:HTMLPanel>
+</ui:UiBinder>
