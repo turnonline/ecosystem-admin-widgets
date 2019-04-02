@@ -18,6 +18,8 @@
 
 package org.ctoolkit.turnonline.widget.shared.rest.productbilling;
 
+import org.ctoolkit.turnonline.widget.shared.rest.CodeBook;
+
 /**
  * Model definition for BillingUnit.
  *
@@ -30,7 +32,7 @@ package org.ctoolkit.turnonline.widget.shared.rest.productbilling;
  * @author Google, Inc.
  */
 @SuppressWarnings( "javadoc" )
-public final class BillingUnit
+public final class BillingUnit implements CodeBook
 {
 
     /**

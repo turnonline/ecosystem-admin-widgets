@@ -75,4 +75,11 @@ public interface ProductBillingFacade
     @Path( "products/{product_id}" )
     void delete( @PathParam( "product_id" ) Long productId,
                  MethodCallback<Void> callback );
+
+    // codebooks
+
+    @GET
+    @Path( "codebook/billing-units" )
+    void getBillingUnits( @HeaderParam( "Accept-Language" ) String acceptLanguage,
+                       MethodCallback<Items<BillingUnit>> callback );
 }

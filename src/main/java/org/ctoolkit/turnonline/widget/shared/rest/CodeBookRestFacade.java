@@ -2,6 +2,7 @@ package org.ctoolkit.turnonline.widget.shared.rest;
 
 import com.github.nmorel.gwtjackson.client.ObjectMapper;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.storage.client.Storage;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.AccountStewardFacade;
@@ -9,6 +10,9 @@ import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.Country;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.CountryListMapper;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.LegalForm;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.LegalFormListMapper;
+import org.ctoolkit.turnonline.widget.shared.rest.productbilling.BillingUnit;
+import org.ctoolkit.turnonline.widget.shared.rest.productbilling.BillingUnitListMapper;
+import org.ctoolkit.turnonline.widget.shared.rest.productbilling.ProductBillingFacade;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -25,6 +29,8 @@ public class CodeBookRestFacade
 
     private static AccountStewardFacade accountStewardFacade = GWT.create( AccountStewardFacade.class );
 
+    private static ProductBillingFacade productBillingFacade = GWT.create( ProductBillingFacade.class );
+
     private static Map<Class<?>, List<?>> codeBookCache = new HashMap<>();
 
     private static Map<Class<?>, Retriever<?>> codeBookRetriever = new HashMap<>();
@@ -36,10 +42,12 @@ public class CodeBookRestFacade
         // codeBook retrievers
         codeBookRetriever.put( Country.class, ( Retriever<Country> ) callback -> accountStewardFacade.getCountries( null, callback ) );
         codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, callback ) );
+        codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( LocaleInfo.getCurrentLocale().getLocaleName(), callback ) );
 
         // codeBook object mappers
         codeBookObjectMapper.put( Country.class, CountryListMapper.INSTANCE );
         codeBookObjectMapper.put( LegalForm.class, LegalFormListMapper.INSTANCE );
+        codeBookObjectMapper.put( BillingUnit.class, BillingUnitListMapper.INSTANCE );
     }
 
     @SuppressWarnings( "unchecked" )
@@ -72,7 +80,7 @@ public class CodeBookRestFacade
     {
         getCodeBook( codeBookClass, new FacadeCallback<>() );
 
-        List<T> cache = getCodeBookFromCache( codeBookClass);
+        List<T> cache = getCodeBookFromCache( codeBookClass );
         if ( cache != null )
         {
             return cache.stream().filter( t -> t.getCode().equals( code ) ).findFirst().orElse( null );

@@ -31,6 +31,7 @@ import org.ctoolkit.turnonline.widget.product.event.SaveProductEvent;
 import org.ctoolkit.turnonline.widget.product.presenter.EditProductPresenter;
 import org.ctoolkit.turnonline.widget.product.ui.Content;
 import org.ctoolkit.turnonline.widget.product.ui.Detail;
+import org.ctoolkit.turnonline.widget.product.ui.Invoicing;
 import org.ctoolkit.turnonline.widget.product.ui.Publishing;
 import org.ctoolkit.turnonline.widget.shared.rest.productbilling.Product;
 import org.ctoolkit.turnonline.widget.shared.ui.Route;
@@ -52,6 +53,8 @@ public class EditProductView
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
 
+    // -- tab contents
+
     @UiField
     Detail detail;
 
@@ -60,6 +63,11 @@ public class EditProductView
 
     @UiField
     Publishing publishing;
+
+    @UiField
+    Invoicing invoicing;
+
+    // -- buttons
 
     @UiField
     MaterialButton btnSave;
@@ -81,8 +89,6 @@ public class EditProductView
         scaffoldNavBar.setActive( Route.PRODUCTS );
 
         add( binder.createAndBindUi( this ) );
-
-
     }
 
     @Override
@@ -93,6 +99,7 @@ public class EditProductView
         detail.bind( product );
         content.bind( product );
         publishing.bind( product );
+        invoicing.bind( product );
     }
 
     @Override
@@ -103,6 +110,7 @@ public class EditProductView
         detail.fill( product );
         content.fill( product );
         publishing.fill( product );
+        invoicing.fill( product );
     }
 
     @UiHandler( "btnBack" )

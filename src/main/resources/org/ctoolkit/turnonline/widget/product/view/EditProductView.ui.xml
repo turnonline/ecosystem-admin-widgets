@@ -65,7 +65,7 @@
                     <m:MaterialLabel text="Pricing Content"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabInvoicing" grid="s12">
-                    <m:MaterialLabel text="Invoicing Content"/>
+                    <p:Invoicing ui:field="invoicing"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabEvent" grid="s12">
                     <m:MaterialLabel text="Event Content"/>
