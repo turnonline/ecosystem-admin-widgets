@@ -55,9 +55,8 @@ public class ProductsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( EditProductEvent.TYPE, event -> {
-            controller().goTo( new EditProduct( event.getProduct() != null ? event.getProduct().getId() : null ) );
-        } );
+        bus().addHandler( EditProductEvent.TYPE, event ->
+                controller().goTo( new EditProduct( event.getProduct() != null ? event.getProduct().getId() : null, "tabDetail" ) ) );
 
         bus().addHandler( DeleteProductEvent.TYPE, event -> {
             for ( Product produt : event.getProducts() )

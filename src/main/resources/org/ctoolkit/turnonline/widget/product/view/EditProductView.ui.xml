@@ -28,26 +28,7 @@
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
 
         <m:MaterialPanel shadow="1" margin="20" marginBottom="0">
-            <m:MaterialTab backgroundColor="GREY_LIGHTEN_3" indicatorColor="BLACK" type="ICON">
-                <m:MaterialTabItem waves="DEFAULT">
-                    <m:MaterialLink text="Detail" href="#tabDetail" textColor="BLACK" iconType="VISIBILITY"/>
-                </m:MaterialTabItem>
-                <m:MaterialTabItem waves="DEFAULT">
-                    <m:MaterialLink text="Content" href="#tabContent" textColor="BLACK" iconType="CODE"/>
-                </m:MaterialTabItem>
-                <m:MaterialTabItem waves="DEFAULT">
-                    <m:MaterialLink text="Publishing" href="#tabPublishing" textColor="BLACK" iconType="PUBLIC"/>
-                </m:MaterialTabItem>
-                <m:MaterialTabItem waves="DEFAULT">
-                    <m:MaterialLink text="Pricing" href="#tabPricing" textColor="BLACK" iconType="ATTACH_MONEY"/>
-                </m:MaterialTabItem>
-                <m:MaterialTabItem waves="DEFAULT">
-                    <m:MaterialLink text="Invoicing" href="#tabInvoicing" textColor="BLACK" iconType="ASSIGNMENT"/>
-                </m:MaterialTabItem>
-                <m:MaterialTabItem waves="DEFAULT">
-                    <m:MaterialLink text="Event" href="#tabEvent" textColor="BLACK" iconType="EVENT"/>
-                </m:MaterialTabItem>
-            </m:MaterialTab>
+            <p:EditProductTabs ui:field="tabs"/>
         </m:MaterialPanel>
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginBottom="20">

@@ -19,7 +19,9 @@
 package org.ctoolkit.turnonline.widget.product.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -29,9 +31,11 @@ import gwt.material.design.client.ui.MaterialButton;
 import org.ctoolkit.turnonline.widget.product.AppEventBus;
 import org.ctoolkit.turnonline.widget.product.event.BackEvent;
 import org.ctoolkit.turnonline.widget.product.event.SaveProductEvent;
+import org.ctoolkit.turnonline.widget.product.place.EditProduct;
 import org.ctoolkit.turnonline.widget.product.presenter.EditProductPresenter;
 import org.ctoolkit.turnonline.widget.product.ui.Content;
 import org.ctoolkit.turnonline.widget.product.ui.Detail;
+import org.ctoolkit.turnonline.widget.product.ui.EditProductTabs;
 import org.ctoolkit.turnonline.widget.product.ui.EventPanel;
 import org.ctoolkit.turnonline.widget.product.ui.Invoicing;
 import org.ctoolkit.turnonline.widget.product.ui.Pricing;
@@ -53,8 +57,13 @@ public class EditProductView
 {
     private static EditProductViewUiBinder binder = GWT.create( EditProductViewUiBinder.class );
 
+    private PlaceController controller;
+
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
+
+    @UiField
+    EditProductTabs tabs;
 
     // -- tab contents
 
@@ -90,9 +99,13 @@ public class EditProductView
     }
 
     @Inject
-    public EditProductView( EventBus eventBus, @Named( "EditProductBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public EditProductView( EventBus eventBus,
+                            PlaceController controller,
+                            @Named( "EditProductBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super( eventBus );
+
+        this.controller = controller;
 
         this.breadcrumb = breadcrumb;
         scaffoldNavBar.setActive( Route.PRODUCTS );
@@ -126,6 +139,11 @@ public class EditProductView
         pricing.fill( product );
         invoicing.fill( product );
         event.fill( product );
+
+        Scheduler.get().scheduleDeferred( () -> {
+            EditProduct where = ( EditProduct ) controller.getWhere();
+            tabs.selectTab( where.getTab() );
+        } );
     }
 
     @UiHandler( "btnBack" )
