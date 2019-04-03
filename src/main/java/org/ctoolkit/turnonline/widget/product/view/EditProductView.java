@@ -32,6 +32,7 @@ import org.ctoolkit.turnonline.widget.product.presenter.EditProductPresenter;
 import org.ctoolkit.turnonline.widget.product.ui.Content;
 import org.ctoolkit.turnonline.widget.product.ui.Detail;
 import org.ctoolkit.turnonline.widget.product.ui.Invoicing;
+import org.ctoolkit.turnonline.widget.product.ui.Pricing;
 import org.ctoolkit.turnonline.widget.product.ui.Publishing;
 import org.ctoolkit.turnonline.widget.shared.rest.productbilling.Product;
 import org.ctoolkit.turnonline.widget.shared.ui.Route;
@@ -63,6 +64,9 @@ public class EditProductView
 
     @UiField
     Publishing publishing;
+
+    @UiField
+    Pricing pricing;
 
     @UiField
     Invoicing invoicing;
@@ -99,6 +103,7 @@ public class EditProductView
         detail.bind( product );
         content.bind( product );
         publishing.bind( product );
+        pricing.bind( product );
         invoicing.bind( product );
     }
 
@@ -110,6 +115,7 @@ public class EditProductView
         detail.fill( product );
         content.fill( product );
         publishing.fill( product );
+        pricing.fill( product );
         invoicing.fill( product );
     }
 

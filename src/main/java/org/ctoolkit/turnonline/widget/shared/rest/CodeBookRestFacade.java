@@ -5,6 +5,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.storage.client.Storage;
 import org.ctoolkit.gwt.client.facade.Items;
+import org.ctoolkit.turnonline.widget.shared.Configuration;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.AccountStewardFacade;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.Country;
 import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.CountryListMapper;
@@ -13,6 +14,8 @@ import org.ctoolkit.turnonline.widget.shared.rest.accountsteward.LegalFormListMa
 import org.ctoolkit.turnonline.widget.shared.rest.productbilling.BillingUnit;
 import org.ctoolkit.turnonline.widget.shared.rest.productbilling.BillingUnitListMapper;
 import org.ctoolkit.turnonline.widget.shared.rest.productbilling.ProductBillingFacade;
+import org.ctoolkit.turnonline.widget.shared.rest.productbilling.VatRate;
+import org.ctoolkit.turnonline.widget.shared.rest.productbilling.VatRateListMapper;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -43,11 +46,13 @@ public class CodeBookRestFacade
         codeBookRetriever.put( Country.class, ( Retriever<Country> ) callback -> accountStewardFacade.getCountries( null, callback ) );
         codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, callback ) );
         codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( LocaleInfo.getCurrentLocale().getLocaleName(), callback ) );
+        codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), "SK", callback ) );
 
         // codeBook object mappers
         codeBookObjectMapper.put( Country.class, CountryListMapper.INSTANCE );
         codeBookObjectMapper.put( LegalForm.class, LegalFormListMapper.INSTANCE );
         codeBookObjectMapper.put( BillingUnit.class, BillingUnitListMapper.INSTANCE );
+        codeBookObjectMapper.put( VatRate.class, VatRateListMapper.INSTANCE );
     }
 
     @SuppressWarnings( "unchecked" )

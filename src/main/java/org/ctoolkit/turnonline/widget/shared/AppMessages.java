@@ -36,6 +36,9 @@ public interface AppMessages
     @Key( value = "label.edit")
     String labelEdit();
 
+    @Key( value = "label.add")
+    String labelAdd();
+
     @Key( value = "label.delete")
     String labelDelete();
 
@@ -191,6 +194,51 @@ public interface AppMessages
 
     @Key( value = "label.domainUri")
     String labelDomainUri();
+
+    @Key( value = "label.discountCode")
+    String labelDiscountCode();
+
+    @Key( value = "label.allChildrenCheckedIn")
+    String labelAllChildrenCheckedIn();
+
+    @Key( value = "label.percentage")
+    String labelPercentage();
+
+    @Key( value = "label.fixed")
+    String labelFixed();
+
+    @Key( value = "label.value")
+    String labelValue();
+
+    @Key( value = "label.discountType")
+    String labelDiscountType();
+
+    @Key( value = "label.discountRule")
+    String labelDiscountRule();
+
+    @Key( value = "label.codes")
+    String labelCodes();
+
+    @Key( value = "label.priceDefinition")
+    String labelPriceDefinition();
+
+    @Key( value = "label.vatDefinition")
+    String labelVatDefinition();
+
+    @Key( value = "label.discounts")
+    String labelDiscounts();
+
+    @Key( value = "label.vat")
+    String labelVat();
+
+    @Key( value = "label.vatEU")
+    String labelVatEU();
+
+    @Key( value = "label.vatNonEU")
+    String labelVatNonEU();
+
+    @Key( value = "label.domesticDelivery")
+    String labelDomesticDelivery();
 
     @Key( value = "label.ok")
     String labelOk();

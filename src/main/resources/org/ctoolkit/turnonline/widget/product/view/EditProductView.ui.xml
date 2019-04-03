@@ -62,7 +62,7 @@
                     <p:Publishing ui:field="publishing"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabPricing" grid="s12">
-                    <m:MaterialLabel text="Pricing Content"/>
+                    <p:Pricing ui:field="pricing"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabInvoicing" grid="s12">
                     <p:Invoicing ui:field="invoicing"/>

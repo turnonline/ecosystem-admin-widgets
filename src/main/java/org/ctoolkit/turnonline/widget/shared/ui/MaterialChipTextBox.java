@@ -21,6 +21,8 @@ import java.util.List;
 public class MaterialChipTextBox
         extends MaterialTextBox
 {
+    private String letter = "?";
+
     public MaterialChipTextBox()
     {
         addKeyUpHandler( event -> {
@@ -62,7 +64,7 @@ public class MaterialChipTextBox
         MaterialChip chip = new MaterialChip( text, IconType.CLOSE );
         chip.setMarginRight( 5 );
         chip.setMarginBottom( 5 );
-        chip.setLetter( "T" );
+        chip.setLetter( letter );
         chip.setLetterBackgroundColor( Color.BLUE );
         chip.setLetterColor( Color.WHITE );
         chip.addCloseHandler( event -> fireEvent( new ChipCloseEvent( chip.getText() ) ) );
@@ -133,5 +135,20 @@ public class MaterialChipTextBox
     public HandlerRegistration addChipDoubleClickHandler( ChipDoubleClickEventHandler handler )
     {
         return addHandler( handler, ChipDoubleClickEvent.TYPE );
+    }
+
+    @Override
+    public void setEnabled( boolean enabled )
+    {
+        super.setEnabled( enabled );
+        iterate( chip -> {
+            chip.setLetterBackgroundColor( enabled ? Color.BLUE : Color.GREY_DARKEN_3 );
+            chip.getIcon().setVisible( enabled );
+        } );
+    }
+
+    public void setLetter( String letter )
+    {
+        this.letter = letter;
     }
 }

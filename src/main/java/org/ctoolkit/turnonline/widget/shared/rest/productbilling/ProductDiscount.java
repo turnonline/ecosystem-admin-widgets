@@ -18,6 +18,8 @@
 
 package org.ctoolkit.turnonline.widget.shared.rest.productbilling;
 
+import java.util.Objects;
+
 /**
  * Model definition for ProductDiscount.
  *
@@ -148,4 +150,22 @@ public final class ProductDiscount
         return this;
     }
 
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o ) return true;
+        if ( !( o instanceof ProductDiscount ) ) return false;
+        ProductDiscount discount = ( ProductDiscount ) o;
+        return Objects.equals( codes, discount.codes ) &&
+                Objects.equals( enabled, discount.enabled ) &&
+                Objects.equals( off, discount.off ) &&
+                Objects.equals( rule, discount.rule ) &&
+                Objects.equals( unit, discount.unit );
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash( codes, enabled, off, rule, unit );
+    }
 }

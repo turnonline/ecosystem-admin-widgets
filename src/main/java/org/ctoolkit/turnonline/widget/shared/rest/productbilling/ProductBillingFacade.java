@@ -81,5 +81,11 @@ public interface ProductBillingFacade
     @GET
     @Path( "codebook/billing-units" )
     void getBillingUnits( @HeaderParam( "Accept-Language" ) String acceptLanguage,
-                       MethodCallback<Items<BillingUnit>> callback );
+                          MethodCallback<Items<BillingUnit>> callback );
+
+    @GET
+    @Path( "codebook/vat-rates" )
+    void getVatRates( @QueryParam( "domicile" ) String domicile,
+                      @HeaderParam( "Accept-Language" ) String acceptLanguage,
+                      MethodCallback<Items<VatRate>> callback );
 }

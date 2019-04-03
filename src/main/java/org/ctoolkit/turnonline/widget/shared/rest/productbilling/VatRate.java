@@ -18,6 +18,8 @@
 
 package org.ctoolkit.turnonline.widget.shared.rest.productbilling;
 
+import org.ctoolkit.turnonline.widget.shared.rest.CodeBook;
+
 /**
  * Model definition for VatRate.
  *
@@ -31,30 +33,31 @@ package org.ctoolkit.turnonline.widget.shared.rest.productbilling;
  */
 @SuppressWarnings( "javadoc" )
 public final class VatRate
+        implements CodeBook
 {
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String code;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String domicile;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String label;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String locale;
 
     /**

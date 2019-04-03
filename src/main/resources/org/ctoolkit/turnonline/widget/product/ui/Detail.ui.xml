@@ -40,8 +40,8 @@
                     <m:MaterialTitle description="{msg.labelMetaFields}" textColor="BLUE"/>
                 </m:MaterialSection>
 
-                <s:MaterialChipTextBox ui:field="availableFields" label="{msg.labelAvailableFields}" helperText="{msg.tooltipAvailableFields}"/>
-                <s:MaterialChipTextBox ui:field="mandatoryFields" label="{msg.labelMandatoryFields}"/>
+                <s:MaterialChipTextBox letter="T" ui:field="availableFields" label="{msg.labelAvailableFields}" helperText="{msg.tooltipAvailableFields}"/>
+                <s:MaterialChipTextBox letter="T" ui:field="mandatoryFields" label="{msg.labelMandatoryFields}"/>
             </m:MaterialColumn>
         </m:MaterialRow>
     </g:HTMLPanel>
