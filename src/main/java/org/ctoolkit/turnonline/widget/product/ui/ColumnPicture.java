@@ -17,7 +17,9 @@ public class ColumnPicture
     public String getValue( Product object )
     {
         StringBuilder sb = new StringBuilder();
-        if ( object.getPublishing() != null && !object.getPublishing().getPictures().isEmpty() )
+        if ( object.getPublishing() != null
+                && object.getPublishing().getPictures() != null
+                && !object.getPublishing().getPictures().isEmpty() )
         {
             List<ProductPicture> pictures = object.getPublishing().getPictures();
             pictures.sort( Comparator.comparing( ProductPicture::getOrder ) );

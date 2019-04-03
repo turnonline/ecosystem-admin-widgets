@@ -35,7 +35,6 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
-import gwt.material.design.incubator.client.google.addresslookup.js.options.result.GeocoderAddressComponent;
 import org.ctoolkit.turnonline.widget.contact.AppEventBus;
 import org.ctoolkit.turnonline.widget.contact.event.BackEvent;
 import org.ctoolkit.turnonline.widget.contact.event.SaveContactEvent;
@@ -49,7 +48,8 @@ import org.ctoolkit.turnonline.widget.shared.view.View;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Arrays;
+
+import static org.ctoolkit.turnonline.widget.shared.util.Maps.findAddressComponent;
 
 /**
  * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
@@ -364,21 +364,5 @@ public class EditContactView
     private void handleVatPayer()
     {
         vatId.setEnabled( vatPayer.getValue() );
-    }
-
-    private String findAddressComponent( PlaceResult place, String... types )
-    {
-        GeocoderAddressComponent component = Arrays.stream( place.getAddressComponents() )
-                .filter( addressComponent -> Arrays.stream( addressComponent.getTypes() )
-                        .anyMatch( s -> Arrays.asList( types ).contains( s ) ) )
-                .findFirst()
-                .orElse( null );
-
-        if ( component != null )
-        {
-            return component.getShortName();
-        }
-
-        return null;
     }
 }

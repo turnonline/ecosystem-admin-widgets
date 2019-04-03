@@ -240,6 +240,33 @@ public interface AppMessages
     @Key( value = "label.domesticDelivery")
     String labelDomesticDelivery();
 
+    @Key( value = "label.deadline")
+    String labelDeadline();
+
+    @Key( value = "label.seats")
+    String labelSeats();
+
+    @Key( value = "label.begin")
+    String labelBegin();
+
+    @Key( value = "label.end")
+    String labelEnd();
+
+    @Key( value = "label.on")
+    String labelOn();
+
+    @Key( value = "label.from")
+    String labelFrom();
+
+    @Key( value = "label.to")
+    String labelTo();
+
+    @Key( value = "label.show")
+    String labelShow();
+
+    @Key( value = "label.location")
+    String labelLocation();
+
     @Key( value = "label.ok")
     String labelOk();
 

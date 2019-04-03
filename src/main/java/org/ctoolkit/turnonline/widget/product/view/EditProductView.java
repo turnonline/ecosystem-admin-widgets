@@ -26,11 +26,13 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialButton;
+import org.ctoolkit.turnonline.widget.product.AppEventBus;
 import org.ctoolkit.turnonline.widget.product.event.BackEvent;
 import org.ctoolkit.turnonline.widget.product.event.SaveProductEvent;
 import org.ctoolkit.turnonline.widget.product.presenter.EditProductPresenter;
 import org.ctoolkit.turnonline.widget.product.ui.Content;
 import org.ctoolkit.turnonline.widget.product.ui.Detail;
+import org.ctoolkit.turnonline.widget.product.ui.EventPanel;
 import org.ctoolkit.turnonline.widget.product.ui.Invoicing;
 import org.ctoolkit.turnonline.widget.product.ui.Pricing;
 import org.ctoolkit.turnonline.widget.product.ui.Publishing;
@@ -71,6 +73,9 @@ public class EditProductView
     @UiField
     Invoicing invoicing;
 
+    @UiField
+    EventPanel event;
+
     // -- buttons
 
     @UiField
@@ -93,6 +98,8 @@ public class EditProductView
         scaffoldNavBar.setActive( Route.PRODUCTS );
 
         add( binder.createAndBindUi( this ) );
+
+        event.init( ( AppEventBus ) eventBus );
     }
 
     @Override
@@ -105,6 +112,7 @@ public class EditProductView
         publishing.bind( product );
         pricing.bind( product );
         invoicing.bind( product );
+        event.bind( product );
     }
 
     @Override
@@ -117,6 +125,7 @@ public class EditProductView
         publishing.fill( product );
         pricing.fill( product );
         invoicing.fill( product );
+        event.fill( product );
     }
 
     @UiHandler( "btnBack" )

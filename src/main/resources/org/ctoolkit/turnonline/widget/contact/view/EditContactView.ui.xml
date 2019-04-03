@@ -21,7 +21,6 @@
              xmlns:s='urn:import:org.ctoolkit.turnonline.widget.shared.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:map='urn:import:gwt.material.design.incubator.client.google.addresslookup'
-             xmlns:mat="urn:import:gwt.material.design.incubator.client.google.addresslookup"
 >
 
     <ui:with field="msg" type="org.ctoolkit.turnonline.widget.shared.AppMessages"/>
@@ -144,7 +143,7 @@
                 </m:MaterialColumn>
 
                 <m:MaterialColumn grid="s12 m3" paddingTop="38">
-                    <mat:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet"
+                    <map:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet"
                                        helperText="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="postalCity"/>
                     <m:MaterialRow>
