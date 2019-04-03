@@ -135,6 +135,21 @@ public interface AppMessages
     @Key( value = "label.invoicing")
     String labelInvoicing();
 
+    @Key( value = "label.detail")
+    String labelDetail();
+
+    @Key( value = "label.content")
+    String labelContent();
+
+    @Key( value = "label.publishing")
+    String labelPublishing();
+
+    @Key( value = "label.pricing")
+    String labelPricing();
+
+    @Key( value = "label.event")
+    String labelEvent();
+
     @Key( value = "label.invoiceAddress")
     String labelInvoiceAddress();
 

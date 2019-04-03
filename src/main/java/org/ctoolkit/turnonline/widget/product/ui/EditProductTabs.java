@@ -7,6 +7,7 @@ import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTab;
 import gwt.material.design.client.ui.MaterialTabItem;
+import org.ctoolkit.turnonline.widget.shared.AppMessages;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -14,19 +15,20 @@ import gwt.material.design.client.ui.MaterialTabItem;
 public class EditProductTabs
         extends MaterialTab
 {
+    private static final AppMessages messages = AppMessages.INSTANCE;
+
     public EditProductTabs()
     {
         setBackgroundColor( Color.GREY_LIGHTEN_3 );
         setIndicatorColor( Color.BLACK );
         setType( TabType.ICON );
 
-        // TODO: localize
-        add( newTabItem( "Detail", "tabDetail", IconType.VISIBILITY ) );
-        add( newTabItem( "Content", "tabContent", IconType.CODE ) );
-        add( newTabItem( "Publishing", "tabPublishing", IconType.PUBLIC ) );
-        add( newTabItem( "Pricing", "tabPricing", IconType.ATTACH_MONEY ) );
-        add( newTabItem( "Invoicing", "tabInvoicing", IconType.ASSIGNMENT ) );
-        add( newTabItem( "Event", "tabEvent", IconType.EVENT ) );
+        add( newTabItem( messages.labelDetail(), "tabDetail", IconType.VISIBILITY ) );
+        add( newTabItem( messages.labelContent(), "tabContent", IconType.CODE ) );
+        add( newTabItem( messages.labelPublishing(), "tabPublishing", IconType.PUBLIC ) );
+        add( newTabItem( messages.labelPricing(), "tabPricing", IconType.ATTACH_MONEY ) );
+        add( newTabItem( messages.labelInvoicing(), "tabInvoicing", IconType.ASSIGNMENT ) );
+        add( newTabItem( messages.labelEvent(), "tabEvent", IconType.EVENT ) );
     }
 
     protected MaterialTabItem newTabItem( String text, String tab, IconType icon )
