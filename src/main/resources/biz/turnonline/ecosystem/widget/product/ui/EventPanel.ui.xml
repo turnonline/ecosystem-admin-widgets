@@ -20,7 +20,7 @@
              xmlns:ma="urn:import:gwt.material.design.addins.client"
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:mat="urn:import:gwt.material.design.incubator.client.google.addresslookup"
-             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
@@ -82,7 +82,7 @@
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                             <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="locationPostCode"
                                                             placeholder="000 00" mask="000 00"/>
-                            <ui2:CountryComboBox label="{msg.labelCountry}" ui:field="locationCountry"/>
+                            <s:CountryComboBox label="{msg.labelCountry}" ui:field="locationCountry"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>
                 </m:MaterialColumn>

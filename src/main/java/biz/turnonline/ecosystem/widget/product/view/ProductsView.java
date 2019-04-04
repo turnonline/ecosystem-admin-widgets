@@ -27,6 +27,7 @@ import biz.turnonline.ecosystem.widget.product.ui.ColumnName;
 import biz.turnonline.ecosystem.widget.product.ui.ColumnPicture;
 import biz.turnonline.ecosystem.widget.product.ui.ColumnPrice;
 import biz.turnonline.ecosystem.widget.product.ui.ColumnPublished;
+import biz.turnonline.ecosystem.widget.product.ui.ColumnVat;
 import biz.turnonline.ecosystem.widget.product.ui.ProductsDataSource;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
@@ -110,10 +111,13 @@ public class ProductsView
         published.setWidth( "5%" );
 
         ColumnName name = new ColumnName();
-        name.setWidth( "50%" );
+        name.setWidth( "40%" );
 
         ColumnPrice price = new ColumnPrice();
-        price.setWidth( "30%" );
+        price.setWidth( "25%" );
+
+        ColumnVat vat = new ColumnVat();
+        vat.setWidth( "20%" );
 
         ColumnActions actions = new ColumnActions( bus() );
         actions.setWidth( "5%" );
@@ -122,6 +126,7 @@ public class ProductsView
         table.addColumn( published );
         table.addColumn( name, messages.labelName() );
         table.addColumn( price, messages.labelPriceExclusiveVat() );
+        table.addColumn( vat, messages.labelVat() );
         table.addColumn( actions );
 
         table.configure( new ProductsDataSource( ( AppEventBus ) bus() ) );

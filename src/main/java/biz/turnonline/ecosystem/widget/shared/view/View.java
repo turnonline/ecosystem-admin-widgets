@@ -73,7 +73,7 @@ public abstract class View<T>
         root.add( contentContainer );
 
         content = new MaterialRow(  );
-        content.setPaddingTop( 65 );
+        content.getElement().setAttribute( "style", "min-height: calc(100vh - 90px);padding-top:65px" );
         contentContainer.add( content );
 
         // footer
