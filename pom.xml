@@ -26,7 +26,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.ctoolkit.turnonline</groupId>
+    <groupId>biz.turnonline.ecosystem</groupId>
     <artifactId>ecosystem-admin-widgets</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -74,8 +74,8 @@
                     <execution>
                         <configuration>
                             <modules>
-                                <module>org.ctoolkit.turnonline.widget.Contact</module>
-                                <module>org.ctoolkit.turnonline.widget.Product</module>
+                                <module>biz.turnonline.ecosystem.widget.Contact</module>
+                                <module>biz.turnonline.ecosystem.widget.Product</module>
                             </modules>
                         </configuration>
                         <goals>
