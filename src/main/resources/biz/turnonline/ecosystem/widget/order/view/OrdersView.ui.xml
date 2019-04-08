@@ -1,0 +1,40 @@
+<!--
+  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <ui2:ConfirmationWindow ui:field="confirmationWindow"/>
+
+        <ui2:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+
+        <m:MaterialRow paddingTop="20" paddingLeft="20" float="LEFT">
+            <m:MaterialButton marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE" textColor="WHITE" iconType="CONTROL_POINT" tooltip="{msg.tooltipNewOrder}" text="{msg.labelNew}" ui:field="btnNew"/>
+            <m:MaterialButton ui:field="btnDelete" marginRight="10" type="FLAT" waves="LIGHT" textColor="WHITE" backgroundColor="RED_DARKEN_1" iconType="DELETE" tooltip="{msg.tooltipDeleteOrder}" text="{msg.labelDelete}"/>
+        </m:MaterialRow>
+
+        <m:MaterialRow padding="20">
+            <ui2:SmartTable ui:field="table"/>
+        </m:MaterialRow>
+
+    </g:HTMLPanel>
+</ui:UiBinder>

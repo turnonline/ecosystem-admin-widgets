@@ -5,6 +5,8 @@ import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.Country;
 import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 
+import static biz.turnonline.ecosystem.widget.shared.util.Formatter.formatPostcode;
+
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
@@ -56,10 +58,5 @@ public class ColumnAddress
     private boolean appendComma( ContactCard object )
     {
         return object.getCity() != null || object.getPostcode() != null || object.getCountry() != null;
-    }
-
-    private String formatPostcode( String postcode )
-    {
-        return postcode.length() == 5 ? postcode.substring( 0, 2 ) + " " + postcode.substring( 2 ) : postcode;
     }
 }

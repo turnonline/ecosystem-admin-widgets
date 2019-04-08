@@ -34,5 +34,9 @@
             <directory>target/${project.build.finalName}/product.widget</directory>
             <outputDirectory>product.widget</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>target/${project.build.finalName}/order.widget</directory>
+            <outputDirectory>order.widget</outputDirectory>
+        </fileSet>
     </fileSets>
 </assembly>

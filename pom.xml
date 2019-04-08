@@ -76,6 +76,7 @@
                             <modules>
                                 <module>biz.turnonline.ecosystem.widget.Contact</module>
                                 <module>biz.turnonline.ecosystem.widget.Product</module>
+                                <module>biz.turnonline.ecosystem.widget.Order</module>
                             </modules>
                         </configuration>
                         <goals>

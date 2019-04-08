@@ -76,6 +76,15 @@ public interface ProductBillingFacade
     void delete( @PathParam( "product_id" ) Long productId,
                  MethodCallback<Void> callback );
 
+    // orders
+
+    @GET
+    @Path( "orders" )
+    void getOrders( @QueryParam( "offset" ) Integer offset,
+                      @QueryParam( "limit" ) Integer limit,
+                      @QueryParam( "lightList" ) boolean lightList,
+                      MethodCallback<Items<Order>> callback );
+
     // codebooks
 
     @GET
