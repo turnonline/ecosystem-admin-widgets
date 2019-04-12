@@ -8,11 +8,11 @@ image.src = "/launcher-icons/logo.png";
 
 var title = document.createElement("span");
 title.className = "title";
-title.innerHTML = "Turnonline widgets";
+title.innerHTML = "TurnOnline.biz Widgets";
 
 var description = document.createElement("span");
 description.className = "description";
-description.innerHTML = "Turnonline Ecosystem Administration widgets";
+description.innerHTML = "TurnOnline.biz Ecosystem Administration Widgets";
 
 var progress = document.createElement("div");
 progress.className = "progress";
