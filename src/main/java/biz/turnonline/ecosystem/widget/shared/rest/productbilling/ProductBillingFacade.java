@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.productbilling;
 
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Options;
@@ -51,12 +52,12 @@ public interface ProductBillingFacade
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "lightList" ) boolean lightList,
                       @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
-                      MethodCallback<Items<Product>> callback );
+                      SuccessCallback<Items<Product>> callback );
 
     @GET
     @Path( "products/{product_id}" )
     void findById( @PathParam( "product_id" ) Long contactId,
-                   MethodCallback<Product> callback );
+                   SuccessCallback<Product> callback );
 
     @POST
     @Path( "products" )
@@ -81,9 +82,9 @@ public interface ProductBillingFacade
     @GET
     @Path( "orders" )
     void getOrders( @QueryParam( "offset" ) Integer offset,
-                      @QueryParam( "limit" ) Integer limit,
-                      @QueryParam( "lightList" ) boolean lightList,
-                      MethodCallback<Items<Order>> callback );
+                    @QueryParam( "limit" ) Integer limit,
+                    @QueryParam( "lightList" ) boolean lightList,
+                    MethodCallback<Items<Order>> callback );
 
     // codebooks
 
