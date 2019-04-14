@@ -43,7 +43,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
     {
         super( eventBus, view, placeController );
 
-        setTitle( "Turnonline.biz Adminstration" );
+        setTitle( "TurnOnline.biz Administration" );
     }
 
     @Override
