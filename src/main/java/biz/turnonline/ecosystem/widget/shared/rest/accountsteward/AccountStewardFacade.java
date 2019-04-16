@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.rest.accountsteward;
 
 import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -50,32 +51,32 @@ public interface AccountStewardFacade
                       @QueryParam( "offset" ) Integer offset,
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "company" ) Boolean company,
-                      MethodCallback<Items<ContactCard>> callback );
+                      FacadeCallback<Items<ContactCard>> callback );
 
     @GET
     @Path( "accounts/{login_id}/contacts/{contact_id}" )
     void findById( @PathParam( "login_id" ) String loginId,
                    @PathParam( "contact_id" ) Long contactId,
-                   MethodCallback<ContactCard> callback );
+                   FacadeCallback<ContactCard> callback );
 
     @POST
     @Path( "accounts/{login_id}/contacts" )
     void create( @PathParam( "login_id" ) String loginId,
                  ContactCard contact,
-                 MethodCallback<ContactCard> callback );
+                 FacadeCallback<ContactCard> callback );
 
     @PUT
     @Path( "accounts/{login_id}/contacts/{contact_id}" )
     void update( @PathParam( "login_id" ) String loginId,
                  @PathParam( "contact_id" ) Long contactId,
                  ContactCard contact,
-                 MethodCallback<ContactCard> callback );
+                 FacadeCallback<ContactCard> callback );
 
     @DELETE
     @Path( "accounts/{login_id}/contacts/{contact_id}" )
     void delete( @PathParam( "login_id" ) String loginId,
                  @PathParam( "contact_id" ) Long contactId,
-                 MethodCallback<Void> callback );
+                 FacadeCallback<Void> callback );
 
     // codebooks
 

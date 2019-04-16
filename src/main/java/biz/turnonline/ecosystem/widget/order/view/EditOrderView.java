@@ -20,12 +20,17 @@ package biz.turnonline.ecosystem.widget.order.view;
 
 import biz.turnonline.ecosystem.widget.order.event.BackEvent;
 import biz.turnonline.ecosystem.widget.order.event.SaveOrderEvent;
+import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.order.presenter.EditOrderPresenter;
+import biz.turnonline.ecosystem.widget.order.ui.CustomerPanel;
+import biz.turnonline.ecosystem.widget.order.ui.Detail;
+import biz.turnonline.ecosystem.widget.order.ui.EditOrderTabs;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -52,6 +57,15 @@ public class EditOrderView
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
 
+    @UiField
+    EditOrderTabs tabs;
+
+    @UiField
+    Detail detail;
+
+    @UiField( provided = true )
+    CustomerPanel customer;
+
     // -- buttons
 
     @UiField
@@ -75,7 +89,9 @@ public class EditOrderView
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.PRODUCTS );
+        scaffoldNavBar.setActive( Route.ORDERS );
+
+        customer = new CustomerPanel( eventBus );
 
         add( binder.createAndBindUi( this ) );
     }
@@ -83,13 +99,24 @@ public class EditOrderView
     @Override
     protected void bind()
     {
+        Order order = getRawModel();
 
+        detail.bind( order );
+        customer.bind( order );
     }
 
     @Override
     protected void fill()
     {
+        Order order = getRawModel();
 
+        detail.fill( order );
+        customer.fill( order );
+
+        Scheduler.get().scheduleDeferred( () -> {
+            EditOrder where = ( EditOrder ) controller.getWhere();
+            tabs.selectTab( where.getTab() );
+        } );
     }
 
     @UiHandler( "btnBack" )

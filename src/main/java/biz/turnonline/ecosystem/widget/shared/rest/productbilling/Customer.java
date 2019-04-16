@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.productbilling;
 
+import biz.turnonline.ecosystem.widget.shared.rest.Contact;
+
 /**
  * Model definition for Customer.
  *
@@ -31,6 +33,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.productbilling;
  */
 @SuppressWarnings( "javadoc" )
 public final class Customer
+        implements Contact
 {
 
     /**
@@ -42,110 +45,134 @@ public final class Customer
     /**
      * The value may be {@code null}.
      */
-    
+
     private String businessName;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String ccEmail;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String city;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String companyId;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String contactEmail;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String contactPhone;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String country;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String email;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String firstName;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String lastName;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String locale;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private CustomerPostalAddress postalAddress;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String postcode;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String prefix;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String street;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String suffix;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String taxId;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String vatId;
+
+    public Customer()
+    {
+    }
+
+    public Customer(Contact contact)
+    {
+        this.businessName = contact.getBusinessName();
+        this.ccEmail = contact.getCcEmail();
+        this.city = contact.getCity();
+        this.companyId = contact.getCompanyId();
+        this.contactEmail = contact.getContactEmail();
+        this.contactPhone = contact.getContactPhone();
+        this.country = contact.getCountry();
+        this.firstName = contact.getFirstName();
+        this.lastName = contact.getLastName();
+        this.postcode = contact.getPostcode();
+        this.prefix = contact.getPrefix();
+        this.street = contact.getStreet();
+        this.suffix = contact.getSuffix();
+        this.taxId = contact.getTaxId();
+        this.vatId = contact.getVatId();
+    }
+
 
     /**
      * @return value or {@code null} for none
@@ -204,6 +231,12 @@ public final class Customer
     public String getCity()
     {
         return city;
+    }
+
+    @Override
+    public Boolean getCompany()
+    {
+        return businessName != null && !"".equals( businessName.trim() );
     }
 
     /**

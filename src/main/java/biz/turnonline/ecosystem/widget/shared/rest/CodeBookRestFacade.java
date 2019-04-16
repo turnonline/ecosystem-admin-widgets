@@ -3,15 +3,10 @@ package biz.turnonline.ecosystem.widget.shared.rest;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.AccountStewardFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.Country;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.CountryListMapper;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.LegalForm;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.LegalFormListMapper;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.BillingUnit;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.BillingUnitListMapper;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.VatRate;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.VatRateListMapper;
-import com.github.nmorel.gwtjackson.client.ObjectMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.storage.client.Storage;
@@ -28,8 +23,6 @@ import java.util.Map;
  */
 public class CodeBookRestFacade
 {
-    private static final String CODE_BOOK_STORAGE_KEY_PREFIX = "turnonline::codebook::";
-
     private static AccountStewardFacade accountStewardFacade = GWT.create( AccountStewardFacade.class );
 
     private static ProductBillingFacade productBillingFacade = GWT.create( ProductBillingFacade.class );
@@ -38,8 +31,6 @@ public class CodeBookRestFacade
 
     private static Map<Class<?>, Retriever<?>> codeBookRetriever = new HashMap<>();
 
-    private static Map<Class<?>, ObjectMapper> codeBookObjectMapper = new HashMap<>();
-
     static
     {
         // codeBook retrievers
@@ -47,16 +38,10 @@ public class CodeBookRestFacade
         codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, callback ) );
         codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( LocaleInfo.getCurrentLocale().getLocaleName(), callback ) );
         codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), "SK", callback ) );
-
-        // codeBook object mappers
-        codeBookObjectMapper.put( Country.class, CountryListMapper.INSTANCE );
-        codeBookObjectMapper.put( LegalForm.class, LegalFormListMapper.INSTANCE );
-        codeBookObjectMapper.put( BillingUnit.class, BillingUnitListMapper.INSTANCE );
-        codeBookObjectMapper.put( VatRate.class, VatRateListMapper.INSTANCE );
     }
 
     @SuppressWarnings( "unchecked" )
-    public static <T extends CodeBook> void getCodeBook( Class<T> codeBookClass, MethodCallback<Items<T>> callback )
+    public static <T extends CodeBook> void getCodeBook( Class<T> codeBookClass, FacadeCallback<Items<T>> callback )
     {
         List<T> codeBook = getCodeBookFromCache( codeBookClass );
 
@@ -69,7 +54,7 @@ public class CodeBookRestFacade
                 public void onSuccess( Method method, Items response )
                 {
                     cacheCodeBook( codeBookClass, response.getItems() );
-                    super.onSuccess( method, response );
+                    callback.onSuccess( method, response );
                 }
             } );
         }
@@ -83,7 +68,7 @@ public class CodeBookRestFacade
 
     public static <T extends CodeBook> T getCodeBookValue( Class<T> codeBookClass, String code )
     {
-        getCodeBook( codeBookClass, new FacadeCallback<>() );
+        getCodeBook( codeBookClass, response -> {} );
 
         List<T> cache = getCodeBookFromCache( codeBookClass );
         if ( cache != null )
@@ -104,46 +89,16 @@ public class CodeBookRestFacade
         void retrieve( MethodCallback<Items<T>> callback );
     }
 
-    private static <T extends CodeBook> String storageKey( Class<T> codeBookClass )
-    {
-        return CODE_BOOK_STORAGE_KEY_PREFIX + codeBookClass.getSimpleName();
-    }
-
     @SuppressWarnings( "unchecked" )
     private static <T extends CodeBook> void cacheCodeBook( Class<T> codeBookClass, List<T> codeBook )
     {
-        Storage storage = storage();
-
-        if ( storage != null )
-        {
-            String codeBookAsJson = JSON.stringify( codeBook, codeBookObjectMapper.get( codeBookClass ) );
-            storage.setItem( storageKey( codeBookClass ), codeBookAsJson );
-        }
-        else
-        {
-            codeBookCache.put( codeBookClass, codeBook );
-        }
+        codeBookCache.put( codeBookClass, codeBook );
     }
 
     @SuppressWarnings( "unchecked" )
     private static <T extends CodeBook> List<T> getCodeBookFromCache( Class<T> codeBookClass )
     {
-        Storage storage = storage();
-        if ( storage != null )
-        {
-            String codeBookAsJson = storage.getItem( storageKey( codeBookClass ) );
-            if ( codeBookAsJson == null )
-            {
-                return null;
-            }
-
-            ObjectMapper<List<T>> objectMapper = codeBookObjectMapper.get( codeBookClass );
-            return JSON.parse( codeBookAsJson, objectMapper );
-        }
-        else
-        {
-            return ( List<T> ) codeBookCache.get( codeBookClass );
-        }
+        return ( List<T> ) codeBookCache.get( codeBookClass );
     }
 
     private static Storage storage()

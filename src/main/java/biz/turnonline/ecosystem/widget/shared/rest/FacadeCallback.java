@@ -11,13 +11,15 @@ import org.fusesource.restygwt.client.MethodCallback;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class FacadeCallback<T>
-        implements MethodCallback<T>
+public interface FacadeCallback<T>
+        extends MethodCallback<T>
 {
-    private AppMessages messages = GWT.create( AppMessages.class );
+    AppMessages messages = GWT.create( AppMessages.class );
+
+    void onSuccess( T response );
 
     @Override
-    public void onFailure( Method method, Throwable exception )
+    default void onFailure( Method method, Throwable exception )
     {
         printError( exception );
 
@@ -28,12 +30,13 @@ public class FacadeCallback<T>
     }
 
     @Override
-    public void onSuccess( Method method, T response )
+    default void onSuccess( Method method, T response )
     {
         MaterialLoader.loading( false );
+        onSuccess( response );
     }
 
-    private void printError( Throwable exception )
+    default void printError( Throwable exception )
     {
         if ( exception instanceof FailedResponseException )
         {
@@ -46,7 +49,7 @@ public class FacadeCallback<T>
         }
     }
 
-    private void redirectToLoginIfUnauthorized( Throwable exception )
+    default void redirectToLoginIfUnauthorized( Throwable exception )
     {
         if ( exception instanceof FailedResponseException )
         {

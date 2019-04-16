@@ -6,7 +6,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductPublish
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsonUtils;
-import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -15,7 +14,6 @@ import com.google.gwt.xhr.client.XMLHttpRequest;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
-import org.ctoolkit.gwt.client.Constants;
 import org.ctoolkit.gwt.client.facade.UploadResponse;
 
 import javax.inject.Inject;
@@ -124,7 +122,8 @@ public class Publishing
     protected void onLoad()
     {
         XMLHttpRequest xmlHttpRequest = XMLHttpRequest.create();
-        xmlHttpRequest.open( RequestBuilder.GET.toString(), Constants.UPLOAD_PATH );
+        // FIXME: UPLOAD_PATH does not exists - probably forgotten commit
+//        xmlHttpRequest.open( RequestBuilder.GET.toString(), Constants.UPLOAD_PATH );
         xmlHttpRequest.setOnReadyStateChange( xhr -> {
             if ( xhr.getReadyState() == XMLHttpRequest.DONE )
             {

@@ -1,12 +1,12 @@
-package biz.turnonline.ecosystem.widget.order.event;
+package biz.turnonline.ecosystem.widget.shared.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public interface SaveOrderEventHandler
+public interface CustomerSelectEventHandler
         extends EventHandler
 {
-    void onSaveOrder( SaveOrderEvent event );
+    void onCustomerSelect( CustomerSelectEvent event );
 }

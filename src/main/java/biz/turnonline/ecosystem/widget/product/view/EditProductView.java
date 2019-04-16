@@ -18,7 +18,6 @@
 
 package biz.turnonline.ecosystem.widget.product.view;
 
-import biz.turnonline.ecosystem.widget.product.AppEventBus;
 import biz.turnonline.ecosystem.widget.product.event.BackEvent;
 import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
@@ -30,6 +29,7 @@ import biz.turnonline.ecosystem.widget.product.ui.EventPanel;
 import biz.turnonline.ecosystem.widget.product.ui.Invoicing;
 import biz.turnonline.ecosystem.widget.product.ui.Pricing;
 import biz.turnonline.ecosystem.widget.product.ui.Publishing;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;

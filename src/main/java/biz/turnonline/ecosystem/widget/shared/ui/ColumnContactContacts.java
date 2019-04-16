@@ -1,17 +1,16 @@
-package biz.turnonline.ecosystem.widget.contact.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
-import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
+import biz.turnonline.ecosystem.widget.shared.rest.Contact;
 import gwt.material.design.client.constants.IconType;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ColumnContacts
-        extends NotSafeHtmlColumn<ContactCard>
+public class ColumnContactContacts<T extends Contact>
+        extends NotSafeHtmlColumn<T>
 {
     @Override
-    public String getValue( ContactCard object )
+    public String getValue( T object )
     {
         StringBuilder sb = new StringBuilder();
         sb.append( "<div style='padding: 10px 0;'>" );

@@ -1,75 +1,52 @@
-/*
- * Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
+package biz.turnonline.ecosystem.widget.order.ui;
 
-package biz.turnonline.ecosystem.widget.contact.view;
-
-import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
-import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
-import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCardPostalAddress;
+import biz.turnonline.ecosystem.widget.shared.event.CustomerSelectEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Customer;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.CustomerPostalAddress;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.Route;
-import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
+import biz.turnonline.ecosystem.widget.shared.ui.CustomerSelector;
+import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
+import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
-import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialIntegerBox;
-import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class EditContactView
-        extends View<ContactCard>
-        implements EditContactPresenter.IView
+public class CustomerPanel
+        extends Composite
+        implements HasModel<Order>
 {
-    private static EditContactsViewUiBinder binder = GWT.create( EditContactsViewUiBinder.class );
+    private static CustomerPanelUiBinder binder = GWT.create( CustomerPanelUiBinder.class );
+
+    interface CustomerPanelUiBinder
+            extends UiBinder<HTMLPanel, CustomerPanel>
+    {
+    }
+
+    @UiField
+    MaterialButton btnSelect;
 
     @UiField( provided = true )
-    ScaffoldBreadcrumb breadcrumb;
-
-    @UiField
-    MaterialButton btnSave;
-
-    @UiField
-    MaterialButton btnBack;
-
-    @UiField
-    MaterialSwitch company;
+    CustomerSelector selector;
 
     // person
 
@@ -99,9 +76,6 @@ public class EditContactView
     @UiField
     MaterialTextBox vatId;
 
-    @UiField
-    MaterialSwitch vatPayer;
-
     // contacts
 
     @UiField
@@ -113,15 +87,7 @@ public class EditContactView
     @UiField
     MaterialTextBox ccEmail;
 
-    // invoicing
-
-    @UiField
-    MaterialIntegerBox numberOfDays;
-
     // invoice address
-
-    @UiField
-    MaterialSwitch postalSame;
 
     @UiField
     AddressLookup street;
@@ -164,20 +130,20 @@ public class EditContactView
     @UiField
     CountryComboBox postalCountry;
 
-    interface EditContactsViewUiBinder
-            extends UiBinder<HTMLPanel, EditContactView>
+    public CustomerPanel( EventBus eventBus )
     {
-    }
+        selector = new CustomerSelector( eventBus );
 
-    @Inject
-    public EditContactView( EventBus eventBus, @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
-    {
-        super( eventBus );
+        initWidget( binder.createAndBindUi( this ) );
 
-        this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.CONTACTS );
+        eventBus.addHandler( CustomerSelectEvent.TYPE, event -> {
+            Customer customer = event.getCustomer();
 
-        add( binder.createAndBindUi( this ) );
+            MaterialToast.fireToast( "Selected customer: " + Formatter.formatContactName( customer ), "green" );
+            fill( customer );
+
+            selector.close();
+        } );
 
         // Loading google map API
         String mapsApiKey = ( ( AppEventBus ) eventBus ).getConfiguration().getMapsApiKey();
@@ -219,11 +185,9 @@ public class EditContactView
     }
 
     @Override
-    protected void bind()
+    public void bind( Order model )
     {
-        ContactCard contact = getRawModel();
-
-        contact.setCompany( company.getValue() );
+        Customer contact = model.getCustomer();
 
         // person
         contact.setPrefix( prefix.getValue() );
@@ -236,15 +200,11 @@ public class EditContactView
         contact.setCompanyId( companyId.getValue() );
         contact.setVatId( vatId.getValue() );
         contact.setTaxId( taxId.getValue() );
-        contact.setVatPayer( vatPayer.getValue() );
 
         // contacts
         contact.setContactPhone( phone.getValue() );
         contact.setContactEmail( email.getValue() );
         contact.setCcEmail( ccEmail.getValue() );
-
-        // invoicing
-        contact.setNumberOfDays( numberOfDays.getValue() );
 
         // invoice address
         contact.setStreet( street.getValue() );
@@ -252,15 +212,12 @@ public class EditContactView
         contact.setPostcode( postCode.getCleanValue() );
         contact.setCountry( country.getSingleValueByCode() );
 
-        // postal address
-        contact.setHasPostalAddress( !postalSame.getValue() );
-
-        ContactCardPostalAddress postalAddress = contact.getPostalAddress();
-        if ( contact.getHasPostalAddress() )
+        CustomerPostalAddress postalAddress = contact.getPostalAddress();
+        if ( hasPostalAddress() )
         {
             if ( contact.getPostalAddress() == null )
             {
-                postalAddress = new ContactCardPostalAddress();
+                postalAddress = new CustomerPostalAddress();
                 contact.setPostalAddress( postalAddress );
             }
 
@@ -277,44 +234,50 @@ public class EditContactView
     }
 
     @Override
-    protected void fill()
+    public void fill( Order model )
     {
-        ContactCard contact = getRawModel();
+        if ( model.getCustomer() == null )
+        {
+            model.setCustomer( new Customer() );
+        }
 
-        company.setValue( contact.getCompany() );
+        fill( model.getCustomer() );
+    }
 
+    @UiHandler( "btnSelect" )
+    public void handleSelect( ClickEvent event )
+    {
+        selector.open();
+    }
+
+    private void fill( Customer customer )
+    {
         // person
-        prefix.setValue( contact.getPrefix() );
-        firstName.setValue( contact.getFirstName() );
-        lastName.setValue( contact.getLastName() );
-        suffix.setValue( contact.getSuffix() );
+        prefix.setValue( customer.getPrefix() );
+        firstName.setValue( customer.getFirstName() );
+        lastName.setValue( customer.getLastName() );
+        suffix.setValue( customer.getSuffix() );
 
         // company
-        businessName.setValue( contact.getBusinessName() );
-        companyId.setValue( contact.getCompanyId() );
-        vatId.setValue( contact.getVatId() );
-        taxId.setValue( contact.getTaxId() );
-        vatPayer.setValue( contact.getVatPayer() );
+        businessName.setValue( customer.getBusinessName() );
+        companyId.setValue( customer.getCompanyId() );
+        vatId.setValue( customer.getVatId() );
+        taxId.setValue( customer.getTaxId() );
 
         // contacts
-        phone.setValue( contact.getContactPhone() );
-        email.setValue( contact.getContactEmail() );
-        ccEmail.setValue( contact.getCcEmail() );
-
-        // invoicing
-        numberOfDays.setValue( contact.getNumberOfDays() );
+        phone.setValue( customer.getContactPhone() );
+        email.setValue( customer.getContactEmail() );
+        ccEmail.setValue( customer.getCcEmail() );
 
         // invoice address
-        street.setValue( contact.getStreet() );
-        city.setValue( contact.getCity() );
-        postCode.setValue( contact.getPostcode() );
+        street.setValue( customer.getStreet() );
+        city.setValue( customer.getCity() );
+        postCode.setValue( customer.getPostcode() );
         postCode.reload();
-        country.setSingleValueByCode( contact.getCountry() );
+        country.setSingleValueByCode( customer.getCountry() );
 
-        // postal address
-        postalSame.setValue( !contact.getHasPostalAddress() );
-
-        ContactCardPostalAddress postalAddress = contact.getPostalAddress();
+        // postall address
+        CustomerPostalAddress postalAddress = customer.getPostalAddress();
         postalBusinessName.setValue( postalAddress != null ? postalAddress.getBusinessName() : null );
         postalPrefix.setValue( postalAddress != null ? postalAddress.getPrefix() : null );
         postalFirstName.setValue( postalAddress != null ? postalAddress.getFirstName() : null );
@@ -325,43 +288,17 @@ public class EditContactView
         postalPostCode.setValue( postalAddress != null ? postalAddress.getPostcode() : null );
         postalPostCode.reload();
         postalCountry.setSingleValueByCode( postalAddress != null ? postalAddress.getCountry() : null );
-
-        handleHasPostalAddress();
-        handleVatPayer();
-
-        vatPayer.addValueChangeHandler( event -> handleVatPayer() );
-        postalSame.addValueChangeHandler( event -> handleHasPostalAddress() );
     }
 
-    @UiHandler( "btnBack" )
-    public void handleBack( ClickEvent event )
-    {
-        bus().fireEvent( new BackEvent() );
-    }
-
-    @UiHandler( "btnSave" )
-    public void handleSave( ClickEvent event )
-    {
-        bus().fireEvent( new SaveContactEvent( getModel() ) );
-    }
-
-    private void handleHasPostalAddress()
-    {
-        boolean enabled = !postalSame.getValue();
-
-        postalBusinessName.setEnabled( enabled );
-        postalPrefix.setEnabled( enabled );
-        postalFirstName.setEnabled( enabled );
-        postalLastName.setEnabled( enabled );
-        postalSuffix.setEnabled( enabled );
-        postalStreet.setEnabled( enabled );
-        postalCity.setEnabled( enabled );
-        postalPostCode.setEnabled( enabled );
-        postalCountry.setEnabled( enabled );
-    }
-
-    private void handleVatPayer()
-    {
-        vatId.setEnabled( vatPayer.getValue() );
+    private boolean hasPostalAddress() {
+        return postalBusinessName.getValue() != null ||
+                postalPrefix.getValue() != null ||
+                postalFirstName != null ||
+                postalLastName != null ||
+                postalSuffix != null ||
+                postalStreet != null ||
+                postalCity != null ||
+                postalPostCode != null ||
+                postalCountry != null;
     }
 }

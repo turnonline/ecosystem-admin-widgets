@@ -18,17 +18,17 @@
 
 package biz.turnonline.ecosystem.widget.contact.view;
 
-import biz.turnonline.ecosystem.widget.contact.AppEventBus;
 import biz.turnonline.ecosystem.widget.contact.event.DeleteContactEvent;
 import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.ContactsPresenter;
 import biz.turnonline.ecosystem.widget.contact.ui.ColumnActions;
-import biz.turnonline.ecosystem.widget.contact.ui.ColumnAddress;
-import biz.turnonline.ecosystem.widget.contact.ui.ColumnContacts;
-import biz.turnonline.ecosystem.widget.contact.ui.ColumnName;
-import biz.turnonline.ecosystem.widget.contact.ui.ColumnType;
 import biz.turnonline.ecosystem.widget.contact.ui.ContactsDataSource;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactAddress;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactContacts;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactName;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactType;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -103,16 +103,16 @@ public class ContactsView
 
     private void initTable()
     {
-        ColumnType type = new ColumnType();
+        ColumnContactType<ContactCard> type = new ColumnContactType<>();
         type.setWidth( "5%" );
 
-        ColumnName name = new ColumnName();
+        ColumnContactName<ContactCard> name = new ColumnContactName<>();
         name.setWidth( "30%" );
 
-        ColumnAddress address = new ColumnAddress();
+        ColumnContactAddress<ContactCard> address = new ColumnContactAddress<>();
         address.setWidth( "30%" );
 
-        ColumnContacts contacts = new ColumnContacts();
+        ColumnContactContacts<ContactCard> contacts = new ColumnContactContacts<>();
         contacts.setWidth( "30%" );
 
         ColumnActions actions = new ColumnActions( bus() );

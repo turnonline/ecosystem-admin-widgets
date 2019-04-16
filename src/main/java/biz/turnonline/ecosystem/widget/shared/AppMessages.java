@@ -51,6 +51,9 @@ public interface AppMessages
     @Key( value = "label.customer")
     String labelCustomer();
 
+    @Key( value = "label.items")
+    String labelItems();
+
     @Key( value = "label.status")
     String labelStatus();
 
@@ -65,9 +68,6 @@ public interface AppMessages
 
     @Key( value = "label.vatPayer")
     String labelVatPayer();
-
-    @Key( value = "label.numberOfDays")
-    String numberOfDays();
 
     @Key( value = "label.name")
     String labelName();
@@ -296,6 +296,48 @@ public interface AppMessages
 
     @Key( value = "label.location")
     String labelLocation();
+
+    @Key( value = "label.annually")
+    String labelAnnually();
+
+    @Key( value = "label.semiAnnually")
+    String labelSemiAnnually();
+
+    @Key( value = "label.quarterly")
+    String labelQuarterly();
+
+    @Key( value = "label.monthly")
+    String labelMonthly();
+
+    @Key( value = "label.weekly")
+    String labelWeekly();
+
+    @Key( value = "label.manually")
+    String labelManually();
+
+    @Key( value = "label.proforma")
+    String labelProforma();
+
+    @Key( value = "label.taxDocument")
+    String labelTaxDocument();
+
+    @Key( value = "label.beginAt")
+    String labelBeginAt();
+
+    @Key( value = "label.numberOfDays")
+    String labelNumberOfDays();
+
+    @Key( value = "label.periodicity")
+    String labelPeriodicity();
+
+    @Key( value = "label.invoiceType")
+    String labelInvoiceType();
+
+    @Key( value = "label.select")
+    String labelSelect();
+
+    @Key( value = "label.selectCustomer")
+    String labelSelectCustomer();
 
     @Key( value = "label.ok")
     String labelOk();

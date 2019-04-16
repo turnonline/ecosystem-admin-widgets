@@ -35,13 +35,13 @@ public abstract class DaggerEntryPoint
     @Override
     public void onModuleLoad()
     {
-        // create dagger context
+        // createProduct dagger context
         DaggerComponent component = component();
 
         // remove splashcreen
         DOM.getElementById( "splashscreen" ).removeFromParent();
 
-        // create activity manager and put container in it
+        // createProduct activity manager and put container in it
         RootPanel.get( "main-content" ).add( container );
         ActivityManager activityManager = component.getActivityManager();
         activityManager.setDisplay( container );

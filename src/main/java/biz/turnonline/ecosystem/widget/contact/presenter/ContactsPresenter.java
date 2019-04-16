@@ -18,17 +18,16 @@
 
 package biz.turnonline.ecosystem.widget.contact.presenter;
 
-import biz.turnonline.ecosystem.widget.contact.AppEventBus;
 import biz.turnonline.ecosystem.widget.contact.event.DeleteContactEvent;
 import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
-import org.fusesource.restygwt.client.Method;
 
 import javax.inject.Inject;
 
@@ -62,16 +61,9 @@ public class ContactsPresenter
         bus().addHandler( DeleteContactEvent.TYPE, event -> {
             for ( ContactCard contactCard : event.getContactCards() )
             {
-                bus().accountSteward().delete( bus().getConfiguration().getLoginId(), contactCard.getId(), new FacadeCallback<Void>()
-                {
-                    @Override
-                    public void onSuccess( Method method, Void response )
-                    {
-                        super.onSuccess( method, response );
-
-                        success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
-                        Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                    }
+                bus().accountSteward().delete( bus().getConfiguration().getLoginId(), contactCard.getId(), response -> {
+                    success( FacadeCallback.messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
+                    Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );
             }
         } );

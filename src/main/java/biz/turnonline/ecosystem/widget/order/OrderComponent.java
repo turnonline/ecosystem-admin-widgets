@@ -31,5 +31,4 @@ import javax.inject.Singleton;
 public interface OrderComponent
         extends DaggerComponent
 {
-    AppEventBus getEventBus();
 }

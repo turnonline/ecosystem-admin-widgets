@@ -1,20 +1,19 @@
-package biz.turnonline.ecosystem.widget.contact.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.CodeBookRestFacade;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.Contact;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.Country;
-import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 
 import static biz.turnonline.ecosystem.widget.shared.util.Formatter.formatPostcode;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ColumnAddress
-        extends NotSafeHtmlColumn<ContactCard>
+public class ColumnContactAddress<T extends Contact>
+        extends NotSafeHtmlColumn<T>
 {
     @Override
-    public String getValue( ContactCard object )
+    public String getValue( T object )
     {
         StringBuilder sb = new StringBuilder();
         sb.append( "<div style='padding: 10px 0;'>" );
@@ -55,7 +54,7 @@ public class ColumnAddress
         return sb.toString();
     }
 
-    private boolean appendComma( ContactCard object )
+    private boolean appendComma( Contact object )
     {
         return object.getCity() != null || object.getPostcode() != null || object.getCountry() != null;
     }

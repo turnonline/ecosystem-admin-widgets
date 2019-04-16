@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
-import biz.turnonline.ecosystem.widget.product.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.EventBegin;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.EventEnd;

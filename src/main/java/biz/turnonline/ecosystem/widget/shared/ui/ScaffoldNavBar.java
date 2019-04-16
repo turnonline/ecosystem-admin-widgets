@@ -40,7 +40,8 @@ public class ScaffoldNavBar
 
     protected MaterialLink newNavLink( String text, String href, IconType iconType )
     {
-        MaterialLink link = new MaterialLink( text, href );
+        MaterialLink link = new MaterialLink( text );
+        link.setHref( href );
         link.setIconType( iconType );
         return link;
     }

@@ -8,6 +8,8 @@ import com.google.gwt.place.shared.PlaceHistoryHandler;
  */
 public interface DaggerComponent
 {
+    AppEventBus getEventBus();
+
     PlaceHistoryHandler placeHistoryHandler();
 
     ActivityManager getActivityManager();

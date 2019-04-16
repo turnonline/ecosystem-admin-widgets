@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.util;
 
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.Contact;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 
@@ -9,11 +9,11 @@ import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
  */
 public class Formatter
 {
-    public static String formatContactName( ContactCard contactCard )
+    public static String formatContactName( Contact contact )
     {
-        return contactCard.getBusinessName() != null && !"".equals( contactCard.getBusinessName() )
-                ? contactCard.getBusinessName()
-                : contactCard.getFirstName() + " " + contactCard.getLastName();
+        return contact.getBusinessName() != null && !"".equals( contact.getBusinessName() )
+                ? contact.getBusinessName()
+                : contact.getFirstName() + " " + contact.getLastName();
     }
 
     public static String formatProductName( Product product )

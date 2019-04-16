@@ -18,7 +18,6 @@
 
 package biz.turnonline.ecosystem.widget.order.view;
 
-import biz.turnonline.ecosystem.widget.order.AppEventBus;
 import biz.turnonline.ecosystem.widget.order.event.DeleteOrderEvent;
 import biz.turnonline.ecosystem.widget.order.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.order.presenter.OrdersPresenter;
@@ -28,6 +27,7 @@ import biz.turnonline.ecosystem.widget.order.ui.ColumnId;
 import biz.turnonline.ecosystem.widget.order.ui.ColumnPrice;
 import biz.turnonline.ecosystem.widget.order.ui.ColumnStatus;
 import biz.turnonline.ecosystem.widget.order.ui.OrdersDataSource;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;

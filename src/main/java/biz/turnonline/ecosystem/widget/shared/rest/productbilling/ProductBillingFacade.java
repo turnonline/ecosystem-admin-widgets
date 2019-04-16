@@ -19,8 +19,8 @@
 package biz.turnonline.ecosystem.widget.shared.rest.productbilling;
 
 import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
-import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Options;
@@ -52,30 +52,30 @@ public interface ProductBillingFacade
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "lightList" ) boolean lightList,
                       @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
-                      SuccessCallback<Items<Product>> callback );
+                      FacadeCallback<Items<Product>> callback );
 
     @GET
     @Path( "products/{product_id}" )
-    void findById( @PathParam( "product_id" ) Long contactId,
-                   SuccessCallback<Product> callback );
+    void findById( @PathParam( "product_id" ) Long productId,
+                   FacadeCallback<Product> callback );
 
     @POST
     @Path( "products" )
-    void create( @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
-                 Product product,
-                 MethodCallback<Product> callback );
+    void createProduct( @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                        Product product,
+                        FacadeCallback<Product> callback );
 
     @PUT
     @Path( "products/{product_id}" )
-    void update( @PathParam( "product_id" ) Long contactId,
-                 @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
-                 Product product,
-                 MethodCallback<Product> callback );
+    void updateProduct( @PathParam( "product_id" ) Long productId,
+                        @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                        Product product,
+                        FacadeCallback<Product> callback );
 
     @DELETE
     @Path( "products/{product_id}" )
-    void delete( @PathParam( "product_id" ) Long productId,
-                 MethodCallback<Void> callback );
+    void deleteProduct( @PathParam( "product_id" ) Long productId,
+                        FacadeCallback<Void> callback );
 
     // orders
 
@@ -84,7 +84,28 @@ public interface ProductBillingFacade
     void getOrders( @QueryParam( "offset" ) Integer offset,
                     @QueryParam( "limit" ) Integer limit,
                     @QueryParam( "lightList" ) boolean lightList,
-                    MethodCallback<Items<Order>> callback );
+                    FacadeCallback<Items<Order>> callback );
+
+    @GET
+    @Path( "orders/{order_id}" )
+    void findOrderById( @PathParam( "order_id" ) Long orderId,
+                        FacadeCallback<Order> callback );
+
+    @POST
+    @Path( "orders" )
+    void createOrder( Order order,
+                      FacadeCallback<Order> callback );
+
+    @PUT
+    @Path( "orders/{order_id}" )
+    void updateOrder( @PathParam( "order_id" ) Long orderId,
+                      Order order,
+                      FacadeCallback<Order> callback );
+
+    @DELETE
+    @Path( "orders/{order_id}" )
+    void deleteOrder( @PathParam( "order_id" ) Long orderId,
+                      FacadeCallback<Void> callback );
 
     // codebooks
 

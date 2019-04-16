@@ -6,7 +6,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.client.ui.html.Option;
 import org.ctoolkit.gwt.client.facade.Items;
-import org.fusesource.restygwt.client.Method;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -60,19 +59,13 @@ public class CodeBookComboBox<T extends CodeBook>
 
     protected void initialize( String code )
     {
-        CodeBookRestFacade.getCodeBook( clazz, new FacadeCallback<Items<T>>()
-        {
-            @Override
-            public void onSuccess( Method method, Items<T> response )
-            {
-                super.onSuccess( method, response );
-                setItems( response.getItems() );
+        CodeBookRestFacade.getCodeBook( clazz, ( FacadeCallback<Items<T>> ) response -> {
+            setItems( response.getItems() );
 
-                if ( !response.getItems().isEmpty() )
-                {
-                    itemsLoaded = true;
-                    setSingleValueByCode( code );
-                }
+            if ( !response.getItems().isEmpty() )
+            {
+                itemsLoaded = true;
+                setSingleValueByCode( code );
             }
         } );
     }

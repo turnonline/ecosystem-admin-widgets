@@ -1,16 +1,15 @@
-package biz.turnonline.ecosystem.widget.contact.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
-import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
+import biz.turnonline.ecosystem.widget.shared.rest.Contact;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ColumnName
-        extends NotSafeHtmlColumn<ContactCard>
+public class ColumnContactName<T extends Contact>
+        extends NotSafeHtmlColumn<T>
 {
     @Override
-    public String getValue( ContactCard object )
+    public String getValue( T object )
     {
         StringBuilder sb = new StringBuilder();
         if ( object.getBusinessName() != null && !"".equals( object.getBusinessName() ) )

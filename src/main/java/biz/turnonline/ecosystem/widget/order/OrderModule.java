@@ -24,8 +24,10 @@ import biz.turnonline.ecosystem.widget.order.presenter.EditOrderPresenter;
 import biz.turnonline.ecosystem.widget.order.presenter.OrdersPresenter;
 import biz.turnonline.ecosystem.widget.order.view.EditOrderView;
 import biz.turnonline.ecosystem.widget.order.view.OrdersView;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.AccountStewardFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import com.google.gwt.activity.shared.ActivityManager;
@@ -106,6 +108,13 @@ public abstract class OrderModule
     }
 
     // rest facade
+
+    @Singleton
+    @Provides
+    static AccountStewardFacade provideContactFacade()
+    {
+        return GWT.create( AccountStewardFacade.class );
+    }
 
     @Singleton
     @Provides

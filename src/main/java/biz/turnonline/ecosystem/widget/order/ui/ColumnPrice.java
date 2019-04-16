@@ -39,6 +39,6 @@ public class ColumnPrice
             return "grey";
         }
 
-        return "green";
+        return "cyan";
     }
 }

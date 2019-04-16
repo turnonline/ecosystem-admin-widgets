@@ -18,17 +18,15 @@
 
 package biz.turnonline.ecosystem.widget.product.presenter;
 
-import biz.turnonline.ecosystem.widget.product.AppEventBus;
 import biz.turnonline.ecosystem.widget.product.event.BackEvent;
 import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
-import biz.turnonline.ecosystem.widget.product.event.SaveProductEventHandler;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 import com.google.gwt.place.shared.PlaceController;
-import org.fusesource.restygwt.client.Method;
 
 import javax.inject.Inject;
 
@@ -56,41 +54,22 @@ public class EditProductPresenter
     {
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Products() ) );
 
-        bus().addHandler( SaveProductEvent.TYPE, new SaveProductEventHandler()
-        {
-            @Override
-            public void onSaveContact( SaveProductEvent event )
+        bus().addHandler( SaveProductEvent.TYPE, event -> {
+            Product product = event.getProduct();
+
+            if ( product.getId() == null )
             {
-                Product product = event.getProduct();
-
-                if ( product.getId() == null )
-                {
-                    bus().productBilling().create( false, product, new FacadeCallback<Product>()
-                    {
-                        @Override
-                        public void onSuccess( Method method, Product response )
-                        {
-                            super.onSuccess( method, response );
-                            success( messages.msgRecordCreated() );
-
-                            controller().goTo( new Products() );
-                        }
-                    } );
-                }
-                else
-                {
-                    bus().productBilling().update( product.getId(), false, product, new FacadeCallback<Product>()
-                    {
-                        @Override
-                        public void onSuccess( Method method, Product response )
-                        {
-                            super.onSuccess( method, response );
-                            success( messages.msgRecordUpdated() );
-
-                            controller().goTo( new Products() );
-                        }
-                    } );
-                }
+                bus().productBilling().createProduct( false, product, response -> {
+                    success( FacadeCallback.messages.msgRecordCreated() );
+                    controller().goTo( new Products() );
+                } );
+            }
+            else
+            {
+                bus().productBilling().updateProduct( product.getId(), false, product, response -> {
+                    success( FacadeCallback.messages.msgRecordUpdated() );
+                    controller().goTo( new Products() );
+                } );
             }
         } );
     }

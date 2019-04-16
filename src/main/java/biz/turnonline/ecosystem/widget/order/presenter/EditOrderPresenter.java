@@ -18,10 +18,13 @@
 
 package biz.turnonline.ecosystem.widget.order.presenter;
 
-import biz.turnonline.ecosystem.widget.order.AppEventBus;
 import biz.turnonline.ecosystem.widget.order.event.BackEvent;
+import biz.turnonline.ecosystem.widget.order.event.SaveOrderEvent;
+import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.order.place.Orders;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import com.google.gwt.place.shared.PlaceController;
 
@@ -51,43 +54,24 @@ public class EditOrderPresenter
     {
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Orders() ) );
 
-//        bus().addHandler( SaveProductEvent.TYPE, new SaveProductEventHandler()
-//        {
-//            @Override
-//            public void onSaveContact( SaveProductEvent event )
-//            {
-//                Product product = event.getProduct();
-//
-//                if ( product.getId() == null )
-//                {
-//                    bus().productBilling().create( false, product, new FacadeCallback<Product>()
-//                    {
-//                        @Override
-//                        public void onSuccess( Method method, Product response )
-//                        {
-//                            super.onSuccess( method, response );
-//                            success( messages.msgRecordCreated() );
-//
-//                            controller().goTo( new Products() );
-//                        }
-//                    } );
-//                }
-//                else
-//                {
-//                    bus().productBilling().update( product.getId(), false, product, new FacadeCallback<Product>()
-//                    {
-//                        @Override
-//                        public void onSuccess( Method method, Product response )
-//                        {
-//                            super.onSuccess( method, response );
-//                            success( messages.msgRecordUpdated() );
-//
-//                            controller().goTo( new Products() );
-//                        }
-//                    } );
-//                }
-//            }
-//        } );
+        bus().addHandler( SaveOrderEvent.TYPE, event -> {
+            Order order = event.getOrder();
+
+            if ( order.getId() == null )
+            {
+                bus().productBilling().createOrder( order, response -> {
+                    success( FacadeCallback.messages.msgRecordCreated() );
+                    controller().goTo( new Orders() );
+                } );
+            }
+            else
+            {
+                bus().productBilling().updateOrder( order.getId(), order, response -> {
+                    success( FacadeCallback.messages.msgRecordUpdated() );
+                    controller().goTo( new Orders() );
+                } );
+            }
+        } );
     }
 
     @Override
@@ -95,20 +79,12 @@ public class EditOrderPresenter
     {
         view().setModel( newOrder() );
 
-//        EditProduct where = ( EditProduct ) controller().getWhere();
-//        if ( where.getId() != null )
-//        {
-//            bus().productBilling().findById( where.getId(), new FacadeCallback<Product>()
-//            {
-//                @Override
-//                public void onSuccess( Method method, Product response )
-//                {
-//                    super.onSuccess( method, response );
-//                    view().setModel( response );
-//                }
-//            } );
-//        }
-//
+        EditOrder where = ( EditOrder ) controller().getWhere();
+        if ( where.getId() != null )
+        {
+            bus().productBilling().findOrderById( where.getId(), response -> view().setModel( response ) );
+        }
+
         onAfterBackingObject();
     }
 

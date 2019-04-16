@@ -1,9 +1,12 @@
 package biz.turnonline.ecosystem.widget.shared.rest.accountsteward;
 
+import biz.turnonline.ecosystem.widget.shared.rest.Contact;
+
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class ContactCard
+        implements Contact
 {
     private Long id = null;
 

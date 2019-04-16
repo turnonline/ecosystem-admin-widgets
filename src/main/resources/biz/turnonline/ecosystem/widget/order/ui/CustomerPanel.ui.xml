@@ -1,0 +1,149 @@
+<!--
+  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:ma='urn:import:gwt.material.design.addins.client'
+             xmlns:map='urn:import:gwt.material.design.incubator.client.google.addresslookup'
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m12">
+                <s:CustomerSelector ui:field="selector"/>
+
+                <m:MaterialButton ui:field="btnSelect" type="OUTLINED" waves="GREEN" backgroundColor="WHITE"
+                                  textColor="GREEN" iconType="RADIO_BUTTON_CHECKED" text="{msg.labelSelect}"
+                                  marginTop="10" marginBottom="10"/>
+
+
+                <m:MaterialPanel shadow="0" paddingTop="5" marginLeft="-20">
+                    <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
+                        <!--person-->
+                        <m:MaterialColumn grid="s12 m3">
+                            <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-4">
+                                <m:MaterialIcon iconType="PERSON" iconColor="BLUE" float="LEFT" marginRight="5"
+                                                marginTop="-3"/>
+                                <m:MaterialTitle description="{msg.labelPerson}" textColor="BLUE"/>
+                            </m:MaterialSection>
+
+                            <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="firstName"/>
+                            <m:MaterialTextBox label="{msg.labelLastName}" ui:field="lastName"/>
+                            <m:MaterialRow>
+                                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                                    <m:MaterialTextBox label="{msg.labelPrefix}" ui:field="prefix"/>
+                                    <m:MaterialTextBox label="{msg.labelSuffix}" ui:field="suffix"/>
+                                </m:MaterialColumn>
+                            </m:MaterialRow>
+                        </m:MaterialColumn>
+
+                        <!--company-->
+                        <m:MaterialColumn grid="s12 m3">
+                            <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-2">
+                                <m:MaterialIcon iconType="BUSINESS" iconColor="BLUE" float="LEFT" marginRight="5"
+                                                marginTop="-3"/>
+                                <m:MaterialTitle description="{msg.labelCompany}" textColor="BLUE"/>
+                            </m:MaterialSection>
+
+                            <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="businessName"/>
+                            <m:MaterialRow>
+                                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                                    <m:MaterialTextBox label="{msg.labelCompanyId}" ui:field="companyId"/>
+                                    <m:MaterialTextBox label="{msg.labelTaxId}" ui:field="taxId"/>
+                                    <m:MaterialTextBox label="{msg.labelVatId}" ui:field="vatId"/>
+                                </m:MaterialColumn>
+                            </m:MaterialRow>
+                        </m:MaterialColumn>
+
+                        <!--contacts-->
+                        <m:MaterialColumn grid="s12 m3">
+                            <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-2">
+                                <m:MaterialIcon iconType="EMAIL" iconColor="BLUE" float="LEFT" marginRight="5"
+                                                marginTop="-3"/>
+                                <m:MaterialTitle description="{msg.labelContacts}" textColor="BLUE"/>
+                            </m:MaterialSection>
+
+                            <m:MaterialTextBox label="{msg.labelPhone}" ui:field="phone"/>
+                            <m:MaterialTextBox label="{msg.labelEmail}" ui:field="email"/>
+                            <m:MaterialTextBox label="{msg.labelCcEmail}" ui:field="ccEmail"/>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+                </m:MaterialPanel>
+
+                <m:MaterialPanel shadow="0" marginLeft="-20" marginTop="20" paddingTop="5">
+                    <m:MaterialRow paddingLeft="10" marginTop="0">
+                        <!--invoice address-->
+                        <m:MaterialColumn grid="s12 m3">
+                            <m:MaterialSection paddingTop="0" paddingBottom="0">
+                                <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
+                                                marginTop="-3"/>
+                                <m:MaterialTitle description="{msg.labelInvoiceAddress}" textColor="BLUE"/>
+                            </m:MaterialSection>
+
+                            <map:AddressLookup label="{msg.labelStreet}" ui:field="street"
+                                               tooltip="{msg.tooltipAddressAutocomplete}"/>
+                            <m:MaterialTextBox label="{msg.labelCity}" ui:field="city"/>
+                            <m:MaterialRow>
+                                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                                    <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postCode"
+                                                                    placeholder="000 00" mask="000 00"/>
+                                    <s:CountryComboBox label="{msg.labelCountry}" ui:field="country"/>
+                                </m:MaterialColumn>
+                            </m:MaterialRow>
+                        </m:MaterialColumn>
+
+                        <!-- postal address-->
+                        <m:MaterialColumn grid="s12 m3" offset="m3">
+                            <m:MaterialSection paddingTop="0" paddingBottom="0">
+                                <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
+                                                marginTop="-3"/>
+                                <m:MaterialTitle description="{msg.labelPostalAddress}" textColor="BLUE"/>
+                            </m:MaterialSection>
+
+                            <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="postalBusinessName"/>
+                            <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="postalFirstName"/>
+                            <m:MaterialTextBox label="{msg.labelLastName}" ui:field="postalLastName"/>
+                            <m:MaterialRow>
+                                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                                    <m:MaterialTextBox label="{msg.labelPrefix}" ui:field="postalPrefix"/>
+                                    <m:MaterialTextBox label="{msg.labelSuffix}" ui:field="postalSuffix"/>
+                                </m:MaterialColumn>
+                            </m:MaterialRow>
+                        </m:MaterialColumn>
+
+                        <m:MaterialColumn grid="s12 m3" paddingTop="38">
+                            <map:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet"
+                                               tooltip="{msg.tooltipAddressAutocomplete}"/>
+                            <m:MaterialTextBox label="{msg.labelCity}" ui:field="postalCity"/>
+                            <m:MaterialRow>
+                                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                                    <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}"
+                                                                    ui:field="postalPostCode"
+                                                                    placeholder="000 00" mask="000 00"/>
+                                    <s:CountryComboBox label="{msg.labelCountry}" ui:field="postalCountry"/>
+                                </m:MaterialColumn>
+                            </m:MaterialRow>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+                </m:MaterialPanel>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+    </g:HTMLPanel>
+</ui:UiBinder>

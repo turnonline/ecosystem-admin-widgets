@@ -18,10 +18,15 @@
 
 package biz.turnonline.ecosystem.widget.order.presenter;
 
-import biz.turnonline.ecosystem.widget.order.AppEventBus;
+import biz.turnonline.ecosystem.widget.order.event.DeleteOrderEvent;
 import biz.turnonline.ecosystem.widget.order.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.order.place.EditOrder;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.util.Formatter;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -51,23 +56,16 @@ public class OrdersPresenter
     {
         bus().addHandler( EditOrderEvent.TYPE, event ->
                 controller().goTo( new EditOrder( event.getOrder() != null ? event.getOrder().getId() : null, "tabDetail" ) ) );
-//
-//        bus().addHandler( DeleteProductEvent.TYPE, event -> {
-//            for ( Product produt : event.getProducts() )
-//            {
-//                bus().productBilling().delete( produt.getId(), new FacadeCallback<Void>()
-//                {
-//                    @Override
-//                    public void onSuccess( Method method, Void response )
-//                    {
-//                        super.onSuccess( method, response );
-//
-//                        success( messages.msgRecordDeleted( Formatter.formatProductName( produt ) ) );
-//                        Scheduler.get().scheduleDeferred( () -> view().refresh() );
-//                    }
-//                } );
-//            }
-//        } );
+
+        bus().addHandler( DeleteOrderEvent.TYPE, event -> {
+            for ( Order order : event.getOrders() )
+            {
+                bus().productBilling().deleteOrder( order.getId(), response -> {
+                    success( FacadeCallback.messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
+                    Scheduler.get().scheduleDeferred( () -> view().refresh() );
+                } );
+            }
+        } );
     }
 
     @Override

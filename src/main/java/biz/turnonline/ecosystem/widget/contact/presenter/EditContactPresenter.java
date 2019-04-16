@@ -18,17 +18,14 @@
 
 package biz.turnonline.ecosystem.widget.contact.presenter;
 
-import biz.turnonline.ecosystem.widget.contact.AppEventBus;
 import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
-import biz.turnonline.ecosystem.widget.contact.event.SaveContactEventHandler;
 import biz.turnonline.ecosystem.widget.contact.place.Contacts;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
 import com.google.gwt.place.shared.PlaceController;
-import org.fusesource.restygwt.client.Method;
 
 import javax.inject.Inject;
 
@@ -56,42 +53,23 @@ public class EditContactPresenter
     {
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Contacts() ) );
 
-        bus().addHandler( SaveContactEvent.TYPE, new SaveContactEventHandler()
-        {
-            @Override
-            public void onSaveContact( SaveContactEvent event )
+        bus().addHandler( SaveContactEvent.TYPE, event -> {
+            ContactCard contactCard = event.getContactCard();
+            String loginId = bus().getConfiguration().getLoginId();
+
+            if ( contactCard.getId() == null )
             {
-                ContactCard contactCard = event.getContactCard();
-                String loginId = bus().getConfiguration().getLoginId();
-
-                if ( contactCard.getId() == null )
-                {
-                    bus().accountSteward().create( loginId, contactCard, new FacadeCallback<ContactCard>()
-                    {
-                        @Override
-                        public void onSuccess( Method method, ContactCard response )
-                        {
-                            super.onSuccess( method, response );
-                            success( messages.msgRecordCreated() );
-
-                            controller().goTo( new Contacts() );
-                        }
-                    } );
-                }
-                else
-                {
-                    bus().accountSteward().update( loginId, contactCard.getId(), contactCard, new FacadeCallback<ContactCard>()
-                    {
-                        @Override
-                        public void onSuccess( Method method, ContactCard response )
-                        {
-                            super.onSuccess( method, response );
-                            success( messages.msgRecordUpdated() );
-
-                            controller().goTo( new Contacts() );
-                        }
-                    } );
-                }
+                bus().accountSteward().create( loginId, contactCard, response -> {
+                    success( messages.msgRecordCreated() );
+                    controller().goTo( new Contacts() );
+                } );
+            }
+            else
+            {
+                bus().accountSteward().update( loginId, contactCard.getId(), contactCard, response -> {
+                    success( messages.msgRecordUpdated() );
+                    controller().goTo( new Contacts() );
+                } );
             }
         } );
     }
@@ -104,15 +82,8 @@ public class EditContactPresenter
         EditContact where = ( EditContact ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().accountSteward().findById( bus().getConfiguration().getLoginId(), where.getId(), new FacadeCallback<ContactCard>()
-            {
-                @Override
-                public void onSuccess( Method method, ContactCard response )
-                {
-                    super.onSuccess( method, response );
-                    view().setModel( response );
-                }
-            } );
+            bus().accountSteward().findById( bus().getConfiguration().getLoginId(), where.getId(),
+                    response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();

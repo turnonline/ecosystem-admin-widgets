@@ -93,7 +93,7 @@
                         <m:MaterialTitle description="{msg.labelInvoicing}" textColor="BLUE"/>
                     </m:MaterialSection>
 
-                    <m:MaterialIntegerBox label="{msg.numberOfDays}" ui:field="numberOfDays"/>
+                    <m:MaterialIntegerBox label="{msg.labelNumberOfDays}" ui:field="numberOfDays"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

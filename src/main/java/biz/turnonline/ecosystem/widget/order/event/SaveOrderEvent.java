@@ -25,7 +25,7 @@ public class SaveOrderEvent
 
     protected void dispatch( SaveOrderEventHandler handler )
     {
-        handler.onSaveContact( this );
+        handler.onSaveOrder( this );
     }
 
     public Order getOrder()

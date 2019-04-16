@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.order;
+package biz.turnonline.ecosystem.widget.shared;
 
-import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.AccountStewardFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
@@ -32,15 +32,25 @@ import javax.inject.Singleton;
 public class AppEventBus
         extends SimpleEventBus
 {
+    private final AccountStewardFacade accountSteward;
+
     private final ProductBillingFacade productBilling;
 
     private final Configuration configuration;
 
     @Inject
-    public AppEventBus( ProductBillingFacade productBilling, Configuration configuration )
+    public AppEventBus( AccountStewardFacade accountSteward,
+                        ProductBillingFacade productBilling,
+                        Configuration configuration )
     {
+        this.accountSteward = accountSteward;
         this.productBilling = productBilling;
         this.configuration = configuration;
+    }
+
+    public AccountStewardFacade accountSteward()
+    {
+        return accountSteward;
     }
 
     public ProductBillingFacade productBilling()

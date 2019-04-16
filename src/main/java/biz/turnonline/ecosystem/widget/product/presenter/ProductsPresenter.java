@@ -18,17 +18,16 @@
 
 package biz.turnonline.ecosystem.widget.product.presenter;
 
-import biz.turnonline.ecosystem.widget.product.AppEventBus;
 import biz.turnonline.ecosystem.widget.product.event.DeleteProductEvent;
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
-import org.fusesource.restygwt.client.Method;
 
 import javax.inject.Inject;
 
@@ -61,16 +60,9 @@ public class ProductsPresenter
         bus().addHandler( DeleteProductEvent.TYPE, event -> {
             for ( Product produt : event.getProducts() )
             {
-                bus().productBilling().delete( produt.getId(), new FacadeCallback<Void>()
-                {
-                    @Override
-                    public void onSuccess( Method method, Void response )
-                    {
-                        super.onSuccess( method, response );
-
-                        success( messages.msgRecordDeleted( Formatter.formatProductName( produt ) ) );
-                        Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                    }
+                bus().productBilling().deleteProduct( produt.getId(), ( response ) -> {
+                    success( FacadeCallback.messages.msgRecordDeleted( Formatter.formatProductName( produt ) ) );
+                    Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );
             }
         } );

@@ -30,5 +30,4 @@ import javax.inject.Singleton;
 @Component( modules = ProductModule.class )
 public interface ProductComponent extends DaggerComponent
 {
-    AppEventBus getEventBus();
 }
