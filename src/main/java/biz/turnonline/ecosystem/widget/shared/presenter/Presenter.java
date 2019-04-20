@@ -25,9 +25,6 @@ import com.google.gwt.user.client.Window;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialToast;
 import org.ctoolkit.gwt.client.presenter.BinderyPresenter;
-import org.ctoolkit.gwt.client.ui.feedback.FeedbackEvent;
-import org.ctoolkit.gwt.client.ui.feedback.FeedbackPanel;
-import org.ctoolkit.gwt.client.ui.feedback.FeedbackType;
 
 /**
  * Specific presenter injecting customized {@link EventBus}.
@@ -65,7 +62,6 @@ public abstract class Presenter<V extends IView, E extends EventBus>
 
     /**
      * <p>Show info message.</p>
-     * <p>Method fire {@link FeedbackEvent} with {@link FeedbackType#INFO} type and {@link FeedbackPanel} handles it.</p>
      *
      * @param msg message to show in feedback panel
      */
@@ -76,7 +72,6 @@ public abstract class Presenter<V extends IView, E extends EventBus>
 
     /**
      * <p>Show success message.</p>
-     * <p>Method fire {@link FeedbackEvent} with {@link FeedbackType#SUCCESS} type and {@link FeedbackPanel} handles it.</p>
      *
      * @param msg message to show in feedback panel
      */
@@ -87,7 +82,6 @@ public abstract class Presenter<V extends IView, E extends EventBus>
 
     /**
      * <p>Show info message.</p>
-     * <p>Method fire {@link FeedbackEvent} with {@link FeedbackType#WARNING} type and {@link FeedbackPanel} handles it.</p>
      *
      * @param msg message to show in feedback panel
      */
@@ -98,7 +92,6 @@ public abstract class Presenter<V extends IView, E extends EventBus>
 
     /**
      * <p>Show info message.</p>
-     * <p>Method fire {@link FeedbackEvent} with {@link FeedbackType#ERROR} type and {@link FeedbackPanel} handles it.</p>
      *
      * @param msg message to show in feedback panel
      */

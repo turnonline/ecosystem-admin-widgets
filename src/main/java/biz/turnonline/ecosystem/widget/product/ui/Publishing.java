@@ -10,13 +10,16 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.xhr.client.XMLHttpRequest;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
+import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
-import org.ctoolkit.gwt.client.facade.UploadResponse;
+import org.ctoolkit.gwt.client.facade.UploadItemsResponse;
+import org.fusesource.restygwt.client.ServiceRoots;
 
 import javax.inject.Inject;
+
+import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -62,12 +65,31 @@ public class Publishing
     {
         initWidget( binder.createAndBindUi( this ) );
 
-        uploader.addCompleteHandler( event -> {
-            gwt.material.design.addins.client.fileuploader.base.UploadResponse response;
-            response = event.getResponse();
+        String apiUrl = ServiceRoots.get( PRODUCT_BILLING_API_ROOT );
+        String uploadUrl = apiUrl + "storage-upload";
+        uploader.setUrl( uploadUrl );
+        GWT.log( "Upload Url: " + uploadUrl );
 
-            UploadResponse json = JsonUtils.safeEval( response.getBody() );
-            String servingUrl = json.getServingUrl();
+        uploader.addSuccessHandler( event -> {
+            UploadResponse response = event.getResponse();
+            if ( response.getCode() == 401 )
+            {
+                GWT.log( "Unauthorized" );
+                return;
+            }
+
+            if ( response.getCode() != 201 )
+            {
+                GWT.log( "Response code: " + response.getCode() );
+                return;
+            }
+
+            UploadItemsResponse json = JsonUtils.safeEval( response.getBody() );
+            if ( json.getItems().length() > 0 )
+            {
+                String servingUrl = json.getItems().get( 0 ).getServingUrl();
+                GWT.log( "Serving URL: " + servingUrl );
+            }
         } );
     }
 
@@ -116,23 +138,6 @@ public class Publishing
         }
 
         return publishing;
-    }
-
-    @Override
-    protected void onLoad()
-    {
-        XMLHttpRequest xmlHttpRequest = XMLHttpRequest.create();
-        // FIXME: UPLOAD_PATH does not exists - probably forgotten commit
-//        xmlHttpRequest.open( RequestBuilder.GET.toString(), Constants.UPLOAD_PATH );
-        xmlHttpRequest.setOnReadyStateChange( xhr -> {
-            if ( xhr.getReadyState() == XMLHttpRequest.DONE )
-            {
-                xhr.clearOnReadyStateChange();
-                uploader.setUrl( xhr.getResponseText() );
-            }
-        } );
-
-        xmlHttpRequest.send();
     }
 
     interface PublishingUiBinder
