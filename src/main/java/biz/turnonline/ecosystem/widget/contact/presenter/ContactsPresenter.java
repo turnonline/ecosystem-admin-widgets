@@ -23,7 +23,6 @@ import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
@@ -62,7 +61,7 @@ public class ContactsPresenter
             for ( ContactCard contactCard : event.getContactCards() )
             {
                 bus().accountSteward().delete( bus().getConfiguration().getLoginId(), contactCard.getId(), response -> {
-                    success( FacadeCallback.messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
+                    success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
                     Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );
             }

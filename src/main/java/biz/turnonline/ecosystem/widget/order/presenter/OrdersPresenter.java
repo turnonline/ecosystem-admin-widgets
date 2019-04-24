@@ -23,7 +23,6 @@ import biz.turnonline.ecosystem.widget.order.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
@@ -61,7 +60,7 @@ public class OrdersPresenter
             for ( Order order : event.getOrders() )
             {
                 bus().productBilling().deleteOrder( order.getId(), response -> {
-                    success( FacadeCallback.messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
+                    success( messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
                     Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );
             }

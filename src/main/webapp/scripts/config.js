@@ -1,5 +1,7 @@
 var Configuration = {
     DOMICILE: "SK",
+    CURRENCY: "EUR",
+    VAT: "STANDARD",
     LOGIN_ID: "pohorelec@turnonline.biz",
     ACCOUNT_STEWARD_API_ROOT: "https://account.turnon.cloud/api/steward/v1",
     PRODUCT_BILLING_API_ROOT: "https://billing.turnon.cloud/api/billing/v1",

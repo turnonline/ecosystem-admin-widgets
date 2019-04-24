@@ -1,13 +1,12 @@
-package biz.turnonline.ecosystem.widget.product.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
-import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 import com.google.gwt.text.client.DoubleRenderer;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ColumnPrice
+public class ColumnProductPrice
         extends NotSafeHtmlColumn<Product>
 {
     @Override

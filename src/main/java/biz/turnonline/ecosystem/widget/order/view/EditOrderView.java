@@ -25,6 +25,7 @@ import biz.turnonline.ecosystem.widget.order.presenter.EditOrderPresenter;
 import biz.turnonline.ecosystem.widget.order.ui.CustomerPanel;
 import biz.turnonline.ecosystem.widget.order.ui.Detail;
 import biz.turnonline.ecosystem.widget.order.ui.EditOrderTabs;
+import biz.turnonline.ecosystem.widget.order.ui.Items;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -66,6 +67,9 @@ public class EditOrderView
     @UiField( provided = true )
     CustomerPanel customer;
 
+    @UiField( provided = true )
+    Items items;
+
     // -- buttons
 
     @UiField
@@ -92,6 +96,7 @@ public class EditOrderView
         scaffoldNavBar.setActive( Route.ORDERS );
 
         customer = new CustomerPanel( eventBus );
+        items = new Items( eventBus );
 
         add( binder.createAndBindUi( this ) );
     }
@@ -103,6 +108,7 @@ public class EditOrderView
 
         detail.bind( order );
         customer.bind( order );
+        items.bind( order );
     }
 
     @Override
@@ -112,6 +118,7 @@ public class EditOrderView
 
         detail.fill( order );
         customer.fill( order );
+        items.fill( order );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditOrder where = ( EditOrder ) controller.getWhere();

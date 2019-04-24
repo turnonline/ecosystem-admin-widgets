@@ -22,16 +22,16 @@ import biz.turnonline.ecosystem.widget.product.event.DeleteProductEvent;
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.presenter.ProductsPresenter;
 import biz.turnonline.ecosystem.widget.product.ui.ColumnActions;
-import biz.turnonline.ecosystem.widget.product.ui.ColumnName;
-import biz.turnonline.ecosystem.widget.product.ui.ColumnPicture;
-import biz.turnonline.ecosystem.widget.product.ui.ColumnPrice;
-import biz.turnonline.ecosystem.widget.product.ui.ColumnPublished;
-import biz.turnonline.ecosystem.widget.product.ui.ColumnVat;
-import biz.turnonline.ecosystem.widget.product.ui.ProductsDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductName;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductPicture;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductPrice;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductPublished;
+import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductVat;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;
+import biz.turnonline.ecosystem.widget.shared.ui.ProductsDataSource;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.ui.SmartTable;
@@ -104,19 +104,19 @@ public class ProductsView
 
     private void initTable()
     {
-        ColumnPicture picture = new ColumnPicture();
+        ColumnProductPicture picture = new ColumnProductPicture();
         picture.setWidth( "5%" );
 
-        ColumnPublished published = new ColumnPublished();
+        ColumnProductPublished published = new ColumnProductPublished();
         published.setWidth( "5%" );
 
-        ColumnName name = new ColumnName();
+        ColumnProductName name = new ColumnProductName();
         name.setWidth( "40%" );
 
-        ColumnPrice price = new ColumnPrice();
+        ColumnProductPrice price = new ColumnProductPrice();
         price.setWidth( "25%" );
 
-        ColumnVat vat = new ColumnVat();
+        ColumnProductVat vat = new ColumnProductVat();
         vat.setWidth( "20%" );
 
         ColumnActions actions = new ColumnActions( bus() );

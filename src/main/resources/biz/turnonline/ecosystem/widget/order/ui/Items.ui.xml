@@ -18,15 +18,22 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+             xmlns:t="urn:import:gwt.material.design.client.ui.table">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
-        <m:MaterialRow paddingTop="15">
-            <m:MaterialColumn grid="s12 m3">
-                <m:MaterialIntegerBox ui:field="trialPeriod" label="Trial period"/>
-                <ui2:BillingUnitComboBox ui:field="unit" label="{msg.labelUnit}"/>
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m12">
+                <m:MaterialButton ui:field="btnAdd" type="OUTLINED" waves="GREEN" backgroundColor="WHITE"
+                                  textColor="GREEN" iconType="ADD_CIRCLE" text="{msg.labelAdd}"
+                                  marginTop="10" marginBottom="10" marginRight="10"/>
+
+                <m:MaterialButton ui:field="btnDelete" type="OUTLINED" waves="RED" backgroundColor="WHITE"
+                                  textColor="RED" iconType="DELETE" text="{msg.labelDelete}"
+                                  marginTop="10" marginBottom="10"/>
+
+                <t:Table ui:field="itemsRoot"/>
             </m:MaterialColumn>
         </m:MaterialRow>
     </g:HTMLPanel>

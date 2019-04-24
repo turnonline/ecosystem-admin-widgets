@@ -1,4 +1,4 @@
-package biz.turnonline.ecosystem.widget.product.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 import gwt.material.design.client.constants.Color;
@@ -9,7 +9,7 @@ import gwt.material.design.client.ui.table.cell.WidgetColumn;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ColumnPublished
+public class ColumnProductPublished
         extends WidgetColumn<Product, MaterialIcon>
 {
     @Override

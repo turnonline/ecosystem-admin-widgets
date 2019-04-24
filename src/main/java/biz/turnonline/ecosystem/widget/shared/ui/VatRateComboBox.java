@@ -1,5 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.VatRate;
 
 /**
@@ -11,5 +12,10 @@ public class VatRateComboBox
     public VatRateComboBox()
     {
         super( VatRate.class );
+    }
+
+    protected String defaultValue()
+    {
+        return Configuration.get().getVat();
     }
 }

@@ -1,5 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.constants.CurrencyCodeMapConstants;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
@@ -18,7 +19,8 @@ public class CurrencyComboBox
 
     private static List<String> currencyList;
 
-    static {
+    static
+    {
         currencyList = new ArrayList<>( currencies.currencyMap().keySet() );
         Collections.sort( currencyList );
     }
@@ -26,5 +28,22 @@ public class CurrencyComboBox
     public CurrencyComboBox()
     {
         setItems( currencyList );
+    }
+
+
+    @Override
+    public void setSingleValue( String value )
+    {
+        if ( value == null || "".equals( value ) )
+        {
+            value = defaultValue();
+        }
+
+        super.setSingleValue( value );
+    }
+
+    protected String defaultValue()
+    {
+        return Configuration.get().getCurrency();
     }
 }

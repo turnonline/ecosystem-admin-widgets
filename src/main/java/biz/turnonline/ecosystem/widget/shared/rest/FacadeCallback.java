@@ -14,8 +14,6 @@ import org.fusesource.restygwt.client.MethodCallback;
 public interface FacadeCallback<T>
         extends MethodCallback<T>
 {
-    AppMessages messages = GWT.create( AppMessages.class );
-
     void onSuccess( T response );
 
     @Override
@@ -23,7 +21,7 @@ public interface FacadeCallback<T>
     {
         printError( exception );
 
-        MaterialToast.fireToast( messages.msgErrorRemoteServiceCall(), "red" );
+        MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRemoteServiceCall(), "red" );
         MaterialLoader.loading( false );
 
         redirectToLoginIfUnauthorized( exception );

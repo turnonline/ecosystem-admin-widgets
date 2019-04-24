@@ -112,7 +112,7 @@
                     </m:MaterialSection>
 
                     <map:AddressLookup label="{msg.labelStreet}" ui:field="street"
-                                       helperText="{msg.tooltipAddressAutocomplete}"/>
+                                       tooltip="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="city"/>
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
@@ -143,7 +143,7 @@
 
                 <m:MaterialColumn grid="s12 m3" paddingTop="38">
                     <map:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet"
-                                       helperText="{msg.tooltipAddressAutocomplete}"/>
+                                       tooltip="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="postalCity"/>
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">

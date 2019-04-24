@@ -174,11 +174,20 @@ public interface AppMessages
     @Key( value = "label.priceExclusiveVat")
     String labelPriceExclusiveVat();
 
+    @Key( value = "label.currency")
+    String labelCurrency();
+
     @Key( value = "label.description")
     String labelDescription();
 
     @Key( value = "label.itemName")
     String labelItemName();
+
+    @Key( value = "label.amount")
+    String labelAmount();
+
+    @Key( value = "label.unit")
+    String labelUnit();
 
     @Key( value = "label.snippet")
     String labelSnippet();
@@ -338,6 +347,12 @@ public interface AppMessages
 
     @Key( value = "label.selectCustomer")
     String labelSelectCustomer();
+
+    @Key( value = "label.selectProduct")
+    String labelSelectProduct();
+
+    @Key( value = "label.selectedProduct")
+    String labelSelectedProduct(String product);
 
     @Key( value = "label.ok")
     String labelOk();

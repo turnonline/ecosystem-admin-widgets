@@ -17,6 +17,10 @@ public class Configuration
 
     public static final String DOMICILE = "DOMICILE";
 
+    public static final String CURRENCY = "CURRENCY";
+
+    public static final String VAT = "VAT";
+
     public static final String LOGIN_ID = "LOGIN_ID";
 
     public static final String ACCOUNT_STEWARD_API_ROOT = "ACCOUNT_STEWARD_API_ROOT";
@@ -26,6 +30,10 @@ public class Configuration
     public static final String MAPS_API_KEY = "MAPS_API_KEY";
 
     private String domicile;
+
+    private String currency;
+
+    private String vat;
 
     private String loginId;
 
@@ -48,6 +56,8 @@ public class Configuration
 
         Configuration configuration = new Configuration();
         configuration.setDomicile( dictionary.get( DOMICILE ) );
+        configuration.setCurrency( dictionary.get( CURRENCY ) );
+        configuration.setVat( dictionary.get( VAT ) );
         configuration.setLoginId( dictionary.get( LOGIN_ID ) );
         configuration.setMapsApiKey( dictionary.get( MAPS_API_KEY ) );
 
@@ -73,6 +83,26 @@ public class Configuration
     public void setDomicile( String domicile )
     {
         this.domicile = domicile;
+    }
+
+    public String getCurrency()
+    {
+        return currency;
+    }
+
+    public void setCurrency( String currency )
+    {
+        this.currency = currency;
+    }
+
+    public String getVat()
+    {
+        return vat;
+    }
+
+    public void setVat( String vat )
+    {
+        this.vat = vat;
     }
 
     public String getLoginId()

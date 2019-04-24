@@ -1,8 +1,7 @@
-package biz.turnonline.ecosystem.widget.product.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductPicture;
-import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 
 import java.util.Comparator;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ColumnPicture
+public class ColumnProductPicture
         extends NotSafeHtmlColumn<Product>
 {
     @Override

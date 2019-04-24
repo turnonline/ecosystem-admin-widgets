@@ -40,7 +40,7 @@
                     <m:MaterialTitle description="{msg.labelMetaFields}" textColor="BLUE"/>
                 </m:MaterialSection>
 
-                <ui2:MaterialChipTextBox letter="T" ui:field="availableFields" label="{msg.labelAvailableFields}" helperText="{msg.tooltipAvailableFields}"/>
+                <ui2:MaterialChipTextBox letter="T" ui:field="availableFields" label="{msg.labelAvailableFields}" tooltip="{msg.tooltipAvailableFields}"/>
                 <ui2:MaterialChipTextBox letter="T" ui:field="mandatoryFields" label="{msg.labelMandatoryFields}"/>
             </m:MaterialColumn>
         </m:MaterialRow>

@@ -32,7 +32,7 @@
 
                 <m:MaterialDatePicker ui:field="beginAt" placeholder="{msg.labelBeginAt}"/>
                 <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}"/>
-                <s:OrderPeriodicityListBox ui:field="periodicity" placeholder="{msg.labelPeriodicity}"/>
+                <s:OrderPeriodicityListBox ui:field="periodicity" placeholder="{msg.labelPeriodicity}" paddingBottom="5"/>
                 <s:InvoiceTypeListBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
             </m:MaterialColumn>
         </m:MaterialRow>

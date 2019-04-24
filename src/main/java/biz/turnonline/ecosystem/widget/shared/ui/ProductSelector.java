@@ -2,8 +2,7 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.event.CustomerSelectEvent;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Customer;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.window.MaterialWindow;
 import gwt.material.design.client.constants.Color;
@@ -15,7 +14,7 @@ import gwt.material.design.client.ui.animate.Transition;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class CustomerSelector
+public class ProductSelector
         extends MaterialWindow
 {
     private final EventBus eventBus;
@@ -24,13 +23,13 @@ public class CustomerSelector
 
     private static AppMessages messages = AppMessages.INSTANCE;
 
-    public CustomerSelector( EventBus eventBus )
+    public ProductSelector( EventBus eventBus )
     {
-        super( messages.labelSelectCustomer() );
+        super( messages.labelSelectProduct() );
         this.eventBus = eventBus;
 
         setToolbarColor( PRIMARY_COLOR );
-        getLabelTitle().setIconType( IconType.CONTACT_PHONE );
+        getLabelTitle().setIconType( IconType.TABLET_MAC );
         setCloseAnimation( new MaterialAnimation().transition( Transition.BOUNCEOUTUP ) );
     }
 
@@ -42,30 +41,36 @@ public class CustomerSelector
         super.open();
     }
 
-    protected void newTable() {
-        SmartTable<Customer> table = new SmartTable<>();
+    protected void newTable()
+    {
+        SmartTable<Product> table = new SmartTable<>();
         table.setSelectionType( SelectionType.NONE );
 
-        ColumnContactType<Customer> type = new ColumnContactType<>();
-        type.setWidth( "5%" );
+        ColumnProductPublished published = new ColumnProductPublished();
+        published.setWidth( "5%" );
 
-        ColumnContactName<Customer> name = new ColumnContactName<>();
-        name.setWidth( "30%" );
+        ColumnProductName name = new ColumnProductName();
+        name.setWidth( "45%" );
 
-        ColumnContactAddress<Customer> address = new ColumnContactAddress<>();
-        address.setWidth( "30%" );
+        ColumnProductPrice price = new ColumnProductPrice();
+        price.setWidth( "25%" );
 
-        ColumnContactContacts<Customer> contacts = new ColumnContactContacts<>();
-        contacts.setWidth( "35%" );
+        ColumnProductVat vat = new ColumnProductVat();
+        vat.setWidth( "25%" );
 
-        table.addColumn( type, "" );
+        table.addColumn( published );
         table.addColumn( name, messages.labelName() );
-        table.addColumn( address, messages.labelAddress() );
-        table.addColumn( contacts, messages.labelContacts() );
+        table.addColumn( price, messages.labelPriceExclusiveVat() );
+        table.addColumn( vat, messages.labelVat() );
 
-        table.configure( new CustomerDataSource( ( AppEventBus ) eventBus ) );
-        table.addRowSelectHandler( event -> eventBus.fireEvent( new CustomerSelectEvent( event.getModel() ) ) );
+        table.configure( new ProductsDataSource( ( AppEventBus ) eventBus ) );
+        table.addRowSelectHandler( event -> onSelect( event.getModel() ) );
 
         add( table );
+    }
+
+    public void onSelect( Product product )
+    {
+        // noop
     }
 }

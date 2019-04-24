@@ -34,7 +34,7 @@
 
                 <m:MaterialRow marginLeft="-10">
                     <m:MaterialDoubleBox ui:field="priceExclVat" label="{msg.labelPriceExclusiveVat}" grid="s12 m8"/>
-                    <ui3:CurrencyComboBox ui:field="currency" label="Currency" grid="s12 m4"/>
+                    <ui3:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" grid="s12 m4"/>
                 </m:MaterialRow>
             </m:MaterialColumn>
 

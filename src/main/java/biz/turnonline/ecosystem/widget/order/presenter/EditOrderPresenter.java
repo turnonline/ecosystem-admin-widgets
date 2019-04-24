@@ -24,7 +24,6 @@ import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.order.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import com.google.gwt.place.shared.PlaceController;
 
@@ -60,14 +59,14 @@ public class EditOrderPresenter
             if ( order.getId() == null )
             {
                 bus().productBilling().createOrder( order, response -> {
-                    success( FacadeCallback.messages.msgRecordCreated() );
+                    success( messages.msgRecordCreated() );
                     controller().goTo( new Orders() );
                 } );
             }
             else
             {
                 bus().productBilling().updateOrder( order.getId(), order, response -> {
-                    success( FacadeCallback.messages.msgRecordUpdated() );
+                    success( messages.msgRecordUpdated() );
                     controller().goTo( new Orders() );
                 } );
             }

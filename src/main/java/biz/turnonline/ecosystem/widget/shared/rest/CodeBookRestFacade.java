@@ -8,7 +8,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.productbilling.BillingUnit;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.VatRate;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.storage.client.Storage;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.Method;
@@ -36,7 +35,7 @@ public class CodeBookRestFacade
         // codeBook retrievers
         codeBookRetriever.put( Country.class, ( Retriever<Country> ) callback -> accountStewardFacade.getCountries( null, callback ) );
         codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, callback ) );
-        codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( LocaleInfo.getCurrentLocale().getLocaleName(), callback ) );
+        codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( "SK", callback ) );
         codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), "SK", callback ) );
     }
 

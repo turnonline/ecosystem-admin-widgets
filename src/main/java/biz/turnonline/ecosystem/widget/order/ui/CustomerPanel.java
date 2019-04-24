@@ -139,6 +139,7 @@ public class CustomerPanel
         eventBus.addHandler( CustomerSelectEvent.TYPE, event -> {
             Customer customer = event.getCustomer();
 
+            // TODO: localize
             MaterialToast.fireToast( "Selected customer: " + Formatter.formatContactName( customer ), "green" );
             fill( customer );
 
