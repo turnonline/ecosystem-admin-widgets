@@ -25,6 +25,7 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCardPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
+import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
@@ -206,6 +207,7 @@ public class EditContactView
             postCode.reload();
             country.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
+        street.add( new InputSearchIcon() );
 
         postalStreet.addPlaceChangedHandler( event -> {
             PlaceResult place = postalStreet.getPlace();
@@ -216,6 +218,7 @@ public class EditContactView
             postalPostCode.reload();
             postalCountry.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
+        postalStreet.add( new InputSearchIcon() );
     }
 
     @Override

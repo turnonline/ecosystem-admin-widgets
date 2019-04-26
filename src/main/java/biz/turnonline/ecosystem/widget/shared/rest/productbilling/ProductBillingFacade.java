@@ -56,8 +56,8 @@ public interface ProductBillingFacade
 
     @GET
     @Path( "products/{product_id}" )
-    void findById( @PathParam( "product_id" ) Long productId,
-                   FacadeCallback<Product> callback );
+    void findProductById( @PathParam( "product_id" ) Long productId,
+                          FacadeCallback<Product> callback );
 
     @POST
     @Path( "products" )

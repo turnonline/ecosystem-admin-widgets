@@ -416,6 +416,12 @@ public interface AppMessages
     @Key( value = "tooltip.pictures")
     String tooltipPictures();
 
+    @Key( value = "tooltip.productAutocomplete")
+    String tooltipProductAutocomplete();
+
+    @Key( value = "tooltip.contactAutocomplete")
+    String tooltipContactAutocomplete();
+
     // messages
 
     @Key( value = "msg.recordDeleted")

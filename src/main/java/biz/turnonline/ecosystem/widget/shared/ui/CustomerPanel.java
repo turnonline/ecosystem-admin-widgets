@@ -1,29 +1,22 @@
-package biz.turnonline.ecosystem.widget.order.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.event.CustomerSelectEvent;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.CustomerPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
-import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.CustomerSelector;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
-import biz.turnonline.ecosystem.widget.shared.util.Formatter;
+import biz.turnonline.ecosystem.widget.shared.rest.search.SearchContact;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.api.ApiRegistry;
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialTextBox;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
@@ -42,12 +35,6 @@ public class CustomerPanel
     {
     }
 
-    @UiField
-    MaterialButton btnSelect;
-
-    @UiField( provided = true )
-    CustomerSelector selector;
-
     // person
 
     @UiField
@@ -64,8 +51,8 @@ public class CustomerPanel
 
     // company
 
-    @UiField
-    MaterialTextBox businessName;
+    @UiField( provided = true )
+    ContactAutoComplete businessName;
 
     @UiField
     MaterialTextBox companyId;
@@ -130,21 +117,15 @@ public class CustomerPanel
     @UiField
     CountryComboBox postalCountry;
 
+    private EventBus eventBus;
+
     public CustomerPanel( EventBus eventBus )
     {
-        selector = new CustomerSelector( eventBus );
+        this.eventBus = eventBus;
+
+        businessName = createAutocomplete();
 
         initWidget( binder.createAndBindUi( this ) );
-
-        eventBus.addHandler( CustomerSelectEvent.TYPE, event -> {
-            Customer customer = event.getCustomer();
-
-            // TODO: localize
-            MaterialToast.fireToast( "Selected customer: " + Formatter.formatContactName( customer ), "green" );
-            fill( customer );
-
-            selector.close();
-        } );
 
         // Loading google map API
         String mapsApiKey = ( ( AppEventBus ) eventBus ).getConfiguration().getMapsApiKey();
@@ -173,6 +154,7 @@ public class CustomerPanel
             postCode.reload();
             country.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
+        street.add( new InputSearchIcon() );
 
         postalStreet.addPlaceChangedHandler( event -> {
             PlaceResult place = postalStreet.getPlace();
@@ -183,6 +165,7 @@ public class CustomerPanel
             postalPostCode.reload();
             postalCountry.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
+        postalStreet.add( new InputSearchIcon() );
     }
 
     @Override
@@ -197,7 +180,7 @@ public class CustomerPanel
         contact.setSuffix( suffix.getValue() );
 
         // company
-        contact.setBusinessName( businessName.getValue() );
+        contact.setBusinessName( businessName.getItemBox().getValue() );
         contact.setCompanyId( companyId.getValue() );
         contact.setVatId( vatId.getValue() );
         contact.setTaxId( taxId.getValue() );
@@ -245,12 +228,6 @@ public class CustomerPanel
         fill( model.getCustomer() );
     }
 
-    @UiHandler( "btnSelect" )
-    public void handleSelect( ClickEvent event )
-    {
-        selector.open();
-    }
-
     private void fill( Customer customer )
     {
         // person
@@ -260,7 +237,7 @@ public class CustomerPanel
         suffix.setValue( customer.getSuffix() );
 
         // company
-        businessName.setValue( customer.getBusinessName() );
+        businessName.getItemBox().setValue( customer.getBusinessName() );
         companyId.setValue( customer.getCompanyId() );
         vatId.setValue( customer.getVatId() );
         taxId.setValue( customer.getTaxId() );
@@ -291,7 +268,8 @@ public class CustomerPanel
         postalCountry.setSingleValueByCode( postalAddress != null ? postalAddress.getCountry() : null );
     }
 
-    private boolean hasPostalAddress() {
+    private boolean hasPostalAddress()
+    {
         return postalBusinessName.getValue() != null ||
                 postalPrefix.getValue() != null ||
                 postalFirstName != null ||
@@ -301,5 +279,25 @@ public class CustomerPanel
                 postalCity != null ||
                 postalPostCode != null ||
                 postalCountry != null;
+    }
+
+    // -- private helpers
+
+    private void fillFrom( SearchContact searchContact )
+    {
+        ( ( AppEventBus ) eventBus ).accountSteward()
+                .findById( Configuration.get().getLoginId(), Long.valueOf( searchContact.getId() ),
+                        contact -> fill( new Customer( contact ) ) );
+    }
+
+    private ContactAutoComplete createAutocomplete()
+    {
+        ContactAutoComplete contactAutoComplete = new ContactAutoComplete( eventBus );
+        contactAutoComplete.addSelectionHandler( event -> {
+            SearchContact contact = ( ( ContactAutoComplete.ContactSuggest ) event.getSelectedItem() ).getContact();
+            fillFrom( contact );
+        } );
+
+        return contactAutoComplete;
     }
 }

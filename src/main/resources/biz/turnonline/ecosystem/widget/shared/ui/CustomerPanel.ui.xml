@@ -27,15 +27,26 @@
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m12">
-                <s:CustomerSelector ui:field="selector"/>
-
-                <m:MaterialButton ui:field="btnSelect" type="OUTLINED" waves="GREEN" backgroundColor="WHITE"
-                                  textColor="GREEN" iconType="RADIO_BUTTON_CHECKED" text="{msg.labelSelect}"
-                                  marginTop="10" marginBottom="10"/>
-
-
                 <m:MaterialPanel shadow="0" paddingTop="5" marginLeft="-20">
                     <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
+                        <!--company-->
+                        <m:MaterialColumn grid="s12 m3">
+                            <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-2">
+                                <m:MaterialIcon iconType="BUSINESS" iconColor="BLUE" float="LEFT" marginRight="5"
+                                                marginTop="-3"/>
+                                <m:MaterialTitle description="{msg.labelCompany}" textColor="BLUE"/>
+                            </m:MaterialSection>
+
+                            <s:ContactAutoComplete label="{msg.labelBusinessName}" ui:field="businessName"/>
+                            <m:MaterialRow>
+                                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                                    <m:MaterialTextBox label="{msg.labelCompanyId}" ui:field="companyId"/>
+                                    <m:MaterialTextBox label="{msg.labelTaxId}" ui:field="taxId"/>
+                                    <m:MaterialTextBox label="{msg.labelVatId}" ui:field="vatId"/>
+                                </m:MaterialColumn>
+                            </m:MaterialRow>
+                        </m:MaterialColumn>
+
                         <!--person-->
                         <m:MaterialColumn grid="s12 m3">
                             <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-4">
@@ -50,24 +61,6 @@
                                 <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                                     <m:MaterialTextBox label="{msg.labelPrefix}" ui:field="prefix"/>
                                     <m:MaterialTextBox label="{msg.labelSuffix}" ui:field="suffix"/>
-                                </m:MaterialColumn>
-                            </m:MaterialRow>
-                        </m:MaterialColumn>
-
-                        <!--company-->
-                        <m:MaterialColumn grid="s12 m3">
-                            <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-2">
-                                <m:MaterialIcon iconType="BUSINESS" iconColor="BLUE" float="LEFT" marginRight="5"
-                                                marginTop="-3"/>
-                                <m:MaterialTitle description="{msg.labelCompany}" textColor="BLUE"/>
-                            </m:MaterialSection>
-
-                            <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="businessName"/>
-                            <m:MaterialRow>
-                                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
-                                    <m:MaterialTextBox label="{msg.labelCompanyId}" ui:field="companyId"/>
-                                    <m:MaterialTextBox label="{msg.labelTaxId}" ui:field="taxId"/>
-                                    <m:MaterialTextBox label="{msg.labelVatId}" ui:field="vatId"/>
                                 </m:MaterialColumn>
                             </m:MaterialRow>
                         </m:MaterialColumn>

@@ -141,12 +141,6 @@ public final class Invoice
      * The value may be {@code null}.
      */
     
-    private java.util.List<Deduction> tlements;
-
-    /**
-     * The value may be {@code null}.
-     */
-    
     private String type;
 
     /**
@@ -435,23 +429,6 @@ public final class Invoice
     public Invoice setStatus( String status )
     {
         this.status = status;
-        return this;
-    }
-
-    /**
-     * @return value or {@code null} for none
-     */
-    public java.util.List<Deduction> getTlements()
-    {
-        return tlements;
-    }
-
-    /**
-     * @param tlements tlements or {@code null} for none
-     */
-    public Invoice setTlements( java.util.List<Deduction> tlements )
-    {
-        this.tlements = tlements;
         return this;
     }
 

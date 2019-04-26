@@ -1,7 +1,6 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductDomain;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.core.client.GWT;
@@ -98,8 +97,11 @@ public class Publishing
     {
         ProductPublishing publishing = product.getPublishing();
 
-        publishing.getAt().setUri( atUri.getValue() );
-        publishing.getAt().setName( atName.getValue() );
+        if (publishing.getAt() != null)
+        {
+            publishing.getAt().setUri( atUri.getValue() );
+            publishing.getAt().setName( atName.getValue() );
+        }
 
         publishing.setComingSoon( comingSoon.getValue() );
         publishing.setPublished( published.getValue() );
@@ -113,8 +115,8 @@ public class Publishing
     {
         ProductPublishing publishing = getProductPublishing( product );
 
-        atName.setValue( publishing.getAt().getName() );
-        atUri.setValue( publishing.getAt().getUri() );
+        atName.setValue( publishing.getAt() != null ? publishing.getAt().getName() : null);
+        atUri.setValue( publishing.getAt() != null ? publishing.getAt().getUri() : null);
 
         comingSoon.setValue( publishing.getComingSoon() != null ? publishing.getComingSoon() : false );
         published.setValue( publishing.getPublished() != null ? publishing.getPublished() : false );
@@ -130,11 +132,6 @@ public class Publishing
         {
             publishing = new ProductPublishing();
             product.setPublishing( publishing );
-        }
-
-        if ( publishing.getAt() == null )
-        {
-            publishing.setAt( new ProductDomain() );
         }
 
         return publishing;

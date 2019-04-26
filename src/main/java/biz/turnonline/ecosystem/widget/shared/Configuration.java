@@ -27,6 +27,8 @@ public class Configuration
 
     public static final String PRODUCT_BILLING_API_ROOT = "PRODUCT_BILLING_API_ROOT";
 
+    public static final String SEARCH_API_ROOT = "SEARCH_API_ROOT";
+
     public static final String MAPS_API_KEY = "MAPS_API_KEY";
 
     private String domicile;
@@ -50,6 +52,7 @@ public class Configuration
 
         ServiceRoots.add( ACCOUNT_STEWARD_API_ROOT, dictionary.get( ACCOUNT_STEWARD_API_ROOT ) );
         ServiceRoots.add( PRODUCT_BILLING_API_ROOT, dictionary.get( PRODUCT_BILLING_API_ROOT ) );
+        ServiceRoots.add( SEARCH_API_ROOT, dictionary.get( SEARCH_API_ROOT ) );
 
         Defaults.setDateFormat( REST_DATE_FORMAT );
         Defaults.ignoreJsonNulls();

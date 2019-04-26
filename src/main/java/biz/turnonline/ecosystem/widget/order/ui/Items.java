@@ -4,6 +4,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -100,6 +101,8 @@ public class Items
         Item item = new Item( eventBus );
         item.fill( pricingItem );
         itemsRoot.add( item );
+
+        Scheduler.get().scheduleDeferred( () -> item.getItemName().getItemBox().setFocus( true ) );
     }
 
     private void deleteSelectedRows()

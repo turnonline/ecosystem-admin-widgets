@@ -23,22 +23,12 @@
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <m:MaterialRow marginBottom="0" marginLeft="-10">
-        <s:ProductSelector ui:field="selector"/>
-
         <t:TableRow>
-            <t:TableData width="3%" paddingTop="0" paddingBottom="0">
+            <t:TableData width="0%" paddingTop="0" paddingBottom="0">
                 <m:MaterialCheckBox ui:field="selected"/>
             </t:TableData>
-            <t:TableData width="5%" paddingTop="0" paddingBottom="0">
-                <m:MaterialButton ui:field="btnSelect"
-                                  marginTop="0"
-                                  type="FLOATING"
-                                  backgroundColor="GREEN"
-                                  iconType="RADIO_BUTTON_CHECKED"
-                                  tooltip="{msg.labelSelectProduct}"/>
-            </t:TableData>
-            <t:TableData width="23%" paddingTop="0" paddingBottom="0">
-                <m:MaterialTextBox ui:field="itemName" label="{msg.labelItemName}"/>
+            <t:TableData width="30%" paddingTop="0" paddingBottom="0">
+                <s:ProductAutoComplete ui:field="itemName" label="{msg.labelItemName}"/>
             </t:TableData>
             <t:TableData width="20%" paddingTop="0" paddingBottom="0">
                 <m:MaterialDoubleBox ui:field="amount" label="{msg.labelAmount}"/>
@@ -52,7 +42,7 @@
             <t:TableData width="10%" paddingTop="0" paddingBottom="0">
                 <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}"/>
             </t:TableData>
-            <t:TableData width="10%" paddingTop="0" paddingBottom="0">
+            <t:TableData width="15%" paddingTop="0" paddingBottom="0">
                 <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}"/>
             </t:TableData>
         </t:TableRow>

@@ -81,7 +81,7 @@ public class EditProductPresenter
         EditProduct where = ( EditProduct ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().productBilling().findById( where.getId(), response -> view().setModel( response ) );
+            bus().productBilling().findProductById( where.getId(), response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();

@@ -29,6 +29,7 @@ import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.AccountStewardFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -121,6 +122,13 @@ public abstract class OrderModule
     static ProductBillingFacade provideProductBilling()
     {
         return GWT.create( ProductBillingFacade.class );
+    }
+
+    @Singleton
+    @Provides
+    static SearchFacade provideSearchFacade()
+    {
+        return GWT.create( SearchFacade.class );
     }
 
     // -- breadcrumbs

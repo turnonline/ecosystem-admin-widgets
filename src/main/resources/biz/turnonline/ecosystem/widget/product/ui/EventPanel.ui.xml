@@ -76,7 +76,7 @@
 
                 <m:MaterialColumn grid="s12 m6">
                     <mat:AddressLookup label="{msg.labelStreet}" ui:field="locationStreet"
-                                       helperText="{msg.tooltipAddressAutocomplete}"/>
+                                       tooltip="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="locationCity"/>
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
