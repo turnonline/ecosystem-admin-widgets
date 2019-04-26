@@ -17,7 +17,8 @@
   -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
-             xmlns:s="urn:import:gwt.material.design.incubator.client.search">
+             xmlns:s="urn:import:gwt.material.design.incubator.client.search"
+             xmlns:t="urn:import:gwt.material.design.incubator.client.timer">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
@@ -33,5 +34,7 @@
                 <m:MaterialLink text="Logout" iconType="POWER_SETTINGS_NEW" ui:field="btnLogout"/>
             </m:MaterialNavSection>
         </m:MaterialNavBar>
+
+        <t:TimerProgress ui:field="progress" fillColor="ORANGE" top="-12" duration="2000"/>
     </m:MaterialHeader>
 </ui:UiBinder>

@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.shared;
 
+import biz.turnonline.ecosystem.widget.shared.util.StaticEventBus;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.DOM;
@@ -37,6 +38,9 @@ public abstract class DaggerEntryPoint
     {
         // createProduct dagger context
         DaggerComponent component = component();
+
+        // initialize static event bus
+        StaticEventBus.INSTANCE = component.getEventBus();
 
         // remove splashcreen
         DOM.getElementById( "splashscreen" ).removeFromParent();

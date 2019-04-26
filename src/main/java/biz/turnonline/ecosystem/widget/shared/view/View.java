@@ -61,7 +61,7 @@ public abstract class View<T>
         initWidget( root );
 
         // header
-        scaffoldHeader = new ScaffoldHeader();
+        scaffoldHeader = new ScaffoldHeader( eventBus );
         root.add( scaffoldHeader );
 
         // side bar
@@ -72,7 +72,7 @@ public abstract class View<T>
         MaterialContainer contentContainer = new MaterialContainer();
         root.add( contentContainer );
 
-        content = new MaterialRow(  );
+        content = new MaterialRow();
         content.getElement().setAttribute( "style", "min-height: calc(100vh - 90px);padding-top:65px" );
         contentContainer.add( content );
 

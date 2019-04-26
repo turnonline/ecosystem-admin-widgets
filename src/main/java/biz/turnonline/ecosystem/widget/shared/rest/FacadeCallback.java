@@ -1,8 +1,10 @@
 package biz.turnonline.ecosystem.widget.shared.rest;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.event.RestCallEvent;
+import biz.turnonline.ecosystem.widget.shared.event.RestCallEvent.Direction;
+import biz.turnonline.ecosystem.widget.shared.util.StaticEventBus;
 import com.google.gwt.core.client.GWT;
-import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.MaterialToast;
 import org.fusesource.restygwt.client.FailedResponseException;
 import org.fusesource.restygwt.client.Method;
@@ -22,7 +24,7 @@ public interface FacadeCallback<T>
         printError( exception );
 
         MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRemoteServiceCall(), "red" );
-        MaterialLoader.loading( false );
+        StaticEventBus.INSTANCE.fireEvent( new RestCallEvent( Direction.IN ) );
 
         redirectToLoginIfUnauthorized( exception );
     }
@@ -30,7 +32,7 @@ public interface FacadeCallback<T>
     @Override
     default void onSuccess( Method method, T response )
     {
-        MaterialLoader.loading( false );
+        StaticEventBus.INSTANCE.fireEvent( new RestCallEvent( Direction.IN ) );
         onSuccess( response );
     }
 

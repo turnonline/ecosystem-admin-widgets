@@ -154,6 +154,7 @@ public class CustomerPanel
             postCode.reload();
             country.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
+        street.getElement().setAttribute( "autocomplete", "off" );
         street.add( new InputSearchIcon() );
 
         postalStreet.addPlaceChangedHandler( event -> {
@@ -166,6 +167,7 @@ public class CustomerPanel
             postalCountry.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
         postalStreet.add( new InputSearchIcon() );
+        postalStreet.getElement().setAttribute( "autocomplete", "off" );
     }
 
     @Override
