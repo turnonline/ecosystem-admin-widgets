@@ -33,36 +33,37 @@ import java.util.Date;
  */
 @SuppressWarnings( "javadoc" )
 public final class Invoice
+        implements HasCustomer
 {
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String currency;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Customer customer;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Date dateOfIssue;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Date dateOfTaxable;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String finalText;
 
     /**
@@ -74,25 +75,25 @@ public final class Invoice
     /**
      * The value may be {@code null}.
      */
-    
+
     private String introductoryText;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String invoiceNumber;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Date modificationDate;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private NumberSeries numberSeries;
 
     /**
@@ -104,43 +105,43 @@ public final class Invoice
     /**
      * The value may be {@code null}.
      */
-    
+
     private InvoicePayment payment;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String pin;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private InvoicePricing pricing;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String servingUrl;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private java.util.List<Deduction> settlements;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String status;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String type;
 
     /**

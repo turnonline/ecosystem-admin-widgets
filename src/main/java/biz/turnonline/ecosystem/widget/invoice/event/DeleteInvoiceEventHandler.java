@@ -1,12 +1,12 @@
-package biz.turnonline.ecosystem.widget.order.event;
+package biz.turnonline.ecosystem.widget.invoice.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public interface DeleteOrderEventHandler
+public interface DeleteInvoiceEventHandler
         extends EventHandler
 {
-    void onDeleteOrder( DeleteOrderEvent event );
+    void onDeleteInvoice( DeleteInvoiceEvent event );
 }

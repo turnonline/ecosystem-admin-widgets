@@ -33,89 +33,90 @@ import java.util.Date;
  */
 @SuppressWarnings( "javadoc" )
 public final class Order
+        implements HasCustomer
 {
     /**
      * The value may be {@code null}.
      */
-    
+
     private Date beginAt;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Customer customer;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Long id;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String invoiceType;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private java.util.List<PricingItem> items;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Date lastBillingDate;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Date modificationDate;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Date nextBillingDate;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Integer numberOfDays;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String periodicity;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private String status;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Double totalPrice;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Double totalPriceExclVat;
 
     /**
      * The value may be {@code null}.
      */
-    
+
     private Double totalVatBase;
 
     /**

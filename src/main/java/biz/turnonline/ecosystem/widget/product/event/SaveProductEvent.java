@@ -25,7 +25,7 @@ public class SaveProductEvent
 
     protected void dispatch( SaveProductEventHandler handler )
     {
-        handler.onSaveContact( this );
+        handler.onSaveProduct( this );
     }
 
     public Product getProduct()

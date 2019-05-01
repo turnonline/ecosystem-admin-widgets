@@ -8,5 +8,5 @@ import com.google.gwt.event.shared.EventHandler;
 public interface EditProductEventHandler
         extends EventHandler
 {
-    void onEditContact( EditProductEvent event );
+    void onEditProduct( EditProductEvent event );
 }

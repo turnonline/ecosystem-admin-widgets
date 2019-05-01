@@ -38,5 +38,9 @@
             <directory>target/${project.build.finalName}/order.widget</directory>
             <outputDirectory>order.widget</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>target/${project.build.finalName}/invoice.widget</directory>
+            <outputDirectory>invoice.widget</outputDirectory>
+        </fileSet>
     </fileSets>
 </assembly>

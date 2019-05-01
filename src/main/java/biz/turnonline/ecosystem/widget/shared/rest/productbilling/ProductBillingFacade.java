@@ -107,6 +107,38 @@ public interface ProductBillingFacade
     void deleteOrder( @PathParam( "order_id" ) Long orderId,
                       FacadeCallback<Void> callback );
 
+    // invoices
+
+    @GET
+    @Path( "invoices" )
+    void getInvoices( @QueryParam( "offset" ) Integer offset,
+                      @QueryParam( "limit" ) Integer limit,
+                      @QueryParam( "lightList" ) boolean lightList,
+                      FacadeCallback<Items<Invoice>> callback );
+
+    @GET
+    @Path( "orders/{order_id}/invoices/{invoice_id}" )
+    void findInvoiceById( @PathParam( "invoice_id" ) Long invoiceId,
+                          FacadeCallback<Invoice> callback );
+
+    @POST
+    @Path( "invoices" )
+    void createInvoice( Invoice invoice,
+                        FacadeCallback<Invoice> callback );
+
+    @PUT
+    @Path( "orders/{order_id}/invoices/{invoice_id}" )
+    void updateInvoice( @PathParam( "order_id" ) Long orderId,
+                        @PathParam( "invoice_id" ) Long invoiceId,
+                        Invoice invoice,
+                        FacadeCallback<Invoice> callback );
+
+    @DELETE
+    @Path( "orders/{order_id}/invoices/{invoice_id}" )
+    void deleteInvoice( @PathParam( "order_id" ) Long orderId,
+                        @PathParam( "invoice_id" ) Long invoiceId,
+                        FacadeCallback<Void> callback );
+
     // codebooks
 
     @GET

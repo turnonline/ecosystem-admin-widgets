@@ -28,7 +28,7 @@ public class EditProductEvent
 
     protected void dispatch( EditProductEventHandler handler )
     {
-        handler.onEditContact( this );
+        handler.onEditProduct( this );
     }
 
     public Product getProduct()

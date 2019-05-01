@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
+// TODO: refactor to support Invoice
 public class Items
         extends Composite
         implements HasModel<Order>

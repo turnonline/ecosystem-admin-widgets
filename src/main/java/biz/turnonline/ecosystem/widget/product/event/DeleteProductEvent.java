@@ -27,7 +27,7 @@ public class DeleteProductEvent
 
     protected void dispatch( DeleteProductEventHandler handler )
     {
-        handler.onDeleteContact( this );
+        handler.onDeleteProduct( this );
     }
 
     public List<Product> getProducts()

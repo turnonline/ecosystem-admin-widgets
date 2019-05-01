@@ -8,5 +8,5 @@ import com.google.gwt.event.shared.EventHandler;
 public interface SaveProductEventHandler
         extends EventHandler
 {
-    void onSaveContact( SaveProductEvent event );
+    void onSaveProduct( SaveProductEvent event );
 }

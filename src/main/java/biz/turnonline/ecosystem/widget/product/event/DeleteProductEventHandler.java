@@ -8,5 +8,5 @@ import com.google.gwt.event.shared.EventHandler;
 public interface DeleteProductEventHandler
         extends EventHandler
 {
-    void onDeleteContact( DeleteProductEvent event );
+    void onDeleteProduct( DeleteProductEvent event );
 }

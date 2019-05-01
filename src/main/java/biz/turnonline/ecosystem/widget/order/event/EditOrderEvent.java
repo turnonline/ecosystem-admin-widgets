@@ -28,7 +28,7 @@ public class EditOrderEvent
 
     protected void dispatch( EditOrderEventHandler handler )
     {
-        handler.onEditContact( this );
+        handler.onEditOrder( this );
     }
 
     public Order getOrder()

@@ -1,21 +1,20 @@
-package biz.turnonline.ecosystem.widget.order.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.CodeBookRestFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.Country;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Customer;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
-import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.HasCustomer;
 
 import static biz.turnonline.ecosystem.widget.shared.util.Formatter.formatPostcode;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ColumnCustomer
-        extends NotSafeHtmlColumn<Order>
+public class ColumnCustomer<T extends HasCustomer>
+        extends NotSafeHtmlColumn<T>
 {
     @Override
-    public String getValue( Order object )
+    public String getValue( T object )
     {
         Customer customer = object.getCustomer();
         StringBuilder sb = new StringBuilder();

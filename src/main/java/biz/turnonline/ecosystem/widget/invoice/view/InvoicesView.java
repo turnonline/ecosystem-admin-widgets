@@ -16,18 +16,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.order.view;
+package biz.turnonline.ecosystem.widget.invoice.view;
 
-import biz.turnonline.ecosystem.widget.order.event.DeleteOrderEvent;
-import biz.turnonline.ecosystem.widget.order.event.EditOrderEvent;
-import biz.turnonline.ecosystem.widget.order.presenter.OrdersPresenter;
-import biz.turnonline.ecosystem.widget.order.ui.ColumnActions;
-import biz.turnonline.ecosystem.widget.order.ui.ColumnId;
-import biz.turnonline.ecosystem.widget.order.ui.ColumnPrice;
-import biz.turnonline.ecosystem.widget.order.ui.ColumnStatus;
-import biz.turnonline.ecosystem.widget.order.ui.OrdersDataSource;
+import biz.turnonline.ecosystem.widget.invoice.event.DeleteInvoiceEvent;
+import biz.turnonline.ecosystem.widget.invoice.event.EditInvoiceEvent;
+import biz.turnonline.ecosystem.widget.invoice.presenter.InvoicesPresenter;
+import biz.turnonline.ecosystem.widget.invoice.ui.ColumnActions;
+import biz.turnonline.ecosystem.widget.invoice.ui.ColumnId;
+import biz.turnonline.ecosystem.widget.invoice.ui.ColumnPrice;
+import biz.turnonline.ecosystem.widget.invoice.ui.ColumnStatus;
+import biz.turnonline.ecosystem.widget.invoice.ui.InvoicesDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnCustomer;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;
@@ -52,11 +52,11 @@ import java.util.List;
 /**
  * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
  */
-public class OrdersView
+public class InvoicesView
         extends View
-        implements OrdersPresenter.IView
+        implements InvoicesPresenter.IView
 {
-    private static OrdersViewUiBinder binder = GWT.create( OrdersViewUiBinder.class );
+    private static InvoicesViewUiBinder binder = GWT.create( InvoicesViewUiBinder.class );
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -68,7 +68,7 @@ public class OrdersView
     MaterialButton btnDelete;
 
     @UiField
-    SmartTable<Order> table;
+    SmartTable<Invoice> table;
 
     @UiField
     ConfirmationWindow confirmationWindow;
@@ -79,25 +79,25 @@ public class OrdersView
         table.refresh();
     }
 
-    interface OrdersViewUiBinder
-            extends UiBinder<HTMLPanel, OrdersView>
+    interface InvoicesViewUiBinder
+            extends UiBinder<HTMLPanel, InvoicesView>
     {
     }
 
     @Inject
-    public OrdersView( EventBus eventBus, @Named( "OrdersBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public InvoicesView( EventBus eventBus, @Named( "InvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.ORDERS );
+        scaffoldNavBar.setActive( Route.PRODUCTS );
 
         add( binder.createAndBindUi( this ) );
         initTable();
 
         confirmationWindow.getBtnOk().addClickHandler( event -> {
-            List<Order> selectedRowModels = table.getSelectedRowModels( false );
-            bus().fireEvent( new DeleteOrderEvent( selectedRowModels ) );
+            List<Invoice> selectedRowModels = table.getSelectedRowModels( false );
+            bus().fireEvent( new DeleteInvoiceEvent( selectedRowModels ) );
         } );
     }
 
@@ -109,7 +109,7 @@ public class OrdersView
         ColumnStatus status = new ColumnStatus();
         status.setWidth( "20%" );
 
-        ColumnCustomer<Order> customer = new ColumnCustomer<>();
+        ColumnCustomer<Invoice> customer = new ColumnCustomer<>();
         customer.setWidth( "25%" );
 
         ColumnPrice price = new ColumnPrice();
@@ -124,19 +124,19 @@ public class OrdersView
         table.addColumn( price, messages.labelPrice() );
         table.addColumn( actions );
 
-        table.configure( new OrdersDataSource( ( AppEventBus ) bus() ) );
+        table.configure( new InvoicesDataSource( ( AppEventBus ) bus() ) );
     }
 
     @UiHandler( "btnNew" )
     public void handleNew( ClickEvent event )
     {
-        bus().fireEvent( new EditOrderEvent() );
+        bus().fireEvent( new EditInvoiceEvent() );
     }
 
     @UiHandler( "btnDelete" )
     public void handleDelete( ClickEvent event )
     {
-        List<Order> selected = table.getSelectedRowModels( false );
+        List<Invoice> selected = table.getSelectedRowModels( false );
         if ( !selected.isEmpty() )
         {
             confirmationWindow.open( new Question()
@@ -150,7 +150,7 @@ public class OrdersView
                 @Override
                 public String name()
                 {
-                    return Formatter.formatOrderName( selected.get( 0 ) );
+                    return Formatter.formatInvoiceName( selected.get( 0 ) );
                 }
             } );
         }

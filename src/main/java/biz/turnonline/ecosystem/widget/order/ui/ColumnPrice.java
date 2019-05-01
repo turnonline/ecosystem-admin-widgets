@@ -27,7 +27,7 @@ public class ColumnPrice
         sb.append( "<br/>" );
         sb.append( DoubleRenderer.instance().render( object.getTotalPriceExclVat() ) );
         sb.append( "<br/>" );
-        sb.append( DoubleRenderer.instance().render( object.getTotalVatBase() ) + " %" );
+        sb.append( DoubleRenderer.instance().render( object.getTotalVatBase() ) ).append( " %" );
 
         return sb.toString();
     }

@@ -27,7 +27,7 @@ public class DeleteOrderEvent
 
     protected void dispatch( DeleteOrderEventHandler handler )
     {
-        handler.onDeleteContact( this );
+        handler.onDeleteOrder( this );
     }
 
     public List<Order> getOrders()
