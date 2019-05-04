@@ -46,7 +46,7 @@ public abstract class DaggerEntryPoint
         DOM.getElementById( "splashscreen" ).removeFromParent();
 
         // createProduct activity manager and put container in it
-        RootPanel.get( "main-content" ).add( container );
+        RootPanel.get( "widget-content" ).add( container );
         ActivityManager activityManager = component.getActivityManager();
         activityManager.setDisplay( container );
 
