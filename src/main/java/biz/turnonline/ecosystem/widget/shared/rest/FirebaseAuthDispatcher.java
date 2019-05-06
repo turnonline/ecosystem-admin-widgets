@@ -25,6 +25,7 @@ public class FirebaseAuthDispatcher
     public Request send( Method method, RequestBuilder builder ) throws RequestException
     {
         StaticEventBus.INSTANCE.fireEvent( new RestCallEvent( Direction.OUT ) );
-        return super.sendRequest( builder );
+        super.sendRequest( builder );
+        return null;
     }
 }
