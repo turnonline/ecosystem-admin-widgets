@@ -30,10 +30,41 @@
                     <m:MaterialTitle description="{msg.labelDescription}" textColor="BLUE"/>
                 </m:MaterialSection>
 
-                <m:MaterialDatePicker ui:field="beginAt" placeholder="{msg.labelBeginAt}"/>
-                <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}"/>
-                <s:OrderPeriodicityListBox ui:field="periodicity" placeholder="{msg.labelPeriodicity}" paddingBottom="5"/>
                 <s:InvoiceTypeListBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
+                <m:MaterialTextBox ui:field="invoiceNumber" placeholder="{msg.labelInvoiceNumber}"/>
+                <m:MaterialLongBox ui:field="variableSymbol" placeholder="{msg.labelVariableSymbol}"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
+                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                    <m:MaterialIcon iconType="DATE_RANGE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                    <m:MaterialTitle description="{msg.labelDates}" textColor="BLUE"/>
+                </m:MaterialSection>
+
+                <m:MaterialDatePicker ui:field="dateOfIssue" placeholder="{msg.labelDateOfIssue}"/>
+                <m:MaterialDatePicker ui:field="dateOfTaxable" placeholder="{msg.labelDateOfTaxable}"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
+                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                    <m:MaterialIcon iconType="PAYMENT" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                    <m:MaterialTitle description="{msg.labelPayment}" textColor="BLUE"/>
+                </m:MaterialSection>
+
+                <s:PaymentMethodListBox ui:field="paymentMethod" placeholder="{msg.labelPaymentMethod}"/>
+                <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m6">
+                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                    <m:MaterialIcon iconType="TEXT_FIELDS" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                    <m:MaterialTitle description="{msg.labelTexts}" textColor="BLUE"/>
+                </m:MaterialSection>
+
+                <m:MaterialTextArea ui:field="introductoryText" label="{msg.labelIntroductoryText}"/>
+                <m:MaterialTextArea ui:field="finalText" label="{msg.labelFinalText}"/>
             </m:MaterialColumn>
         </m:MaterialRow>
     </g:HTMLPanel>

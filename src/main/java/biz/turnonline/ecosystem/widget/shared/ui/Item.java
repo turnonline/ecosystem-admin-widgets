@@ -1,14 +1,9 @@
-package biz.turnonline.ecosystem.widget.order.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
-import biz.turnonline.ecosystem.widget.shared.ui.BillingUnitComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
-import biz.turnonline.ecosystem.widget.shared.ui.ProductAutoComplete;
-import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;

@@ -54,7 +54,11 @@ public class InvoicesPresenter
     public void bind()
     {
         bus().addHandler( EditInvoiceEvent.TYPE, event ->
-                controller().goTo( new EditInvoice( event.getInvoice() != null ? event.getInvoice().getId() : null, "tabDetail" ) ) );
+                controller().goTo( new EditInvoice(
+                        event.getInvoice() != null ? event.getInvoice().getOrderId() : null,
+                        event.getInvoice() != null ? event.getInvoice().getId() : null,
+                        "tabDetail" ) )
+        );
 
         bus().addHandler( DeleteInvoiceEvent.TYPE, event -> {
             for ( Invoice invoice : event.getInvoices() )

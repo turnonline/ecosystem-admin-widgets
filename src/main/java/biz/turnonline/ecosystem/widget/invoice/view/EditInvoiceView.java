@@ -20,14 +20,20 @@ package biz.turnonline.ecosystem.widget.invoice.view;
 
 import biz.turnonline.ecosystem.widget.invoice.event.BackEvent;
 import biz.turnonline.ecosystem.widget.invoice.event.SaveInvoiceEvent;
+import biz.turnonline.ecosystem.widget.invoice.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.invoice.presenter.EditInvoicePresenter;
+import biz.turnonline.ecosystem.widget.invoice.ui.Detail;
 import biz.turnonline.ecosystem.widget.invoice.ui.EditInvoiceTabs;
+import biz.turnonline.ecosystem.widget.invoice.ui.Transactions;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.ui.CustomerPanel;
+import biz.turnonline.ecosystem.widget.shared.ui.Items;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -59,14 +65,17 @@ public class EditInvoiceView
 
     // -- tab contents
 
-//    @UiField
-//    Detail detail;
+    @UiField
+    Detail detail;
 
     @UiField( provided = true )
-    CustomerPanel customer;
+    CustomerPanel<Invoice> customer;
 
-//    @UiField( provided = true )
-//    Items items;
+    @UiField( provided = true )
+    Items<InvoicePricing> items;
+
+    @UiField( provided = true )
+    Transactions transactions;
 
     // -- buttons
 
@@ -93,7 +102,9 @@ public class EditInvoiceView
         this.breadcrumb = breadcrumb;
         scaffoldNavBar.setActive( Route.INVOICES );
 
-        customer = new CustomerPanel( eventBus );
+        customer = new CustomerPanel<>( eventBus );
+        items = new Items<>( eventBus );
+        transactions = new Transactions( );
 
         add( binder.createAndBindUi( this ) );
     }
@@ -101,32 +112,27 @@ public class EditInvoiceView
     @Override
     protected void bind()
     {
-//        Product product = getRawModel();
-//
-//        detail.bind( product );
-//        content.bind( product );
-//        publishing.bind( product );
-//        pricing.bind( product );
-//        invoicing.bind( product );
-//        event.bind( product );
+        Invoice invoice = getRawModel();
+
+        detail.bind( invoice );
+        customer.bind( invoice );
+        items.bind( invoice.getPricing() );
     }
 
     @Override
     protected void fill()
     {
-//        Product product = getRawModel();
-//
-//        detail.fill( product );
-//        content.fill( product );
-//        publishing.fill( product );
-//        pricing.fill( product );
-//        invoicing.fill( product );
-//        event.fill( product );
-//
-//        Scheduler.get().scheduleDeferred( () -> {
-//            EditProduct where = ( EditProduct ) controller.getWhere();
-//            tabs.selectTab( where.getTab() );
-//        } );
+        Invoice invoice = getRawModel();
+
+        detail.fill( invoice );
+        customer.fill( invoice );
+        items.fill( invoice.getPricing() != null ? invoice.getPricing() : new InvoicePricing() );
+        transactions.fill( invoice );
+
+        Scheduler.get().scheduleDeferred( () -> {
+            EditInvoice where = ( EditInvoice ) controller.getWhere();
+            tabs.selectTab( where.getTab() );
+        } );
     }
 
     @UiHandler( "btnBack" )

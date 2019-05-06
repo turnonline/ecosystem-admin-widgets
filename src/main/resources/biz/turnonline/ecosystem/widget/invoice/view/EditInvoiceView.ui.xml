@@ -33,13 +33,16 @@
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginBottom="20">
             <m:MaterialRow marginBottom="0" paddingTop="10" paddingBottom="10">
                 <m:MaterialColumn m:id="tabDetail" grid="s12">
-                    <!--<o:Detail ui:field="detail"/>-->
+                    <i:Detail ui:field="detail"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabCustomer" grid="s12">
                     <s:CustomerPanel ui:field="customer"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabItems" grid="s12">
-                    <!--<o:Items ui:field="items"/>-->
+                    <s:Items ui:field="items"/>
+                </m:MaterialColumn>
+                <m:MaterialColumn m:id="tabTransactions" grid="s12">
+                    <i:Transactions ui:field="transactions"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

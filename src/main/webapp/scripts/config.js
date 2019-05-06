@@ -22,7 +22,7 @@ firebase = {
                     }
                 },
                 email: "john.foo@turnonline.biz",
-                photoUrl: "https://www.google.com/s2/photos/public/AIbEiAIAAABDCPeaz9KoqZfZbSILdmNhcmRfcGhvdG8qKDRkMTJhZDMzMzlhOGIzZThmOWY4NmU1N2RiZTgwNjdhOGZmNTY4YjQwAT0MVCzv9oi9rn31QqHvEYzDsYFd?sz=48"
+                photoURL: "https://www.google.com/s2/photos/public/AIbEiAIAAABDCPeaz9KoqZfZbSILdmNhcmRfcGhvdG8qKDRkMTJhZDMzMzlhOGIzZThmOWY4NmU1N2RiZTgwNjdhOGZmNTY4YjQwAT0MVCzv9oi9rn31QqHvEYzDsYFd?sz=48"
             }
         }
     }

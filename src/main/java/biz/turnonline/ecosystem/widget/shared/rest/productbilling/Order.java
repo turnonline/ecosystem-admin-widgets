@@ -33,7 +33,7 @@ import java.util.Date;
  */
 @SuppressWarnings( "javadoc" )
 public final class Order
-        implements HasCustomer
+        implements HasCustomer, HasPricingItems
 {
     /**
      * The value may be {@code null}.
@@ -198,10 +198,9 @@ public final class Order
     /**
      * @param items items or {@code null} for none
      */
-    public Order setItems( java.util.List<PricingItem> items )
+    public void setItems( java.util.List<PricingItem> items )
     {
         this.items = items;
-        return this;
     }
 
     /**

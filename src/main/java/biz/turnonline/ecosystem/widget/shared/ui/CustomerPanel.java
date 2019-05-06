@@ -4,7 +4,7 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.CustomerPostalAddress;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.HasCustomer;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchContact;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import com.google.gwt.core.client.Callback;
@@ -24,9 +24,9 @@ import gwt.material.design.incubator.client.google.addresslookup.js.options.Plac
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class CustomerPanel
+public class CustomerPanel<T extends HasCustomer>
         extends Composite
-        implements HasModel<Order>
+        implements HasModel<T>
 {
     private static CustomerPanelUiBinder binder = GWT.create( CustomerPanelUiBinder.class );
 
@@ -171,7 +171,7 @@ public class CustomerPanel
     }
 
     @Override
-    public void bind( Order model )
+    public void bind( T model )
     {
         Customer contact = model.getCustomer();
 
@@ -220,7 +220,7 @@ public class CustomerPanel
     }
 
     @Override
-    public void fill( Order model )
+    public void fill( T model )
     {
         if ( model.getCustomer() == null )
         {

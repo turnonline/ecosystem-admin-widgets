@@ -54,6 +54,12 @@ public interface AppMessages
     @Key( value = "label.items")
     String labelItems();
 
+    @Key( value = "label.transactions")
+    String labelTransactions();
+
+    @Key( value = "label.payment")
+    String labelPayment();
+
     @Key( value = "label.status")
     String labelStatus();
 
@@ -344,6 +350,48 @@ public interface AppMessages
 
     @Key( value = "label.invoiceType")
     String labelInvoiceType();
+
+    @Key( value = "label.invoiceNumber")
+    String labelInvoiceNumber();
+
+    @Key( value = "label.variableSymbol")
+    String labelVariableSymbol();
+
+    @Key( value = "label.dates")
+    String labelDates();
+
+    @Key( value = "label.dateOfIssue")
+    String labelDateOfIssue();
+
+    @Key( value = "label.dateOfTaxable")
+    String labelDateOfTaxable();
+
+    @Key( value = "label.dueDate")
+    String labelDueDate();
+
+    @Key( value = "label.paymentMethod")
+    String labelPaymentMethod();
+
+    @Key( value = "label.bankTransfer")
+    String labelBankTransfer();
+
+    @Key( value = "label.cash")
+    String labelCash();
+
+    @Key( value = "label.creditCard")
+    String labelCreditCard();
+
+    @Key( value = "label.debitCard")
+    String labelDebitCard();
+
+    @Key( value = "label.texts")
+    String labelTexts();
+
+    @Key( value = "label.finalText")
+    String labelFinalText();
+
+    @Key( value = "label.introductoryText")
+    String labelIntroductoryText();
 
     @Key( value = "label.select")
     String labelSelect();

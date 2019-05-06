@@ -15,6 +15,8 @@ public abstract class StaticCodeBookListBox
     {
         setKeyFactory( CodeBook::getCode );
         values().forEach( r -> addItem( r, r.getLabel() ) );
+
+        setMarginBottom( 30 );
     }
 
     protected abstract List<StaticCodeBook> values();

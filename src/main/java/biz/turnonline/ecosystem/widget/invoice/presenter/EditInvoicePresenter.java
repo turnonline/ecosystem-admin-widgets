@@ -25,9 +25,12 @@ import biz.turnonline.ecosystem.widget.invoice.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PricingItem;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
@@ -58,19 +61,17 @@ public class EditInvoicePresenter
 
             if ( invoice.getId() == null )
             {
-                // TODO: fixme
-//                bus().productBilling().createProduct( false, product, response -> {
-//                    success( messages.msgRecordCreated() );
-//                    controller().goTo( new Products() );
-//                } );
+                bus().productBilling().createInvoice( invoice, response -> {
+                    success( messages.msgRecordCreated() );
+                    controller().goTo( new Invoices() );
+                } );
             }
             else
             {
-                // TODO: fixme
-//                bus().productBilling().updateProduct( product.getId(), false, product, response -> {
-//                    success( messages.msgRecordUpdated() );
-//                    controller().goTo( new Products() );
-//                } );
+                bus().productBilling().updateInvoice( invoice.getOrderId(), invoice.getId(), invoice, response -> {
+                    success( messages.msgRecordUpdated() );
+                    controller().goTo( new Invoices() );
+                } );
             }
         } );
     }
@@ -81,10 +82,10 @@ public class EditInvoicePresenter
         view().setModel( newInvoice() );
 
         EditInvoice where = ( EditInvoice ) controller().getWhere();
-        if ( where.getId() != null )
+        if ( where.getInvoiceId() != null )
         {
-            // TODO: fixme
-//            bus().productBilling().findProductById( where.getId(), response -> view().setModel( response ) );
+            bus().productBilling().findInvoiceById( where.getOrderId(), where.getInvoiceId(), response
+                    -> view().setModel( response ) );
         }
 
         onAfterBackingObject();
@@ -93,6 +94,9 @@ public class EditInvoicePresenter
     private Invoice newInvoice()
     {
         Invoice invoice = new Invoice();
+        invoice.setPricing( new InvoicePricing() );
+        invoice.getPricing().setItems( new ArrayList<>(  ) );
+        invoice.getPricing().getItems().add( new PricingItem() );
 
         return invoice;
     }

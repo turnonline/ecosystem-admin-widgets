@@ -449,5 +449,4 @@ public final class Invoice
         this.type = type;
         return this;
     }
-
 }

@@ -1,8 +1,7 @@
-package biz.turnonline.ecosystem.widget.order.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.productbilling.HasPricingItems;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PricingItem;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,10 +22,9 @@ import java.util.List;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-// TODO: refactor to support Invoice
-public class Items
+public class Items<T extends HasPricingItems>
         extends Composite
-        implements HasModel<Order>
+        implements HasModel<T>
 {
     private static ItemsUiBinder binder = GWT.create( ItemsUiBinder.class );
 
@@ -57,14 +55,14 @@ public class Items
     }
 
     @Override
-    public void bind( Order order )
+    public void bind( T hasPricingItems )
     {
-        order.setItems( new ArrayList<>() );
+        hasPricingItems.setItems( new ArrayList<>() );
 
         for ( int i = 0; i < itemsRoot.getWidgetCount(); i++ )
         {
             PricingItem pricingItem = new PricingItem();
-            order.getItems().add( pricingItem );
+            hasPricingItems.getItems().add( pricingItem );
 
             Item item = ( Item ) itemsRoot.getWidget( i );
             item.bind( pricingItem );
@@ -72,14 +70,14 @@ public class Items
     }
 
     @Override
-    public void fill( Order order )
+    public void fill( T hasPricingItems )
     {
         itemsRoot.clear();
         values.clear();
 
-        if ( order.getItems() != null )
+        if ( hasPricingItems.getItems() != null )
         {
-            order.getItems().forEach( this::addPricingItem );
+            hasPricingItems.getItems().forEach( this::addPricingItem );
         }
     }
 

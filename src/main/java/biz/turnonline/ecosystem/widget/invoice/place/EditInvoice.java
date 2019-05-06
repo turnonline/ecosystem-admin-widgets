@@ -28,13 +28,16 @@ import com.google.gwt.place.shared.Prefix;
 public class EditInvoice
         extends Place
 {
-    private Long id;
+    private Long orderId;
+
+    private Long invoiceId;
 
     private String tab;
 
-    public EditInvoice( Long id, String tab )
+    public EditInvoice( Long orderId, Long invoiceId, String tab )
     {
-        this.id = id;
+        this.orderId = orderId;
+        this.invoiceId = invoiceId;
         this.tab = tab;
     }
 
@@ -45,7 +48,8 @@ public class EditInvoice
         @Override
         public EditInvoice getPlace( String token )
         {
-            Long id = null;
+            Long orderId = null;
+            Long invoiceId = null;
             String tab = null;
 
             if ( !token.isEmpty() )
@@ -53,29 +57,35 @@ public class EditInvoice
                 String[] tokens = token.split( "\\|" );
                 if ( tokens.length == 1 )
                 {
-                    id = tryParseId( tokens[0] );
-                    if ( id == null )
-                    {
-                        tab = tokens[0];
-                    }
+                    tab = tokens[0];
                 }
-                else if ( tokens.length == 2 )
+                else if ( tokens.length == 3 )
                 {
-                    id = tryParseId( tokens[0] );
-                    tab = tokens[1];
+                    orderId = tryParseId( tokens[0] );
+                    invoiceId = tryParseId( tokens[1] );
+                    tab = tokens[2];
                 }
             }
 
-            return new EditInvoice( id, tab );
+            return new EditInvoice( orderId, invoiceId, tab );
         }
 
         @Override
         public String getToken( EditInvoice place )
         {
             String token = "";
-            if ( place.getId() != null )
+
+            if ( place.getOrderId() != null )
             {
-                token += place.getId();
+                token += place.getOrderId();
+            }
+            if ( place.getInvoiceId() != null )
+            {
+                if ( !token.isEmpty() )
+                {
+                    token += "|";
+                }
+                token += place.getInvoiceId();
             }
             if ( place.getTab() != null )
             {
@@ -90,9 +100,14 @@ public class EditInvoice
         }
     }
 
-    public Long getId()
+    public Long getInvoiceId()
     {
-        return id;
+        return invoiceId;
+    }
+
+    public Long getOrderId()
+    {
+        return orderId;
     }
 
     public String getTab()

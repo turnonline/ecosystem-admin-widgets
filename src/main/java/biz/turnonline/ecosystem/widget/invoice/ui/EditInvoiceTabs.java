@@ -16,5 +16,6 @@ public class EditInvoiceTabs
         add( newTabItem( messages.labelDetail(), "tabDetail", IconType.VISIBILITY ) );
         add( newTabItem( messages.labelCustomer(), "tabCustomer", IconType.PERM_IDENTITY ) );
         add( newTabItem( messages.labelItems(), "tabItems", IconType.REORDER ) );
+        add( newTabItem( messages.labelTransactions(), "tabTransactions", IconType.IMPORT_EXPORT ) );
     }
 }

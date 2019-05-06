@@ -118,7 +118,8 @@ public interface ProductBillingFacade
 
     @GET
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
-    void findInvoiceById( @PathParam( "invoice_id" ) Long invoiceId,
+    void findInvoiceById( @PathParam( "order_id" ) Long orderId,
+                          @PathParam( "invoice_id" ) Long invoiceId,
                           FacadeCallback<Invoice> callback );
 
     @POST

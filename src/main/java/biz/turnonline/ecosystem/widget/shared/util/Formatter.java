@@ -29,7 +29,7 @@ public class Formatter
 
     public static String formatInvoiceName( Invoice invoice )
     {
-        return invoice.getId().toString();
+        return invoice.getInvoiceNumber();
     }
 
     public static String formatPostcode( String postcode )

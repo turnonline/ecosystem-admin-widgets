@@ -49,7 +49,7 @@ public class ScaffoldHeader
         initWidget( binder.createAndBindUi( this ) );
 
         email.setText( getFirebaseCurrentUserData( "email" ) );
-        avatar.setUrl( getFirebaseCurrentUserData( "photoUrl" ) );
+        avatar.setUrl( getFirebaseCurrentUserData( "photoURL" ) );
         avatar.getElement().setAttribute( "width", "40" );
 
         btnSettings.setHref( Route.SETTINGS.url() );
