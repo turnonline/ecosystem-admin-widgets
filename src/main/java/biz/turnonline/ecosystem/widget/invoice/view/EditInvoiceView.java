@@ -100,7 +100,7 @@ public class EditInvoiceView
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.INVOICES );
+        setActive( Route.INVOICES );
 
         customer = new CustomerPanel<>( eventBus );
         items = new Items<>( eventBus );

@@ -91,7 +91,7 @@ public class ProductsView
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.PRODUCTS );
+        setActive( Route.PRODUCTS );
 
         add( binder.createAndBindUi( this ) );
         initTable();

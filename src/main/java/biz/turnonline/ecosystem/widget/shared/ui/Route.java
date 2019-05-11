@@ -7,15 +7,19 @@ import com.google.gwt.user.client.Window;
  */
 public enum Route
 {
-    INVOICES( "/invoices", 1 ),
-    ORDERS( "/orders", 2 ),
-    PRODUCTS( "/products", 3 ),
-    CONTACTS( "/contacts", 4 ),
+    INVOICES( "/invoices", "invoices", "edit-invoice", 1 ),
+    ORDERS( "/orders", "orders", "edit-order",  2 ),
+    PRODUCTS( "/products", "products", "edit-product", 3 ),
+    CONTACTS( "/contacts", "contacts", "edit-contact", 4 ),
     DASHBOARD( "/dashboard" ),
     SETTINGS( "/settings" ),
     LOGOUT( "/logout" );
 
     private String url;
+
+    private String listToken;
+
+    private String detailToken;
 
     private Integer navBarOrder;
 
@@ -24,9 +28,11 @@ public enum Route
         this.url = url;
     }
 
-    Route( String url, Integer navBarOrder )
+    Route( String url, String listToken, String detailToken, Integer navBarOrder )
     {
         this.url = url;
+        this.listToken = listToken;
+        this.detailToken = detailToken;
         this.navBarOrder = navBarOrder;
     }
 
@@ -44,7 +50,18 @@ public enum Route
         return url;
     }
 
+    public String getListToken()
+    {
+        return listToken;
+    }
+
+    public String getDetailToken()
+    {
+        return detailToken;
+    }
+
     public Integer navBarOrder()
     {
         return navBarOrder;
-    }}
+    }
+}

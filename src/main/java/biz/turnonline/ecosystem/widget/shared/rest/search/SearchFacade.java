@@ -38,6 +38,15 @@ import javax.ws.rs.QueryParam;
 public interface SearchFacade
         extends RestService
 {
+    // global
+
+    @GET
+    @Path( "global" )
+    void getGlobal( @QueryParam( "query" ) String query,
+                    @QueryParam( "offset" ) Integer offset,
+                    @QueryParam( "limit" ) Integer limit,
+                    FacadeCallback<Items<SearchGlobal>> callback );
+
     // products
 
     @GET

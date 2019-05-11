@@ -93,7 +93,7 @@ public class EditOrderView
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.ORDERS );
+        setActive( Route.ORDERS );
 
         customer = new CustomerPanel<>( eventBus );
         items = new Items<>( eventBus );

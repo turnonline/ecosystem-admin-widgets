@@ -1,5 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
+import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductPicture;
 
@@ -25,12 +26,21 @@ public class ColumnProductPicture
 
             sb.append( createImage( pictures.get( 0 ).getServingUrl() ) );
         }
+        else
+        {
+            sb.append( createImage( null ) );
+        }
 
         return sb.toString();
     }
 
     private String createImage( String source )
     {
+        if ( source == null )
+        {
+            source = Resources.INSTANCE.noImage().getSafeUri().asString();
+        }
+
         return "<img class='responsive-img blue-text' src='" + source + "' width='40' style='margin: 10px 0;'>";
     }
 }

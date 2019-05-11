@@ -90,7 +90,7 @@ public class ContactsView
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.CONTACTS );
+        setActive( Route.CONTACTS );
 
         add( binder.createAndBindUi( this ) );
         initTable();

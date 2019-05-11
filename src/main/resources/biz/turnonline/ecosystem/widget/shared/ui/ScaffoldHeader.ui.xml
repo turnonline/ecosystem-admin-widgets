@@ -17,7 +17,7 @@
   -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
-             xmlns:s="urn:import:gwt.material.design.incubator.client.search"
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui"
              xmlns:t="urn:import:gwt.material.design.incubator.client.timer">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
@@ -26,7 +26,7 @@
         <m:MaterialNavBar ui:field="navBar" activates="sidenav" backgroundColor="BLUE">
             <m:MaterialNavBrand ui:field="title" text="TurnOnline.biz Admin" fontSize="1.5em"/>
             <m:MaterialNavSection float="RIGHT">
-                <s:InlineSearch ui:field="search" theme="LIGHT" width="40%" placeholder="Search" display="INLINE_BLOCK" marginRight="120"/>
+                <s:FulltextSearch ui:field="search" width="40%" placeholder="Search" display="INLINE_BLOCK" marginRight="120"/>
                 <m:MaterialLink iconType="SETTINGS" paddingRight="0" ui:field="btnSettings"/>
                 <m:MaterialLink ui:field="email">
                     <m:MaterialImage border="3px solid #fff" marginTop="12" circle="true" float="LEFT" marginRight="10" ui:field="avatar"/>

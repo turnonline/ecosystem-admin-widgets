@@ -108,7 +108,7 @@ public class EditProductView
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.PRODUCTS );
+        setActive( Route.PRODUCTS );
 
         add( binder.createAndBindUi( this ) );
 

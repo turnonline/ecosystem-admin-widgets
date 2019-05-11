@@ -493,6 +493,9 @@ public interface AppMessages
     @Key( value = "msg.errorRemoteServiceCall")
     String msgErrorRemoteServiceCall();
 
+    @Key( value = "msg.errorRecordDoesNotExists")
+    String msgErrorRecordDoesNotExists();
+
     @Key( value = "msg.msgConfirmOneRecordDelete")
     String msgConfirmOneRecordDelete(String name);
 

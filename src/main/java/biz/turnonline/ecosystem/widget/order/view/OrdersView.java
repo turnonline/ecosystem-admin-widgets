@@ -90,7 +90,7 @@ public class OrdersView
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.ORDERS );
+        setActive( Route.ORDERS );
 
         add( binder.createAndBindUi( this ) );
         initTable();
