@@ -32,7 +32,7 @@ import javax.ws.rs.QueryParam;
 /**
  * The Product billing resource REST facade service interface.
  *
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @Options( dispatcher = FirebaseAuthDispatcher.class, serviceRootKey = Configuration.SEARCH_API_ROOT )
 public interface SearchFacade

@@ -31,7 +31,7 @@ import com.google.gwt.place.shared.PlaceController;
 import javax.inject.Inject;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class ProductsPresenter
         extends Presenter<ProductsPresenter.IView, AppEventBus>

@@ -32,7 +32,7 @@ import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.view.BinderyView;
 
 /**
- * @author <a href="mailto:jozef.pohorelec@ctoolkit.org">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public abstract class View<T>
         extends BinderyView

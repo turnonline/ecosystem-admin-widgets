@@ -45,7 +45,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditOrderView
         extends View<Order>
