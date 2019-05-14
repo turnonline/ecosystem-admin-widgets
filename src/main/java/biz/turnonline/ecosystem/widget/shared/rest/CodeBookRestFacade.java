@@ -8,7 +8,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.productbilling.BillingUnit;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.productbilling.VatRate;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.storage.client.Storage;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -88,7 +87,6 @@ public class CodeBookRestFacade
         void retrieve( MethodCallback<Items<T>> callback );
     }
 
-    @SuppressWarnings( "unchecked" )
     private static <T extends CodeBook> void cacheCodeBook( Class<T> codeBookClass, List<T> codeBook )
     {
         codeBookCache.put( codeBookClass, codeBook );
@@ -98,10 +96,5 @@ public class CodeBookRestFacade
     private static <T extends CodeBook> List<T> getCodeBookFromCache( Class<T> codeBookClass )
     {
         return ( List<T> ) codeBookCache.get( codeBookClass );
-    }
-
-    private static Storage storage()
-    {
-        return Storage.getLocalStorageIfSupported();
     }
 }
