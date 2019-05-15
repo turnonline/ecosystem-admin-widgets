@@ -29,7 +29,7 @@ import org.ctoolkit.gwt.client.presenter.BinderyPresenter;
 /**
  * Specific presenter injecting customized {@link EventBus}.
  *
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public abstract class Presenter<V extends IView, E extends EventBus>
         extends BinderyPresenter<V>

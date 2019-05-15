@@ -24,7 +24,7 @@ import biz.turnonline.ecosystem.widget.shared.DaggerEntryPoint;
 import com.google.gwt.place.shared.Place;
 
 /**
- * @author <a href="mailto:jozef.pohorelec@ctoolkit.org">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class InvoiceEntryPoint
         extends DaggerEntryPoint

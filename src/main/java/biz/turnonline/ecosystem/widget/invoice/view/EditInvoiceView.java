@@ -47,7 +47,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditInvoiceView
         extends View<Invoice>
@@ -100,7 +100,7 @@ public class EditInvoiceView
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.INVOICES );
+        setActive( Route.INVOICES );
 
         customer = new CustomerPanel<>( eventBus );
         items = new Items<>( eventBus );

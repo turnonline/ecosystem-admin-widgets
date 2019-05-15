@@ -49,12 +49,12 @@
         <developer>
             <name>Aurel Medvegy</name>
             <id>medvegy</id>
-            <email>aurel.medvegy@ctoolkit.org</email>
+            <email>medvegy@turnonline.biz</email>
         </developer>
         <developer>
             <name>Jozef Pohorelec</name>
             <id>pohorelec</id>
-            <email>jozef.pohorelec@ctoolkit.org</email>
+            <email>pohorelec@turnonline.biz</email>
         </developer>
     </developers>
 
@@ -239,7 +239,7 @@
         <!-- end annotationProcessor config -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <gwt-material.version>2.1.1</gwt-material.version>
-        <ctoolkit-tinygwt.version>0.5-20190506.173832-16</ctoolkit-tinygwt.version>
+        <ctoolkit-tinygwt.version>0.5-20190512.064627-17</ctoolkit-tinygwt.version>
     </properties>
 
 </project>

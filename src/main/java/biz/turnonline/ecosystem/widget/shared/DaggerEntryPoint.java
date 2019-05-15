@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
- * @author <a href="mailto:jozef.pohorelec@ctoolkit.org">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public abstract class DaggerEntryPoint
         implements EntryPoint

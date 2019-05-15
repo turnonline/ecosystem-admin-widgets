@@ -19,7 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.view;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public interface IView<T>
         extends org.ctoolkit.gwt.client.view.IView

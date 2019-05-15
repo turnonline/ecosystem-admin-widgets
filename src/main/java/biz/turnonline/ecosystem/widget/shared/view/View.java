@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.view;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldFooter;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldHeader;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldNavBar;
@@ -31,7 +32,7 @@ import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.view.BinderyView;
 
 /**
- * @author <a href="mailto:jozef.pohorelec@ctoolkit.org">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public abstract class View<T>
         extends BinderyView
@@ -106,6 +107,12 @@ public abstract class View<T>
 
     protected void fill()
     {
+    }
+
+    protected void setActive( Route route )
+    {
+        scaffoldNavBar.setActive( route );
+        scaffoldHeader.setActive( route );
     }
 
     public static native JavaScriptObject newWindow( String url, String name, String features )/*-{

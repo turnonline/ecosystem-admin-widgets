@@ -26,6 +26,9 @@ public class ScaffoldHeader
     {
     }
 
+    @UiField(provided = true)
+    FulltextSearch search;
+
     @UiField
     MaterialNavBrand title;
 
@@ -46,6 +49,8 @@ public class ScaffoldHeader
 
     public ScaffoldHeader( EventBus eventBus )
     {
+        search = new FulltextSearch( eventBus );
+
         initWidget( binder.createAndBindUi( this ) );
 
         email.setText( getFirebaseCurrentUserData( "email" ) );
@@ -66,6 +71,11 @@ public class ScaffoldHeader
     public MaterialNavBrand getNavBrand()
     {
         return title;
+    }
+
+    public void setActive( Route route )
+    {
+        search.setRoute( route );
     }
 
     protected native String getFirebaseCurrentUserData( String key ) /*-{

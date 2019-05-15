@@ -51,7 +51,7 @@ import javax.inject.Named;
 import java.util.List;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class ProductsView
         extends View
@@ -91,7 +91,7 @@ public class ProductsView
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.PRODUCTS );
+        setActive( Route.PRODUCTS );
 
         add( binder.createAndBindUi( this ) );
         initTable();

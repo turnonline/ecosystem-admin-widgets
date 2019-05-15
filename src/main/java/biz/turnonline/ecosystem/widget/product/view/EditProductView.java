@@ -49,7 +49,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditProductView
         extends View<Product>
@@ -108,7 +108,7 @@ public class EditProductView
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.PRODUCTS );
+        setActive( Route.PRODUCTS );
 
         add( binder.createAndBindUi( this ) );
 

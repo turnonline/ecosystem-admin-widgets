@@ -37,7 +37,7 @@ import javax.ws.rs.QueryParam;
 /**
  * The Account steward resource REST facade service interface.
  *
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @Options( dispatcher = FirebaseAuthDispatcher.class, serviceRootKey = Configuration.ACCOUNT_STEWARD_API_ROOT )
 public interface AccountStewardFacade

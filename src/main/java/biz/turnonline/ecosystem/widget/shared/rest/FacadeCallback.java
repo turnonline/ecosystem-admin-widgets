@@ -21,9 +21,7 @@ public interface FacadeCallback<T>
     @Override
     default void onFailure( Method method, Throwable exception )
     {
-        printError( exception );
-
-        MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRemoteServiceCall(), "red" );
+        handleError( exception );
         StaticEventBus.INSTANCE.fireEvent( new RestCallEvent( Direction.IN ) );
 
         redirectToLoginIfUnauthorized( exception );
@@ -36,17 +34,26 @@ public interface FacadeCallback<T>
         onSuccess( response );
     }
 
-    default void printError( Throwable exception )
+    default void handleError( Throwable exception )
     {
+        String errorMessage = AppMessages.INSTANCE.msgErrorRemoteServiceCall();
+
         if ( exception instanceof FailedResponseException )
         {
             FailedResponseException fre = ( FailedResponseException ) exception;
+            if ( fre.getStatusCode() == 404)
+            {
+                errorMessage = AppMessages.INSTANCE.msgErrorRecordDoesNotExists();
+            }
+
             GWT.log( "Exception occur during calling remote service: " + fre.getResponse().getText() );
         }
         else
         {
             GWT.log( "Exception occur during calling remote service", exception );
         }
+
+        MaterialToast.fireToast( errorMessage, "red" );
     }
 
     default void redirectToLoginIfUnauthorized( Throwable exception )

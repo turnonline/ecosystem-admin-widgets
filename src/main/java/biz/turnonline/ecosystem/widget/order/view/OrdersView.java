@@ -50,7 +50,7 @@ import javax.inject.Named;
 import java.util.List;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class OrdersView
         extends View
@@ -90,7 +90,7 @@ public class OrdersView
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
-        scaffoldNavBar.setActive( Route.ORDERS );
+        setActive( Route.ORDERS );
 
         add( binder.createAndBindUi( this ) );
         initTable();
