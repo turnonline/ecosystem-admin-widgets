@@ -20,7 +20,6 @@ package biz.turnonline.ecosystem.widget.shared.view;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
-import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldFooter;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldHeader;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldNavBar;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -74,12 +73,7 @@ public abstract class View<T>
         root.add( contentContainer );
 
         content = new MaterialRow();
-        content.getElement().setAttribute( "style", "min-height: calc(100vh - 90px);padding-top:65px" );
         contentContainer.add( content );
-
-        // footer
-        ScaffoldFooter scaffoldFooter = new ScaffoldFooter();
-        root.add( scaffoldFooter );
     }
 
     @Override
