@@ -61,14 +61,12 @@ public class EditContactPresenter
             {
                 bus().accountSteward().create( loginId, contactCard, response -> {
                     success( messages.msgRecordCreated() );
-                    controller().goTo( new Contacts() );
                 } );
             }
             else
             {
                 bus().accountSteward().update( loginId, contactCard.getId(), contactCard, response -> {
                     success( messages.msgRecordUpdated() );
-                    controller().goTo( new Contacts() );
                 } );
             }
         } );

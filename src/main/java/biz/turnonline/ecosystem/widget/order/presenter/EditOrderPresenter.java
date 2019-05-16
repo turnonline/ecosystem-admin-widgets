@@ -60,14 +60,12 @@ public class EditOrderPresenter
             {
                 bus().productBilling().createOrder( order, response -> {
                     success( messages.msgRecordCreated() );
-                    controller().goTo( new Orders() );
                 } );
             }
             else
             {
                 bus().productBilling().updateOrder( order.getId(), order, response -> {
                     success( messages.msgRecordUpdated() );
-                    controller().goTo( new Orders() );
                 } );
             }
         } );

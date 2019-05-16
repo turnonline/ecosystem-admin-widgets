@@ -63,14 +63,12 @@ public class EditInvoicePresenter
             {
                 bus().productBilling().createInvoice( invoice, response -> {
                     success( messages.msgRecordCreated() );
-                    controller().goTo( new Invoices() );
                 } );
             }
             else
             {
                 bus().productBilling().updateInvoice( invoice.getOrderId(), invoice.getId(), invoice, response -> {
                     success( messages.msgRecordUpdated() );
-                    controller().goTo( new Invoices() );
                 } );
             }
         } );
