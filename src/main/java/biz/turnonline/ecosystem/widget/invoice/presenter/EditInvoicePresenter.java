@@ -39,7 +39,7 @@ public class EditInvoicePresenter
         extends Presenter<EditInvoicePresenter.IView, AppEventBus>
 {
     public interface IView
-            extends biz.turnonline.ecosystem.widget.shared.view.IView<Invoice>
+            extends org.ctoolkit.gwt.client.view.IView<Invoice>
     {
     }
 

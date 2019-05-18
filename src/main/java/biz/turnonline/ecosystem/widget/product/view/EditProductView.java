@@ -116,7 +116,7 @@ public class EditProductView
     }
 
     @Override
-    protected void bind()
+    protected void beforeGetModel()
     {
         Product product = getRawModel();
 
@@ -129,7 +129,7 @@ public class EditProductView
     }
 
     @Override
-    protected void fill()
+    protected void afterSetModel()
     {
         Product product = getRawModel();
 

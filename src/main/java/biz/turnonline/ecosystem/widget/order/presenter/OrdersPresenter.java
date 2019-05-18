@@ -37,7 +37,7 @@ public class OrdersPresenter
         extends Presenter<OrdersPresenter.IView, AppEventBus>
 {
     public interface IView
-            extends biz.turnonline.ecosystem.widget.shared.view.IView
+            extends org.ctoolkit.gwt.client.view.IView
     {
         void refresh();
     }

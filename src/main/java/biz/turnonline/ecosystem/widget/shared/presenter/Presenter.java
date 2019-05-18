@@ -19,12 +19,12 @@
 package biz.turnonline.ecosystem.widget.shared.presenter;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.view.IView;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Window;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialToast;
 import org.ctoolkit.gwt.client.presenter.BinderyPresenter;
+import org.ctoolkit.gwt.client.view.IView;
 
 /**
  * Specific presenter injecting customized {@link EventBus}.

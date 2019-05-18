@@ -36,7 +36,7 @@ public class EditContactPresenter
         extends Presenter<EditContactPresenter.IView, AppEventBus>
 {
     public interface IView
-            extends biz.turnonline.ecosystem.widget.shared.view.IView<ContactCard>
+            extends org.ctoolkit.gwt.client.view.IView<ContactCard>
     {
     }
 

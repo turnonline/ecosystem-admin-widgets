@@ -222,7 +222,7 @@ public class EditContactView
     }
 
     @Override
-    protected void bind()
+    protected void beforeGetModel()
     {
         ContactCard contact = getRawModel();
 
@@ -280,7 +280,7 @@ public class EditContactView
     }
 
     @Override
-    protected void fill()
+    protected void afterSetModel()
     {
         ContactCard contact = getRawModel();
 
