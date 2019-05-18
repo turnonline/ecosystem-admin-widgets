@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.HasPricingItems;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.HasPricingItems;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;

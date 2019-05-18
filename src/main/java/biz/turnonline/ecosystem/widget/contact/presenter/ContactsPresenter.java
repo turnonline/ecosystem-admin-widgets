@@ -23,7 +23,7 @@ import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
@@ -60,7 +60,7 @@ public class ContactsPresenter
         bus().addHandler( DeleteContactEvent.TYPE, event -> {
             for ( ContactCard contactCard : event.getContactCards() )
             {
-                bus().accountSteward().delete( bus().getConfiguration().getLoginId(), contactCard.getId(), response -> {
+                bus().account().delete( bus().config().getLoginId(), contactCard.getId(), response -> {
                     success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
                     Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );

@@ -1,8 +1,8 @@
 package biz.turnonline.ecosystem.widget.invoice.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PaymentMethod;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Transaction;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PaymentMethod;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;

@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductDiscount;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductDiscount;
 import biz.turnonline.ecosystem.widget.shared.ui.DiscountRuleListBox;
 import biz.turnonline.ecosystem.widget.shared.ui.DiscountUnitListBox;
 import biz.turnonline.ecosystem.widget.shared.ui.MaterialChipTextBox;

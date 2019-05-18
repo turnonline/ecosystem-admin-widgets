@@ -1,9 +1,9 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.CodeBookRestFacade;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.Country;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Customer;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.HasCustomer;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Country;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.HasCustomer;
 
 import static biz.turnonline.ecosystem.widget.shared.util.Formatter.formatPostcode;
 

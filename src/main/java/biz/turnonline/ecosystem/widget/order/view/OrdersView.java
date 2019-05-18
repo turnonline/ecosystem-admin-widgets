@@ -27,7 +27,7 @@ import biz.turnonline.ecosystem.widget.order.ui.ColumnPrice;
 import biz.turnonline.ecosystem.widget.order.ui.ColumnStatus;
 import biz.turnonline.ecosystem.widget.order.ui.OrdersDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnCustomer;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;

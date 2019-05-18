@@ -24,7 +24,7 @@ import biz.turnonline.ecosystem.widget.contact.place.Contacts;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -55,18 +55,18 @@ public class EditContactPresenter
 
         bus().addHandler( SaveContactEvent.TYPE, event -> {
             ContactCard contactCard = event.getContactCard();
-            String loginId = bus().getConfiguration().getLoginId();
+            String loginId = bus().config().getLoginId();
 
             if ( contactCard.getId() == null )
             {
-                bus().accountSteward().create( loginId, contactCard, response -> {
+                bus().account().create( loginId, contactCard, response -> {
                     success( messages.msgRecordCreated() );
                     controller().goTo( new Contacts() );
                 } );
             }
             else
             {
-                bus().accountSteward().update( loginId, contactCard.getId(), contactCard, response -> {
+                bus().account().update( loginId, contactCard.getId(), contactCard, response -> {
                     success( messages.msgRecordUpdated() );
                     controller().goTo( new Contacts() );
                 } );
@@ -82,7 +82,7 @@ public class EditContactPresenter
         EditContact where = ( EditContact ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().accountSteward().findById( bus().getConfiguration().getLoginId(), where.getId(),
+            bus().account().findById( bus().config().getLoginId(), where.getId(),
                     response -> view().setModel( response ) );
         }
 

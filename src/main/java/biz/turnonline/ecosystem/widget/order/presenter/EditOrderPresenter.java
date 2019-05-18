@@ -24,7 +24,7 @@ import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.order.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -58,14 +58,14 @@ public class EditOrderPresenter
 
             if ( order.getId() == null )
             {
-                bus().productBilling().createOrder( order, response -> {
+                bus().billing().createOrder( order, response -> {
                     success( messages.msgRecordCreated() );
                     controller().goTo( new Orders() );
                 } );
             }
             else
             {
-                bus().productBilling().updateOrder( order.getId(), order, response -> {
+                bus().billing().updateOrder( order.getId(), order, response -> {
                     success( messages.msgRecordUpdated() );
                     controller().goTo( new Orders() );
                 } );
@@ -81,7 +81,7 @@ public class EditOrderPresenter
         EditOrder where = ( EditOrder ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().productBilling().findOrderById( where.getId(), response -> view().setModel( response ) );
+            bus().billing().findOrderById( where.getId(), response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();

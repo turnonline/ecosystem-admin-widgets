@@ -1,12 +1,12 @@
 package biz.turnonline.ecosystem.widget.shared.rest;
 
 import biz.turnonline.ecosystem.widget.shared.Configuration;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.AccountStewardFacade;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.Country;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.LegalForm;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.BillingUnit;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.VatRate;
+import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Country;
+import biz.turnonline.ecosystem.widget.shared.rest.account.LegalForm;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillingUnit;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import com.google.gwt.core.client.GWT;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.Method;

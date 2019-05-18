@@ -24,7 +24,7 @@ import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.order.presenter.EditOrderPresenter;
 import biz.turnonline.ecosystem.widget.order.ui.Detail;
 import biz.turnonline.ecosystem.widget.order.ui.EditOrderTabs;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.CustomerPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Items;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;

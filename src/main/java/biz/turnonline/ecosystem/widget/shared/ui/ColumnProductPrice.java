@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import com.google.gwt.text.client.DoubleRenderer;
 
 /**

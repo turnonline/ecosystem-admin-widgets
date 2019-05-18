@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.BillingUnit;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillingUnit;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>

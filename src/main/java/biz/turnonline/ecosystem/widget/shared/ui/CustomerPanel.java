@@ -2,9 +2,9 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Customer;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.CustomerPostalAddress;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.HasCustomer;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.CustomerPostalAddress;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.HasCustomer;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchContact;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import com.google.gwt.core.client.Callback;
@@ -128,7 +128,7 @@ public class CustomerPanel<T extends HasCustomer>
         initWidget( binder.createAndBindUi( this ) );
 
         // Loading google map API
-        String mapsApiKey = ( ( AppEventBus ) eventBus ).getConfiguration().getMapsApiKey();
+        String mapsApiKey = ( ( AppEventBus ) eventBus ).config().getMapsApiKey();
         ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
         {
             @Override
@@ -287,7 +287,7 @@ public class CustomerPanel<T extends HasCustomer>
 
     private void fillFrom( SearchContact searchContact )
     {
-        ( ( AppEventBus ) eventBus ).accountSteward()
+        ( ( AppEventBus ) eventBus ).account()
                 .findById( Configuration.get().getLoginId(), Long.valueOf( searchContact.getId() ),
                         contact -> fill( new Customer( contact ) ) );
     }

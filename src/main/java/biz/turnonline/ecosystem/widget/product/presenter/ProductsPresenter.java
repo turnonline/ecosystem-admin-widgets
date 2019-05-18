@@ -23,7 +23,7 @@ import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
@@ -59,7 +59,7 @@ public class ProductsPresenter
         bus().addHandler( DeleteProductEvent.TYPE, event -> {
             for ( Product produt : event.getProducts() )
             {
-                bus().productBilling().deleteProduct( produt.getId(), ( response ) -> {
+                bus().billing().deleteProduct( produt.getId(), ( response ) -> {
                     success( messages.msgRecordDeleted( Formatter.formatProductName( produt ) ) );
                     Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );

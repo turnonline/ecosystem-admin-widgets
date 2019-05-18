@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Configuration;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.VatRate;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>

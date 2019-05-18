@@ -1,8 +1,8 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Customer;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;
 import gwt.material.design.client.data.loader.LoadResult;
@@ -31,7 +31,7 @@ public class CustomerDataSource
         int limit = loadConfig.getLimit();
         int offset = loadConfig.getOffset();
 
-        eventBus.accountSteward().getContacts( eventBus.getConfiguration().getLoginId(),
+        eventBus.account().getContacts( eventBus.config().getLoginId(),
                 offset,
                 limit,
                 null,

@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;
 import gwt.material.design.client.data.loader.LoadResult;
@@ -27,7 +27,7 @@ public class ProductsDataSource
         int limit = loadConfig.getLimit();
         int offset = loadConfig.getOffset();
 
-        eventBus.productBilling().getProducts(
+        eventBus.billing().getProducts(
                 offset,
                 limit,
                 true,

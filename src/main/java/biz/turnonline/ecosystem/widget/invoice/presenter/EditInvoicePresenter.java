@@ -24,9 +24,9 @@ import biz.turnonline.ecosystem.widget.invoice.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.invoice.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.InvoicePricing;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -61,14 +61,14 @@ public class EditInvoicePresenter
 
             if ( invoice.getId() == null )
             {
-                bus().productBilling().createInvoice( invoice, response -> {
+                bus().billing().createInvoice( invoice, response -> {
                     success( messages.msgRecordCreated() );
                     controller().goTo( new Invoices() );
                 } );
             }
             else
             {
-                bus().productBilling().updateInvoice( invoice.getOrderId(), invoice.getId(), invoice, response -> {
+                bus().billing().updateInvoice( invoice.getOrderId(), invoice.getId(), invoice, response -> {
                     success( messages.msgRecordUpdated() );
                     controller().goTo( new Invoices() );
                 } );
@@ -84,7 +84,7 @@ public class EditInvoicePresenter
         EditInvoice where = ( EditInvoice ) controller().getWhere();
         if ( where.getInvoiceId() != null )
         {
-            bus().productBilling().findInvoiceById( where.getOrderId(), where.getInvoiceId(), response
+            bus().billing().findInvoiceById( where.getOrderId(), where.getInvoiceId(), response
                     -> view().setModel( response ) );
         }
 

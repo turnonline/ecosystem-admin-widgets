@@ -23,7 +23,7 @@ import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.presenter.ProductsPresenter;
 import biz.turnonline.ecosystem.widget.product.ui.ColumnActions;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductName;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductPicture;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductPrice;

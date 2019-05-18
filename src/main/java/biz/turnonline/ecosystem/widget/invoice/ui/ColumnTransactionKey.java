@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.invoice.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Transaction;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 
 /**

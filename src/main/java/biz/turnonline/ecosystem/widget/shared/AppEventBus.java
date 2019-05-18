@@ -18,8 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared;
 
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.AccountStewardFacade;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
@@ -53,22 +53,22 @@ public class AppEventBus
         this.configuration = configuration;
     }
 
-    public AccountStewardFacade accountSteward()
+    public AccountStewardFacade account()
     {
         return accountSteward;
     }
 
-    public ProductBillingFacade productBilling()
+    public ProductBillingFacade billing()
     {
         return productBilling;
     }
 
-    public SearchFacade searchFacade()
+    public SearchFacade search()
     {
         return searchFacade;
     }
 
-    public Configuration getConfiguration()
+    public Configuration config()
     {
         return configuration;
     }

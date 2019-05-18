@@ -1,8 +1,8 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PricingItem;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductPricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -105,7 +105,7 @@ public class Item
 
     private void fillFrom( SearchProduct searchProduct )
     {
-        ( ( AppEventBus ) eventBus ).productBilling().findProductById( Long.valueOf( searchProduct.getId() ), product -> {
+        ( ( AppEventBus ) eventBus ).billing().findProductById( Long.valueOf( searchProduct.getId() ), product -> {
             ProductPricing pricing = product.getPricing();
 
             PricingItem pricingItem = new PricingItem();

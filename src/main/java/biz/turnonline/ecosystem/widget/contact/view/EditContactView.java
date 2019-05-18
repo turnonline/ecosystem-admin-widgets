@@ -22,8 +22,8 @@ import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCardPostalAddress;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCardPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -181,7 +181,7 @@ public class EditContactView
         add( binder.createAndBindUi( this ) );
 
         // Loading google map API
-        String mapsApiKey = ( ( AppEventBus ) eventBus ).getConfiguration().getMapsApiKey();
+        String mapsApiKey = ( ( AppEventBus ) eventBus ).config().getMapsApiKey();
         ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
         {
             @Override

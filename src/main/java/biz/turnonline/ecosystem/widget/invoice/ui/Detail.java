@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.invoice.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.InvoicePayment;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeListBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PaymentMethodListBox;

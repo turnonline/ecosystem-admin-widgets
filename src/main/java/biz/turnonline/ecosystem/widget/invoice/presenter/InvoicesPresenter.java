@@ -23,7 +23,7 @@ import biz.turnonline.ecosystem.widget.invoice.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.invoice.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
@@ -63,7 +63,7 @@ public class InvoicesPresenter
         bus().addHandler( DeleteInvoiceEvent.TYPE, event -> {
             for ( Invoice invoice : event.getInvoices() )
             {
-                bus().productBilling().deleteInvoice( invoice.getOrderId(), invoice.getId(), ( response ) -> {
+                bus().billing().deleteInvoice( invoice.getOrderId(), invoice.getId(), ( response ) -> {
                     success( messages.msgRecordDeleted( Formatter.formatInvoiceName( invoice ) ) );
                     Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );
