@@ -168,7 +168,7 @@ public class FulltextSearch
         @Override
         public void requestSuggestions( Request request, Callback callback )
         {
-            ( ( AppEventBus ) eventBus ).searchFacade().getGlobal( request.getQuery(), 0, request.getLimit(),
+            ( ( AppEventBus ) eventBus ).search().getGlobal( request.getQuery(), 0, request.getLimit(),
                     response -> {
 
 //                        response.setItems( Mocks.mockSearchGlobal() );

@@ -23,7 +23,7 @@ import biz.turnonline.ecosystem.widget.order.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
@@ -31,7 +31,7 @@ import com.google.gwt.place.shared.PlaceController;
 import javax.inject.Inject;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class OrdersPresenter
         extends Presenter<OrdersPresenter.IView, AppEventBus>
@@ -59,7 +59,7 @@ public class OrdersPresenter
         bus().addHandler( DeleteOrderEvent.TYPE, event -> {
             for ( Order order : event.getOrders() )
             {
-                bus().productBilling().deleteOrder( order.getId(), response -> {
+                bus().billing().deleteOrder( order.getId(), response -> {
                     success( messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
                     Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );

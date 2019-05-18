@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.OrderPeriodicity;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 
 import java.util.ArrayList;
 import java.util.List;

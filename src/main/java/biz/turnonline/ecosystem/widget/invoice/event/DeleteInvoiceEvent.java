@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.invoice.event;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import com.google.gwt.event.shared.GwtEvent;
 
 import java.util.List;

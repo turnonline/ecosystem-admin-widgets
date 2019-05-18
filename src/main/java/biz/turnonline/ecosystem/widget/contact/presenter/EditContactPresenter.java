@@ -24,13 +24,13 @@ import biz.turnonline.ecosystem.widget.contact.place.Contacts;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditContactPresenter
         extends Presenter<EditContactPresenter.IView, AppEventBus>
@@ -55,17 +55,17 @@ public class EditContactPresenter
 
         bus().addHandler( SaveContactEvent.TYPE, event -> {
             ContactCard contactCard = event.getContactCard();
-            String loginId = bus().getConfiguration().getLoginId();
+            String loginId = bus().config().getLoginId();
 
             if ( contactCard.getId() == null )
             {
-                bus().accountSteward().create( loginId, contactCard, response -> {
+                bus().account().create( loginId, contactCard, response -> {
                     success( messages.msgRecordCreated() );
                 } );
             }
             else
             {
-                bus().accountSteward().update( loginId, contactCard.getId(), contactCard, response -> {
+                bus().account().update( loginId, contactCard.getId(), contactCard, response -> {
                     success( messages.msgRecordUpdated() );
                 } );
             }
@@ -80,7 +80,7 @@ public class EditContactPresenter
         EditContact where = ( EditContact ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().accountSteward().findById( bus().getConfiguration().getLoginId(), where.getId(),
+            bus().account().findById( bus().config().getLoginId(), where.getId(),
                     response -> view().setModel( response ) );
         }
 

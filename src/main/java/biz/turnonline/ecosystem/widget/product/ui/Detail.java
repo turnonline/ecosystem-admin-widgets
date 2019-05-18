@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductMetaFields;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductMetaFields;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.MaterialChipTextBox;
 import com.google.gwt.core.client.GWT;

@@ -52,7 +52,7 @@ public class ProductAutoComplete
         @Override
         public void requestSuggestions( Request request, Callback callback )
         {
-            ( ( AppEventBus ) eventBus ).searchFacade().getProducts( request.getQuery(), 0, request.getLimit(),
+            ( ( AppEventBus ) eventBus ).search().getProducts( request.getQuery(), 0, request.getLimit(),
                     response -> {
                         Response resp = new Response();
 

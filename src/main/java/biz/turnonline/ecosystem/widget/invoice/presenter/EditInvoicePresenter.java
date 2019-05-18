@@ -24,16 +24,16 @@ import biz.turnonline.ecosystem.widget.invoice.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.invoice.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.InvoicePricing;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditInvoicePresenter
         extends Presenter<EditInvoicePresenter.IView, AppEventBus>
@@ -61,13 +61,13 @@ public class EditInvoicePresenter
 
             if ( invoice.getId() == null )
             {
-                bus().productBilling().createInvoice( invoice, response -> {
+                bus().billing().createInvoice( invoice, response -> {
                     success( messages.msgRecordCreated() );
                 } );
             }
             else
             {
-                bus().productBilling().updateInvoice( invoice.getOrderId(), invoice.getId(), invoice, response -> {
+                bus().billing().updateInvoice( invoice.getOrderId(), invoice.getId(), invoice, response -> {
                     success( messages.msgRecordUpdated() );
                 } );
             }
@@ -82,7 +82,7 @@ public class EditInvoicePresenter
         EditInvoice where = ( EditInvoice ) controller().getWhere();
         if ( where.getInvoiceId() != null )
         {
-            bus().productBilling().findInvoiceById( where.getOrderId(), where.getInvoiceId(), response
+            bus().billing().findInvoiceById( where.getOrderId(), where.getInvoiceId(), response
                     -> view().setModel( response ) );
         }
 

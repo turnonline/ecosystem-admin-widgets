@@ -1,11 +1,11 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Event;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.EventBegin;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.EventEnd;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.EventLocation;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.EventBegin;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.EventEnd;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.EventLocation;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.util.Time;
@@ -112,7 +112,7 @@ public class EventPanel
     public void init( AppEventBus eventBus )
     {
         // Loading google map API
-        String mapsApiKey = ( eventBus ).getConfiguration().getMapsApiKey();
+        String mapsApiKey = ( eventBus ).config().getMapsApiKey();
         ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
         {
             @Override

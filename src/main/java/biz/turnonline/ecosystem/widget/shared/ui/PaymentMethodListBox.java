@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.PaymentMethod;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PaymentMethod;
 
 import java.util.ArrayList;
 import java.util.List;

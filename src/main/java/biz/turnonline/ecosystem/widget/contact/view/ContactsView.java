@@ -24,7 +24,7 @@ import biz.turnonline.ecosystem.widget.contact.presenter.ContactsPresenter;
 import biz.turnonline.ecosystem.widget.contact.ui.ColumnActions;
 import biz.turnonline.ecosystem.widget.contact.ui.ContactsDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactAddress;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactContacts;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactName;
@@ -50,7 +50,7 @@ import javax.inject.Named;
 import java.util.List;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class ContactsView
         extends View

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~ Copyright (c) 2019 Comvai, s.r.o. All Rights Reserved.
   ~
   ~ This library is free software; you can redistribute it and/or
   ~ modify it under the terms of the GNU Lesser General Public
@@ -49,12 +49,12 @@
         <developer>
             <name>Aurel Medvegy</name>
             <id>medvegy</id>
-            <email>aurel.medvegy@ctoolkit.org</email>
+            <email>medvegy@turnonline.biz</email>
         </developer>
         <developer>
             <name>Jozef Pohorelec</name>
             <id>pohorelec</id>
-            <email>jozef.pohorelec@ctoolkit.org</email>
+            <email>pohorelec@turnonline.biz</email>
         </developer>
     </developers>
 
@@ -78,6 +78,7 @@
                                 <module>biz.turnonline.ecosystem.widget.Product</module>
                                 <module>biz.turnonline.ecosystem.widget.Order</module>
                                 <module>biz.turnonline.ecosystem.widget.Invoice</module>
+                                <module>biz.turnonline.ecosystem.widget.MyAccount</module>
                             </modules>
                         </configuration>
                         <goals>
@@ -107,7 +108,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -239,7 +240,7 @@
         <!-- end annotationProcessor config -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <gwt-material.version>2.1.1</gwt-material.version>
-        <ctoolkit-tinygwt.version>0.5-20190506.173832-16</ctoolkit-tinygwt.version>
+        <ctoolkit-tinygwt.version>0.5-20190517.180351-18</ctoolkit-tinygwt.version>
     </properties>
 
 </project>

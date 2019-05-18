@@ -27,7 +27,7 @@ import biz.turnonline.ecosystem.widget.order.ui.ColumnPrice;
 import biz.turnonline.ecosystem.widget.order.ui.ColumnStatus;
 import biz.turnonline.ecosystem.widget.order.ui.OrdersDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnCustomer;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;
@@ -50,7 +50,7 @@ import javax.inject.Named;
 import java.util.List;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class OrdersView
         extends View

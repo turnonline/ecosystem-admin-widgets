@@ -25,8 +25,8 @@ import biz.turnonline.ecosystem.widget.invoice.presenter.EditInvoicePresenter;
 import biz.turnonline.ecosystem.widget.invoice.ui.Detail;
 import biz.turnonline.ecosystem.widget.invoice.ui.EditInvoiceTabs;
 import biz.turnonline.ecosystem.widget.invoice.ui.Transactions;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.ui.CustomerPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Items;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -47,7 +47,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditInvoiceView
         extends View<Invoice>

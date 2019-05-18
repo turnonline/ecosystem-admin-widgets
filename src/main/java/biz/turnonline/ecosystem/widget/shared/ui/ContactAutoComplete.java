@@ -52,7 +52,7 @@ public class ContactAutoComplete
         @Override
         public void requestSuggestions( Request request, Callback callback )
         {
-            ( ( AppEventBus ) eventBus ).searchFacade().getContacts( request.getQuery(), 0, request.getLimit(),
+            ( ( AppEventBus ) eventBus ).search().getContacts( request.getQuery(), 0, request.getLimit(),
                     response -> {
                         Response resp = new Response();
 

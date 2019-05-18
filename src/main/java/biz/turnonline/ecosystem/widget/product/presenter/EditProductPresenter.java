@@ -24,13 +24,13 @@ import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditProductPresenter
         extends Presenter<EditProductPresenter.IView, AppEventBus>
@@ -58,13 +58,13 @@ public class EditProductPresenter
 
             if ( product.getId() == null )
             {
-                bus().productBilling().createProduct( false, product, response -> {
+                bus().billing().createProduct( false, product, response -> {
                     success( messages.msgRecordCreated() );
                 } );
             }
             else
             {
-                bus().productBilling().updateProduct( product.getId(), false, product, response -> {
+                bus().billing().updateProduct( product.getId(), false, product, response -> {
                     success( messages.msgRecordUpdated() );
                 } );
             }
@@ -79,7 +79,7 @@ public class EditProductPresenter
         EditProduct where = ( EditProduct ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().productBilling().findProductById( where.getId(), response -> view().setModel( response ) );
+            bus().billing().findProductById( where.getId(), response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();

@@ -24,7 +24,7 @@ import dagger.Component;
 import javax.inject.Singleton;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @Singleton
 @Component( modules = OrderModule.class )

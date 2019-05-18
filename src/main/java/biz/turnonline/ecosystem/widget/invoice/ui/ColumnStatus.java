@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.invoice.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.InvoiceStatus;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus;
 import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 
 import java.util.HashMap;

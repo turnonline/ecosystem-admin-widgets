@@ -18,8 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared;
 
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.AccountStewardFacade;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
@@ -27,7 +27,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @Singleton
 public class AppEventBus
@@ -53,22 +53,22 @@ public class AppEventBus
         this.configuration = configuration;
     }
 
-    public AccountStewardFacade accountSteward()
+    public AccountStewardFacade account()
     {
         return accountSteward;
     }
 
-    public ProductBillingFacade productBilling()
+    public ProductBillingFacade billing()
     {
         return productBilling;
     }
 
-    public SearchFacade searchFacade()
+    public SearchFacade search()
     {
         return searchFacade;
     }
 
-    public Configuration getConfiguration()
+    public Configuration config()
     {
         return configuration;
     }

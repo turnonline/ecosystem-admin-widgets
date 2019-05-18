@@ -2,7 +2,7 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.CodeBookRestFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.Contact;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.Country;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Country;
 
 import static biz.turnonline.ecosystem.widget.shared.util.Formatter.formatPostcode;
 

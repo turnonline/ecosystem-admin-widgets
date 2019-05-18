@@ -1,8 +1,8 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Resources;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductPicture;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 
 import java.util.Comparator;
 import java.util.List;

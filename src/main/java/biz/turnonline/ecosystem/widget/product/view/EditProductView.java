@@ -30,7 +30,7 @@ import biz.turnonline.ecosystem.widget.product.ui.Invoicing;
 import biz.turnonline.ecosystem.widget.product.ui.Pricing;
 import biz.turnonline.ecosystem.widget.product.ui.Publishing;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -49,7 +49,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditProductView
         extends View<Product>

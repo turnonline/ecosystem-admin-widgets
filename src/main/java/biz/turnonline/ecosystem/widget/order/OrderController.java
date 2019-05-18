@@ -33,7 +33,7 @@ import java.util.HashMap;
 /**
  * App controller maps place to a presenter.
  *
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class OrderController
         implements ActivityMapper

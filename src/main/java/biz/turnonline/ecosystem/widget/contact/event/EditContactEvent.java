@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.contact.event;
 
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**

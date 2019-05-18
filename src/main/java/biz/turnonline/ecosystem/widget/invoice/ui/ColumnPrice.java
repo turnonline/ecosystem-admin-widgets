@@ -1,8 +1,8 @@
 package biz.turnonline.ecosystem.widget.invoice.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.InvoicePricing;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.OrderPeriodicity;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 import com.google.gwt.text.client.DoubleRenderer;
 

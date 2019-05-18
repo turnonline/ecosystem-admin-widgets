@@ -24,7 +24,7 @@ import com.google.gwt.place.shared.WithTokenizers;
 /**
  * Custom tokenizer holder. Put all new tokenizer implementations here.
  *
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @WithTokenizers( {
         Contacts.Tokenizer.class,

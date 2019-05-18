@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.invoice.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Transaction;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.client.ui.table.AbstractDataTable;

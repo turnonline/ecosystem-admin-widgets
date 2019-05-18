@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;

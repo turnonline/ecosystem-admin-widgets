@@ -2,7 +2,7 @@ package biz.turnonline.ecosystem.widget.invoice.ui;
 
 import biz.turnonline.ecosystem.widget.invoice.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.ButtonSize;
 import gwt.material.design.client.constants.ButtonType;

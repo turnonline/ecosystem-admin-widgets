@@ -27,8 +27,8 @@ import biz.turnonline.ecosystem.widget.contact.view.EditContactView;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
-import biz.turnonline.ecosystem.widget.shared.rest.accountsteward.AccountStewardFacade;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductBillingFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import com.google.gwt.activity.shared.ActivityManager;
@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:aurel.medvegy@ctoolkit.org">Aurel Medvegy</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @Module
 public abstract class ContactModule

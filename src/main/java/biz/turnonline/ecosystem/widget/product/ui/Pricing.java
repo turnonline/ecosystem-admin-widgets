@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Product;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.ProductPricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;

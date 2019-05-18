@@ -1,7 +1,7 @@
 package biz.turnonline.ecosystem.widget.order.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.Order;
-import biz.turnonline.ecosystem.widget.shared.rest.productbilling.OrderPeriodicity;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 import com.google.gwt.text.client.DoubleRenderer;
 
