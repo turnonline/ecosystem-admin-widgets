@@ -27,9 +27,15 @@ import com.google.gwt.i18n.client.Messages;
 public interface AppMessages
         extends Messages
 {
-    public static final AppMessages INSTANCE = GWT.create( AppMessages.class );
+    AppMessages INSTANCE = GWT.create( AppMessages.class );
 
     // labels
+    @Key( value = "label.accountEmail" )
+    String labelAccountEmail();
+
+    @Key( value = "label.accountType" )
+    String labelAccountType();
+
     @Key( value = "label.new")
     String labelNew();
 
@@ -42,8 +48,14 @@ public interface AppMessages
     @Key( value = "label.delete")
     String labelDelete();
 
+    @Key( "label.companyBasicInfo" )
+    String labelCompanyBasicInfo();
+
     @Key( value = "label.businessName")
     String labelBusinessName();
+
+    @Key( value = "label.legalForm" )
+    String labelLegalForm();
 
     @Key( value = "label.id")
     String labelId();
@@ -110,6 +122,15 @@ public interface AppMessages
 
     @Key( value = "label.contacts")
     String labelContacts();
+
+    @Key( value = "label.myAccount" )
+    String labelMyAccount();
+
+    @Key( value = "label.companyAccount" )
+    String labelCompanyAccount();
+
+    @Key( value = "label.personalAccount" )
+    String labelPersonalAccount();
 
     @Key( value = "label.editContact")
     String labelEditContact();
@@ -428,9 +449,12 @@ public interface AppMessages
     @Key( value = "tooltip.delete.contact")
     String tooltipDeleteContact();
 
+    @Key( value = "tooltip.save.account" )
+    String tooltipSaveAccount();
+
     @Key( value = "tooltip.save.contact")
     String tooltipSaveContact();
-    
+
     @Key( value = "tooltip.new.product")
     String tooltipNewProduct();
 

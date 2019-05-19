@@ -16,26 +16,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.myaccount;
+package biz.turnonline.ecosystem.widget.shared;
 
-import biz.turnonline.ecosystem.widget.myaccount.place.MyAccount;
-import biz.turnonline.ecosystem.widget.shared.DaggerComponent;
-import biz.turnonline.ecosystem.widget.shared.DaggerEntryPoint;
-import com.google.gwt.place.shared.Place;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * My-Account and Settings widget entry point.
- *
- * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
- */
-public class MyAccountEntryPoint
-        extends DaggerEntryPoint
+public class Preconditions
 {
-    public static Place DEFAULT_PLACE = new MyAccount();
-
-    @Override
-    protected DaggerComponent component()
+    @CanIgnoreReturnValue
+    public static <T extends @NonNull Object> T checkNotNull( T reference )
     {
-        return DaggerMyAccountComponent.create();
+        if ( reference == null )
+        {
+            throw new NullPointerException();
+        }
+        return reference;
     }
+
+    @CanIgnoreReturnValue
+    public static <T extends @NonNull Object> T checkNotNull(
+            T reference, @Nullable Object errorMessage )
+    {
+        if ( reference == null )
+        {
+            throw new NullPointerException( String.valueOf( errorMessage ) );
+        }
+        return reference;
+    }
+
 }

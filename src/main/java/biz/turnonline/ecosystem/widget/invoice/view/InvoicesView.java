@@ -90,7 +90,7 @@ public class InvoicesView
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
-        setActive( Route.PRODUCTS );
+        setActive( Route.INVOICES );
 
         add( binder.createAndBindUi( this ) );
         initTable();

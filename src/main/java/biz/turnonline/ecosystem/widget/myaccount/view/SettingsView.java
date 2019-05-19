@@ -19,27 +19,39 @@
 package biz.turnonline.ecosystem.widget.myaccount.view;
 
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
+import biz.turnonline.ecosystem.widget.shared.ui.Route;
+import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class SettingsView
-        extends View
+        extends View<Account>
         implements SettingsPresenter.IView
 {
     private static SettingsViewUiBinder binder = GWT.create( SettingsViewUiBinder.class );
 
+    @UiField( provided = true )
+    ScaffoldBreadcrumb breadcrumb;
+
     @Inject
-    public SettingsView( EventBus eventBus )
+    public SettingsView( EventBus eventBus, @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super( eventBus );
+
+        this.breadcrumb = breadcrumb;
+        setActive( Route.MY_ACCOUNT );
+
         add( binder.createAndBindUi( this ) );
     }
 

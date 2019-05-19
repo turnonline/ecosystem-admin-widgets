@@ -16,26 +16,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.myaccount;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.myaccount.place.MyAccount;
-import biz.turnonline.ecosystem.widget.shared.DaggerComponent;
-import biz.turnonline.ecosystem.widget.shared.DaggerEntryPoint;
-import com.google.gwt.place.shared.Place;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.rest.account.LegalForm;
 
 /**
- * My-Account and Settings widget entry point.
+ * {@link LegalForm} code-book combo box with configured default value.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class MyAccountEntryPoint
-        extends DaggerEntryPoint
+public class LegalFormComboBox
+        extends CodeBookComboBox<LegalForm>
 {
-    public static Place DEFAULT_PLACE = new MyAccount();
+    public LegalFormComboBox()
+    {
+        super( LegalForm.class );
+    }
 
     @Override
-    protected DaggerComponent component()
+    protected String defaultValue()
     {
-        return DaggerMyAccountComponent.create();
+        return Configuration.get().getLegalForm();
     }
 }

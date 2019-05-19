@@ -66,7 +66,7 @@ public class Publishing
         initWidget( binder.createAndBindUi( this ) );
 
         String apiUrl = ServiceRoots.get( PRODUCT_BILLING_API_ROOT );
-        String uploadUrl = apiUrl + "storage-upload";
+        String uploadUrl = apiUrl + Constants.UPLOAD_PATH;
         uploader.setUrl( uploadUrl );
         GWT.log( "Upload Url: " + uploadUrl );
 

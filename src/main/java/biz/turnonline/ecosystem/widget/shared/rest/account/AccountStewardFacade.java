@@ -43,6 +43,15 @@ import javax.ws.rs.QueryParam;
 public interface AccountStewardFacade
         extends RestService
 {
+    @GET
+    @Path( "accounts/{login_id}" )
+    void getAccount( @PathParam( "login_id" ) String loginId, FacadeCallback<Account> callback );
+
+    @PUT
+    @Path( "accounts/{login_id}" )
+    void update( @PathParam( "login_id" ) String loginId,
+                 Account account,
+                 FacadeCallback<Account> callback );
     // contacts
 
     @GET
