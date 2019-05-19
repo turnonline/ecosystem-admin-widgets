@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.myaccount;
 
 import biz.turnonline.ecosystem.widget.myaccount.place.HistoryMapper;
 import biz.turnonline.ecosystem.widget.myaccount.place.MyAccount;
+import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.MyAccountPresenter;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
 import biz.turnonline.ecosystem.widget.myaccount.view.MyAccountView;
@@ -131,13 +132,12 @@ public abstract class MyAccountModule
 
     @Provides
     @Singleton
-    @Named( "EditInvoiceBreadcrumb" )
+    @Named( "MyAccountBreadcrumb" )
     static ScaffoldBreadcrumb provideEditOrderBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new MyAccount(), messages.labelInvoices() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelEditInvoice() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new MyAccount(), IconType.PERSON, messages.labelMyAccount() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
@@ -146,12 +146,13 @@ public abstract class MyAccountModule
 
     @Provides
     @Singleton
-    @Named( "InvoicesBreadcrumb" )
+    @Named( "SettingsBreadcrumb" )
     static ScaffoldBreadcrumb provideOrdersBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelInvoices() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new MyAccount(), IconType.PERSON, messages.labelMyAccount() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Settings(), IconType.SETTINGS, messages.labelSettings() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }

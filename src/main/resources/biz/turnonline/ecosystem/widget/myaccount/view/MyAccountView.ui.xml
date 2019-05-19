@@ -17,11 +17,70 @@
   -->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:shared='urn:import:biz.turnonline.ecosystem.widget.shared.ui'>
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
-        MyAccountView
+        <shared:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
+            <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="PERM_IDENTITY" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelAccountEmail}" textColor="BLUE"/>
+                    </m:MaterialSection>
+                    <m:MaterialRow marginBottom="20" paddingTop="20">
+                        <m:MaterialLabel grid="10" ui:field="email"/>
+                    </m:MaterialRow>
+                </m:MaterialColumn>
+            </m:MaterialRow>
+        </m:MaterialPanel>
+
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
+            <m:MaterialRow paddingLeft="20" paddingTop="10" paddingBottom="20">
+                <m:MaterialSection paddingTop="0" paddingBottom="0" marginBottom="20">
+                    <m:MaterialIcon iconType="ACCOUNT_BOX" iconColor="BLUE" float="LEFT" marginRight="5"
+                                    marginTop="-3" ui:field="typeIcon"/>
+                    <m:MaterialTitle description="{msg.labelAccountType}" textColor="BLUE" ui:field="typeTitle"/>
+                </m:MaterialSection>
+                <m:MaterialSwitch onLabel="{msg.labelCompanyAccount}" offLabel="{msg.labelPersonalAccount}"
+                                  ui:field="company" grid="10"/>
+            </m:MaterialRow>
+        </m:MaterialPanel>
+
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
+            <!--company-->
+            <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="BUSINESS" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelCompanyBasicInfo}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="businessName"/>
+                    <shared:LegalFormComboBox label="{msg.labelLegalForm}" ui:field="legalForm"/>
+                    <m:MaterialTextBox label="{msg.labelCompanyId}" ui:field="companyId"/>
+                    <m:MaterialTextBox label="{msg.labelTaxId}" ui:field="taxId"/>
+                    <m:MaterialRow marginBottom="0" paddingTop="20">
+                        <m:MaterialSwitch onLabel="{msg.labelVatPayer}" grid="10" ui:field="vatPayer"
+                                          paddingLeft="0"
+                                          marginLeft="-10"/>
+                    </m:MaterialRow>
+                    <m:MaterialTextBox label="{msg.labelVatId}" ui:field="vatId"/>
+                </m:MaterialColumn>
+            </m:MaterialRow>
+        </m:MaterialPanel>
+
+        <m:MaterialRow paddingLeft="20" paddingTop="20" float="LEFT">
+            <m:MaterialButton ui:field="btnSave" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE"
+                              textColor="WHITE" iconType="CHECK" tooltip="{msg.tooltipSaveAccount}"
+                              text="{msg.labelSave}"/>
+        </m:MaterialRow>
     </g:HTMLPanel>
 </ui:UiBinder>

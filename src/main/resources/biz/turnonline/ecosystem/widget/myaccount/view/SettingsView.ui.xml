@@ -17,11 +17,12 @@
   -->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:shared='urn:import:biz.turnonline.ecosystem.widget.shared.ui'>
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
-        SettingsView
+        <shared:ScaffoldBreadcrumb ui:field="breadcrumb"/>
     </g:HTMLPanel>
 </ui:UiBinder>

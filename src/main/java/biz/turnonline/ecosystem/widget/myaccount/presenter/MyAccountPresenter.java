@@ -18,14 +18,18 @@
 
 package biz.turnonline.ecosystem.widget.myaccount.presenter;
 
+import biz.turnonline.ecosystem.widget.myaccount.event.SaveAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.place.MyAccount;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
 
 /**
+ * My account presenter.
+ *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class MyAccountPresenter
@@ -43,17 +47,22 @@ public class MyAccountPresenter
     @Override
     public void bind()
     {
+        bus().addHandler( SaveAccountEvent.TYPE,
+                event -> bus()
+                        .account()
+                        .update( event.getLoginId(), event.getAccount(), response -> view().setModel( response ) ) );
     }
 
     @Override
     public void onBackingObject()
     {
+        bus().account().getAccount( bus().config().getLoginId(), account -> view().setModel( account ) );
+
         onAfterBackingObject();
     }
 
     public interface IView
-            extends biz.turnonline.ecosystem.widget.shared.view.IView
+            extends org.ctoolkit.gwt.client.view.IView<Account>
     {
-        void save();
     }
 }

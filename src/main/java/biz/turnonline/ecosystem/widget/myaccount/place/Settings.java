@@ -32,7 +32,7 @@ public class Settings
     {
     }
 
-    @Prefix( value = "settings" )
+    @Prefix( value = "my-account/settings" )
     public static class Tokenizer
             implements PlaceTokenizer<Settings>
     {

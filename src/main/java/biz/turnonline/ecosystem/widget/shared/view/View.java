@@ -29,12 +29,13 @@ import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialContainer;
 import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.view.BinderyView;
+import org.ctoolkit.gwt.client.view.IView;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public abstract class View<T>
-        extends BinderyView
+        extends BinderyView<T>
         implements IView<T>
 {
     protected AppMessages messages = AppMessages.INSTANCE;
@@ -49,8 +50,6 @@ public abstract class View<T>
      * This panel represents root of all widgets on page. Add every child widget on page to this panel.
      */
     protected FlowPanel root;
-
-    private T model;
 
     public View( EventBus eventBus )
     {
@@ -76,39 +75,6 @@ public abstract class View<T>
         contentContainer.add( content );
     }
 
-    @Override
-    public T getModel()
-    {
-        bind();
-        return model;
-    }
-
-    protected T getRawModel()
-    {
-        return model;
-    }
-
-    @Override
-    public void setModel( T model )
-    {
-        this.model = model;
-        fill();
-    }
-
-    protected void bind()
-    {
-    }
-
-    protected void fill()
-    {
-    }
-
-    protected void setActive( Route route )
-    {
-        scaffoldNavBar.setActive( route );
-        scaffoldHeader.setActive( route );
-    }
-
     public static native JavaScriptObject newWindow( String url, String name, String features )/*-{
         var window = $wnd.open( url, name, features );
         return window;
@@ -117,6 +83,12 @@ public abstract class View<T>
     public static native void setWindowTarget( JavaScriptObject window, String target )/*-{
         window.location = target;
     }-*/;
+
+    protected void setActive( Route route )
+    {
+        scaffoldNavBar.setActive( route );
+        scaffoldHeader.setActive( route );
+    }
 
     protected final EventBus bus()
     {

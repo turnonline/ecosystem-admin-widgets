@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+ * Copyright (c) 2019 Comvai, s.r.o. All Rights Reserved.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,15 +16,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.shared.view;
+package biz.turnonline.ecosystem.widget.shared.ui;
+
+import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.rest.account.LegalForm;
 
 /**
+ * {@link LegalForm} code-book combo box with configured default value.
+ *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public interface IView<T>
-        extends org.ctoolkit.gwt.client.view.IView
+public class LegalFormComboBox
+        extends CodeBookComboBox<LegalForm>
 {
-    void setModel( T model );
+    public LegalFormComboBox()
+    {
+        super( LegalForm.class );
+    }
 
-    T getModel();
+    @Override
+    protected String defaultValue()
+    {
+        return Configuration.get().getLegalForm();
+    }
 }

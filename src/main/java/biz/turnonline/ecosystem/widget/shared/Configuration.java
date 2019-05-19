@@ -41,6 +41,8 @@ public class Configuration
 
     private String mapsApiKey;
 
+    private String legalForm = "ltd";
+
     /**
      * Builds {@link Configuration} instance taken from the {@link Dictionary}.
      *
@@ -126,5 +128,10 @@ public class Configuration
     public void setMapsApiKey( String mapsApiKey )
     {
         this.mapsApiKey = mapsApiKey;
+    }
+
+    public String getLegalForm()
+    {
+        return legalForm;
     }
 }

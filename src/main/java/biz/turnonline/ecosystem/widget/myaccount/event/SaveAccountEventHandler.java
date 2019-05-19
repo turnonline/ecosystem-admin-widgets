@@ -16,26 +16,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.myaccount;
+package biz.turnonline.ecosystem.widget.myaccount.event;
 
-import biz.turnonline.ecosystem.widget.myaccount.place.MyAccount;
-import biz.turnonline.ecosystem.widget.shared.DaggerComponent;
-import biz.turnonline.ecosystem.widget.shared.DaggerEntryPoint;
-import com.google.gwt.place.shared.Place;
+import com.google.gwt.event.shared.EventHandler;
 
 /**
- * My-Account and Settings widget entry point.
+ * Account save event handler.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class MyAccountEntryPoint
-        extends DaggerEntryPoint
+public interface SaveAccountEventHandler
+        extends EventHandler
 {
-    public static Place DEFAULT_PLACE = new MyAccount();
-
-    @Override
-    protected DaggerComponent component()
-    {
-        return DaggerMyAccountComponent.create();
-    }
+    void onSaveAccount( SaveAccountEvent event );
 }

@@ -36,7 +36,7 @@ public class EditProductPresenter
         extends Presenter<EditProductPresenter.IView, AppEventBus>
 {
     public interface IView
-            extends biz.turnonline.ecosystem.widget.shared.view.IView<Product>
+            extends org.ctoolkit.gwt.client.view.IView<Product>
     {
     }
 

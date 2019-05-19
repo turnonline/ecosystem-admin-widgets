@@ -110,7 +110,7 @@ public class EditInvoiceView
     }
 
     @Override
-    protected void bind()
+    protected void beforeGetModel()
     {
         Invoice invoice = getRawModel();
 
@@ -120,7 +120,7 @@ public class EditInvoiceView
     }
 
     @Override
-    protected void fill()
+    protected void afterSetModel()
     {
         Invoice invoice = getRawModel();
 

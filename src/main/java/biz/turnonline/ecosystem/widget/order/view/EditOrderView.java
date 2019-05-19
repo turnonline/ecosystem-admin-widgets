@@ -102,7 +102,7 @@ public class EditOrderView
     }
 
     @Override
-    protected void bind()
+    protected void beforeGetModel()
     {
         Order order = getRawModel();
 
@@ -112,7 +112,7 @@ public class EditOrderView
     }
 
     @Override
-    protected void fill()
+    protected void afterSetModel()
     {
         Order order = getRawModel();
 

@@ -16,45 +16,50 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.myaccount.presenter;
+package biz.turnonline.ecosystem.widget.myaccount.event;
 
-import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
-import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.event.shared.GwtEvent;
 
-import javax.inject.Inject;
+import javax.annotation.Nonnull;
+
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
+ * Account save event with {@link Account} payload.
+ *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class SettingsPresenter
-        extends Presenter<SettingsPresenter.IView, AppEventBus>
+public class SaveAccountEvent
+        extends GwtEvent<SaveAccountEventHandler>
 {
-    @Inject
-    public SettingsPresenter( AppEventBus eventBus,
-                              IView view,
-                              PlaceController controller )
+    public static Type<SaveAccountEventHandler> TYPE = new Type<>();
+
+    private final Account account;
+
+    public SaveAccountEvent( @Nonnull Account account )
     {
-        super( eventBus, view, controller );
-        setPlace( Settings.class );
+        this.account = checkNotNull( account, "Account cannot be null" );
     }
 
-    @Override
-    public void bind()
+    public Account getAccount()
     {
+        return account;
     }
 
-    @Override
-    public void onBackingObject()
+    public String getLoginId()
     {
-        onAfterBackingObject();
+        Long id = account.getId();
+        return String.valueOf( checkNotNull( id, "Account ID cannot be null" ) );
     }
 
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<Account>
+    public Type<SaveAccountEventHandler> getAssociatedType()
     {
-        void save();
+        return TYPE;
+    }
+
+    protected void dispatch( SaveAccountEventHandler handler )
+    {
+        handler.onSaveAccount( this );
     }
 }

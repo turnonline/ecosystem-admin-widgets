@@ -26,6 +26,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
+ * Generic widget entry point. Runs splash screen and adds widget source
+ * in to {@code widget-content} DIV element.
+ *
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public abstract class DaggerEntryPoint
