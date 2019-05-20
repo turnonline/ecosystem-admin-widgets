@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import java.util.Objects;
+
 /**
  * Model definition for ProductPicture.
  *
@@ -102,4 +104,19 @@ public final class ProductPicture
         return this;
     }
 
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o ) return true;
+        if ( !( o instanceof ProductPicture ) ) return false;
+        ProductPicture that = ( ProductPicture ) o;
+        return servingUrl.equals( that.servingUrl ) &&
+                storageName.equals( that.storageName );
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash( servingUrl, storageName );
+    }
 }

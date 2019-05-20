@@ -4,17 +4,12 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
-import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
-import org.ctoolkit.gwt.client.Constants;
-import org.ctoolkit.gwt.client.facade.UploadItemsResponse;
 import org.fusesource.restygwt.client.ServiceRoots;
 
 import javax.inject.Inject;
@@ -58,39 +53,15 @@ public class Publishing
     // -- pictures
 
     @UiField
-    MaterialFileUploader uploader;
+    ProductPictureUploader uploader;
 
     @Inject
     public Publishing()
     {
         initWidget( binder.createAndBindUi( this ) );
 
-        String apiUrl = ServiceRoots.get( PRODUCT_BILLING_API_ROOT );
-        String uploadUrl = apiUrl + Constants.UPLOAD_PATH;
-        uploader.setUrl( uploadUrl );
-        GWT.log( "Upload Url: " + uploadUrl );
-
-        uploader.addSuccessHandler( event -> {
-            UploadResponse response = event.getResponse();
-            if ( response.getCode() == 401 )
-            {
-                GWT.log( "Unauthorized" );
-                return;
-            }
-
-            if ( response.getCode() != 201 )
-            {
-                GWT.log( "Response code: " + response.getCode() );
-                return;
-            }
-
-            UploadItemsResponse json = JsonUtils.safeEval( response.getBody() );
-            if ( json.getItems().length() > 0 )
-            {
-                String servingUrl = json.getItems().get( 0 ).getServingUrl();
-                GWT.log( "Serving URL: " + servingUrl );
-            }
-        } );
+        String uploadUrl = ServiceRoots.get( PRODUCT_BILLING_API_ROOT ) + "storage-upload";
+        uploader.getUploader().setUrl( uploadUrl );
     }
 
     @Override
@@ -109,6 +80,8 @@ public class Publishing
         publishing.setFacebookLike( facebookLike.getValue() );
         publishing.setGooglePlus( googlePlus.getValue() );
         publishing.setLinkedInShare( linkedInShare.getValue() );
+
+        uploader.bind( publishing );
     }
 
     @Override
@@ -124,6 +97,7 @@ public class Publishing
         facebookLike.setValue( publishing.getFacebookLike() != null ? publishing.getFacebookLike() : false );
         googlePlus.setValue( publishing.getGooglePlus() != null ? publishing.getGooglePlus() : false );
         linkedInShare.setValue( publishing.getLinkedInShare() != null ? publishing.getLinkedInShare() : false );
+        uploader.fill( publishing );
     }
 
     private ProductPublishing getProductPublishing( Product product )
