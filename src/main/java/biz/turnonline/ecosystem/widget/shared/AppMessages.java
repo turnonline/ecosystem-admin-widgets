@@ -33,67 +33,76 @@ public interface AppMessages
     @Key( value = "label.accountEmail" )
     String labelAccountEmail();
 
+    @Key( value = "label.contactEmail" )
+    String labelContactEmail();
+
     @Key( value = "label.accountType" )
     String labelAccountType();
 
-    @Key( value = "label.new")
+    @Key( value = "label.publicContact" )
+    String labelPublicContact();
+
+    @Key( value = "label.new" )
     String labelNew();
 
-    @Key( value = "label.edit")
+    @Key( value = "label.edit" )
     String labelEdit();
 
-    @Key( value = "label.add")
+    @Key( value = "label.add" )
     String labelAdd();
 
-    @Key( value = "label.delete")
+    @Key( value = "label.delete" )
     String labelDelete();
 
     @Key( "label.companyBasicInfo" )
     String labelCompanyBasicInfo();
 
-    @Key( value = "label.businessName")
+    @Key( value = "label.businessName" )
     String labelBusinessName();
 
     @Key( value = "label.legalForm" )
     String labelLegalForm();
 
-    @Key( value = "label.id")
+    @Key( value = "label.id" )
     String labelId();
 
-    @Key( value = "label.customer")
+    @Key( value = "label.customer" )
     String labelCustomer();
 
-    @Key( value = "label.items")
+    @Key( value = "label.items" )
     String labelItems();
 
-    @Key( value = "label.transactions")
+    @Key( value = "label.transactions" )
     String labelTransactions();
 
-    @Key( value = "label.payment")
+    @Key( value = "label.payment" )
     String labelPayment();
 
-    @Key( value = "label.status")
+    @Key( value = "label.status" )
     String labelStatus();
 
-    @Key( value = "label.companyId")
+    @Key( value = "label.companyId" )
     String labelCompanyId();
 
-    @Key( value = "label.taxId")
+    @Key( value = "label.taxId" )
     String labelTaxId();
 
-    @Key( value = "label.vatId")
+    @Key( value = "label.vatId" )
     String labelVatId();
 
-    @Key( value = "label.vatPayer")
+    @Key( value = "label.vatPayer" )
     String labelVatPayer();
 
-    @Key( value = "label.name")
+    @Key( value = "label.name" )
     String labelName();
 
-    @Key( value = "label.firstName")
+    @Key( value = "label.firstName" )
     String labelFirstName();
 
-    @Key( value = "label.lastName")
+    @Key( value = "label.middleName" )
+    String labelMiddleName();
+
+    @Key( value = "label.lastName" )
     String labelLastName();
 
     @Key( value = "label.prefix" )
@@ -102,25 +111,31 @@ public interface AppMessages
     @Key( value = "label.suffix" )
     String labelSuffix();
 
-    @Key( value = "label.phone")
+    @Key( value = "label.phone" )
     String labelPhone();
 
-    @Key( value = "label.email")
+    @Key( value = "label.email" )
     String labelEmail();
 
-    @Key( value = "label.ccEmail")
+    @Key( value = "label.ccEmail" )
     String labelCcEmail();
 
-    @Key( value = "label.company")
+    @Key( value = "label.company" )
     String labelCompany();
 
-    @Key( value = "label.address")
+    @Key( value = "label.headquarters" )
+    String labelHeadquarters();
+
+    @Key( value = "label.address" )
     String labelAddress();
 
-    @Key( value = "label.home")
+    @Key( value = "label.website" )
+    String labelCompanyWebsite();
+
+    @Key( value = "label.home" )
     String labelHome();
 
-    @Key( value = "label.contacts")
+    @Key( value = "label.contacts" )
     String labelContacts();
 
     @Key( value = "label.myAccount" )
@@ -132,408 +147,414 @@ public interface AppMessages
     @Key( value = "label.personalAccount" )
     String labelPersonalAccount();
 
-    @Key( value = "label.editContact")
+    @Key( value = "label.editContact" )
     String labelEditContact();
 
-    @Key( value = "label.products")
+    @Key( value = "label.products" )
     String labelProducts();
 
-    @Key( value = "label.editProduct")
+    @Key( value = "label.editProduct" )
     String labelEditProduct();
 
-    @Key( value = "label.orders")
+    @Key( value = "label.orders" )
     String labelOrders();
 
-    @Key( value = "label.editOrder")
+    @Key( value = "label.editOrder" )
     String labelEditOrder();
 
-    @Key( value = "label.invoices")
+    @Key( value = "label.invoices" )
     String labelInvoices();
 
-    @Key( value = "label.editInvoice")
+    @Key( value = "label.editInvoice" )
     String labelEditInvoice();
 
-    @Key( value = "label.confirmation")
+    @Key( value = "label.confirmation" )
     String labelConfirmation();
 
-    @Key( value = "label.street")
+    @Key( value = "label.street" )
     String labelStreet();
 
-    @Key( value = "label.city")
+    @Key( value = "label.city" )
     String labelCity();
 
-    @Key( value = "label.postCode")
+    @Key( value = "label.postCode" )
     String labelPostCode();
 
-    @Key( value = "label.country")
+    @Key( value = "label.country" )
     String labelCountry();
 
-    @Key( value = "label.postalAddressSame")
+    @Key( value = "label.postalAddressSame" )
     String labelPostalAddressSame();
 
-    @Key( value = "label.person")
+    @Key( value = "label.person" )
     String labelPerson();
 
-    @Key( value = "label.invoicing")
+    @Key( value = "label.contactPerson" )
+    String labelContactPerson();
+
+    @Key( value = "label.invoicing" )
     String labelInvoicing();
 
-    @Key( value = "label.detail")
+    @Key( value = "label.detail" )
     String labelDetail();
 
-    @Key( value = "label.content")
+    @Key( value = "label.content" )
     String labelContent();
 
-    @Key( value = "label.publishing")
+    @Key( value = "label.publishing" )
     String labelPublishing();
 
-    @Key( value = "label.pricing")
+    @Key( value = "label.pricing" )
     String labelPricing();
 
-    @Key( value = "label.event")
+    @Key( value = "label.event" )
     String labelEvent();
 
-    @Key( value = "label.invoiceAddress")
-    String labelInvoiceAddress();
+    @Key( value = "label.billingAddress" )
+    String labelBillingAddress();
 
-    @Key( value = "label.postalAddress")
+    @Key( value = "label.postalAddress" )
     String labelPostalAddress();
 
-    @Key( value = "label.price")
+    @Key( value = "label.personalAddress" )
+    String labelPersonalAddress();
+
+    @Key( value = "label.price" )
     String labelPrice();
 
-    @Key( value = "label.priceExclusiveVat")
+    @Key( value = "label.priceExclusiveVat" )
     String labelPriceExclusiveVat();
 
-    @Key( value = "label.currency")
+    @Key( value = "label.currency" )
     String labelCurrency();
 
-    @Key( value = "label.description")
+    @Key( value = "label.description" )
     String labelDescription();
 
-    @Key( value = "label.itemName")
+    @Key( value = "label.itemName" )
     String labelItemName();
 
-    @Key( value = "label.amount")
+    @Key( value = "label.amount" )
     String labelAmount();
 
-    @Key( value = "label.unit")
+    @Key( value = "label.unit" )
     String labelUnit();
 
-    @Key( value = "label.snippet")
+    @Key( value = "label.snippet" )
     String labelSnippet();
 
-    @Key( value = "label.metaFields")
+    @Key( value = "label.metaFields" )
     String labelMetaFields();
 
-    @Key( value = "label.availableFields")
+    @Key( value = "label.availableFields" )
     String labelAvailableFields();
 
-    @Key( value = "label.mandatoryFields")
+    @Key( value = "label.mandatoryFields" )
     String labelMandatoryFields();
 
-    @Key( value = "label.pictures")
+    @Key( value = "label.pictures" )
     String labelPictures();
 
-    @Key( value = "label.settings")
+    @Key( value = "label.settings" )
     String labelSettings();
 
-    @Key( value = "label.comingSoon")
+    @Key( value = "label.comingSoon" )
     String labelComingSoon();
 
-    @Key( value = "label.published")
+    @Key( value = "label.published" )
     String labelPublished();
 
-    @Key( value = "label.social")
+    @Key( value = "label.social" )
     String labelSocial();
 
-    @Key( value = "label.facebookLike")
+    @Key( value = "label.facebookLike" )
     String labelFacebookLike();
 
-    @Key( value = "label.googlePlus")
+    @Key( value = "label.googlePlus" )
     String labelGooglePlus();
 
-    @Key( value = "label.linkedInShare")
+    @Key( value = "label.linkedInShare" )
     String labelLinkedInShare();
 
-    @Key( value = "label.domain")
+    @Key( value = "label.domain" )
     String labelDomain();
 
-    @Key( value = "label.domainName")
+    @Key( value = "label.domainName" )
     String labelDomainName();
 
-    @Key( value = "label.domainUri")
+    @Key( value = "label.domainUri" )
     String labelDomainUri();
 
-    @Key( value = "label.discountCode")
+    @Key( value = "label.discountCode" )
     String labelDiscountCode();
 
-    @Key( value = "label.allChildrenCheckedIn")
+    @Key( value = "label.allChildrenCheckedIn" )
     String labelAllChildrenCheckedIn();
 
-    @Key( value = "label.percentage")
+    @Key( value = "label.percentage" )
     String labelPercentage();
 
-    @Key( value = "label.fixed")
+    @Key( value = "label.fixed" )
     String labelFixed();
 
-    @Key( value = "label.value")
+    @Key( value = "label.value" )
     String labelValue();
 
-    @Key( value = "label.discountType")
+    @Key( value = "label.discountType" )
     String labelDiscountType();
 
-    @Key( value = "label.discountRule")
+    @Key( value = "label.discountRule" )
     String labelDiscountRule();
 
-    @Key( value = "label.codes")
+    @Key( value = "label.codes" )
     String labelCodes();
 
-    @Key( value = "label.priceDefinition")
+    @Key( value = "label.priceDefinition" )
     String labelPriceDefinition();
 
-    @Key( value = "label.vatDefinition")
+    @Key( value = "label.vatDefinition" )
     String labelVatDefinition();
 
-    @Key( value = "label.discounts")
+    @Key( value = "label.discounts" )
     String labelDiscounts();
 
-    @Key( value = "label.vat")
+    @Key( value = "label.vat" )
     String labelVat();
 
-    @Key( value = "label.vatEU")
+    @Key( value = "label.vatEU" )
     String labelVatEU();
 
-    @Key( value = "label.vatNonEU")
+    @Key( value = "label.vatNonEU" )
     String labelVatNonEU();
 
-    @Key( value = "label.domesticDelivery")
+    @Key( value = "label.domesticDelivery" )
     String labelDomesticDelivery();
 
-    @Key( value = "label.deadline")
+    @Key( value = "label.deadline" )
     String labelDeadline();
 
-    @Key( value = "label.seats")
+    @Key( value = "label.seats" )
     String labelSeats();
 
-    @Key( value = "label.begin")
+    @Key( value = "label.begin" )
     String labelBegin();
 
-    @Key( value = "label.end")
+    @Key( value = "label.end" )
     String labelEnd();
 
-    @Key( value = "label.on")
+    @Key( value = "label.on" )
     String labelOn();
 
-    @Key( value = "label.from")
+    @Key( value = "label.from" )
     String labelFrom();
 
-    @Key( value = "label.to")
+    @Key( value = "label.to" )
     String labelTo();
 
-    @Key( value = "label.show")
+    @Key( value = "label.show" )
     String labelShow();
 
-    @Key( value = "label.location")
+    @Key( value = "label.location" )
     String labelLocation();
 
-    @Key( value = "label.annually")
+    @Key( value = "label.annually" )
     String labelAnnually();
 
-    @Key( value = "label.semiAnnually")
+    @Key( value = "label.semiAnnually" )
     String labelSemiAnnually();
 
-    @Key( value = "label.quarterly")
+    @Key( value = "label.quarterly" )
     String labelQuarterly();
 
-    @Key( value = "label.monthly")
+    @Key( value = "label.monthly" )
     String labelMonthly();
 
-    @Key( value = "label.weekly")
+    @Key( value = "label.weekly" )
     String labelWeekly();
 
-    @Key( value = "label.manually")
+    @Key( value = "label.manually" )
     String labelManually();
 
-    @Key( value = "label.proforma")
+    @Key( value = "label.proforma" )
     String labelProforma();
 
-    @Key( value = "label.taxDocument")
+    @Key( value = "label.taxDocument" )
     String labelTaxDocument();
 
-    @Key( value = "label.beginAt")
+    @Key( value = "label.beginAt" )
     String labelBeginAt();
 
-    @Key( value = "label.numberOfDays")
+    @Key( value = "label.numberOfDays" )
     String labelNumberOfDays();
 
-    @Key( value = "label.periodicity")
+    @Key( value = "label.periodicity" )
     String labelPeriodicity();
 
-    @Key( value = "label.invoiceType")
+    @Key( value = "label.invoiceType" )
     String labelInvoiceType();
 
-    @Key( value = "label.invoiceNumber")
+    @Key( value = "label.invoiceNumber" )
     String labelInvoiceNumber();
 
-    @Key( value = "label.variableSymbol")
+    @Key( value = "label.variableSymbol" )
     String labelVariableSymbol();
 
-    @Key( value = "label.dates")
+    @Key( value = "label.dates" )
     String labelDates();
 
-    @Key( value = "label.dateOfIssue")
+    @Key( value = "label.dateOfIssue" )
     String labelDateOfIssue();
 
-    @Key( value = "label.dateOfTaxable")
+    @Key( value = "label.dateOfTaxable" )
     String labelDateOfTaxable();
 
-    @Key( value = "label.dueDate")
+    @Key( value = "label.dueDate" )
     String labelDueDate();
 
-    @Key( value = "label.paymentMethod")
+    @Key( value = "label.paymentMethod" )
     String labelPaymentMethod();
 
-    @Key( value = "label.bankTransfer")
+    @Key( value = "label.bankTransfer" )
     String labelBankTransfer();
 
-    @Key( value = "label.cash")
+    @Key( value = "label.cash" )
     String labelCash();
 
-    @Key( value = "label.creditCard")
+    @Key( value = "label.creditCard" )
     String labelCreditCard();
 
-    @Key( value = "label.debitCard")
+    @Key( value = "label.debitCard" )
     String labelDebitCard();
 
-    @Key( value = "label.texts")
+    @Key( value = "label.texts" )
     String labelTexts();
 
-    @Key( value = "label.finalText")
+    @Key( value = "label.finalText" )
     String labelFinalText();
 
-    @Key( value = "label.introductoryText")
+    @Key( value = "label.introductoryText" )
     String labelIntroductoryText();
 
-    @Key( value = "label.select")
+    @Key( value = "label.select" )
     String labelSelect();
 
-    @Key( value = "label.selectCustomer")
+    @Key( value = "label.selectCustomer" )
     String labelSelectCustomer();
 
-    @Key( value = "label.selectProduct")
+    @Key( value = "label.selectProduct" )
     String labelSelectProduct();
 
-    @Key( value = "label.selectedProduct")
-    String labelSelectedProduct(String product);
+    @Key( value = "label.selectedProduct" )
+    String labelSelectedProduct( String product );
 
-    @Key( value = "label.ok")
+    @Key( value = "label.ok" )
     String labelOk();
 
-    @Key( value = "label.cancel")
+    @Key( value = "label.cancel" )
     String labelCancel();
 
-    @Key( value = "label.save")
+    @Key( value = "label.save" )
     String labelSave();
 
-    @Key( value = "label.back")
+    @Key( value = "label.back" )
     String labelBack();
 
     // tooltips
 
-    @Key( value = "tooltip.new.contact")
+    @Key( value = "tooltip.new.contact" )
     String tooltipNewContact();
 
-    @Key( value = "tooltip.edit.contact")
+    @Key( value = "tooltip.edit.contact" )
     String tooltipEditContact();
 
-    @Key( value = "tooltip.delete.contact")
+    @Key( value = "tooltip.delete.contact" )
     String tooltipDeleteContact();
 
     @Key( value = "tooltip.save.account" )
     String tooltipSaveAccount();
 
-    @Key( value = "tooltip.save.contact")
+    @Key( value = "tooltip.save.contact" )
     String tooltipSaveContact();
 
-    @Key( value = "tooltip.new.product")
+    @Key( value = "tooltip.new.product" )
     String tooltipNewProduct();
 
-    @Key( value = "tooltip.edit.product")
+    @Key( value = "tooltip.edit.product" )
     String tooltipEditProduct();
 
-    @Key( value = "tooltip.delete.product")
+    @Key( value = "tooltip.delete.product" )
     String tooltipDeleteProduct();
 
-    @Key( value = "tooltip.save.product")
+    @Key( value = "tooltip.save.product" )
     String tooltipSaveProduct();
 
-    @Key( value = "tooltip.new.order")
+    @Key( value = "tooltip.new.order" )
     String tooltipNewOrder();
 
-    @Key( value = "tooltip.edit.order")
+    @Key( value = "tooltip.edit.order" )
     String tooltipEditOrder();
 
-    @Key( value = "tooltip.delete.order")
+    @Key( value = "tooltip.delete.order" )
     String tooltipDeleteOrder();
 
-    @Key( value = "tooltip.save.order")
+    @Key( value = "tooltip.save.order" )
     String tooltipSaveOrder();
 
-    @Key( value = "tooltip.new.invoice")
+    @Key( value = "tooltip.new.invoice" )
     String tooltipNewInvoice();
 
-    @Key( value = "tooltip.edit.invoice")
+    @Key( value = "tooltip.edit.invoice" )
     String tooltipEditInvoice();
 
-    @Key( value = "tooltip.delete.invoice")
+    @Key( value = "tooltip.delete.invoice" )
     String tooltipDeleteInvoice();
 
-    @Key( value = "tooltip.save.invoice")
+    @Key( value = "tooltip.save.invoice" )
     String tooltipSaveInvoice();
 
-    @Key( value = "tooltip.back")
+    @Key( value = "tooltip.back" )
     String tooltipBack();
 
-    @Key( value = "tooltip.addressAutocomplete")
+    @Key( value = "tooltip.addressAutocomplete" )
     String tooltipAddressAutocomplete();
 
-    @Key( value = "tooltip.availableFields")
+    @Key( value = "tooltip.availableFields" )
     String tooltipAvailableFields();
 
-    @Key( value = "tooltip.pictures")
+    @Key( value = "tooltip.pictures" )
     String tooltipPictures();
 
-    @Key( value = "tooltip.productAutocomplete")
+    @Key( value = "tooltip.productAutocomplete" )
     String tooltipProductAutocomplete();
 
-    @Key( value = "tooltip.contactAutocomplete")
+    @Key( value = "tooltip.contactAutocomplete" )
     String tooltipContactAutocomplete();
 
     // messages
 
-    @Key( value = "msg.recordDeleted")
-    String msgRecordDeleted(String detail);
+    @Key( value = "msg.recordDeleted" )
+    String msgRecordDeleted( String detail );
 
-    @Key( value = "msg.errorRemoteServiceCall")
+    @Key( value = "msg.errorRemoteServiceCall" )
     String msgErrorRemoteServiceCall();
 
-    @Key( value = "msg.errorRecordDoesNotExists")
+    @Key( value = "msg.errorRecordDoesNotExists" )
     String msgErrorRecordDoesNotExists();
 
-    @Key( value = "msg.msgConfirmOneRecordDelete")
-    String msgConfirmOneRecordDelete(String name);
+    @Key( value = "msg.msgConfirmOneRecordDelete" )
+    String msgConfirmOneRecordDelete( String name );
 
-    @Key( value = "msg.msgConfirmMultipleRecordsDelete")
-    String msgConfirmMultipleRecordsDelete(int records);
+    @Key( value = "msg.msgConfirmMultipleRecordsDelete" )
+    String msgConfirmMultipleRecordsDelete( int records );
 
-    @Key( value = "msg.recordCreated")
+    @Key( value = "msg.recordCreated" )
     String msgRecordCreated();
 
-    @Key( value = "msg.recordUpdated")
+    @Key( value = "msg.recordUpdated" )
     String msgRecordUpdated();
 
     // other
 
-    @Key( value = "copyright")
+    @Key( value = "copyright" )
     String copyright();
 }

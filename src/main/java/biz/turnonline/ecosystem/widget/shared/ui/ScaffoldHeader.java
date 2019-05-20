@@ -21,12 +21,7 @@ public class ScaffoldHeader
 {
     private static ScaffoldHeaderUiBinder binder = GWT.create( ScaffoldHeaderUiBinder.class );
 
-    interface ScaffoldHeaderUiBinder
-            extends UiBinder<MaterialHeader, ScaffoldHeader>
-    {
-    }
-
-    @UiField(provided = true)
+    @UiField( provided = true )
     FulltextSearch search;
 
     @UiField
@@ -54,10 +49,11 @@ public class ScaffoldHeader
         initWidget( binder.createAndBindUi( this ) );
 
         email.setText( getFirebaseCurrentUserData( "email" ) );
+        email.setHref( Route.MY_ACCOUNT.url() + "#my-account:" );
         avatar.setUrl( getFirebaseCurrentUserData( "photoURL" ) );
         avatar.getElement().setAttribute( "width", "40" );
 
-        btnSettings.setHref( Route.SETTINGS.url() );
+        btnSettings.setHref( Route.MY_ACCOUNT.url() + "#my-account/settings:" );
         btnLogout.setHref( Route.LOGOUT.url() );
 
         progress.setVisibility( Style.Visibility.HIDDEN );
@@ -93,4 +89,9 @@ public class ScaffoldHeader
 
         return "";
     }-*/;
+
+    interface ScaffoldHeaderUiBinder
+            extends UiBinder<MaterialHeader, ScaffoldHeader>
+    {
+    }
 }

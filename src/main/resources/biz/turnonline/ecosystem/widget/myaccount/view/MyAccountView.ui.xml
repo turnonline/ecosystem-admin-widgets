@@ -19,6 +19,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:addins='urn:import:gwt.material.design.addins.client'
+             xmlns:map='urn:import:gwt.material.design.incubator.client.google.addresslookup'
              xmlns:shared='urn:import:biz.turnonline.ecosystem.widget.shared.ui'>
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
@@ -28,7 +30,7 @@
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
             <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
-                <m:MaterialColumn grid="s12 m3">
+                <m:MaterialColumn grid="s12 m4">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="PERM_IDENTITY" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
@@ -37,6 +39,17 @@
                     <m:MaterialRow marginBottom="20" paddingTop="20">
                         <m:MaterialLabel grid="10" ui:field="email"/>
                     </m:MaterialRow>
+                </m:MaterialColumn>
+
+                <!-- contact email -->
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="CONTACT_MAIL" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelContactEmail}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <m:MaterialTextBox label="{msg.labelContactEmail}" ui:field="contactEmail"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>
@@ -53,9 +66,47 @@
             </m:MaterialRow>
         </m:MaterialPanel>
 
-        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
-            <!--company-->
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5" ui:field="personalData">
             <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="ACCOUNT_BOX" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelPersonalAccount}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="prefix"/>
+                    <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="firstName"/>
+                    <m:MaterialTextBox label="{msg.labelMiddleName}" ui:field="middleName"/>
+                    <m:MaterialTextBox label="{msg.labelLastName}" ui:field="lastName"/>
+                    <m:MaterialTextBox label="{msg.labelLastName}" ui:field="suffix"/>
+                </m:MaterialColumn>
+
+                <!-- personal address -->
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelPersonalAddress}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <map:AddressLookup label="{msg.labelStreet}" ui:field="personalStreet"
+                                       tooltip="{msg.tooltipAddressAutocomplete}"/>
+                    <m:MaterialTextBox label="{msg.labelCity}" ui:field="personalCity"/>
+                    <m:MaterialRow>
+                        <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                            <addins:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="personalPostcode"
+                                                                placeholder="000 00" mask="000 00"/>
+                            <shared:CountryComboBox label="{msg.labelCountry}" ui:field="personalCountry"/>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+                </m:MaterialColumn>
+            </m:MaterialRow>
+        </m:MaterialPanel>
+
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5" ui:field="companyData">
+            <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
+                <!-- company basic info -->
                 <m:MaterialColumn grid="s12 m3">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="BUSINESS" iconColor="BLUE" float="LEFT" marginRight="5"
@@ -64,15 +115,49 @@
                     </m:MaterialSection>
 
                     <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="businessName"/>
-                    <shared:LegalFormComboBox label="{msg.labelLegalForm}" ui:field="legalForm"/>
                     <m:MaterialTextBox label="{msg.labelCompanyId}" ui:field="companyId"/>
                     <m:MaterialTextBox label="{msg.labelTaxId}" ui:field="taxId"/>
+                    <shared:LegalFormComboBox label="{msg.labelLegalForm}" ui:field="legalForm"/>
                     <m:MaterialRow marginBottom="0" paddingTop="20">
                         <m:MaterialSwitch onLabel="{msg.labelVatPayer}" grid="10" ui:field="vatPayer"
                                           paddingLeft="0"
                                           marginLeft="-10"/>
                     </m:MaterialRow>
                     <m:MaterialTextBox label="{msg.labelVatId}" ui:field="vatId"/>
+                </m:MaterialColumn>
+
+                <!-- headquarters -->
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelHeadquarters}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <map:AddressLookup label="{msg.labelStreet}" ui:field="companyStreet"
+                                       tooltip="{msg.tooltipAddressAutocomplete}"/>
+                    <m:MaterialTextBox label="{msg.labelCity}" ui:field="companyCity"/>
+                    <m:MaterialRow>
+                        <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                            <addins:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="companyPostcode"
+                                                                placeholder="000 00" mask="000 00"/>
+                            <shared:CountryComboBox label="{msg.labelCountry}" ui:field="domicile"/>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+                </m:MaterialColumn>
+
+                <!-- public contact -->
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="PUBLIC" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelPublicContact}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <m:MaterialTextBox label="{msg.labelEmail}" ui:field="publicContactEmail"/>
+                    <m:MaterialTextBox label="{msg.labelContactPerson}" ui:field="publicContactName"/>
+                    <m:MaterialTextBox label="{msg.labelPhone}" ui:field="publicContactPhone" type="TEL"/>
+                    <m:MaterialTextBox label="{msg.labelCompanyWebsite}" ui:field="publicContactWebsite" type="URL"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>
