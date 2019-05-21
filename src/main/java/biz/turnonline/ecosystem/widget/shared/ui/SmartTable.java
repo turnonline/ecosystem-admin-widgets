@@ -35,8 +35,19 @@ public class SmartTable<T>
     {
         setDataSource( dataSource );
 
-        MaterialDataPager<T> pager = new MaterialDataPager<>( this, dataSource );
-        pager.setRowSelection( new RowSelection( new MaterialDataPager<>( this, dataSource ) ) );
+        MaterialDataPager<T> pager = new MaterialDataPager<T>( this, dataSource )
+        {
+            @Override
+            protected void updateUi()
+            {
+                super.updateUi();
+
+                int firstRow = offset + 1;
+                int lastRow = ( isExcess() & isLastPage() ) ? totalRows : ( offset + limit );
+                getActionsPanel().getActionLabel().setText( firstRow + "-" + lastRow );
+            }
+        };
+        pager.setRowSelection( new RowSelection( pager ) );
         add( pager );
     }
 

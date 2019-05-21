@@ -3,9 +3,9 @@ package biz.turnonline.ecosystem.widget.order.ui;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.RefreshableDataSource;
+import biz.turnonline.ecosystem.widget.shared.ui.SmartTableLoadResult;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;
-import gwt.material.design.client.data.loader.LoadResult;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -32,7 +32,7 @@ public class OrdersDataSource
                 offset,
                 limit,
                 true,
-                response -> callback.onSuccess( new LoadResult<>( response.getItems(), offset, response.getItems().size(), false ) ) );
+                response -> callback.onSuccess( new SmartTableLoadResult<>( response.getItems(), loadConfig ) ) );
     }
 
     @Override
