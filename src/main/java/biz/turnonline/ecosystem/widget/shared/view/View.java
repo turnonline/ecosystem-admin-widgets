@@ -72,6 +72,7 @@ public abstract class View<T>
         root.add( contentContainer );
 
         content = new MaterialRow();
+        content.getElement().setAttribute( "style", "padding-top:65px" );
         contentContainer.add( content );
     }
 
