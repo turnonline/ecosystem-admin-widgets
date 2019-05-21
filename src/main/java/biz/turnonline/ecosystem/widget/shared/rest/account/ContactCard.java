@@ -58,6 +58,8 @@ public class ContactCard
 
     private Integer numberOfDays = null;
 
+    private Logo logo = null;
+
     public Long getId()
     {
         return id;
@@ -306,5 +308,15 @@ public class ContactCard
     public void setNumberOfDays( Integer numberOfDays )
     {
         this.numberOfDays = numberOfDays;
+    }
+
+    public Logo getLogo()
+    {
+        return logo;
+    }
+
+    public void setLogo( Logo logo )
+    {
+        this.logo = logo;
     }
 }

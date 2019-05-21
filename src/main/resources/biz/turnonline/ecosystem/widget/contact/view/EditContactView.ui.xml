@@ -19,6 +19,7 @@
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:ma='urn:import:gwt.material.design.addins.client'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:c='urn:import:biz.turnonline.ecosystem.widget.contact.ui'
              xmlns:map='urn:import:gwt.material.design.incubator.client.google.addresslookup'
              xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
 
@@ -47,13 +48,19 @@
                             <m:MaterialTextBox label="{msg.labelCompanyId}" ui:field="companyId"/>
                             <m:MaterialTextBox label="{msg.labelTaxId}" ui:field="taxId"/>
                             <m:MaterialTextBox label="{msg.labelVatId}" ui:field="vatId"/>
-                            <m:MaterialRow marginBottom="0" paddingTop="20">
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+
+                    <m:MaterialRow>
+                        <m:MaterialColumn grid="s12 m12" paddingLeft="0">
+                            <m:MaterialRow marginBottom="0">
                                 <m:MaterialSwitch onLabel="{msg.labelVatPayer}" grid="10" ui:field="vatPayer"
                                                   paddingLeft="0"
                                                   marginLeft="-10"/>
                             </m:MaterialRow>
                         </m:MaterialColumn>
                     </m:MaterialRow>
+
                 </m:MaterialColumn>
 
                 <!--person-->
@@ -85,8 +92,9 @@
                     <m:MaterialTextBox label="{msg.labelCcEmail}" ui:field="ccEmail"/>
                 </m:MaterialColumn>
 
-                <!--invoicing info-->
+
                 <m:MaterialColumn grid="s12 m3">
+                    <!--invoicing info-->
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="ASSIGNMENT" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
@@ -94,6 +102,15 @@
                     </m:MaterialSection>
 
                     <m:MaterialIntegerBox label="{msg.labelNumberOfDays}" ui:field="numberOfDays"/>
+
+                    <!--logo-->
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelLogo}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <c:LogoUploader ui:field="logoUploader" marginBottom="20"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

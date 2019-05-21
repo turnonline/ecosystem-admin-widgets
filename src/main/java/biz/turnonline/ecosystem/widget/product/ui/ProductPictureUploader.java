@@ -3,15 +3,14 @@ package biz.turnonline.ecosystem.widget.product.ui;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
+import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
-import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.constants.IconType;
@@ -21,11 +20,13 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.facade.UploadItem;
-import org.ctoolkit.gwt.client.facade.UploadItemsResponse;
+import org.fusesource.restygwt.client.ServiceRoots;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -54,26 +55,14 @@ public class ProductPictureUploader
         initWidget( binder.createAndBindUi( this ) );
 
         uploader.addSuccessHandler( event -> {
-            UploadResponse response = event.getResponse();
-            if ( response.getCode() == 401 )
+            UploadItem uploadItem = Uploader.handleAndGetUploadItem( event );
+            if (uploadItem != null)
             {
-                GWT.log( "Unauthorized" );
-                return;
-            }
-
-            if ( response.getCode() != 201 )
-            {
-                GWT.log( "Response code: " + response.getCode() );
-                return;
-            }
-
-            UploadItemsResponse json = JsonUtils.safeEval( response.getBody() );
-            if ( json.getItems().length() > 0 )
-            {
-                UploadItem uploadItem = json.getItems().get( 0 );
                 addImage( uploadItem );
             }
         } );
+
+        uploader.setUrl( ServiceRoots.get( PRODUCT_BILLING_API_ROOT ) + "storage-upload" );
     }
 
     @Override

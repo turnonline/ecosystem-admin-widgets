@@ -8,6 +8,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.EventLocation;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
+import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.util.Time;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
@@ -137,6 +138,7 @@ public class EventPanel
             locationPostCode.reload();
             locationCountry.setSingleValueByCode( findAddressComponent( place, "country" ) );
         } );
+        locationStreet.add( new InputSearchIcon() );
     }
 
     @Override

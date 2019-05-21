@@ -21,6 +21,7 @@ package biz.turnonline.ecosystem.widget.contact.view;
 import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
+import biz.turnonline.ecosystem.widget.contact.ui.LogoUploader;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCardPostalAddress;
@@ -118,6 +119,10 @@ public class EditContactView
 
     @UiField
     MaterialIntegerBox numberOfDays;
+
+    // logo
+    @UiField
+    LogoUploader logoUploader;
 
     // invoice address
 
@@ -249,6 +254,9 @@ public class EditContactView
         // invoicing
         contact.setNumberOfDays( numberOfDays.getValue() );
 
+        // logo
+        contact.setLogo( logoUploader.getValue() );
+
         // invoice address
         contact.setStreet( street.getValue() );
         contact.setCity( city.getValue() );
@@ -306,6 +314,9 @@ public class EditContactView
 
         // invoicing
         numberOfDays.setValue( contact.getNumberOfDays() );
+
+        // logo
+        logoUploader.setValue( contact.getLogo() );
 
         // invoice address
         street.setValue( contact.getStreet() );

@@ -195,6 +195,9 @@ public interface AppMessages
     @Key( value = "label.invoicing" )
     String labelInvoicing();
 
+    @Key( value = "label.logo")
+    String labelLogo();
+
     @Key( value = "label.detail" )
     String labelDetail();
 

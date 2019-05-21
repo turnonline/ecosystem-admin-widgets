@@ -10,11 +10,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
-import org.fusesource.restygwt.client.ServiceRoots;
 
 import javax.inject.Inject;
-
-import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -59,9 +56,6 @@ public class Publishing
     public Publishing()
     {
         initWidget( binder.createAndBindUi( this ) );
-
-        String uploadUrl = ServiceRoots.get( PRODUCT_BILLING_API_ROOT ) + "storage-upload";
-        uploader.getUploader().setUrl( uploadUrl );
     }
 
     @Override
