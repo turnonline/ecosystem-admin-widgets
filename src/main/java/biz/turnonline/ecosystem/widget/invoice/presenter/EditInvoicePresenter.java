@@ -63,6 +63,7 @@ public class EditInvoicePresenter
             {
                 bus().billing().createInvoice( invoice, response -> {
                     success( messages.msgRecordCreated() );
+                    controller().goTo( new EditInvoice( response.getOrderId(), response.getId(), "tabDetail" ) );
                 } );
             }
             else

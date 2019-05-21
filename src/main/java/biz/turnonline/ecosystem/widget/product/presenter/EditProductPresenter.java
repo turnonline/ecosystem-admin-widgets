@@ -60,6 +60,7 @@ public class EditProductPresenter
             {
                 bus().billing().createProduct( false, product, response -> {
                     success( messages.msgRecordCreated() );
+                    controller().goTo( new EditProduct( response.getId(), "tabDetail" ) );
                 } );
             }
             else

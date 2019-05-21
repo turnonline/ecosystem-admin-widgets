@@ -60,6 +60,7 @@ public class EditOrderPresenter
             {
                 bus().billing().createOrder( order, response -> {
                     success( messages.msgRecordCreated() );
+                    controller().goTo( new EditOrder( response.getId(), "tabDetail" ) );
                 } );
             }
             else

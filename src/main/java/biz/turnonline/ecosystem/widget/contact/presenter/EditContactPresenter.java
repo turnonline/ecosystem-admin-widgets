@@ -61,6 +61,7 @@ public class EditContactPresenter
             {
                 bus().account().create( loginId, contactCard, response -> {
                     success( messages.msgRecordCreated() );
+                    controller().goTo( new EditContact( response.getId() ) );
                 } );
             }
             else
