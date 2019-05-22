@@ -55,9 +55,9 @@
         </m:MaterialPanel>
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
-            <m:MaterialRow paddingLeft="20" paddingTop="10" paddingBottom="20">
+            <m:MaterialRow paddingLeft="20" paddingTop="0" paddingBottom="20">
                 <m:MaterialSection paddingTop="0" paddingBottom="0" marginBottom="20">
-                    <m:MaterialIcon iconType="ACCOUNT_BOX" iconColor="BLUE" float="LEFT" marginRight="5"
+                    <m:MaterialIcon iconType="PERSON" iconColor="BLUE" float="LEFT" marginRight="5"
                                     marginTop="-3" ui:field="typeIcon"/>
                     <m:MaterialTitle description="{msg.labelAccountType}" textColor="BLUE" ui:field="typeTitle"/>
                 </m:MaterialSection>
@@ -70,7 +70,7 @@
             <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
                 <m:MaterialColumn grid="s12 m3">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="ACCOUNT_BOX" iconColor="BLUE" float="LEFT" marginRight="5"
+                        <m:MaterialIcon iconType="PERSON" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
                         <m:MaterialTitle description="{msg.labelPersonalAccount}" textColor="BLUE"/>
                     </m:MaterialSection>
@@ -97,9 +97,9 @@
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                             <addins:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="personalPostcode"
                                                                 placeholder="000 00" mask="000 00"/>
-                            <shared:CountryComboBox label="{msg.labelCountry}" ui:field="personalCountry"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>
+                    <shared:CountryComboBox label="{msg.labelCountry}" ui:field="personalCountry"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>
@@ -141,9 +141,9 @@
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                             <addins:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="companyPostcode"
                                                                 placeholder="000 00" mask="000 00"/>
-                            <shared:CountryComboBox label="{msg.labelCountry}" ui:field="domicile"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>
+                    <shared:CountryComboBox label="{msg.labelCountry}" ui:field="domicile"/>
                 </m:MaterialColumn>
 
                 <!-- public contact -->
@@ -158,6 +158,49 @@
                     <m:MaterialTextBox label="{msg.labelContactPerson}" ui:field="publicContactName"/>
                     <m:MaterialTextBox label="{msg.labelPhone}" ui:field="publicContactPhone" type="TEL"/>
                     <m:MaterialTextBox label="{msg.labelCompanyWebsite}" ui:field="publicContactWebsite" type="URL"/>
+                </m:MaterialColumn>
+            </m:MaterialRow>
+        </m:MaterialPanel>
+
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
+            <m:MaterialRow paddingLeft="20" paddingTop="0" paddingBottom="20">
+                <m:MaterialSection paddingTop="0" paddingBottom="0" marginBottom="20">
+                    <m:MaterialIcon iconType="MAIL" iconColor="BLUE" float="LEFT" marginRight="5"/>
+                    <m:MaterialTitle description="{msg.labelPostalAddress}" textColor="BLUE"/>
+                </m:MaterialSection>
+                <m:MaterialSwitch grid="10" ui:field="postalAddressSame" paddingLeft="0" marginLeft="-10"/>
+            </m:MaterialRow>
+
+            <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="-20" marginBottom="0" ui:field="postalAddressPanel">
+                <!-- postal address-->
+                <m:MaterialColumn grid="s12 m3" paddingTop="0">
+                    <map:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet"
+                                       tooltip="{msg.tooltipAddressAutocomplete}"/>
+                    <m:MaterialTextBox label="{msg.labelCity}" ui:field="postalCity"/>
+                    <m:MaterialRow>
+                        <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                            <addins:inputmask.MaterialInputMask label="{msg.labelPostCode}"
+                                                                ui:field="postalPostcode"
+                                                                placeholder="000 00" mask="000 00"/>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+                    <shared:CountryComboBox label="{msg.labelCountry}" ui:field="postalCountry"/>
+                </m:MaterialColumn>
+
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="postalBusinessName"/>
+                    <m:MaterialRow>
+                        <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                            <m:MaterialTextBox label="{msg.labelPrefix}" ui:field="postalPrefix"/>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+                    <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="postalFirstName"/>
+                    <m:MaterialTextBox label="{msg.labelLastName}" ui:field="postalLastName"/>
+                    <m:MaterialRow>
+                        <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                            <m:MaterialTextBox label="{msg.labelSuffix}" ui:field="postalSuffix"/>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

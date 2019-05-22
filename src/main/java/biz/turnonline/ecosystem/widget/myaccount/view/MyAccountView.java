@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountBusiness;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountPersonalAddress;
+import biz.turnonline.ecosystem.widget.shared.rest.account.AccountPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountPublicContact;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
@@ -46,6 +47,7 @@ import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
@@ -56,8 +58,8 @@ import gwt.material.design.incubator.client.google.addresslookup.js.options.Plac
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static gwt.material.design.client.constants.IconType.ACCOUNT_BOX;
 import static gwt.material.design.client.constants.IconType.BUSINESS;
+import static gwt.material.design.client.constants.IconType.PERSON;
 
 /**
  * My account and settings form. Settings visibility is based on the account scope (role).
@@ -174,6 +176,40 @@ public class MyAccountView
     @UiField
     CountryComboBox personalCountry;
 
+    // postal address
+    @UiField
+    MaterialSwitch postalAddressSame;
+
+    @UiField
+    MaterialTextBox postalBusinessName;
+
+    @UiField
+    MaterialTextBox postalFirstName;
+
+    @UiField
+    MaterialTextBox postalLastName;
+
+    @UiField
+    MaterialTextBox postalPrefix;
+
+    @UiField
+    MaterialTextBox postalSuffix;
+
+    @UiField
+    AddressLookup postalStreet;
+
+    @UiField
+    MaterialTextBox postalCity;
+
+    @UiField
+    MaterialInputMask<String> postalPostcode;
+
+    @UiField
+    CountryComboBox postalCountry;
+
+    @UiField
+    MaterialRow postalAddressPanel;
+
     @Inject
     public MyAccountView( EventBus eventBus, @Named( "MyAccountBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
@@ -199,9 +235,11 @@ public class MyAccountView
             {
                 companyStreet.load();
                 personalStreet.load();
+                postalStreet.load();
             }
         } );
 
+        // company address lookup handler
         companyStreet.addPlaceChangedHandler( event -> {
             PlaceResult place = companyStreet.getPlace();
 
@@ -217,6 +255,7 @@ public class MyAccountView
         companyStreet.getElement().setAttribute( "autocomplete", "off" );
         companyStreet.add( new InputSearchIcon() );
 
+        // personal address lookup handler
         personalStreet.addPlaceChangedHandler( event -> {
             PlaceResult place = personalStreet.getPlace();
 
@@ -231,6 +270,22 @@ public class MyAccountView
         } );
         personalStreet.getElement().setAttribute( "autocomplete", "off" );
         personalStreet.add( new InputSearchIcon() );
+
+        // postal address lookup handler
+        postalStreet.addPlaceChangedHandler( event -> {
+            PlaceResult place = postalStreet.getPlace();
+
+            postalStreet.setValue( Maps.findAddressComponent( place, "route" )
+                    + " "
+                    + Maps.findAddressComponent( place, "street_number" ) );
+
+            postalCity.setValue( Maps.findAddressComponent( place, "locality", "sublocality" ) );
+            postalPostcode.setValue( Maps.findAddressComponent( place, "postal_code" ) );
+            postalPostcode.reload();
+            postalCountry.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
+        } );
+        postalStreet.add( new InputSearchIcon() );
+        postalStreet.getElement().setAttribute( "autocomplete", "off" );
     }
 
     @Override
@@ -307,10 +362,40 @@ public class MyAccountView
             publicContactWebsite.setValue( publicContact.getWebsite() );
         }
 
-        handleVatPayer();
-        vatPayer.addValueChangeHandler( event -> handleVatPayer() );
+        AccountPostalAddress postalAddress = account.getPostalAddress();
+        Boolean hasPostalAddress = account.getHasPostalAddress();
+        postalAddressSame.setValue( hasPostalAddress == null ? true : hasPostalAddress );
 
+        if ( postalAddress == null )
+        {
+            postalBusinessName.setValue( null );
+            postalFirstName.setValue( null );
+            postalLastName.setValue( null );
+            postalPrefix.setValue( null );
+            postalSuffix.setValue( null );
+
+            postalStreet.setValue( null );
+            postalCity.setValue( null );
+            postalPostcode.setValue( null );
+            postalCountry.setValue( null );
+        }
+        else
+        {
+            postalBusinessName.setValue( postalAddress.getBusinessName() );
+            postalFirstName.setValue( postalAddress.getFirstName() );
+            postalLastName.setValue( postalAddress.getLastName() );
+            postalPrefix.setValue( postalAddress.getPrefix() );
+            postalSuffix.setValue( postalAddress.getSuffix() );
+
+            postalStreet.setValue( postalAddress.getStreet() );
+            postalCity.setValue( postalAddress.getCity() );
+            postalPostcode.setValue( postalAddress.getPostcode() );
+            postalCountry.setSingleValueByCode( postalAddress.getCountry() );
+        }
+
+        handleVatPayer();
         handleAccountType();
+        handlePostalAddressVisibility();
     }
 
     private void handleVatPayer()
@@ -329,20 +414,51 @@ public class MyAccountView
             typeIcon.setIconType( BUSINESS );
             personalData.setVisible( false );
             companyData.setVisible( true );
+
+            postalBusinessName.setVisible( true );
+            postalFirstName.setVisible( false );
+            postalLastName.setVisible( false );
+            postalPrefix.setVisible( false );
+            postalSuffix.setVisible( false );
+            postalAddressSame.setOnLabel( messages.labelSameCompanyAddress() );
         }
         else
         {
             typeTitle.setDescription( prefix + messages.labelPersonalAccount() );
-            typeIcon.setIconType( ACCOUNT_BOX );
+            typeIcon.setIconType( PERSON );
             personalData.setVisible( true );
             companyData.setVisible( false );
+
+            postalBusinessName.setVisible( false );
+            postalFirstName.setVisible( true );
+            postalLastName.setVisible( true );
+            postalPrefix.setVisible( true );
+            postalSuffix.setVisible( true );
+            postalAddressSame.setOnLabel( messages.labelSamePersonalAddress() );
         }
+    }
+
+    private void handlePostalAddressVisibility()
+    {
+        postalAddressPanel.setVisible( !postalAddressSame.getValue() );
     }
 
     @UiHandler( "company" )
     void onCompanyChange( ValueChangeEvent<Boolean> e )
     {
         handleAccountType();
+    }
+
+    @UiHandler( "vatPayer" )
+    void onVatPayerChange( ValueChangeEvent<Boolean> e )
+    {
+        handleVatPayer();
+    }
+
+    @UiHandler( "postalAddressSame" )
+    public void postalAddressSameClick( ValueChangeEvent<Boolean> e )
+    {
+        handlePostalAddressVisibility();
     }
 
     @UiHandler( "btnSave" )

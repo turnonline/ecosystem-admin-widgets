@@ -183,8 +183,14 @@ public interface AppMessages
     @Key( value = "label.country" )
     String labelCountry();
 
-    @Key( value = "label.postalAddressSame" )
-    String labelPostalAddressSame();
+    @Key( value = "label.samePersonalAddress" )
+    String labelSamePersonalAddress();
+
+    @Key( value = "label.sameCompanyAddress" )
+    String labelSameCompanyAddress();
+
+    @Key( "label.specificBillingAddress" )
+    String labelSpecificBillingAddress();
 
     @Key( value = "label.person" )
     String labelPerson();
@@ -212,6 +218,12 @@ public interface AppMessages
 
     @Key( value = "label.event" )
     String labelEvent();
+
+    @Key( "label.billingDefaults" )
+    String labelBillingDefaults();
+
+    @Key( "label.billingContact" )
+    String labelBillingContact();
 
     @Key( value = "label.billingAddress" )
     String labelBillingAddress();
