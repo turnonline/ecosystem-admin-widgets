@@ -77,8 +77,7 @@ public abstract class View<T>
     }
 
     public static native JavaScriptObject newWindow( String url, String name, String features )/*-{
-        var window = $wnd.open( url, name, features );
-        return window;
+        return $wnd.open( url, name, features );
     }-*/;
 
     public static native void setWindowTarget( JavaScriptObject window, String target )/*-{

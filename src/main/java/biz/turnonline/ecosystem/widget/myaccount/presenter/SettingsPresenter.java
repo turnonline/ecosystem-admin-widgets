@@ -21,12 +21,14 @@ package biz.turnonline.ecosystem.widget.myaccount.presenter;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
+import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
 
 /**
+ * Settings presenter.
+ *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class SettingsPresenter
@@ -49,12 +51,13 @@ public class SettingsPresenter
     @Override
     public void onBackingObject()
     {
+        bus().account().getInvoicingConfig( bus().config().getLoginId(), account -> view().setModel( account ) );
+
         onAfterBackingObject();
     }
 
     public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<Account>
+            extends org.ctoolkit.gwt.client.view.IView<InvoicingConfig>
     {
-        void save();
     }
 }

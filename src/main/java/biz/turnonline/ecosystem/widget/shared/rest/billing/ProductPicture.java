@@ -38,19 +38,16 @@ public final class ProductPicture
     /**
      * The value may be {@code null}.
      */
-    
     private Integer order;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String servingUrl;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String storageName;
 
     /**
@@ -110,13 +107,12 @@ public final class ProductPicture
         if ( this == o ) return true;
         if ( !( o instanceof ProductPicture ) ) return false;
         ProductPicture that = ( ProductPicture ) o;
-        return servingUrl.equals( that.servingUrl ) &&
-                storageName.equals( that.storageName );
+        return storageName.equals( that.storageName );
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash( servingUrl, storageName );
+        return Objects.hash( storageName );
     }
 }
