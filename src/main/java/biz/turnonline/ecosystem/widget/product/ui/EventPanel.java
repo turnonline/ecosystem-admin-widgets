@@ -1,6 +1,6 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.EventBegin;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.EventEnd;
@@ -10,7 +10,6 @@ import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.util.Time;
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -18,13 +17,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.addins.client.timepicker.MaterialTimePicker;
-import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
-import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
 import javax.inject.Inject;
@@ -39,11 +36,6 @@ public class EventPanel
         implements HasModel<Product>
 {
     private static EventUiBinder binder = GWT.create( EventUiBinder.class );
-
-    interface EventUiBinder
-            extends UiBinder<HTMLPanel, EventPanel>
-    {
-    }
 
     // -- description
 
@@ -110,24 +102,10 @@ public class EventPanel
         initWidget( binder.createAndBindUi( this ) );
     }
 
-    public void init( AppEventBus eventBus )
+    public void init( AddressLookupListener addressLookup )
     {
         // Loading google map API
-        String mapsApiKey = ( eventBus ).config().getMapsApiKey();
-        ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
-        {
-            @Override
-            public void onFailure( Exception reason )
-            {
-                GWT.log( "Error occur during registration google maps api", reason );
-            }
-
-            @Override
-            public void onSuccess( Void result )
-            {
-                locationStreet.load();
-            }
-        } );
+        addressLookup.onLoad( () -> locationStreet.load() );
 
         locationStreet.addPlaceChangedHandler( event -> {
             PlaceResult place = locationStreet.getPlace();
@@ -230,5 +208,10 @@ public class EventPanel
         }
 
         return event;
+    }
+
+    interface EventUiBinder
+            extends UiBinder<HTMLPanel, EventPanel>
+    {
     }
 }

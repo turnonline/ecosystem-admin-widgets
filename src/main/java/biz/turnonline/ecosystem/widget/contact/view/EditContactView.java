@@ -22,7 +22,7 @@ import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
 import biz.turnonline.ecosystem.widget.contact.ui.LogoUploader;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCardPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
@@ -31,7 +31,6 @@ import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -40,13 +39,11 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
-import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
-import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
 import javax.inject.Inject;
@@ -170,13 +167,10 @@ public class EditContactView
     @UiField
     CountryComboBox postalCountry;
 
-    interface EditContactsViewUiBinder
-            extends UiBinder<HTMLPanel, EditContactView>
-    {
-    }
-
     @Inject
-    public EditContactView( EventBus eventBus, @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public EditContactView( EventBus eventBus,
+                            @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+                            AddressLookupListener addressLookup )
     {
         super( eventBus );
 
@@ -186,21 +180,9 @@ public class EditContactView
         add( binder.createAndBindUi( this ) );
 
         // Loading google map API
-        String mapsApiKey = ( ( AppEventBus ) eventBus ).config().getMapsApiKey();
-        ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
-        {
-            @Override
-            public void onFailure( Exception reason )
-            {
-                GWT.log( "Error occur during registration google maps api", reason );
-            }
-
-            @Override
-            public void onSuccess( Void result )
-            {
-                street.load();
-                postalStreet.load();
-            }
+        addressLookup.onLoad( () -> {
+            street.load();
+            postalStreet.load();
         } );
 
         street.addPlaceChangedHandler( event -> {
@@ -377,5 +359,10 @@ public class EditContactView
     private void handleVatPayer()
     {
         vatId.setEnabled( vatPayer.getValue() );
+    }
+
+    interface EditContactsViewUiBinder
+            extends UiBinder<HTMLPanel, EditContactView>
+    {
     }
 }

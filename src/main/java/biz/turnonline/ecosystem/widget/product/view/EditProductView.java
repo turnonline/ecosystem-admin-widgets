@@ -29,7 +29,7 @@ import biz.turnonline.ecosystem.widget.product.ui.EventPanel;
 import biz.turnonline.ecosystem.widget.product.ui.Invoicing;
 import biz.turnonline.ecosystem.widget.product.ui.Pricing;
 import biz.turnonline.ecosystem.widget.product.ui.Publishing;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -56,8 +56,6 @@ public class EditProductView
         implements EditProductPresenter.IView
 {
     private static EditProductViewUiBinder binder = GWT.create( EditProductViewUiBinder.class );
-
-    private PlaceController controller;
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -93,15 +91,13 @@ public class EditProductView
     @UiField
     MaterialButton btnBack;
 
-    interface EditProductViewUiBinder
-            extends UiBinder<HTMLPanel, EditProductView>
-    {
-    }
+    private PlaceController controller;
 
     @Inject
     public EditProductView( EventBus eventBus,
                             PlaceController controller,
-                            @Named( "EditProductBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+                            @Named( "EditProductBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+                            AddressLookupListener addressLookup )
     {
         super( eventBus );
 
@@ -112,7 +108,7 @@ public class EditProductView
 
         add( binder.createAndBindUi( this ) );
 
-        event.init( ( AppEventBus ) eventBus );
+        event.init( addressLookup );
     }
 
     @Override
@@ -156,5 +152,10 @@ public class EditProductView
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveProductEvent( getModel() ) );
+    }
+
+    interface EditProductViewUiBinder
+            extends UiBinder<HTMLPanel, EditProductView>
+    {
     }
 }

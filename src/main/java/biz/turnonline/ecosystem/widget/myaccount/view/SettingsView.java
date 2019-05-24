@@ -19,7 +19,7 @@
 package biz.turnonline.ecosystem.widget.myaccount.view;
 
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfigBillingAddress;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfigBillingContact;
@@ -30,19 +30,16 @@ import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
-import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
-import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
 import javax.inject.Inject;
@@ -109,7 +106,9 @@ public class SettingsView
     MaterialTextBox billingContactSuffix;
 
     @Inject
-    public SettingsView( EventBus eventBus, @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public SettingsView( EventBus eventBus,
+                         @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+                         AddressLookupListener addressLookup )
     {
         super( eventBus );
 
@@ -119,21 +118,7 @@ public class SettingsView
         add( binder.createAndBindUi( this ) );
 
         // Loading google map API
-        String mapsApiKey = ( ( AppEventBus ) eventBus ).config().getMapsApiKey();
-        ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
-        {
-            @Override
-            public void onFailure( Exception reason )
-            {
-                GWT.log( "Error occur during registration google maps api", reason );
-            }
-
-            @Override
-            public void onSuccess( Void result )
-            {
-                billingAddressStreet.load();
-            }
-        } );
+        addressLookup.onLoad( () -> billingAddressStreet.load() );
 
         // company address lookup handler
         billingAddressStreet.addPlaceChangedHandler( event -> {

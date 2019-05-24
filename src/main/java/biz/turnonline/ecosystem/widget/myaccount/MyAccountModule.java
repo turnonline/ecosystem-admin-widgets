@@ -25,6 +25,7 @@ import biz.turnonline.ecosystem.widget.myaccount.presenter.MyAccountPresenter;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
 import biz.turnonline.ecosystem.widget.myaccount.view.MyAccountView;
 import biz.turnonline.ecosystem.widget.myaccount.view.SettingsView;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
@@ -128,6 +129,13 @@ public abstract class MyAccountModule
     static SearchFacade provideSearchFacade()
     {
         return GWT.create( SearchFacade.class );
+    }
+
+    @Singleton
+    @Provides
+    static AddressLookupListener provideAddressLookupListener( Configuration config )
+    {
+        return config.initAddressLookupListener();
     }
 
     @Provides

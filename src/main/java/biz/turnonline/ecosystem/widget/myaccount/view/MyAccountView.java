@@ -20,7 +20,7 @@ package biz.turnonline.ecosystem.widget.myaccount.view;
 
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.MyAccountPresenter;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountBusiness;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountPersonalAddress;
@@ -33,7 +33,6 @@ import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -43,7 +42,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
-import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -52,7 +50,6 @@ import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
-import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
 import javax.inject.Inject;
@@ -211,7 +208,9 @@ public class MyAccountView
     MaterialRow postalAddressPanel;
 
     @Inject
-    public MyAccountView( EventBus eventBus, @Named( "MyAccountBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public MyAccountView( EventBus eventBus,
+                          @Named( "MyAccountBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+                          AddressLookupListener addressLookup )
     {
         super( eventBus );
 
@@ -221,22 +220,10 @@ public class MyAccountView
         add( binder.createAndBindUi( this ) );
 
         // Loading google map API
-        String mapsApiKey = ( ( AppEventBus ) eventBus ).config().getMapsApiKey();
-        ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
-        {
-            @Override
-            public void onFailure( Exception reason )
-            {
-                GWT.log( "Error occur during registration google maps api", reason );
-            }
-
-            @Override
-            public void onSuccess( Void result )
-            {
-                companyStreet.load();
-                personalStreet.load();
-                postalStreet.load();
-            }
+        addressLookup.onLoad( () -> {
+            companyStreet.load();
+            personalStreet.load();
+            postalStreet.load();
         } );
 
         // company address lookup handler

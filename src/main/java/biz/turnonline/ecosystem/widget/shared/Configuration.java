@@ -1,6 +1,10 @@
 package biz.turnonline.ecosystem.widget.shared;
 
+import com.google.gwt.core.client.Callback;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
+import gwt.material.design.client.api.ApiRegistry;
+import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import org.fusesource.restygwt.client.Defaults;
 import org.fusesource.restygwt.client.ServiceRoots;
 
@@ -11,8 +15,6 @@ import static org.ctoolkit.gwt.client.Constants.REST_DATE_FORMAT;
  */
 public class Configuration
 {
-    public static Configuration instance;
-
     public static final String CONFIGURATION_OBJECT = "Configuration";
 
     public static final String DOMICILE = "DOMICILE";
@@ -31,6 +33,13 @@ public class Configuration
 
     public static final String MAPS_API_KEY = "MAPS_API_KEY";
 
+    /**
+     * Single item from the code-book considered as a default value
+     */
+    private static final String LEGAL_FORM = "ltd";
+
+    public static Configuration instance;
+
     private String domicile;
 
     private String currency;
@@ -40,8 +49,6 @@ public class Configuration
     private String loginId;
 
     private String mapsApiKey;
-
-    private String legalForm = "ltd";
 
     /**
      * Builds {@link Configuration} instance taken from the {@link Dictionary}.
@@ -78,6 +85,29 @@ public class Configuration
         }
 
         return instance;
+    }
+
+    public AddressLookupListener initAddressLookupListener()
+    {
+        String mapsApiKey = get().getMapsApiKey();
+        AddressLookupListener listener = new AddressLookupListener();
+
+        ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
+        {
+            @Override
+            public void onFailure( Exception reason )
+            {
+                GWT.log( "Error occur during registration google maps api", reason );
+            }
+
+            @Override
+            public void onSuccess( Void result )
+            {
+                listener.onSuccess();
+            }
+        } );
+
+        return listener;
     }
 
     public String getDomicile()
@@ -132,6 +162,6 @@ public class Configuration
 
     public String getLegalForm()
     {
-        return legalForm;
+        return LEGAL_FORM;
     }
 }

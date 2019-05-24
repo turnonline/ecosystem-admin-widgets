@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.contact.presenter.ContactsPresenter;
 import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
 import biz.turnonline.ecosystem.widget.contact.view.ContactsView;
 import biz.turnonline.ecosystem.widget.contact.view.EditContactView;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
@@ -87,25 +88,30 @@ public abstract class ContactModule
 
     @Provides
     @Singleton
-    static PlaceHistoryHandler providePlaceHistoryHandler( PlaceHistoryMapper mapper, PlaceHistoryHandler.Historian historian,
-                                                           PlaceController controller, EventBus eventBus )
+    static PlaceHistoryHandler providePlaceHistoryHandler( PlaceHistoryMapper mapper,
+                                                           PlaceHistoryHandler.Historian historian,
+                                                           PlaceController controller,
+                                                           EventBus eventBus )
     {
         PlaceHistoryHandler handler = new PlaceHistoryHandler( mapper, historian );
         handler.register( controller, eventBus, ContactEntryPoint.DEFAULT_PLACE );
         return handler;
     }
 
-    @Binds
-    @Singleton
-    abstract ActivityMapper provideActivityMapper( ContactController controller );
-
-    // -- configuration
-
     @Singleton
     @Provides
     static Configuration provideConfiguration()
     {
         return Configuration.get();
+    }
+
+    // -- configuration
+
+    @Singleton
+    @Provides
+    static AddressLookupListener provideAddressLookupListener( Configuration config )
+    {
+        return config.initAddressLookupListener();
     }
 
     // rest facade
@@ -157,6 +163,10 @@ public abstract class ContactModule
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
+
+    @Binds
+    @Singleton
+    abstract ActivityMapper provideActivityMapper( ContactController controller );
 
     // -- event bus
 
