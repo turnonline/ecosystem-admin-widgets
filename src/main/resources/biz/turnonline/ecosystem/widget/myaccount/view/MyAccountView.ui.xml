@@ -51,6 +51,17 @@
 
                     <m:MaterialTextBox label="{msg.labelContactEmail}" ui:field="contactEmail"/>
                 </m:MaterialColumn>
+
+                <!-- locale (language) selector -->
+                <m:MaterialColumn grid="s12 m4">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="LANGUAGE" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelLanguagePreference}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <shared:LanguageComboBox label="{msg.labelLanguage}" ui:field="language"/>
+                </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>
 

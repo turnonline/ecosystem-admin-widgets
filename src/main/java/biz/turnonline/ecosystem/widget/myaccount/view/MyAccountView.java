@@ -28,6 +28,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.account.AccountPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountPublicContact;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
+import biz.turnonline.ecosystem.widget.shared.ui.LanguageComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.LegalFormComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -78,6 +79,9 @@ public class MyAccountView
 
     @UiField
     MaterialTextBox contactEmail;
+
+    @UiField
+    LanguageComboBox language;
 
     // Personal / Company account switch
     @UiField
@@ -282,6 +286,7 @@ public class MyAccountView
         email.setValue( account.getEmail() );
         contactEmail.setValue( account.getContactEmail() );
         company.setValue( account.getCompany() );
+        language.setSingleValueByCode( account.getLocale() );
 
         prefix.setValue( account.getPrefix() );
         firstName.setValue( account.getFirstName() );

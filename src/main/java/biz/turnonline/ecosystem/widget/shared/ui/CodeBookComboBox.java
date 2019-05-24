@@ -11,11 +11,11 @@ import gwt.material.design.client.ui.html.Option;
 public class CodeBookComboBox<T extends CodeBook>
         extends MaterialComboBox<T>
 {
-    private boolean itemsLoaded = false;
-
     private final Class<T> clazz;
 
-    public CodeBookComboBox(Class<T> clazz)
+    private boolean itemsLoaded = false;
+
+    public CodeBookComboBox( Class<T> clazz )
     {
         setKeyFactory( CodeBook::getCode );
         this.clazz = clazz;
@@ -27,6 +27,11 @@ public class CodeBookComboBox<T extends CodeBook>
         Option option = super.buildOption( text, value );
         option.setText( value.getLabel() );
         return option;
+    }
+
+    public String getSingleValueByCode()
+    {
+        return getSingleValue() != null ? getSingleValue().getCode() : null;
     }
 
     public void setSingleValueByCode( String code )
@@ -50,11 +55,6 @@ public class CodeBookComboBox<T extends CodeBook>
         }
     }
 
-    public String getSingleValueByCode()
-    {
-        return getSingleValue() != null ? getSingleValue().getCode() : null;
-    }
-
     protected void initialize( String code )
     {
         CodeBookRestFacade.getCodeBook( clazz, response -> {
@@ -62,10 +62,15 @@ public class CodeBookComboBox<T extends CodeBook>
 
             if ( !response.getItems().isEmpty() )
             {
-                itemsLoaded = true;
+                itemsLoaded();
                 setSingleValueByCode( code );
             }
         } );
+    }
+
+    void itemsLoaded()
+    {
+        this.itemsLoaded = true;
     }
 
     protected String defaultValue()

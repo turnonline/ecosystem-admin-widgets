@@ -474,6 +474,21 @@ public interface AppMessages
     @Key( value = "label.back" )
     String labelBack();
 
+    @Key( "label.language" )
+    String labelLanguage();
+
+    @Key( "label.language.preference" )
+    String labelLanguagePreference();
+
+    @Key( "label.language.en" )
+    String labelLanguageEn();
+
+    @Key( "label.language.sk" )
+    String labelLanguageSk();
+
+    @Key( "label.language.cs" )
+    String labelLanguageCs();
+
     // tooltips
 
     @Key( value = "tooltip.new.contact" )
