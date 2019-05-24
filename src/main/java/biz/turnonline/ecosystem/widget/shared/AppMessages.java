@@ -204,6 +204,9 @@ public interface AppMessages
     @Key( value = "label.logo")
     String labelLogo();
 
+    @Key( "label.stamp" )
+    String labelStamp();
+
     @Key( value = "label.detail" )
     String labelDetail();
 
@@ -442,7 +445,7 @@ public interface AppMessages
     String labelDebitCard();
 
     @Key( value = "label.texts" )
-    String labelTexts();
+    String labelInvoiceTexts();
 
     @Key( value = "label.finalText" )
     String labelFinalText();

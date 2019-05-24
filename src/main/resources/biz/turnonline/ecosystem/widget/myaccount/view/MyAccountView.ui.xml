@@ -42,7 +42,7 @@
                 </m:MaterialColumn>
 
                 <!-- contact email -->
-                <m:MaterialColumn grid="s12 m3">
+                <m:MaterialColumn grid="s12 m4">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="CONTACT_MAIL" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
@@ -79,7 +79,7 @@
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5" ui:field="personalData">
             <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
-                <m:MaterialColumn grid="s12 m3">
+                <m:MaterialColumn grid="s12 m4">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="PERSON" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
@@ -94,7 +94,7 @@
                 </m:MaterialColumn>
 
                 <!-- personal address -->
-                <m:MaterialColumn grid="s12 m3">
+                <m:MaterialColumn grid="s12 m4">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
@@ -118,7 +118,7 @@
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5" ui:field="companyData">
             <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
                 <!-- company basic info -->
-                <m:MaterialColumn grid="s12 m3">
+                <m:MaterialColumn grid="s12 m4">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="BUSINESS" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
@@ -138,7 +138,7 @@
                 </m:MaterialColumn>
 
                 <!-- headquarters -->
-                <m:MaterialColumn grid="s12 m3">
+                <m:MaterialColumn grid="s12 m4">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
@@ -158,7 +158,7 @@
                 </m:MaterialColumn>
 
                 <!-- public contact -->
-                <m:MaterialColumn grid="s12 m3">
+                <m:MaterialColumn grid="s12 m4">
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="PUBLIC" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>
@@ -184,7 +184,7 @@
 
             <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="-20" marginBottom="0" ui:field="postalAddressPanel">
                 <!-- postal address-->
-                <m:MaterialColumn grid="s12 m3" paddingTop="0">
+                <m:MaterialColumn grid="s12 m4" paddingTop="0">
                     <map:AddressLookup label="{msg.labelStreet}" ui:field="postalStreet"
                                        tooltip="{msg.tooltipAddressAutocomplete}"/>
                     <m:MaterialTextBox label="{msg.labelCity}" ui:field="postalCity"/>
@@ -198,7 +198,7 @@
                     <shared:CountryComboBox label="{msg.labelCountry}" ui:field="postalCountry"/>
                 </m:MaterialColumn>
 
-                <m:MaterialColumn grid="s12 m3">
+                <m:MaterialColumn grid="s12 m4">
                     <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="postalBusinessName"/>
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">

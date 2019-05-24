@@ -60,7 +60,7 @@
             <m:MaterialColumn grid="s12 m6">
                 <m:MaterialSection paddingTop="0" paddingBottom="0">
                     <m:MaterialIcon iconType="TEXT_FIELDS" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelTexts}" textColor="BLUE"/>
+                    <m:MaterialTitle description="{msg.labelInvoiceTexts}" textColor="BLUE"/>
                 </m:MaterialSection>
 
                 <m:MaterialTextArea ui:field="introductoryText" label="{msg.labelIntroductoryText}"/>

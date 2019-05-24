@@ -11,11 +11,16 @@ import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
 /**
+ * {@link MethodCallback} turned in to {@link FacadeCallback} that supports lambda syntax.
+ *
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public interface FacadeCallback<T>
         extends MethodCallback<T>
 {
+    /**
+     * Called when asynchronous call completes successfully.
+     */
     void onSuccess( T response );
 
     @Override
@@ -41,7 +46,7 @@ public interface FacadeCallback<T>
         if ( exception instanceof FailedResponseException )
         {
             FailedResponseException fre = ( FailedResponseException ) exception;
-            if ( fre.getStatusCode() == 404)
+            if ( fre.getStatusCode() == 404 )
             {
                 errorMessage = AppMessages.INSTANCE.msgErrorRecordDoesNotExists();
             }

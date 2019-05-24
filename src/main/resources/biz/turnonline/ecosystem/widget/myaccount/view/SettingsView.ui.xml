@@ -87,6 +87,40 @@
                     </m:MaterialRow>
                 </m:MaterialColumn>
             </m:MaterialRow>
+
+            <m:MaterialRow>
+                <m:MaterialColumn grid="s12 m6">
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="TEXT_FIELDS" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelInvoiceTexts}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <m:MaterialTextArea ui:field="introductoryText" label="{msg.labelIntroductoryText}"/>
+                    <m:MaterialTextArea ui:field="finalText" label="{msg.labelFinalText}"/>
+                </m:MaterialColumn>
+
+                <m:MaterialColumn grid="s12 m3">
+                    <!--logo-->
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelLogo}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <shared:LogoUploader ui:field="logoUploader" marginBottom="20"/>
+                </m:MaterialColumn>
+
+                <m:MaterialColumn grid="s12 m3">
+                    <!--logo-->
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelStamp}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <shared:LogoUploader ui:field="stampUploader" marginBottom="20"/>
+                </m:MaterialColumn>
+            </m:MaterialRow>
         </m:MaterialPanel>
     </g:HTMLPanel>
 </ui:UiBinder>

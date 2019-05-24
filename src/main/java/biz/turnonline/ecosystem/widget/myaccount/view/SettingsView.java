@@ -26,18 +26,22 @@ import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfigBillin
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
+import biz.turnonline.ecosystem.widget.shared.ui.LogoUploader;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialSwitch;
+import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
@@ -105,6 +109,18 @@ public class SettingsView
     @UiField
     MaterialTextBox billingContactSuffix;
 
+    @UiField
+    MaterialTextArea introductoryText;
+
+    @UiField
+    MaterialTextArea finalText;
+
+    @UiField
+    LogoUploader logoUploader;
+
+    @UiField
+    LogoUploader stampUploader;
+
     @Inject
     public SettingsView( EventBus eventBus,
                          @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
@@ -167,6 +183,24 @@ public class SettingsView
             billingContactLastName.setValue( billingContact.getLastName() );
             billingContactSuffix.setValue( billingContact.getSuffix() );
         }
+
+        handleHasBillingAddress();
+    }
+
+    private void handleHasBillingAddress()
+    {
+        Boolean isBillingAddress = hasBillingAddress.getValue();
+        billingBusinessName.setEnabled( isBillingAddress );
+        billingAddressStreet.setEnabled( isBillingAddress );
+        billingAddressCity.setEnabled( isBillingAddress );
+        billingAddressPostcode.setEnabled( isBillingAddress );
+        billingAddressCountry.setEnabled( isBillingAddress );
+    }
+
+    @UiHandler( "hasBillingAddress" )
+    void onHasBillingAddress( ValueChangeEvent<Boolean> e )
+    {
+        handleHasBillingAddress();
     }
 
     interface SettingsViewUiBinder
