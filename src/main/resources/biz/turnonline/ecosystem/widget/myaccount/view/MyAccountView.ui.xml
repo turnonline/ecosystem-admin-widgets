@@ -86,11 +86,11 @@
                         <m:MaterialTitle description="{msg.labelPersonalAccount}" textColor="BLUE"/>
                     </m:MaterialSection>
 
-                    <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="prefix"/>
+                    <m:MaterialTextBox label="{msg.labelPrefix}" ui:field="prefix"/>
                     <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="firstName"/>
                     <m:MaterialTextBox label="{msg.labelMiddleName}" ui:field="middleName"/>
                     <m:MaterialTextBox label="{msg.labelLastName}" ui:field="lastName"/>
-                    <m:MaterialTextBox label="{msg.labelLastName}" ui:field="suffix"/>
+                    <m:MaterialTextBox label="{msg.labelSuffix}" ui:field="suffix"/>
                 </m:MaterialColumn>
 
                 <!-- personal address -->
