@@ -18,10 +18,13 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * The set of account default invoicing rules. These values might be overriden.
  **/
 public class InvoicingConfig
+        implements RelevantNullChecker
 {
     private String currency;
 
@@ -126,6 +129,22 @@ public class InvoicingConfig
     public void setBillingContact( InvoicingConfigBillingContact billingContact )
     {
         this.billingContact = billingContact;
+    }
+
+    public boolean setBillingAddressIf( InvoicingConfigBillingAddress billingAddress )
+    {
+        return setIfNotAllNull( this::setBillingAddress, billingAddress );
+    }
+
+    public boolean setBillingContactIf( InvoicingConfigBillingContact billingContact )
+    {
+        return setIfNotAllNull( this::setBillingContact, billingContact );
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( currency, numberOfDays, hasBillingAddress, billingAddress, billingContact );
     }
 }
 

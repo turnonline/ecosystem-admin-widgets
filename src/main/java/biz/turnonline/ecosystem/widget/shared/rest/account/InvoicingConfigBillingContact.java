@@ -18,7 +18,10 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 public class InvoicingConfigBillingContact
+        implements RelevantNullChecker
 {
     private String email;
 
@@ -165,6 +168,12 @@ public class InvoicingConfigBillingContact
     public void setPhone( String phone )
     {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( email, prefix, firstName, middleName, lastName, suffix, phone );
     }
 }
 

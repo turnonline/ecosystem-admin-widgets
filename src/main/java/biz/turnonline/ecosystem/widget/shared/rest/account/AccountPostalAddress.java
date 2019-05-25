@@ -18,7 +18,10 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 public class AccountPostalAddress
+        implements RelevantNullChecker
 {
     private String prefix;
 
@@ -249,6 +252,12 @@ public class AccountPostalAddress
     public void setLongitude( Double longitude )
     {
         this.longitude = longitude;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( prefix, firstName, lastName, suffix, businessName, street, city, country, postcode );
     }
 }
 

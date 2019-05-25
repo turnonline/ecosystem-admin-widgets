@@ -18,7 +18,12 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
+import java.util.function.Consumer;
+
 public class AccountBusiness
+        implements RelevantNullChecker
 {
     private String businessName;
 
@@ -312,6 +317,21 @@ public class AccountBusiness
     public void setLogo( Logo logo )
     {
         this.logo = logo;
+    }
+
+    /**
+     * @see #setIfNotAllNull(Consumer, RelevantNullChecker)
+     */
+    public boolean setLogoIf( Logo logo )
+    {
+        return setIfNotAllNull( this::setLogo, logo );
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( businessName, legalForm, companyId, taxId, vatPayer, vatId, domain, logo, street, city,
+                postcode, domicile );
     }
 }
 

@@ -18,9 +18,12 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.Date;
 
 public class Account
+        implements RelevantNullChecker
 {
     private Long id;
 
@@ -440,6 +443,38 @@ public class Account
     public void setInvoicing( InvoicingConfig invoicing )
     {
         this.invoicing = invoicing;
+    }
+
+    public boolean setPersonalAddressIf( AccountPersonalAddress personalAddress )
+    {
+        return setIfNotAllNull( this::setPersonalAddress, personalAddress );
+    }
+
+    public boolean setPublicContactIf( AccountPublicContact publicContact )
+    {
+        return setIfNotAllNull( this::setPublicContact, publicContact );
+    }
+
+    public boolean setPostalAddressIf( AccountPostalAddress postalAddress )
+    {
+        return setIfNotAllNull( this::setPostalAddress, postalAddress );
+    }
+
+    public boolean setBusinessIf( AccountBusiness business )
+    {
+        return setIfNotAllNull( this::setBusiness, business );
+    }
+
+    public boolean setInvoicingIf( InvoicingConfig invoicing )
+    {
+        return setIfNotAllNull( this::setInvoicing, invoicing );
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( contactEmail, locale, prefix, firstName, middleName, lastName, suffix,
+                personalAddress, publicContact, hasPostalAddress, postalAddress, company, business, invoicing );
     }
 }
 

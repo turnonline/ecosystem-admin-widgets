@@ -18,7 +18,10 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 public class AccountPublicContact
+        implements RelevantNullChecker
 {
     private String email;
 
@@ -102,6 +105,12 @@ public class AccountPublicContact
     public void setWebsite( String website )
     {
         this.website = website;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( email, name, phone, website );
     }
 }
 

@@ -18,7 +18,10 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 public class InvoicingConfigBillingAddress
+        implements RelevantNullChecker
 {
     private String businessName;
 
@@ -167,5 +170,10 @@ public class InvoicingConfigBillingAddress
         this.longitude = longitude;
     }
 
+    @Override
+    public boolean allNull()
+    {
+        return allNull( businessName, street, city, country, postcode );
+    }
 }
 

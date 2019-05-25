@@ -18,10 +18,13 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * Logo image details.
  **/
 public class Logo
+        implements RelevantNullChecker
 {
     private String storageName;
 
@@ -65,5 +68,10 @@ public class Logo
         this.servingUrl = servingUrl;
     }
 
+    @Override
+    public boolean allNull()
+    {
+        return allNull( storageName );
+    }
 }
 
