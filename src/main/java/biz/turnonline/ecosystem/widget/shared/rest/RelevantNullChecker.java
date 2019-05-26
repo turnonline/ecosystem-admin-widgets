@@ -57,7 +57,8 @@ public interface RelevantNullChecker
      * Checks whether this resource has at least a single property with non {@code null}
      * value within its tree, among those that has been included to be checked.
      *
-     * @return {@code true} if at least a single property of this resource has a non {@code null} value
+     * @return {@code true} if at least a single property of this resource has a non {@code null} value,
+     * otherwise {@code false}
      */
     boolean allNull();
 
@@ -68,7 +69,8 @@ public interface RelevantNullChecker
      * @param setter the consumer to be used to set value only if {@link #allNull(Object...)} returns {@code true}
      * @param value  the value to be checked and set if meets condition
      * @param <T>    the type of the value
-     * @return {@code true} if value from the input tree has at least single non {@code null} value within its tree
+     * @return {@code true} if value from the input tree has at least single non {@code null} value within its tree,
+     * otherwise {@code false}
      */
     default <T extends RelevantNullChecker> boolean setIfNotAllNull( @Nonnull Consumer<T> setter, @Nullable T value )
     {
@@ -88,7 +90,8 @@ public interface RelevantNullChecker
      * Checks whether the input values has at least single non {@code null} value within its tree.
      *
      * @param values those values that are relevant to be sent to remote service
-     * @return {@code true} if at least a single value from the input a non {@code null} value
+     * @return {@code true} if at least a single value from the input a non {@code null} value,
+     * otherwise {@code false}
      */
     default boolean allNull( @Nullable Object... values )
     {
