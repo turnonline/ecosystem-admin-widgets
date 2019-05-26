@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.myaccount.view;
 
+import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
@@ -32,6 +33,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -133,6 +135,21 @@ public class SettingsView
 
         add( binder.createAndBindUi( this ) );
 
+        numberOfDays.setReturnBlankAsNull( true );
+        billingBusinessName.setReturnBlankAsNull( true );
+        billingAddressStreet.setReturnBlankAsNull( true );
+        billingAddressCity.setReturnBlankAsNull( true );
+        billingAddressPostcode.setReturnBlankAsNull( true );
+        billingContactEmail.setReturnBlankAsNull( true );
+        billingContactPhone.setReturnBlankAsNull( true );
+        billingContactPrefix.setReturnBlankAsNull( true );
+        billingContactFirstName.setReturnBlankAsNull( true );
+        billingContactMiddleName.setReturnBlankAsNull( true );
+        billingContactLastName.setReturnBlankAsNull( true );
+        billingContactSuffix.setReturnBlankAsNull( true );
+        introductoryText.setReturnBlankAsNull( true );
+        finalText.setReturnBlankAsNull( true );
+
         // Loading google map API
         addressLookup.onLoad( () -> billingAddressStreet.load() );
 
@@ -151,6 +168,43 @@ public class SettingsView
         } );
         billingAddressStreet.getElement().setAttribute( "autocomplete", "off" );
         billingAddressStreet.add( new InputSearchIcon() );
+    }
+
+    @Override
+    protected void beforeGetModel()
+    {
+        InvoicingConfig invoicing = getRawModel();
+
+        invoicing.setCurrency( currency.getSingleValue() );
+        invoicing.setNumberOfDays( numberOfDays.getValue() );
+        invoicing.setHasBillingAddress( hasBillingAddress.getValue() );
+
+        InvoicingConfigBillingAddress billingAddress = new InvoicingConfigBillingAddress();
+
+        billingAddress.setBusinessName( billingBusinessName.getValue() );
+        billingAddress.setStreet( billingAddressStreet.getValue() );
+        billingAddress.setCity( billingAddressCity.getValue() );
+        billingAddress.setPostcode( billingAddressPostcode.getValue() );
+        if ( invoicing.setBillingAddressIf( billingAddress ) )
+        {
+            // set only if there are another values, sending default values makes no sense
+            billingAddress.setCountry( billingAddressCountry.getSingleValueByCode() );
+        }
+
+        InvoicingConfigBillingContact billingContact = new InvoicingConfigBillingContact();
+        billingContact.setEmail( billingContactEmail.getValue() );
+        billingContact.setPhone( billingContactPhone.getValue() );
+        billingContact.setPrefix( billingContactPrefix.getValue() );
+        billingContact.setFirstName( billingContactFirstName.getValue() );
+        billingContact.setMiddleName( billingContactMiddleName.getValue() );
+        billingContact.setLastName( billingContactLastName.getValue() );
+        billingContact.setSuffix( billingContactSuffix.getValue() );
+        invoicing.setBillingContactIf( billingContact );
+
+        // set(introductoryText.getValue());
+        // set(finalText.getValue());
+        // set(logoUploader.getValue());
+        // set(stampUploader.getValue());
     }
 
     @Override
@@ -201,6 +255,12 @@ public class SettingsView
     void onHasBillingAddress( ValueChangeEvent<Boolean> e )
     {
         handleHasBillingAddress();
+    }
+
+    @UiHandler( "btnSave" )
+    public void onSaveClick( ClickEvent event )
+    {
+        bus().fireEvent( new SaveInvoicingEvent( getModel() ) );
     }
 
     interface SettingsViewUiBinder

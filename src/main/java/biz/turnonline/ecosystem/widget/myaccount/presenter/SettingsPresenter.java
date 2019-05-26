@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.myaccount.presenter;
 
+import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -46,6 +47,11 @@ public class SettingsPresenter
     @Override
     public void bind()
     {
+        bus().addHandler( SaveInvoicingEvent.TYPE,
+                event -> bus()
+                        .account()
+                        .update( bus().config().getLoginId(), event.getInvoicing(),
+                                response -> success( messages.msgRecordUpdated() ) ) );
     }
 
     @Override

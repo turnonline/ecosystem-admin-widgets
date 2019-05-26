@@ -50,7 +50,8 @@ public class MyAccountPresenter
         bus().addHandler( SaveAccountEvent.TYPE,
                 event -> bus()
                         .account()
-                        .update( event.getLoginId(), event.getAccount(), response -> view().setModel( response ) ) );
+                        .update( event.getLoginId(), event.getAccount(),
+                                response -> success( messages.msgRecordUpdated() ) ) );
     }
 
     @Override

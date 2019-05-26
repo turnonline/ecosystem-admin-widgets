@@ -52,6 +52,12 @@ public interface AccountStewardFacade
     void getInvoicingConfig( @PathParam( "login_id" ) String loginId, FacadeCallback<InvoicingConfig> callback );
 
     @PUT
+    @Path( "accounts/{login_id}/invoicing" )
+    void update( @PathParam( "login_id" ) String loginId,
+                 InvoicingConfig invoicing,
+                 FacadeCallback<InvoicingConfig> callback );
+
+    @PUT
     @Path( "accounts/{login_id}" )
     void update( @PathParam( "login_id" ) String loginId,
                  Account account,
