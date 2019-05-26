@@ -240,7 +240,7 @@
         <!-- end annotationProcessor config -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <gwt-material.version>2.1.1</gwt-material.version>
-        <ctoolkit-tinygwt.version>0.5-20190521.174159-20</ctoolkit-tinygwt.version>
+        <ctoolkit-tinygwt.version>0.6-20190526.055520-1</ctoolkit-tinygwt.version>
     </properties>
 
 </project>

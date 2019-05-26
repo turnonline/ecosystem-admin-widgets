@@ -1,9 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.rest;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.event.RestCallEvent;
-import biz.turnonline.ecosystem.widget.shared.event.RestCallEvent.Direction;
-import biz.turnonline.ecosystem.widget.shared.util.StaticEventBus;
 import com.google.gwt.core.client.GWT;
 import gwt.material.design.client.ui.MaterialToast;
 import org.fusesource.restygwt.client.FailedResponseException;
@@ -27,15 +24,12 @@ public interface FacadeCallback<T>
     default void onFailure( Method method, Throwable exception )
     {
         handleError( exception );
-        StaticEventBus.INSTANCE.fireEvent( new RestCallEvent( Direction.IN ) );
-
         redirectToLoginIfUnauthorized( exception );
     }
 
     @Override
     default void onSuccess( Method method, T response )
     {
-        StaticEventBus.INSTANCE.fireEvent( new RestCallEvent( Direction.IN ) );
         onSuccess( response );
     }
 

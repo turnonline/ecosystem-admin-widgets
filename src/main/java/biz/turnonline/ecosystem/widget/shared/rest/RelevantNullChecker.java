@@ -45,7 +45,7 @@ import java.util.function.Consumer;
  * The proper JSON for above should look like:
  * <pre>
  * {
- *     "firstName": "John",
+ *     "firstName": "John"
  * }
  * </pre>
  *
@@ -53,10 +53,17 @@ import java.util.function.Consumer;
  */
 public interface RelevantNullChecker
 {
+    /**
+     * Checks whether this resource has at least a single property with non {@code null}
+     * value within its tree, among those that has been included to be checked.
+     *
+     * @return {@code true} if at least a single property of this resource has a non {@code null} value
+     */
     boolean allNull();
 
     /**
      * Sets value at consumer (setter) only if input value meets a condition.
+     * Other words, include only those properties to be checked that will be processed by a remote service.
      *
      * @param setter the consumer to be used to set value only if {@link #allNull(Object...)} returns {@code true}
      * @param value  the value to be checked and set if meets condition
@@ -81,7 +88,7 @@ public interface RelevantNullChecker
      * Checks whether the input values has at least single non {@code null} value within its tree.
      *
      * @param values those values that are relevant to be sent to remote service
-     * @return {@code true} if at least a single value from the input tree has a non {@code null} value
+     * @return {@code true} if at least a single value from the input a non {@code null} value
      */
     default boolean allNull( @Nullable Object... values )
     {
