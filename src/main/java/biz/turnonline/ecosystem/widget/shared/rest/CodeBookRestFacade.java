@@ -12,6 +12,7 @@ import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class CodeBookRestFacade
 
     private static Map<Class<?>, Retriever<?>> codeBookRetriever = new HashMap<>();
 
+    private static Map<Class<?>, List<FacadeCallback<Items>>> codeBookWaitingList = new HashMap<>();
+
     static
     {
         // codeBook retrievers
@@ -36,6 +39,11 @@ public class CodeBookRestFacade
         codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, callback ) );
         codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( "SK", callback ) );
         codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), "SK", callback ) );
+
+        codeBookWaitingList.put( Country.class, new ArrayList<>() );
+        codeBookWaitingList.put( LegalForm.class, new ArrayList<>() );
+        codeBookWaitingList.put( BillingUnit.class, new ArrayList<>() );
+        codeBookWaitingList.put( VatRate.class, new ArrayList<>() );
     }
 
     @SuppressWarnings( "unchecked" )
@@ -45,16 +53,27 @@ public class CodeBookRestFacade
 
         if ( codeBook == null || codeBook.isEmpty() )
         {
-            Retriever<T> retriever = ( Retriever<T> ) codeBookRetriever.get( codeBookClass );
-            retriever.retrieve( new CodeBookCallback( callback )
+            boolean firstCallback = codeBookWaitingList.get( codeBookClass ).isEmpty();
+
+            // register callback to waiting list
+            List<FacadeCallback<Items>> facadeCallbacks = codeBookWaitingList.get( codeBookClass );
+            facadeCallbacks.add( ( FacadeCallback ) callback );
+
+            if ( firstCallback )
             {
-                @Override
-                public void onSuccess( Method method, Items response )
+                Retriever<T> retriever = ( Retriever<T> ) codeBookRetriever.get( codeBookClass );
+                retriever.retrieve( new CodeBookCallback( callback )
                 {
-                    cacheCodeBook( codeBookClass, response.getItems() );
-                    callback.onSuccess( method, response );
-                }
-            } );
+                    @Override
+                    public void onSuccess( Method method, Items response )
+                    {
+                        cacheCodeBook( codeBookClass, response.getItems() );
+
+                        // initialize all callbacks from waiting list
+                        codeBookWaitingList.get( codeBookClass ).forEach( c -> c.onSuccess( method, response ) );
+                    }
+                } );
+            }
         }
         else
         {
@@ -66,7 +85,8 @@ public class CodeBookRestFacade
 
     public static <T extends CodeBook> T getCodeBookValue( Class<T> codeBookClass, String code )
     {
-        getCodeBook( codeBookClass, response -> {} );
+        getCodeBook( codeBookClass, response -> {
+        } );
 
         List<T> cache = getCodeBookFromCache( codeBookClass );
         if ( cache != null )
