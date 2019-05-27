@@ -26,6 +26,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.web.bindery.event.shared.EventBus;
+import gwt.material.design.client.base.viewport.Resolution;
+import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.ui.MaterialContainer;
 import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.view.BinderyView;
@@ -73,6 +75,8 @@ public abstract class View<T>
 
         content = new MaterialRow();
         content.getElement().setAttribute( "style", "padding-top:65px" );
+        ViewPort.when( Resolution.ALL_MOBILE).then( e -> content.getElement().setAttribute( "style", "padding-top:55px" ) );
+
         contentContainer.add( content );
     }
 

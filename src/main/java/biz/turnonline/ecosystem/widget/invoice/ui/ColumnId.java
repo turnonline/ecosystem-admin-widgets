@@ -14,17 +14,18 @@ public class ColumnId
     public String getValue( Invoice object )
     {
         StringBuilder sb = new StringBuilder();
-        sb.append( object.getId() );
 
         if ( object.getType() != null )
         {
-            sb.append( "<br/>" );
             sb.append( "<span class='white-text badge ")
                     .append( invoiceTypeColor( object.getType() ))
                     .append( "' style='position:relative;right:0;left:top:-1px;font-size:0.9em;border-radius:3px;'>" );
             sb.append( object.getType() );
             sb.append( "</span>" );
+            sb.append( "<br/>" );
         }
+
+        sb.append( object.getId() );
 
         return sb.toString();
     }

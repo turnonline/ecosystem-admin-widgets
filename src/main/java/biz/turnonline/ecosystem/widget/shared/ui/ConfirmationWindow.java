@@ -37,15 +37,19 @@ public class ConfirmationWindow
         super( messages.labelConfirmation() );
 
         MaterialIcon icon = new MaterialIcon( IconType.HELP );
+        icon.setGrid( "s2 m2" );
+        icon.setPadding( 0 );
         icon.setIconColor( PRIMARY_COLOR );
         icon.setIconSize( IconSize.MEDIUM );
 
-        question.getElement().setAttribute( "style", "display:inline;padding: 20px 0 10px 5px;top: -25px;position: relative;" );
+        question.getElement().setAttribute( "style", "display:inline;padding: 20px 0 10px 5px;top: -5px;position: relative;" );
+        question.setGrid( "s10 m10" );
 
         MaterialRow panel = new MaterialRow();
         panel.setSeparator( true );
         panel.add( icon );
         panel.add( question );
+        panel.setPaddingBottom( 20 );
         add( panel );
 
         add( btnOk = newBtnOk() );

@@ -7,6 +7,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
+import gwt.material.design.client.base.viewport.Resolution;
+import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.ui.MaterialHeader;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
@@ -45,6 +47,14 @@ public class ScaffoldHeader
     public ScaffoldHeader( EventBus eventBus )
     {
         search = new FulltextSearch( eventBus );
+        ViewPort.when( Resolution.ALL_MOBILE).then( e -> {
+            search.setMaxWidth( "80%" );
+            search.setMarginRight( 0 );
+        });
+        ViewPort.when( Resolution.ALL_LAPTOP ).then( e -> {
+            search.setMaxWidth( "35%" );
+            search.setMarginRight( 100 );
+        } );
 
         initWidget( binder.createAndBindUi( this ) );
 

@@ -25,8 +25,9 @@
     <m:MaterialHeader>
         <m:MaterialNavBar ui:field="navBar" activates="sidenav" backgroundColor="BLUE">
             <m:MaterialNavBrand ui:field="title" text="TurnOnline.biz Admin" fontSize="1.5em"/>
+            <s:FulltextSearch ui:field="search" placeholder="Search" display="INLINE_BLOCK"/>
+
             <m:MaterialNavSection float="RIGHT">
-                <s:FulltextSearch ui:field="search" width="40%" placeholder="Search" display="INLINE_BLOCK" marginRight="120"/>
                 <m:MaterialLink iconType="SETTINGS" paddingRight="0" ui:field="btnSettings"/>
                 <m:MaterialLink ui:field="email">
                     <m:MaterialImage border="3px solid #fff" marginTop="12" circle="true" float="LEFT" marginRight="10" ui:field="avatar"/>
