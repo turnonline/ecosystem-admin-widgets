@@ -1,6 +1,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
@@ -12,7 +13,8 @@ import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialDoubleBox;
-import gwt.material.design.client.ui.MaterialRow;
+import gwt.material.design.client.ui.table.TableData;
+import gwt.material.design.client.ui.table.TableRow;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -21,12 +23,14 @@ public class Item
         extends Composite
         implements HasModel<PricingItem>
 {
+    private static AppMessages messages = AppMessages.INSTANCE;
+
     private static ItemUiBinder binder = GWT.create( ItemUiBinder.class );
 
-    private MaterialRow row;
+    private TableRow row;
 
     interface ItemUiBinder
-            extends UiBinder<MaterialRow, Item>
+            extends UiBinder<TableRow, Item>
     {
     }
 
@@ -67,6 +71,13 @@ public class Item
 
         selected.getElement().setAttribute( "style", "margin: 0;" );
         selected.addClickHandler( event -> row.setBackgroundColor( selected.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
+
+        ( ( TableData ) itemName.getParent() ).setDataAttribute( "data-title", messages.labelItemName() );
+        ( ( TableData ) amount.getParent() ).setDataAttribute( "data-title", messages.labelAmount() );
+        ( ( TableData ) unit.getParent() ).setDataAttribute( "data-title", messages.labelUnit() );
+        ( ( TableData ) priceExclusiveVat.getParent() ).setDataAttribute( "data-title", messages.labelPriceExclusiveVat() );
+        ( ( TableData ) currency.getParent() ).setDataAttribute( "data-title", messages.labelCurrency() );
+        ( ( TableData ) vat.getParent() ).setDataAttribute( "data-title", messages.labelVat() );
     }
 
     @Override

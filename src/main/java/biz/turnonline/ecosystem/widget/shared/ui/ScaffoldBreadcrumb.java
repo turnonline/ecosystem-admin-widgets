@@ -4,6 +4,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.Composite;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialBreadcrumb;
@@ -17,9 +18,11 @@ import java.util.List;
 public class ScaffoldBreadcrumb
         extends Composite
 {
+    private MaterialNavBar navBar;
+
     public ScaffoldBreadcrumb( List<BreadcrumbItem> items, PlaceController placeController )
     {
-        MaterialNavBar navBar = new MaterialNavBar();
+        navBar = new MaterialNavBar();
         navBar.setBackgroundColor( Color.GREY_LIGHTEN_5 );
         navBar.setPaddingLeft( 20 );
 
@@ -51,6 +54,14 @@ public class ScaffoldBreadcrumb
         }
 
         initWidget( navBar );
+    }
+
+    @Override
+    protected void onLoad()
+    {
+        super.onLoad();
+
+        navBar.getNavMenu().setDisplay( Display.NONE );
     }
 
     public static class BreadcrumbItem

@@ -22,29 +22,27 @@
 >
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
-    <m:MaterialRow marginBottom="0" marginLeft="-10">
-        <t:TableRow>
-            <t:TableData width="0%" paddingTop="0" paddingBottom="0">
-                <m:MaterialCheckBox ui:field="selected"/>
-            </t:TableData>
-            <t:TableData width="30%" paddingTop="0" paddingBottom="0">
-                <s:ProductAutoComplete ui:field="itemName" label="{msg.labelItemName}"/>
-            </t:TableData>
-            <t:TableData width="20%" paddingTop="0" paddingBottom="0">
-                <m:MaterialDoubleBox ui:field="amount" label="{msg.labelAmount}"/>
-            </t:TableData>
-            <t:TableData width="10%" paddingTop="0" paddingBottom="0">
-                <s:BillingUnitComboBox ui:field="unit" label="{msg.labelUnit}"/>
-            </t:TableData>
-            <t:TableData width="20%" paddingTop="0" paddingBottom="0">
-                <m:MaterialDoubleBox ui:field="priceExclusiveVat" label="{msg.labelPriceExclusiveVat}"/>
-            </t:TableData>
-            <t:TableData width="10%" paddingTop="0" paddingBottom="0">
-                <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}"/>
-            </t:TableData>
-            <t:TableData width="15%" paddingTop="0" paddingBottom="0">
-                <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}"/>
-            </t:TableData>
-        </t:TableRow>
-    </m:MaterialRow>
+    <t:TableRow class="data-row">
+        <t:TableData>
+            <m:MaterialCheckBox ui:field="selected"/>
+        </t:TableData>
+        <t:TableData>
+            <s:ProductAutoComplete ui:field="itemName"/>
+        </t:TableData>
+        <t:TableData>
+            <m:MaterialDoubleBox ui:field="amount"/>
+        </t:TableData>
+        <t:TableData>
+            <s:BillingUnitComboBox ui:field="unit"/>
+        </t:TableData>
+        <t:TableData>
+            <m:MaterialDoubleBox ui:field="priceExclusiveVat"/>
+        </t:TableData>
+        <t:TableData>
+            <s:CurrencyComboBox ui:field="currency"/>
+        </t:TableData>
+        <t:TableData>
+            <s:VatRateComboBox ui:field="vat"/>
+        </t:TableData>
+    </t:TableRow>
 </ui:UiBinder>

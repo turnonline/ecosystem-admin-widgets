@@ -1,5 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.HasPricingItems;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import com.google.gwt.core.client.GWT;
@@ -8,12 +9,18 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCheckBox;
+import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.table.Table;
+import gwt.material.design.client.ui.table.TableData;
+import gwt.material.design.client.ui.table.TableHeader;
+import gwt.material.design.client.ui.table.TableRow;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -26,6 +33,8 @@ public class Items<T extends HasPricingItems>
         extends Composite
         implements HasModel<T>
 {
+    private static AppMessages messages = AppMessages.INSTANCE;
+
     private static ItemsUiBinder binder = GWT.create( ItemsUiBinder.class );
 
     interface ItemsUiBinder
@@ -52,6 +61,23 @@ public class Items<T extends HasPricingItems>
         this.eventBus = eventBus;
 
         initWidget( binder.createAndBindUi( this ) );
+
+        // header
+        MaterialWidget thead = new MaterialWidget( DOM.createTHead() );
+        itemsRoot.addHead( thead );
+
+        TableRow thRow = new TableRow();
+        thRow.add( header( "", "0%" ) );
+        thRow.add( header( messages.labelItemName(), "30%" ) );
+        thRow.add( header( messages.labelAmount(), "10%" ) );
+        thRow.add( header( messages.labelUnit(), "15%" ) );
+        thRow.add( header( messages.labelPriceExclusiveVat(), "20%" ) );
+        thRow.add( header( messages.labelCurrency(), "10%" ) );
+        thRow.add( header( messages.labelVat(), "15%" ) );
+        thead.add( thRow );
+
+        // body
+        itemsRoot.addBody( new MaterialWidget( DOM.createTBody() ) );
     }
 
     @Override
@@ -72,7 +98,7 @@ public class Items<T extends HasPricingItems>
     @Override
     public void fill( T hasPricingItems )
     {
-        itemsRoot.clear();
+        itemsRoot.getBody().clear();
         values.clear();
 
         if ( hasPricingItems.getItems() != null )
@@ -99,7 +125,7 @@ public class Items<T extends HasPricingItems>
 
         Item item = new Item( eventBus );
         item.fill( pricingItem );
-        itemsRoot.add( item );
+        itemsRoot.getBody().add( item );
 
         Scheduler.get().scheduleDeferred( () -> item.getItemName().getItemBox().setFocus( true ) );
     }
@@ -109,9 +135,9 @@ public class Items<T extends HasPricingItems>
         List<Item> rowsToDelete = new ArrayList<>();
         List<PricingItem> itemsToDelete = new ArrayList<>();
 
-        for ( int i = 0; i < itemsRoot.getWidgetCount(); i++ )
+        for ( int i = 0; i < itemsRoot.getBody().getWidgetCount(); i++ )
         {
-            Item item = ( Item ) itemsRoot.getWidget( i );
+            Item item = ( Item ) itemsRoot.getBody().getWidget( i );
             MaterialCheckBox selected = item.getSelected();
             if ( selected.getValue() )
             {
@@ -120,7 +146,15 @@ public class Items<T extends HasPricingItems>
             }
         }
 
-        rowsToDelete.forEach( item -> itemsRoot.remove( item ) );
+        rowsToDelete.forEach( item -> itemsRoot.getBody().remove( item ) );
         values.removeAll( itemsToDelete );
+    }
+
+    private TableData header( String label, String width )
+    {
+        TableHeader header = new TableHeader();
+        header.add( new Label( label ) );
+        header.setWidth( width );
+        return header;
     }
 }

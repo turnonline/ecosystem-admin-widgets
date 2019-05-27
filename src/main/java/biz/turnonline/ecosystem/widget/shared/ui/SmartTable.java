@@ -6,7 +6,6 @@ import gwt.material.design.client.data.DataSource;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.pager.MaterialDataPager;
-import gwt.material.design.client.ui.pager.actions.RowSelection;
 import gwt.material.design.client.ui.table.AbstractDataTable;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 
@@ -47,7 +46,6 @@ public class SmartTable<T>
                 getActionsPanel().getActionLabel().setText( firstRow + "-" + lastRow );
             }
         };
-        pager.setRowSelection( new RowSelection( pager ) );
         add( pager );
     }
 

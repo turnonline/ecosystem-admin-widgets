@@ -33,7 +33,7 @@
                                   textColor="RED" iconType="DELETE" text="{msg.labelDelete}"
                                   marginTop="10" marginBottom="10"/>
 
-                <t:Table ui:field="itemsRoot"/>
+                <t:Table ui:field="itemsRoot" class="table"/>
             </m:MaterialColumn>
         </m:MaterialRow>
     </g:HTMLPanel>
