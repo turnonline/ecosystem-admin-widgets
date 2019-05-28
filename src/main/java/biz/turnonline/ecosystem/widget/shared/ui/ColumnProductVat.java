@@ -1,28 +1,23 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.CodeBookRestFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
+import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class ColumnProductVat
-        extends NotSafeHtmlColumn<Product>
+        extends WidgetColumn<Product, CodeBookReadOnlyBox<VatRate>>
 {
     @Override
-    public String getValue( Product object )
+    public CodeBookReadOnlyBox<VatRate> getValue( Product object )
     {
-        StringBuilder sb = new StringBuilder();
-        if ( object.getPricing() != null && object.getPricing().getVat() != null )
-        {
-            VatRate vatRate = CodeBookRestFacade.getCodeBookValue( VatRate.class, object.getPricing().getVat() );
-            if (vatRate != null)
-            {
-                sb.append( vatRate.getLabel() );
-            }
-        }
+        return new CodeBookReadOnlyBox<>( getCode( object ), VatRate.class );
+    }
 
-        return sb.toString();
+    private String getCode( Product product )
+    {
+        return product.getPricing() != null && product.getPricing().getVat() != null ? product.getPricing().getVat() : null;
     }
 }

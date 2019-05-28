@@ -83,22 +83,6 @@ public class CodeBookRestFacade
         }
     }
 
-    public static <T extends CodeBook> T getCodeBookValue( Class<T> codeBookClass, String code )
-    {
-        getCodeBook( codeBookClass, response -> {
-        } );
-
-        List<T> cache = getCodeBookFromCache( codeBookClass );
-        if ( cache != null )
-        {
-            return cache.stream().filter( t -> t.getCode().equals( code ) ).findFirst().orElse( null );
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     // -- private helpers
 
     @FunctionalInterface
