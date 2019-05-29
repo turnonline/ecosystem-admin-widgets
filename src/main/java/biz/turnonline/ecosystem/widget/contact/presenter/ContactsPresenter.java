@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
@@ -36,12 +37,6 @@ import javax.inject.Inject;
 public class ContactsPresenter
         extends Presenter<ContactsPresenter.IView, AppEventBus>
 {
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
-    {
-        void refresh();
-    }
-
     @Inject
     public ContactsPresenter( AppEventBus eventBus,
                               IView view,
@@ -53,17 +48,16 @@ public class ContactsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( EditContactEvent.TYPE, event -> {
-            controller().goTo( new EditContact( event.getContactCard() != null ? event.getContactCard().getId() : null ) );
-        } );
+        bus().addHandler( EditContactEvent.TYPE, event -> controller().goTo( new EditContact( event.getId() ) ) );
 
         bus().addHandler( DeleteContactEvent.TYPE, event -> {
             for ( ContactCard contactCard : event.getContactCards() )
             {
-                bus().account().delete( bus().config().getLoginId(), contactCard.getId(), response -> {
-                    success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
-                    Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                } );
+                bus().account().delete( bus().config().getLoginId(), contactCard.getId(),
+                        ( SuccessCallback<Void> ) response -> {
+                            success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
+                            Scheduler.get().scheduleDeferred( () -> view().refresh() );
+                        } );
             }
         } );
     }
@@ -72,5 +66,11 @@ public class ContactsPresenter
     public void onBackingObject()
     {
         onAfterBackingObject();
+    }
+
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView
+    {
+        void refresh();
     }
 }

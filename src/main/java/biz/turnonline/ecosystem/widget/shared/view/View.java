@@ -75,7 +75,7 @@ public abstract class View<T>
 
         content = new MaterialRow();
         content.getElement().setAttribute( "style", "padding-top:65px" );
-        ViewPort.when( Resolution.ALL_MOBILE).then( e -> content.getElement().setAttribute( "style", "padding-top:55px" ) );
+        ViewPort.when( Resolution.ALL_MOBILE ).then( e -> content.getElement().setAttribute( "style", "padding-top:55px" ) );
 
         contentContainer.add( content );
     }

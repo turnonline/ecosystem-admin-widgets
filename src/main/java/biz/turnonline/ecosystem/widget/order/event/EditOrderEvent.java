@@ -9,11 +9,12 @@ import com.google.gwt.event.shared.GwtEvent;
 public class EditOrderEvent
         extends GwtEvent<EditOrderEventHandler>
 {
-    public static Type<EditOrderEventHandler> TYPE = new Type<EditOrderEventHandler>();
+    public static Type<EditOrderEventHandler> TYPE = new Type<>();
 
     private Order order;
 
-    public EditOrderEvent() {
+    public EditOrderEvent()
+    {
     }
 
     public EditOrderEvent( Order order )
@@ -31,8 +32,13 @@ public class EditOrderEvent
         handler.onEditOrder( this );
     }
 
-    public Order getOrder()
+    /**
+     * Returns the order ID or {@code null} if the event represents a new order request.
+     *
+     * @return the order ID or {@code null}
+     */
+    public Long getId()
     {
-        return order;
+        return order == null ? null : order.getId();
     }
 }

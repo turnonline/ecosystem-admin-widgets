@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.contact.place.Contacts;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import com.google.gwt.place.shared.PlaceController;
 
@@ -35,11 +36,6 @@ import javax.inject.Inject;
 public class EditContactPresenter
         extends Presenter<EditContactPresenter.IView, AppEventBus>
 {
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<ContactCard>
-    {
-    }
-
     @Inject
     public EditContactPresenter( AppEventBus eventBus,
                                  IView view,
@@ -59,16 +55,15 @@ public class EditContactPresenter
 
             if ( contactCard.getId() == null )
             {
-                bus().account().create( loginId, contactCard, response -> {
+                bus().account().create( loginId, contactCard, ( SuccessCallback<ContactCard> ) response -> {
                     success( messages.msgRecordCreated() );
                     controller().goTo( new EditContact( response.getId() ) );
                 } );
             }
             else
             {
-                bus().account().update( loginId, contactCard.getId(), contactCard, response -> {
-                    success( messages.msgRecordUpdated() );
-                } );
+                bus().account().update( loginId, contactCard.getId(), contactCard,
+                        ( SuccessCallback<ContactCard> ) response -> success( messages.msgRecordUpdated() ) );
             }
         } );
     }
@@ -82,7 +77,7 @@ public class EditContactPresenter
         if ( where.getId() != null )
         {
             bus().account().findById( bus().config().getLoginId(), where.getId(),
-                    response -> view().setModel( response ) );
+                    ( SuccessCallback<ContactCard> ) response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();
@@ -95,5 +90,10 @@ public class EditContactPresenter
         contactCard.setHasPostalAddress( false );
 
         return contactCard;
+    }
+
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView<ContactCard>
+    {
     }
 }

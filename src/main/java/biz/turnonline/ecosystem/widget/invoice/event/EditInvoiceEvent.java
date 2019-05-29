@@ -9,11 +9,12 @@ import com.google.gwt.event.shared.GwtEvent;
 public class EditInvoiceEvent
         extends GwtEvent<EditInvoiceEventHandler>
 {
-    public static Type<EditInvoiceEventHandler> TYPE = new Type<EditInvoiceEventHandler>();
+    public static Type<EditInvoiceEventHandler> TYPE = new Type<>();
 
     private Invoice invoice;
 
-    public EditInvoiceEvent() {
+    public EditInvoiceEvent()
+    {
     }
 
     public EditInvoiceEvent( Invoice invoice )
@@ -31,8 +32,23 @@ public class EditInvoiceEvent
         handler.onEditInvoice( this );
     }
 
-    public Invoice getInvoice()
+    /**
+     * Returns the order ID or {@code null} if the event represents a new invoice request.
+     *
+     * @return the order ID or {@code null}
+     */
+    public Long getOrderId()
     {
-        return invoice;
+        return invoice == null ? null : invoice.getOrderId();
+    }
+
+    /**
+     * Returns the invoice ID or {@code null} if the event represents a new invoice request.
+     *
+     * @return the invoice ID or {@code null}
+     */
+    public Long getInvoiceId()
+    {
+        return invoice == null ? null : invoice.getId();
     }
 }

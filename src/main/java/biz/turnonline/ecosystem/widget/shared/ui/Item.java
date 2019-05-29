@@ -2,7 +2,9 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
 import com.google.gwt.core.client.GWT;
@@ -27,13 +29,6 @@ public class Item
 
     private static ItemUiBinder binder = GWT.create( ItemUiBinder.class );
 
-    private TableRow row;
-
-    interface ItemUiBinder
-            extends UiBinder<TableRow, Item>
-    {
-    }
-
     @UiField
     MaterialCheckBox selected;
 
@@ -54,6 +49,8 @@ public class Item
 
     @UiField
     BillingUnitComboBox unit;
+
+    private TableRow row;
 
     private EventBus eventBus;
 
@@ -116,17 +113,23 @@ public class Item
 
     private void fillFrom( SearchProduct searchProduct )
     {
-        ( ( AppEventBus ) eventBus ).billing().findProductById( Long.valueOf( searchProduct.getId() ), product -> {
-            ProductPricing pricing = product.getPricing();
+        ( ( AppEventBus ) eventBus ).billing().findProductById( Long.valueOf( searchProduct.getId() ),
+                ( SuccessCallback<Product> ) product -> {
+                    ProductPricing pricing = product.getPricing();
 
-            PricingItem pricingItem = new PricingItem();
-            pricingItem.setCurrency( pricing.getCurrency() );
-            pricingItem.setItemName( product.getItemName() );
-            pricingItem.setPriceExclVat( pricing.getPriceExclVat() );
-            pricingItem.setVat( pricing.getVat() );
-            pricingItem.setAmount( amount.getValue() );
+                    PricingItem pricingItem = new PricingItem();
+                    pricingItem.setCurrency( pricing.getCurrency() );
+                    pricingItem.setItemName( product.getItemName() );
+                    pricingItem.setPriceExclVat( pricing.getPriceExclVat() );
+                    pricingItem.setVat( pricing.getVat() );
+                    pricingItem.setAmount( amount.getValue() );
 
-            fill( pricingItem );
-        } );
+                    fill( pricingItem );
+                } );
+    }
+
+    interface ItemUiBinder
+            extends UiBinder<TableRow, Item>
+    {
     }
 }

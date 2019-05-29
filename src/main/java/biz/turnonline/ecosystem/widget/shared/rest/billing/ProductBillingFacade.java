@@ -21,8 +21,8 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import org.ctoolkit.gwt.client.facade.Items;
-import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Options;
 import org.fusesource.restygwt.client.RestService;
 
@@ -52,7 +52,7 @@ public interface ProductBillingFacade
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "lightList" ) boolean lightList,
                       @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
-                      FacadeCallback<Items<Product>> callback );
+                      SuccessCallback<Items<Product>> callback );
 
     @GET
     @Path( "products/{product_id}" )
@@ -84,7 +84,7 @@ public interface ProductBillingFacade
     void getOrders( @QueryParam( "offset" ) Integer offset,
                     @QueryParam( "limit" ) Integer limit,
                     @QueryParam( "lightList" ) boolean lightList,
-                    FacadeCallback<Items<Order>> callback );
+                    SuccessCallback<Items<Order>> callback );
 
     @GET
     @Path( "orders/{order_id}" )
@@ -114,7 +114,7 @@ public interface ProductBillingFacade
     void getInvoices( @QueryParam( "offset" ) Integer offset,
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "lightList" ) boolean lightList,
-                      FacadeCallback<Items<Invoice>> callback );
+                      SuccessCallback<Items<Invoice>> callback );
 
     @GET
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
@@ -145,11 +145,11 @@ public interface ProductBillingFacade
     @GET
     @Path( "codebook/billing-units" )
     void getBillingUnits( @HeaderParam( "Accept-Language" ) String acceptLanguage,
-                          MethodCallback<Items<BillingUnit>> callback );
+                          SuccessCallback<Items<BillingUnit>> callback );
 
     @GET
     @Path( "codebook/vat-rates" )
     void getVatRates( @QueryParam( "domicile" ) String domicile,
                       @HeaderParam( "Accept-Language" ) String acceptLanguage,
-                      MethodCallback<Items<VatRate>> callback );
+                      SuccessCallback<Items<VatRate>> callback );
 }

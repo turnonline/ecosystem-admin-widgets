@@ -1,7 +1,10 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.CustomerPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.HasCustomer;
@@ -17,6 +20,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
@@ -29,11 +33,6 @@ public class CustomerPanel<T extends HasCustomer>
         implements HasModel<T>
 {
     private static CustomerPanelUiBinder binder = GWT.create( CustomerPanelUiBinder.class );
-
-    interface CustomerPanelUiBinder
-            extends UiBinder<HTMLPanel, CustomerPanel>
-    {
-    }
 
     // person
 
@@ -288,8 +287,27 @@ public class CustomerPanel<T extends HasCustomer>
     private void fillFrom( SearchContact searchContact )
     {
         ( ( AppEventBus ) eventBus ).account()
-                .findById( Configuration.get().getLoginId(), Long.valueOf( searchContact.getId() ),
-                        contact -> fill( new Customer( contact ) ) );
+                .findById( Configuration.get().getLoginId(), Long.valueOf( searchContact.getId() ), this::updateView );
+    }
+
+    private void updateView( ContactCard contact, FacadeCallback.Failure failure )
+    {
+        if ( failure.isSuccess() )
+        {
+            fill( new Customer( contact ) );
+        }
+        else
+        {
+            fill( new Customer() );
+            if ( failure.isNotFound() )
+            {
+                MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRecordDoesNotExists(), "red" );
+            }
+            else
+            {
+                MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRemoteServiceCall(), "red" );
+            }
+        }
     }
 
     private ContactAutoComplete createAutocomplete()
@@ -301,5 +319,10 @@ public class CustomerPanel<T extends HasCustomer>
         } );
 
         return contactAutoComplete;
+    }
+
+    interface CustomerPanelUiBinder
+            extends UiBinder<HTMLPanel, CustomerPanel>
+    {
     }
 }

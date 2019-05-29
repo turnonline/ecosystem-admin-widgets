@@ -19,6 +19,8 @@
 package biz.turnonline.ecosystem.widget.shared.presenter;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Window;
 import com.google.web.bindery.event.shared.EventBus;
@@ -98,5 +100,30 @@ public abstract class Presenter<V extends IView, E extends EventBus>
     public void error( String msg )
     {
         MaterialToast.fireToast( msg, "red" );
+    }
+
+    /**
+     * <p>Show conditional message.</p>
+     *
+     * @param success message to show in feedback panel
+     */
+    public void message( String success, FacadeCallback.Failure failure )
+    {
+        if ( failure.isFailure() )
+        {
+            if ( failure.statusCode() == 404 )
+            {
+                error( AppMessages.INSTANCE.msgErrorRecordDoesNotExists() );
+            }
+            else
+            {
+                error( AppMessages.INSTANCE.msgErrorRemoteServiceCall() );
+                GWT.log( "Exception occur during calling remote service: " + failure.response().getText() );
+            }
+        }
+        else
+        {
+            success( success );
+        }
     }
 }

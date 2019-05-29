@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
@@ -36,12 +37,6 @@ import javax.inject.Inject;
 public class ProductsPresenter
         extends Presenter<ProductsPresenter.IView, AppEventBus>
 {
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
-    {
-        void refresh();
-    }
-
     @Inject
     public ProductsPresenter( AppEventBus eventBus,
                               IView view,
@@ -54,13 +49,13 @@ public class ProductsPresenter
     public void bind()
     {
         bus().addHandler( EditProductEvent.TYPE, event ->
-                controller().goTo( new EditProduct( event.getProduct() != null ? event.getProduct().getId() : null, "tabDetail" ) ) );
+                controller().goTo( new EditProduct( event.getId(), "tabDetail" ) ) );
 
         bus().addHandler( DeleteProductEvent.TYPE, event -> {
-            for ( Product produt : event.getProducts() )
+            for ( Product product : event.getProducts() )
             {
-                bus().billing().deleteProduct( produt.getId(), ( response ) -> {
-                    success( messages.msgRecordDeleted( Formatter.formatProductName( produt ) ) );
+                bus().billing().deleteProduct( product.getId(), ( SuccessCallback<Void> ) response -> {
+                    success( messages.msgRecordDeleted( Formatter.formatProductName( product ) ) );
                     Scheduler.get().scheduleDeferred( () -> view().refresh() );
                 } );
             }
@@ -71,5 +66,11 @@ public class ProductsPresenter
     public void onBackingObject()
     {
         onAfterBackingObject();
+    }
+
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView
+    {
+        void refresh();
     }
 }

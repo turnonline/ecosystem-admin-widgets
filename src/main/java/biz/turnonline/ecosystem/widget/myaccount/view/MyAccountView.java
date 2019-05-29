@@ -393,7 +393,7 @@ public class MyAccountView
         Account account = getRawModel();
         email.setValue( account.getEmail() );
         contactEmail.setValue( account.getContactEmail() );
-        company.setValue( account.getCompany() );
+        company.setValue( account.getCompany() == null ? false : account.getCompany() );
         language.setSingleValueByCode( account.getLocale() );
 
         prefix.setValue( account.getPrefix() );
@@ -410,7 +410,7 @@ public class MyAccountView
             companyId.setValue( null );
             taxId.setValue( null );
             vatId.setValue( null );
-            vatPayer.setValue( null );
+            vatPayer.setValue( false );
 
             companyStreet.setValue( null );
             companyCity.setValue( null );
@@ -424,7 +424,7 @@ public class MyAccountView
             companyId.setValue( business.getCompanyId() );
             taxId.setValue( business.getTaxId() );
             vatId.setValue( business.getVatId() );
-            vatPayer.setValue( business.getVatPayer() );
+            vatPayer.setValue( business.getVatPayer() == null ? false : business.getVatPayer() );
 
             companyStreet.setValue( business.getStreet() );
             companyCity.setValue( business.getCity() );

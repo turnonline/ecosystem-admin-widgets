@@ -21,6 +21,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.account;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Options;
@@ -70,7 +71,7 @@ public interface AccountStewardFacade
                       @QueryParam( "offset" ) Integer offset,
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "company" ) Boolean company,
-                      FacadeCallback<Items<ContactCard>> callback );
+                      SuccessCallback<Items<ContactCard>> callback );
 
     @GET
     @Path( "accounts/{login_id}/contacts/{contact_id}" )
@@ -102,7 +103,7 @@ public interface AccountStewardFacade
     @GET
     @Path( "codebook/countries" )
     void getCountries( @QueryParam( "version" ) String version,
-                       MethodCallback<Items<Country>> callback );
+                       SuccessCallback<Items<Country>> callback );
 
     @GET
     @Path( "codebook/countries/{code}" )
@@ -112,7 +113,7 @@ public interface AccountStewardFacade
     @GET
     @Path( "codebook/legalforms" )
     void getLegalForms( @QueryParam( "version" ) String version,
-                        MethodCallback<Items<LegalForm>> callback );
+                        SuccessCallback<Items<LegalForm>> callback );
 
     @GET
     @Path( "codebook/legalforms/{code}" )

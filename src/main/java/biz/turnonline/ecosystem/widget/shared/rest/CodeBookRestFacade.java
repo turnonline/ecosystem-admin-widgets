@@ -9,8 +9,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import com.google.gwt.core.client.GWT;
 import org.ctoolkit.gwt.client.facade.Items;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +28,7 @@ public class CodeBookRestFacade
 
     private static Map<Class<?>, Retriever<?>> codeBookRetriever = new HashMap<>();
 
-    private static Map<Class<?>, List<FacadeCallback<Items>>> codeBookWaitingList = new HashMap<>();
+    private static Map<Class<?>, List<SuccessCallback<Items>>> codeBookWaitingList = new HashMap<>();
 
     static
     {
@@ -47,7 +45,7 @@ public class CodeBookRestFacade
     }
 
     @SuppressWarnings( "unchecked" )
-    public static <T extends CodeBook> void getCodeBook( Class<T> codeBookClass, FacadeCallback<Items<T>> callback )
+    public static <T extends CodeBook> void getCodeBook( Class<T> codeBookClass, SuccessCallback<Items<T>> callback )
     {
         List<T> codeBook = getCodeBookFromCache( codeBookClass );
 
@@ -56,8 +54,8 @@ public class CodeBookRestFacade
             boolean firstCallback = codeBookWaitingList.get( codeBookClass ).isEmpty();
 
             // register callback to waiting list
-            List<FacadeCallback<Items>> facadeCallbacks = codeBookWaitingList.get( codeBookClass );
-            facadeCallbacks.add( ( FacadeCallback ) callback );
+            List<SuccessCallback<Items>> SuccessCallbacks = codeBookWaitingList.get( codeBookClass );
+            SuccessCallbacks.add( ( SuccessCallback ) callback );
 
             if ( firstCallback )
             {
@@ -65,12 +63,12 @@ public class CodeBookRestFacade
                 retriever.retrieve( new CodeBookCallback( callback )
                 {
                     @Override
-                    public void onSuccess( Method method, Items response )
+                    public void onSuccess( Items response )
                     {
                         cacheCodeBook( codeBookClass, response.getItems() );
 
                         // initialize all callbacks from waiting list
-                        codeBookWaitingList.get( codeBookClass ).forEach( c -> c.onSuccess( method, response ) );
+                        codeBookWaitingList.get( codeBookClass ).forEach( c -> c.onSuccess( response ) );
                     }
                 } );
             }
@@ -85,12 +83,6 @@ public class CodeBookRestFacade
 
     // -- private helpers
 
-    @FunctionalInterface
-    public interface Retriever<T>
-    {
-        void retrieve( MethodCallback<Items<T>> callback );
-    }
-
     private static <T extends CodeBook> void cacheCodeBook( Class<T> codeBookClass, List<T> codeBook )
     {
         codeBookCache.put( codeBookClass, codeBook );
@@ -100,5 +92,11 @@ public class CodeBookRestFacade
     private static <T extends CodeBook> List<T> getCodeBookFromCache( Class<T> codeBookClass )
     {
         return ( List<T> ) codeBookCache.get( codeBookClass );
+    }
+
+    @FunctionalInterface
+    public interface Retriever<T>
+    {
+        void retrieve( SuccessCallback<Items<T>> callback );
     }
 }

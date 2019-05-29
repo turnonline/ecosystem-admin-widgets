@@ -9,11 +9,12 @@ import com.google.gwt.event.shared.GwtEvent;
 public class EditContactEvent
         extends GwtEvent<EditContactEventHandler>
 {
-    public static Type<EditContactEventHandler> TYPE = new Type<EditContactEventHandler>();
+    public static Type<EditContactEventHandler> TYPE = new Type<>();
 
     private ContactCard contactCard;
 
-    public EditContactEvent() {
+    public EditContactEvent()
+    {
     }
 
     public EditContactEvent( ContactCard contactCard )
@@ -31,8 +32,13 @@ public class EditContactEvent
         handler.onEditContact( this );
     }
 
-    public ContactCard getContactCard()
+    /**
+     * Returns the contact card ID or {@code null} if the event represents a new contact request.
+     *
+     * @return the contact card ID or {@code null}
+     */
+    public Long getId()
     {
-        return contactCard;
+        return contactCard == null ? null : contactCard.getId();
     }
 }

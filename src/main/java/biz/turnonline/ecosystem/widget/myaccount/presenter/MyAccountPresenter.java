@@ -22,6 +22,7 @@ import biz.turnonline.ecosystem.widget.myaccount.event.SaveAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.place.MyAccount;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
 import com.google.gwt.place.shared.PlaceController;
 
@@ -50,16 +51,29 @@ public class MyAccountPresenter
         bus().addHandler( SaveAccountEvent.TYPE,
                 event -> bus()
                         .account()
-                        .update( event.getLoginId(), event.getAccount(),
-                                response -> success( messages.msgRecordUpdated() ) ) );
+                        .update( event.getLoginId(),
+                                event.getAccount(),
+                                ( response, failure ) -> message( messages.msgRecordUpdated(), failure ) ) );
     }
 
     @Override
     public void onBackingObject()
     {
-        bus().account().getAccount( bus().config().getLoginId(), account -> view().setModel( account ) );
+        bus().account().getAccount( bus().config().getLoginId(), this::updateView );
 
         onAfterBackingObject();
+    }
+
+    private void updateView( Account account, FacadeCallback.Failure failure )
+    {
+        if ( failure.isFailure() )
+        {
+            error( messages.msgErrorRecordDoesNotExists() );
+        }
+        else
+        {
+            view().setModel( account );
+        }
     }
 
     public interface IView

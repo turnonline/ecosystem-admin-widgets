@@ -22,6 +22,7 @@ import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
 import com.google.gwt.place.shared.PlaceController;
 
@@ -51,15 +52,32 @@ public class SettingsPresenter
                 event -> bus()
                         .account()
                         .update( bus().config().getLoginId(), event.getInvoicing(),
-                                response -> success( messages.msgRecordUpdated() ) ) );
+                                ( response, failure ) -> success( messages.msgRecordUpdated() ) ) );
     }
 
     @Override
     public void onBackingObject()
     {
-        bus().account().getInvoicingConfig( bus().config().getLoginId(), account -> view().setModel( account ) );
+        bus().account().getInvoicingConfig( bus().config().getLoginId(), this::updateView );
 
         onAfterBackingObject();
+    }
+
+    private void updateView( InvoicingConfig invoicing, FacadeCallback.Failure failure )
+    {
+        if ( failure.isFailure() )
+        {
+            view().setModel( new InvoicingConfig() );
+
+            if ( !failure.isNotFound() )
+            {
+                error( messages.msgErrorRemoteServiceCall() );
+            }
+        }
+        else
+        {
+            view().setModel( invoicing );
+        }
     }
 
     public interface IView

@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.invoice.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.invoice.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
@@ -36,12 +37,6 @@ import javax.inject.Inject;
 public class InvoicesPresenter
         extends Presenter<InvoicesPresenter.IView, AppEventBus>
 {
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
-    {
-        void refresh();
-    }
-
     @Inject
     public InvoicesPresenter( AppEventBus eventBus,
                               IView view,
@@ -54,19 +49,17 @@ public class InvoicesPresenter
     public void bind()
     {
         bus().addHandler( EditInvoiceEvent.TYPE, event ->
-                controller().goTo( new EditInvoice(
-                        event.getInvoice() != null ? event.getInvoice().getOrderId() : null,
-                        event.getInvoice() != null ? event.getInvoice().getId() : null,
-                        "tabDetail" ) )
+                controller().goTo( new EditInvoice( event.getOrderId(), event.getInvoiceId(), "tabDetail" ) )
         );
 
         bus().addHandler( DeleteInvoiceEvent.TYPE, event -> {
             for ( Invoice invoice : event.getInvoices() )
             {
-                bus().billing().deleteInvoice( invoice.getOrderId(), invoice.getId(), ( response ) -> {
-                    success( messages.msgRecordDeleted( Formatter.formatInvoiceName( invoice ) ) );
-                    Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                } );
+                bus().billing().deleteInvoice( invoice.getOrderId(), invoice.getId(),
+                        ( SuccessCallback<Void> ) response -> {
+                            success( messages.msgRecordDeleted( Formatter.formatInvoiceName( invoice ) ) );
+                            Scheduler.get().scheduleDeferred( () -> view().refresh() );
+                        } );
             }
         } );
     }
@@ -75,5 +68,11 @@ public class InvoicesPresenter
     public void onBackingObject()
     {
         onAfterBackingObject();
+    }
+
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView
+    {
+        void refresh();
     }
 }

@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import com.google.gwt.place.shared.PlaceController;
 
@@ -35,11 +36,6 @@ import javax.inject.Inject;
 public class EditProductPresenter
         extends Presenter<EditProductPresenter.IView, AppEventBus>
 {
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<Product>
-    {
-    }
-
     @Inject
     public EditProductPresenter( AppEventBus eventBus,
                                  IView view,
@@ -58,16 +54,15 @@ public class EditProductPresenter
 
             if ( product.getId() == null )
             {
-                bus().billing().createProduct( false, product, response -> {
+                bus().billing().createProduct( false, product, ( SuccessCallback<Product> ) response -> {
                     success( messages.msgRecordCreated() );
                     controller().goTo( new EditProduct( response.getId(), "tabDetail" ) );
                 } );
             }
             else
             {
-                bus().billing().updateProduct( product.getId(), false, product, response -> {
-                    success( messages.msgRecordUpdated() );
-                } );
+                bus().billing().updateProduct( product.getId(), false, product,
+                        ( SuccessCallback<Product> ) response -> success( messages.msgRecordUpdated() ) );
             }
         } );
     }
@@ -80,7 +75,8 @@ public class EditProductPresenter
         EditProduct where = ( EditProduct ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().billing().findProductById( where.getId(), response -> view().setModel( response ) );
+            bus().billing().findProductById( where.getId(),
+                    ( SuccessCallback<Product> ) response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();
@@ -88,8 +84,11 @@ public class EditProductPresenter
 
     private Product newProduct()
     {
-        Product product = new Product();
+        return new Product();
+    }
 
-        return product;
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView<Product>
+    {
     }
 }

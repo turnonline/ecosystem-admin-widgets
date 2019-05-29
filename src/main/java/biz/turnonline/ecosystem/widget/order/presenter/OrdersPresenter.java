@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.order.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.core.client.Scheduler;
@@ -36,12 +37,6 @@ import javax.inject.Inject;
 public class OrdersPresenter
         extends Presenter<OrdersPresenter.IView, AppEventBus>
 {
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
-    {
-        void refresh();
-    }
-
     @Inject
     public OrdersPresenter( AppEventBus eventBus,
                             IView view,
@@ -53,16 +48,17 @@ public class OrdersPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( EditOrderEvent.TYPE, event ->
-                controller().goTo( new EditOrder( event.getOrder() != null ? event.getOrder().getId() : null, "tabDetail" ) ) );
+        bus().addHandler( EditOrderEvent.TYPE,
+                event -> controller().goTo( new EditOrder( event.getId(), "tabDetail" ) ) );
 
         bus().addHandler( DeleteOrderEvent.TYPE, event -> {
             for ( Order order : event.getOrders() )
             {
-                bus().billing().deleteOrder( order.getId(), response -> {
-                    success( messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
-                    Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                } );
+                bus().billing().deleteOrder( order.getId(),
+                        ( SuccessCallback<Void> ) response -> {
+                            success( messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
+                            Scheduler.get().scheduleDeferred( () -> view().refresh() );
+                        } );
             }
         } );
     }
@@ -71,5 +67,11 @@ public class OrdersPresenter
     public void onBackingObject()
     {
         onAfterBackingObject();
+    }
+
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView
+    {
+        void refresh();
     }
 }

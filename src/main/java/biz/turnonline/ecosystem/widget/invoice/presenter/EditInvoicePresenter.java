@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.invoice.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.invoice.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
@@ -38,11 +39,6 @@ import java.util.ArrayList;
 public class EditInvoicePresenter
         extends Presenter<EditInvoicePresenter.IView, AppEventBus>
 {
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<Invoice>
-    {
-    }
-
     @Inject
     public EditInvoicePresenter( AppEventBus eventBus,
                                  IView view,
@@ -61,16 +57,15 @@ public class EditInvoicePresenter
 
             if ( invoice.getId() == null )
             {
-                bus().billing().createInvoice( invoice, response -> {
+                bus().billing().createInvoice( invoice, ( SuccessCallback<Invoice> ) response -> {
                     success( messages.msgRecordCreated() );
                     controller().goTo( new EditInvoice( response.getOrderId(), response.getId(), "tabDetail" ) );
                 } );
             }
             else
             {
-                bus().billing().updateInvoice( invoice.getOrderId(), invoice.getId(), invoice, response -> {
-                    success( messages.msgRecordUpdated() );
-                } );
+                bus().billing().updateInvoice( invoice.getOrderId(), invoice.getId(), invoice,
+                        ( SuccessCallback<Invoice> ) response -> success( messages.msgRecordUpdated() ) );
             }
         } );
     }
@@ -83,8 +78,8 @@ public class EditInvoicePresenter
         EditInvoice where = ( EditInvoice ) controller().getWhere();
         if ( where.getInvoiceId() != null )
         {
-            bus().billing().findInvoiceById( where.getOrderId(), where.getInvoiceId(), response
-                    -> view().setModel( response ) );
+            bus().billing().findInvoiceById( where.getOrderId(), where.getInvoiceId(),
+                    ( SuccessCallback<Invoice> ) response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();
@@ -94,9 +89,14 @@ public class EditInvoicePresenter
     {
         Invoice invoice = new Invoice();
         invoice.setPricing( new InvoicePricing() );
-        invoice.getPricing().setItems( new ArrayList<>(  ) );
+        invoice.getPricing().setItems( new ArrayList<>() );
         invoice.getPricing().getItems().add( new PricingItem() );
 
         return invoice;
+    }
+
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView<Invoice>
+    {
     }
 }

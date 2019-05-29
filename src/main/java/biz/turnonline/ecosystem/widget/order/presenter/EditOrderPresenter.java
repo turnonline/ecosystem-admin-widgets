@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.order.place.EditOrder;
 import biz.turnonline.ecosystem.widget.order.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import com.google.gwt.place.shared.PlaceController;
 
@@ -35,11 +36,6 @@ import javax.inject.Inject;
 public class EditOrderPresenter
         extends Presenter<EditOrderPresenter.IView, AppEventBus>
 {
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<Order>
-    {
-    }
-
     @Inject
     public EditOrderPresenter( AppEventBus eventBus,
                                IView view,
@@ -58,16 +54,15 @@ public class EditOrderPresenter
 
             if ( order.getId() == null )
             {
-                bus().billing().createOrder( order, response -> {
+                bus().billing().createOrder( order, ( SuccessCallback<Order> ) response -> {
                     success( messages.msgRecordCreated() );
                     controller().goTo( new EditOrder( response.getId(), "tabDetail" ) );
                 } );
             }
             else
             {
-                bus().billing().updateOrder( order.getId(), order, response -> {
-                    success( messages.msgRecordUpdated() );
-                } );
+                bus().billing().updateOrder( order.getId(), order,
+                        ( SuccessCallback<Order> ) response -> success( messages.msgRecordUpdated() ) );
             }
         } );
     }
@@ -80,7 +75,7 @@ public class EditOrderPresenter
         EditOrder where = ( EditOrder ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().billing().findOrderById( where.getId(), response -> view().setModel( response ) );
+            bus().billing().findOrderById( where.getId(), ( SuccessCallback<Order> ) response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();
@@ -88,8 +83,11 @@ public class EditOrderPresenter
 
     private Order newOrder()
     {
-        Order order = new Order();
+        return new Order();
+    }
 
-        return order;
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView<Order>
+    {
     }
 }

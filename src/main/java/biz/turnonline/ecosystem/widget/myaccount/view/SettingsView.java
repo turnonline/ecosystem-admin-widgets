@@ -214,7 +214,8 @@ public class SettingsView
 
         currency.setSingleValue( invoicing.getCurrency() );
         numberOfDays.setValue( invoicing.getNumberOfDays() );
-        hasBillingAddress.setValue( invoicing.getHasBillingAddress() );
+        Boolean hasBillingAddress = invoicing.getHasBillingAddress();
+        this.hasBillingAddress.setValue( hasBillingAddress == null ? false : hasBillingAddress );
 
         InvoicingConfigBillingAddress billingAddress = invoicing.getBillingAddress();
         if ( billingAddress != null )

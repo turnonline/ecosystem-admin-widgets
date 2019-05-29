@@ -9,11 +9,12 @@ import com.google.gwt.event.shared.GwtEvent;
 public class EditProductEvent
         extends GwtEvent<EditProductEventHandler>
 {
-    public static Type<EditProductEventHandler> TYPE = new Type<EditProductEventHandler>();
+    public static Type<EditProductEventHandler> TYPE = new Type<>();
 
     private Product product;
 
-    public EditProductEvent() {
+    public EditProductEvent()
+    {
     }
 
     public EditProductEvent( Product product )
@@ -31,8 +32,13 @@ public class EditProductEvent
         handler.onEditProduct( this );
     }
 
-    public Product getProduct()
+    /**
+     * Returns the product ID or {@code null} if the event represents a new product request.
+     *
+     * @return the product ID or {@code null}
+     */
+    public Long getId()
     {
-        return product;
+        return product == null ? null : product.getId();
     }
 }

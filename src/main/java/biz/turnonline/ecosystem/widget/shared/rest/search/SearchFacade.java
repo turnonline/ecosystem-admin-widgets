@@ -19,8 +19,8 @@
 package biz.turnonline.ecosystem.widget.shared.rest.search;
 
 import biz.turnonline.ecosystem.widget.shared.Configuration;
-import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.Options;
 import org.fusesource.restygwt.client.RestService;
@@ -45,7 +45,7 @@ public interface SearchFacade
     void getGlobal( @QueryParam( "query" ) String query,
                     @QueryParam( "offset" ) Integer offset,
                     @QueryParam( "limit" ) Integer limit,
-                    FacadeCallback<Items<SearchGlobal>> callback );
+                    SuccessCallback<Items<SearchGlobal>> callback );
 
     // products
 
@@ -54,7 +54,7 @@ public interface SearchFacade
     void getProducts( @QueryParam( "query" ) String query,
                       @QueryParam( "offset" ) Integer offset,
                       @QueryParam( "limit" ) Integer limit,
-                      FacadeCallback<Items<SearchProduct>> callback );
+                      SuccessCallback<Items<SearchProduct>> callback );
 
     // contacts
 
@@ -63,6 +63,6 @@ public interface SearchFacade
     void getContacts( @QueryParam( "query" ) String query,
                       @QueryParam( "offset" ) Integer offset,
                       @QueryParam( "limit" ) Integer limit,
-                      FacadeCallback<Items<SearchContact>> callback );
+                      SuccessCallback<Items<SearchContact>> callback );
 
 }
