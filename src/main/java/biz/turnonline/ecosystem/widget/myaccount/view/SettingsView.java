@@ -118,9 +118,6 @@ public class SettingsView
     MaterialTextArea finalText;
 
     @UiField
-    LogoUploader logoUploader;
-
-    @UiField
     LogoUploader stampUploader;
 
     @Inject
@@ -176,8 +173,11 @@ public class SettingsView
         InvoicingConfig invoicing = getRawModel();
 
         invoicing.setCurrency( currency.getSingleValue() );
+        invoicing.setIntroductoryText( introductoryText.getValue() );
+        invoicing.setFinalText( finalText.getValue() );
         invoicing.setNumberOfDays( numberOfDays.getValue() );
         invoicing.setHasBillingAddress( hasBillingAddress.getValue() );
+        invoicing.setStamp( stampUploader.getValue() );
 
         InvoicingConfigBillingAddress billingAddress = new InvoicingConfigBillingAddress();
 
@@ -200,11 +200,6 @@ public class SettingsView
         billingContact.setLastName( billingContactLastName.getValue() );
         billingContact.setSuffix( billingContactSuffix.getValue() );
         invoicing.setBillingContactIf( billingContact );
-
-        // set(introductoryText.getValue());
-        // set(finalText.getValue());
-        // set(logoUploader.getValue());
-        // set(stampUploader.getValue());
     }
 
     @Override
@@ -213,7 +208,11 @@ public class SettingsView
         InvoicingConfig invoicing = getRawModel();
 
         currency.setSingleValue( invoicing.getCurrency() );
+        introductoryText.setValue( invoicing.getIntroductoryText() );
+        finalText.setValue( invoicing.getFinalText() );
         numberOfDays.setValue( invoicing.getNumberOfDays() );
+        stampUploader.setValue( invoicing.getStamp() );
+
         Boolean hasBillingAddress = invoicing.getHasBillingAddress();
         this.hasBillingAddress.setValue( hasBillingAddress == null ? false : hasBillingAddress );
 

@@ -19,7 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Resources;
-import biz.turnonline.ecosystem.widget.shared.rest.account.Logo;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.TakesValue;
@@ -36,11 +36,11 @@ import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWA
  */
 public class LogoUploader
         extends MaterialFileUploader
-        implements TakesValue<Logo>
+        implements TakesValue<Image>
 {
     private MaterialImage preview = new MaterialImage( Resources.INSTANCE.noImage() );
 
-    private Logo model;
+    private Image model;
 
     public LogoUploader()
     {
@@ -74,23 +74,23 @@ public class LogoUploader
     }
 
     @Override
-    public void setValue( Logo value )
+    public Image getValue()
     {
-        this.model = value;
-        preview.setUrl( value != null && value.getServingUrl() != null ? value.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
+        return model;
     }
 
     @Override
-    public Logo getValue()
+    public void setValue( Image value )
     {
-        return model;
+        this.model = value;
+        preview.setUrl( value != null && value.getServingUrl() != null ? value.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
     }
 
     private void setPreview( UploadItem uploadItem )
     {
         if ( model == null )
         {
-            model = new Logo();
+            model = new Image();
         }
 
         model.setServingUrl( uploadItem.getServingUrl() );

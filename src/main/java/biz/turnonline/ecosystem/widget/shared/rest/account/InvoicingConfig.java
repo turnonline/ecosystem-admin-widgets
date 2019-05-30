@@ -20,6 +20,8 @@ package biz.turnonline.ecosystem.widget.shared.rest.account;
 
 import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
 
+import java.util.Date;
+
 /**
  * The set of account default invoicing rules. These values might be overriden.
  **/
@@ -28,9 +30,17 @@ public class InvoicingConfig
 {
     private String currency;
 
+    private String introductoryText;
+
+    private String finalText;
+
+    private Date modificationDate;
+
     private Integer numberOfDays;
 
     private Boolean hasBillingAddress;
+
+    private Image stamp;
 
     private InvoicingConfigBillingAddress billingAddress;
 
@@ -53,6 +63,45 @@ public class InvoicingConfig
     public void setCurrency( String currency )
     {
         this.currency = currency;
+    }
+
+    /**
+     * A default introductory text to be placed at invoice usually at top of the billing items. Use this to communicate a message to the invoice recipient.
+     **/
+    public String getIntroductoryText()
+    {
+        return introductoryText;
+    }
+
+    public void setIntroductoryText( String introductoryText )
+    {
+        this.introductoryText = introductoryText;
+    }
+
+    /**
+     * A default final text to be placed at invoice usually at the bottom. Use this to communicate a message to the invoice recipient.
+     **/
+    public String getFinalText()
+    {
+        return finalText;
+    }
+
+    public void setFinalText( String finalText )
+    {
+        this.finalText = finalText;
+    }
+
+    /**
+     * The date and time of the last modification of invoicing configuration values. Populated by the service.
+     **/
+    public Date getModificationDate()
+    {
+        return modificationDate;
+    }
+
+    public void setModificationDate( Date modificationDate )
+    {
+        this.modificationDate = modificationDate;
     }
 
     /**
@@ -94,14 +143,21 @@ public class InvoicingConfig
     }
 
     /**
-     * The billing address details. The address is being ignored until property “hasBillingAddress” is set to true.
+     * An optional image used to be placed at invoice as a stamp or sign.
      **/
-    public InvoicingConfig billingAddress( InvoicingConfigBillingAddress billingAddress )
+    public Image getStamp()
     {
-        this.billingAddress = billingAddress;
-        return this;
+        return stamp;
     }
 
+    public void setStamp( Image stamp )
+    {
+        this.stamp = stamp;
+    }
+
+    /**
+     * The billing address details. The address is being ignored until property “hasBillingAddress” is set to true.
+     **/
     public InvoicingConfigBillingAddress getBillingAddress()
     {
         return billingAddress;
@@ -115,12 +171,6 @@ public class InvoicingConfig
     /**
      * The contact person related to billing. It might be presented at invoice or in email communication related to billing.
      **/
-    public InvoicingConfig billingContact( InvoicingConfigBillingContact billingContact )
-    {
-        this.billingContact = billingContact;
-        return this;
-    }
-
     public InvoicingConfigBillingContact getBillingContact()
     {
         return billingContact;
@@ -144,7 +194,8 @@ public class InvoicingConfig
     @Override
     public boolean allNull()
     {
-        return allNull( currency, numberOfDays, hasBillingAddress, billingAddress, billingContact );
+        return allNull( currency, introductoryText, finalText, numberOfDays, stamp, hasBillingAddress, billingAddress,
+                billingContact );
     }
 }
 

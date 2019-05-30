@@ -23,6 +23,8 @@ public interface Contact
 
     String getFirstName();
 
+    String getMiddleName();
+
     String getLastName();
 
     String getPostcode();

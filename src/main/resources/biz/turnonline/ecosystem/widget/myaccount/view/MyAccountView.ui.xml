@@ -169,6 +169,15 @@
                     <m:MaterialTextBox label="{msg.labelContactPerson}" ui:field="publicContactName"/>
                     <m:MaterialTextBox label="{msg.labelPhone}" ui:field="publicContactPhone" type="TEL"/>
                     <m:MaterialTextBox label="{msg.labelCompanyWebsite}" ui:field="publicContactWebsite" type="URL"/>
+
+                    <!--company logo-->
+                    <m:MaterialSection paddingTop="0" paddingBottom="0">
+                        <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5"
+                                        marginTop="-3"/>
+                        <m:MaterialTitle description="{msg.labelLogo}" textColor="BLUE"/>
+                    </m:MaterialSection>
+
+                    <shared:LogoUploader ui:field="logoUploader" marginBottom="20"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

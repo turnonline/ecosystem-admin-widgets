@@ -99,6 +99,11 @@ public final class Customer
     /**
      * The value may be {@code null}.
      */
+    private String middleName;
+
+    /**
+     * The value may be {@code null}.
+     */
 
     private String lastName;
 
@@ -154,7 +159,7 @@ public final class Customer
     {
     }
 
-    public Customer(Contact contact)
+    public Customer( Contact contact )
     {
         this.businessName = contact.getBusinessName();
         this.ccEmail = contact.getCcEmail();
@@ -164,6 +169,7 @@ public final class Customer
         this.contactPhone = contact.getContactPhone();
         this.country = contact.getCountry();
         this.firstName = contact.getFirstName();
+        this.middleName = contact.getMiddleName();
         this.lastName = contact.getLastName();
         this.postcode = contact.getPostcode();
         this.prefix = contact.getPrefix();
@@ -233,12 +239,6 @@ public final class Customer
         return city;
     }
 
-    @Override
-    public Boolean getCompany()
-    {
-        return businessName != null && !"".equals( businessName.trim() );
-    }
-
     /**
      * @param city city or {@code null} for none
      */
@@ -246,6 +246,12 @@ public final class Customer
     {
         this.city = city;
         return this;
+    }
+
+    @Override
+    public Boolean getCompany()
+    {
+        return businessName != null && !"".equals( businessName.trim() );
     }
 
     /**
@@ -348,6 +354,22 @@ public final class Customer
     {
         this.firstName = firstName;
         return this;
+    }
+
+    /**
+     * @return value or {@code null} for none
+     **/
+    public String getMiddleName()
+    {
+        return middleName;
+    }
+
+    /**
+     * @param middleName middleName or {@code null} for none
+     */
+    public void setMiddleName( String middleName )
+    {
+        this.middleName = middleName;
     }
 
     /**

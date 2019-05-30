@@ -68,7 +68,14 @@ public class MyAccountPresenter
     {
         if ( failure.isFailure() )
         {
-            error( messages.msgErrorRecordDoesNotExists() );
+            if ( failure.isNotFound() )
+            {
+                error( messages.msgErrorRecordDoesNotExists() );
+            }
+            else
+            {
+                error( messages.msgErrorRemoteServiceCall() );
+            }
         }
         else
         {

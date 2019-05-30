@@ -99,19 +99,8 @@
                     <m:MaterialTextArea ui:field="finalText" label="{msg.labelFinalText}"/>
                 </m:MaterialColumn>
 
-                <m:MaterialColumn grid="s12 m3">
-                    <!--logo-->
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5"
-                                        marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelLogo}" textColor="BLUE"/>
-                    </m:MaterialSection>
-
-                    <shared:LogoUploader ui:field="logoUploader" marginBottom="20"/>
-                </m:MaterialColumn>
-
-                <m:MaterialColumn grid="s12 m3">
-                    <!--logo-->
+                <m:MaterialColumn grid="s12 m3" offset="m3">
+                    <!--stamp at invoice-->
                     <m:MaterialSection paddingTop="0" paddingBottom="0">
                         <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5"
                                         marginTop="-3"/>

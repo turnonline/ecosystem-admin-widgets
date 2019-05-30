@@ -43,6 +43,9 @@ public class CustomerPanel<T extends HasCustomer>
     MaterialTextBox firstName;
 
     @UiField
+    MaterialTextBox middleName;
+
+    @UiField
     MaterialTextBox lastName;
 
     @UiField
@@ -177,6 +180,7 @@ public class CustomerPanel<T extends HasCustomer>
         // person
         contact.setPrefix( prefix.getValue() );
         contact.setFirstName( firstName.getValue() );
+        contact.setMiddleName( middleName.getValue() );
         contact.setLastName( lastName.getValue() );
         contact.setSuffix( suffix.getValue() );
 
@@ -234,6 +238,7 @@ public class CustomerPanel<T extends HasCustomer>
         // person
         prefix.setValue( customer.getPrefix() );
         firstName.setValue( customer.getFirstName() );
+        middleName.setValue( customer.getMiddleName() );
         lastName.setValue( customer.getLastName() );
         suffix.setValue( customer.getSuffix() );
 

@@ -51,7 +51,7 @@ public class AccountBusiness
 
     private String domain;
 
-    private Logo logo;
+    private Image logo;
 
     /**
      * The company business name. It's mandatory for business account sign-up.
@@ -303,18 +303,18 @@ public class AccountBusiness
     /**
      * The company logo.
      **/
-    public AccountBusiness logo( Logo logo )
+    public AccountBusiness logo( Image logo )
     {
         this.logo = logo;
         return this;
     }
 
-    public Logo getLogo()
+    public Image getLogo()
     {
         return logo;
     }
 
-    public void setLogo( Logo logo )
+    public void setLogo( Image logo )
     {
         this.logo = logo;
     }
@@ -322,7 +322,7 @@ public class AccountBusiness
     /**
      * @see #setIfNotAllNull(Consumer, RelevantNullChecker)
      */
-    public boolean setLogoIf( Logo logo )
+    public boolean setLogoIf( Image logo )
     {
         return setIfNotAllNull( this::setLogo, logo );
     }

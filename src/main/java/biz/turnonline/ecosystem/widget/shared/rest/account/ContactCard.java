@@ -1,65 +1,94 @@
+/*
+ * Copyright (c) 2019 Comvai, s.r.o. All Rights Reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
 import biz.turnonline.ecosystem.widget.shared.rest.Contact;
 
+import java.util.Date;
+
 /**
+ * The contact that represents a business partner (customer).
+ *
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class ContactCard
         implements Contact
 {
-    private Long id = null;
+    private Long id;
 
-    private String contactEmail = null;
+    private String contactEmail;
 
-    private String ccEmail = null;
+    private String ccEmail;
 
-    private String contactPhone = null;
+    private String contactPhone;
 
-    private String locale = null;
+    private String locale;
 
-    private String prefix = null;
+    private String prefix;
 
-    private String firstName = null;
+    private String firstName;
 
-    private String lastName = null;
+    private String middleName;
 
-    private String suffix = null;
+    private String lastName;
 
-    private String street = null;
+    private String suffix;
 
-    private String city = null;
+    private String street;
 
-    private String country = null;
+    private String city;
 
-    private String postcode = null;
+    private String country;
 
-    private Double latitude = null;
+    private String postcode;
 
-    private Double longitude = null;
+    private Double latitude;
+
+    private Double longitude;
 
     private Boolean hasPostalAddress = false;
 
-    private ContactCardPostalAddress postalAddress = null;
+    private ContactCardPostalAddress postalAddress;
 
     private Boolean company = false;
 
-    private String businessName = null;
+    private String businessName;
 
-    private String companyId = null;
+    private String companyId;
 
-    private String taxId = null;
+    private String taxId;
 
-    private String vatId = null;
+    private String vatId;
 
     private Boolean vatPayer = false;
 
-    private Boolean newsletter = null;
+    private Boolean newsletter;
 
-    private Integer numberOfDays = null;
+    private Integer numberOfDays;
 
-    private Logo logo = null;
+    private Date modificationDate;
 
+    private Image logo;
+
+    /**
+     * The contact unique identification.
+     **/
     public Long getId()
     {
         return id;
@@ -70,6 +99,9 @@ public class ContactCard
         this.id = id;
     }
 
+    /**
+     * The contact email used either for notification purposes or for dealing with a potential issues with order.
+     **/
     public String getContactEmail()
     {
         return contactEmail;
@@ -80,6 +112,9 @@ public class ContactCard
         this.contactEmail = contactEmail;
     }
 
+    /**
+     * The contact email if defined, it will be used for notification purposes that will be used as 'CC' to copy email. Supports comma separated list.
+     **/
     public String getCcEmail()
     {
         return ccEmail;
@@ -90,6 +125,9 @@ public class ContactCard
         this.ccEmail = ccEmail;
     }
 
+    /**
+     * The contact phone number used for dealing with potential issues with an order.
+     **/
     public String getContactPhone()
     {
         return contactPhone;
@@ -100,6 +138,9 @@ public class ContactCard
         this.contactPhone = contactPhone;
     }
 
+    /**
+     * The preferred language of the issued invoice. If supported, the value will override the seller's account default language. ISO 639 alpha-2 or alpha-3 language code.
+     **/
     public String getLocale()
     {
         return locale;
@@ -110,6 +151,9 @@ public class ContactCard
         this.locale = locale;
     }
 
+    /**
+     * The personal name prefix.
+     **/
     public String getPrefix()
     {
         return prefix;
@@ -120,6 +164,9 @@ public class ContactCard
         this.prefix = prefix;
     }
 
+    /**
+     * The personal first name.
+     **/
     public String getFirstName()
     {
         return firstName;
@@ -130,6 +177,22 @@ public class ContactCard
         this.firstName = firstName;
     }
 
+    /**
+     * The personal middle name.
+     **/
+    public String getMiddleName()
+    {
+        return middleName;
+    }
+
+    public void setMiddleName( String middleName )
+    {
+        this.middleName = middleName;
+    }
+
+    /**
+     * The personal last name.
+     **/
     public String getLastName()
     {
         return lastName;
@@ -140,6 +203,9 @@ public class ContactCard
         this.lastName = lastName;
     }
 
+    /**
+     * The personal name suffix.
+     **/
     public String getSuffix()
     {
         return suffix;
@@ -150,6 +216,9 @@ public class ContactCard
         this.suffix = suffix;
     }
 
+    /**
+     * The street and street number.
+     **/
     public String getStreet()
     {
         return street;
@@ -160,6 +229,9 @@ public class ContactCard
         this.street = street;
     }
 
+    /**
+     * The city.
+     **/
     public String getCity()
     {
         return city;
@@ -170,6 +242,9 @@ public class ContactCard
         this.city = city;
     }
 
+    /**
+     * The contact ISO 3166 alpha-2 country code. It's case insensitive.
+     **/
     public String getCountry()
     {
         return country;
@@ -180,6 +255,9 @@ public class ContactCard
         this.country = country;
     }
 
+    /**
+     * The post code.
+     **/
     public String getPostcode()
     {
         return postcode;
@@ -190,6 +268,9 @@ public class ContactCard
         this.postcode = postcode;
     }
 
+    /**
+     * The contact address latitude geographic coordinate, generated by the service.
+     **/
     public Double getLatitude()
     {
         return latitude;
@@ -200,6 +281,9 @@ public class ContactCard
         this.latitude = latitude;
     }
 
+    /**
+     * The contact address longitude geographic coordinate, generated by the service.
+     **/
     public Double getLongitude()
     {
         return longitude;
@@ -210,6 +294,9 @@ public class ContactCard
         this.longitude = longitude;
     }
 
+    /**
+     * If true, the postal address is not same as the company/personal address and must be provided.
+     **/
     public Boolean getHasPostalAddress()
     {
         return hasPostalAddress;
@@ -220,6 +307,9 @@ public class ContactCard
         this.hasPostalAddress = hasPostalAddress;
     }
 
+    /**
+     * The postal address details.
+     **/
     public ContactCardPostalAddress getPostalAddress()
     {
         return postalAddress;
@@ -230,6 +320,9 @@ public class ContactCard
         this.postalAddress = postalAddress;
     }
 
+    /**
+     * The boolean indication whether contact represents a business entity. The missing value or false means it represents a personal contact (not business entity).
+     **/
     public Boolean getCompany()
     {
         return company;
@@ -240,6 +333,9 @@ public class ContactCard
         this.company = company;
     }
 
+    /**
+     * The company business name.
+     **/
     public String getBusinessName()
     {
         return businessName;
@@ -250,6 +346,9 @@ public class ContactCard
         this.businessName = businessName;
     }
 
+    /**
+     * The company business identification number.
+     **/
     public String getCompanyId()
     {
         return companyId;
@@ -260,6 +359,9 @@ public class ContactCard
         this.companyId = companyId;
     }
 
+    /**
+     * The tax payer identification number of the company.
+     **/
     public String getTaxId()
     {
         return taxId;
@@ -270,6 +372,9 @@ public class ContactCard
         this.taxId = taxId;
     }
 
+    /**
+     * The value added tax identification number (VAT ID) of the company. Provided if vatPayer property is true.
+     **/
     public String getVatId()
     {
         return vatId;
@@ -280,6 +385,9 @@ public class ContactCard
         this.vatId = vatId;
     }
 
+    /**
+     * The boolean indication whether company is registered as VAT payer. The missing value or false means company it's not a VAT payer.
+     **/
     public Boolean getVatPayer()
     {
         return vatPayer;
@@ -290,6 +398,9 @@ public class ContactCard
         this.vatPayer = vatPayer;
     }
 
+    /**
+     * The indication whether this contact has given a consent to be subscribed to the seller's newsletter.
+     **/
     public Boolean getNewsletter()
     {
         return newsletter;
@@ -300,6 +411,9 @@ public class ContactCard
         this.newsletter = newsletter;
     }
 
+    /**
+     * The number of days for calculation of the invoice due date for this specific contact.
+     **/
     public Integer getNumberOfDays()
     {
         return numberOfDays;
@@ -310,12 +424,28 @@ public class ContactCard
         this.numberOfDays = numberOfDays;
     }
 
-    public Logo getLogo()
+    /**
+     * The date and time of the last modification of entity values. Populated by the service.
+     **/
+    public Date getModificationDate()
+    {
+        return modificationDate;
+    }
+
+    public void setModificationDate( Date modificationDate )
+    {
+        this.modificationDate = modificationDate;
+    }
+
+    /**
+     * The company logo.
+     **/
+    public Image getLogo()
     {
         return logo;
     }
 
-    public void setLogo( Logo logo )
+    public void setLogo( Image logo )
     {
         this.logo = logo;
     }

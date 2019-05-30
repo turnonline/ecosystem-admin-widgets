@@ -30,6 +30,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.ui.LanguageComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.LegalFormComboBox;
+import biz.turnonline.ecosystem.widget.shared.ui.LogoUploader;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
@@ -211,6 +212,9 @@ public class MyAccountView
     @UiField
     MaterialRow postalAddressPanel;
 
+    @UiField
+    LogoUploader logoUploader;
+
     @Inject
     public MyAccountView( EventBus eventBus,
                           @Named( "MyAccountBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
@@ -334,6 +338,7 @@ public class MyAccountView
         business.setStreet( companyStreet.getValue() );
         business.setCity( companyCity.getValue() );
         business.setPostcode( companyPostcode.getValue() );
+        business.setLogo( logoUploader.getValue() );
 
         if ( account.setBusinessIf( business ) )
         {
@@ -430,6 +435,7 @@ public class MyAccountView
             companyCity.setValue( business.getCity() );
             companyPostcode.setValue( business.getPostcode() );
             domicile.setSingleValueByCode( business.getDomicile() );
+            logoUploader.setValue( business.getLogo() );
         }
 
         AccountPersonalAddress personalAddress = account.getPersonalAddress();
