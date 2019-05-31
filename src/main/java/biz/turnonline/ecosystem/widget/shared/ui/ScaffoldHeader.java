@@ -9,11 +9,14 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
+import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.ui.MaterialHeader;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialNavBrand;
 import gwt.material.design.incubator.client.timer.TimerProgress;
+
+import static gwt.material.design.client.base.viewport.Resolution.LAPTOP_4K;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -47,15 +50,6 @@ public class ScaffoldHeader
     public ScaffoldHeader( EventBus eventBus )
     {
         search = new FulltextSearch( eventBus );
-        ViewPort.when( Resolution.ALL_MOBILE).then( e -> {
-            search.setMaxWidth( "80%" );
-            search.setMarginRight( 0 );
-        });
-        ViewPort.when( Resolution.ALL_LAPTOP ).then( e -> {
-            search.setMaxWidth( "35%" );
-            search.setMarginRight( 100 );
-        } );
-
         initWidget( binder.createAndBindUi( this ) );
 
         email.setText( getFirebaseCurrentUserData( "email" ) );
@@ -72,6 +66,10 @@ public class ScaffoldHeader
                 progress.setVisibility( event.getDirection() == RestCallEvent.Direction.OUT ?
                         Style.Visibility.VISIBLE :
                         Style.Visibility.HIDDEN ) );
+
+        modifyForMobile();
+        modifyForTablet();
+        modifyForLaptop();
     }
 
     public MaterialNavBrand getNavBrand()
@@ -82,6 +80,45 @@ public class ScaffoldHeader
     public void setActive( Route route )
     {
         search.setRoute( route );
+    }
+
+    protected void modifyForMobile()
+    {
+        ViewPort.when( Resolution.ALL_MOBILE ).then( e -> {
+            search.setMaxWidth( "80%" );
+            search.setMarginRight( 0 );
+            search.setMarginTop( 8 );
+        } );
+    }
+
+    protected void modifyForTablet()
+    {
+        ViewPort.when( Resolution.TABLET ).then( e -> {
+            search.setMaxWidth( "85%" );
+            search.setMarginTop( 12 );
+
+            email.getSpan().setDisplay( Display.NONE );
+            btnLogout.getSpan().setDisplay( Display.NONE );
+        } );
+
+        ViewPort.when( Resolution.LAPTOP ).then( e -> {
+            search.setMaxWidth( "45%" );
+            search.setMarginRight( 0 );
+
+            email.getSpan().setDisplay( Display.NONE );
+            btnLogout.getSpan().setDisplay( Display.NONE );
+        } );
+    }
+
+    protected void modifyForLaptop()
+    {
+        ViewPort.when( Resolution.LAPTOP_LARGE, LAPTOP_4K ).then( e -> {
+            search.setMaxWidth( "35%" );
+            search.setMarginRight( 100 );
+
+            email.getSpan().setDisplay( Display.INLINE );
+            btnLogout.getSpan().setDisplay( Display.INLINE );
+        } );
     }
 
     protected native String getFirebaseCurrentUserData( String key ) /*-{
