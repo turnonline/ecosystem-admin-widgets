@@ -222,6 +222,9 @@ public interface AppMessages
     @Key( value = "label.event" )
     String labelEvent();
 
+    @Key( "label.billing.info" )
+    String labelBillingInfo();
+
     @Key( "label.billingDefaults" )
     String labelBillingDefaults();
 
@@ -230,6 +233,9 @@ public interface AppMessages
 
     @Key( value = "label.billingAddress" )
     String labelBillingAddress();
+
+    @Key( "label.bankAccounts" )
+    String labelBankAccounts();
 
     @Key( value = "label.postalAddress" )
     String labelPostalAddress();
@@ -590,4 +596,7 @@ public interface AppMessages
 
     @Key( value = "copyright" )
     String copyright();
+
+    @Key( "label.domain.custom" )
+    String labelDomainCustom();
 }

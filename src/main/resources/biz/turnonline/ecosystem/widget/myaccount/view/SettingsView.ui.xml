@@ -25,92 +25,120 @@
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
+    <ui:style>
+        .collapsible-body p {
+            margin: 0;
+            padding: 0;
+        }
+    </ui:style>
+
     <g:HTMLPanel>
         <shared:ScaffoldBreadcrumb ui:field="breadcrumb"/>
 
-        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
-            <!-- invoicing configuration -->
-            <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
-                <m:MaterialColumn grid="s12 m3">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="ASSIGNMENT" iconColor="BLUE" float="LEFT" marginRight="5"
-                                        marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelBillingDefaults}" textColor="BLUE"/>
-                    </m:MaterialSection>
-                    <shared:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}"/>
-                    <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}" paddingTop="15"/>
-                    <m:MaterialSwitch grid="10" ui:field="hasBillingAddress" paddingLeft="0" paddingTop="30"
-                                      onLabel="{msg.labelSpecificBillingAddress}" marginLeft="-10"/>
-                </m:MaterialColumn>
+        <m:MaterialCollapsible active="1">
+            <m:MaterialCollapsibleItem>
+                <m:MaterialCollapsibleHeader>
+                    <m:MaterialLink text="{msg.labelBillingInfo}" iconType="TUNE" iconPosition="LEFT" textColor="BLACK"/>
+                </m:MaterialCollapsibleHeader>
+                <m:MaterialCollapsibleBody marginLeft="20" marginRight="20" marginTop="20" padding="0">
+                    <m:MaterialPanel shadow="1">
+                        <!-- invoicing configuration -->
+                        <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
+                            <m:MaterialColumn grid="s12 m3">
+                                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                                    <m:MaterialIcon iconType="ASSIGNMENT" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                                    <m:MaterialTitle description="{msg.labelBillingDefaults}" textColor="BLUE"/>
+                                </m:MaterialSection>
+                                <shared:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}"/>
+                                <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}" paddingTop="15"/>
+                                <m:MaterialSwitch grid="10" ui:field="hasBillingAddress" paddingLeft="0" paddingTop="30"
+                                                  onLabel="{msg.labelSpecificBillingAddress}" marginLeft="-10"/>
+                            </m:MaterialColumn>
 
-                <!-- billing address -->
-                <m:MaterialColumn grid="s12 m3">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
-                                        marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelBillingAddress}" textColor="BLUE"/>
-                    </m:MaterialSection>
-                    <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="billingBusinessName"/>
-                    <map:AddressLookup label="{msg.labelStreet}" ui:field="billingAddressStreet"
-                                       tooltip="{msg.tooltipAddressAutocomplete}"/>
-                    <m:MaterialTextBox label="{msg.labelCity}" ui:field="billingAddressCity"/>
-                    <m:MaterialRow>
-                        <m:MaterialColumn grid="s12 m6" paddingLeft="0">
-                            <addins:inputmask.MaterialInputMask label="{msg.labelPostCode}"
-                                                                ui:field="billingAddressPostcode"
-                                                                placeholder="000 00" mask="000 00"/>
-                        </m:MaterialColumn>
-                    </m:MaterialRow>
-                    <shared:CountryComboBox label="{msg.labelCountry}" ui:field="billingAddressCountry"/>
-                </m:MaterialColumn>
+                            <!-- billing address -->
+                            <m:MaterialColumn grid="s12 m3">
+                                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                                    <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                                    <m:MaterialTitle description="{msg.labelBillingAddress}" textColor="BLUE"/>
+                                </m:MaterialSection>
+                                <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="billingBusinessName"/>
+                                <map:AddressLookup label="{msg.labelStreet}" ui:field="billingAddressStreet"
+                                                   tooltip="{msg.tooltipAddressAutocomplete}"/>
+                                <m:MaterialTextBox label="{msg.labelCity}" ui:field="billingAddressCity"/>
+                                <m:MaterialRow>
+                                    <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                                        <addins:inputmask.MaterialInputMask label="{msg.labelPostCode}"
+                                                                            ui:field="billingAddressPostcode"
+                                                                            placeholder="000 00" mask="000 00"/>
+                                    </m:MaterialColumn>
+                                </m:MaterialRow>
+                                <shared:CountryComboBox label="{msg.labelCountry}" ui:field="billingAddressCountry"/>
+                            </m:MaterialColumn>
 
-                <!-- billing contact person -->
-                <m:MaterialColumn grid="s12 m3">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="ASSIGNMENT_IND" iconColor="BLUE" float="LEFT" marginRight="5"
-                                        marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelBillingContact}" textColor="BLUE"/>
-                    </m:MaterialSection>
-                    <m:MaterialTextBox label="{msg.labelEmail}" ui:field="billingContactEmail"/>
-                    <m:MaterialTextBox label="{msg.labelPhone}" ui:field="billingContactPhone"/>
-                </m:MaterialColumn>
+                            <!-- billing contact person -->
+                            <m:MaterialColumn grid="s12 m3">
+                                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                                    <m:MaterialIcon iconType="ASSIGNMENT_IND" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                                    <m:MaterialTitle description="{msg.labelBillingContact}" textColor="BLUE"/>
+                                </m:MaterialSection>
+                                <m:MaterialTextBox label="{msg.labelEmail}" ui:field="billingContactEmail"/>
+                                <m:MaterialTextBox label="{msg.labelPhone}" ui:field="billingContactPhone"/>
+                            </m:MaterialColumn>
 
-                <m:MaterialColumn grid="s12 m3" paddingTop="38">
-                    <m:MaterialTextBox label="{msg.labelPrefix}" ui:field="billingContactPrefix"/>
-                    <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="billingContactFirstName"/>
-                    <m:MaterialTextBox label="{msg.labelMiddleName}" ui:field="billingContactMiddleName"/>
-                    <m:MaterialTextBox label="{msg.labelLastName}" ui:field="billingContactLastName"/>
-                    <m:MaterialRow>
-                        <m:MaterialColumn grid="s12 m6" paddingLeft="0">
-                            <m:MaterialTextBox label="{msg.labelSuffix}" ui:field="billingContactSuffix"/>
-                        </m:MaterialColumn>
-                    </m:MaterialRow>
-                </m:MaterialColumn>
-            </m:MaterialRow>
+                            <m:MaterialColumn grid="s12 m3" paddingTop="38">
+                                <m:MaterialTextBox label="{msg.labelPrefix}" ui:field="billingContactPrefix"/>
+                                <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="billingContactFirstName"/>
+                                <m:MaterialTextBox label="{msg.labelMiddleName}" ui:field="billingContactMiddleName"/>
+                                <m:MaterialTextBox label="{msg.labelLastName}" ui:field="billingContactLastName"/>
+                                <m:MaterialRow>
+                                    <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                                        <m:MaterialTextBox label="{msg.labelSuffix}" ui:field="billingContactSuffix"/>
+                                    </m:MaterialColumn>
+                                </m:MaterialRow>
+                            </m:MaterialColumn>
+                        </m:MaterialRow>
 
-            <m:MaterialRow>
-                <m:MaterialColumn grid="s12 m6">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="TEXT_FIELDS" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelInvoiceTexts}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                        <m:MaterialRow>
+                            <m:MaterialColumn grid="s12 m6">
+                                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                                    <m:MaterialIcon iconType="TEXT_FIELDS" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                                    <m:MaterialTitle description="{msg.labelInvoiceTexts}" textColor="BLUE"/>
+                                </m:MaterialSection>
 
-                    <m:MaterialTextArea ui:field="introductoryText" label="{msg.labelIntroductoryText}"/>
-                    <m:MaterialTextArea ui:field="finalText" label="{msg.labelFinalText}"/>
-                </m:MaterialColumn>
+                                <m:MaterialTextArea ui:field="introductoryText" label="{msg.labelIntroductoryText}"/>
+                                <m:MaterialTextArea ui:field="finalText" label="{msg.labelFinalText}"/>
+                            </m:MaterialColumn>
 
-                <m:MaterialColumn grid="s12 m3" offset="m3">
-                    <!--stamp at invoice-->
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5"
-                                        marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelStamp}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                            <m:MaterialColumn grid="s12 m3" offset="m3">
+                                <!--stamp at invoice-->
+                                <m:MaterialSection paddingTop="0" paddingBottom="0">
+                                    <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
+                                    <m:MaterialTitle description="{msg.labelStamp}" textColor="BLUE"/>
+                                </m:MaterialSection>
 
-                    <shared:LogoUploader ui:field="stampUploader" marginBottom="20"/>
-                </m:MaterialColumn>
-            </m:MaterialRow>
-        </m:MaterialPanel>
+                                <shared:LogoUploader ui:field="stampUploader" marginBottom="20"/>
+                            </m:MaterialColumn>
+                        </m:MaterialRow>
+                    </m:MaterialPanel>
+                </m:MaterialCollapsibleBody>
+            </m:MaterialCollapsibleItem>
+
+            <m:MaterialCollapsibleItem>
+                <m:MaterialCollapsibleHeader>
+                    <m:MaterialLink text="{msg.labelBankAccounts}" iconType="EURO_SYMBOL" iconPosition="LEFT" textColor="BLACK"/>
+                </m:MaterialCollapsibleHeader>
+                <m:MaterialCollapsibleBody>
+                </m:MaterialCollapsibleBody>
+            </m:MaterialCollapsibleItem>
+
+            <m:MaterialCollapsibleItem>
+                <m:MaterialCollapsibleHeader>
+                    <m:MaterialLink text="{msg.labelDomainCustom}" iconType="WEB" iconPosition="LEFT" textColor="BLACK"/>
+                </m:MaterialCollapsibleHeader>
+                <m:MaterialCollapsibleBody>
+                </m:MaterialCollapsibleBody>
+            </m:MaterialCollapsibleItem>
+        </m:MaterialCollapsible>
 
         <m:MaterialRow paddingLeft="20" paddingTop="20" float="LEFT">
             <m:MaterialButton ui:field="btnSave" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE"
