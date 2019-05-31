@@ -88,22 +88,29 @@ public class ScaffoldHeader
             search.setMaxWidth( "80%" );
             search.setMarginRight( 0 );
             search.setMarginTop( 8 );
+
+            title.setDisplay( Display.NONE );
         } );
     }
 
     protected void modifyForTablet()
     {
         ViewPort.when( Resolution.TABLET ).then( e -> {
-            search.setMaxWidth( "85%" );
+            search.setMaxWidth( "80%" );
             search.setMarginTop( 12 );
+            title.setDisplay( Display.NONE );
 
             email.getSpan().setDisplay( Display.NONE );
             btnLogout.getSpan().setDisplay( Display.NONE );
         } );
 
         ViewPort.when( Resolution.LAPTOP ).then( e -> {
-            search.setMaxWidth( "45%" );
+            search.setMaxWidth( "50%" );
+            search.setWidth( "50%" );
             search.setMarginRight( 0 );
+            search.setMarginTop( 12 );
+            search.getElement().getStyle().setLeft( 60, Style.Unit.PX );
+            title.setDisplay( Display.NONE );
 
             email.getSpan().setDisplay( Display.NONE );
             btnLogout.getSpan().setDisplay( Display.NONE );
@@ -113,8 +120,8 @@ public class ScaffoldHeader
     protected void modifyForLaptop()
     {
         ViewPort.when( Resolution.LAPTOP_LARGE, LAPTOP_4K ).then( e -> {
-            search.setMaxWidth( "35%" );
-            search.setMarginRight( 100 );
+            search.setMaxWidth( "30%" );
+            search.getElement().getStyle().setLeft( 30, Style.Unit.PCT );
 
             email.getSpan().setDisplay( Display.INLINE );
             btnLogout.getSpan().setDisplay( Display.INLINE );

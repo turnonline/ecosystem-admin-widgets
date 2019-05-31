@@ -14,4 +14,7 @@ public interface Resources
 
     @Source("no-image.png")
     ImageResource noImage();
+
+    @Source("logo.png")
+    ImageResource logo();
 }

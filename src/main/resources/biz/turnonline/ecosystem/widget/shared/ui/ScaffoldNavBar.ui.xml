@@ -21,8 +21,8 @@
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <m:MaterialSideNavPush m:id="sidenav" width="200" showOnAttach="false">
-        <m:MaterialNavBrand text="" href="/">
-            <m:MaterialImage maxWidth="80%" url="https://www.turnonline.biz/images/logo.png"/>
+        <m:MaterialNavBrand text="" href="/" ui:field="logoLink">
+            <m:MaterialImage ui:field="logo" maxHeight="90%"/>
         </m:MaterialNavBrand>
     </m:MaterialSideNavPush>
 </ui:UiBinder>

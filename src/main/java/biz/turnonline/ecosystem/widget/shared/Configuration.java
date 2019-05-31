@@ -25,6 +25,8 @@ public class Configuration
 
     public static final String LOGIN_ID = "LOGIN_ID";
 
+    public static final String LOGO = "LOGO";
+
     public static final String ACCOUNT_STEWARD_API_ROOT = "ACCOUNT_STEWARD_API_ROOT";
 
     public static final String PRODUCT_BILLING_API_ROOT = "PRODUCT_BILLING_API_ROOT";
@@ -47,6 +49,8 @@ public class Configuration
     private String vat;
 
     private String loginId;
+
+    private String logo;
 
     private String mapsApiKey;
 
@@ -71,6 +75,7 @@ public class Configuration
         configuration.setCurrency( dictionary.get( CURRENCY ) );
         configuration.setVat( dictionary.get( VAT ) );
         configuration.setLoginId( dictionary.get( LOGIN_ID ) );
+        configuration.setLogo( dictionary.get( LOGO ) );
         configuration.setMapsApiKey( dictionary.get( MAPS_API_KEY ) );
 
         instance = configuration;
@@ -148,6 +153,16 @@ public class Configuration
     public void setLoginId( String loginId )
     {
         this.loginId = loginId;
+    }
+
+    public String getLogo()
+    {
+        return logo;
+    }
+
+    public void setLogo( String logo )
+    {
+        this.logo = logo;
     }
 
     public String getMapsApiKey()
