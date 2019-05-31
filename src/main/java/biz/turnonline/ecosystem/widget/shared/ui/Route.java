@@ -8,10 +8,11 @@ import com.google.gwt.user.client.Window;
 public enum Route
 {
     MY_ACCOUNT( "/my-account", 1 ),
-    INVOICES( "/invoices", "invoices", "edit-invoice", 2 ),
-    ORDERS( "/orders", "orders", "edit-order", 3 ),
-    PRODUCTS( "/products", "products", "edit-product", 4 ),
-    CONTACTS( "/contacts", "contacts", "edit-contact", 5 ),
+    SETTINGS( "/settings", 2 ),
+    INVOICES( "/invoices", "invoices", "edit-invoice", 3 ),
+    ORDERS( "/orders", "orders", "edit-order", 4 ),
+    PRODUCTS( "/products", "products", "edit-product", 5 ),
+    CONTACTS( "/contacts", "contacts", "edit-contact", 6 ),
     DASHBOARD( "/dashboard" ),
     LOGOUT( "/logout" );
 

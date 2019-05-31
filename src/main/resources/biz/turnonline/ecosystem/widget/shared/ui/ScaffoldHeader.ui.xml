@@ -32,7 +32,7 @@
                 <m:MaterialLink ui:field="email" waves="LIGHT">
                     <m:MaterialImage border="3px solid #fff" marginTop="12" circle="true" float="LEFT" marginRight="10" ui:field="avatar"/>
                 </m:MaterialLink>
-                <m:MaterialLink text="Logout" iconType="POWER_SETTINGS_NEW" ui:field="btnLogout" waves="LIGHT"/>
+                <m:MaterialLink text="{msg.labelLogout}" iconType="POWER_SETTINGS_NEW" ui:field="btnLogout" waves="LIGHT"/>
             </m:MaterialNavSection>
         </m:MaterialNavBar>
 
