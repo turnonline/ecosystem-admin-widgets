@@ -146,8 +146,8 @@ public abstract class ProductModule
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Products(), messages.labelProducts() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.TABLET_MAC, messages.labelEditProduct() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Products(), IconType.TABLET_MAC, messages.labelProducts() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditProduct() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }

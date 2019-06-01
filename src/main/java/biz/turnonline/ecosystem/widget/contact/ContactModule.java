@@ -146,8 +146,8 @@ public abstract class ContactModule
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Contacts(), messages.labelContacts() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.CONTACT_PHONE, messages.labelEditContact() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Contacts(), IconType.CONTACT_PHONE, messages.labelContacts() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditContact() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }

@@ -140,8 +140,8 @@ public abstract class InvoiceModule
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Invoices(), messages.labelInvoices() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelEditInvoice() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Invoices(), IconType.ASSIGNMENT, messages.labelInvoices() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditInvoice() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }

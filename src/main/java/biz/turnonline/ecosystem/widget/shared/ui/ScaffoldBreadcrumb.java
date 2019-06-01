@@ -1,10 +1,14 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.Composite;
+import gwt.material.design.client.base.viewport.Resolution;
+import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.Display;
+import gwt.material.design.client.constants.HideOn;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialBreadcrumb;
@@ -34,6 +38,11 @@ public class ScaffoldBreadcrumb
             breadcrumb.setIconPosition( IconPosition.LEFT );
             breadcrumb.setTextColor( Color.GREY_DARKEN_3 );
             breadcrumb.setText( item.getText() );
+            breadcrumb.getSpan().setHideOn( HideOn.HIDE_ON_SMALL_DOWN );
+            breadcrumb.getIcon().getElement().getStyle().setMarginRight( 10, Style.Unit.PX );
+            ViewPort.when( Resolution.ALL_MOBILE ).then( e -> {
+                breadcrumb.getIcon().getElement().getStyle().setMarginRight( 0, Style.Unit.PX );
+            } );
 
             if ( item.getPlace() != null )
             {

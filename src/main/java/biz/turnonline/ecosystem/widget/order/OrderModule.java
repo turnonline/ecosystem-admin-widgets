@@ -140,8 +140,8 @@ public abstract class OrderModule
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Orders(), messages.labelOrders() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.SHOPPING_CART, messages.labelEditOrder() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Orders(), IconType.SHOPPING_CART, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditOrder() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
