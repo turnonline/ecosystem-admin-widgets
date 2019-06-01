@@ -31,11 +31,8 @@
                     <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
                         <!--company-->
                         <m:MaterialColumn grid="s12 m3">
-                            <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-2">
-                                <m:MaterialIcon iconType="BUSINESS" iconColor="BLUE" float="LEFT" marginRight="5"
-                                                marginTop="-3"/>
-                                <m:MaterialTitle description="{msg.labelCompany}" textColor="BLUE"/>
-                            </m:MaterialSection>
+
+                            <s:SectionTitle iconType="BUSINESS" title="{msg.labelCompany}"/>
 
                             <s:ContactAutoComplete label="{msg.labelBusinessName}" ui:field="businessName"/>
                             <m:MaterialRow>
@@ -49,11 +46,7 @@
 
                         <!--person-->
                         <m:MaterialColumn grid="s12 m3">
-                            <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-4">
-                                <m:MaterialIcon iconType="PERSON" iconColor="BLUE" float="LEFT" marginRight="5"
-                                                marginTop="-3"/>
-                                <m:MaterialTitle description="{msg.labelPerson}" textColor="BLUE"/>
-                            </m:MaterialSection>
+                            <s:SectionTitle iconType="PERSON" title="{msg.labelPerson}"/>
 
                             <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="firstName"/>
                             <m:MaterialTextBox label="{msg.labelMiddleName}" ui:field="middleName"/>
@@ -68,11 +61,7 @@
 
                         <!--contacts-->
                         <m:MaterialColumn grid="s12 m3">
-                            <m:MaterialSection paddingTop="0" paddingBottom="0" marginLeft="-2">
-                                <m:MaterialIcon iconType="EMAIL" iconColor="BLUE" float="LEFT" marginRight="5"
-                                                marginTop="-3"/>
-                                <m:MaterialTitle description="{msg.labelContacts}" textColor="BLUE"/>
-                            </m:MaterialSection>
+                            <s:SectionTitle iconType="EMAIL" title="{msg.labelContacts}"/>
 
                             <m:MaterialTextBox label="{msg.labelPhone}" ui:field="phone"/>
                             <m:MaterialTextBox label="{msg.labelEmail}" ui:field="email"/>
@@ -85,11 +74,7 @@
                     <m:MaterialRow paddingLeft="10" marginTop="0">
                         <!--invoice address-->
                         <m:MaterialColumn grid="s12 m3">
-                            <m:MaterialSection paddingTop="0" paddingBottom="0">
-                                <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
-                                                marginTop="-3"/>
-                                <m:MaterialTitle description="{msg.labelBillingAddress}" textColor="BLUE"/>
-                            </m:MaterialSection>
+                            <s:SectionTitle iconType="HOME" title="{msg.labelBillingAddress}"/>
 
                             <map:AddressLookup label="{msg.labelStreet}" ui:field="street"
                                                tooltip="{msg.tooltipAddressAutocomplete}"/>
@@ -105,11 +90,7 @@
 
                         <!-- postal address-->
                         <m:MaterialColumn grid="s12 m3" offset="m3">
-                            <m:MaterialSection paddingTop="0" paddingBottom="0">
-                                <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5"
-                                                marginTop="-3"/>
-                                <m:MaterialTitle description="{msg.labelPostalAddress}" textColor="BLUE"/>
-                            </m:MaterialSection>
+                            <s:SectionTitle iconType="HOME" title="{msg.labelPostalAddress}"/>
 
                             <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="postalBusinessName"/>
                             <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="postalFirstName"/>

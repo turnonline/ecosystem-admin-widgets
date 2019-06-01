@@ -16,20 +16,10 @@
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
   -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:m='urn:import:gwt.material.design.client.ui'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+             xmlns:m='urn:import:gwt.material.design.client.ui'>
 
-    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
-
-    <g:HTMLPanel>
-        <m:MaterialRow>
-            <m:MaterialColumn grid="s12 m3">
-                <s:SectionTitle iconType="SETTINGS_APPLICATIONS" title="{msg.labelSettings}"/>
-
-                <m:MaterialIntegerBox ui:field="trialPeriod" label="Trial period"/>
-                <s:BillingUnitComboBox ui:field="unit" label="{msg.labelUnit}"/>
-            </m:MaterialColumn>
-        </m:MaterialRow>
-    </g:HTMLPanel>
+    <m:MaterialSection paddingTop="0" paddingBottom="0">
+        <m:MaterialIcon iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3" ui:field="icon"/>
+        <m:MaterialTitle textColor="BLUE" ui:field="title"/>
+    </m:MaterialSection>
 </ui:UiBinder>

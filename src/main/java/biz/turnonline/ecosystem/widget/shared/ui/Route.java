@@ -7,8 +7,8 @@ import com.google.gwt.user.client.Window;
  */
 public enum Route
 {
-    MY_ACCOUNT( "/my-account", 1 ),
-    SETTINGS( "/my-account#my-account/settings:", 2 ),
+    MY_ACCOUNT( "/my-account", "my-account", 1 ),
+    SETTINGS( "/my-account", "my-account/settings:", 2 ),
     INVOICES( "/invoices", "invoices", "edit-invoice", 3 ),
     ORDERS( "/orders", "orders", "edit-order", 4 ),
     PRODUCTS( "/products", "products", "edit-product", 5 ),
@@ -17,6 +17,8 @@ public enum Route
     LOGOUT( "/logout" );
 
     private String url;
+
+    private String fragment;
 
     private String listToken;
 
@@ -29,9 +31,10 @@ public enum Route
         this.url = url;
     }
 
-    Route( String url, Integer navBarOrder )
+    Route( String url, String fragment, Integer navBarOrder )
     {
         this.url = url;
+        this.fragment = fragment;
         this.navBarOrder = navBarOrder;
     }
 
@@ -50,7 +53,9 @@ public enum Route
         {
             return Window.Location.getProtocol() + "//"
                     + Window.Location.getHost()
-                    + url + ".html";
+                    + url +
+                    ".html" +
+                    (fragment != null ? "#" + fragment : "");
         }
 
         // wrapped by portal or on remote server

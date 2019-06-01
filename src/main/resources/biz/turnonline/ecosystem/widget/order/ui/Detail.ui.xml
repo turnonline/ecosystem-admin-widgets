@@ -25,10 +25,7 @@
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m3">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="CHROME_READER_MODE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelDescription}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
                 <m:MaterialDatePicker ui:field="beginAt" placeholder="{msg.labelBeginAt}"/>
                 <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}"/>

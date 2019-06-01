@@ -25,10 +25,7 @@
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m3">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="CHROME_READER_MODE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelDescription}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
                 <s:InvoiceTypeListBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
                 <m:MaterialTextBox ui:field="invoiceNumber" placeholder="{msg.labelInvoiceNumber}"/>
@@ -36,20 +33,14 @@
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="DATE_RANGE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelDates}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="DATE_RANGE" title="{msg.labelDates}"/>
 
                 <m:MaterialDatePicker ui:field="dateOfIssue" placeholder="{msg.labelDateOfIssue}"/>
                 <m:MaterialDatePicker ui:field="dateOfTaxable" placeholder="{msg.labelDateOfTaxable}"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="PAYMENT" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelPayment}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="PAYMENT" title="{msg.labelPayment}"/>
 
                 <s:PaymentMethodListBox ui:field="paymentMethod" placeholder="{msg.labelPaymentMethod}"/>
                 <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
@@ -58,10 +49,7 @@
 
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m6">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="TEXT_FIELDS" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelInvoiceTexts}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="TEXT_FIELDS" title="{msg.labelInvoiceTexts}"/>
 
                 <m:MaterialTextArea ui:field="introductoryText" label="{msg.labelIntroductoryText}"/>
                 <m:MaterialTextArea ui:field="finalText" label="{msg.labelFinalText}"/>

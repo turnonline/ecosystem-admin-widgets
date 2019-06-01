@@ -18,38 +18,28 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.product.ui">
+             xmlns:p="urn:import:biz.turnonline.ecosystem.widget.product.ui"
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
         <m:MaterialRow marginBottom="0">
             <m:MaterialColumn grid="s12 m7">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="PHOTO_CAMERA" iconColor="BLUE" float="LEFT" marginRight="5"
-                                    marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelPictures}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="PHOTO_CAMERA" title="{msg.labelPictures}"/>
 
-                <ui2:ProductPictureUploader ui:field="uploader"/>
+                <p:ProductPictureUploader ui:field="uploader"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m2">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="SETTINGS_APPLICATIONS" iconColor="BLUE" float="LEFT" marginRight="5"
-                                    marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelSettings}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="SETTINGS_APPLICATIONS" title="{msg.labelSettings}"/>
 
                 <m:MaterialRow marginTop="10" marginLeft="-10">
                     <m:MaterialSwitch ui:field="comingSoon" onLabel="{msg.labelComingSoon}"/>
                     <m:MaterialSwitch ui:field="published" onLabel="{msg.labelPublished}"/>
                 </m:MaterialRow>
 
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="SHARE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelSocial}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="SHARE" title="{msg.labelSocial}"/>
 
                 <m:MaterialRow marginTop="10" marginLeft="-10">
                     <m:MaterialSwitch ui:field="facebookLike" onLabel="{msg.labelFacebookLike}"/>
@@ -59,10 +49,7 @@
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="PUBLIC" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelDomain}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="PUBLIC" title="{msg.labelDomain}"/>
 
                 <m:MaterialTextBox ui:field="atName" label="{msg.labelDomainName}"/>
                 <m:MaterialTextBox ui:field="atUri" label="{msg.labelDomainUri}"/>

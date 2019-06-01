@@ -18,30 +18,24 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m3">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="CHROME_READER_MODE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelDescription}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
                 <m:MaterialTextBox ui:field="itemName" label="{msg.labelItemName}"/>
                 <m:MaterialTextBox ui:field="snippet" label="{msg.labelSnippet}"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="VIEW_LIST" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-2"/>
-                    <m:MaterialTitle description="{msg.labelMetaFields}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="VIEW_LIST" title="{msg.labelMetaFields}"/>
 
-                <ui2:MaterialChipTextBox letter="T" ui:field="availableFields" label="{msg.labelAvailableFields}" tooltip="{msg.tooltipAvailableFields}"/>
-                <ui2:MaterialChipTextBox letter="T" ui:field="mandatoryFields" label="{msg.labelMandatoryFields}"/>
+                <s:MaterialChipTextBox letter="T" ui:field="availableFields" label="{msg.labelAvailableFields}" tooltip="{msg.tooltipAvailableFields}"/>
+                <s:MaterialChipTextBox letter="T" ui:field="mandatoryFields" label="{msg.labelMandatoryFields}"/>
             </m:MaterialColumn>
         </m:MaterialRow>
     </g:HTMLPanel>

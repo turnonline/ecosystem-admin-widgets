@@ -20,12 +20,12 @@
              xmlns:ma='urn:import:gwt.material.design.addins.client'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:map='urn:import:gwt.material.design.incubator.client.google.addresslookup'
-             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
-        <ui2:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
             <m:MaterialRow marginBottom="0" paddingTop="20">
@@ -35,11 +35,7 @@
             <m:MaterialRow paddingLeft="10" paddingBottom="0" marginTop="0" marginBottom="0">
                 <!--company-->
                 <m:MaterialColumn grid="s12 m3">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="BUSINESS" iconColor="BLUE" float="LEFT" marginRight="5"
-                                        marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelCompany}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                    <s:SectionTitle iconType="BUSINESS" title="{msg.labelCompany}"/>
 
                     <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="businessName"/>
                     <m:MaterialRow>
@@ -64,10 +60,7 @@
 
                 <!--person-->
                 <m:MaterialColumn grid="s12 m3">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="PERSON" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelPerson}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                    <s:SectionTitle iconType="PERSON" title="{msg.labelPerson}"/>
 
                     <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="firstName"/>
                     <m:MaterialTextBox label="{msg.labelLastName}" ui:field="lastName"/>
@@ -81,10 +74,7 @@
 
                 <!--contacts-->
                 <m:MaterialColumn grid="s12 m3">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="EMAIL" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelContacts}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                    <s:SectionTitle iconType="EMAIL" title="{msg.labelContacts}"/>
 
                     <m:MaterialTextBox label="{msg.labelPhone}" ui:field="phone"/>
                     <m:MaterialTextBox label="{msg.labelEmail}" ui:field="email"/>
@@ -94,22 +84,14 @@
 
                 <m:MaterialColumn grid="s12 m3">
                     <!--invoicing info-->
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="ASSIGNMENT" iconColor="BLUE" float="LEFT" marginRight="5"
-                                        marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelInvoicing}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                    <s:SectionTitle iconType="ASSIGNMENT" title="{msg.labelInvoicing}"/>
 
                     <m:MaterialIntegerBox label="{msg.labelNumberOfDays}" ui:field="numberOfDays"/>
 
                     <!--logo-->
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="ADD_A_PHOTO" iconColor="BLUE" float="LEFT" marginRight="5"
-                                        marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelLogo}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                    <s:SectionTitle iconType="ADD_A_PHOTO" title="{msg.labelLogo}"/>
 
-                    <ui2:LogoUploader ui:field="logoUploader" marginBottom="20"/>
+                    <s:LogoUploader ui:field="logoUploader" marginBottom="20"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>
@@ -122,10 +104,7 @@
             <m:MaterialRow paddingLeft="10" marginTop="0">
                 <!--invoice address-->
                 <m:MaterialColumn grid="s12 m3">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelBillingAddress}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                    <s:SectionTitle iconType="HOME" title="{msg.labelBillingAddress}"/>
 
                     <map:AddressLookup label="{msg.labelStreet}" ui:field="street"
                                        tooltip="{msg.tooltipAddressAutocomplete}"/>
@@ -134,17 +113,14 @@
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                             <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postCode"
                                                             placeholder="000 00" mask="000 00"/>
-                            <ui2:CountryComboBox label="{msg.labelCountry}" ui:field="country"/>
+                            <s:CountryComboBox label="{msg.labelCountry}" ui:field="country"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>
                 </m:MaterialColumn>
 
                 <!-- postal address-->
                 <m:MaterialColumn grid="s12 m3" offset="m3">
-                    <m:MaterialSection paddingTop="0" paddingBottom="0">
-                        <m:MaterialIcon iconType="HOME" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                        <m:MaterialTitle description="{msg.labelPostalAddress}" textColor="BLUE"/>
-                    </m:MaterialSection>
+                    <s:SectionTitle iconType="HOME" title="{msg.labelPostalAddress}"/>
 
                     <m:MaterialTextBox label="{msg.labelBusinessName}" ui:field="postalBusinessName"/>
                     <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="postalFirstName"/>
@@ -165,7 +141,7 @@
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                             <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postalPostCode"
                                                             placeholder="000 00" mask="000 00"/>
-                            <ui2:CountryComboBox label="{msg.labelCountry}" ui:field="postalCountry"/>
+                            <s:CountryComboBox label="{msg.labelCountry}" ui:field="postalCountry"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>
                 </m:MaterialColumn>

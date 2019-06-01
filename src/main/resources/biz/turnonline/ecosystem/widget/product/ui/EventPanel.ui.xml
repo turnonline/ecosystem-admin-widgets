@@ -27,20 +27,14 @@
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m6">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="CHROME_READER_MODE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelDescription}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
                 <m:MaterialRow marginLeft="-10">
                     <m:MaterialDatePicker ui:field="deadline" placeholder="{msg.labelDeadline}" grid="s12 m7"/>
                     <m:MaterialIntegerBox ui:field="seats" label="{msg.labelSeats}" grid="s12 m5"/>
                 </m:MaterialRow>
 
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="DATE_RANGE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelBegin}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="DATE_RANGE" title="{msg.labelBegin}"/>
 
                 <m:MaterialRow marginLeft="-10">
                     <m:MaterialDatePicker ui:field="beginOn" placeholder="{msg.labelOn}" grid="s12 m5"/>
@@ -49,10 +43,7 @@
                     <m:MaterialSwitch ui:field="beginShow" onLabel="{msg.labelShow}" grid="s12 m3" marginTop="25"/>
                 </m:MaterialRow>
 
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="DATE_RANGE" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelEnd}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="DATE_RANGE" title="{msg.labelEnd}"/>
 
                 <m:MaterialRow marginLeft="-10">
                     <m:MaterialDatePicker ui:field="endOn" placeholder="{msg.labelOn}" grid="s12 m5"/>
@@ -63,10 +54,7 @@
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m6">
-                <m:MaterialSection paddingTop="0" paddingBottom="0">
-                    <m:MaterialIcon iconType="LOCATION_ON" iconColor="BLUE" float="LEFT" marginRight="5" marginTop="-3"/>
-                    <m:MaterialTitle description="{msg.labelLocation}" textColor="BLUE"/>
-                </m:MaterialSection>
+                <s:SectionTitle iconType="LOCATION_ON" title="{msg.labelLocation}"/>
 
                 <m:MaterialColumn grid="s12 m6" marginLeft="-5">
                     <m:MaterialTextBox ui:field="locationName" label="{msg.labelName}"/>

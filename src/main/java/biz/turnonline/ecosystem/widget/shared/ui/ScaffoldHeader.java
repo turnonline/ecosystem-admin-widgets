@@ -53,11 +53,11 @@ public class ScaffoldHeader
         initWidget( binder.createAndBindUi( this ) );
 
         email.setText( getFirebaseCurrentUserData( "email" ) );
-        email.setHref( Route.MY_ACCOUNT.url() + "#my-account:" );
+        email.setHref( Route.MY_ACCOUNT.url() );
         avatar.setUrl( getFirebaseCurrentUserData( "photoURL" ) );
         avatar.getElement().setAttribute( "width", "40" );
 
-        btnSettings.setHref( Route.MY_ACCOUNT.url() + "#my-account/settings:" );
+        btnSettings.setHref( Route.SETTINGS.url() );
         btnLogout.setHref( Route.LOGOUT.url() );
 
         progress.setVisibility( Style.Visibility.HIDDEN );
