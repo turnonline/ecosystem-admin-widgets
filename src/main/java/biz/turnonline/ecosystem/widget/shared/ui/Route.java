@@ -8,7 +8,7 @@ import com.google.gwt.user.client.Window;
 public enum Route
 {
     MY_ACCOUNT( "/my-account", 1 ),
-    SETTINGS( "/settings", 2 ),
+    SETTINGS( "/my-account#my-account/settings:", 2 ),
     INVOICES( "/invoices", "invoices", "edit-invoice", 3 ),
     ORDERS( "/orders", "orders", "edit-order", 4 ),
     PRODUCTS( "/products", "products", "edit-product", 5 ),
