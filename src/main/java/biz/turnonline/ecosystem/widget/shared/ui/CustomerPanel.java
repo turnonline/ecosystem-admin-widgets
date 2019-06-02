@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.api.ApiRegistry;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
@@ -244,6 +245,7 @@ public class CustomerPanel<T extends HasCustomer>
 
         // company
         businessName.getItemBox().setValue( customer.getBusinessName() );
+        businessName.getLabel().addStyleName( CssName.ACTIVE); // fix visualization bug
         companyId.setValue( customer.getCompanyId() );
         vatId.setValue( customer.getVatId() );
         taxId.setValue( customer.getTaxId() );

@@ -7,22 +7,18 @@ import com.google.gwt.user.client.Window;
  */
 public enum Route
 {
-    MY_ACCOUNT( "/my-account", "my-account:", 1 ),
-    SETTINGS( "/my-account", "my-account/settings:", 2 ),
-    INVOICES( "/invoices", "invoices", "edit-invoice", 3 ),
-    ORDERS( "/orders", "orders", "edit-order", 4 ),
-    PRODUCTS( "/products", "products", "edit-product", 5 ),
-    CONTACTS( "/contacts", "contacts", "edit-contact", 6 ),
+    MY_ACCOUNT( "/my-account", "my-account", 1 ),
+    SETTINGS( "/my-account", "my-account/settings", 2 ),
+    INVOICES( "/billing", "invoices", 3 ),
+    ORDERS( "/billing", "orders", 4 ),
+    PRODUCTS( "/products", "products", 5 ),
+    CONTACTS( "/contacts", "contacts", 6 ),
     DASHBOARD( "/dashboard" ),
     LOGOUT( "/logout" );
 
     private String url;
 
     private String fragment;
-
-    private String listToken;
-
-    private String detailToken;
 
     private Integer navBarOrder;
 
@@ -38,42 +34,27 @@ public enum Route
         this.navBarOrder = navBarOrder;
     }
 
-    Route( String url, String listToken, String detailToken, Integer navBarOrder )
-    {
-        this.url = url;
-        this.listToken = listToken;
-        this.detailToken = detailToken;
-        this.navBarOrder = navBarOrder;
-    }
-
     public String url()
     {
-        String lUrl;
-        // super dev mode - local widget development only
+        return path() + ( fragment != null ? "#" + fragment + ":" : "" );
+    }
+
+    public String path()
+    {
+        String path;
         if ( Window.Location.getPort().equals( "8888" ) )
         {
-            lUrl = Window.Location.getProtocol() + "//"
+            path = Window.Location.getProtocol() + "//"
                     + Window.Location.getHost()
                     + url +
                     ".html";
         }
         else
         {
-            lUrl = url;
+            path = url;
         }
 
-        // wrapped by portal or on remote server
-        return lUrl + ( fragment != null ? "#" + fragment : "" );
-    }
-
-    public String getListToken()
-    {
-        return listToken;
-    }
-
-    public String getDetailToken()
-    {
-        return detailToken;
+        return path;
     }
 
     public Integer navBarOrder()
