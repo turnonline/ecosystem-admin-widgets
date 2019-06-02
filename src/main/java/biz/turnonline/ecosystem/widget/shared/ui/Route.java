@@ -7,7 +7,7 @@ import com.google.gwt.user.client.Window;
  */
 public enum Route
 {
-    MY_ACCOUNT( "/my-account", "my-account", 1 ),
+    MY_ACCOUNT( "/my-account", "my-account:", 1 ),
     SETTINGS( "/my-account", "my-account/settings:", 2 ),
     INVOICES( "/invoices", "invoices", "edit-invoice", 3 ),
     ORDERS( "/orders", "orders", "edit-order", 4 ),
@@ -48,18 +48,22 @@ public enum Route
 
     public String url()
     {
+        String lUrl;
         // super dev mode - local widget development only
         if ( Window.Location.getPort().equals( "8888" ) )
         {
-            return Window.Location.getProtocol() + "//"
+            lUrl = Window.Location.getProtocol() + "//"
                     + Window.Location.getHost()
                     + url +
-                    ".html" +
-                    (fragment != null ? "#" + fragment : "");
+                    ".html";
+        }
+        else
+        {
+            lUrl = url;
         }
 
         // wrapped by portal or on remote server
-        return url;
+        return lUrl + ( fragment != null ? "#" + fragment : "" );
     }
 
     public String getListToken()

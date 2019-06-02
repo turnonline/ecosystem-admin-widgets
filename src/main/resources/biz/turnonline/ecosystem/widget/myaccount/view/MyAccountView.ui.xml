@@ -56,7 +56,7 @@
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
             <m:MaterialRow paddingLeft="20" paddingTop="0" paddingBottom="20">
-                <s:SectionTitle iconType="PERSON" title="{msg.labelAccountType}"/>
+                <s:SectionTitle iconType="PERSON" title="{msg.labelAccountType}" ui:field="accountType"/>
 
                 <m:MaterialSwitch onLabel="{msg.labelCompanyAccount}" offLabel="{msg.labelPersonalAccount}"
                                   ui:field="company" grid="10"/>

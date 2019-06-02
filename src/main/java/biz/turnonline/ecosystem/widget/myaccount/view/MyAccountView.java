@@ -33,6 +33,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.LegalFormComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.LogoUploader;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
+import biz.turnonline.ecosystem.widget.shared.ui.SectionTitle;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
@@ -44,13 +45,11 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
-import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
-import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
@@ -116,10 +115,7 @@ public class MyAccountView
     MaterialPanel companyData;
 
     @UiField
-    MaterialTitle typeTitle;
-
-    @UiField
-    MaterialIcon typeIcon;
+    SectionTitle accountType;
 
     @UiField
     MaterialTextBox businessName;
@@ -518,8 +514,8 @@ public class MyAccountView
 
         if ( isCompany )
         {
-            typeTitle.setDescription( prefix + messages.labelCompanyAccount() );
-            typeIcon.setIconType( BUSINESS );
+            accountType.setTitle( prefix + messages.labelCompanyAccount() );
+            accountType.setIconType( BUSINESS );
             personalData.setVisible( false );
             companyData.setVisible( true );
 
@@ -532,8 +528,8 @@ public class MyAccountView
         }
         else
         {
-            typeTitle.setDescription( prefix + messages.labelPersonalAccount() );
-            typeIcon.setIconType( PERSON );
+            accountType.setTitle( prefix + messages.labelPersonalAccount() );
+            accountType.setIconType( PERSON );
             personalData.setVisible( true );
             companyData.setVisible( false );
 
