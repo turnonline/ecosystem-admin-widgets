@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.product.presenter;
 
 import biz.turnonline.ecosystem.widget.product.event.BackEvent;
+import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
 import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
@@ -26,7 +27,9 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import com.google.gwt.place.shared.PlaceController;
+import org.fusesource.restygwt.client.FailedResponseException;
 
 import javax.inject.Inject;
 
@@ -47,6 +50,37 @@ public class EditProductPresenter
     @Override
     public void bind()
     {
+        bus().addHandler( RemovePictureEvent.TYPE, event -> {
+            EditProduct where = ( EditProduct ) controller().getWhere();
+
+            if ( where.getId() != null )
+            {
+                ProductPicture picture = event.getPicture();
+                bus().billing().deleteProductPicture( where.getId(), picture.getOrder(), new SuccessCallback<Void>()
+                {
+                    @Override
+                    public void onSuccess( Void response )
+                    {
+                        success( messages.msgPictureDeleted() );
+                    }
+
+                    @Override
+                    public boolean reportError( Throwable exception )
+                    {
+                        if ( exception instanceof FailedResponseException )
+                        {
+                            FailedResponseException fre = ( FailedResponseException ) exception;
+                            // silently ignore 404 - not a error, it means that we want to delete picture
+                            // which is not assigned to product yet
+                            return fre.getStatusCode() != 404;
+                        }
+
+                        return true;
+                    }
+                } );
+            }
+        } );
+
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Products() ) );
 
         bus().addHandler( SaveProductEvent.TYPE, event -> {

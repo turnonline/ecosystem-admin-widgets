@@ -71,7 +71,7 @@ public class EditProductView
     @UiField
     Content content;
 
-    @UiField
+    @UiField( provided = true )
     Publishing publishing;
 
     @UiField
@@ -106,6 +106,7 @@ public class EditProductView
         this.breadcrumb = breadcrumb;
         setActive( Route.PRODUCTS );
 
+        publishing = new Publishing( eventBus );
         add( binder.createAndBindUi( this ) );
 
         event.init( addressLookup );

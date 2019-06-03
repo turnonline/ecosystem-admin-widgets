@@ -73,6 +73,14 @@ public interface SuccessCallback<T>
             GWT.log( "Exception occur during calling remote service", exception );
         }
 
-        MaterialToast.fireToast( errorMessage, "red" );
+        if ( reportError( exception ) )
+        {
+            MaterialToast.fireToast( errorMessage, "red" );
+        }
+    }
+
+    default boolean reportError( Throwable exception )
+    {
+        return true;
     }
 }

@@ -595,6 +595,9 @@ public interface AppMessages
     @Key( value = "msg.recordUpdated" )
     String msgRecordUpdated();
 
+    @Key( value = "msg.pictureDeleted" )
+    String msgPictureDeleted();
+
     // other
 
     @Key( value = "copyright" )

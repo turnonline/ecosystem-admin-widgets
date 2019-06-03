@@ -8,10 +8,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
-
-import javax.inject.Inject;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -49,12 +48,13 @@ public class Publishing
 
     // -- pictures
 
-    @UiField
+    @UiField( provided = true )
     ProductPictureUploader uploader;
 
-    @Inject
-    public Publishing()
+    public Publishing( EventBus eventBus )
     {
+        uploader = new ProductPictureUploader( eventBus );
+
         initWidget( binder.createAndBindUi( this ) );
     }
 
@@ -63,7 +63,7 @@ public class Publishing
     {
         ProductPublishing publishing = product.getPublishing();
 
-        if (publishing.getAt() != null)
+        if ( publishing.getAt() != null )
         {
             publishing.getAt().setUri( atUri.getValue() );
             publishing.getAt().setName( atName.getValue() );
@@ -83,8 +83,8 @@ public class Publishing
     {
         ProductPublishing publishing = getProductPublishing( product );
 
-        atName.setValue( publishing.getAt() != null ? publishing.getAt().getName() : null);
-        atUri.setValue( publishing.getAt() != null ? publishing.getAt().getUri() : null);
+        atName.setValue( publishing.getAt() != null ? publishing.getAt().getName() : null );
+        atUri.setValue( publishing.getAt() != null ? publishing.getAt().getUri() : null );
 
         comingSoon.setValue( publishing.getComingSoon() != null ? publishing.getComingSoon() : false );
         published.setValue( publishing.getPublished() != null ? publishing.getPublished() : false );

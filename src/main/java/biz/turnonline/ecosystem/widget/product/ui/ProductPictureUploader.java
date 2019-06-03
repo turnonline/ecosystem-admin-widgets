@@ -1,5 +1,6 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
+import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
@@ -10,6 +11,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.Display;
@@ -23,6 +25,7 @@ import org.ctoolkit.gwt.client.facade.UploadItem;
 import org.fusesource.restygwt.client.ServiceRoots;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,13 +53,17 @@ public class ProductPictureUploader
 
     private Map<MaterialColumn, ProductPicture> imagesMap = new HashMap<>();
 
-    public ProductPictureUploader()
+    private EventBus eventBus;
+
+    public ProductPictureUploader( EventBus eventBus )
     {
         initWidget( binder.createAndBindUi( this ) );
 
+        this.eventBus = eventBus;
+
         uploader.addSuccessHandler( event -> {
             UploadItem uploadItem = Uploader.handleAndGetUploadItem( event );
-            if (uploadItem != null)
+            if ( uploadItem != null )
             {
                 addImage( uploadItem );
             }
@@ -89,7 +96,9 @@ public class ProductPictureUploader
 
         if ( model.getPictures() != null )
         {
-            model.getPictures().forEach( this::addImage );
+            model.getPictures().stream()
+                    .sorted( Comparator.comparing( ProductPicture::getOrder ) )
+                    .forEach( this::addImage );
         }
         else
         {
@@ -104,8 +113,10 @@ public class ProductPictureUploader
 
     protected void removeImage( MaterialColumn column )
     {
-        imagesMap.remove( column );
+        ProductPicture picture = imagesMap.remove( column );
         column.removeFromParent();
+
+        eventBus.fireEvent( new RemovePictureEvent( picture ) );
     }
 
     private void addImage( UploadItem uploadItem )
@@ -113,6 +124,7 @@ public class ProductPictureUploader
         ProductPicture productPicture = new ProductPicture();
         productPicture.setServingUrl( uploadItem.getServingUrl() );
         productPicture.setStorageName( uploadItem.getStorageName() );
+        productPicture.setOrder( imagesMap.keySet().size() + 1 );
 
         addImage( productPicture );
     }

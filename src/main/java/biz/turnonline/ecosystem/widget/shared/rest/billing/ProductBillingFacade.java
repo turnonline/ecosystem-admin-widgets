@@ -77,6 +77,12 @@ public interface ProductBillingFacade
     void deleteProduct( @PathParam( "product_id" ) Long productId,
                         FacadeCallback<Void> callback );
 
+    @DELETE
+    @Path( "products/{product_id}/publishing/pictures/{order}" )
+    void deleteProductPicture( @PathParam( "product_id" ) Long productId,
+                               @PathParam( "order" ) Integer order,
+                               FacadeCallback<Void> callback );
+
     // orders
 
     @GET
