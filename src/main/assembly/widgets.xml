@@ -36,7 +36,7 @@
         </fileSet>
         <fileSet>
             <directory>target/${project.build.finalName}/billing.widget</directory>
-            <outputDirectory>order.widget</outputDirectory>
+            <outputDirectory>billing.widget</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>target/${project.build.finalName}/my.account.widget</directory>
