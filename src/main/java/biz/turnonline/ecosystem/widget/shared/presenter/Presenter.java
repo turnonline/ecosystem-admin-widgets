@@ -118,7 +118,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
             else
             {
                 error( AppMessages.INSTANCE.msgErrorRemoteServiceCall() );
-                GWT.log( "Exception occur during calling remote service: " + failure.response().getText() );
+                GWT.log( "Exception has occurred while calling remote service: " + failure.response().getText() );
             }
         }
         else

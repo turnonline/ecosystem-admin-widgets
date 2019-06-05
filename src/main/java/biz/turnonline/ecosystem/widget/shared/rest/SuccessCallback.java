@@ -21,7 +21,6 @@ package biz.turnonline.ecosystem.widget.shared.rest;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import com.google.gwt.core.client.GWT;
 import gwt.material.design.client.ui.MaterialToast;
-import org.fusesource.restygwt.client.FailedResponseException;
 import org.fusesource.restygwt.client.MethodCallback;
 
 /**
@@ -50,37 +49,20 @@ public interface SuccessCallback<T>
         }
         else
         {
-            handleError( failure.exception() );
+            handleError( failure );
         }
     }
 
-    default void handleError( Throwable exception )
+    default void handleError( Failure failure )
     {
-        String errorMessage = AppMessages.INSTANCE.msgErrorRemoteServiceCall();
-
-        if ( exception instanceof FailedResponseException )
+        if ( failure.isNotFound() )
         {
-            FailedResponseException fre = ( FailedResponseException ) exception;
-            if ( fre.getStatusCode() == 404 )
-            {
-                errorMessage = AppMessages.INSTANCE.msgErrorRecordDoesNotExists();
-            }
-
-            GWT.log( "Exception occur during calling remote service: " + fre.getResponse().getText() );
+            MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRecordDoesNotExists(), "red" );
         }
         else
         {
-            GWT.log( "Exception occur during calling remote service", exception );
+            MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRemoteServiceCall(), "red" );
+            GWT.log( "Exception has occurred while calling remote service: " + failure.response().getText() );
         }
-
-        if ( reportError( exception ) )
-        {
-            MaterialToast.fireToast( errorMessage, "red" );
-        }
-    }
-
-    default boolean reportError( Throwable exception )
-    {
-        return true;
     }
 }
