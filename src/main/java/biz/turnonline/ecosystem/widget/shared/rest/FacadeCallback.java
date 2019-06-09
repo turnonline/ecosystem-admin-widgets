@@ -64,6 +64,12 @@ public interface FacadeCallback<T>
             {
                 return statusCode() == 404;
             }
+
+            @Override
+            public boolean isBadRequest()
+            {
+                return statusCode() == 400;
+            }
         } );
     }
 
@@ -104,6 +110,12 @@ public interface FacadeCallback<T>
 
             @Override
             public boolean isNotFound()
+            {
+                return false;
+            }
+
+            @Override
+            public boolean isBadRequest()
             {
                 return false;
             }
@@ -161,5 +173,10 @@ public interface FacadeCallback<T>
          * {@code true} if HTTP status code of the response is 404
          */
         boolean isNotFound();
+
+        /**
+         * {@code true} if HTTP status code of the response is 400
+         */
+        boolean isBadRequest();
     }
 }

@@ -306,11 +306,35 @@ public interface AppMessages
     @Key( value = "label.domain" )
     String labelDomain();
 
-    @Key( value = "label.domainName" )
+    @Key( "label.subdomain" )
+    String labelSubdomain();
+
+    @Key( value = "label.domain.name" )
     String labelDomainName();
 
-    @Key( value = "label.domainUri" )
+    @Key( value = "label.domain.uri" )
     String labelDomainUri();
+
+    @Key( "label.domain.custom" )
+    String labelDomainCustom();
+
+    @Key( "label.domain.type" )
+    String labelDomainType();
+
+    @Key( "label.domain.type.subdomain" )
+    String labelDomainTypeSubdomain();
+
+    @Key( "label.domain.type.naked" )
+    String labelDomainTypeNaked();
+
+    @Key( "label.domain.verified" )
+    String labelDomainVerified();
+
+    @Key( "label.domain.placeholder.naked" )
+    String labelDomainPlaceholderNaked();
+
+    @Key( "label.domain.placeholder.subdomain" )
+    String labelDomainPlaceholderSubdomain();
 
     @Key( value = "label.discountCode" )
     String labelDiscountCode();
@@ -503,6 +527,12 @@ public interface AppMessages
 
     // tooltips
 
+    @Key( "tooltip.domain.tip.naked" )
+    String tooltipDomainTipNaked();
+
+    @Key( "tooltip.domain.tip.subdomain" )
+    String tooltipDomainTipSubdomain();
+
     @Key( value = "tooltip.new.contact" )
     String tooltipNewContact();
 
@@ -583,6 +613,9 @@ public interface AppMessages
     @Key( value = "msg.errorRecordDoesNotExists" )
     String msgErrorRecordDoesNotExists();
 
+    @Key( "msg.errorBadRequest" )
+    String msgErrorBadRequest( String p );
+
     @Key( value = "msg.msgConfirmOneRecordDelete" )
     String msgConfirmOneRecordDelete( String name );
 
@@ -602,7 +635,4 @@ public interface AppMessages
 
     @Key( value = "copyright" )
     String copyright();
-
-    @Key( "label.domain.custom" )
-    String labelDomainCustom();
 }

@@ -46,4 +46,8 @@ public class Preconditions
         return reference;
     }
 
+    public static boolean isNullOrEmpty( @Nullable String string )
+    {
+        return string == null || string.isEmpty();
+    }
 }

@@ -20,7 +20,9 @@ package biz.turnonline.ecosystem.widget.myaccount.view;
 
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
+import biz.turnonline.ecosystem.widget.myaccount.ui.DomainsPanel;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfigBillingAddress;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfigBillingContact;
@@ -50,6 +52,7 @@ import gwt.material.design.incubator.client.google.addresslookup.js.options.Plac
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -120,6 +123,9 @@ public class SettingsView
     @UiField
     LogoUploader stampUploader;
 
+    @UiField( provided = true )
+    DomainsPanel domains;
+
     @Inject
     public SettingsView( EventBus eventBus,
                          @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
@@ -128,6 +134,8 @@ public class SettingsView
         super( eventBus );
 
         this.breadcrumb = breadcrumb;
+        this.domains = new DomainsPanel( eventBus );
+
         setActive( Route.MY_ACCOUNT );
 
         add( binder.createAndBindUi( this ) );
@@ -261,6 +269,12 @@ public class SettingsView
     public void onSaveClick( ClickEvent event )
     {
         bus().fireEvent( new SaveInvoicingEvent( getModel() ) );
+    }
+
+    @Override
+    public void setDomains( List<Domain> data )
+    {
+        domains.setDomains( data );
     }
 
     interface SettingsViewUiBinder

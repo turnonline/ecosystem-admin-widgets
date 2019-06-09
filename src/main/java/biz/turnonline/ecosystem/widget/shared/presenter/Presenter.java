@@ -111,9 +111,13 @@ public abstract class Presenter<V extends IView, E extends EventBus>
     {
         if ( failure.isFailure() )
         {
-            if ( failure.statusCode() == 404 )
+            if ( failure.isNotFound() )
             {
                 error( AppMessages.INSTANCE.msgErrorRecordDoesNotExists() );
+            }
+            else if ( failure.isBadRequest() )
+            {
+                error( AppMessages.INSTANCE.msgErrorBadRequest( failure.response().getText() ) );
             }
             else
             {
