@@ -20,12 +20,14 @@ package biz.turnonline.ecosystem.widget.myaccount.ui;
 
 import biz.turnonline.ecosystem.widget.myaccount.event.CreateDomainEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.DomainDeleteEvent;
+import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -33,15 +35,21 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.data.SelectionType;
+import gwt.material.design.client.data.events.RowSelectEvent;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.table.AbstractDataTable;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
+import gwt.material.design.incubator.client.toggle.GroupToggleButton;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType.DT.ALL;
+import static biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType.DT.PRODUCTS;
+import static biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType.DT.ROOT;
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.isNullOrEmpty;
 
@@ -76,12 +84,23 @@ public class DomainsPanel
     @UiField
     ConfirmationWindow confirmationWindow;
 
+    @UiField
+    MaterialButton btnDelete;
+
+    @UiField
+    GroupToggleButton<SelectDomainType.DT> domainTypes;
+
     public DomainsPanel( @Nonnull EventBus bus )
     {
         this.bus = checkNotNull( bus );
 
         initWidget( binder.createAndBindUi( this ) );
         initTable();
+
+        domainTypes.addItem( messages.labelDomainSelectionDomains(), ROOT );
+        domainTypes.addItem( messages.labelDomainSelectionProducts(), PRODUCTS );
+        domainTypes.addItem( messages.labelDomainSelectionAll(), ALL );
+
         domain.setReturnBlankAsNull( true );
         subdomain.setReturnBlankAsNull( true );
 
@@ -101,6 +120,22 @@ public class DomainsPanel
             }
             bus.fireEvent( new DomainDeleteEvent( names ) );
         } );
+
+        table.addRowSelectHandler( this::rowSelected );
+    }
+
+    private void rowSelected( RowSelectEvent<Domain> event )
+    {
+        btnDelete.setEnabled( event.isSelected() );
+        if ( event.isSelected() )
+        {
+            Domain domain = event.getModel();
+            this.domain.setValue( domain.getDomain() );
+        }
+        else
+        {
+            this.domain.setValue( null );
+        }
     }
 
     private void initTable()
@@ -127,8 +162,7 @@ public class DomainsPanel
             @Override
             public String getValue( Domain domain )
             {
-                return isNullOrEmpty( domain.getSubdomain() )
-                        ? messages.labelDomainTypeNaked() : messages.labelDomainTypeSubdomain();
+                return evaluateDomainType( domain );
             }
         };
         column.setWidth( "35%" );
@@ -139,10 +173,58 @@ public class DomainsPanel
         table.addColumn( verified, messages.labelDomainVerified() );
     }
 
-    public void setDomains( @Nonnull List<Domain> data )
+    public void setDomains( @Nonnull List<Domain> data, @Nonnull SelectDomainType.DT type )
     {
         table.setVisibleRange( 0, data.size() );
         table.loaded( 0, data );
+
+        btnDelete.setEnabled( false );
+        domain.setValue( null );
+        subdomain.setValue( null );
+
+        switch ( type )
+        {
+            case ROOT:
+            {
+                domainTypes.setActive( 0, true );
+                domainTypes.setActive( 1, false );
+                domainTypes.setActive( 2, false );
+                break;
+            }
+            case PRODUCTS:
+            {
+                domainTypes.setActive( 0, false );
+                domainTypes.setActive( 1, true );
+                domainTypes.setActive( 2, false );
+                break;
+            }
+            case ALL:
+            {
+                domainTypes.setActive( 0, false );
+                domainTypes.setActive( 1, false );
+                domainTypes.setActive( 2, true );
+                break;
+            }
+        }
+    }
+
+    private String evaluateDomainType( Domain domain )
+    {
+        String type;
+        if ( isNullOrEmpty( domain.getSubdomain() ) && isNullOrEmpty( domain.getUri() ) )
+        {
+            type = messages.labelDomainTypeNaked();
+        }
+        else if ( !isNullOrEmpty( domain.getSubdomain() ) && isNullOrEmpty( domain.getUri() ) )
+        {
+            type = messages.labelDomainTypeSubdomain();
+        }
+        else
+        {
+            type = messages.labelDomainTypeProduct();
+        }
+
+        return type;
     }
 
     @UiHandler( "btnAdd" )
@@ -173,6 +255,13 @@ public class DomainsPanel
                 }
             } );
         }
+    }
+
+    @UiHandler( "domainTypes" )
+    void selection( SelectionEvent<Integer> e )
+    {
+        SelectDomainType.DT type = domainTypes.getValue( e.getSelectedItem() );
+        bus.fireEvent( new SelectDomainType( type ) );
     }
 
     interface DomainsPanelUiBinder

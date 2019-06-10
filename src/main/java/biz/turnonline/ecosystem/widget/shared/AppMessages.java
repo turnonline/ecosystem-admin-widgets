@@ -327,8 +327,20 @@ public interface AppMessages
     @Key( "label.domain.type.naked" )
     String labelDomainTypeNaked();
 
+    @Key( "label.domain.type.product" )
+    String labelDomainTypeProduct();
+
     @Key( "label.domain.verified" )
     String labelDomainVerified();
+
+    @Key( "label.domain.selection.domains" )
+    String labelDomainSelectionDomains();
+
+    @Key( "label.domain.selection.products" )
+    String labelDomainSelectionProducts();
+
+    @Key( "label.domain.selection.all" )
+    String labelDomainSelectionAll();
 
     @Key( "label.domain.placeholder.naked" )
     String labelDomainPlaceholderNaked();

@@ -21,6 +21,7 @@ package biz.turnonline.ecosystem.widget.myaccount.presenter;
 import biz.turnonline.ecosystem.widget.myaccount.event.CreateDomainEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.DomainDeleteEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
+import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -29,8 +30,12 @@ import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
+
+import static biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType.DT.ROOT;
 
 /**
  * Settings presenter.
@@ -40,6 +45,8 @@ import java.util.List;
 public class SettingsPresenter
         extends Presenter<SettingsPresenter.IView, AppEventBus>
 {
+    private static final int DOMAINS_LIMIT = 100;
+
     @Inject
     public SettingsPresenter( AppEventBus eventBus,
                               IView view,
@@ -72,23 +79,54 @@ public class SettingsPresenter
                                         ( response, failure ) -> domainDeleted( failure, name ) );
                     }
                 } );
+
+        bus().addHandler( SelectDomainType.TYPE, event -> loadDomains( event.getType() ) );
     }
 
     @Override
     public void onBackingObject()
     {
         bus().account().getInvoicingConfig( bus().config().getLoginId(), this::updateInvoicing );
-        loadDomains();
+        loadDomains( ROOT );
 
         onAfterBackingObject();
     }
 
     /**
      * Retrieves domains from the remote server with specified limit of records and sets result into view.
+     *
+     * @param type the type of the domains to load
      */
-    private void loadDomains()
+    private void loadDomains( @Nonnull SelectDomainType.DT type )
     {
-        bus().account().getDomains( bus().config().getLoginId(), 1000, r -> view().setDomains( r.getItems() ) );
+        switch ( type )
+        {
+            case ROOT:
+            {
+                String loginId = bus().config().getLoginId();
+                // merge result of 2 calls
+                bus().account().getFilteredDomains( loginId, DOMAINS_LIMIT, "naked",
+                        naked -> bus().account().getFilteredDomains( loginId, DOMAINS_LIMIT, "subdomain",
+                                subdomains -> {
+                                    List<Domain> data = new ArrayList<>( naked.getItems() );
+                                    data.addAll( subdomains.getItems() );
+                                    view().setDomains( data, type );
+                                } ) );
+                break;
+            }
+            case PRODUCTS:
+            {
+                bus().account().getFilteredDomains( bus().config().getLoginId(), DOMAINS_LIMIT, "product",
+                        r -> view().setDomains( r.getItems(), type ) );
+                break;
+            }
+            case ALL:
+            {
+                bus().account().getDomains( bus().config().getLoginId(), DOMAINS_LIMIT,
+                        r -> view().setDomains( r.getItems(), type ) );
+                break;
+            }
+        }
     }
 
     private void domainCreated( Domain domain, FacadeCallback.Failure failure )
@@ -96,7 +134,7 @@ public class SettingsPresenter
         message( messages.msgRecordUpdated(), failure );
         if ( failure.isSuccess() )
         {
-            loadDomains();
+            loadDomains( ROOT );
         }
     }
 
@@ -105,7 +143,7 @@ public class SettingsPresenter
         message( messages.msgRecordDeleted( name ), failure );
         if ( failure.isSuccess() )
         {
-            loadDomains();
+            loadDomains( ROOT );
         }
     }
 
@@ -129,6 +167,6 @@ public class SettingsPresenter
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<InvoicingConfig>
     {
-        void setDomains( List<Domain> data );
+        void setDomains( @Nonnull List<Domain> data, @Nonnull SelectDomainType.DT type );
     }
 }

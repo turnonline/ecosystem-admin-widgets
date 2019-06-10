@@ -71,8 +71,14 @@ public interface AccountStewardFacade
     @Path( "accounts/{login_id}/domains" )
     void getDomains( @PathParam( "login_id" ) String loginId,
                      @QueryParam( "limit" ) Integer limit,
-//                     @QueryParam( "type" ) String type,
                      SuccessCallback<Items<Domain>> callback );
+
+    @GET
+    @Path( "accounts/{login_id}/domains" )
+    void getFilteredDomains( @PathParam( "login_id" ) String loginId,
+                             @QueryParam( "limit" ) Integer limit,
+                             @QueryParam( "type" ) String type,
+                             SuccessCallback<Items<Domain>> callback );
 
     @POST
     @Path( "accounts/{login_id}/domains" )

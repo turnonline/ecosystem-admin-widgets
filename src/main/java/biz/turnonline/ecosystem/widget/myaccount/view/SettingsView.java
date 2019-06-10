@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.myaccount.view;
 
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
+import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
 import biz.turnonline.ecosystem.widget.myaccount.ui.DomainsPanel;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
@@ -50,6 +51,7 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -272,9 +274,9 @@ public class SettingsView
     }
 
     @Override
-    public void setDomains( List<Domain> data )
+    public void setDomains( @Nonnull List<Domain> data, @Nonnull SelectDomainType.DT type )
     {
-        domains.setDomains( data );
+        domains.setDomains( data, type );
     }
 
     interface SettingsViewUiBinder

@@ -102,6 +102,11 @@
                             </m:MaterialColumn>
                         </m:MaterialRow>
                     </m:MaterialPanel>
+                    <m:MaterialRow paddingBottom="10">
+                        <m:MaterialButton ui:field="btnSave" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE"
+                                          textColor="WHITE" iconType="CHECK" tooltip="{msg.tooltipSaveAccount}"
+                                          text="{msg.labelSave}"/>
+                    </m:MaterialRow>
                 </m:MaterialCollapsibleBody>
             </m:MaterialCollapsibleItem>
 
@@ -122,11 +127,5 @@
                 </m:MaterialCollapsibleBody>
             </m:MaterialCollapsibleItem>
         </m:MaterialCollapsible>
-
-        <m:MaterialRow paddingLeft="20" paddingTop="20" float="LEFT">
-            <m:MaterialButton ui:field="btnSave" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE"
-                              textColor="WHITE" iconType="CHECK" tooltip="{msg.tooltipSaveAccount}"
-                              text="{msg.labelSave}"/>
-        </m:MaterialRow>
     </g:HTMLPanel>
 </ui:UiBinder>
