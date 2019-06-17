@@ -35,11 +35,11 @@
                 <m:MaterialColumn m:id="tabDetail" grid="s12">
                     <o:OrderDetail ui:field="detail"/>
                 </m:MaterialColumn>
+                <m:MaterialColumn m:id="tabItems" grid="s12">
+                    <o:OrderItems ui:field="items"/>
+                </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabCustomer" grid="s12">
                     <s:CustomerPanel ui:field="customer"/>
-                </m:MaterialColumn>
-                <m:MaterialColumn m:id="tabItems" grid="s12">
-                    <s:Items ui:field="items"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

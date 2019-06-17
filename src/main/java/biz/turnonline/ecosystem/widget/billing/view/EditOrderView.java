@@ -24,9 +24,9 @@ import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
 import biz.turnonline.ecosystem.widget.billing.presenter.EditOrderPresenter;
 import biz.turnonline.ecosystem.widget.billing.ui.EditOrderTabs;
 import biz.turnonline.ecosystem.widget.billing.ui.OrderDetail;
+import biz.turnonline.ecosystem.widget.billing.ui.OrderItems;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.ui.CustomerPanel;
-import biz.turnonline.ecosystem.widget.shared.ui.Items;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -53,8 +53,6 @@ public class EditOrderView
 {
     private static EditOrderViewUiBinder binder = GWT.create( EditOrderViewUiBinder.class );
 
-    private PlaceController controller;
-
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
 
@@ -68,20 +66,17 @@ public class EditOrderView
     CustomerPanel<Order> customer;
 
     @UiField( provided = true )
-    Items<Order> items;
-
-    // -- buttons
+    OrderItems items;
 
     @UiField
     MaterialButton btnSave;
 
+    // -- buttons
+
     @UiField
     MaterialButton btnBack;
 
-    interface EditOrderViewUiBinder
-            extends UiBinder<HTMLPanel, EditOrderView>
-    {
-    }
+    private PlaceController controller;
 
     @Inject
     public EditOrderView( EventBus eventBus,
@@ -96,7 +91,7 @@ public class EditOrderView
         setActive( Route.ORDERS );
 
         customer = new CustomerPanel<>( eventBus );
-        items = new Items<>( eventBus );
+        items = new OrderItems( eventBus );
 
         add( binder.createAndBindUi( this ) );
     }
@@ -136,5 +131,10 @@ public class EditOrderView
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveOrderEvent( getModel() ) );
+    }
+
+    interface EditOrderViewUiBinder
+            extends UiBinder<HTMLPanel, EditOrderView>
+    {
     }
 }

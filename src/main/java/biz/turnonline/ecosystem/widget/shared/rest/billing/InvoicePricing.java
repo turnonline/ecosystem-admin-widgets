@@ -30,7 +30,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  * @author Google, Inc.
  */
 @SuppressWarnings( "javadoc" )
-public final class InvoicePricing implements HasPricingItems
+public final class InvoicePricing
 {
     /**
      * The value may be {@code null}.

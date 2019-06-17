@@ -1,8 +1,27 @@
-package biz.turnonline.ecosystem.widget.shared.ui;
+/*
+ * Copyright (c) 2019 Comvai, s.r.o. All Rights Reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.HasPricingItems;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,34 +48,16 @@ import java.util.List;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class Items<T extends HasPricingItems>
+public class BillingItems
         extends Composite
-        implements HasModel<T>
+        implements HasModel<InvoicePricing>
 {
     private static AppMessages messages = AppMessages.INSTANCE;
 
     private static ItemsUiBinder binder = GWT.create( ItemsUiBinder.class );
 
-    interface ItemsUiBinder
-            extends UiBinder<HTMLPanel, Items>
-    {
-    }
-
-    private List<PricingItem> values = new ArrayList<>();
-
-    private EventBus eventBus;
-
-    @UiField
-    Table itemsRoot;
-
-    @UiField
-    MaterialButton btnAdd;
-
-    @UiField
-    MaterialButton btnDelete;
-
     @Inject
-    public Items( EventBus eventBus )
+    public BillingItems( EventBus eventBus )
     {
         this.eventBus = eventBus;
 
@@ -80,15 +81,28 @@ public class Items<T extends HasPricingItems>
         itemsRoot.addBody( new MaterialWidget( DOM.createTBody() ) );
     }
 
+    private List<PricingItem> values = new ArrayList<>();
+
+    private EventBus eventBus;
+
+    @UiField
+    Table itemsRoot;
+
+    @UiField
+    MaterialButton btnAdd;
+
+    @UiField
+    MaterialButton btnDelete;
+
     @Override
-    public void bind( T hasPricingItems )
+    public void bind( InvoicePricing pricing )
     {
-        hasPricingItems.setItems( new ArrayList<>() );
+        pricing.setItems( new ArrayList<>() );
 
         for ( int i = 0; i < itemsRoot.getWidgetCount(); i++ )
         {
             PricingItem pricingItem = new PricingItem();
-            hasPricingItems.getItems().add( pricingItem );
+            pricing.getItems().add( pricingItem );
 
             Item item = ( Item ) itemsRoot.getWidget( i );
             item.bind( pricingItem );
@@ -96,15 +110,20 @@ public class Items<T extends HasPricingItems>
     }
 
     @Override
-    public void fill( T hasPricingItems )
+    public void fill( InvoicePricing pricing )
     {
         itemsRoot.getBody().clear();
         values.clear();
 
-        if ( hasPricingItems.getItems() != null )
+        if ( pricing.getItems() != null )
         {
-            hasPricingItems.getItems().forEach( this::addPricingItem );
+            pricing.getItems().forEach( this::addPricingItem );
         }
+    }
+
+    interface ItemsUiBinder
+            extends UiBinder<HTMLPanel, BillingItems>
+    {
     }
 
     @UiHandler( "btnAdd" )

@@ -22,13 +22,13 @@ import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.presenter.EditInvoicePresenter;
+import biz.turnonline.ecosystem.widget.billing.ui.BillingItems;
 import biz.turnonline.ecosystem.widget.billing.ui.EditInvoiceTabs;
 import biz.turnonline.ecosystem.widget.billing.ui.InvoiceDetail;
 import biz.turnonline.ecosystem.widget.billing.ui.InvoiceTransactions;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.ui.CustomerPanel;
-import biz.turnonline.ecosystem.widget.shared.ui.Items;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -72,7 +72,7 @@ public class EditInvoiceView
     CustomerPanel<Invoice> customer;
 
     @UiField( provided = true )
-    Items<InvoicePricing> items;
+    BillingItems items;
 
     @UiField( provided = true )
     InvoiceTransactions transactions;
@@ -103,7 +103,7 @@ public class EditInvoiceView
         setActive( Route.INVOICES );
 
         customer = new CustomerPanel<>( eventBus );
-        items = new Items<>( eventBus );
+        items = new BillingItems( eventBus );
         transactions = new InvoiceTransactions( );
 
         add( binder.createAndBindUi( this ) );

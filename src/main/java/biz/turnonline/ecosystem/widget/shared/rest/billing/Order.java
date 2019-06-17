@@ -33,7 +33,7 @@ import java.util.Date;
  */
 @SuppressWarnings( "javadoc" )
 public final class Order
-        implements HasCustomer, HasPricingItems
+        implements HasCustomer
 {
     /**
      * The value may be {@code null}.
