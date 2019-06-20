@@ -75,6 +75,9 @@ public interface AppMessages
     @Key( value = "label.items" )
     String labelItems();
 
+    @Key( "label.orderItems" )
+    String labelOrderItems();
+
     @Key( value = "label.transactions" )
     String labelTransactions();
 

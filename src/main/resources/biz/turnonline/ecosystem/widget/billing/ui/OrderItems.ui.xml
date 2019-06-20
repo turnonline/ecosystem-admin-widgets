@@ -26,11 +26,6 @@
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m12">
-                <ma:tree.MaterialTree ui:field="pricingTree" paddingBottom="20">
-                    <ma:tree.MaterialTreeItem iconType="FOLDER" text="Order items">
-                    </ma:tree.MaterialTreeItem>
-                </ma:tree.MaterialTree>
-
                 <m:MaterialButton ui:field="btnAdd" type="OUTLINED" waves="GREEN" backgroundColor="WHITE"
                                   textColor="GREEN" iconType="ADD_CIRCLE" text="{msg.labelAdd}"
                                   marginTop="10" marginBottom="10" marginRight="10"/>
@@ -44,6 +39,8 @@
 
                 <m:MaterialIcon ui:field="btnExpand" tooltip="Expand" iconType="ZOOM_OUT_MAP" marginTop="12"
                                 iconColor="BLUE" circle="true" waves="DEFAULT"/>
+
+                <ma:tree.MaterialTree ui:field="pricingTree" paddingBottom="20"/>
 
                 <t:Table ui:field="itemsRoot" class="table"/>
             </m:MaterialColumn>

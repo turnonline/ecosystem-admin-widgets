@@ -18,13 +18,13 @@
 
 package biz.turnonline.ecosystem.widget.billing.ui;
 
+import biz.turnonline.ecosystem.widget.billing.event.RowItemAtOrderSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -33,11 +33,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.tree.MaterialTree;
-import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.table.Table;
 import gwt.material.design.client.ui.table.TableData;
@@ -74,14 +71,12 @@ public class OrderItems
     @UiField
     MaterialButton btnDelete;
 
-    private List<PricingItem> values = new ArrayList<>();
-
-    private EventBus eventBus;
+    private EventBus bus;
 
     @Inject
     public OrderItems( EventBus eventBus )
     {
-        this.eventBus = eventBus;
+        this.bus = eventBus;
 
         initWidget( binder.createAndBindUi( this ) );
 
@@ -99,6 +94,16 @@ public class OrderItems
         thRow.add( header( messages.labelVat(), "15%" ) );
         thead.add( thRow );
 
+        btnAdd.setEnabled( false );
+        btnDelete.setEnabled( false );
+
+        bus.addHandler( RowItemAtOrderSelectionEvent.TYPE, event -> btnDelete.setEnabled( event.isSelected() ) );
+
+        pricingTree.addSelectionHandler( event -> {
+            btnAdd.setEnabled( true );
+            clearAndPopulateRows( ( TreeItemWithModel ) event.getSelectedItem() );
+        } );
+
         // body
         itemsRoot.addBody( new MaterialWidget( DOM.createTBody() ) );
     }
@@ -113,7 +118,7 @@ public class OrderItems
             PricingItem pricingItem = new PricingItem();
             order.getItems().add( pricingItem );
 
-            Item item = ( Item ) itemsRoot.getWidget( i );
+            RowItem item = ( RowItem ) itemsRoot.getWidget( i );
             item.bind( pricingItem );
         }
     }
@@ -121,33 +126,75 @@ public class OrderItems
     @Override
     public void fill( Order order )
     {
+        List<PricingItem> orderItems = order.getItems();
+        TreeItemWithModel parent = TreeItemWithModel.parent( bus );
+
         itemsRoot.getBody().clear();
-        values.clear();
         pricingTree.clear();
+        pricingTree.add( parent );
+        pricingTree.setSelectedItem( parent );
 
-        MaterialTreeItem tItem = new MaterialTreeItem( "Order items" );
-        tItem.setIconType( IconType.FOLDER );
-
-        pricingTree.add( tItem );
-        pricingTree.setSelectedItem( tItem );
-
-        if ( order.getItems() != null )
+        if ( orderItems != null )
         {
-            order.getItems().forEach( pi -> chainAddPricingItem( pi, pricingTree.getSelectedItem() ) );
+            orderItems.forEach( pi -> chainAddPricingItem( pi, parent ) );
+        }
+
+        clearAndPopulateRows( parent );
+        pricingTree.expand();
+    }
+
+    private void chainAddPricingItem( @Nonnull PricingItem pi, @Nonnull TreeItemWithModel parent )
+    {
+        TreeItemWithModel inner = parent.add( pi );
+        List<PricingItem> items = pi.getItems();
+
+        if ( items != null && !items.isEmpty() )
+        {
+            for ( PricingItem item : items )
+            {
+                chainAddPricingItem( item, inner );
+            }
         }
     }
 
-    private void chainAddPricingItem( @Nonnull PricingItem pi, @Nonnull MaterialTreeItem parent )
+    private void clearAndPopulateRows( @Nonnull TreeItemWithModel item )
     {
-        MaterialTreeItem innerParent = addPricingItem( pi, parent );
+        itemsRoot.getBody().clear();
+        btnDelete.setEnabled( false );
 
-        if ( pi.getItems() != null && !pi.getItems().isEmpty() )
+        List<RowItem> items = item.getChildrenRows();
+        if ( items != null )
         {
-            for ( PricingItem item : pi.getItems() )
-            {
-                chainAddPricingItem( item, innerParent );
-            }
+            items.forEach( i -> {
+                if ( !btnDelete.isEnabled() && i.getSelected().getValue() )
+                {
+                    // make delete button enabled if there is already at least one row selected
+                    btnDelete.setEnabled( true );
+                }
+                itemsRoot.getBody().add( i );
+            } );
         }
+    }
+
+    private void deleteSelectedRows()
+    {
+        itemsRoot.getBody().getChildrenList().forEach( widget -> {
+            if ( ( ( RowItem ) widget ).getSelected().getValue() )
+            {
+                ( ( RowItem ) widget ).remove();
+            }
+        } );
+
+        // disabled as all selected rows just has been removed
+        btnDelete.setEnabled( false );
+    }
+
+    private TableData header( String label, String width )
+    {
+        TableHeader header = new TableHeader();
+        header.add( new Label( label ) );
+        header.setWidth( width );
+        return header;
     }
 
     @UiHandler( "btnCollapse" )
@@ -165,7 +212,13 @@ public class OrderItems
     @UiHandler( "btnAdd" )
     public void handleAdd( ClickEvent event )
     {
-        addPricingItem( new PricingItem(), pricingTree.getSelectedItem() );
+        TreeItemWithModel selected = ( TreeItemWithModel ) pricingTree.getSelectedItem();
+
+        PricingItem item = new PricingItem();
+        item.setPriceExclVat( 0D );
+        item.setCurrency( "EUR" );
+
+        itemsRoot.getBody().add( selected.add( item ).getRowItem() );
     }
 
     @UiHandler( "btnDelete" )
@@ -174,79 +227,9 @@ public class OrderItems
         deleteSelectedRows();
     }
 
-    private MaterialTreeItem addPricingItem( @Nonnull PricingItem pi, @Nonnull MaterialTreeItem parent )
-    {
-        values.add( pi );
-
-        Item item = new Item( eventBus );
-        item.fill( pi );
-        itemsRoot.getBody().add( item );
-
-        MaterialTreeItem tItem = new MaterialTreeItem();
-        String itemName;
-        if ( pi.getCurrency() != null && pi.getPriceExclVat() != null )
-        {
-            itemName = pi.getItemName()
-                    + " - "
-                    + NumberFormat.getCurrencyFormat( pi.getCurrency() ).format( pi.getPriceExclVat() );
-        }
-        else
-        {
-            itemName = pi.getItemName();
-        }
-        tItem.setText( itemName );
-
-        if ( "Standard".equalsIgnoreCase( pi.getItemType() ) )
-        {
-            tItem.setIconType( IconType.LOOKS_ONE );
-        }
-        else if ( "OrderItem".equalsIgnoreCase( pi.getItemType() ) )
-        {
-            tItem.setIconType( IconType.POLL );
-        }
-        else if ( "Attendee".equalsIgnoreCase( pi.getItemType() ) )
-        {
-            tItem.setIconType( IconType.PEOPLE );
-        }
-        else if ( "EventPart".equalsIgnoreCase( pi.getItemType() ) )
-        {
-            tItem.setIconType( IconType.EVENT );
-        }
-
-        parent.addItem( tItem );
-        return tItem;
-    }
-
-    private void deleteSelectedRows()
-    {
-        List<Item> rowsToDelete = new ArrayList<>();
-        List<PricingItem> itemsToDelete = new ArrayList<>();
-
-        for ( int i = 0; i < itemsRoot.getBody().getWidgetCount(); i++ )
-        {
-            Item item = ( Item ) itemsRoot.getBody().getWidget( i );
-            MaterialCheckBox selected = item.getSelected();
-            if ( selected.getValue() )
-            {
-                rowsToDelete.add( item );
-                itemsToDelete.add( values.get( i ) );
-            }
-        }
-
-        rowsToDelete.forEach( item -> itemsRoot.getBody().remove( item ) );
-        values.removeAll( itemsToDelete );
-    }
-
-    private TableData header( String label, String width )
-    {
-        TableHeader header = new TableHeader();
-        header.add( new Label( label ) );
-        header.setWidth( width );
-        return header;
-    }
-
     interface ItemsUiBinder
             extends UiBinder<HTMLPanel, OrderItems>
     {
     }
+
 }
