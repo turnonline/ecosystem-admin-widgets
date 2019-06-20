@@ -29,6 +29,7 @@ import biz.turnonline.ecosystem.widget.billing.view.EditInvoiceView;
 import biz.turnonline.ecosystem.widget.billing.view.EditOrderView;
 import biz.turnonline.ecosystem.widget.billing.view.InvoicesView;
 import biz.turnonline.ecosystem.widget.billing.view.OrdersView;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
@@ -134,6 +135,13 @@ public abstract class BillingModule
     static SearchFacade provideSearchFacade()
     {
         return GWT.create( SearchFacade.class );
+    }
+
+    @Singleton
+    @Provides
+    static AddressLookupListener provideAddressLookupListener( Configuration config )
+    {
+        return config.initAddressLookupListener();
     }
 
     // -- breadcrumbs

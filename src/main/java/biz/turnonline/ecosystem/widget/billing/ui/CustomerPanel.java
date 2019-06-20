@@ -1,5 +1,24 @@
-package biz.turnonline.ecosystem.widget.shared.ui;
+/*
+ * Copyright (c) 2019 Comvai, s.r.o. All Rights Reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
+package biz.turnonline.ecosystem.widget.billing.ui;
+
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
@@ -9,8 +28,11 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.CustomerPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.HasCustomer;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchContact;
+import biz.turnonline.ecosystem.widget.shared.ui.ContactAutoComplete;
+import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
+import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
+import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -18,12 +40,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
-import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
-import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
 /**
@@ -122,7 +142,7 @@ public class CustomerPanel<T extends HasCustomer>
 
     private EventBus eventBus;
 
-    public CustomerPanel( EventBus eventBus )
+    public CustomerPanel( EventBus eventBus, AddressLookupListener addressLookup )
     {
         this.eventBus = eventBus;
 
@@ -131,21 +151,9 @@ public class CustomerPanel<T extends HasCustomer>
         initWidget( binder.createAndBindUi( this ) );
 
         // Loading google map API
-        String mapsApiKey = ( ( AppEventBus ) eventBus ).config().getMapsApiKey();
-        ApiRegistry.register( new AddressLookupApi( mapsApiKey ), new Callback<Void, Exception>()
-        {
-            @Override
-            public void onFailure( Exception reason )
-            {
-                GWT.log( "Error occur during registration google maps api", reason );
-            }
-
-            @Override
-            public void onSuccess( Void result )
-            {
-                street.load();
-                postalStreet.load();
-            }
+        addressLookup.onLoad( () -> {
+            street.load();
+            postalStreet.load();
         } );
 
         street.addPlaceChangedHandler( event -> {
@@ -245,7 +253,7 @@ public class CustomerPanel<T extends HasCustomer>
 
         // company
         businessName.getItemBox().setValue( customer.getBusinessName() );
-        businessName.getLabel().addStyleName( CssName.ACTIVE); // fix visualization bug
+        businessName.getLabel().addStyleName( CssName.ACTIVE ); // fix visualization bug
         companyId.setValue( customer.getCompanyId() );
         vatId.setValue( customer.getVatId() );
         taxId.setValue( customer.getTaxId() );
