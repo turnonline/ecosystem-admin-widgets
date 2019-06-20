@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
+import biz.turnonline.ecosystem.widget.billing.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
@@ -26,6 +27,7 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -65,6 +67,9 @@ public class EditOrderPresenter
                         ( SuccessCallback<Order> ) response -> success( messages.msgRecordUpdated() ) );
             }
         } );
+
+        bus().addHandler( CalculatePricingEvent.TYPE, event ->
+                bus().billing().calculate( event.getPricing(), response -> view().update( response ) ) );
     }
 
     @Override
@@ -89,5 +94,6 @@ public class EditOrderPresenter
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Order>
     {
+        void update( Pricing pricing );
     }
 }

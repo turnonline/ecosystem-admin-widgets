@@ -26,6 +26,10 @@
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m12">
+                <m:MaterialButton ui:field="btnCalculate" type="OUTLINED" waves="GREEN" backgroundColor="WHITE"
+                                  textColor="GREEN" iconType="INPUT" text="{msg.labelCalculate}"
+                                  marginTop="10" marginBottom="10" marginRight="10"/>
+
                 <m:MaterialButton ui:field="btnAdd" type="OUTLINED" waves="GREEN" backgroundColor="WHITE"
                                   textColor="GREEN" iconType="ADD_CIRCLE" text="{msg.labelAdd}"
                                   marginTop="10" marginBottom="10" marginRight="10"/>

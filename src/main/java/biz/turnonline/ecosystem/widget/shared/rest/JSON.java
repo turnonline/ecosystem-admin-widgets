@@ -4,6 +4,8 @@ import com.github.nmorel.gwtjackson.client.JsonDeserializationContext;
 import com.github.nmorel.gwtjackson.client.ObjectMapper;
 
 /**
+ * JSON convenient methods to serialize and deserialize objects.
+ *
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class JSON
@@ -21,5 +23,11 @@ public class JSON
     public static <T> T parse( String json, ObjectMapper<T> objectMapper )
     {
         return objectMapper.read( json, JSON_DESERIALIZATION_CTX );
+    }
+
+    public static <T> T clone( T object, ObjectMapper<T> mapper )
+    {
+        String string = JSON.stringify( object, mapper );
+        return JSON.parse( string, mapper );
     }
 }

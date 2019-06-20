@@ -28,6 +28,7 @@ import biz.turnonline.ecosystem.widget.billing.ui.OrderDetail;
 import biz.turnonline.ecosystem.widget.billing.ui.OrderItems;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -105,7 +106,7 @@ public class EditOrderView
 
         detail.bind( order );
         customer.bind( order );
-        items.bind( order );
+        order.setItems( items.bind() );
     }
 
     @Override
@@ -115,7 +116,7 @@ public class EditOrderView
 
         detail.fill( order );
         customer.fill( order );
-        items.fill( order );
+        items.fill( order.getItems() );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditOrder where = ( EditOrder ) controller.getWhere();
@@ -133,6 +134,12 @@ public class EditOrderView
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveOrderEvent( getModel() ) );
+    }
+
+    @Override
+    public void update( Pricing pricing )
+    {
+        items.update( pricing );
     }
 
     interface EditOrderViewUiBinder

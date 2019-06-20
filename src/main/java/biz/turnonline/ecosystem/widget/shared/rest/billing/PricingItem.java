@@ -36,169 +36,141 @@ public final class PricingItem
     /**
      * The value may be {@code null}.
      */
-    
     private Double amount;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Boolean checkedIn;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String currency;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Boolean discountApplied;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String discountCode;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Boolean discountCodeDefined;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Boolean discountDefined;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double finalPrice;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double finalPriceExclVat;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double finalValueAddedTax;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String finalVat;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double finalVatBase;
 
     /**
      * The value may be {@code null}.
      */
-
     private Long id;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String inline;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String itemName;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String itemType;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String itemUrl;
 
     /**
      * The value may be {@code null}.
      */
-    
     private java.util.List<PricingItem> items;
 
     /**
      * The value may be {@code null}.
      */
-    
     private ProductMetaFields metaFields;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Integer order;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double priceExclVat;
 
     /**
      * The value may be {@code null}.
      */
-    
     private PricingProduct product;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String snippet;
 
     /**
      * The value may be {@code null}.
      */
-    
     private java.util.Map<String, Object> subsidiary;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String thumbnailUrl;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String unit;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double valueAddedTax;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String vat;
 
     /**

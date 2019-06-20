@@ -146,6 +146,10 @@ public interface ProductBillingFacade
                         @PathParam( "invoice_id" ) Long invoiceId,
                         FacadeCallback<Void> callback );
 
+    @POST
+    @Path( "prices" )
+    void calculate( Pricing pricing, SuccessCallback<Pricing> callback );
+
     // codebooks
 
     @GET

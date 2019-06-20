@@ -177,6 +177,9 @@ public interface AppMessages
     @Key( value = "label.confirmation" )
     String labelConfirmation();
 
+    @Key( "label.calculate" )
+    String labelCalculate();
+
     @Key( value = "label.street" )
     String labelStreet();
 

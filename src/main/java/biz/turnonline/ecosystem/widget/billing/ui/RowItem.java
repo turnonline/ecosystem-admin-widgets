@@ -28,7 +28,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
 import biz.turnonline.ecosystem.widget.shared.ui.BillingUnitComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.ProductAutoComplete;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
@@ -51,9 +50,8 @@ import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class RowItem
+class RowItem
         extends Composite
-        implements HasModel<PricingItem>
 {
     private static AppMessages messages = AppMessages.INSTANCE;
 
@@ -86,7 +84,7 @@ public class RowItem
 
     private TableRow row;
 
-    public RowItem( @Nonnull EventBus eventBus, @Nonnull TreeItemWithModel treeItem )
+    RowItem( @Nonnull EventBus eventBus, @Nonnull TreeItemWithModel treeItem )
     {
         this.bus = checkNotNull( eventBus );
         this.treeItem = checkNotNull( treeItem );
@@ -111,8 +109,7 @@ public class RowItem
         ( ( TableData ) vat.getParent() ).setDataAttribute( "data-title", messages.labelVat() );
     }
 
-    @Override
-    public void bind( PricingItem model )
+    private void bindFromUI( PricingItem model )
     {
         model.setItemName( itemName.getItemBox().getValue() );
         model.setAmount( amount.getValue() );
@@ -122,7 +119,18 @@ public class RowItem
         model.setUnit( unit.getSingleValueByCode() );
     }
 
-    @Override
+    /**
+     * Updates the associated pricing item with the values from UI and returns its instance.
+     *
+     * @return the updated pricing item
+     */
+    public PricingItem bind()
+    {
+        PricingItem model = treeItem.getModel();
+        bindFromUI( ( model ) );
+        return model;
+    }
+
     public void fill( PricingItem model )
     {
         itemName.getItemBox().setValue( model.getItemName() );
@@ -144,9 +152,19 @@ public class RowItem
     }
 
     /**
+     * Returns tree item that's being associated with this row item
+     *
+     * @return the associated tree item
+     */
+    TreeItemWithModel getTreeItem()
+    {
+        return treeItem;
+    }
+
+    /**
      * Removes this row item widget from the pricing tree component and table of rows too.
      */
-    public void remove()
+    void remove()
     {
         treeItem.removeFromParent();
         treeItem.remove( this );

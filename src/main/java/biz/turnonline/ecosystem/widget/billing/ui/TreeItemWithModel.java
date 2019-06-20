@@ -114,6 +114,31 @@ class TreeItemWithModel
         return widgets;
     }
 
+    public List<PricingItem> bind()
+    {
+        List<PricingItem> items = new ArrayList<>();
+        TreeItemWithModel treeItem;
+
+        for ( RowItem next : childrenRows )
+        {
+            treeItem = next.getTreeItem();
+            items.add( next.bind() );
+            treeItem.bind();
+        }
+
+        return items;
+    }
+
+    /**
+     * Returns the model associated with this tree item.
+     *
+     * @return the associated pricing item
+     */
+    public PricingItem getModel()
+    {
+        return model;
+    }
+
     /**
      * Returns current list of row items that are created from items of associated model {@link PricingItem#getItems()}.
      *

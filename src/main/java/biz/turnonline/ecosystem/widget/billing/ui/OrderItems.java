@@ -18,11 +18,13 @@
 
 package biz.turnonline.ecosystem.widget.billing.ui;
 
+import biz.turnonline.ecosystem.widget.billing.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.billing.event.RowItemAtOrderSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.JSON;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
+import com.github.nmorel.gwtjackson.client.ObjectMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -43,7 +45,6 @@ import gwt.material.design.client.ui.table.TableRow;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,7 +54,6 @@ import java.util.List;
  */
 public class OrderItems
         extends Composite
-        implements HasModel<Order>
 {
     private static AppMessages messages = AppMessages.INSTANCE;
 
@@ -66,12 +66,19 @@ public class OrderItems
     Table itemsRoot;
 
     @UiField
+    MaterialButton btnCalculate;
+
+    @UiField
     MaterialButton btnAdd;
 
     @UiField
     MaterialButton btnDelete;
 
+    private TreeItemWithModel rootTreeItem;
+
     private EventBus bus;
+
+    private PricingItemMapper mapper;
 
     @Inject
     public OrderItems( EventBus eventBus )
@@ -79,6 +86,7 @@ public class OrderItems
         this.bus = eventBus;
 
         initWidget( binder.createAndBindUi( this ) );
+        mapper = GWT.create( PricingItemMapper.class );
 
         // header
         MaterialWidget thead = new MaterialWidget( DOM.createTHead() );
@@ -108,39 +116,37 @@ public class OrderItems
         itemsRoot.addBody( new MaterialWidget( DOM.createTBody() ) );
     }
 
-    @Override
-    public void bind( Order order )
+    /**
+     * Binds all pricing items with the values from UI and returns its instances as list.
+     *
+     * @return the actual pricing item list
+     */
+    public List<PricingItem> bind()
     {
-        order.setItems( new ArrayList<>() );
-
-        for ( int i = 0; i < itemsRoot.getWidgetCount(); i++ )
-        {
-            PricingItem pricingItem = new PricingItem();
-            order.getItems().add( pricingItem );
-
-            RowItem item = ( RowItem ) itemsRoot.getWidget( i );
-            item.bind( pricingItem );
-        }
+        return rootTreeItem.bind();
     }
 
-    @Override
-    public void fill( Order order )
+    public void fill( List<PricingItem> items )
     {
-        List<PricingItem> orderItems = order.getItems();
-        TreeItemWithModel parent = TreeItemWithModel.parent( bus );
+        rootTreeItem = TreeItemWithModel.parent( bus );
 
         itemsRoot.getBody().clear();
         pricingTree.clear();
-        pricingTree.add( parent );
-        pricingTree.setSelectedItem( parent );
+        pricingTree.add( rootTreeItem );
+        pricingTree.setSelectedItem( rootTreeItem );
 
-        if ( orderItems != null )
+        if ( items != null )
         {
-            orderItems.forEach( pi -> chainAddPricingItem( pi, parent ) );
+            items.forEach( pi -> chainAddPricingItem( JSON.clone( pi, mapper ), rootTreeItem ) );
         }
 
-        clearAndPopulateRows( parent );
+        clearAndPopulateRows( rootTreeItem );
         pricingTree.expand();
+    }
+
+    public void update( Pricing pricing )
+    {
+        fill( pricing.getItems() );
     }
 
     private void chainAddPricingItem( @Nonnull PricingItem pi, @Nonnull TreeItemWithModel parent )
@@ -209,6 +215,15 @@ public class OrderItems
         pricingTree.expand();
     }
 
+    @UiHandler( "btnCalculate" )
+    void onCalculate( ClickEvent e )
+    {
+        Pricing pricing = new Pricing();
+        pricing.setItems( bind() );
+
+        bus.fireEvent( new CalculatePricingEvent( pricing ) );
+    }
+
     @UiHandler( "btnAdd" )
     public void handleAdd( ClickEvent event )
     {
@@ -225,6 +240,11 @@ public class OrderItems
     public void handleDelete( ClickEvent event )
     {
         deleteSelectedRows();
+    }
+
+    interface PricingItemMapper
+            extends ObjectMapper<PricingItem>
+    {
     }
 
     interface ItemsUiBinder

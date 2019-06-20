@@ -35,61 +35,51 @@ public final class Pricing
     /**
      * The value may be {@code null}.
      */
-    
     private Boolean appliedReverseCharge;
 
     /**
      * The value may be {@code null}.
      */
-    
     private PricingCustomer customer;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Boolean discountApplied;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Boolean discountDefined;
 
     /**
      * The value may be {@code null}.
      */
-    
     private java.util.List<PricingItem> items;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double noDiscountTotalPrice;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double noDiscountTotalPriceExclVat;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double totalPrice;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double totalPriceExclVat;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double totalVatBase;
 
     /**
@@ -261,5 +251,4 @@ public final class Pricing
         this.totalVatBase = totalVatBase;
         return this;
     }
-
 }
