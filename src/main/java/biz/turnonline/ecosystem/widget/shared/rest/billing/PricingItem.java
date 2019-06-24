@@ -133,6 +133,8 @@ public final class PricingItem
      */
     private Integer order;
 
+    private String parentKey;
+
     /**
      * The value may be {@code null}.
      */
@@ -511,6 +513,16 @@ public final class PricingItem
     {
         this.order = order;
         return this;
+    }
+
+    public String getParentKey()
+    {
+        return parentKey;
+    }
+
+    public void setParentKey( String parentKey )
+    {
+        this.parentKey = parentKey;
     }
 
     /**
