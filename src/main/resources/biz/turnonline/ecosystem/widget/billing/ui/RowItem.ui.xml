@@ -34,10 +34,7 @@
             <s:BillingUnitComboBox ui:field="unit"/>
         </t:TableData>
         <t:TableData>
-            <m:MaterialDoubleBox ui:field="priceExclusiveVat"/>
-        </t:TableData>
-        <t:TableData>
-            <s:CurrencyComboBox ui:field="currency"/>
+            <m:MaterialDoubleBox ui:field="priceExclVat"/>
         </t:TableData>
         <t:TableData>
             <s:VatRateComboBox ui:field="vat"/>

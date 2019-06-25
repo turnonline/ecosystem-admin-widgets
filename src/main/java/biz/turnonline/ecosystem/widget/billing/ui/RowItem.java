@@ -27,7 +27,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
 import biz.turnonline.ecosystem.widget.shared.ui.BillingUnitComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.ProductAutoComplete;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
@@ -42,6 +41,7 @@ import gwt.material.design.client.ui.table.TableData;
 import gwt.material.design.client.ui.table.TableRow;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
@@ -71,10 +71,7 @@ class RowItem
     MaterialDoubleBox amount;
 
     @UiField
-    MaterialDoubleBox priceExclusiveVat;
-
-    @UiField
-    CurrencyComboBox currency;
+    MaterialDoubleBox priceExclVat;
 
     @UiField
     VatRateComboBox vat;
@@ -104,8 +101,7 @@ class RowItem
         ( ( TableData ) itemName.getParent() ).setDataAttribute( "data-title", messages.labelItemName() );
         ( ( TableData ) amount.getParent() ).setDataAttribute( "data-title", messages.labelAmount() );
         ( ( TableData ) unit.getParent() ).setDataAttribute( "data-title", messages.labelUnit() );
-        ( ( TableData ) priceExclusiveVat.getParent() ).setDataAttribute( "data-title", messages.labelPriceExclusiveVat() );
-        ( ( TableData ) currency.getParent() ).setDataAttribute( "data-title", messages.labelCurrency() );
+        ( ( TableData ) priceExclVat.getParent() ).setDataAttribute( "data-title", messages.labelPriceExcludingVat() );
         ( ( TableData ) vat.getParent() ).setDataAttribute( "data-title", messages.labelVat() );
     }
 
@@ -113,8 +109,7 @@ class RowItem
     {
         model.setItemName( itemName.getItemBox().getValue() );
         model.setAmount( amount.getValue() );
-        model.setPriceExclVat( priceExclusiveVat.getValue() );
-        model.setCurrency( currency.getSingleValue() );
+        model.setPriceExclVat( priceExclVat.getValue() );
         model.setVat( vat.getSingleValueByCode() );
         model.setUnit( unit.getSingleValueByCode() );
     }
@@ -131,14 +126,17 @@ class RowItem
         return model;
     }
 
-    public void fill( PricingItem model )
+    public void fill( @Nonnull PricingItem model )
     {
         itemName.getItemBox().setValue( model.getItemName() );
         amount.setValue( model.getAmount() != null ? model.getAmount() : 1D );
-        priceExclusiveVat.setValue( model.getPriceExclVat() );
-        currency.setSingleValue( model.getCurrency() );
+        priceExclVat.setValue( model.getPriceExclVat() );
         vat.setSingleValueByCode( model.getVat() );
+        vat.setReadOnly( !treeItem.isRoot() );
         unit.setSingleValueByCode( model.getUnit() );
+
+        List<PricingItem> items = model.getItems();
+        amount.setReadOnly( items != null && !items.isEmpty() );
     }
 
     public MaterialCheckBox getSelected()

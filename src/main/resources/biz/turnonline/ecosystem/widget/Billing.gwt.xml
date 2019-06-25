@@ -28,6 +28,7 @@
     <inherits name="org.ctoolkit.gwt.TinyGwt"/>
     <inherits name="dagger.Dagger"/>
     <inherits name="org.fusesource.restygwt.RestyGWT"/>
+    <inherits name="com.google.common.base.Base"/>
 
     <inherits name="gwt.material.design.GwtMaterialBasicWithJQuery"/>
     <inherits name="gwt.material.design.addins.GwtMaterialAddins" />

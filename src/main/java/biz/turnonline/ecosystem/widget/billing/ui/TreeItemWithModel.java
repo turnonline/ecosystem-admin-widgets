@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import com.google.common.base.Strings;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
@@ -64,10 +65,10 @@ class TreeItemWithModel
         this.model = checkNotNull( model );
 
         String itemName;
-        if ( model.getCurrency() != null && model.getPriceExclVat() != null )
+        if ( model.getCurrency() != null && model.getFinalPriceExclVat() != null )
         {
-            itemName = ( model.getItemName() == null ? "" : model.getItemName() + " - " )
-                    + NumberFormat.getCurrencyFormat( model.getCurrency() ).format( model.getPriceExclVat() );
+            itemName = ( Strings.isNullOrEmpty( model.getItemName() ) ? "" : model.getItemName() + " - " )
+                    + NumberFormat.getCurrencyFormat( model.getCurrency() ).format( model.getFinalPriceExclVat() );
         }
         else
         {
@@ -157,7 +158,7 @@ class TreeItemWithModel
      * @param item the item to be rendered as tree item
      * @return the tree item
      */
-    TreeItemWithModel add( PricingItem item )
+    TreeItemWithModel add( @Nonnull PricingItem item )
     {
         TreeItemWithModel treeItem = new TreeItemWithModel( eventBus, item );
         treeItem.parent = this;
@@ -177,6 +178,16 @@ class TreeItemWithModel
         rowItem.fill( this.model );
 
         return rowItem;
+    }
+
+    /**
+     * Returns the boolean indication whether this tree item represents a root pricing item.
+     *
+     * @return true if this item is root
+     */
+    public boolean isRoot()
+    {
+        return parent.getModel() == null;
     }
 
     /**

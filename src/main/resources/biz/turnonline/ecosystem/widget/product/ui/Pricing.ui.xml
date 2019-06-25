@@ -29,7 +29,7 @@
                 <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPriceDefinition}"/>
 
                 <m:MaterialRow marginLeft="-10">
-                    <m:MaterialDoubleBox ui:field="priceExclVat" label="{msg.labelPriceExclusiveVat}" grid="s12 m8"/>
+                    <m:MaterialDoubleBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}" grid="s12 m8"/>
                     <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" grid="s12 m4"/>
                 </m:MaterialRow>
             </m:MaterialColumn>

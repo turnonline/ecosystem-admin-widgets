@@ -125,7 +125,7 @@ public class ProductsView
         table.addColumn( picture );
         table.addColumn( published );
         table.addColumn( name, messages.labelName() );
-        table.addColumn( price, messages.labelPriceExclusiveVat() );
+        table.addColumn( price, messages.labelPriceExcludingVat() );
         table.addColumn( vat, messages.labelVat() );
         table.addColumn( actions );
 

@@ -94,11 +94,10 @@ public class OrderItems
 
         TableRow thRow = new TableRow();
         thRow.add( header( "", "0%" ) );
-        thRow.add( header( messages.labelItemName(), "30%" ) );
+        thRow.add( header( messages.labelItemName(), "45%" ) );
         thRow.add( header( messages.labelAmount(), "10%" ) );
         thRow.add( header( messages.labelUnit(), "15%" ) );
-        thRow.add( header( messages.labelPriceExclusiveVat(), "20%" ) );
-        thRow.add( header( messages.labelCurrency(), "10%" ) );
+        thRow.add( header( messages.labelPriceExcludingVat(), "15%" ) );
         thRow.add( header( messages.labelVat(), "15%" ) );
         thead.add( thRow );
 

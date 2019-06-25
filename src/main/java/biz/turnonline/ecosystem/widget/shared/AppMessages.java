@@ -255,8 +255,8 @@ public interface AppMessages
     @Key( value = "label.price" )
     String labelPrice();
 
-    @Key( value = "label.priceExclusiveVat" )
-    String labelPriceExclusiveVat();
+    @Key( value = "label.priceExcludingVat" )
+    String labelPriceExcludingVat();
 
     @Key( value = "label.currency" )
     String labelCurrency();

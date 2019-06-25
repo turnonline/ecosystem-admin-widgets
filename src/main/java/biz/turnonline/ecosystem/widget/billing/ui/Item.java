@@ -95,7 +95,7 @@ public class Item
         ( ( TableData ) itemName.getParent() ).setDataAttribute( "data-title", messages.labelItemName() );
         ( ( TableData ) amount.getParent() ).setDataAttribute( "data-title", messages.labelAmount() );
         ( ( TableData ) unit.getParent() ).setDataAttribute( "data-title", messages.labelUnit() );
-        ( ( TableData ) priceExclusiveVat.getParent() ).setDataAttribute( "data-title", messages.labelPriceExclusiveVat() );
+        ( ( TableData ) priceExclusiveVat.getParent() ).setDataAttribute( "data-title", messages.labelPriceExcludingVat() );
         ( ( TableData ) currency.getParent() ).setDataAttribute( "data-title", messages.labelCurrency() );
         ( ( TableData ) vat.getParent() ).setDataAttribute( "data-title", messages.labelVat() );
     }
