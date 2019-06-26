@@ -29,6 +29,7 @@ import gwt.material.design.client.constants.IconType;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
@@ -41,6 +42,14 @@ import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 class TreeItemWithModel
         extends MaterialTreeItem
 {
+    static final String STANDARD = "Standard";
+
+    static final String ORDER_ITEM = "OrderItem";
+
+    static final String ATTENDEE = "Attendee";
+
+    static final String EVENT_PART = "EventPart";
+
     private static AppMessages messages = AppMessages.INSTANCE;
 
     private final EventBus eventBus;
@@ -77,20 +86,19 @@ class TreeItemWithModel
         setText( itemName );
 
         String itemType = model.getItemType();
-
-        if ( "Standard".equalsIgnoreCase( itemType ) )
+        if ( STANDARD.equals( itemType ) )
         {
             setIconType( IconType.LOOKS_ONE );
         }
-        else if ( "OrderItem".equalsIgnoreCase( itemType ) )
+        else if ( ORDER_ITEM.equals( itemType ) )
         {
             setIconType( IconType.POLL );
         }
-        else if ( "Attendee".equalsIgnoreCase( itemType ) )
+        else if ( ATTENDEE.equals( itemType ) )
         {
             setIconType( IconType.PEOPLE );
         }
-        else if ( "EventPart".equalsIgnoreCase( itemType ) )
+        else if ( EVENT_PART.equals( itemType ) )
         {
             setIconType( IconType.EVENT );
         }
@@ -115,6 +123,11 @@ class TreeItemWithModel
         return widgets;
     }
 
+    /**
+     * Updates the associated pricing items recursively with the values from UI and returns pricing tree structure.
+     *
+     * @return the updated pricing tree structure
+     */
     public List<PricingItem> bind()
     {
         List<PricingItem> items = new ArrayList<>();
@@ -123,8 +136,9 @@ class TreeItemWithModel
         for ( RowItem next : childrenRows )
         {
             treeItem = next.getTreeItem();
-            items.add( next.bind() );
-            treeItem.bind();
+            PricingItem model = next.bind();
+            items.add( model );
+            model.setItems( treeItem.bind() );
         }
 
         return items;
@@ -148,6 +162,25 @@ class TreeItemWithModel
     List<RowItem> getChildrenRows()
     {
         return childrenRows;
+    }
+
+    /**
+     * Search for item type of the children.
+     *
+     * @return the child item type
+     */
+    String getChildItemType()
+    {
+        String itemType = null;
+        PricingItem model;
+        Iterator<RowItem> it = childrenRows.iterator();
+
+        while ( it.hasNext() && itemType == null )
+        {
+            model = it.next().getTreeItem().getModel();
+            itemType = model.getItemType();
+        }
+        return itemType;
     }
 
     /**

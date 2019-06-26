@@ -36,7 +36,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.table.Table;
 import gwt.material.design.client.ui.table.TableData;
@@ -46,6 +49,15 @@ import gwt.material.design.client.ui.table.TableRow;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.List;
+
+import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.ATTENDEE;
+import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.EVENT_PART;
+import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.ORDER_ITEM;
+import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.STANDARD;
+import static gwt.material.design.client.constants.IconType.EVENT;
+import static gwt.material.design.client.constants.IconType.LOOKS_ONE;
+import static gwt.material.design.client.constants.IconType.PEOPLE;
+import static gwt.material.design.client.constants.IconType.POLL;
 
 /**
  * Dedicated order items panel with specific handling of {@link PricingItem#getItemType()}.
@@ -73,6 +85,21 @@ public class OrderItems
 
     @UiField
     MaterialButton btnDelete;
+
+    @UiField
+    MaterialIcon itemType;
+
+    @UiField
+    MaterialLink standard;
+
+    @UiField
+    MaterialLink orderItem;
+
+    @UiField
+    MaterialLink attendee;
+
+    @UiField
+    MaterialLink eventPart;
 
     private TreeItemWithModel rootTreeItem;
 
@@ -167,6 +194,24 @@ public class OrderItems
         itemsRoot.getBody().clear();
         btnDelete.setEnabled( false );
 
+        String itemType = item.getChildItemType();
+        if ( ORDER_ITEM.equals( itemType ) )
+        {
+            this.itemType.setIconType( POLL );
+        }
+        else if ( ATTENDEE.equals( itemType ) )
+        {
+            this.itemType.setIconType( PEOPLE );
+        }
+        else if ( EVENT_PART.equals( itemType ) )
+        {
+            this.itemType.setIconType( EVENT );
+        }
+        else
+        {
+            this.itemType.setIconType( LOOKS_ONE );
+        }
+
         List<RowItem> items = item.getChildrenRows();
         if ( items != null )
         {
@@ -232,6 +277,23 @@ public class OrderItems
         item.setPriceExclVat( 0D );
         item.setCurrency( "EUR" );
 
+        IconType icon = itemType.getIconType();
+        switch ( icon )
+        {
+            case LOOKS_ONE:
+                item.setItemType( STANDARD );
+                break;
+            case POLL:
+                item.setItemType( ORDER_ITEM );
+                break;
+            case PEOPLE:
+                item.setItemType( ATTENDEE );
+                break;
+            case EVENT:
+                item.setItemType( EVENT_PART );
+                break;
+        }
+
         itemsRoot.getBody().add( selected.add( item ).getRowItem() );
     }
 
@@ -239,6 +301,30 @@ public class OrderItems
     public void handleDelete( ClickEvent event )
     {
         deleteSelectedRows();
+    }
+
+    @UiHandler( "standard" )
+    void standard( ClickEvent event )
+    {
+        itemType.setIconType( LOOKS_ONE );
+    }
+
+    @UiHandler( "orderItem" )
+    void orderItem( ClickEvent event )
+    {
+        itemType.setIconType( POLL );
+    }
+
+    @UiHandler( "attendee" )
+    void attendee( ClickEvent event )
+    {
+        itemType.setIconType( PEOPLE );
+    }
+
+    @UiHandler( "eventPart" )
+    void eventPart( ClickEvent event )
+    {
+        itemType.setIconType( EVENT );
     }
 
     interface PricingItemMapper

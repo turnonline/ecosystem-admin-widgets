@@ -515,14 +515,21 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * @return value or {@code null} for none
+     */
     public String getParentKey()
     {
         return parentKey;
     }
 
-    public void setParentKey( String parentKey )
+    /**
+     * @param parentKey parentKey or {@code null} for none
+     */
+    public PricingItem setParentKey( String parentKey )
     {
         this.parentKey = parentKey;
+        return this;
     }
 
     /**

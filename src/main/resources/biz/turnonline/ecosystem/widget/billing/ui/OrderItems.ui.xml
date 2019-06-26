@@ -42,7 +42,28 @@
                                 iconColor="BLUE" circle="true" waves="DEFAULT" marginRight="10"/>
 
                 <m:MaterialIcon ui:field="btnExpand" tooltip="Expand" iconType="ZOOM_OUT_MAP" marginTop="12"
-                                iconColor="BLUE" circle="true" waves="DEFAULT"/>
+                                iconColor="BLUE" circle="true" waves="DEFAULT" marginRight="10"/>
+
+                <m:MaterialIcon ui:field="itemType" iconType="FOLDER" iconColor="BLUE" activates="types"
+                                waves="DEFAULT" marginTop="12"/>
+
+                <m:MaterialDropDown activator="types" constrainWidth="false" belowOrigin="true" hover="true">
+                    <m:MaterialLink ui:field="standard" fontSize="0.9em" width="150px" waves="DEFAULT"
+                                    textColor="BLACK" iconType="LOOKS_ONE" iconColor="BLUE" iconPosition="LEFT"
+                                    text="Standard" separator="true"/>
+
+                    <m:MaterialLink ui:field="orderItem" fontSize="0.9em" width="150px" waves="DEFAULT"
+                                    textColor="BLACK" iconType="POLL" iconColor="BLUE" iconPosition="LEFT"
+                                    text="OrderItem" separator="true"/>
+
+                    <m:MaterialLink ui:field="attendee" fontSize="0.9em" width="150px" waves="DEFAULT"
+                                    textColor="BLACK" iconType="PEOPLE" iconColor="BLUE" iconPosition="LEFT"
+                                    text="Attendee" separator="true"/>
+
+                    <m:MaterialLink ui:field="eventPart" fontSize="0.9em" width="150px" waves="DEFAULT"
+                                    textColor="BLACK" iconType="EVENT" iconColor="BLUE" iconPosition="LEFT"
+                                    text="EventPart"/>
+                </m:MaterialDropDown>
 
                 <ma:tree.MaterialTree ui:field="pricingTree" paddingBottom="20"/>
 
