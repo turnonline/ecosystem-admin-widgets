@@ -22,7 +22,7 @@
 
     <t:TableRow class="data-row">
         <t:TableData>
-            <m:MaterialCheckBox ui:field="selected"/>
+            <m:MaterialCheckBox ui:field="checkedIn"/>
         </t:TableData>
         <t:TableData>
             <s:ProductAutoComplete ui:field="itemName"/>
@@ -31,13 +31,16 @@
             <m:MaterialDoubleBox ui:field="amount"/>
         </t:TableData>
         <t:TableData>
-            <s:BillingUnitComboBox ui:field="unit"/>
-        </t:TableData>
-        <t:TableData>
             <m:MaterialDoubleBox ui:field="priceExclVat"/>
         </t:TableData>
         <t:TableData>
+            <s:BillingUnitComboBox ui:field="unit"/>
+        </t:TableData>
+        <t:TableData>
             <s:VatRateComboBox ui:field="vat"/>
+        </t:TableData>
+        <t:TableData>
+            <m:MaterialCheckBox ui:field="delete"/>
         </t:TableData>
     </t:TableRow>
 </ui:UiBinder>

@@ -18,9 +18,12 @@
 
 package biz.turnonline.ecosystem.widget.billing.ui;
 
+import biz.turnonline.ecosystem.widget.billing.event.ItemChangedCalculateEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import com.google.common.base.Strings;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
@@ -155,6 +158,24 @@ class TreeItemWithModel
     }
 
     /**
+     * Returns the item unique identification based on the model's {@link PricingItem#getParentKey()}
+     * and {@link PricingItem#getId()}. It returns null if at leas one of the model's value is undefined.
+     *
+     * @return the item unique identification
+     */
+    String getItemCompositeKey()
+    {
+        if ( model == null )
+        {
+            return null;
+        }
+
+        String parentKey = model.getParentKey();
+        Long id = model.getId();
+        return parentKey != null && id != null ? parentKey + "::" + id : null;
+    }
+
+    /**
      * Returns current list of row items that are created from items of associated model {@link PricingItem#getItems()}.
      *
      * @return the children rows
@@ -202,7 +223,40 @@ class TreeItemWithModel
         rowItem.fill( item );
         childrenRows.add( rowItem );
 
+        if ( treeItem.isRoot() )
+        {
+            // only the root pricing item is allowed to be changed at UI (different VAt per pricing item is invalid)
+            rowItem.addVatChangeHandler( this::vatChanged );
+        }
+
         return treeItem;
+    }
+
+    private void vatChanged( ValueChangeEvent<List<VatRate>> event )
+    {
+        changeVatInTree( event.getValue().get( 0 ) );
+        eventBus.fireEvent( new ItemChangedCalculateEvent() );
+    }
+
+    /**
+     * Changes the specified VAT for whole tree recursively.
+     *
+     * @param rate the vat rate to be set
+     */
+    private void changeVatInTree( VatRate rate )
+    {
+        rowItem.setVatRateValue( rate );
+        if ( model != null )
+        {
+            // make sure model value has set as widget might be in unattached state
+            // so model is being preferred source of value while binding
+            model.setVat( rate.getCode() );
+        }
+
+        for ( RowItem next : childrenRows )
+        {
+            next.getTreeItem().changeVatInTree( rate );
+        }
     }
 
     private RowItem fillRowItem()
@@ -218,7 +272,7 @@ class TreeItemWithModel
      *
      * @return true if this item is root
      */
-    public boolean isRoot()
+    boolean isRoot()
     {
         return parent.getModel() == null;
     }
@@ -237,10 +291,9 @@ class TreeItemWithModel
      * Removes specified row item from the children list (rows).
      *
      * @param rowItem the row item to be deleted, if present
-     * @return <tt>true</tt> if this list contained the specified element
      */
-    boolean remove( RowItem rowItem )
+    void remove( RowItem rowItem )
     {
-        return parent.childrenRows.remove( rowItem );
+        parent.childrenRows.remove( rowItem );
     }
 }

@@ -360,6 +360,9 @@ public interface AppMessages
     @Key( value = "label.allChildrenCheckedIn" )
     String labelAllChildrenCheckedIn();
 
+    @Key( "label.checkedIn" )
+    String labelCheckedIn();
+
     @Key( value = "label.percentage" )
     String labelPercentage();
 

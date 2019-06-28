@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.billing.event.CalculatePricingEvent;
+import biz.turnonline.ecosystem.widget.billing.event.ItemChangedCalculateEvent;
 import biz.turnonline.ecosystem.widget.billing.event.RowItemAtOrderSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.JSON;
@@ -103,6 +104,10 @@ public class OrderItems
 
     private TreeItemWithModel rootTreeItem;
 
+    private String selectedItemCompositeKey;
+
+    private TreeItemWithModel selectedTreeItem;
+
     private EventBus bus;
 
     private PricingItemMapper mapper;
@@ -120,25 +125,26 @@ public class OrderItems
         itemsRoot.addHead( thead );
 
         TableRow thRow = new TableRow();
-        thRow.add( header( "", "0%" ) );
-        thRow.add( header( messages.labelItemName(), "45%" ) );
+        thRow.add( header( messages.labelCheckedIn(), "5%" ) );
+        thRow.add( header( messages.labelItemName(), "40%" ) );
         thRow.add( header( messages.labelAmount(), "10%" ) );
-        thRow.add( header( messages.labelUnit(), "15%" ) );
         thRow.add( header( messages.labelPriceExcludingVat(), "15%" ) );
-        thRow.add( header( messages.labelVat(), "15%" ) );
+        thRow.add( header( messages.labelUnit(), "15%" ) );
+        thRow.add( header( messages.labelVat(), "10%" ) );
+        thRow.add( deleteHeader() );
         thead.add( thRow );
 
         btnAdd.setEnabled( false );
         btnDelete.setEnabled( false );
 
         bus.addHandler( RowItemAtOrderSelectionEvent.TYPE, event -> btnDelete.setEnabled( event.isSelected() ) );
+        bus.addHandler( ItemChangedCalculateEvent.TYPE, event -> calculate() );
 
         pricingTree.addSelectionHandler( event -> {
             btnAdd.setEnabled( true );
             clearAndPopulateRows( ( TreeItemWithModel ) event.getSelectedItem() );
         } );
 
-        // body
         itemsRoot.addBody( new MaterialWidget( DOM.createTBody() ) );
     }
 
@@ -159,14 +165,16 @@ public class OrderItems
         itemsRoot.getBody().clear();
         pricingTree.clear();
         pricingTree.add( rootTreeItem );
-        pricingTree.setSelectedItem( rootTreeItem );
+        selectedTreeItem = rootTreeItem;
 
         if ( items != null )
         {
             items.forEach( pi -> chainAddPricingItem( JSON.clone( pi, mapper ), rootTreeItem ) );
         }
 
-        clearAndPopulateRows( rootTreeItem );
+        clearAndPopulateRows( selectedTreeItem );
+        pricingTree.setSelectedItem( selectedTreeItem );
+
         pricingTree.expand();
     }
 
@@ -179,6 +187,12 @@ public class OrderItems
     {
         TreeItemWithModel inner = parent.add( pi );
         List<PricingItem> items = pi.getItems();
+        String compositeKey = inner.getItemCompositeKey();
+
+        if ( compositeKey != null && compositeKey.equals( selectedItemCompositeKey ) )
+        {
+            selectedTreeItem = inner;
+        }
 
         if ( items != null && !items.isEmpty() )
         {
@@ -189,12 +203,13 @@ public class OrderItems
         }
     }
 
-    private void clearAndPopulateRows( @Nonnull TreeItemWithModel item )
+    private void clearAndPopulateRows( @Nonnull TreeItemWithModel selected )
     {
         itemsRoot.getBody().clear();
         btnDelete.setEnabled( false );
+        selectedItemCompositeKey = selected.getItemCompositeKey();
 
-        String itemType = item.getChildItemType();
+        String itemType = selected.getChildItemType();
         if ( ORDER_ITEM.equals( itemType ) )
         {
             this.itemType.setIconType( POLL );
@@ -212,11 +227,11 @@ public class OrderItems
             this.itemType.setIconType( LOOKS_ONE );
         }
 
-        List<RowItem> items = item.getChildrenRows();
+        List<RowItem> items = selected.getChildrenRows();
         if ( items != null )
         {
             items.forEach( i -> {
-                if ( !btnDelete.isEnabled() && i.getSelected().getValue() )
+                if ( !btnDelete.isEnabled() && i.getDelete().getValue() )
                 {
                     // make delete button enabled if there is already at least one row selected
                     btnDelete.setEnabled( true );
@@ -229,7 +244,7 @@ public class OrderItems
     private void deleteSelectedRows()
     {
         itemsRoot.getBody().getChildrenList().forEach( widget -> {
-            if ( ( ( RowItem ) widget ).getSelected().getValue() )
+            if ( ( ( RowItem ) widget ).getDelete().getValue() )
             {
                 ( ( RowItem ) widget ).remove();
             }
@@ -237,6 +252,15 @@ public class OrderItems
 
         // disabled as all selected rows just has been removed
         btnDelete.setEnabled( false );
+        calculate();
+    }
+
+    private void calculate()
+    {
+        Pricing pricing = new Pricing();
+        pricing.setItems( bind() );
+
+        bus.fireEvent( new CalculatePricingEvent( pricing ) );
     }
 
     private TableData header( String label, String width )
@@ -244,6 +268,13 @@ public class OrderItems
         TableHeader header = new TableHeader();
         header.add( new Label( label ) );
         header.setWidth( width );
+        return header;
+    }
+
+    private TableData deleteHeader()
+    {
+        TableHeader header = new TableHeader( new MaterialIcon( IconType.DELETE ) );
+        header.setWidth( "5%" );
         return header;
     }
 
@@ -262,10 +293,7 @@ public class OrderItems
     @UiHandler( "btnCalculate" )
     void onCalculate( ClickEvent e )
     {
-        Pricing pricing = new Pricing();
-        pricing.setItems( bind() );
-
-        bus.fireEvent( new CalculatePricingEvent( pricing ) );
+        calculate();
     }
 
     @UiHandler( "btnAdd" )

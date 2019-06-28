@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.billing.ui;
 
+import biz.turnonline.ecosystem.widget.billing.event.ItemChangedCalculateEvent;
 import biz.turnonline.ecosystem.widget.billing.event.RowItemAtOrderSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
@@ -25,11 +26,13 @@ import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
 import biz.turnonline.ecosystem.widget.shared.ui.BillingUnitComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.ProductAutoComplete;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -62,7 +65,7 @@ class RowItem
     private final TreeItemWithModel treeItem;
 
     @UiField
-    MaterialCheckBox selected;
+    MaterialCheckBox checkedIn;
 
     @UiField( provided = true )
     ProductAutoComplete itemName;
@@ -79,6 +82,9 @@ class RowItem
     @UiField
     BillingUnitComboBox unit;
 
+    @UiField
+    MaterialCheckBox delete;
+
     private TableRow row;
 
     RowItem( @Nonnull EventBus eventBus, @Nonnull TreeItemWithModel treeItem )
@@ -94,24 +100,41 @@ class RowItem
 
         initWidget( row = binder.createAndBindUi( this ) );
 
-        selected.getElement().setAttribute( "style", "margin: 0;" );
-        selected.addClickHandler( event -> row.setBackgroundColor( selected.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
-        selected.addValueChangeHandler( event -> bus.fireEvent( new RowItemAtOrderSelectionEvent( event.getValue() ) ) );
+        delete.getElement().setAttribute( "style", "margin: 0;" );
+        delete.addClickHandler( event -> row.setBackgroundColor( delete.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
+        delete.addValueChangeHandler( event -> bus.fireEvent( new RowItemAtOrderSelectionEvent( event.getValue() ) ) );
 
+        checkedIn.addValueChangeHandler( event -> bus.fireEvent( new ItemChangedCalculateEvent() ) );
+
+        ( ( TableData ) checkedIn.getParent() ).setDataAttribute( "data-title", messages.labelCheckedIn() );
         ( ( TableData ) itemName.getParent() ).setDataAttribute( "data-title", messages.labelItemName() );
         ( ( TableData ) amount.getParent() ).setDataAttribute( "data-title", messages.labelAmount() );
         ( ( TableData ) unit.getParent() ).setDataAttribute( "data-title", messages.labelUnit() );
         ( ( TableData ) priceExclVat.getParent() ).setDataAttribute( "data-title", messages.labelPriceExcludingVat() );
         ( ( TableData ) vat.getParent() ).setDataAttribute( "data-title", messages.labelVat() );
+        ( ( TableData ) delete.getParent() ).setDataAttribute( "data-title", messages.labelDelete() );
     }
 
     private void bindFromUI( PricingItem model )
     {
+        model.setCheckedIn( checkedIn.getValue() );
         model.setItemName( itemName.getItemBox().getValue() );
         model.setAmount( amount.getValue() );
         model.setPriceExclVat( priceExclVat.getValue() );
-        model.setVat( vat.getSingleValueByCode() );
         model.setUnit( unit.getSingleValueByCode() );
+
+        // value might be set while widget is unattached, so model value is being preferred
+        model.setVat( getTreeItem().getModel().getVat() );
+    }
+
+    void addVatChangeHandler( ValueChangeHandler<List<VatRate>> handler )
+    {
+        vat.addValueChangeHandler( handler );
+    }
+
+    void setVatRateValue( VatRate rate )
+    {
+        vat.setSingleValue( rate );
     }
 
     /**
@@ -128,6 +151,8 @@ class RowItem
 
     public void fill( @Nonnull PricingItem model )
     {
+        // by default checked in marked to be included in to calculation
+        checkedIn.setValue( model.getCheckedIn() == null ? true : model.getCheckedIn() );
         itemName.getItemBox().setValue( model.getItemName() );
         amount.setValue( model.getAmount() != null ? model.getAmount() : 1D );
         priceExclVat.setValue( model.getPriceExclVat() );
@@ -139,9 +164,9 @@ class RowItem
         amount.setReadOnly( items != null && !items.isEmpty() );
     }
 
-    public MaterialCheckBox getSelected()
+    public MaterialCheckBox getDelete()
     {
-        return selected;
+        return delete;
     }
 
     public ProductAutoComplete getItemName()
