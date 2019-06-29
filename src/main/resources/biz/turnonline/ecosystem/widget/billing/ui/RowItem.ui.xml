@@ -25,7 +25,8 @@
             <m:MaterialCheckBox ui:field="checkedIn"/>
         </t:TableData>
         <t:TableData>
-            <s:ProductAutoComplete ui:field="itemName"/>
+            <s:ProductAutoComplete ui:field="itemNameSearch"/>
+            <m:MaterialTextBox ui:field="itemNameStandard" visible="false"/>
         </t:TableData>
         <t:TableData>
             <m:MaterialDoubleBox ui:field="amount"/>

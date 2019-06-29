@@ -37,10 +37,12 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialDoubleBox;
+import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.table.TableData;
 import gwt.material.design.client.ui.table.TableRow;
 
@@ -69,7 +71,10 @@ class RowItem
     MaterialCheckBox checkedIn;
 
     @UiField( provided = true )
-    ProductAutoComplete itemName;
+    ProductAutoComplete itemNameSearch;
+
+    @UiField
+    MaterialTextBox itemNameStandard;
 
     @UiField
     MaterialDoubleBox amount;
@@ -86,6 +91,8 @@ class RowItem
     @UiField
     MaterialCheckBox delete;
 
+    private HasValue<String> itemName;
+
     private TableRow row;
 
     RowItem( @Nonnull EventBus eventBus, @Nonnull TreeItemWithModel treeItem )
@@ -93,8 +100,8 @@ class RowItem
         this.bus = checkNotNull( eventBus );
         this.treeItem = checkNotNull( treeItem );
 
-        itemName = new ProductAutoComplete( eventBus );
-        itemName.addSelectionHandler( event -> {
+        itemNameSearch = new ProductAutoComplete( eventBus );
+        itemNameSearch.addSelectionHandler( event -> {
             SearchProduct product = ( ( ProductAutoComplete.ProductSuggest ) event.getSelectedItem() ).getProduct();
             fillFrom( product );
         } );
@@ -111,17 +118,30 @@ class RowItem
         checkedIn.addValueChangeHandler( event -> bus.fireEvent( new ItemChangedCalculateEvent() ) );
 
         ( ( TableData ) checkedIn.getParent() ).setDataAttribute( "data-title", messages.labelCheckedIn() );
-        ( ( TableData ) itemName.getParent() ).setDataAttribute( "data-title", messages.labelItemName() );
+        ( ( TableData ) itemNameSearch.getParent() ).setDataAttribute( "data-title", messages.labelItemName() );
         ( ( TableData ) amount.getParent() ).setDataAttribute( "data-title", messages.labelAmount() );
         ( ( TableData ) unit.getParent() ).setDataAttribute( "data-title", messages.labelUnit() );
         ( ( TableData ) priceExclVat.getParent() ).setDataAttribute( "data-title", messages.labelPriceExcludingVat() );
         ( ( TableData ) vat.getParent() ).setDataAttribute( "data-title", messages.labelVat() );
         ( ( TableData ) delete.getParent() ).setDataAttribute( "data-title", messages.labelDelete() );
+
+        if ( treeItem.isRoot() )
+        {
+            itemName = itemNameSearch.getItemBox();
+        }
+        else
+        {
+            itemName = itemNameStandard;
+
+            // by default in UI binder itemNameStandard is not visible
+            itemNameStandard.setVisible( true );
+            itemNameSearch.setVisible( false );
+        }
     }
 
     private void bindFromUI( PricingItem model )
     {
-        String itemNameValue = this.itemName.getItemBox().getValue();
+        String itemNameValue = itemName.getValue();
 
         model.setCheckedIn( checkedIn.getValue() );
         // setReturnBlankAsNull is not available
@@ -160,7 +180,7 @@ class RowItem
     {
         // by default checked in marked to be included in to calculation
         checkedIn.setValue( model.getCheckedIn() == null ? true : model.getCheckedIn() );
-        itemName.getItemBox().setValue( model.getItemName() );
+        itemName.setValue( model.getItemName() );
         amount.setValue( model.getAmount() != null ? model.getAmount() : 1D );
         priceExclVat.setValue( model.getPriceExclVat() );
         vat.setSingleValueByCode( model.getVat() );
@@ -174,11 +194,6 @@ class RowItem
     public MaterialCheckBox getDelete()
     {
         return delete;
-    }
-
-    public ProductAutoComplete getItemName()
-    {
-        return itemName;
     }
 
     /**
