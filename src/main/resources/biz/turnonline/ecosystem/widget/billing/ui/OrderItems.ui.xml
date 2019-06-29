@@ -53,8 +53,12 @@
                                     text="Standard" separator="true"/>
 
                     <m:MaterialLink ui:field="orderItem" fontSize="0.9em" width="150px" waves="DEFAULT"
-                                    textColor="BLACK" iconType="POLL" iconColor="BLUE" iconPosition="LEFT"
+                                    textColor="BLACK" iconType="ASSIGNMENT" iconColor="BLUE" iconPosition="LEFT"
                                     text="OrderItem" separator="true"/>
+
+                    <m:MaterialLink ui:field="webinar" fontSize="0.9em" width="150px" waves="DEFAULT"
+                                    textColor="BLACK" iconType="PERSONAL_VIDEO" iconColor="BLUE" iconPosition="LEFT"
+                                    text="Webinar" separator="true"/>
 
                     <m:MaterialLink ui:field="attendee" fontSize="0.9em" width="150px" waves="DEFAULT"
                                     textColor="BLACK" iconType="PEOPLE" iconColor="BLUE" iconPosition="LEFT"

@@ -22,6 +22,7 @@ import biz.turnonline.ecosystem.widget.billing.event.ItemChangedCalculateEvent;
 import biz.turnonline.ecosystem.widget.billing.event.RowItemAtOrderSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.Preconditions;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
@@ -100,6 +101,9 @@ class RowItem
 
         initWidget( row = binder.createAndBindUi( this ) );
 
+        amount.setReturnBlankAsNull( true );
+        priceExclVat.setReturnBlankAsNull( true );
+
         delete.getElement().setAttribute( "style", "margin: 0;" );
         delete.addClickHandler( event -> row.setBackgroundColor( delete.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
         delete.addValueChangeHandler( event -> bus.fireEvent( new RowItemAtOrderSelectionEvent( event.getValue() ) ) );
@@ -117,8 +121,11 @@ class RowItem
 
     private void bindFromUI( PricingItem model )
     {
+        String itemNameValue = this.itemName.getItemBox().getValue();
+
         model.setCheckedIn( checkedIn.getValue() );
-        model.setItemName( itemName.getItemBox().getValue() );
+        // setReturnBlankAsNull is not available
+        model.setItemName( Preconditions.isNullOrEmpty( itemNameValue ) ? null : itemNameValue );
         model.setAmount( amount.getValue() );
         model.setPriceExclVat( priceExclVat.getValue() );
         model.setUnit( unit.getSingleValueByCode() );

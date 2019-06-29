@@ -55,10 +55,12 @@ import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.ATTEN
 import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.EVENT_PART;
 import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.ORDER_ITEM;
 import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.STANDARD;
+import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.WEBINAR;
+import static gwt.material.design.client.constants.IconType.ASSIGNMENT;
 import static gwt.material.design.client.constants.IconType.EVENT;
 import static gwt.material.design.client.constants.IconType.LOOKS_ONE;
 import static gwt.material.design.client.constants.IconType.PEOPLE;
-import static gwt.material.design.client.constants.IconType.POLL;
+import static gwt.material.design.client.constants.IconType.PERSONAL_VIDEO;
 
 /**
  * Dedicated order items panel with specific handling of {@link PricingItem#getItemType()}.
@@ -95,6 +97,9 @@ public class OrderItems
 
     @UiField
     MaterialLink orderItem;
+
+    @UiField
+    MaterialLink webinar;
 
     @UiField
     MaterialLink attendee;
@@ -212,7 +217,11 @@ public class OrderItems
         String itemType = selected.getChildItemType();
         if ( ORDER_ITEM.equals( itemType ) )
         {
-            this.itemType.setIconType( POLL );
+            this.itemType.setIconType( ASSIGNMENT );
+        }
+        else if ( WEBINAR.equals( itemType ) )
+        {
+            this.itemType.setIconType( PERSONAL_VIDEO );
         }
         else if ( ATTENDEE.equals( itemType ) )
         {
@@ -311,8 +320,11 @@ public class OrderItems
             case LOOKS_ONE:
                 item.setItemType( STANDARD );
                 break;
-            case POLL:
+            case ASSIGNMENT:
                 item.setItemType( ORDER_ITEM );
+                break;
+            case PERSONAL_VIDEO:
+                item.setItemType( WEBINAR );
                 break;
             case PEOPLE:
                 item.setItemType( ATTENDEE );
@@ -340,7 +352,13 @@ public class OrderItems
     @UiHandler( "orderItem" )
     void orderItem( ClickEvent event )
     {
-        itemType.setIconType( POLL );
+        itemType.setIconType( ASSIGNMENT );
+    }
+
+    @UiHandler( "webinar" )
+    void webinar( ClickEvent event )
+    {
+        itemType.setIconType( PERSONAL_VIDEO );
     }
 
     @UiHandler( "attendee" )

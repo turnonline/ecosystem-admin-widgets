@@ -27,7 +27,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
-import gwt.material.design.client.constants.IconType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,6 +35,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
+import static gwt.material.design.client.constants.IconType.ASSIGNMENT;
+import static gwt.material.design.client.constants.IconType.EVENT;
+import static gwt.material.design.client.constants.IconType.FOLDER;
+import static gwt.material.design.client.constants.IconType.LOOKS_ONE;
+import static gwt.material.design.client.constants.IconType.PEOPLE;
+import static gwt.material.design.client.constants.IconType.PERSONAL_VIDEO;
 
 /**
  * {@link MaterialTreeItem} as a widget associated with {@link PricingItem} model.
@@ -48,6 +53,8 @@ class TreeItemWithModel
     static final String STANDARD = "Standard";
 
     static final String ORDER_ITEM = "OrderItem";
+
+    static final String WEBINAR = "Webinar";
 
     static final String ATTENDEE = "Attendee";
 
@@ -91,23 +98,27 @@ class TreeItemWithModel
         String itemType = model.getItemType();
         if ( STANDARD.equals( itemType ) )
         {
-            setIconType( IconType.LOOKS_ONE );
+            setIconType( LOOKS_ONE );
         }
         else if ( ORDER_ITEM.equals( itemType ) )
         {
-            setIconType( IconType.POLL );
+            setIconType( ASSIGNMENT );
+        }
+        else if ( WEBINAR.equals( itemType ) )
+        {
+            setIconType( PERSONAL_VIDEO );
         }
         else if ( ATTENDEE.equals( itemType ) )
         {
-            setIconType( IconType.PEOPLE );
+            setIconType( PEOPLE );
         }
         else if ( EVENT_PART.equals( itemType ) )
         {
-            setIconType( IconType.EVENT );
+            setIconType( EVENT );
         }
         else
         {
-            setIconType( IconType.LOOKS_ONE );
+            setIconType( LOOKS_ONE );
         }
     }
 
@@ -121,7 +132,7 @@ class TreeItemWithModel
     {
         TreeItemWithModel widgets = new TreeItemWithModel( eventBus );
         widgets.setText( messages.labelOrderItems() );
-        widgets.setIconType( IconType.FOLDER );
+        widgets.setIconType( FOLDER );
 
         return widgets;
     }
@@ -144,7 +155,7 @@ class TreeItemWithModel
             model.setItems( treeItem.bind() );
         }
 
-        return items;
+        return items.isEmpty() ? null : items;
     }
 
     /**
