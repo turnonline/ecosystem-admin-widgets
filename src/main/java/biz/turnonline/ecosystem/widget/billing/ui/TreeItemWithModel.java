@@ -231,13 +231,12 @@ class TreeItemWithModel
         addItem( treeItem );
 
         rowItem = treeItem.fillRowItem();
-        rowItem.fill( item );
         childrenRows.add( rowItem );
 
         if ( treeItem.isRoot() )
         {
             // only the root pricing item is allowed to be changed at UI (different VAt per pricing item is invalid)
-            rowItem.addVatChangeHandler( this::vatChanged );
+            rowItem.addVatChangeHandler( treeItem::vatChanged );
         }
 
         return treeItem;

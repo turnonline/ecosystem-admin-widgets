@@ -25,6 +25,7 @@ import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Preconditions;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingProduct;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
@@ -184,11 +185,14 @@ class RowItem
         amount.setValue( model.getAmount() != null ? model.getAmount() : 1D );
         priceExclVat.setValue( model.getPriceExclVat() );
         vat.setSingleValueByCode( model.getVat() );
-        vat.setReadOnly( !treeItem.isRoot() );
         unit.setSingleValueByCode( model.getUnit() );
 
         List<PricingItem> items = model.getItems();
         amount.setReadOnly( items != null && !items.isEmpty() );
+
+        PricingProduct product = model.getProduct();
+        boolean hasProduct = product != null && product.getId() != null;
+        vat.setReadOnly( !treeItem.isRoot() || hasProduct );
     }
 
     public MaterialCheckBox getDelete()
