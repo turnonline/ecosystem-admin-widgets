@@ -314,6 +314,12 @@ public class OrderItems
         item.setPriceExclVat( 0D );
         item.setCurrency( "EUR" );
 
+        PricingItem model = selected.getModel();
+        if ( model != null && model.getVat() != null )
+        {
+            item.setVat( model.getVat() );
+        }
+
         IconType icon = itemType.getIconType();
         switch ( icon )
         {
