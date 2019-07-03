@@ -36,8 +36,6 @@ public class CodeBookComboBox<T extends CodeBook>
 
     public void setSingleValueByCode( String code )
     {
-        setSelectedIndex( getIndexByString( defaultValue() ) );
-
         if ( itemsLoaded )
         {
             if ( code == null )
