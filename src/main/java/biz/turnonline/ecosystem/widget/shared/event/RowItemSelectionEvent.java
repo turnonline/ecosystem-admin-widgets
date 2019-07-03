@@ -16,17 +16,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.event;
+package biz.turnonline.ecosystem.widget.shared.event;
 
-import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * Row item at Order selection event handler.
+ * Row item at Order details selection event.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public interface RowItemAtOrderSelectionEventHandler
-        extends EventHandler
+public class RowItemSelectionEvent
+        extends GwtEvent<RowItemSelectionEventHandler>
 {
-    void onRowItemAtOrderSelected( RowItemAtOrderSelectionEvent event );
+    public static Type<RowItemSelectionEventHandler> TYPE = new Type<>();
+
+    private final boolean selected;
+
+    public RowItemSelectionEvent( boolean selected )
+    {
+        this.selected = selected;
+    }
+
+    public Type<RowItemSelectionEventHandler> getAssociatedType()
+    {
+        return TYPE;
+    }
+
+    public boolean isSelected()
+    {
+        return selected;
+    }
+
+    protected void dispatch( RowItemSelectionEventHandler handler )
+    {
+        handler.onRowItemAtOrderSelected( this );
+    }
 }

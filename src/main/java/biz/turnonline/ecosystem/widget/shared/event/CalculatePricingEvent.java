@@ -16,27 +16,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.event;
+package biz.turnonline.ecosystem.widget.shared.event;
 
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * Item changed calculation event.
+ * Pricing calculation event with {@link Pricing} payload
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class ItemChangedCalculateEvent
-        extends GwtEvent<ItemChangedCalculateEventHandler>
+public class CalculatePricingEvent
+        extends GwtEvent<CalculatePricingEventHandler>
 {
-    public static Type<ItemChangedCalculateEventHandler> TYPE = new Type<>();
+    public static Type<CalculatePricingEventHandler> TYPE = new Type<>();
 
-    public Type<ItemChangedCalculateEventHandler> getAssociatedType()
+    private final Pricing pricing;
+
+    public CalculatePricingEvent( Pricing pricing )
+    {
+        this.pricing = pricing;
+    }
+
+    public Type<CalculatePricingEventHandler> getAssociatedType()
     {
         return TYPE;
     }
 
-    protected void dispatch( ItemChangedCalculateEventHandler handler )
+    public Pricing getPricing()
     {
-        handler.onItemChangedCalculate( this );
+        return pricing;
+    }
+
+    protected void dispatch( CalculatePricingEventHandler handler )
+    {
+        handler.onCalculatePricing( this );
     }
 }

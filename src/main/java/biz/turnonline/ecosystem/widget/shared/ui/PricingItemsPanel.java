@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.billing.event.CalculatePricingEvent;
-import biz.turnonline.ecosystem.widget.billing.event.ItemChangedCalculateEvent;
-import biz.turnonline.ecosystem.widget.billing.event.RowItemAtOrderSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
+import biz.turnonline.ecosystem.widget.shared.event.ItemChangedCalculateEvent;
+import biz.turnonline.ecosystem.widget.shared.event.RowItemSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.JSON;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
@@ -51,11 +51,11 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.List;
 
-import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.ATTENDEE;
-import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.EVENT_PART;
-import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.ORDER_ITEM;
-import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.STANDARD;
-import static biz.turnonline.ecosystem.widget.billing.ui.TreeItemWithModel.WEBINAR;
+import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.ATTENDEE;
+import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.EVENT_PART;
+import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.ORDER_ITEM;
+import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.STANDARD;
+import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.WEBINAR;
 import static gwt.material.design.client.constants.IconType.ASSIGNMENT;
 import static gwt.material.design.client.constants.IconType.EVENT;
 import static gwt.material.design.client.constants.IconType.LOOKS_ONE;
@@ -63,11 +63,11 @@ import static gwt.material.design.client.constants.IconType.PEOPLE;
 import static gwt.material.design.client.constants.IconType.PERSONAL_VIDEO;
 
 /**
- * Dedicated order items panel with specific handling of {@link PricingItem#getItemType()}.
+ * Dedicated pricing items panel with specific handling of {@link PricingItem#getItemType()}.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class OrderItems
+public class PricingItemsPanel
         extends Composite
 {
     private static AppMessages messages = AppMessages.INSTANCE;
@@ -118,7 +118,7 @@ public class OrderItems
     private PricingItemMapper mapper;
 
     @Inject
-    public OrderItems( EventBus eventBus )
+    public PricingItemsPanel( EventBus eventBus )
     {
         this.bus = eventBus;
 
@@ -142,7 +142,7 @@ public class OrderItems
         btnAdd.setEnabled( false );
         btnDelete.setEnabled( false );
 
-        bus.addHandler( RowItemAtOrderSelectionEvent.TYPE, event -> btnDelete.setEnabled( event.isSelected() ) );
+        bus.addHandler( RowItemSelectionEvent.TYPE, event -> btnDelete.setEnabled( event.isSelected() ) );
         bus.addHandler( ItemChangedCalculateEvent.TYPE, event -> calculate() );
 
         pricingTree.addSelectionHandler( event -> {
@@ -385,7 +385,7 @@ public class OrderItems
     }
 
     interface ItemsUiBinder
-            extends UiBinder<HTMLPanel, OrderItems>
+            extends UiBinder<HTMLPanel, PricingItemsPanel>
     {
     }
 

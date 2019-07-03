@@ -16,39 +16,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.event;
+package biz.turnonline.ecosystem.widget.shared.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * Row item at Order details selection event.
+ * Item changed calculation event.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class RowItemAtOrderSelectionEvent
-        extends GwtEvent<RowItemAtOrderSelectionEventHandler>
+public class ItemChangedCalculateEvent
+        extends GwtEvent<ItemChangedCalculateEventHandler>
 {
-    public static Type<RowItemAtOrderSelectionEventHandler> TYPE = new Type<>();
+    public static Type<ItemChangedCalculateEventHandler> TYPE = new Type<>();
 
-    private final boolean selected;
-
-    public RowItemAtOrderSelectionEvent( boolean selected )
-    {
-        this.selected = selected;
-    }
-
-    public Type<RowItemAtOrderSelectionEventHandler> getAssociatedType()
+    public Type<ItemChangedCalculateEventHandler> getAssociatedType()
     {
         return TYPE;
     }
 
-    public boolean isSelected()
+    protected void dispatch( ItemChangedCalculateEventHandler handler )
     {
-        return selected;
-    }
-
-    protected void dispatch( RowItemAtOrderSelectionEventHandler handler )
-    {
-        handler.onRowItemAtOrderSelected( this );
+        handler.onItemChangedCalculate( this );
     }
 }

@@ -16,17 +16,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.event;
+package biz.turnonline.ecosystem.widget.shared.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Item changed calculation event handler.
+ * Row item at Order selection event handler.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public interface ItemChangedCalculateEventHandler
+public interface RowItemSelectionEventHandler
         extends EventHandler
 {
-    void onItemChangedCalculate( ItemChangedCalculateEvent event );
+    void onRowItemAtOrderSelected( RowItemSelectionEvent event );
 }

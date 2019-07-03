@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.ui;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.billing.event.ItemChangedCalculateEvent;
-import biz.turnonline.ecosystem.widget.billing.event.RowItemAtOrderSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Preconditions;
+import biz.turnonline.ecosystem.widget.shared.event.ItemChangedCalculateEvent;
+import biz.turnonline.ecosystem.widget.shared.event.RowItemSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingProduct;
@@ -30,9 +30,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
-import biz.turnonline.ecosystem.widget.shared.ui.BillingUnitComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.ProductAutoComplete;
-import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -114,7 +111,7 @@ class RowItem
 
         delete.getElement().setAttribute( "style", "margin: 0;" );
         delete.addClickHandler( event -> row.setBackgroundColor( delete.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
-        delete.addValueChangeHandler( event -> bus.fireEvent( new RowItemAtOrderSelectionEvent( event.getValue() ) ) );
+        delete.addValueChangeHandler( event -> bus.fireEvent( new RowItemSelectionEvent( event.getValue() ) ) );
 
         checkedIn.addValueChangeHandler( event -> bus.fireEvent( new ItemChangedCalculateEvent() ) );
 

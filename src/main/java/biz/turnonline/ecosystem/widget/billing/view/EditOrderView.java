@@ -25,10 +25,10 @@ import biz.turnonline.ecosystem.widget.billing.presenter.EditOrderPresenter;
 import biz.turnonline.ecosystem.widget.billing.ui.CustomerPanel;
 import biz.turnonline.ecosystem.widget.billing.ui.EditOrderTabs;
 import biz.turnonline.ecosystem.widget.billing.ui.OrderDetail;
-import biz.turnonline.ecosystem.widget.billing.ui.OrderItems;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
+import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -68,7 +68,7 @@ public class EditOrderView
     CustomerPanel<Order> customer;
 
     @UiField( provided = true )
-    OrderItems items;
+    PricingItemsPanel items;
 
     @UiField
     MaterialButton btnSave;
@@ -94,7 +94,7 @@ public class EditOrderView
         setActive( Route.ORDERS );
 
         customer = new CustomerPanel<>( eventBus, addressLookup );
-        items = new OrderItems( eventBus );
+        items = new PricingItemsPanel( eventBus );
 
         add( binder.createAndBindUi( this ) );
     }

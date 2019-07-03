@@ -18,12 +18,12 @@
 
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
-import biz.turnonline.ecosystem.widget.billing.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
 import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
