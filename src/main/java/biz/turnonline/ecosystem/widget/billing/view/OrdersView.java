@@ -73,17 +73,6 @@ public class OrdersView
     @UiField
     ConfirmationWindow confirmationWindow;
 
-    @Override
-    public void refresh()
-    {
-        table.refresh();
-    }
-
-    interface OrdersViewUiBinder
-            extends UiBinder<HTMLPanel, OrdersView>
-    {
-    }
-
     @Inject
     public OrdersView( EventBus eventBus, @Named( "OrdersBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
@@ -101,27 +90,33 @@ public class OrdersView
         } );
     }
 
+    @Override
+    public void refresh()
+    {
+        table.refresh();
+    }
+
     private void initTable()
     {
         ColumnOrderId id = new ColumnOrderId();
-        id.setWidth( "20%" );
+        id.width( "20%" );
 
         ColumnOrderStatus status = new ColumnOrderStatus();
-        status.setWidth( "20%" );
+        status.width( "20%" );
 
         ColumnCustomer<Order> customer = new ColumnCustomer<>();
-        customer.setWidth( "25%" );
+        customer.width( "25%" );
 
         ColumnOrderPrice price = new ColumnOrderPrice();
-        price.setWidth( "20%" );
+        price.width( "20%" );
 
         ColumnOrderActions actions = new ColumnOrderActions( bus() );
-        actions.setWidth( "5%" );
+        actions.width( "5%" );
 
-        table.addColumn( id, messages.labelId() );
-        table.addColumn( status, messages.labelStatus() );
-        table.addColumn( customer, messages.labelCustomer() );
-        table.addColumn( price, messages.labelPrice() );
+        table.addColumn( messages.labelId(), id );
+        table.addColumn( messages.labelStatus(), status );
+        table.addColumn( messages.labelCustomer(), customer );
+        table.addColumn( messages.labelPrice(), price );
         table.addColumn( actions );
 
         table.configure( new OrdersDataSource( ( AppEventBus ) bus() ) );
@@ -154,5 +149,10 @@ public class OrdersView
                 }
             } );
         }
+    }
+
+    interface OrdersViewUiBinder
+            extends UiBinder<HTMLPanel, OrdersView>
+    {
     }
 }

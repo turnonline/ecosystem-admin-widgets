@@ -27,7 +27,6 @@ import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -122,6 +121,8 @@ public class DomainsPanel
         } );
 
         table.addRowSelectHandler( this::rowSelected );
+
+        domainTypes.addSelectionHandler( e -> bus.fireEvent( new SelectDomainType( e.getSelectedItem() ) ) );
     }
 
     private void rowSelected( RowSelectEvent<Domain> event )
@@ -154,8 +155,8 @@ public class DomainsPanel
                 return domain.getName();
             }
         };
-        column.setWidth( "60%" );
-        table.addColumn( column, messages.labelDomain() );
+        column.width( "60%" );
+        table.addColumn( messages.labelDomain(), column );
 
         column = new TextColumn<Domain>()
         {
@@ -165,12 +166,12 @@ public class DomainsPanel
                 return evaluateDomainType( domain );
             }
         };
-        column.setWidth( "35%" );
-        table.addColumn( column, messages.labelDomainType() );
+        column.width( "35%" );
+        table.addColumn( messages.labelDomainType(), column );
 
         ColumnDomainVerified verified = new ColumnDomainVerified();
-        verified.setWidth( "5%" );
-        table.addColumn( verified, messages.labelDomainVerified() );
+        verified.width( "5%" );
+        table.addColumn( messages.labelDomainVerified(), verified );
     }
 
     public void setDomains( @Nonnull List<Domain> data, @Nonnull SelectDomainType.DT type )
@@ -255,13 +256,6 @@ public class DomainsPanel
                 }
             } );
         }
-    }
-
-    @UiHandler( "domainTypes" )
-    void selection( SelectionEvent<Integer> e )
-    {
-        SelectDomainType.DT type = domainTypes.getValue( e.getSelectedItem() );
-        bus.fireEvent( new SelectDomainType( type ) );
     }
 
     interface DomainsPanelUiBinder

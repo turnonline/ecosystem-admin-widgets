@@ -143,7 +143,7 @@ public class MyAccountView
     MaterialTextBox companyCity;
 
     @UiField
-    MaterialInputMask<String> companyPostcode;
+    MaterialInputMask companyPostcode;
 
     @UiField
     CountryComboBox domicile;
@@ -169,7 +169,7 @@ public class MyAccountView
     MaterialTextBox personalCity;
 
     @UiField
-    MaterialInputMask<String> personalPostcode;
+    MaterialInputMask personalPostcode;
 
     @UiField
     CountryComboBox personalCountry;
@@ -200,7 +200,7 @@ public class MyAccountView
     MaterialTextBox postalCity;
 
     @UiField
-    MaterialInputMask<String> postalPostcode;
+    MaterialInputMask postalPostcode;
 
     @UiField
     CountryComboBox postalCountry;

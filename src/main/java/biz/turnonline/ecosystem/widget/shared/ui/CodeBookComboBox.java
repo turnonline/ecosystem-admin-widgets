@@ -40,11 +40,19 @@ public class CodeBookComboBox<T extends CodeBook>
         {
             if ( code == null )
             {
-                setSelectedIndex( getIndexByString( defaultValue() ) );
+                int index = getIndexByString( defaultValue() );
+                if ( index > 0 )
+                {
+                    setSelectedIndex( index );
+                }
             }
             else
             {
-                setSelectedIndex( getIndexByString( code ) );
+                int index = getIndexByString( code );
+                if ( index > 0 )
+                {
+                    setSelectedIndex( index );
+                }
             }
         }
         else

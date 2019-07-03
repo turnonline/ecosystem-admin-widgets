@@ -73,17 +73,6 @@ public class InvoicesView
     @UiField
     ConfirmationWindow confirmationWindow;
 
-    @Override
-    public void refresh()
-    {
-        table.refresh();
-    }
-
-    interface InvoicesViewUiBinder
-            extends UiBinder<HTMLPanel, InvoicesView>
-    {
-    }
-
     @Inject
     public InvoicesView( EventBus eventBus, @Named( "InvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
@@ -101,27 +90,33 @@ public class InvoicesView
         } );
     }
 
+    @Override
+    public void refresh()
+    {
+        table.refresh();
+    }
+
     private void initTable()
     {
         ColumnInvoiceId id = new ColumnInvoiceId();
-        id.setWidth( "20%" );
+        id.width( "20%" );
 
         ColumnInvoiceStatus status = new ColumnInvoiceStatus();
-        status.setWidth( "20%" );
+        status.width( "20%" );
 
         ColumnCustomer<Invoice> customer = new ColumnCustomer<>();
-        customer.setWidth( "25%" );
+        customer.width( "25%" );
 
         ColumnInvoicePrice price = new ColumnInvoicePrice();
-        price.setWidth( "20%" );
+        price.width( "20%" );
 
         ColumnInvoiceActions actions = new ColumnInvoiceActions( bus() );
-        actions.setWidth( "5%" );
+        actions.width( "5%" );
 
-        table.addColumn( id, messages.labelId() );
-        table.addColumn( status, messages.labelStatus() );
-        table.addColumn( customer, messages.labelCustomer() );
-        table.addColumn( price, messages.labelPrice() );
+        table.addColumn( messages.labelId(), id );
+        table.addColumn( messages.labelStatus(), status );
+        table.addColumn( messages.labelCustomer(), customer );
+        table.addColumn( messages.labelPrice(), price );
         table.addColumn( actions );
 
         table.configure( new InvoicesDataSource( ( AppEventBus ) bus() ) );
@@ -154,5 +149,10 @@ public class InvoicesView
                 }
             } );
         }
+    }
+
+    interface InvoicesViewUiBinder
+            extends UiBinder<HTMLPanel, InvoicesView>
+    {
     }
 }

@@ -106,7 +106,7 @@ public class CustomerPanel<T extends HasCustomer>
     MaterialTextBox city;
 
     @UiField
-    MaterialInputMask<String> postCode;
+    MaterialInputMask postCode;
 
     @UiField
     CountryComboBox country;
@@ -135,7 +135,7 @@ public class CustomerPanel<T extends HasCustomer>
     MaterialTextBox postalCity;
 
     @UiField
-    MaterialInputMask<String> postalPostCode;
+    MaterialInputMask postalPostCode;
 
     @UiField
     CountryComboBox postalCountry;

@@ -91,7 +91,7 @@ public class EventPanel
     MaterialTextBox locationCity;
 
     @UiField
-    MaterialInputMask<String> locationPostCode;
+    MaterialInputMask locationPostCode;
 
     @UiField
     CountryComboBox locationCountry;

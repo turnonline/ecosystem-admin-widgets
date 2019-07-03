@@ -89,7 +89,7 @@ public class SettingsView
     MaterialTextBox billingAddressCity;
 
     @UiField
-    MaterialInputMask<String> billingAddressPostcode;
+    MaterialInputMask billingAddressPostcode;
 
     @UiField
     CountryComboBox billingAddressCountry;

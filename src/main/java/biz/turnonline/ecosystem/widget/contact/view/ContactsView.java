@@ -73,17 +73,6 @@ public class ContactsView
     @UiField
     ConfirmationWindow confirmationWindow;
 
-    @Override
-    public void refresh()
-    {
-        table.refresh();
-    }
-
-    interface ContactsViewUiBinder
-            extends UiBinder<HTMLPanel, ContactsView>
-    {
-    }
-
     @Inject
     public ContactsView( EventBus eventBus, @Named( "ContactsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
@@ -101,27 +90,33 @@ public class ContactsView
         } );
     }
 
+    @Override
+    public void refresh()
+    {
+        table.refresh();
+    }
+
     private void initTable()
     {
         ColumnContactType<ContactCard> type = new ColumnContactType<>();
-        type.setWidth( "5%" );
+        type.width( "5%" );
 
         ColumnContactName<ContactCard> name = new ColumnContactName<>();
-        name.setWidth( "30%" );
+        name.width( "30%" );
 
         ColumnContactAddress<ContactCard> address = new ColumnContactAddress<>();
-        address.setWidth( "30%" );
+        address.width( "30%" );
 
         ColumnContactContacts<ContactCard> contacts = new ColumnContactContacts<>();
-        contacts.setWidth( "30%" );
+        contacts.width( "30%" );
 
         ColumnActions actions = new ColumnActions( bus() );
-        actions.setWidth( "5%" );
+        actions.width( "5%" );
 
-        table.addColumn( type, "" );
-        table.addColumn( name, messages.labelName() );
-        table.addColumn( address, messages.labelAddress() );
-        table.addColumn( contacts, messages.labelContacts() );
+        table.addColumn( "", type );
+        table.addColumn( messages.labelName(), name );
+        table.addColumn( messages.labelAddress(), address );
+        table.addColumn( messages.labelContacts(), contacts );
         table.addColumn( actions );
 
         table.configure( new ContactsDataSource( ( AppEventBus ) bus() ) );
@@ -154,5 +149,10 @@ public class ContactsView
                 }
             } );
         }
+    }
+
+    interface ContactsViewUiBinder
+            extends UiBinder<HTMLPanel, ContactsView>
+    {
     }
 }

@@ -133,7 +133,7 @@ public class EditContactView
     MaterialTextBox city;
 
     @UiField
-    MaterialInputMask<String> postCode;
+    MaterialInputMask postCode;
 
     @UiField
     CountryComboBox country;
@@ -162,7 +162,7 @@ public class EditContactView
     MaterialTextBox postalCity;
 
     @UiField
-    MaterialInputMask<String> postalPostCode;
+    MaterialInputMask postalPostCode;
 
     @UiField
     CountryComboBox postalCountry;

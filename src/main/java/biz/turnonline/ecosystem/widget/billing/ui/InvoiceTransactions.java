@@ -23,17 +23,17 @@ public class InvoiceTransactions
         ( ( AbstractDataTable.DefaultTableScaffolding ) getScaffolding() ).getXScrollPanel().removeFromParent();
 
         ColumnTransactionKey key = new ColumnTransactionKey();
-        key.setWidth( "40%" );
+        key.width( "40%" );
 
         ColumnTransactionPaymentMethod paymentMethod = new ColumnTransactionPaymentMethod();
-        paymentMethod.setWidth( "30%" );
+        paymentMethod.width( "30%" );
 
         ColumnTransactionAmount amount = new ColumnTransactionAmount();
-        amount.setWidth( "30%" );
+        amount.width( "30%" );
 
-        addColumn( key, "Key" ); // TODO: localize
-        addColumn( paymentMethod, "Method" ); // TODO: localize
-        addColumn( amount, "Amount" ); // TODO: localize
+        addColumn( "Key", key ); // TODO: localize
+        addColumn( "Method", paymentMethod ); // TODO: localize
+        addColumn( "Amount", amount ); // TODO: localize
     }
 
     @Override

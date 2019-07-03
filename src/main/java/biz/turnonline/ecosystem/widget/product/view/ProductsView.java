@@ -74,17 +74,6 @@ public class ProductsView
     @UiField
     ConfirmationWindow confirmationWindow;
 
-    @Override
-    public void refresh()
-    {
-        table.refresh();
-    }
-
-    interface ProductsViewUiBinder
-            extends UiBinder<HTMLPanel, ProductsView>
-    {
-    }
-
     @Inject
     public ProductsView( EventBus eventBus, @Named( "ProductsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
@@ -102,31 +91,37 @@ public class ProductsView
         } );
     }
 
+    @Override
+    public void refresh()
+    {
+        table.refresh();
+    }
+
     private void initTable()
     {
         ColumnProductPicture picture = new ColumnProductPicture();
-        picture.setWidth( "5%" );
+        picture.width( "5%" );
 
         ColumnProductPublished published = new ColumnProductPublished();
-        published.setWidth( "5%" );
+        published.width( "5%" );
 
         ColumnProductName name = new ColumnProductName();
-        name.setWidth( "40%" );
+        name.width( "40%" );
 
         ColumnProductPrice price = new ColumnProductPrice();
-        price.setWidth( "25%" );
+        price.width( "25%" );
 
         ColumnProductVat vat = new ColumnProductVat();
-        vat.setWidth( "20%" );
+        vat.width( "20%" );
 
         ColumnActions actions = new ColumnActions( bus() );
-        actions.setWidth( "5%" );
+        actions.width( "5%" );
 
         table.addColumn( picture );
         table.addColumn( published );
-        table.addColumn( name, messages.labelName() );
-        table.addColumn( price, messages.labelPriceExcludingVat() );
-        table.addColumn( vat, messages.labelVat() );
+        table.addColumn( messages.labelName(), name );
+        table.addColumn( messages.labelPriceExcludingVat(), price );
+        table.addColumn( messages.labelVat(), vat );
         table.addColumn( actions );
 
         table.configure( new ProductsDataSource( ( AppEventBus ) bus() ) );
@@ -159,5 +154,10 @@ public class ProductsView
                 }
             } );
         }
+    }
+
+    interface ProductsViewUiBinder
+            extends UiBinder<HTMLPanel, ProductsView>
+    {
     }
 }
