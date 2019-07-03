@@ -63,8 +63,6 @@ public class EditProductView
     @UiField
     EditProductTabs tabs;
 
-    // -- tab contents
-
     @UiField
     Detail detail;
 
@@ -74,7 +72,7 @@ public class EditProductView
     @UiField( provided = true )
     Publishing publishing;
 
-    @UiField
+    @UiField( provided = true )
     Pricing pricing;
 
     @UiField
@@ -82,8 +80,6 @@ public class EditProductView
 
     @UiField
     EventPanel event;
-
-    // -- buttons
 
     @UiField
     MaterialButton btnSave;
@@ -107,6 +103,8 @@ public class EditProductView
         setActive( Route.PRODUCTS );
 
         publishing = new Publishing( eventBus );
+        pricing = new Pricing( eventBus );
+
         add( binder.createAndBindUi( this ) );
 
         event.init( addressLookup );

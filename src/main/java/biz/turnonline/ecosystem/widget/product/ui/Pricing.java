@@ -1,20 +1,24 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
+import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -24,13 +28,6 @@ public class Pricing
         implements HasModel<Product>
 {
     private static PricingUiBinder binder = GWT.create( PricingUiBinder.class );
-
-    interface PricingUiBinder
-            extends UiBinder<HTMLPanel, Pricing>
-    {
-    }
-
-    // -- price definition
 
     @UiField
     MaterialDoubleBox priceExclVat;
@@ -50,14 +47,17 @@ public class Pricing
     @UiField
     MaterialSwitch domesticDelivery;
 
-    // -- discount
+    @UiField( provided = true )
+    PricingItemsPanel itemsPanel;
 
     @UiField
     Discounts discounts;
 
     @Inject
-    public Pricing()
+    public Pricing( EventBus eventBus )
     {
+        itemsPanel = new PricingItemsPanel( eventBus );
+
         initWidget( binder.createAndBindUi( this ) );
     }
 
@@ -87,6 +87,18 @@ public class Pricing
         vatNonEU.setSingleValueByCode( pricing.getVatNonEU() );
 
         discounts.setValue( pricing.getDiscounts() );
+
+        // populate pricing item template if any
+        ProductPricing pp = product.getPricing();
+        PricingItem template = pp == null ? null : pp.getItems();
+
+        List<PricingItem> items = new ArrayList<>();
+        if ( template != null )
+        {
+            items.add( template );
+        }
+
+        itemsPanel.fill( items );
     }
 
     private ProductPricing getProductPricing( Product product )
@@ -104,5 +116,10 @@ public class Pricing
         }
 
         return pricing;
+    }
+
+    interface PricingUiBinder
+            extends UiBinder<HTMLPanel, Pricing>
+    {
     }
 }

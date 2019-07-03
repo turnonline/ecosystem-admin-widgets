@@ -354,6 +354,9 @@ public interface AppMessages
     @Key( "label.domain.placeholder.subdomain" )
     String labelDomainPlaceholderSubdomain();
 
+    @Key( "label.product.pricing.template" )
+    String labelProductPricingTemplate();
+
     @Key( value = "label.discountCode" )
     String labelDiscountCode();
 

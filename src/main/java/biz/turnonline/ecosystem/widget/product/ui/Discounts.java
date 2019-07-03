@@ -49,7 +49,7 @@ public class Discounts
         root.add( actions );
         root.add( rows );
 
-        actions.getElement().setAttribute( "style", "margin: 10px 0;padding-bottom: 20px;border-bottom: 1px solid #9e9e9e;" );
+        actions.getElement().setAttribute( "style", "margin: 10px 0;padding-bottom: 20px;" );
 
         MaterialButton btnAdd = new MaterialButton( messages.labelAdd(), IconType.ADD_CIRCLE, ButtonType.OUTLINED );
         btnAdd.setIconColor( Color.GREEN );

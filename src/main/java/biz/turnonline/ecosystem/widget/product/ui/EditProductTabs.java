@@ -14,10 +14,10 @@ public class EditProductTabs
         super();
 
         add( newTabItem( messages.labelDetail(), "tabDetail", IconType.VISIBILITY ) );
-        add( newTabItem( messages.labelContent(), "tabContent", IconType.CODE ) );
-        add( newTabItem( messages.labelPublishing(), "tabPublishing", IconType.PUBLIC ) );
         add( newTabItem( messages.labelPricing(), "tabPricing", IconType.ATTACH_MONEY ) );
         add( newTabItem( messages.labelInvoicing(), "tabInvoicing", IconType.ASSIGNMENT ) );
+        add( newTabItem( messages.labelContent(), "tabContent", IconType.CODE ) );
+        add( newTabItem( messages.labelPublishing(), "tabPublishing", IconType.PUBLIC ) );
         add( newTabItem( messages.labelEvent(), "tabEvent", IconType.EVENT ) );
     }
 }

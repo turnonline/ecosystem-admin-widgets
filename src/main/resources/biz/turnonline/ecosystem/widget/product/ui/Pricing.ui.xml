@@ -25,27 +25,34 @@
 
     <g:HTMLPanel>
         <m:MaterialRow>
-            <m:MaterialColumn grid="s12 m3">
+            <m:MaterialColumn grid="s6">
                 <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPriceDefinition}"/>
 
-                <m:MaterialRow marginLeft="-10">
-                    <m:MaterialDoubleBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}" grid="s12 m8"/>
-                    <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" grid="s12 m4"/>
+                <m:MaterialRow>
+                    <m:MaterialDoubleBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}" grid="m8"/>
+                    <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" grid="m4"/>
+                </m:MaterialRow>
+
+                <m:MaterialRow marginLeft="-20">
+                    <m:MaterialSwitch ui:field="domesticDelivery" onLabel="{msg.labelDomesticDelivery}" grid="m12"/>
                 </m:MaterialRow>
             </m:MaterialColumn>
 
-            <m:MaterialColumn grid="s12 m12">
+            <m:MaterialColumn grid="s6">
                 <s:SectionTitle iconType="ATTACH_MONEY" title="{msg.labelVatDefinition}"/>
 
-                <m:MaterialRow marginLeft="-10">
-                    <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}" grid="s12 m1"/>
-                    <s:VatRateComboBox ui:field="vatEU" label="{msg.labelVatEU}" grid="s12 m1"/>
-                    <s:VatRateComboBox ui:field="vatNonEU" label="{msg.labelVatNonEU}" grid="s12 m1"/>
+                <m:MaterialRow>
+                    <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}" grid="m4"/>
+                    <s:VatRateComboBox ui:field="vatEU" label="{msg.labelVatEU}" grid="m4"/>
+                    <s:VatRateComboBox ui:field="vatNonEU" label="{msg.labelVatNonEU}" grid="m4"/>
                 </m:MaterialRow>
+            </m:MaterialColumn>
+        </m:MaterialRow>
 
-                <m:MaterialRow marginLeft="-20" marginTop="-25">
-                    <m:MaterialSwitch ui:field="domesticDelivery" onLabel="{msg.labelDomesticDelivery}" grid="s12 m12"/>
-                </m:MaterialRow>
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m12">
+                <s:SectionTitle iconType="EQUALIZER" title="{msg.labelProductPricingTemplate}"/>
+                <s:PricingItemsPanel ui:field="itemsPanel"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m12">
