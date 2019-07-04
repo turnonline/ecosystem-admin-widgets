@@ -18,6 +18,9 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Model definition for PricingStructureTemplate.
  *
@@ -36,61 +39,51 @@ public final class PricingStructureTemplate
     /**
      * The value may be {@code null}.
      */
-    
     private Double amount;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Boolean checkedIn;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Integer id;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String itemName;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String itemType;
 
     /**
      * The value may be {@code null}.
      */
-    
-    private java.util.List<PricingStructureTemplate> items;
+    private List<PricingStructureTemplate> items;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Integer order;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Double priceExclVat;
 
     /**
      * The value may be {@code null}.
      */
-    
-    private java.util.Map<String, Object> subsidiary;
+    private Map<String, Object> subsidiary;
 
     /**
      * The value may be {@code null}.
      */
-    
     private String unit;
 
     /**
@@ -181,7 +174,7 @@ public final class PricingStructureTemplate
     /**
      * @return value or {@code null} for none
      */
-    public java.util.List<PricingStructureTemplate> getItems()
+    public List<PricingStructureTemplate> getItems()
     {
         return items;
     }
@@ -189,7 +182,7 @@ public final class PricingStructureTemplate
     /**
      * @param items items or {@code null} for none
      */
-    public PricingStructureTemplate setItems( java.util.List<PricingStructureTemplate> items )
+    public PricingStructureTemplate setItems( List<PricingStructureTemplate> items )
     {
         this.items = items;
         return this;
@@ -232,7 +225,7 @@ public final class PricingStructureTemplate
     /**
      * @return value or {@code null} for none
      */
-    public java.util.Map<String, Object> getSubsidiary()
+    public Map<String, Object> getSubsidiary()
     {
         return subsidiary;
     }
@@ -240,7 +233,7 @@ public final class PricingStructureTemplate
     /**
      * @param subsidiary subsidiary or {@code null} for none
      */
-    public PricingStructureTemplate setSubsidiary( java.util.Map<String, Object> subsidiary )
+    public PricingStructureTemplate setSubsidiary( Map<String, Object> subsidiary )
     {
         this.subsidiary = subsidiary;
         return this;

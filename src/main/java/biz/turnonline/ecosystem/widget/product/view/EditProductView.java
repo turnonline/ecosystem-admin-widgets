@@ -153,6 +153,12 @@ public class EditProductView
         bus().fireEvent( new SaveProductEvent( getModel() ) );
     }
 
+    @Override
+    public void update( biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing result )
+    {
+        pricing.update( result );
+    }
+
     interface EditProductViewUiBinder
             extends UiBinder<HTMLPanel, EditProductView>
     {

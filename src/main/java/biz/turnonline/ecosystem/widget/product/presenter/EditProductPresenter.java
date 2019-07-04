@@ -24,9 +24,11 @@ import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import com.google.gwt.place.shared.PlaceController;
@@ -78,6 +80,10 @@ public class EditProductPresenter
                         ( SuccessCallback<Product> ) response -> success( messages.msgRecordUpdated() ) );
             }
         } );
+
+        bus().addHandler( CalculatePricingEvent.TYPE, event ->
+                bus().billing().calculate( event.getPricing(), response -> view().update( response ) ) );
+
     }
 
     @Override
@@ -117,5 +123,11 @@ public class EditProductPresenter
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Product>
     {
+        /**
+         * Updates the product pricing items UI by recalculated pricing.
+         *
+         * @param pricing the recalculated pricing
+         */
+        void update( Pricing pricing );
     }
 }

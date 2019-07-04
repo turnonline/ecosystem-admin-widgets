@@ -35,7 +35,7 @@
                                   marginTop="10" marginBottom="10" marginRight="10"/>
 
                 <m:MaterialButton ui:field="btnCalculate" type="OUTLINED" waves="GREEN" backgroundColor="WHITE"
-                                  textColor="GREEN" iconType="INPUT" text="{msg.labelCalculate}"
+                                  textColor="GREEN" iconType="REFRESH" text="{msg.labelCalculate}"
                                   marginTop="10" marginBottom="10" marginRight="10"/>
 
                 <m:MaterialIcon ui:field="btnCollapse" tooltip="Collapse" iconType="VERTICAL_ALIGN_CENTER" marginTop="12"

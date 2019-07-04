@@ -48,6 +48,7 @@ import gwt.material.design.client.ui.table.TableHeader;
 import gwt.material.design.client.ui.table.TableRow;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -163,9 +164,30 @@ public class PricingItemsPanel
         return rootTreeItem.bind();
     }
 
-    public void fill( List<PricingItem> items )
+    /**
+     * Updates pricing item tree and row items.
+     *
+     * @param items the pricing items
+     */
+    public void fill( @Nullable List<PricingItem> items )
     {
-        rootTreeItem = TreeItemWithModel.parent( bus );
+        fill( items, false );
+    }
+
+    /**
+     * Updates pricing item tree and row items that represents product's pricing template.
+     *
+     * @param items the pricing items taken from product pricing template
+     */
+    public void fillFromTemplate( @Nullable List<PricingItem> items )
+    {
+
+        fill( items, true );
+    }
+
+    private void fill( @Nullable List<PricingItem> items, boolean template )
+    {
+        rootTreeItem = TreeItemWithModel.parent( bus, template );
 
         itemsRoot.getBody().clear();
         pricingTree.clear();

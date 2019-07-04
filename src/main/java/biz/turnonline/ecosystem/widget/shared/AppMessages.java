@@ -228,6 +228,9 @@ public interface AppMessages
     @Key( value = "label.pricing" )
     String labelPricing();
 
+    @Key( "label.pricingItems" )
+    String labelPricingItems();
+
     @Key( value = "label.event" )
     String labelEvent();
 

@@ -49,7 +49,7 @@ public class Discounts
         root.add( actions );
         root.add( rows );
 
-        actions.getElement().setAttribute( "style", "margin: 10px 0;padding-bottom: 20px;" );
+        actions.getElement().setAttribute( "style", "margin: 10px 10px;padding-bottom: 20px;" );
 
         MaterialButton btnAdd = new MaterialButton( messages.labelAdd(), IconType.ADD_CIRCLE, ButtonType.OUTLINED );
         btnAdd.setIconColor( Color.GREEN );
@@ -129,7 +129,6 @@ public class Discounts
     {
         MaterialRow row = new MaterialRow();
         row.setMarginBottom( 0 );
-        row.setMarginLeft( -10 );
         rows.add( row );
 
         MaterialCheckBox selected = new MaterialCheckBox();

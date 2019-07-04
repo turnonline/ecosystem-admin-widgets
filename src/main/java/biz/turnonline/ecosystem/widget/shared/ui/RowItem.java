@@ -123,8 +123,9 @@ class RowItem
         ( ( TableData ) vat.getParent() ).setDataAttribute( "data-title", messages.labelVat() );
         ( ( TableData ) delete.getParent() ).setDataAttribute( "data-title", messages.labelDelete() );
 
-        if ( treeItem.isRoot() )
+        if ( !treeItem.isPricingTemplate() && treeItem.isRoot() )
         {
+            // product search is available only for root item but not for items initialized from template
             itemName = itemNameSearch.getItemBox();
         }
         else

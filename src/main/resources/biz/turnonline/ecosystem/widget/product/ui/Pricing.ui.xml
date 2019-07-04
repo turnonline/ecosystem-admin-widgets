@@ -33,7 +33,7 @@
                     <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" grid="m4"/>
                 </m:MaterialRow>
 
-                <m:MaterialRow marginLeft="-20">
+                <m:MaterialRow marginLeft="-10">
                     <m:MaterialSwitch ui:field="domesticDelivery" onLabel="{msg.labelDomesticDelivery}" grid="m12"/>
                 </m:MaterialRow>
             </m:MaterialColumn>

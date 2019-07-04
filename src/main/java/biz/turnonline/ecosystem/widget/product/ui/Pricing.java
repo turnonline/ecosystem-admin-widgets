@@ -1,7 +1,9 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingStructureTemplate;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductInvoicing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
@@ -16,9 +18,13 @@ import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
+import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.STANDARD;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -61,6 +67,16 @@ public class Pricing
         initWidget( binder.createAndBindUi( this ) );
     }
 
+    /**
+     * Updates the product pricing items UI by recalculated pricing.
+     *
+     * @param result the recalculated pricing
+     */
+    public void update( biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing result )
+    {
+        itemsPanel.fillFromTemplate( result.getItems() );
+    }
+
     @Override
     public void bind( Product product )
     {
@@ -76,9 +92,9 @@ public class Pricing
     }
 
     @Override
-    public void fill( Product product )
+    public void fill( @Nonnull Product product )
     {
-        ProductPricing pricing = getProductPricing( product );
+        ProductPricing pricing = getProductPricing( checkNotNull( product, "Product cannot be null" ) );
 
         priceExclVat.setValue( pricing.getPriceExclVat() );
         currency.setSingleValue( pricing.getCurrency() );
@@ -89,16 +105,71 @@ public class Pricing
         discounts.setValue( pricing.getDiscounts() );
 
         // populate pricing item template if any
-        ProductPricing pp = product.getPricing();
-        PricingItem template = pp == null ? null : pp.getItems();
-
+        List<PricingStructureTemplate> templates = pricing.getTemplate();
         List<PricingItem> items = new ArrayList<>();
-        if ( template != null )
+
+        if ( templates != null )
         {
-            items.add( template );
+            for ( PricingStructureTemplate next : templates )
+            {
+                items.add( fromTemplate( next ) );
+            }
         }
 
-        itemsPanel.fill( items );
+        ProductInvoicing invoicing = product.getInvoicing();
+
+        String currency = pricing.getCurrency();
+        Double priceExclVat = pricing.getPriceExclVat();
+        String unit = invoicing == null ? null : invoicing.getUnit();
+
+        PricingItem root = new PricingItem();
+        root.setAmount( 1.0 );
+        root.setCheckedIn( true );
+        root.setItemName( product.getItemName() );
+        root.setItemType( STANDARD );
+        root.setSubsidiary( pricing.getSubsidiary() );
+        root.setItems( items );
+
+        root.setCurrency( currency == null ? "EUR" : currency );
+        root.setPriceExclVat( priceExclVat == null ? 0.0 : priceExclVat );
+        root.setUnit( unit == null ? "ITEM" : unit );
+
+
+        List<PricingItem> rootAsList = new ArrayList<>();
+        rootAsList.add( root );
+
+        itemsPanel.fillFromTemplate( rootAsList );
+    }
+
+    private PricingItem fromTemplate( @Nonnull PricingStructureTemplate template )
+    {
+        PricingItem item = new PricingItem();
+        item.setAmount( template.getAmount() );
+        item.setCheckedIn( template.getCheckedIn() );
+        item.setItemName( template.getItemName() );
+        item.setItemType( template.getItemType() );
+        item.setOrder( template.getOrder() );
+        item.setPriceExclVat( template.getPriceExclVat() );
+        item.setSubsidiary( template.getSubsidiary() );
+        item.setUnit( template.getUnit() );
+
+        List<PricingStructureTemplate> templates = template.getItems();
+        List<PricingItem> items = new ArrayList<>();
+
+        if ( templates != null )
+        {
+            for ( PricingStructureTemplate next : templates )
+            {
+                items.add( fromTemplate( next ) );
+            }
+        }
+
+        if ( !items.isEmpty() )
+        {
+            item.setItems( items );
+        }
+
+        return item;
     }
 
     private ProductPricing getProductPricing( Product product )

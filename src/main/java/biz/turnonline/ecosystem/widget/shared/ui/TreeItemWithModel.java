@@ -21,6 +21,7 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.ItemChangedCalculateEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingStructureTemplate;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import com.google.common.base.Strings;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -29,7 +30,6 @@ import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,10 +47,10 @@ import static gwt.material.design.client.constants.IconType.PERSONAL_VIDEO;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-class TreeItemWithModel
+public class TreeItemWithModel
         extends MaterialTreeItem
 {
-    static final String STANDARD = "Standard";
+    public static final String STANDARD = "Standard";
 
     static final String ORDER_ITEM = "OrderItem";
 
@@ -64,6 +64,8 @@ class TreeItemWithModel
 
     private final EventBus eventBus;
 
+    private final boolean pricingTemplate;
+
     private TreeItemWithModel parent;
 
     private PricingItem model;
@@ -72,16 +74,18 @@ class TreeItemWithModel
 
     private List<RowItem> childrenRows = new ArrayList<>();
 
-    private TreeItemWithModel( @Nonnull EventBus eventBus )
+    private TreeItemWithModel( @Nonnull EventBus eventBus, boolean template )
     {
         this.eventBus = eventBus;
         this.model = null;
+        this.pricingTemplate = template;
     }
 
-    private TreeItemWithModel( @Nonnull EventBus eventBus, @Nullable PricingItem model )
+    private TreeItemWithModel( @Nonnull EventBus eventBus, @Nonnull PricingItem model, boolean template )
     {
         this.eventBus = checkNotNull( eventBus );
         this.model = checkNotNull( model );
+        this.pricingTemplate = template;
 
         String itemName;
         if ( model.getCurrency() != null && model.getFinalPriceExclVat() != null )
@@ -126,12 +130,14 @@ class TreeItemWithModel
      * Returns the tree item as a parent item that does not have a pricing item associated.
      *
      * @param eventBus the app wide even bus
+     * @param template boolean indication whether model will be initialized from pricing template
+     *                 {@link PricingStructureTemplate}
      * @return the tree item as a parent
      */
-    static TreeItemWithModel parent( @Nonnull EventBus eventBus )
+    static TreeItemWithModel parent( @Nonnull EventBus eventBus, boolean template )
     {
-        TreeItemWithModel widgets = new TreeItemWithModel( eventBus );
-        widgets.setText( messages.labelOrderItems() );
+        TreeItemWithModel widgets = new TreeItemWithModel( eventBus, template );
+        widgets.setText( messages.labelPricingItems() );
         widgets.setIconType( FOLDER );
 
         return widgets;
@@ -225,7 +231,7 @@ class TreeItemWithModel
      */
     TreeItemWithModel add( @Nonnull PricingItem item )
     {
-        TreeItemWithModel treeItem = new TreeItemWithModel( eventBus, item );
+        TreeItemWithModel treeItem = new TreeItemWithModel( eventBus, item, pricingTemplate );
         treeItem.parent = this;
 
         addItem( treeItem );
@@ -285,6 +291,16 @@ class TreeItemWithModel
     boolean isRoot()
     {
         return parent.getModel() == null;
+    }
+
+    /**
+     * Returns boolean indication whether model has been initialized from pricing template.
+     *
+     * @return {@code true} if initialized from {@link PricingStructureTemplate}
+     */
+    boolean isPricingTemplate()
+    {
+        return pricingTemplate;
     }
 
     /**
