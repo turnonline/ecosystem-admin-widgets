@@ -134,7 +134,7 @@ public class Discounts
         MaterialCheckBox selected = new MaterialCheckBox();
         selected.setGrid( "s12 m1" );
         selected.getElement().setAttribute( "style", "margin: 30px 0 0 0;" );
-        selected.setWidth( "3%" );
+        selected.setWidth( "4%" );
         selected.addClickHandler( event -> row.setBackgroundColor( selected.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
         row.add( selected );
 
@@ -168,7 +168,7 @@ public class Discounts
         enabled.setWidth( "5%" );
         enabled.setDisplay( Display.INITIAL );
         enabled.setMarginTop( 25 );
-        enabled.setMarginLeft( -15 );
+        enabled.setMarginLeft( -40 );
         enabled.addValueChangeHandler( event -> handleEnabled( row ) );
         row.add( enabled );
 

@@ -65,6 +65,8 @@ public class Pricing
         itemsPanel = new PricingItemsPanel( eventBus );
 
         initWidget( binder.createAndBindUi( this ) );
+
+        vat.addValueChangeHandler( e -> itemsPanel.getRootTreeItem().changeVatInTree( e.getValue().get( 0 ) ) );
     }
 
     /**
@@ -143,7 +145,10 @@ public class Pricing
 
     private PricingItem fromTemplate( @Nonnull PricingStructureTemplate template )
     {
+        Integer templateId = template.getId();
+
         PricingItem item = new PricingItem();
+        item.setId( templateId == null ? null : templateId.longValue() );
         item.setAmount( template.getAmount() );
         item.setCheckedIn( template.getCheckedIn() );
         item.setItemName( template.getItemName() );

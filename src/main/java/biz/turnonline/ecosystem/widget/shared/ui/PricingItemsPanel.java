@@ -185,6 +185,16 @@ public class PricingItemsPanel
         fill( items, true );
     }
 
+    /**
+     * Returns the root {@link TreeItemWithModel} for this panel.
+     *
+     * @return the root tree item model
+     */
+    public TreeItemWithModel getRootTreeItem()
+    {
+        return rootTreeItem;
+    }
+
     private void fill( @Nullable List<PricingItem> items, boolean template )
     {
         rootTreeItem = TreeItemWithModel.parent( bus, template );

@@ -49,17 +49,24 @@
             </m:MaterialColumn>
         </m:MaterialRow>
 
-        <m:MaterialRow>
-            <m:MaterialColumn grid="s12 m12">
-                <s:SectionTitle iconType="EQUALIZER" title="{msg.labelProductPricingTemplate}"/>
-                <s:PricingItemsPanel ui:field="itemsPanel"/>
-            </m:MaterialColumn>
+        <m:MaterialCollapsible shadow="0" marginBottom="-10" marginLeft="-11" marginRight="-10" borderLeft="0" borderRight="0">
+            <m:MaterialCollapsibleItem>
+                <m:MaterialCollapsibleHeader>
+                    <m:MaterialLink text="{msg.labelProductPricingTemplate}" iconType="EQUALIZER" iconPosition="LEFT" textColor="BLUE"/>
+                </m:MaterialCollapsibleHeader>
+                <m:MaterialCollapsibleBody padding="10">
+                    <s:PricingItemsPanel ui:field="itemsPanel"/>
+                </m:MaterialCollapsibleBody>
+            </m:MaterialCollapsibleItem>
 
-            <m:MaterialColumn grid="s12 m12">
-                <s:SectionTitle iconType="LOCAL_OFFER" title="{msg.labelDiscounts}"/>
-
-                <ui2:Discounts ui:field="discounts"/>
-            </m:MaterialColumn>
-        </m:MaterialRow>
+            <m:MaterialCollapsibleItem>
+                <m:MaterialCollapsibleHeader borderBottom="0">
+                    <m:MaterialLink text="{msg.labelDiscounts}" iconType="LOCAL_OFFER" iconPosition="LEFT" textColor="BLUE"/>
+                </m:MaterialCollapsibleHeader>
+                <m:MaterialCollapsibleBody padding="10">
+                    <ui2:Discounts ui:field="discounts"/>
+                </m:MaterialCollapsibleBody>
+            </m:MaterialCollapsibleItem>
+        </m:MaterialCollapsible>
     </g:HTMLPanel>
 </ui:UiBinder>

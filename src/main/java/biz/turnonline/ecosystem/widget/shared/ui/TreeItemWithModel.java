@@ -259,7 +259,7 @@ public class TreeItemWithModel
      *
      * @param rate the vat rate to be set
      */
-    private void changeVatInTree( VatRate rate )
+    public void changeVatInTree( VatRate rate )
     {
         rowItem.setVatRateValue( rate );
         if ( model != null )

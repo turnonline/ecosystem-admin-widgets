@@ -127,14 +127,14 @@ class RowItem
         {
             // product search is available only for root item but not for items initialized from template
             itemName = itemNameSearch.getItemBox();
+
+            // by default in UI binder itemNameSearch is not visible
+            itemNameStandard.setVisible( false );
+            itemNameSearch.setVisible( true );
         }
         else
         {
             itemName = itemNameStandard;
-
-            // by default in UI binder itemNameStandard is not visible
-            itemNameStandard.setVisible( true );
-            itemNameSearch.setVisible( false );
         }
     }
 
@@ -190,7 +190,12 @@ class RowItem
 
         PricingProduct product = model.getProduct();
         boolean hasProduct = product != null && product.getId() != null;
-        vat.setReadOnly( !treeItem.isRoot() || hasProduct );
+        // if items are initialized from template, VAT is managed via TreeItemWithModel#changeVatInTree(VatRate)
+        vat.setReadOnly( treeItem.isPricingTemplate() || !treeItem.isRoot() || hasProduct );
+
+        // once initialized from product template root the item represents a product itself,
+        // so do not allow to be deleted
+        delete.setEnabled( !( treeItem.isPricingTemplate() && treeItem.isRoot() ) );
     }
 
     public MaterialCheckBox getDelete()
