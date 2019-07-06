@@ -25,6 +25,7 @@ import biz.turnonline.ecosystem.widget.shared.event.RowItemSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.JSON;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import com.github.nmorel.gwtjackson.client.ObjectMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,6 +53,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.List;
 
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.ATTENDEE;
 import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.EVENT_PART;
 import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.ORDER_ITEM;
@@ -117,6 +119,8 @@ public class PricingItemsPanel
     private EventBus bus;
 
     private PricingItemMapper mapper;
+
+    private String currency;
 
     @Inject
     public PricingItemsPanel( EventBus eventBus )
@@ -186,13 +190,24 @@ public class PricingItemsPanel
     }
 
     /**
-     * Returns the root {@link TreeItemWithModel} for this panel.
+     * Changes the specified VAT for entire pricing tree recursively.
      *
-     * @return the root tree item model
+     * @param rate the vat rate to be set
      */
-    public TreeItemWithModel getRootTreeItem()
+    public void changeVatInTree( @Nonnull VatRate rate )
     {
-        return rootTreeItem;
+        this.rootTreeItem.changeVatInTree( rate );
+    }
+
+    /**
+     * Sets the currency for entire pricing tree recursively.
+     *
+     * @param currency the target currency
+     */
+    public void setCurrency( @Nonnull String currency )
+    {
+        this.currency = checkNotNull( currency, "Currency cannot be null" );
+        this.rootTreeItem.changeCurrencyInTree( currency );
     }
 
     private void fill( @Nullable List<PricingItem> items, boolean template )
@@ -344,7 +359,7 @@ public class PricingItemsPanel
 
         PricingItem item = new PricingItem();
         item.setPriceExclVat( 0D );
-        item.setCurrency( "EUR" );
+        item.setCurrency( currency == null ? "EUR" : currency );
 
         PricingItem model = selected.getModel();
         if ( model != null && model.getVat() != null )

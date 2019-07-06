@@ -255,12 +255,14 @@ public class TreeItemWithModel
     }
 
     /**
-     * Changes the specified VAT for whole tree recursively.
+     * Changes the specified VAT for entire pricing tree recursively.
      *
      * @param rate the vat rate to be set
      */
-    public void changeVatInTree( VatRate rate )
+    void changeVatInTree( @Nonnull VatRate rate )
     {
+        checkNotNull( rate, "VatRate cannot be null" );
+
         rowItem.setVatRateValue( rate );
         if ( model != null )
         {
@@ -272,6 +274,26 @@ public class TreeItemWithModel
         for ( RowItem next : childrenRows )
         {
             next.getTreeItem().changeVatInTree( rate );
+        }
+    }
+
+    /**
+     * Changes the specified currency for entire pricing tree recursively.
+     *
+     * @param currency the target currency
+     */
+    void changeCurrencyInTree( @Nonnull String currency )
+    {
+        checkNotNull( currency, "Currency cannot be null" );
+
+        if ( model != null )
+        {
+            model.setCurrency( currency );
+        }
+
+        for ( RowItem next : childrenRows )
+        {
+            next.getTreeItem().changeCurrencyInTree( currency );
         }
     }
 

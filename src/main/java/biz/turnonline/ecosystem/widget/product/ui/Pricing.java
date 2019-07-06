@@ -66,7 +66,8 @@ public class Pricing
 
         initWidget( binder.createAndBindUi( this ) );
 
-        vat.addValueChangeHandler( e -> itemsPanel.getRootTreeItem().changeVatInTree( e.getValue().get( 0 ) ) );
+        vat.addValueChangeHandler( e -> itemsPanel.changeVatInTree( e.getValue().get( 0 ) ) );
+        currency.addValueChangeHandler( e -> itemsPanel.setCurrency( e.getValue().get( 0 ) ) );
     }
 
     /**
@@ -121,6 +122,8 @@ public class Pricing
         ProductInvoicing invoicing = product.getInvoicing();
 
         String currency = pricing.getCurrency();
+        currency = currency == null ? "EUR" : currency;
+
         Double priceExclVat = pricing.getPriceExclVat();
         String unit = invoicing == null ? null : invoicing.getUnit();
 
@@ -131,16 +134,17 @@ public class Pricing
         root.setItemType( STANDARD );
         root.setSubsidiary( pricing.getSubsidiary() );
         root.setItems( items );
+        root.setCurrency( currency );
 
-        root.setCurrency( currency == null ? "EUR" : currency );
         root.setPriceExclVat( priceExclVat == null ? 0.0 : priceExclVat );
         root.setUnit( unit == null ? "ITEM" : unit );
-
 
         List<PricingItem> rootAsList = new ArrayList<>();
         rootAsList.add( root );
 
         itemsPanel.fillFromTemplate( rootAsList );
+        // sets currency recursively for all current items
+        itemsPanel.setCurrency( currency );
     }
 
     private PricingItem fromTemplate( @Nonnull PricingStructureTemplate template )
