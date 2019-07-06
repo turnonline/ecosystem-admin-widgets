@@ -19,6 +19,7 @@ import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,9 @@ public class Pricing
     public void update( biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing result )
     {
         itemsPanel.fillFromTemplate( result.getItems() );
+        priceExclVat.setValue( result.getTotalPriceExclVat() );
+
+        evalReadOnlyPriceExclVat( result.getItems() );
     }
 
     @Override
@@ -90,18 +94,32 @@ public class Pricing
         pricing.setVat( vat.getSingleValueByCode() );
         pricing.setVatEU( vatEU.getSingleValueByCode() );
         pricing.setVatNonEU( vatNonEU.getSingleValueByCode() );
-
         pricing.setDiscounts( discounts.getValue() );
+
+        List<PricingItem> items = itemsPanel.bind();
+        List<PricingStructureTemplate> templates = new ArrayList<>();
+
+        if ( items != null && !items.isEmpty() && items.get( 0 ).getItems() != null )
+        {
+            // get rid of the root pricing item as it represents product itself
+            for ( PricingItem next : items.get( 0 ).getItems() )
+            {
+                templates.add( fromPricingItem( next ) );
+            }
+        }
+
+        pricing.setTemplate( templates );
     }
 
     @Override
     public void fill( @Nonnull Product product )
     {
         ProductPricing pricing = getProductPricing( checkNotNull( product, "Product cannot be null" ) );
+        String productVat = pricing.getVat();
 
         priceExclVat.setValue( pricing.getPriceExclVat() );
         currency.setSingleValue( pricing.getCurrency() );
-        vat.setSingleValueByCode( pricing.getVat() );
+        vat.setSingleValueByCode( productVat );
         vatEU.setSingleValueByCode( pricing.getVatEU() );
         vatNonEU.setSingleValueByCode( pricing.getVatNonEU() );
 
@@ -115,7 +133,7 @@ public class Pricing
         {
             for ( PricingStructureTemplate next : templates )
             {
-                items.add( fromTemplate( next ) );
+                items.add( fromTemplate( next, productVat ) );
             }
         }
 
@@ -135,6 +153,7 @@ public class Pricing
         root.setSubsidiary( pricing.getSubsidiary() );
         root.setItems( items );
         root.setCurrency( currency );
+        root.setVat( productVat );
 
         root.setPriceExclVat( priceExclVat == null ? 0.0 : priceExclVat );
         root.setUnit( unit == null ? "ITEM" : unit );
@@ -145,9 +164,12 @@ public class Pricing
         itemsPanel.fillFromTemplate( rootAsList );
         // sets currency recursively for all current items
         itemsPanel.setCurrency( currency );
+
+        evalReadOnlyPriceExclVat( rootAsList );
     }
 
-    private PricingItem fromTemplate( @Nonnull PricingStructureTemplate template )
+    @SuppressWarnings( "Duplicates" )
+    private PricingItem fromTemplate( @Nonnull PricingStructureTemplate template, @Nullable String vat )
     {
         Integer templateId = template.getId();
 
@@ -161,6 +183,7 @@ public class Pricing
         item.setPriceExclVat( template.getPriceExclVat() );
         item.setSubsidiary( template.getSubsidiary() );
         item.setUnit( template.getUnit() );
+        item.setVat( vat );
 
         List<PricingStructureTemplate> templates = template.getItems();
         List<PricingItem> items = new ArrayList<>();
@@ -169,7 +192,7 @@ public class Pricing
         {
             for ( PricingStructureTemplate next : templates )
             {
-                items.add( fromTemplate( next ) );
+                items.add( fromTemplate( next, vat ) );
             }
         }
 
@@ -179,6 +202,51 @@ public class Pricing
         }
 
         return item;
+    }
+
+    @SuppressWarnings( "Duplicates" )
+    private PricingStructureTemplate fromPricingItem( @Nonnull PricingItem item )
+    {
+        Long id = item.getId();
+
+        PricingStructureTemplate template = new PricingStructureTemplate();
+        template.setId( id == null ? null : id.intValue() );
+        template.setAmount( item.getAmount() );
+        template.setCheckedIn( item.getCheckedIn() );
+        template.setItemName( item.getItemName() );
+        template.setItemType( item.getItemType() );
+        template.setOrder( item.getOrder() );
+        template.setPriceExclVat( item.getPriceExclVat() );
+        template.setSubsidiary( item.getSubsidiary() );
+        template.setUnit( item.getUnit() );
+
+        List<PricingItem> items = item.getItems();
+        List<PricingStructureTemplate> templates = new ArrayList<>();
+
+        if ( items != null )
+        {
+            for ( PricingItem next : items )
+            {
+                templates.add( fromPricingItem( next ) );
+            }
+        }
+
+        if ( !templates.isEmpty() )
+        {
+            template.setItems( templates );
+        }
+
+        return template;
+    }
+
+    private void evalReadOnlyPriceExclVat( List<PricingItem> items )
+    {
+        if ( items != null && !items.isEmpty() )
+        {
+            PricingItem root = items.get( 0 );
+            List<PricingItem> priceSpec = root.getItems();
+            priceExclVat.setReadOnly( priceSpec != null && !priceSpec.isEmpty() );
+        }
     }
 
     private ProductPricing getProductPricing( Product product )

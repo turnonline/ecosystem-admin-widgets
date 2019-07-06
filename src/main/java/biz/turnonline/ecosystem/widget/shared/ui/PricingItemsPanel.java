@@ -149,11 +149,7 @@ public class PricingItemsPanel
 
         bus.addHandler( RowItemSelectionEvent.TYPE, event -> btnDelete.setEnabled( event.isSelected() ) );
         bus.addHandler( ItemChangedCalculateEvent.TYPE, event -> calculate() );
-
-        pricingTree.addSelectionHandler( event -> {
-            btnAdd.setEnabled( true );
-            clearAndPopulateRows( ( TreeItemWithModel ) event.getSelectedItem() );
-        } );
+        pricingTree.addSelectionHandler( e -> clearAndPopulateRows( ( TreeItemWithModel ) e.getSelectedItem() ) );
 
         itemsRoot.addBody( new MaterialWidget( DOM.createTBody() ) );
     }
@@ -257,6 +253,16 @@ public class PricingItemsPanel
 
     private void clearAndPopulateRows( @Nonnull TreeItemWithModel selected )
     {
+        if ( rootTreeItem.isPricingTemplate() && rootTreeItem.equals( selected ) )
+        {
+            // root tree item represents only single product, so don't allow add more items
+            btnAdd.setEnabled( false );
+        }
+        else
+        {
+            btnAdd.setEnabled( true );
+        }
+
         itemsRoot.getBody().clear();
         btnDelete.setEnabled( false );
         selectedItemCompositeKey = selected.getItemCompositeKey();
