@@ -45,6 +45,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialButton;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -157,6 +158,12 @@ public class EditProductView
     public void update( biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing result )
     {
         pricing.update( result );
+    }
+
+    @Override
+    public void updatePriceExclVat( @Nullable Double price )
+    {
+        pricing.updatePriceExclVat( price == null ? 0.0 : price );
     }
 
     interface EditProductViewUiBinder

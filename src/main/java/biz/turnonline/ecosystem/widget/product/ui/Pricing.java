@@ -84,6 +84,16 @@ public class Pricing
         evalReadOnlyPriceExclVat( result.getItems() );
     }
 
+    /**
+     * Updates the product's price (excl. VAT).
+     *
+     * @param price the price to be shown to user
+     */
+    public void updatePriceExclVat( @Nonnull Double price )
+    {
+        priceExclVat.setValue( price );
+    }
+
     @Override
     public void bind( Product product )
     {

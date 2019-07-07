@@ -31,8 +31,10 @@ import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
@@ -77,7 +79,7 @@ public class EditProductPresenter
             else
             {
                 bus().billing().updateProduct( product.getId(), false, product,
-                        ( SuccessCallback<Product> ) response -> success( messages.msgRecordUpdated() ) );
+                        ( SuccessCallback<Product> ) this::onProductSuccess );
             }
         } );
 
@@ -120,6 +122,13 @@ public class EditProductPresenter
         }
     }
 
+    private void onProductSuccess( Product response )
+    {
+        ProductPricing pricing = response.getPricing();
+        view().updatePriceExclVat( pricing == null ? 0.0 : pricing.getPriceExclVat() );
+        success( messages.msgRecordUpdated() );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Product>
     {
@@ -129,5 +138,12 @@ public class EditProductPresenter
          * @param pricing the recalculated pricing
          */
         void update( Pricing pricing );
+
+        /**
+         * Updates the product's price (excl. VAT) at pricing panel.
+         *
+         * @param price the price to be shown to user
+         */
+        void updatePriceExclVat( @Nullable Double price );
     }
 }
