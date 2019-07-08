@@ -225,7 +225,7 @@ class RowItem
 
     private void fillFrom( SearchProduct searchProduct )
     {
-        ( ( AppEventBus ) bus ).billing().findProductById( Long.valueOf( searchProduct.getId() ),
+        ( ( AppEventBus ) bus ).billing().findProductById( Long.valueOf( searchProduct.getId() ), false,
                 ( SuccessCallback<Product> ) product -> {
                     ProductPricing pricing = product.getPricing();
 

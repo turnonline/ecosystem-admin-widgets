@@ -261,6 +261,9 @@ public interface AppMessages
     @Key( value = "label.priceExcludingVat" )
     String labelPriceExcludingVat();
 
+    @Key( "label.priceIncludingVat" )
+    String labelPriceIncludingVat();
+
     @Key( value = "label.currency" )
     String labelCurrency();
 
@@ -311,6 +314,15 @@ public interface AppMessages
 
     @Key( value = "label.linkedInShare" )
     String labelLinkedInShare();
+
+    @Key( "label.changes" )
+    String labelChanges();
+
+    @Key( "label.created" )
+    String labelCreated();
+
+    @Key( "label.modified" )
+    String labelModified();
 
     @Key( value = "label.domain" )
     String labelDomain();

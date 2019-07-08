@@ -157,6 +157,7 @@ public class EditProductView
     @Override
     public void update( biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing result )
     {
+        detail.update( result );
         pricing.update( result );
     }
 

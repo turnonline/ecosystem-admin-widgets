@@ -136,7 +136,7 @@ public class Item
 
     private void fillFrom( SearchProduct searchProduct )
     {
-        ( ( AppEventBus ) eventBus ).billing().findProductById( Long.valueOf( searchProduct.getId() ),
+        ( ( AppEventBus ) eventBus ).billing().findProductById( Long.valueOf( searchProduct.getId() ), false,
                 ( SuccessCallback<Product> ) product -> {
                     ProductPricing pricing = product.getPricing();
 

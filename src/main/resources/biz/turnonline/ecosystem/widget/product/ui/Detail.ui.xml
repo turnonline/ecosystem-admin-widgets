@@ -24,19 +24,33 @@
 
     <g:HTMLPanel>
         <m:MaterialRow>
-            <m:MaterialColumn grid="s12 m3">
+            <m:MaterialColumn grid="s12 m6">
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
                 <m:MaterialTextBox ui:field="itemName" label="{msg.labelItemName}"/>
-                <m:MaterialTextBox ui:field="snippet" label="{msg.labelSnippet}"/>
+                <m:MaterialTextArea ui:field="snippet" label="{msg.labelSnippet}"/>
             </m:MaterialColumn>
 
-            <m:MaterialColumn grid="s12 m3">
+            <m:MaterialColumn grid="s12 m4">
                 <s:SectionTitle iconType="VIEW_LIST" title="{msg.labelMetaFields}"/>
 
                 <s:MaterialChipTextBox letter="T" ui:field="availableFields" label="{msg.labelAvailableFields}" tooltip="{msg.tooltipAvailableFields}"/>
                 <s:MaterialChipTextBox letter="T" ui:field="mandatoryFields" label="{msg.labelMandatoryFields}"/>
             </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m2">
+                <s:SectionTitle iconType="ACCESS_TIME" title="{msg.labelChanges}"/>
+
+                <m:MaterialDatePicker ui:field="created" placeholder="{msg.labelCreated}"/>
+                <m:MaterialDatePicker ui:field="modified" placeholder="{msg.labelModified}"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+        <m:MaterialRow>
+            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}"/>
+
+            <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}" grid="m2"/>
+            <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}" grid="m2"/>
+            <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelPriceIncludingVat}" grid="m2"/>
         </m:MaterialRow>
     </g:HTMLPanel>
 </ui:UiBinder>

@@ -96,7 +96,7 @@ public class EditProductPresenter
         EditProduct where = ( EditProduct ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().billing().findProductById( where.getId(),
+            bus().billing().findProductById( where.getId(), true,
                     ( SuccessCallback<Product> ) response -> view().setModel( response ) );
         }
 

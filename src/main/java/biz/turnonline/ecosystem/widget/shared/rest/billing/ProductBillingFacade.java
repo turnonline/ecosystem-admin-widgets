@@ -57,6 +57,7 @@ public interface ProductBillingFacade
     @GET
     @Path( "products/{product_id}" )
     void findProductById( @PathParam( "product_id" ) Long productId,
+                          @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
                           FacadeCallback<Product> callback );
 
     @POST
