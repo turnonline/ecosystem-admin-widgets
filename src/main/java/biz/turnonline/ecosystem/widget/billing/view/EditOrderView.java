@@ -140,6 +140,10 @@ public class EditOrderView
     public void update( Pricing pricing )
     {
         items.update( pricing );
+        detail.updatePricing( pricing.getTotalPriceExclVat(),
+                pricing.getTotalVatBase(),
+                pricing.getTotalPrice(),
+                pricing.getItems() );
     }
 
     interface EditOrderViewUiBinder

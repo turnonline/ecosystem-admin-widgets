@@ -25,13 +25,40 @@
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m3">
-                <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
+                <s:SectionTitle iconType="ALARM" title="{msg.labelBillingSchedule}"/>
 
-                <m:MaterialDatePicker ui:field="beginAt" placeholder="{msg.labelBeginAt}"/>
-                <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}"/>
-                <s:OrderPeriodicityListBox ui:field="periodicity" placeholder="{msg.labelPeriodicity}" paddingBottom="5"/>
-                <s:InvoiceTypeListBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
+                <m:MaterialDatePicker ui:field="beginOn" placeholder="{msg.labelBillingBeginOn}"/>
+                <m:MaterialDatePicker ui:field="lastBillingDate" placeholder="{msg.labelBillingLastDate}" paddingBottom="15"/>
+                <m:MaterialDatePicker ui:field="nextBillingDate" placeholder="{msg.labelBillingNextDate}"/>
             </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3" offset="m1">
+                <s:SectionTitle iconType="REPEAT" title="{msg.labelPeriodicity}"/>
+
+                <s:InvoiceTypeListBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
+                <s:OrderPeriodicityListBox ui:field="periodicity" placeholder="{msg.labelPeriodicity}"/>
+                <m:MaterialRow>
+                    <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                        <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}"/>
+                    </m:MaterialColumn>
+                </m:MaterialRow>
+                <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m2" offset="m1">
+                <s:SectionTitle iconType="ACCESS_TIME" title="{msg.labelChanges}"/>
+
+                <m:MaterialDatePicker ui:field="created" placeholder="{msg.labelCreated}"/>
+                <m:MaterialDatePicker ui:field="modified" placeholder="{msg.labelModified}"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+
+        <m:MaterialRow>
+            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}"/>
+
+            <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelTotalPriceExclVat}" grid="m2"/>
+            <m:MaterialTextBox ui:field="vatBase" label="{msg.labelTotalVatBase}" grid="m2"/>
+            <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelTotalPrice}" grid="m2"/>
         </m:MaterialRow>
     </g:HTMLPanel>
 </ui:UiBinder>

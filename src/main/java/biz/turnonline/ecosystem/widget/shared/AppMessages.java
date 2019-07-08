@@ -237,8 +237,20 @@ public interface AppMessages
     @Key( "label.billing.info" )
     String labelBillingInfo();
 
-    @Key( "label.billingDefaults" )
+    @Key( "label.billing.defaults" )
     String labelBillingDefaults();
+
+    @Key( "label.billing.schedule" )
+    String labelBillingSchedule();
+
+    @Key( value = "label.billing.beginOn" )
+    String labelBillingBeginOn();
+
+    @Key( "label.billing.nextDate" )
+    String labelBillingNextDate();
+
+    @Key( "label.billing.lastDate" )
+    String labelBillingLastDate();
 
     @Key( "label.billingContact" )
     String labelBillingContact();
@@ -263,6 +275,15 @@ public interface AppMessages
 
     @Key( "label.priceIncludingVat" )
     String labelPriceIncludingVat();
+
+    @Key( "label.totalPrice" )
+    String labelTotalPrice();
+
+    @Key( "label.totalPriceExclVat" )
+    String labelTotalPriceExclVat();
+
+    @Key( "label.totalVatBase" )
+    String labelTotalVatBase();
 
     @Key( value = "label.currency" )
     String labelCurrency();
@@ -470,9 +491,6 @@ public interface AppMessages
 
     @Key( value = "label.taxDocument" )
     String labelTaxDocument();
-
-    @Key( value = "label.beginAt" )
-    String labelBeginAt();
 
     @Key( value = "label.numberOfDays" )
     String labelNumberOfDays();
