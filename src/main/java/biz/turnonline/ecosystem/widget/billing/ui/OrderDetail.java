@@ -1,7 +1,8 @@
 package biz.turnonline.ecosystem.widget.billing.ui;
 
+import biz.turnonline.ecosystem.widget.billing.event.DueDateNumberOfDaysEvent;
+import biz.turnonline.ecosystem.widget.billing.event.OrderScheduleChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeListBox;
@@ -14,7 +15,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.datepicker.client.CalendarUtil;
+import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialTextBox;
@@ -35,6 +36,8 @@ public class OrderDetail
         implements HasModel<Order>
 {
     private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
+
+    private final EventBus bus;
 
     @UiField
     MaterialDatePicker beginOn;
@@ -73,8 +76,9 @@ public class OrderDetail
     MaterialTextBox priceInclVat;
 
     @Inject
-    public OrderDetail()
+    public OrderDetail( EventBus eventBus )
     {
+        this.bus = eventBus;
         initWidget( binder.createAndBindUi( this ) );
 
         lastBillingDate.setReadOnly( true );
@@ -88,7 +92,9 @@ public class OrderDetail
         vatBase.setReadOnly( true );
         priceInclVat.setReadOnly( true );
 
-        periodicity.addValueChangeHandler( this::adjustNextBillingDate );
+        periodicity.addValueChangeHandler( this::fireOrderPeriodicityChangeEvent );
+        beginOn.addValueChangeHandler( this::fireBeginOnChangeEvent );
+        numberOfDays.addValueChangeHandler( this::fireNumberOfDaysChangeEvent );
     }
 
     @Override
@@ -117,18 +123,11 @@ public class OrderDetail
         modified.setValue( order.getModificationDate() );
 
         updatePricing( order.getTotalPriceExclVat(), order.getTotalVatBase(), order.getTotalPrice(), order.getItems() );
-
-        // init as last
-        try
-        {
-            adjustNextBillingDate( valueOf( oPeriodicity ) );
-        }
-        catch ( IllegalArgumentException e )
-        {
-            adjustNextBillingDate( MANUALLY );
-        }
     }
 
+    /**
+     * Updates total price details.
+     */
     public void updatePricing( @Nullable Double totalPriceExclVat,
                                @Nullable Double totalVatBase,
                                @Nullable Double totalPrice,
@@ -171,84 +170,68 @@ public class OrderDetail
         priceInclVat.setValue( finalPrice );
     }
 
-    private void adjustNextBillingDate( ValueChangeEvent<StaticCodeBook> event )
+    private void fireOrderPeriodicityChangeEvent( ValueChangeEvent<StaticCodeBook> event )
     {
-        adjustNextBillingDate( valueOf( event.getValue().getCode() ) );
+        bus.fireEvent( new OrderScheduleChangeEvent(
+                valueOf( event.getValue().getCode() ),
+                beginOn.getValue(),
+                lastBillingDate.getValue(),
+                numberOfDays.getValue() ) );
     }
 
-    private void adjustNextBillingDate( OrderPeriodicity value )
+    private void fireBeginOnChangeEvent( ValueChangeEvent<Date> event )
     {
-        beginOn.setVisible( value != MANUALLY );
+        bus.fireEvent( new OrderScheduleChangeEvent(
+                valueOf( periodicity.getSingleValueByCode() ),
+                event.getValue(),
+                lastBillingDate.getValue(),
+                numberOfDays.getValue() ) );
+    }
 
-        Date nextDate;
-        Date last = lastBillingDate.getValue();
-        if ( last == null )
-        {
-            last = beginOn.getValue();
-        }
+    private void fireNumberOfDaysChangeEvent( ValueChangeEvent<Integer> event )
+    {
+        bus.fireEvent( new DueDateNumberOfDaysEvent( nextBillingDate.getValue(), event.getValue() ) );
+    }
 
-        switch ( value )
-        {
-            case MANUALLY:
-            {
-                // show date that will be assigned when an invoice would be issued
-                nextDate = new Date();
-                break;
-            }
-            case MONTHLY:
-            {
-                last = new Date( last.getTime() );
-                CalendarUtil.addMonthsToDate( last, 1 );
-                nextDate = last;
-                break;
-            }
-            case QUARTERLY:
-            {
-                last = new Date( last.getTime() );
-                CalendarUtil.addMonthsToDate( last, 3 );
-                nextDate = last;
-                break;
-            }
-            case ANNUALLY:
-            {
-                last = new Date( last.getTime() );
-                CalendarUtil.addMonthsToDate( last, 12 );
-                nextDate = last;
-                break;
-            }
-            case SEMI_ANNUALLY:
-            {
-                last = new Date( last.getTime() );
-                CalendarUtil.addMonthsToDate( last, 6 );
-                nextDate = last;
-                break;
-            }
-            case WEEKLY:
-            {
-                last = new Date( last.getTime() );
-                CalendarUtil.addDaysToDate( last, 7 );
-                nextDate = last;
-                break;
-            }
-            default:
-            {
-                nextDate = null;
-                break;
-            }
-        }
+    /**
+     * Sets the order's Begin on date whether it's allowed to be edited by user or not.
+     *
+     * @param readOnly true to be read only
+     */
+    public void setBeginOnReadOnly( boolean readOnly )
+    {
+        beginOn.setReadOnly( readOnly );
+    }
 
-        nextBillingDate.setValue( nextDate );
+    /**
+     * Sets the order's Next billing date, evaluated based on the current periodicity.
+     *
+     * @param next the next billing date to be set
+     */
+    public void setNextBillingDate( Date next )
+    {
+        nextBillingDate.setValue( next );
+    }
 
-        // + adjust due date
-        Integer days = numberOfDays.getValue();
+    /**
+     * Sets order's due date (a date placed at invoice once issued).
+     * Evaluated based on the due date number of days.
+     *
+     * @param date the due date to be set
+     */
+    public void setDueDate( Date date )
+    {
+        dueDate.setValue( date );
+    }
 
-        if ( days != null )
-        {
-            Date due = new Date( nextDate.getTime() );
-            CalendarUtil.addDaysToDate( due, days );
-
-            dueDate.setValue( due );
-        }
+    /**
+     * Sets the number of days to calculate due date.
+     *
+     * @param days the number of days to be set
+     */
+    public void setNumberOfDays( Integer days )
+    {
+        numberOfDays.setValue( days );
     }
 
     interface DetailUiBinder

@@ -37,6 +37,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -45,6 +46,7 @@ import gwt.material.design.client.ui.MaterialButton;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Date;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -99,6 +101,12 @@ public class EditOrderView
         add( binder.createAndBindUi( this ) );
     }
 
+    @UiFactory
+    OrderDetail createOrderDetail()
+    {
+        return new OrderDetail( bus() );
+    }
+
     @Override
     protected void beforeGetModel()
     {
@@ -144,6 +152,30 @@ public class EditOrderView
                 pricing.getTotalVatBase(),
                 pricing.getTotalPrice(),
                 pricing.getItems() );
+    }
+
+    @Override
+    public void setBeginOnReadOnly( boolean readOnly )
+    {
+        detail.setBeginOnReadOnly( readOnly );
+    }
+
+    @Override
+    public void setNextBillingDate( Date next )
+    {
+        detail.setNextBillingDate( next );
+    }
+
+    @Override
+    public void setDueDate( Date dueDate )
+    {
+        detail.setDueDate( dueDate );
+    }
+
+    @Override
+    public void setNumberOfDays( Integer days )
+    {
+        detail.setNumberOfDays( days );
     }
 
     interface EditOrderViewUiBinder

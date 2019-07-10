@@ -28,7 +28,7 @@
                 <s:SectionTitle iconType="ALARM" title="{msg.labelBillingSchedule}"/>
 
                 <m:MaterialDatePicker ui:field="beginOn" placeholder="{msg.labelBillingBeginOn}"/>
-                <m:MaterialDatePicker ui:field="lastBillingDate" placeholder="{msg.labelBillingLastDate}" paddingBottom="15"/>
+                <m:MaterialDatePicker ui:field="lastBillingDate" placeholder="{msg.labelBillingLastDate}"/>
                 <m:MaterialDatePicker ui:field="nextBillingDate" placeholder="{msg.labelBillingNextDate}"/>
             </m:MaterialColumn>
 
