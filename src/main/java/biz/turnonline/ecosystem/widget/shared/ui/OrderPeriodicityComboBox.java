@@ -9,12 +9,12 @@ import java.util.List;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class OrderPeriodicityListBox
+public class OrderPeriodicityComboBox
         extends StaticCodeBookListBox
 {
-    private static List<StaticCodeBook> types = new ArrayList<>();
-
     private static final AppMessages messages = AppMessages.INSTANCE;
+
+    private static List<StaticCodeBook> types = new ArrayList<>();
 
     static
     {
@@ -30,5 +30,11 @@ public class OrderPeriodicityListBox
     protected List<StaticCodeBook> values()
     {
         return types;
+    }
+
+    @Override
+    protected String defaultValue()
+    {
+        return OrderPeriodicity.MANUALLY.name();
     }
 }

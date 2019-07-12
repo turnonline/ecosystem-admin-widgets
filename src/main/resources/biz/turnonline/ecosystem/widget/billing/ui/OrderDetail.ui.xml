@@ -18,12 +18,33 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:addins='urn:import:gwt.material.design.addins.client'
              xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
         <m:MaterialRow>
+            <s:SectionTitle iconType="LINEAR_SCALE" title="{msg.labelOrderStatus}"/>
+
+            <m:MaterialPanel width="100%" marginTop="10" ui:field="stepperPanel" marginBottom="25">
+                <addins:stepper.MaterialStepper ui:field="stepper" detectOrientation="true">
+                    <addins:stepper.MaterialStep step="0" title="TRIALING" ui:field="trialing"
+                                                 description="{msg.descriptionOrderStatusTrialing}"/>
+
+                    <addins:stepper.MaterialStep step="1" title="ACTIVE" ui:field="active"
+                                                 description="{msg.descriptionOrderStatusActive}"/>
+
+                    <addins:stepper.MaterialStep step="2" title="SUSPENDED" ui:field="suspended"
+                                                 description="{msg.descriptionOrderStatusSuspended}"/>
+
+                    <addins:stepper.MaterialStep step="3" title="FINISHED" ui:field="finished"
+                                                 description="{msg.descriptionOrderStatusFinished}"/>
+                </addins:stepper.MaterialStepper>
+            </m:MaterialPanel>
+        </m:MaterialRow>
+
+        <m:MaterialRow paddingTop="10">
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="ALARM" title="{msg.labelBillingSchedule}"/>
 
@@ -32,11 +53,11 @@
                 <m:MaterialDatePicker ui:field="nextBillingDate" placeholder="{msg.labelBillingNextDate}"/>
             </m:MaterialColumn>
 
-            <m:MaterialColumn grid="s12 m3" offset="m1">
+            <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="REPEAT" title="{msg.labelPeriodicity}"/>
 
-                <s:InvoiceTypeListBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
-                <s:OrderPeriodicityListBox ui:field="periodicity" placeholder="{msg.labelPeriodicity}"/>
+                <s:InvoiceTypeComboBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
+                <s:OrderPeriodicityComboBox ui:field="periodicity" placeholder="{msg.labelPeriodicity}"/>
                 <m:MaterialRow>
                     <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                         <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}"/>
@@ -45,7 +66,7 @@
                 <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
             </m:MaterialColumn>
 
-            <m:MaterialColumn grid="s12 m2" offset="m1">
+            <m:MaterialColumn grid="s12 m2">
                 <s:SectionTitle iconType="ACCESS_TIME" title="{msg.labelChanges}"/>
 
                 <m:MaterialDatePicker ui:field="created" placeholder="{msg.labelCreated}"/>

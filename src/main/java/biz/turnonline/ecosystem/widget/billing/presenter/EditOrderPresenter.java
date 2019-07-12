@@ -125,7 +125,7 @@ public class EditOrderPresenter
 
         adjustNextBillingDate(
                 periodicity,
-                model.getBeginAt() == null ? new Date() : model.getBeginAt(),
+                model.getBeginOn() == null ? new Date() : model.getBeginOn(),
                 model.getLastBillingDate(),
                 model.getNumberOfDays() );
     }

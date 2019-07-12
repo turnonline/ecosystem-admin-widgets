@@ -122,6 +122,12 @@ public class PricingItemsPanel
 
     private String currency;
 
+    private boolean originBtnAddEnabled;
+
+    private boolean originBtnDeleteEnabled;
+
+    private boolean isReadOnly;
+
     @Inject
     public PricingItemsPanel( EventBus eventBus )
     {
@@ -147,11 +153,53 @@ public class PricingItemsPanel
         btnAdd.setEnabled( false );
         btnDelete.setEnabled( false );
 
-        bus.addHandler( RowItemSelectionEvent.TYPE, event -> btnDelete.setEnabled( event.isSelected() ) );
+        bus.addHandler( RowItemSelectionEvent.TYPE, event -> btnDelete.setEnabled( !isReadOnly && event.isSelected() ) );
         bus.addHandler( ItemChangedCalculateEvent.TYPE, event -> calculate() );
         pricingTree.addSelectionHandler( e -> clearAndPopulateRows( ( TreeItemWithModel ) e.getSelectedItem() ) );
 
         itemsRoot.addBody( new MaterialWidget( DOM.createTBody() ) );
+    }
+
+    /**
+     * If {@code true} sets all editable fields read only.
+     * If {@code false} sets all fields previously editable back to be editable.
+     */
+    public void setReadOnly( boolean readOnly )
+    {
+        if ( isReadOnly == readOnly )
+        {
+            //nothing to do, call must be idempotent
+            return;
+        }
+
+        isReadOnly = readOnly;
+
+        if ( readOnly )
+        {
+            originBtnAddEnabled = btnAdd.isEnabled();
+            originBtnDeleteEnabled = btnDelete.isEnabled();
+
+            btnAdd.setEnabled( false );
+            btnDelete.setEnabled( false );
+            btnCalculate.setEnabled( false );
+            rootTreeItem.setChildrenReadOnly( true );
+        }
+        else
+        {
+            btnAdd.setEnabled( originBtnAddEnabled );
+            btnDelete.setEnabled( originBtnDeleteEnabled );
+            btnCalculate.setEnabled( true );
+            rootTreeItem.setChildrenReadOnly( false );
+        }
+    }
+
+    public void reset()
+    {
+        itemsRoot.getBody().clear();
+        pricingTree.clear();
+
+        isReadOnly = false;
+        btnCalculate.setEnabled( true );
     }
 
     /**
@@ -171,6 +219,7 @@ public class PricingItemsPanel
      */
     public void fill( @Nullable List<PricingItem> items )
     {
+        reset();
         fill( items, false );
     }
 
@@ -181,7 +230,7 @@ public class PricingItemsPanel
      */
     public void fillFromTemplate( @Nullable List<PricingItem> items )
     {
-
+        reset();
         fill( items, true );
     }
 
@@ -210,8 +259,6 @@ public class PricingItemsPanel
     {
         rootTreeItem = TreeItemWithModel.parent( bus, template );
 
-        itemsRoot.getBody().clear();
-        pricingTree.clear();
         pricingTree.add( rootTreeItem );
         selectedTreeItem = rootTreeItem;
 
@@ -224,6 +271,9 @@ public class PricingItemsPanel
         pricingTree.setSelectedItem( selectedTreeItem );
 
         pricingTree.expand();
+
+        originBtnAddEnabled = btnAdd.isEnabled();
+        originBtnDeleteEnabled = btnDelete.isEnabled();
     }
 
     public void update( Pricing pricing )
@@ -260,7 +310,7 @@ public class PricingItemsPanel
         }
         else
         {
-            btnAdd.setEnabled( true );
+            btnAdd.setEnabled( !isReadOnly );
         }
 
         itemsRoot.getBody().clear();

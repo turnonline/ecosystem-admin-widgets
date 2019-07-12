@@ -582,6 +582,9 @@ public interface AppMessages
     @Key( "label.language.cs" )
     String labelLanguageCs();
 
+    @Key( "label.order.status" )
+    String labelOrderStatus();
+
     // tooltips
 
     @Key( "tooltip.domain.tip.naked" )
@@ -692,4 +695,16 @@ public interface AppMessages
 
     @Key( value = "copyright" )
     String copyright();
+
+    @Key( "description.order.status.trialing" )
+    String descriptionOrderStatusTrialing();
+
+    @Key( "description.order.status.active" )
+    String descriptionOrderStatusActive();
+
+    @Key( "description.order.status.suspended" )
+    String descriptionOrderStatusSuspended();
+
+    @Key( "description.order.status.finished" )
+    String descriptionOrderStatusFinished();
 }

@@ -3,8 +3,8 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
-import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeListBox;
-import biz.turnonline.ecosystem.widget.shared.ui.PaymentMethodListBox;
+import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
+import biz.turnonline.ecosystem.widget.shared.ui.PaymentMethodComboBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -34,7 +34,7 @@ public class InvoiceDetail
     // description
 
     @UiField
-    InvoiceTypeListBox invoiceType;
+    InvoiceTypeComboBox invoiceType;
 
     @UiField
     MaterialTextBox invoiceNumber;
@@ -64,7 +64,7 @@ public class InvoiceDetail
     MaterialDatePicker dueDate;
 
     @UiField
-    PaymentMethodListBox paymentMethod;
+    PaymentMethodComboBox paymentMethod;
 
     @Inject
     public InvoiceDetail()

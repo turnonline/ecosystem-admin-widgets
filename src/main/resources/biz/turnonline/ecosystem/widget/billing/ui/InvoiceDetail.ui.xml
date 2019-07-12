@@ -27,7 +27,7 @@
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
-                <s:InvoiceTypeListBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
+                <s:InvoiceTypeComboBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
                 <m:MaterialTextBox ui:field="invoiceNumber" placeholder="{msg.labelInvoiceNumber}"/>
                 <m:MaterialLongBox ui:field="variableSymbol" placeholder="{msg.labelVariableSymbol}"/>
             </m:MaterialColumn>
@@ -42,7 +42,7 @@
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="PAYMENT" title="{msg.labelPayment}"/>
 
-                <s:PaymentMethodListBox ui:field="paymentMethod" placeholder="{msg.labelPaymentMethod}"/>
+                <s:PaymentMethodComboBox ui:field="paymentMethod" placeholder="{msg.labelPaymentMethod}"/>
                 <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
             </m:MaterialColumn>
         </m:MaterialRow>

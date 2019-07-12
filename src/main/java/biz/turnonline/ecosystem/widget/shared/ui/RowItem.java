@@ -93,6 +93,22 @@ class RowItem
 
     private TableRow row;
 
+    private boolean originCheckedInEnabled;
+
+    private boolean originItemNameSearchReadOnly;
+
+    private boolean originItemNameStandardReadOnly;
+
+    private boolean originAmountReadOnly;
+
+    private boolean originPriceExclVatReadOnly;
+
+    private boolean originVatReadOnly;
+
+    private boolean originUnitReadOnly;
+
+    private boolean isReadOnly;
+
     RowItem( @Nonnull EventBus eventBus, @Nonnull TreeItemWithModel treeItem )
     {
         this.bus = checkNotNull( eventBus );
@@ -164,6 +180,50 @@ class RowItem
     }
 
     /**
+     * If {@code true} sets all editable fields read only.
+     * If {@code false} sets all fields previously editable back to be editable.
+     */
+    void setReadOnly( boolean readOnly )
+    {
+        if ( isReadOnly == readOnly )
+        {
+            //nothing to do, call must be idempotent
+            return;
+        }
+
+        isReadOnly = readOnly;
+
+        if ( readOnly )
+        {
+            originCheckedInEnabled = checkedIn.isEnabled();
+            originItemNameSearchReadOnly = itemNameSearch.isReadOnly();
+            originItemNameStandardReadOnly = itemNameStandard.isReadOnly();
+            originAmountReadOnly = amount.isReadOnly();
+            originPriceExclVatReadOnly = priceExclVat.isReadOnly();
+            originVatReadOnly = vat.isReadOnly();
+            originUnitReadOnly = unit.isReadOnly();
+
+            checkedIn.setEnabled( false );
+            itemNameSearch.setReadOnly( true );
+            itemNameStandard.setReadOnly( true );
+            amount.setReadOnly( true );
+            priceExclVat.setReadOnly( true );
+            vat.setReadOnly( true );
+            unit.setReadOnly( true );
+        }
+        else
+        {
+            checkedIn.setEnabled( originCheckedInEnabled );
+            itemNameSearch.setReadOnly( originItemNameSearchReadOnly );
+            itemNameStandard.setReadOnly( originItemNameStandardReadOnly );
+            amount.setReadOnly( originAmountReadOnly );
+            priceExclVat.setReadOnly( originPriceExclVatReadOnly );
+            vat.setReadOnly( originVatReadOnly );
+            unit.setReadOnly( originUnitReadOnly );
+        }
+    }
+
+    /**
      * Updates the associated pricing item with the values from UI and returns its instance.
      *
      * @return the updated pricing item
@@ -196,6 +256,9 @@ class RowItem
         // once initialized from product template root the item represents a product itself,
         // so do not allow to be deleted
         delete.setEnabled( !( treeItem.isPricingTemplate() && treeItem.isRoot() ) );
+
+        originAmountReadOnly = amount.isReadOnly();
+        originVatReadOnly = vat.isReadOnly();
     }
 
     public MaterialCheckBox getDelete()

@@ -8,14 +8,14 @@ import gwt.material.design.client.ui.html.Option;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class CodeBookComboBox<T extends CodeBook>
+class CodeBookComboBox<T extends CodeBook>
         extends MaterialComboBox<T>
 {
     private final Class<T> clazz;
 
     private boolean itemsLoaded = false;
 
-    public CodeBookComboBox( Class<T> clazz )
+    CodeBookComboBox( Class<T> clazz )
     {
         setKeyFactory( CodeBook::getCode );
         this.clazz = clazz;

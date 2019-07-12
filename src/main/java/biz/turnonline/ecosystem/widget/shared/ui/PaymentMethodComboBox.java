@@ -9,12 +9,12 @@ import java.util.List;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class PaymentMethodListBox
+public class PaymentMethodComboBox
         extends StaticCodeBookListBox
 {
-    private static List<StaticCodeBook> types = new ArrayList<>();
-
     private static final AppMessages messages = AppMessages.INSTANCE;
+
+    private static List<StaticCodeBook> types = new ArrayList<>();
 
     static
     {
@@ -28,5 +28,11 @@ public class PaymentMethodListBox
     protected List<StaticCodeBook> values()
     {
         return types;
+    }
+
+    @Override
+    protected String defaultValue()
+    {
+        return PaymentMethod.BANK_TRANSFER.name();
     }
 }

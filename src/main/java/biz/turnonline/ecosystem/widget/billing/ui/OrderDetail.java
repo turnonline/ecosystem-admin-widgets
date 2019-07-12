@@ -2,11 +2,14 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.billing.event.DueDateNumberOfDaysEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderScheduleChangeEvent;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
-import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeListBox;
-import biz.turnonline.ecosystem.widget.shared.ui.OrderPeriodicityListBox;
+import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
+import biz.turnonline.ecosystem.widget.shared.ui.OrderPeriodicityComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.StaticCodeBook;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -16,8 +19,12 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
+import gwt.material.design.addins.client.stepper.MaterialStep;
+import gwt.material.design.addins.client.stepper.MaterialStepper;
+import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialIntegerBox;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nullable;
@@ -27,8 +34,17 @@ import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.valueOf;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.FINISHED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.SUSPENDED;
 
 /**
+ * Management all of the single order properties.
+ * Fires following events:
+ * <ul>
+ * <li>{@link OrderScheduleChangeEvent}</li>
+ * <li>{@link DueDateNumberOfDaysEvent}</li>
+ * </ul>
+ *
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class OrderDetail
@@ -36,6 +52,8 @@ public class OrderDetail
         implements HasModel<Order>
 {
     private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
+
+    private static AppMessages messages = AppMessages.INSTANCE;
 
     private final EventBus bus;
 
@@ -55,10 +73,10 @@ public class OrderDetail
     MaterialIntegerBox numberOfDays;
 
     @UiField
-    OrderPeriodicityListBox periodicity;
+    OrderPeriodicityComboBox periodicity;
 
     @UiField
-    InvoiceTypeListBox invoiceType;
+    InvoiceTypeComboBox invoiceType;
 
     @UiField
     MaterialDatePicker created;
@@ -74,6 +92,24 @@ public class OrderDetail
 
     @UiField
     MaterialTextBox priceInclVat;
+
+    @UiField
+    MaterialStepper stepper;
+
+    @UiField
+    MaterialPanel stepperPanel;
+
+    @UiField
+    MaterialStep trialing;
+
+    @UiField
+    MaterialStep active;
+
+    @UiField
+    MaterialStep suspended;
+
+    @UiField
+    MaterialStep finished;
 
     @Inject
     public OrderDetail( EventBus eventBus )
@@ -95,12 +131,38 @@ public class OrderDetail
         periodicity.addValueChangeHandler( this::fireOrderPeriodicityChangeEvent );
         beginOn.addValueChangeHandler( this::fireBeginOnChangeEvent );
         numberOfDays.addValueChangeHandler( this::fireNumberOfDaysChangeEvent );
+
+        // trialing for now is not visible, go to next step
+        trialing.setVisible( false );
+        stepper.nextStep();
+
+        Window.addResizeHandler( resizeEvent -> detectAndApplyOrientation() );
+        detectAndApplyOrientation();
+    }
+
+    private void detectAndApplyOrientation()
+    {
+        if ( Window.matchMedia( "(orientation: portrait)" ) )
+        {
+            if ( trialing.isVisible() )
+            {
+                stepperPanel.setHeight( "350px" );
+            }
+            else
+            {
+                stepperPanel.setHeight( "250px" );
+            }
+        }
+        else
+        {
+            stepperPanel.setHeight( "70px" );
+        }
     }
 
     @Override
     public void bind( Order order )
     {
-        order.setBeginAt( beginOn.getValue() );
+        order.setBeginOn( beginOn.getValue() );
         order.setNumberOfDays( numberOfDays.getValue() );
         order.setPeriodicity( periodicity.getSingleValueByCode() );
         order.setInvoiceType( invoiceType.getSingleValueByCode() );
@@ -109,20 +171,70 @@ public class OrderDetail
     @Override
     public void fill( Order order )
     {
-        beginOn.setValue( order.getBeginAt() );
+        beginOn.setValue( order.getBeginOn() );
         lastBillingDate.setValue( order.getLastBillingDate() );
         nextBillingDate.setValue( order.getNextBillingDate() );
 
         String oPeriodicity = order.getPeriodicity() == null ? MANUALLY.name() : order.getPeriodicity();
+        String type = order.getInvoiceType() == null ? InvoiceType.PROFORMA.name() : order.getInvoiceType();
 
         numberOfDays.setValue( order.getNumberOfDays() );
         periodicity.setSingleValueByCode( oPeriodicity );
-        invoiceType.setSingleValueByCode( order.getInvoiceType() );
+        invoiceType.setSingleValueByCode( type );
 
-        created.setValue( null );
+        created.setValue( order.getCreatedDate() );
         modified.setValue( order.getModificationDate() );
 
+        OrderStatus status;
+        try
+        {
+            status = order.getStatus() == null ? SUSPENDED : OrderStatus.valueOf( order.getStatus() );
+        }
+        catch ( IllegalArgumentException e )
+        {
+            status = SUSPENDED;
+        }
+
+        readOnly( FINISHED == status );
+        stepper.reset();
+
+        switch ( status )
+        {
+            case TRIALING:
+            {
+                break;
+            }
+            case ACTIVE:
+            {
+                stepper.nextStep();
+                active.setSuccessText( messages.descriptionOrderStatusActive() );
+                break;
+            }
+            case SUSPENDED:
+            case ISSUE:
+            {
+                stepper.nextStep();
+                stepper.nextStep();
+                suspended.setErrorText( messages.descriptionOrderStatusSuspended() );
+                break;
+            }
+            case FINISHED:
+                stepper.nextStep();
+                stepper.nextStep();
+                stepper.nextStep();
+                finished.setSuccessText( messages.descriptionOrderStatusFinished() );
+
+                break;
+        }
         updatePricing( order.getTotalPriceExclVat(), order.getTotalVatBase(), order.getTotalPrice(), order.getItems() );
+    }
+
+    private void readOnly( boolean all )
+    {
+        setBeginOnReadOnly( all );
+        numberOfDays.setReadOnly( all );
+        invoiceType.setReadOnly( all );
+        periodicity.setReadOnly( all );
     }
 
     /**
@@ -170,10 +282,10 @@ public class OrderDetail
         priceInclVat.setValue( finalPrice );
     }
 
-    private void fireOrderPeriodicityChangeEvent( ValueChangeEvent<StaticCodeBook> event )
+    private void fireOrderPeriodicityChangeEvent( ValueChangeEvent<List<StaticCodeBook>> event )
     {
         bus.fireEvent( new OrderScheduleChangeEvent(
-                valueOf( event.getValue().getCode() ),
+                valueOf( event.getValue().get( 0 ).getCode() ),
                 beginOn.getValue(),
                 lastBillingDate.getValue(),
                 numberOfDays.getValue() ) );

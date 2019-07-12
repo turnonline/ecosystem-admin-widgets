@@ -2,8 +2,8 @@ package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductDiscount;
-import biz.turnonline.ecosystem.widget.shared.ui.DiscountRuleListBox;
-import biz.turnonline.ecosystem.widget.shared.ui.DiscountUnitListBox;
+import biz.turnonline.ecosystem.widget.shared.ui.DiscountRuleComboBox;
+import biz.turnonline.ecosystem.widget.shared.ui.DiscountUnitComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.MaterialChipTextBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.TakesValue;
@@ -89,8 +89,8 @@ public class Discounts
             MaterialRow row = ( MaterialRow ) rows.getWidget( i );
 
             discount.setOff( ( ( MaterialDoubleBox ) row.getWidget( 1 ) ).getValue() );
-            discount.setUnit( ( ( DiscountUnitListBox ) row.getWidget( 2 ) ).getSingleValueByCode() );
-            discount.setRule( ( ( DiscountRuleListBox ) row.getWidget( 3 ) ).getSingleValueByCode() );
+            discount.setUnit( ( ( DiscountUnitComboBox ) row.getWidget( 2 ) ).getSingleValueByCode() );
+            discount.setRule( ( ( DiscountRuleComboBox ) row.getWidget( 3 ) ).getSingleValueByCode() );
             discount.setCodes( ( ( MaterialChipTextBox ) row.getWidget( 4 ) ).getChippedValue() );
             discount.setEnabled( ( ( MaterialSwitch ) row.getWidget( 5 ) ).getValue() );
         }
@@ -144,13 +144,13 @@ public class Discounts
         off.setGrid( "s12 m2" );
         row.add( off );
 
-        DiscountUnitListBox unit = new DiscountUnitListBox();
+        DiscountUnitComboBox unit = new DiscountUnitComboBox();
         unit.setPlaceholder( messages.labelDiscountType() );
         unit.setSingleValueByCode( discount.getUnit() );
         unit.setGrid( "s12 m2" );
         row.add( unit );
 
-        DiscountRuleListBox rule = new DiscountRuleListBox();
+        DiscountRuleComboBox rule = new DiscountRuleComboBox();
         rule.setPlaceholder( messages.labelDiscountRule() );
         rule.setSingleValueByCode( discount.getRule() );
         rule.setGrid( "s12 m2" );

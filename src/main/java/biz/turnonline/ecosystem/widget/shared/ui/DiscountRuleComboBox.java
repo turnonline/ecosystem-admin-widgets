@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class DiscountRuleListBox
+public class DiscountRuleComboBox
         extends StaticCodeBookListBox
 {
     private static List<StaticCodeBook> rules = new ArrayList<>();
@@ -25,5 +25,11 @@ public class DiscountRuleListBox
     protected List<StaticCodeBook> values()
     {
         return rules;
+    }
+
+    @Override
+    protected String defaultValue()
+    {
+        return "DiscountCode";
     }
 }

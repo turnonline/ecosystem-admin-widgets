@@ -48,6 +48,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Date;
 
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.FINISHED;
+
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
@@ -124,7 +126,13 @@ public class EditOrderView
 
         detail.fill( order );
         customer.fill( order );
+
+        items.reset();
         items.fill( order.getItems() );
+        if ( order.getStatus() != null )
+        {
+            items.setReadOnly( FINISHED.name().equals( order.getStatus() ) );
+        }
 
         Scheduler.get().scheduleDeferred( () -> {
             EditOrder where = ( EditOrder ) controller.getWhere();

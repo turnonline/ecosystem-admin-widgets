@@ -143,6 +143,24 @@ public class TreeItemWithModel
         return widgets;
     }
 
+    void setChildrenReadOnly( boolean readOnly )
+    {
+        for ( RowItem next : childrenRows )
+        {
+            readOnly( next, readOnly );
+        }
+    }
+
+    private void readOnly( RowItem item, boolean readOnly )
+    {
+        item.setReadOnly( readOnly );
+
+        for ( RowItem next : item.getTreeItem().childrenRows )
+        {
+            readOnly( next, readOnly );
+        }
+    }
+
     /**
      * Updates the associated pricing items recursively with the values from UI and returns pricing tree structure.
      *
