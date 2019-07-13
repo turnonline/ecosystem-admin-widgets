@@ -28,8 +28,20 @@ import com.google.gwt.place.shared.Prefix;
 public class Invoices
         extends Place
 {
+    private Long orderId;
+
     public Invoices()
     {
+    }
+
+    public Invoices( Long orderId )
+    {
+        this.orderId = orderId;
+    }
+
+    public Long getOrderId()
+    {
+        return orderId;
     }
 
     @Prefix( value = "invoices" )
@@ -39,13 +51,34 @@ public class Invoices
         @Override
         public Invoices getPlace( String token )
         {
-            return new Invoices();
+            if ( !token.isEmpty() )
+            {
+                try
+                {
+                    return new Invoices( Long.valueOf( token ) );
+                }
+                catch ( NumberFormatException e )
+                {
+                    return new Invoices();
+                }
+            }
+            else
+            {
+                return new Invoices();
+            }
         }
 
         @Override
         public String getToken( Invoices place )
         {
-            return "";
+            if ( place.getOrderId() == null )
+            {
+                return "";
+            }
+            else
+            {
+                return place.getOrderId().toString();
+            }
         }
     }
 }

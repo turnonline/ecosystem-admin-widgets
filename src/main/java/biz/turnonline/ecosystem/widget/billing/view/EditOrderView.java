@@ -18,14 +18,20 @@
 
 package biz.turnonline.ecosystem.widget.billing.view;
 
+import biz.turnonline.ecosystem.widget.billing.event.DeleteOrderEvent;
+import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
+import biz.turnonline.ecosystem.widget.billing.event.IssueOrderInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderBackEvent;
+import biz.turnonline.ecosystem.widget.billing.event.OrderInvoicesEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
 import biz.turnonline.ecosystem.widget.billing.presenter.EditOrderPresenter;
 import biz.turnonline.ecosystem.widget.billing.ui.CustomerPanel;
 import biz.turnonline.ecosystem.widget.billing.ui.EditOrderTabs;
+import biz.turnonline.ecosystem.widget.billing.ui.InvoiceDetail;
 import biz.turnonline.ecosystem.widget.billing.ui.OrderDetail;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
@@ -42,13 +48,19 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
+import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.ACTIVE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.FINISHED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.TRIALING;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -75,12 +87,25 @@ public class EditOrderView
     PricingItemsPanel items;
 
     @UiField
-    MaterialButton btnSave;
+    InvoiceDetail lastInvoice;
 
-    // -- buttons
+    @UiField
+    MaterialButton btnSave;
 
     @UiField
     MaterialButton btnBack;
+
+    @UiField
+    MaterialAnchorButton issueInvoice;
+
+    @UiField
+    MaterialAnchorButton viewInvoice;
+
+    @UiField
+    MaterialAnchorButton orderInvoices;
+
+    @UiField
+    MaterialAnchorButton deleteOrder;
 
     private PlaceController controller;
 
@@ -129,10 +154,14 @@ public class EditOrderView
 
         items.reset();
         items.fill( order.getItems() );
-        if ( order.getStatus() != null )
+
+        String status = order.getStatus();
+        if ( status != null )
         {
-            items.setReadOnly( FINISHED.name().equals( order.getStatus() ) );
+            items.setReadOnly( FINISHED.name().equals( status ) );
         }
+
+        issueInvoice.setEnabled( ( ACTIVE.name().equals( status ) || TRIALING.name().equals( status ) ) );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditOrder where = ( EditOrder ) controller.getWhere();
@@ -150,6 +179,61 @@ public class EditOrderView
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveOrderEvent( getModel() ) );
+    }
+
+    @UiHandler( "issueInvoice" )
+    public void issueInvoiceClick( ClickEvent event )
+    {
+        Order order = getRawModel();
+        bus().fireEvent( new IssueOrderInvoiceEvent( order.getId() ) );
+    }
+
+    @UiHandler( "viewInvoice" )
+    public void viewInvoiceClick( ClickEvent event )
+    {
+        Invoice invoice = lastInvoice.getInvoice();
+        if ( invoice != null && invoice.getOrderId() != null && invoice.getId() != null )
+        {
+            bus().fireEvent( new EditInvoiceEvent( invoice ) );
+        }
+    }
+
+    @UiHandler( "orderInvoices" )
+    public void orderInvoicesClick( ClickEvent event )
+    {
+        Order order = getRawModel();
+        bus().fireEvent( new OrderInvoicesEvent( order.getId() ) );
+    }
+
+    @UiHandler( "deleteOrder" )
+    public void deleteOrderClick( ClickEvent event )
+    {
+        Order order = getRawModel();
+        List<Order> orders = new ArrayList<>();
+        if ( order != null )
+        {
+            orders.add( order );
+        }
+
+        if ( !orders.isEmpty() )
+        {
+            bus().fireEvent( new DeleteOrderEvent( orders ) );
+        }
+    }
+
+    @Override
+    public void lastInvoice( @Nullable Invoice invoice )
+    {
+        if ( invoice != null )
+        {
+            lastInvoice.fill( invoice );
+            lastInvoice.setReadOnly( true );
+        }
+        else
+        {
+            lastInvoice.clear();
+            lastInvoice.setReadOnly( false );
+        }
     }
 
     @Override

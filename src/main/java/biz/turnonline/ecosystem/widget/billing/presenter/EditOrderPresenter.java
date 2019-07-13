@@ -19,15 +19,19 @@
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
 import biz.turnonline.ecosystem.widget.billing.event.DueDateNumberOfDaysEvent;
+import biz.turnonline.ecosystem.widget.billing.event.IssueOrderInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderBackEvent;
+import biz.turnonline.ecosystem.widget.billing.event.OrderInvoicesEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderScheduleChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
+import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
@@ -85,6 +89,8 @@ public class EditOrderPresenter
 
         bus().addHandler( OrderScheduleChangeEvent.TYPE, this::adjustNextBillingDate );
         bus().addHandler( DueDateNumberOfDaysEvent.TYPE, this::adjustDueDate );
+        bus().addHandler( IssueOrderInvoiceEvent.TYPE, this::issueOrderInvoice );
+        bus().addHandler( OrderInvoicesEvent.TYPE, this::showOrderInvoices );
     }
 
     @Override
@@ -226,9 +232,37 @@ public class EditOrderPresenter
         view().setDueDate( due );
     }
 
+    private void issueOrderInvoice( IssueOrderInvoiceEvent event )
+    {
+        bus().billing().createOrderInvoice( event.getOrderId(), new Invoice(), ( response, failure ) -> {
+            if ( failure.isSuccess() )
+            {
+                view().lastInvoice( response );
+                success( messages.msgInvoiceIssued() );
+            }
+            else
+            {
+                error( messages.msgErrorRemoteServiceCall() );
+            }
+        } );
+    }
+
+    private void showOrderInvoices( OrderInvoicesEvent event )
+    {
+        controller().goTo( new Invoices( event.getOrderId() ) );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Order>
     {
+        /**
+         * Sets the invoice to be shown as a last issued invoice for this order.
+         * Shown read only.
+         *
+         * @param invoice the last invoice if any
+         */
+        void lastInvoice( @Nullable Invoice invoice );
+
         /**
          * Updates the order's pricing (details and items) UI by recalculated price.
          *

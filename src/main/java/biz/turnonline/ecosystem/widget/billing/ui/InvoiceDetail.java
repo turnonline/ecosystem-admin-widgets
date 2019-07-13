@@ -26,11 +26,6 @@ public class InvoiceDetail
 {
     private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
 
-    interface DetailUiBinder
-            extends UiBinder<HTMLPanel, InvoiceDetail>
-    {
-    }
-
     // description
 
     @UiField
@@ -66,6 +61,8 @@ public class InvoiceDetail
     @UiField
     PaymentMethodComboBox paymentMethod;
 
+    private Invoice invoice;
+
     @Inject
     public InvoiceDetail()
     {
@@ -73,6 +70,25 @@ public class InvoiceDetail
 
         invoiceNumber.setEnabled( false );
         variableSymbol.setEnabled( false );
+    }
+
+    /**
+     * If {@code true} sets all editable fields read only.
+     * If {@code false} sets all fields previously editable back to be editable.
+     */
+    public void setReadOnly( boolean readOnly )
+    {
+
+    }
+
+    /**
+     * Returns the current invoice model used to render this panel.
+     *
+     * @return the current invoice model or {@code null} if none yet
+     */
+    public Invoice getInvoice()
+    {
+        return invoice;
     }
 
     @Override
@@ -103,6 +119,8 @@ public class InvoiceDetail
     @Override
     public void fill( Invoice invoice )
     {
+        this.invoice = invoice;
+
         InvoicePayment payment = invoice.getPayment();
 
         // description
@@ -123,6 +141,11 @@ public class InvoiceDetail
         paymentMethod.setSingleValueByCode( payment != null ? payment.getMethod() : null );
     }
 
+    public void clear()
+    {
+        invoice = null;
+    }
+
     private InvoicePayment ensurePayment( Invoice invoice )
     {
         InvoicePayment payment = invoice.getPayment();
@@ -133,6 +156,11 @@ public class InvoiceDetail
         }
 
         return payment;
+    }
+
+    interface DetailUiBinder
+            extends UiBinder<HTMLPanel, InvoiceDetail>
+    {
     }
 
 }

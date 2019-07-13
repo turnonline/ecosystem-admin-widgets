@@ -171,6 +171,9 @@ public interface AppMessages
     @Key( value = "label.invoices" )
     String labelInvoices();
 
+    @Key( "label.lastInvoice" )
+    String labelLastInvoice();
+
     @Key( value = "label.editInvoice" )
     String labelEditInvoice();
 
@@ -690,6 +693,9 @@ public interface AppMessages
 
     @Key( value = "msg.pictureDeleted" )
     String msgPictureDeleted();
+
+    @Key( "msg.invoice.issued" )
+    String msgInvoiceIssued();
 
     // other
 

@@ -124,6 +124,18 @@ public interface ProductBillingFacade
                       SuccessCallback<Items<Invoice>> callback );
 
     @GET
+    @Path( "orders/{order_id}/invoices" )
+    void getOrderInvoices( @PathParam( "order_id" ) Long orderId,
+                           Invoice invoice,
+                           SuccessCallback<Invoice> callback );
+
+    @POST
+    @Path( "orders/{order_id}/invoices" )
+    void createOrderInvoice( @PathParam( "order_id" ) Long orderId,
+                             Invoice invoice,
+                             FacadeCallback<Invoice> callback );
+
+    @GET
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
     void findInvoiceById( @PathParam( "order_id" ) Long orderId,
                           @PathParam( "invoice_id" ) Long invoiceId,
