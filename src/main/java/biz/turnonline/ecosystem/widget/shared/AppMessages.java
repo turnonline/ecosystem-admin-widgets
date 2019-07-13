@@ -665,6 +665,18 @@ public interface AppMessages
     @Key( value = "tooltip.contactAutocomplete" )
     String tooltipContactAutocomplete();
 
+    @Key( "tooltip.order.issueInvoice" )
+    String tooltipOrderIssueInvoice();
+
+    @Key( "tooltip.order.lastInvoice" )
+    String tooltipOrderLastInvoice();
+
+    @Key( "tooltip.order.pastInvoices" )
+    String tooltipOrderPastInvoices();
+
+    @Key( "tooltip.order.delete" )
+    String tooltipOrderDelete();
+
     // messages
 
     @Key( value = "msg.recordDeleted" )
