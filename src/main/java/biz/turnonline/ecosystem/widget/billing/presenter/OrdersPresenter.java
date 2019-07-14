@@ -21,6 +21,7 @@ package biz.turnonline.ecosystem.widget.billing.presenter;
 import biz.turnonline.ecosystem.widget.billing.event.DeleteOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
+import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
@@ -57,7 +58,14 @@ public class OrdersPresenter
                 bus().billing().deleteOrder( order.getId(),
                         ( SuccessCallback<Void> ) response -> {
                             success( messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
-                            Scheduler.get().scheduleDeferred( () -> view().refresh() );
+                            if ( event.isRedirectToList() )
+                            {
+                                controller().goTo( new Orders() );
+                            }
+                            else
+                            {
+                                Scheduler.get().scheduleDeferred( () -> view().refresh() );
+                            }
                         } );
             }
         } );

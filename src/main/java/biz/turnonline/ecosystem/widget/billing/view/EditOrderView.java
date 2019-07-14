@@ -54,7 +54,6 @@ import gwt.material.design.client.ui.MaterialButton;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -161,7 +160,15 @@ public class EditOrderView
             items.setReadOnly( FINISHED.name().equals( status ) );
         }
 
-        issueInvoice.setEnabled( ( ACTIVE.name().equals( status ) || TRIALING.name().equals( status ) ) );
+        Long orderId = order.getId();
+
+        issueInvoice.setEnabled( orderId != null && ( ACTIVE.name().equals( status ) || TRIALING.name().equals( status ) ) );
+
+        List<Invoice> invoices = order.getInvoices();
+        viewInvoice.setEnabled( invoices != null && !invoices.isEmpty() );
+
+        orderInvoices.setEnabled( orderId != null );
+        deleteOrder.setEnabled( orderId != null && ( invoices == null || invoices.isEmpty() ) );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditOrder where = ( EditOrder ) controller.getWhere();
@@ -209,15 +216,9 @@ public class EditOrderView
     public void deleteOrderClick( ClickEvent event )
     {
         Order order = getRawModel();
-        List<Order> orders = new ArrayList<>();
         if ( order != null )
         {
-            orders.add( order );
-        }
-
-        if ( !orders.isEmpty() )
-        {
-            bus().fireEvent( new DeleteOrderEvent( orders ) );
+            bus().fireEvent( new DeleteOrderEvent( order ) );
         }
     }
 

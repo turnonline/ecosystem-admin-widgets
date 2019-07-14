@@ -96,6 +96,7 @@ public interface ProductBillingFacade
     @GET
     @Path( "orders/{order_id}" )
     void findOrderById( @PathParam( "order_id" ) Long orderId,
+                        @QueryParam( "invoices" ) Integer numberOf,
                         FacadeCallback<Order> callback );
 
     @POST

@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Model definition for Order.
@@ -51,6 +52,11 @@ public final class Order
      * The value may be {@code null}.
      */
     private Long id;
+
+    /**
+     * The value may be {@code null}.
+     */
+    private java.util.List<Invoice> invoices;
 
     /**
      * The value may be {@code null}.
@@ -167,6 +173,22 @@ public final class Order
     {
         this.id = id;
         return this;
+    }
+
+    /**
+     * @return value or {@code null} for none
+     */
+    public List<Invoice> getInvoices()
+    {
+        return invoices;
+    }
+
+    /**
+     * @param invoices invoices or {@code null} for none
+     */
+    public void setInvoices( List<Invoice> invoices )
+    {
+        this.invoices = invoices;
     }
 
     /**

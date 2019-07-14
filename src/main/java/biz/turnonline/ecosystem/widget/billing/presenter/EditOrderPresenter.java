@@ -30,6 +30,7 @@ import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
@@ -42,6 +43,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.Date;
+import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.valueOf;
@@ -72,15 +74,11 @@ public class EditOrderPresenter
 
             if ( order.getId() == null )
             {
-                bus().billing().createOrder( order, ( SuccessCallback<Order> ) response -> {
-                    success( messages.msgRecordCreated() );
-                    controller().goTo( new EditOrder( response.getId(), "tabDetail" ) );
-                } );
+                bus().billing().createOrder( order, this::created );
             }
             else
             {
-                bus().billing().updateOrder( order.getId(), order,
-                        ( SuccessCallback<Order> ) response -> success( messages.msgRecordUpdated() ) );
+                bus().billing().updateOrder( order.getId(), order, this::updated );
             }
         } );
 
@@ -99,24 +97,45 @@ public class EditOrderPresenter
         EditOrder where = ( EditOrder ) controller().getWhere();
         if ( where.getId() == null )
         {
-            setModel( newOrder() );
+            setModel( new Order() );
         }
         else
         {
-            bus().billing().findOrderById( where.getId(), ( SuccessCallback<Order> ) this::setModel );
+            bus().billing().findOrderById( where.getId(), 1, ( SuccessCallback<Order> ) this::setModel );
         }
 
         onAfterBackingObject();
     }
 
-    private Order newOrder()
+    private void created( Order response, FacadeCallback.Failure failure )
     {
-        return new Order();
+        if ( failure.isSuccess() )
+        {
+            setModel( response );
+        }
+
+        message( messages.msgRecordCreated(), failure );
+    }
+
+    private void updated( Order response, FacadeCallback.Failure failure )
+    {
+        if ( failure.isSuccess() )
+        {
+            setModel( response );
+        }
+
+        message( messages.msgRecordUpdated(), failure );
     }
 
     private void setModel( Order model )
     {
         view().setModel( model );
+
+        List<Invoice> invoices = model.getInvoices();
+        if ( invoices != null && !invoices.isEmpty() )
+        {
+            view().lastInvoice( invoices.get( 0 ) );
+        }
 
         // init as last
         OrderPeriodicity periodicity;
