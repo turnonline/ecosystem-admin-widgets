@@ -32,11 +32,11 @@
                     <addins:stepper.MaterialStep step="0" title="TRIALING" ui:field="trialing"
                                                  description="{msg.descriptionOrderStatusTrialing}"/>
 
-                    <addins:stepper.MaterialStep step="1" title="ACTIVE" ui:field="active"
-                                                 description="{msg.descriptionOrderStatusActive}"/>
+                    <addins:stepper.MaterialStep step="1" title="ACTIVE" ui:field="active" lineDistanceWidth="120"
+                                                 description="{msg.descriptionOrderStatusActivate}"/>
 
                     <addins:stepper.MaterialStep step="2" title="SUSPENDED" ui:field="suspended"
-                                                 description="{msg.descriptionOrderStatusSuspended}"/>
+                                                 description="{msg.descriptionOrderStatusSuspend}"/>
 
                     <addins:stepper.MaterialStep step="3" title="FINISHED" ui:field="finished"
                                                  description="{msg.descriptionOrderStatusFinished}"/>
@@ -56,8 +56,8 @@
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="REPEAT" title="{msg.labelPeriodicity}"/>
 
-                <s:InvoiceTypeComboBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
-                <s:OrderPeriodicityComboBox ui:field="periodicity" placeholder="{msg.labelPeriodicity}"/>
+                <s:InvoiceTypeComboBox ui:field="invoiceType" label="{msg.labelInvoiceType}"/>
+                <s:OrderPeriodicityComboBox ui:field="periodicity" label="{msg.labelPeriodicity}"/>
                 <m:MaterialRow>
                     <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                         <m:MaterialIntegerBox ui:field="numberOfDays" label="{msg.labelNumberOfDays}"/>

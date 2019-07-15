@@ -709,6 +709,12 @@ public interface AppMessages
     @Key( "msg.invoice.issued" )
     String msgInvoiceIssued();
 
+    @Key( "msg.order.created" )
+    String msgOrderCreated();
+
+    @Key( "msg.order.updated" )
+    String msgOrderUpdated();
+
     // other
 
     @Key( value = "copyright" )
@@ -720,8 +726,14 @@ public interface AppMessages
     @Key( "description.order.status.active" )
     String descriptionOrderStatusActive();
 
+    @Key( "description.order.status.activate" )
+    String descriptionOrderStatusActivate();
+
     @Key( "description.order.status.suspended" )
     String descriptionOrderStatusSuspended();
+
+    @Key( "description.order.status.suspend" )
+    String descriptionOrderStatusSuspend();
 
     @Key( "description.order.status.finished" )
     String descriptionOrderStatusFinished();

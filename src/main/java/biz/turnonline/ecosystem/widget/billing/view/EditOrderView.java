@@ -33,6 +33,7 @@ import biz.turnonline.ecosystem.widget.billing.ui.OrderDetail;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -51,6 +52,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -59,6 +61,7 @@ import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.ACTIVE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.FINISHED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.SUSPENDED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.TRIALING;
 
 /**
@@ -154,26 +157,29 @@ public class EditOrderView
         items.reset();
         items.fill( order.getItems() );
 
-        String status = order.getStatus();
-        if ( status != null )
-        {
-            items.setReadOnly( FINISHED.name().equals( status ) );
-        }
+        OrderStatus status = order.getStatus() == null ? SUSPENDED : OrderStatus.valueOf( order.getStatus() );
+        items.setReadOnly( FINISHED == status );
 
+        evalActionButtonsEnable( status );
+
+        Scheduler.get().scheduleDeferred( () -> {
+            EditOrder where = ( EditOrder ) controller.getWhere();
+            tabs.selectTab( where.getTab() );
+        } );
+    }
+
+    private void evalActionButtonsEnable( OrderStatus status )
+    {
+        Order order = getRawModel();
         Long orderId = order.getId();
 
-        issueInvoice.setEnabled( orderId != null && ( ACTIVE.name().equals( status ) || TRIALING.name().equals( status ) ) );
+        issueInvoice.setEnabled( orderId != null && ( ACTIVE == status || TRIALING == status ) );
 
         List<Invoice> invoices = order.getInvoices();
         viewInvoice.setEnabled( invoices != null && !invoices.isEmpty() );
 
         orderInvoices.setEnabled( orderId != null );
         deleteOrder.setEnabled( orderId != null && ( invoices == null || invoices.isEmpty() ) );
-
-        Scheduler.get().scheduleDeferred( () -> {
-            EditOrder where = ( EditOrder ) controller.getWhere();
-            tabs.selectTab( where.getTab() );
-        } );
     }
 
     @UiHandler( "btnBack" )
@@ -216,10 +222,7 @@ public class EditOrderView
     public void deleteOrderClick( ClickEvent event )
     {
         Order order = getRawModel();
-        if ( order != null )
-        {
-            bus().fireEvent( new DeleteOrderEvent( order ) );
-        }
+        bus().fireEvent( new DeleteOrderEvent( order ) );
     }
 
     @Override
@@ -238,7 +241,7 @@ public class EditOrderView
     }
 
     @Override
-    public void update( Pricing pricing )
+    public void update( @Nonnull Pricing pricing )
     {
         items.update( pricing );
         detail.updatePricing( pricing.getTotalPriceExclVat(),
@@ -254,13 +257,13 @@ public class EditOrderView
     }
 
     @Override
-    public void setNextBillingDate( Date next )
+    public void setNextBillingDate( @Nonnull Date next )
     {
         detail.setNextBillingDate( next );
     }
 
     @Override
-    public void setDueDate( Date dueDate )
+    public void setDueDate( @Nullable Date dueDate )
     {
         detail.setDueDate( dueDate );
     }
@@ -269,6 +272,13 @@ public class EditOrderView
     public void setNumberOfDays( Integer days )
     {
         detail.setNumberOfDays( days );
+    }
+
+    @Override
+    public void setStatus( @Nonnull OrderStatus status )
+    {
+        detail.setStatus( status );
+        evalActionButtonsEnable( status );
     }
 
     interface EditOrderViewUiBinder

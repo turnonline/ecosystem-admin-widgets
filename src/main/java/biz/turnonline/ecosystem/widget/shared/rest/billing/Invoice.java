@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Model definition for Invoice.
@@ -39,109 +40,91 @@ public final class Invoice
     /**
      * The value may be {@code null}.
      */
-
     private String currency;
 
     /**
      * The value may be {@code null}.
      */
-
     private Customer customer;
 
     /**
      * The value may be {@code null}.
      */
-
     private Date dateOfIssue;
 
     /**
      * The value may be {@code null}.
      */
-
     private Date dateOfTaxable;
 
     /**
      * The value may be {@code null}.
      */
-
     private String finalText;
 
     /**
      * The value may be {@code null}.
      */
-
     private Long id;
 
     /**
      * The value may be {@code null}.
      */
-
     private String introductoryText;
 
     /**
      * The value may be {@code null}.
      */
-
     private String invoiceNumber;
 
     /**
      * The value may be {@code null}.
      */
-
     private Date modificationDate;
 
     /**
      * The value may be {@code null}.
      */
-
     private NumberSeries numberSeries;
 
     /**
      * The value may be {@code null}.
      */
-
     private Long orderId;
 
     /**
      * The value may be {@code null}.
      */
-
     private InvoicePayment payment;
 
     /**
      * The value may be {@code null}.
      */
-
     private String pin;
 
     /**
      * The value may be {@code null}.
      */
-
     private InvoicePricing pricing;
 
     /**
      * The value may be {@code null}.
      */
-
     private String servingUrl;
 
     /**
      * The value may be {@code null}.
      */
-
     private java.util.List<Deduction> settlements;
 
     /**
      * The value may be {@code null}.
      */
-
     private String status;
 
     /**
      * The value may be {@code null}.
      */
-
     private String type;
 
     /**
@@ -448,5 +431,21 @@ public final class Invoice
     {
         this.type = type;
         return this;
+    }
+
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o ) return true;
+        if ( !( o instanceof Invoice ) ) return false;
+        Invoice invoice = ( Invoice ) o;
+        return Objects.equals( id, invoice.id ) &&
+                Objects.equals( orderId, invoice.orderId );
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash( id, orderId );
     }
 }

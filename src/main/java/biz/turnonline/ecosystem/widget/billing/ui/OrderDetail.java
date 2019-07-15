@@ -2,6 +2,7 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.billing.event.DueDateNumberOfDaysEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderScheduleChangeEvent;
+import biz.turnonline.ecosystem.widget.billing.event.OrderStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
@@ -13,6 +14,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.OrderPeriodicityComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.StaticCodeBook;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -27,13 +29,16 @@ import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.valueOf;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.ACTIVE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.FINISHED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.SUSPENDED;
 
@@ -111,6 +116,14 @@ public class OrderDetail
     @UiField
     MaterialStep finished;
 
+    private OrderStatus currentStatus;
+
+    private Long orderId;
+
+    private HandlerRegistration activeHandler;
+
+    private HandlerRegistration suspendedHandler;
+
     @Inject
     public OrderDetail( EventBus eventBus )
     {
@@ -135,6 +148,12 @@ public class OrderDetail
         // trialing for now is not visible, go to next step
         trialing.setVisible( false );
         stepper.nextStep();
+
+        activeHandler = active.addClickHandler( e ->
+                bus.fireEvent( new OrderStatusChangeEvent( ACTIVE, orderId ) ) );
+
+        suspendedHandler = suspended.addClickHandler( e ->
+                bus.fireEvent( new OrderStatusChangeEvent( SUSPENDED, orderId ) ) );
 
         Window.addResizeHandler( resizeEvent -> detectAndApplyOrientation() );
         detectAndApplyOrientation();
@@ -166,11 +185,14 @@ public class OrderDetail
         order.setNumberOfDays( numberOfDays.getValue() );
         order.setPeriodicity( periodicity.getSingleValueByCode() );
         order.setInvoiceType( invoiceType.getSingleValueByCode() );
+        order.setStatus( currentStatus == null ? SUSPENDED.name() : currentStatus.name() );
     }
 
     @Override
     public void fill( Order order )
     {
+        this.orderId = order.getId();
+
         beginOn.setValue( order.getBeginOn() );
         lastBillingDate.setValue( order.getLastBillingDate() );
         nextBillingDate.setValue( order.getNextBillingDate() );
@@ -185,20 +207,45 @@ public class OrderDetail
         created.setValue( order.getCreatedDate() );
         modified.setValue( order.getModificationDate() );
 
-        OrderStatus status;
         try
         {
-            status = order.getStatus() == null ? SUSPENDED : OrderStatus.valueOf( order.getStatus() );
+            currentStatus = order.getStatus() == null ? SUSPENDED : OrderStatus.valueOf( order.getStatus() );
         }
         catch ( IllegalArgumentException e )
         {
-            status = SUSPENDED;
+            currentStatus = SUSPENDED;
         }
 
-        readOnly( FINISHED == status );
+        setStatus( currentStatus );
+
+        readOnly( FINISHED == currentStatus );
+        updatePricing( order.getTotalPriceExclVat(), order.getTotalVatBase(), order.getTotalPrice(), order.getItems() );
+    }
+
+    /**
+     * Sets the current order status, visualized by 4 steps ({@link OrderStatus#TRIALING} is for time being hidden).
+     * Following steps has click handlers added in order to give possibility to change.
+     * <ul>
+     * <li>{@link OrderStatus#ACTIVE}</li>
+     * <li>{@link OrderStatus#SUSPENDED}</li>
+     * <li>{@link OrderStatus#ISSUE}</li>
+     * </ul>
+     *
+     * @param status the current status to be set
+     */
+    public void setStatus( @Nonnull OrderStatus status )
+    {
+        this.currentStatus = checkNotNull( status, "Order status can't be null" );
+        suspended.setSuccessText( messages.descriptionOrderStatusSuspend() );
         stepper.reset();
 
-        switch ( status )
+        if ( activeHandler != null || suspendedHandler != null )
+        {
+            active.removeHandler( activeHandler );
+            suspended.removeHandler( suspendedHandler );
+        }
+
+        switch ( this.currentStatus )
         {
             case TRIALING:
             {
@@ -208,6 +255,9 @@ public class OrderDetail
             {
                 stepper.nextStep();
                 active.setSuccessText( messages.descriptionOrderStatusActive() );
+
+                addActionButtonHandlers();
+
                 break;
             }
             case SUSPENDED:
@@ -215,18 +265,34 @@ public class OrderDetail
             {
                 stepper.nextStep();
                 stepper.nextStep();
+
+                active.setSuccessText( messages.descriptionOrderStatusActivate() );
                 suspended.setErrorText( messages.descriptionOrderStatusSuspended() );
+
+                addActionButtonHandlers();
+
                 break;
             }
             case FINISHED:
                 stepper.nextStep();
                 stepper.nextStep();
                 stepper.nextStep();
+
+                active.setSuccessText( messages.descriptionOrderStatusActive() );
+                suspended.setSuccessText( messages.descriptionOrderStatusSuspended() );
                 finished.setSuccessText( messages.descriptionOrderStatusFinished() );
 
                 break;
         }
-        updatePricing( order.getTotalPriceExclVat(), order.getTotalVatBase(), order.getTotalPrice(), order.getItems() );
+    }
+
+    private void addActionButtonHandlers()
+    {
+        activeHandler = active.addClickHandler( e ->
+                bus.fireEvent( new OrderStatusChangeEvent( ACTIVE, orderId ) ) );
+
+        suspendedHandler = suspended.addClickHandler( e ->
+                bus.fireEvent( new OrderStatusChangeEvent( SUSPENDED, orderId ) ) );
     }
 
     private void readOnly( boolean all )
@@ -320,7 +386,7 @@ public class OrderDetail
      *
      * @param next the next billing date to be set
      */
-    public void setNextBillingDate( Date next )
+    public void setNextBillingDate( @Nonnull Date next )
     {
         nextBillingDate.setValue( next );
     }
@@ -331,7 +397,7 @@ public class OrderDetail
      *
      * @param date the due date to be set
      */
-    public void setDueDate( Date date )
+    public void setDueDate( @Nullable Date date )
     {
         dueDate.setValue( date );
     }

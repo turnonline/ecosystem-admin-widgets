@@ -276,7 +276,7 @@ public class PricingItemsPanel
         originBtnDeleteEnabled = btnDelete.isEnabled();
     }
 
-    public void update( Pricing pricing )
+    public void update( @Nonnull Pricing pricing )
     {
         fill( pricing.getItems() );
     }

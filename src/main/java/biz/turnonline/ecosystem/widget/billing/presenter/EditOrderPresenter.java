@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.billing.event.IssueOrderInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderInvoicesEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderScheduleChangeEvent;
+import biz.turnonline.ecosystem.widget.billing.event.OrderStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
@@ -35,6 +36,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
@@ -42,6 +44,7 @@ import com.google.gwt.user.datepicker.client.CalendarUtil;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -68,27 +71,13 @@ public class EditOrderPresenter
     public void bind()
     {
         bus().addHandler( OrderBackEvent.TYPE, event -> controller().goTo( new Orders() ) );
-
-        bus().addHandler( SaveOrderEvent.TYPE, event -> {
-            Order order = event.getOrder();
-
-            if ( order.getId() == null )
-            {
-                bus().billing().createOrder( order, this::created );
-            }
-            else
-            {
-                bus().billing().updateOrder( order.getId(), order, this::updated );
-            }
-        } );
-
-        bus().addHandler( CalculatePricingEvent.TYPE, event ->
-                bus().billing().calculate( event.getPricing(), response -> view().update( response ) ) );
-
+        bus().addHandler( SaveOrderEvent.TYPE, this::orderSaved );
+        bus().addHandler( CalculatePricingEvent.TYPE, this::recalculated );
         bus().addHandler( OrderScheduleChangeEvent.TYPE, this::adjustNextBillingDate );
         bus().addHandler( DueDateNumberOfDaysEvent.TYPE, this::adjustDueDate );
         bus().addHandler( IssueOrderInvoiceEvent.TYPE, this::issueOrderInvoice );
         bus().addHandler( OrderInvoicesEvent.TYPE, this::showOrderInvoices );
+        bus().addHandler( OrderStatusChangeEvent.TYPE, this::changeOrderStatus );
     }
 
     @Override
@@ -107,6 +96,25 @@ public class EditOrderPresenter
         onAfterBackingObject();
     }
 
+    private void orderSaved( SaveOrderEvent event )
+    {
+        Order order = event.getOrder();
+
+        if ( order.getId() == null )
+        {
+            bus().billing().createOrder( order, this::created );
+        }
+        else
+        {
+            bus().billing().updateOrder( order.getId(), order, this::updated );
+        }
+    }
+
+    private void recalculated( CalculatePricingEvent event )
+    {
+        bus().billing().calculate( event.getPricing(), response -> view().update( response ) );
+    }
+
     private void created( Order response, FacadeCallback.Failure failure )
     {
         if ( failure.isSuccess() )
@@ -114,7 +122,7 @@ public class EditOrderPresenter
             setModel( response );
         }
 
-        message( messages.msgRecordCreated(), failure );
+        message( messages.msgOrderCreated(), failure );
     }
 
     private void updated( Order response, FacadeCallback.Failure failure )
@@ -124,7 +132,7 @@ public class EditOrderPresenter
             setModel( response );
         }
 
-        message( messages.msgRecordUpdated(), failure );
+        message( messages.msgOrderUpdated(), failure );
     }
 
     private void setModel( Order model )
@@ -251,24 +259,42 @@ public class EditOrderPresenter
         view().setDueDate( due );
     }
 
+    /**
+     * Issue a new invoice from specified order and adds a newly issued invoice into local order's invoice list.
+     */
     private void issueOrderInvoice( IssueOrderInvoiceEvent event )
     {
         bus().billing().createOrderInvoice( event.getOrderId(), new Invoice(), ( response, failure ) -> {
             if ( failure.isSuccess() )
             {
                 view().lastInvoice( response );
-                success( messages.msgInvoiceIssued() );
+
+                Order order = view().getModel();
+                List<Invoice> invoices = order.getInvoices();
+                if ( invoices == null )
+                {
+                    invoices = new ArrayList<>();
+                    order.setInvoices( invoices );
+                }
+
+                if ( invoices.contains( response ) )
+                {
+                    invoices.add( response );
+                }
             }
-            else
-            {
-                error( messages.msgErrorRemoteServiceCall() );
-            }
+
+            message( messages.msgInvoiceIssued(), failure );
         } );
     }
 
     private void showOrderInvoices( OrderInvoicesEvent event )
     {
         controller().goTo( new Invoices( event.getOrderId() ) );
+    }
+
+    private void changeOrderStatus( OrderStatusChangeEvent event )
+    {
+        view().setStatus( event.getOrderStatus() );
     }
 
     public interface IView
@@ -287,7 +313,7 @@ public class EditOrderPresenter
          *
          * @param pricing the recalculated price
          */
-        void update( Pricing pricing );
+        void update( @Nonnull Pricing pricing );
 
         /**
          * Sets the order's Begin on date whether it's allowed to be edited by user or not.
@@ -301,7 +327,7 @@ public class EditOrderPresenter
          *
          * @param next the next billing date to be set
          */
-        void setNextBillingDate( Date next );
+        void setNextBillingDate( @Nonnull Date next );
 
         /**
          * Sets order's due date (an issue date once placed at invoice).
@@ -309,13 +335,20 @@ public class EditOrderPresenter
          *
          * @param dueDate the due date to be set
          */
-        void setDueDate( Date dueDate );
+        void setDueDate( @Nullable Date dueDate );
 
         /**
          * Sets the number of days to calculate due date.
          *
          * @param days the number of days to be set
          */
-        void setNumberOfDays( Integer days );
+        void setNumberOfDays( @Nullable Integer days );
+
+        /**
+         * Sets the current order status. It have an impact on whether some action buttons will be enabled or not.
+         *
+         * @param status the current status to be set
+         */
+        void setStatus( @Nonnull OrderStatus status );
     }
 }

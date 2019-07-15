@@ -145,13 +145,13 @@ public class Discounts
         row.add( off );
 
         DiscountUnitComboBox unit = new DiscountUnitComboBox();
-        unit.setPlaceholder( messages.labelDiscountType() );
+        unit.setLabel( messages.labelDiscountType() );
         unit.setSingleValueByCode( discount.getUnit() );
         unit.setGrid( "s12 m2" );
         row.add( unit );
 
         DiscountRuleComboBox rule = new DiscountRuleComboBox();
-        rule.setPlaceholder( messages.labelDiscountRule() );
+        rule.setLabel( messages.labelDiscountRule() );
         rule.setSingleValueByCode( discount.getRule() );
         rule.setGrid( "s12 m2" );
         row.add( rule );
