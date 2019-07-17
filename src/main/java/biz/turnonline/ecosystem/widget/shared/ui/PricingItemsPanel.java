@@ -278,7 +278,7 @@ public class PricingItemsPanel
 
     public void update( @Nonnull Pricing pricing )
     {
-        fill( pricing.getItems() );
+        fill( pricing.getItems(), false );
     }
 
     private void chainAddPricingItem( @Nonnull PricingItem pi, @Nonnull TreeItemWithModel parent )
