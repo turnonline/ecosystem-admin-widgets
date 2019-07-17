@@ -377,4 +377,16 @@ public final class Order
         return this;
     }
 
+    public enum Status
+    {
+        TRIALING,
+
+        ACTIVE,
+
+        SUSPENDED,
+
+        ISSUE,
+
+        FINISHED
+    }
 }

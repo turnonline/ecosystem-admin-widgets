@@ -115,6 +115,17 @@ public interface ProductBillingFacade
     void deleteOrder( @PathParam( "order_id" ) Long orderId,
                       FacadeCallback<Void> callback );
 
+    @GET
+    @Path( "orders/{order_id}/status" )
+    void getOrderStatus( @PathParam( "order_id" ) Long orderId,
+                         SuccessCallback<OrderStatus> callback );
+
+    @PUT
+    @Path( "orders/{order_id}/status" )
+    void changeOrderStatus( @PathParam( "order_id" ) Long orderId,
+                            OrderStatus status,
+                            FacadeCallback<Void> callback );
+
     // invoices
 
     @GET

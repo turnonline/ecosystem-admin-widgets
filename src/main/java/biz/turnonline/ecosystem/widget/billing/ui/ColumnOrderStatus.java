@@ -1,7 +1,6 @@
 package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 
 import java.util.HashMap;
@@ -17,11 +16,11 @@ public class ColumnOrderStatus
 
     static
     {
-        colorMap.put( OrderStatus.TRIALING.name(), "yellow" );
-        colorMap.put( OrderStatus.ACTIVE.name(), "green" );
-        colorMap.put( OrderStatus.SUSPENDED.name(), "orange" );
-        colorMap.put( OrderStatus.ISSUE.name(), "red" );
-        colorMap.put( OrderStatus.FINISHED.name(), "blue" );
+        colorMap.put( Order.Status.TRIALING.name(), "yellow" );
+        colorMap.put( Order.Status.ACTIVE.name(), "green" );
+        colorMap.put( Order.Status.SUSPENDED.name(), "orange" );
+        colorMap.put( Order.Status.ISSUE.name(), "red" );
+        colorMap.put( Order.Status.FINISHED.name(), "blue" );
     }
 
     @Override

@@ -122,7 +122,7 @@ public class EditOrderPresenter
             setModel( response );
         }
 
-        message( messages.msgOrderCreated(), failure );
+        success( messages.msgOrderCreated(), failure );
     }
 
     private void updated( Order response, FacadeCallback.Failure failure )
@@ -132,7 +132,7 @@ public class EditOrderPresenter
             setModel( response );
         }
 
-        message( messages.msgOrderUpdated(), failure );
+        success( messages.msgOrderUpdated(), failure );
     }
 
     private void setModel( Order model )
@@ -177,7 +177,7 @@ public class EditOrderPresenter
                                         @Nullable Date last,
                                         @Nullable Integer days )
     {
-        view().setBeginOnReadOnly( periodicity != MANUALLY || last != null );
+        view().setBeginOnReadOnly( last != null );
 
         Date nextDate;
         if ( last == null )
@@ -281,9 +281,12 @@ public class EditOrderPresenter
                 {
                     invoices.add( response );
                 }
+
+                bus().billing().getOrderStatus( event.getOrderId(), status ->
+                        view().setStatus( status.getStatusEnum() ) );
             }
 
-            message( messages.msgInvoiceIssued(), failure );
+            success( messages.msgInvoiceIssued(), failure );
         } );
     }
 
@@ -294,7 +297,23 @@ public class EditOrderPresenter
 
     private void changeOrderStatus( OrderStatusChangeEvent event )
     {
-        view().setStatus( event.getOrderStatus() );
+        Order.Status status = event.getOrderStatus();
+        OrderStatus os = new OrderStatus();
+        os.setStatus( status.name() );
+
+        bus().billing().changeOrderStatus( event.getOrderId(), os,
+                ( response, failure ) -> {
+                    if ( Order.Status.ACTIVE == status )
+                    {
+                        success( messages.msgOrderStatusActive(), failure );
+                    }
+                    else if ( Order.Status.SUSPENDED == status )
+                    {
+                        warn( messages.msgOrderStatusSuspended(), failure );
+                    }
+                } );
+
+        view().setStatus( status );
     }
 
     public interface IView
@@ -349,6 +368,6 @@ public class EditOrderPresenter
          *
          * @param status the current status to be set
          */
-        void setStatus( @Nonnull OrderStatus status );
+        void setStatus( @Nonnull Order.Status status );
     }
 }

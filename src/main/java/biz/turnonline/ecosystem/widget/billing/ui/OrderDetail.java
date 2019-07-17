@@ -6,7 +6,6 @@ import biz.turnonline.ecosystem.widget.billing.event.OrderStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
@@ -36,11 +35,11 @@ import java.util.Date;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.FINISHED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.valueOf;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.ACTIVE;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.FINISHED;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.SUSPENDED;
 
 /**
  * Management all of the single order properties.
@@ -116,7 +115,7 @@ public class OrderDetail
     @UiField
     MaterialStep finished;
 
-    private OrderStatus currentStatus;
+    private Order.Status currentStatus;
 
     private Long orderId;
 
@@ -148,12 +147,6 @@ public class OrderDetail
         // trialing for now is not visible, go to next step
         trialing.setVisible( false );
         stepper.nextStep();
-
-        activeHandler = active.addClickHandler( e ->
-                bus.fireEvent( new OrderStatusChangeEvent( ACTIVE, orderId ) ) );
-
-        suspendedHandler = suspended.addClickHandler( e ->
-                bus.fireEvent( new OrderStatusChangeEvent( SUSPENDED, orderId ) ) );
 
         Window.addResizeHandler( resizeEvent -> detectAndApplyOrientation() );
         detectAndApplyOrientation();
@@ -209,7 +202,7 @@ public class OrderDetail
 
         try
         {
-            currentStatus = order.getStatus() == null ? SUSPENDED : OrderStatus.valueOf( order.getStatus() );
+            currentStatus = order.getStatus() == null ? SUSPENDED : Order.Status.valueOf( order.getStatus() );
         }
         catch ( IllegalArgumentException e )
         {
@@ -217,35 +210,39 @@ public class OrderDetail
         }
 
         setStatus( currentStatus );
-
-        readOnly( FINISHED == currentStatus );
         updatePricing( order.getTotalPriceExclVat(), order.getTotalVatBase(), order.getTotalPrice(), order.getItems() );
     }
 
     /**
-     * Sets the current order status, visualized by 4 steps ({@link OrderStatus#TRIALING} is for time being hidden).
+     * Sets the current order status, visualized by 4 steps ({@link Order.Status#TRIALING} is for time being hidden).
      * Following steps has click handlers added in order to give possibility to change.
      * <ul>
-     * <li>{@link OrderStatus#ACTIVE}</li>
-     * <li>{@link OrderStatus#SUSPENDED}</li>
-     * <li>{@link OrderStatus#ISSUE}</li>
+     * <li>{@link Order.Status#ACTIVE}</li>
+     * <li>{@link Order.Status#SUSPENDED}</li>
+     * <li>{@link Order.Status#ISSUE}</li>
      * </ul>
      *
      * @param status the current status to be set
      */
-    public void setStatus( @Nonnull OrderStatus status )
+    public void setStatus( @Nonnull Order.Status status )
     {
-        this.currentStatus = checkNotNull( status, "Order status can't be null" );
+        currentStatus = checkNotNull( status, "Order status can't be null" );
         suspended.setSuccessText( messages.descriptionOrderStatusSuspend() );
         stepper.reset();
 
-        if ( activeHandler != null || suspendedHandler != null )
+        readOnly( FINISHED == currentStatus );
+
+        if ( activeHandler != null )
         {
             active.removeHandler( activeHandler );
+        }
+
+        if ( suspendedHandler != null )
+        {
             suspended.removeHandler( suspendedHandler );
         }
 
-        switch ( this.currentStatus )
+        switch ( currentStatus )
         {
             case TRIALING:
             {
@@ -256,7 +253,7 @@ public class OrderDetail
                 stepper.nextStep();
                 active.setSuccessText( messages.descriptionOrderStatusActive() );
 
-                addActionButtonHandlers();
+                suspendedHandler = suspended.addClickHandler( e -> fireOrderStatusChangeEvent( SUSPENDED ) );
 
                 break;
             }
@@ -269,7 +266,7 @@ public class OrderDetail
                 active.setSuccessText( messages.descriptionOrderStatusActivate() );
                 suspended.setErrorText( messages.descriptionOrderStatusSuspended() );
 
-                addActionButtonHandlers();
+                activeHandler = active.addClickHandler( e -> fireOrderStatusChangeEvent( ACTIVE ) );
 
                 break;
             }
@@ -284,15 +281,6 @@ public class OrderDetail
 
                 break;
         }
-    }
-
-    private void addActionButtonHandlers()
-    {
-        activeHandler = active.addClickHandler( e ->
-                bus.fireEvent( new OrderStatusChangeEvent( ACTIVE, orderId ) ) );
-
-        suspendedHandler = suspended.addClickHandler( e ->
-                bus.fireEvent( new OrderStatusChangeEvent( SUSPENDED, orderId ) ) );
     }
 
     private void readOnly( boolean all )
@@ -369,6 +357,19 @@ public class OrderDetail
     private void fireNumberOfDaysChangeEvent( ValueChangeEvent<Integer> event )
     {
         bus.fireEvent( new DueDateNumberOfDaysEvent( nextBillingDate.getValue(), event.getValue() ) );
+    }
+
+    private void fireOrderStatusChangeEvent( @Nonnull Order.Status status )
+    {
+        if ( orderId == null )
+        {
+            // for this case component local status handling is sufficient
+            setStatus( status );
+        }
+        else
+        {
+            bus.fireEvent( new OrderStatusChangeEvent( status, orderId ) );
+        }
     }
 
     /**

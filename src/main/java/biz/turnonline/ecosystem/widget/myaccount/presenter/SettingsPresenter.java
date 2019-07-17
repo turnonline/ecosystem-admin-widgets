@@ -63,7 +63,7 @@ public class SettingsPresenter
                 event -> bus()
                         .account()
                         .update( bus().config().getLoginId(), event.getInvoicing(),
-                                ( response, failure ) -> message( messages.msgRecordUpdated(), failure ) ) );
+                                ( response, failure ) -> success( messages.msgRecordUpdated(), failure ) ) );
 
         bus().addHandler( CreateDomainEvent.TYPE,
                 event -> bus()
@@ -131,7 +131,7 @@ public class SettingsPresenter
 
     private void domainCreated( Domain domain, FacadeCallback.Failure failure )
     {
-        message( messages.msgRecordUpdated(), failure );
+        success( messages.msgRecordUpdated(), failure );
         if ( failure.isSuccess() )
         {
             loadDomains( ROOT );
@@ -140,7 +140,7 @@ public class SettingsPresenter
 
     private void domainDeleted( FacadeCallback.Failure failure, String name )
     {
-        message( messages.msgRecordDeleted( name ), failure );
+        success( messages.msgRecordDeleted( name ), failure );
         if ( failure.isSuccess() )
         {
             loadDomains( ROOT );

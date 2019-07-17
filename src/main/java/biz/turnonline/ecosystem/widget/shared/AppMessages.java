@@ -715,6 +715,12 @@ public interface AppMessages
     @Key( "msg.order.updated" )
     String msgOrderUpdated();
 
+    @Key( "msg.order.status.active" )
+    String msgOrderStatusActive();
+
+    @Key( "msg.order.status.suspended" )
+    String msgOrderStatusSuspended();
+
     // other
 
     @Key( value = "copyright" )

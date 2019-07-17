@@ -53,7 +53,7 @@ public class MyAccountPresenter
                         .account()
                         .update( event.getLoginId(),
                                 event.getAccount(),
-                                ( response, failure ) -> message( messages.msgRecordUpdated(), failure ) ) );
+                                ( response, failure ) -> success( messages.msgRecordUpdated(), failure ) ) );
     }
 
     @Override

@@ -83,13 +83,42 @@ public abstract class Presenter<V extends IView, E extends EventBus>
     }
 
     /**
-     * <p>Show info message.</p>
+     * <p>Show warning message.</p>
      *
      * @param msg message to show in feedback panel
      */
     public void warn( String msg )
     {
         MaterialToast.fireToast( msg, "amber" );
+    }
+
+    /**
+     * <p>Show warning message.</p>
+     *
+     * @param msg message to show in feedback panel
+     */
+    public void warn( String msg, FacadeCallback.Failure failure )
+    {
+        if ( failure.isFailure() )
+        {
+            if ( failure.isNotFound() )
+            {
+                error( AppMessages.INSTANCE.msgErrorRecordDoesNotExists() );
+            }
+            else if ( failure.isBadRequest() )
+            {
+                error( AppMessages.INSTANCE.msgErrorBadRequest( failure.response().getText() ) );
+            }
+            else
+            {
+                error( AppMessages.INSTANCE.msgErrorRemoteServiceCall() );
+                GWT.log( "Exception has occurred while calling remote service: " + failure.response().getText() );
+            }
+        }
+        else
+        {
+            warn( msg );
+        }
     }
 
     /**
@@ -107,7 +136,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param success message to show in feedback panel
      */
-    public void message( String success, FacadeCallback.Failure failure )
+    public void success( String success, FacadeCallback.Failure failure )
     {
         if ( failure.isFailure() )
         {

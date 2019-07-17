@@ -33,7 +33,6 @@ import biz.turnonline.ecosystem.widget.billing.ui.OrderDetail;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -59,10 +58,10 @@ import javax.inject.Named;
 import java.util.Date;
 import java.util.List;
 
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.ACTIVE;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.FINISHED;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.SUSPENDED;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus.TRIALING;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.FINISHED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -157,7 +156,7 @@ public class EditOrderView
         items.reset();
         items.fill( order.getItems() );
 
-        OrderStatus status = order.getStatus() == null ? SUSPENDED : OrderStatus.valueOf( order.getStatus() );
+        Order.Status status = order.getStatus() == null ? SUSPENDED : Order.Status.valueOf( order.getStatus() );
         items.setReadOnly( FINISHED == status );
 
         evalActionButtonsEnable( status );
@@ -168,7 +167,7 @@ public class EditOrderView
         } );
     }
 
-    private void evalActionButtonsEnable( OrderStatus status )
+    private void evalActionButtonsEnable( Order.Status status )
     {
         Order order = getRawModel();
         Long orderId = order.getId();
@@ -275,7 +274,7 @@ public class EditOrderView
     }
 
     @Override
-    public void setStatus( @Nonnull OrderStatus status )
+    public void setStatus( @Nonnull Order.Status status )
     {
         detail.setStatus( status );
         evalActionButtonsEnable( status );

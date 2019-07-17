@@ -19,11 +19,9 @@
 package biz.turnonline.ecosystem.widget.billing.event;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import com.google.gwt.event.shared.GwtEvent;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
@@ -37,14 +35,14 @@ public class OrderStatusChangeEvent
 {
     public static Type<OrderStatusChangeEventHandler> TYPE = new Type<>();
 
-    private final OrderStatus orderStatus;
+    private final Order.Status orderStatus;
 
     private final Long orderId;
 
-    public OrderStatusChangeEvent( @Nonnull OrderStatus orderStatus, @Nullable Long orderId )
+    public OrderStatusChangeEvent( @Nonnull Order.Status orderStatus, @Nonnull Long orderId )
     {
         this.orderStatus = checkNotNull( orderStatus, "Order status can't be null" );
-        this.orderId = orderId;
+        this.orderId = checkNotNull( orderId, "Order ID can't be null" );
     }
 
     public Type<OrderStatusChangeEventHandler> getAssociatedType()
@@ -55,7 +53,7 @@ public class OrderStatusChangeEvent
     /**
      * Returns the identification of the order that has changed its status.
      *
-     * @return the order ID, or {@code null} if order represents a new record
+     * @return the order ID
      */
     public Long getOrderId()
     {
@@ -63,11 +61,11 @@ public class OrderStatusChangeEvent
     }
 
     /**
-     * Returns the current non {@code null} status of the order.
+     * Returns the current order status.
      *
      * @return the current order status
      */
-    public OrderStatus getOrderStatus()
+    public Order.Status getOrderStatus()
     {
         return orderStatus;
     }
