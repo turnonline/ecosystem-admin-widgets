@@ -30,6 +30,7 @@ import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
+import biz.turnonline.ecosystem.widget.shared.event.ProductAutoCompleteEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
@@ -38,6 +39,8 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 
@@ -78,6 +81,7 @@ public class EditOrderPresenter
         bus().addHandler( IssueOrderInvoiceEvent.TYPE, this::issueOrderInvoice );
         bus().addHandler( OrderInvoicesEvent.TYPE, this::showOrderInvoices );
         bus().addHandler( OrderStatusChangeEvent.TYPE, this::changeOrderStatus );
+        bus().addHandler( ProductAutoCompleteEvent.TYPE, e -> view().addItem( e.getProduct(), e.getItem() ) );
     }
 
     @Override
@@ -369,5 +373,13 @@ public class EditOrderPresenter
          * @param status the current status to be set
          */
         void setStatus( @Nonnull Order.Status status );
+
+        /**
+         * Adds and populates a row and tree item. The final tree will be based on the product's template if defined.
+         *
+         * @param product    the product as a source of pricing item
+         * @param parentItem the empty tree item as a parent item to be populated from given product
+         */
+        void addItem( @Nonnull Product product, @Nonnull TreeItemWithModel parentItem );
     }
 }

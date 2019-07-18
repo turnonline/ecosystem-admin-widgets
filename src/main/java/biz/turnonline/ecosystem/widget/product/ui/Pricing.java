@@ -3,7 +3,6 @@ package biz.turnonline.ecosystem.widget.product.ui;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingStructureTemplate;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductInvoicing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
@@ -19,13 +18,11 @@ import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
-import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.STANDARD;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -135,83 +132,8 @@ public class Pricing
 
         discounts.setValue( pricing.getDiscounts() );
 
-        // populate pricing item template if any
-        List<PricingStructureTemplate> templates = pricing.getTemplate();
-        List<PricingItem> items = new ArrayList<>();
-
-        if ( templates != null )
-        {
-            for ( PricingStructureTemplate next : templates )
-            {
-                items.add( fromTemplate( next, productVat ) );
-            }
-        }
-
-        ProductInvoicing invoicing = product.getInvoicing();
-
-        String currency = pricing.getCurrency();
-        currency = currency == null ? "EUR" : currency;
-
-        Double priceExclVat = pricing.getPriceExclVat();
-        String unit = invoicing == null ? null : invoicing.getUnit();
-
-        PricingItem root = new PricingItem();
-        root.setAmount( 1.0 );
-        root.setCheckedIn( true );
-        root.setItemName( product.getItemName() );
-        root.setItemType( STANDARD );
-        root.setSubsidiary( pricing.getSubsidiary() );
-        root.setItems( items );
-        root.setCurrency( currency );
-        root.setVat( productVat );
-
-        root.setPriceExclVat( priceExclVat == null ? 0.0 : priceExclVat );
-        root.setUnit( unit == null ? "ITEM" : unit );
-
-        List<PricingItem> rootAsList = new ArrayList<>();
-        rootAsList.add( root );
-
-        itemsPanel.fillFromTemplate( rootAsList );
-        // sets currency recursively for all current items
-        itemsPanel.setCurrency( currency );
-
+        List<PricingItem> rootAsList = itemsPanel.fill( product, null );
         evalReadOnlyPriceExclVat( rootAsList );
-    }
-
-    @SuppressWarnings( "Duplicates" )
-    private PricingItem fromTemplate( @Nonnull PricingStructureTemplate template, @Nullable String vat )
-    {
-        Integer templateId = template.getId();
-
-        PricingItem item = new PricingItem();
-        item.setId( templateId == null ? null : templateId.longValue() );
-        item.setAmount( template.getAmount() );
-        item.setCheckedIn( template.getCheckedIn() );
-        item.setItemName( template.getItemName() );
-        item.setItemType( template.getItemType() );
-        item.setOrder( template.getOrder() );
-        item.setPriceExclVat( template.getPriceExclVat() );
-        item.setSubsidiary( template.getSubsidiary() );
-        item.setUnit( template.getUnit() );
-        item.setVat( vat );
-
-        List<PricingStructureTemplate> templates = template.getItems();
-        List<PricingItem> items = new ArrayList<>();
-
-        if ( templates != null )
-        {
-            for ( PricingStructureTemplate next : templates )
-            {
-                items.add( fromTemplate( next, vat ) );
-            }
-        }
-
-        if ( !items.isEmpty() )
-        {
-            item.setItems( items );
-        }
-
-        return item;
     }
 
     @SuppressWarnings( "Duplicates" )

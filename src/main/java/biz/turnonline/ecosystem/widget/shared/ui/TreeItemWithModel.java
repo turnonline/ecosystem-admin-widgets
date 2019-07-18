@@ -194,7 +194,7 @@ public class TreeItemWithModel
 
     /**
      * Returns the item unique identification based on the model's {@link PricingItem#getParentKey()}
-     * and {@link PricingItem#getId()}. It returns null if at leas one of the model's value is undefined.
+     * and {@link PricingItem#getId()}. It returns null if at least one of these values is undefined.
      *
      * @return the item unique identification
      */

@@ -25,6 +25,11 @@ import biz.turnonline.ecosystem.widget.shared.event.RowItemSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.JSON;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingProduct;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingStructureTemplate;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductInvoicing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import com.github.nmorel.gwtjackson.client.ObjectMapper;
 import com.google.gwt.core.client.GWT;
@@ -51,6 +56,7 @@ import gwt.material.design.client.ui.table.TableRow;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
@@ -210,6 +216,120 @@ public class PricingItemsPanel
     public List<PricingItem> bind()
     {
         return rootTreeItem.bind();
+    }
+
+    /**
+     * Adds and populates a row and tree item. The final tree will be based on the product's template if defined.
+     *
+     * @param product    the product as a source of pricing item
+     * @param parentItem the empty tree item as a parent item to be populated from given product
+     */
+    public List<PricingItem> fill( @Nonnull Product product, @Nullable TreeItemWithModel parentItem )
+    {
+        ProductPricing pricing = checkNotNull( product, "Product cannot be null" ).getPricing();
+        if ( pricing == null )
+        {
+            return new ArrayList<>();
+        }
+
+        String productVat = pricing.getVat();
+        List<PricingStructureTemplate> templates = pricing.getTemplate();
+        List<PricingItem> items = new ArrayList<>();
+
+        if ( templates != null )
+        {
+            for ( PricingStructureTemplate next : templates )
+            {
+                items.add( fromTemplate( next, productVat, product ) );
+            }
+        }
+
+        ProductInvoicing invoicing = product.getInvoicing();
+
+        String currency = pricing.getCurrency();
+        currency = currency == null ? "EUR" : currency;
+
+        Double priceExclVat = pricing.getPriceExclVat();
+        String unit = invoicing == null ? null : invoicing.getUnit();
+
+        PricingItem root;
+        if ( parentItem == null )
+        {
+            root = new PricingItem();
+            root.setAmount( 1.0 );
+        }
+        else
+        {
+            root = parentItem.getModel();
+
+            String message = "Expected model of " + TreeItemWithModel.class.getSimpleName() + " not be null";
+            checkNotNull( root, message );
+        }
+
+        root.setCheckedIn( true );
+        root.setItemName( product.getItemName() );
+        root.setItemType( STANDARD );
+        root.setSubsidiary( pricing.getSubsidiary() );
+        root.setItems( items );
+        root.setCurrency( currency );
+        root.setVat( productVat );
+
+        root.setPriceExclVat( priceExclVat == null ? 0.0 : priceExclVat );
+        root.setUnit( unit == null ? "ITEM" : unit );
+
+        List<PricingItem> rootAsList = new ArrayList<>();
+        rootAsList.add( root );
+
+        if ( parentItem == null )
+        {
+            fillFromTemplate( rootAsList );
+        }
+        else
+        {
+            parentItem.getRowItem().fill( root );
+            items.forEach( pi -> chainAddPricingItem( JSON.clone( pi, mapper ), parentItem ) );
+        }
+
+        // sets currency recursively for all current items
+        setCurrency( currency );
+
+        return rootAsList;
+    }
+
+    @SuppressWarnings( "Duplicates" )
+    private PricingItem fromTemplate( @Nonnull PricingStructureTemplate template,
+                                      @Nullable String vat,
+                                      @Nonnull Product product )
+    {
+        PricingItem item = new PricingItem();
+        item.setAmount( template.getAmount() );
+        item.setCheckedIn( template.getCheckedIn() );
+        item.setItemName( template.getItemName() );
+        item.setItemType( template.getItemType() );
+        item.setOrder( template.getOrder() );
+        item.setPriceExclVat( template.getPriceExclVat() );
+        item.setSubsidiary( template.getSubsidiary() );
+        item.setUnit( template.getUnit() );
+        item.setVat( vat );
+        item.setProduct( new PricingProduct().setTemplateId( template.getId() ).setId( product.getId() ) );
+
+        List<PricingStructureTemplate> templates = template.getItems();
+        List<PricingItem> items = new ArrayList<>();
+
+        if ( templates != null )
+        {
+            for ( PricingStructureTemplate next : templates )
+            {
+                items.add( fromTemplate( next, vat, product ) );
+            }
+        }
+
+        if ( !items.isEmpty() )
+        {
+            item.setItems( items );
+        }
+
+        return item;
     }
 
     /**

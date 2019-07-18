@@ -32,17 +32,14 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 @SuppressWarnings( "javadoc" )
 public final class PricingProduct
 {
-
     /**
      * The value may be {@code null}.
      */
-
     private Long id;
 
     /**
      * The value may be {@code null}.
      */
-    
     private Integer templateId;
 
     /**

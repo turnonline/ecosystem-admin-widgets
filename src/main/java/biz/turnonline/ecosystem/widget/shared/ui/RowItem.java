@@ -22,20 +22,22 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Preconditions;
 import biz.turnonline.ecosystem.widget.shared.event.ItemChangedCalculateEvent;
+import biz.turnonline.ecosystem.widget.shared.event.ProductAutoCompleteEvent;
 import biz.turnonline.ecosystem.widget.shared.event.RowItemSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingProduct;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialCheckBox;
@@ -51,6 +53,7 @@ import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
  * The pricing item rendered as a single table row.
+ * Fires {@link ProductAutoCompleteEvent} once user has selected a product in autocomplete.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
@@ -115,10 +118,7 @@ class RowItem
         this.treeItem = checkNotNull( treeItem );
 
         itemNameSearch = new ProductAutoComplete( eventBus );
-        itemNameSearch.addSelectionHandler( event -> {
-            SearchProduct product = ( ( ProductAutoComplete.ProductSuggest ) event.getSelectedItem() ).getProduct();
-            fillFrom( product );
-        } );
+        itemNameSearch.addSelectionHandler( this::fillFrom );
 
         initWidget( row = binder.createAndBindUi( this ) );
 
@@ -286,20 +286,17 @@ class RowItem
         removeFromParent();
     }
 
-    private void fillFrom( SearchProduct searchProduct )
+    private void fillFrom( SelectionEvent<SuggestOracle.Suggestion> event )
     {
-        ( ( AppEventBus ) bus ).billing().findProductById( Long.valueOf( searchProduct.getId() ), false,
-                ( SuccessCallback<Product> ) product -> {
-                    ProductPricing pricing = product.getPricing();
+        SearchProduct product = ( ( ProductAutoComplete.ProductSuggest ) event.getSelectedItem() ).getProduct();
 
-                    PricingItem pricingItem = new PricingItem();
-                    pricingItem.setCurrency( pricing.getCurrency() );
-                    pricingItem.setItemName( product.getItemName() );
-                    pricingItem.setPriceExclVat( pricing.getPriceExclVat() );
-                    pricingItem.setVat( pricing.getVat() );
+        ( ( AppEventBus ) bus ).billing().findProductById( Long.valueOf( product.getId() ), false,
+                ( SuccessCallback<Product> ) p -> {
+
+                    PricingItem pricingItem = treeItem.getModel();
                     pricingItem.setAmount( amount.getValue() );
 
-                    fill( pricingItem );
+                    bus.fireEvent( new ProductAutoCompleteEvent( p, treeItem ) );
                 } );
     }
 

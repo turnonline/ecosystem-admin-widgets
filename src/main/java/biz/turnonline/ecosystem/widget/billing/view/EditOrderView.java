@@ -34,9 +34,11 @@ import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
+import biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -278,6 +280,13 @@ public class EditOrderView
     {
         detail.setStatus( status );
         evalActionButtonsEnable( status );
+    }
+
+    @Override
+    public void addItem( @Nonnull Product product,
+                         @Nonnull TreeItemWithModel parentItem )
+    {
+        items.fill( product, parentItem );
     }
 
     interface EditOrderViewUiBinder
