@@ -47,7 +47,7 @@
                 <m:MaterialIcon ui:field="itemType" iconType="FOLDER" iconColor="BLUE" activates="types"
                                 waves="DEFAULT" marginTop="12"/>
 
-                <m:MaterialDropDown activator="types" constrainWidth="false" belowOrigin="true" hover="true">
+                <m:MaterialDropDown activator="types" constrainWidth="false" belowOrigin="true" hover="true" ui:field="types">
                     <m:MaterialLink ui:field="standard" fontSize="0.9em" width="150px" waves="DEFAULT"
                                     textColor="BLACK" iconType="LOOKS_ONE" iconColor="BLUE" iconPosition="LEFT"
                                     text="Standard" separator="true"/>

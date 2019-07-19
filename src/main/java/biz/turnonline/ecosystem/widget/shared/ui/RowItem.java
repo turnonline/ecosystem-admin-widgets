@@ -139,7 +139,7 @@ class RowItem
         ( ( TableData ) vat.getParent() ).setDataAttribute( "data-title", messages.labelVat() );
         ( ( TableData ) delete.getParent() ).setDataAttribute( "data-title", messages.labelDelete() );
 
-        if ( !treeItem.isPricingTemplate() && treeItem.isRoot() )
+        if ( !treeItem.isProductContext() && treeItem.isRoot() )
         {
             // product search is available only for root item but not for items initialized from template
             itemName = itemNameSearch.getItemBox();
@@ -251,11 +251,11 @@ class RowItem
         PricingProduct product = model.getProduct();
         boolean hasProduct = product != null && product.getId() != null;
         // if items are initialized from template, VAT is managed via TreeItemWithModel#changeVatInTree(VatRate)
-        vat.setReadOnly( treeItem.isPricingTemplate() || !treeItem.isRoot() || hasProduct );
+        vat.setReadOnly( treeItem.isProductContext() || !treeItem.isRoot() || hasProduct );
 
         // once initialized from product template root the item represents a product itself,
         // so do not allow to be deleted
-        delete.setEnabled( !( treeItem.isPricingTemplate() && treeItem.isRoot() ) );
+        delete.setEnabled( !( treeItem.isProductContext() && treeItem.isRoot() ) );
 
         originAmountReadOnly = amount.isReadOnly();
         originVatReadOnly = vat.isReadOnly();

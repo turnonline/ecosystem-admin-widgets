@@ -126,7 +126,7 @@ public class EditOrderView
         setActive( Route.ORDERS );
 
         customer = new CustomerPanel<>( eventBus, addressLookup );
-        items = new PricingItemsPanel( eventBus );
+        items = new PricingItemsPanel( eventBus, PricingItemsPanel.Context.ORDER );
 
         add( binder.createAndBindUi( this ) );
     }

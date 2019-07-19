@@ -67,7 +67,7 @@ public class TreeItemWithModel
 
     private final EventBus eventBus;
 
-    private final boolean pricingTemplate;
+    private final PricingItemsPanel.Context context;
 
     private TreeItemWithModel parent;
 
@@ -77,18 +77,21 @@ public class TreeItemWithModel
 
     private List<RowItem> childrenRows = new ArrayList<>();
 
-    private TreeItemWithModel( @Nonnull EventBus eventBus, boolean template )
+    private TreeItemWithModel( @Nonnull EventBus eventBus,
+                               @Nonnull PricingItemsPanel.Context context )
     {
-        this.eventBus = eventBus;
+        this.eventBus = checkNotNull( eventBus, "EventBus can't be null" );
         this.model = null;
-        this.pricingTemplate = template;
+        this.context = checkNotNull( context, "Context can't be null" );
     }
 
-    private TreeItemWithModel( @Nonnull EventBus eventBus, @Nonnull PricingItem model, boolean template )
+    private TreeItemWithModel( @Nonnull EventBus eventBus,
+                               @Nonnull PricingItem model,
+                               @Nonnull PricingItemsPanel.Context context )
     {
-        this.eventBus = checkNotNull( eventBus );
-        this.model = checkNotNull( model );
-        this.pricingTemplate = template;
+        this.eventBus = checkNotNull( eventBus, "EventBus can't be null" );
+        this.model = checkNotNull( model, "PricingItem can't be null" );
+        this.context = checkNotNull( context, "Context can't be null" );
 
         String itemName;
         if ( model.getCurrency() != null && model.getFinalPriceExclVat() != null )
@@ -137,13 +140,12 @@ public class TreeItemWithModel
      * Returns the tree item as a parent item that does not have a pricing item associated.
      *
      * @param eventBus the app wide even bus
-     * @param template boolean indication whether model will be initialized from pricing template
-     *                 {@link PricingStructureTemplate}
+     * @param context  the UI module context in which tree item will be created
      * @return the tree item as a parent
      */
-    static TreeItemWithModel parent( @Nonnull EventBus eventBus, boolean template )
+    static TreeItemWithModel parent( @Nonnull EventBus eventBus, @Nonnull PricingItemsPanel.Context context )
     {
-        TreeItemWithModel widgets = new TreeItemWithModel( eventBus, template );
+        TreeItemWithModel widgets = new TreeItemWithModel( eventBus, context );
         widgets.setText( messages.labelPricingItems() );
         widgets.setIconType( FOLDER );
 
@@ -256,7 +258,7 @@ public class TreeItemWithModel
      */
     TreeItemWithModel add( @Nonnull PricingItem item )
     {
-        TreeItemWithModel treeItem = new TreeItemWithModel( eventBus, item, pricingTemplate );
+        TreeItemWithModel treeItem = new TreeItemWithModel( eventBus, item, context );
         treeItem.parent = this;
 
         addItem( treeItem );
@@ -341,13 +343,13 @@ public class TreeItemWithModel
     }
 
     /**
-     * Returns boolean indication whether model has been initialized from pricing template.
+     * Returns boolean indication whether model has been initialized from product's pricing template.
      *
      * @return {@code true} if initialized from {@link PricingStructureTemplate}
      */
-    boolean isPricingTemplate()
+    boolean isProductContext()
     {
-        return pricingTemplate;
+        return context == PricingItemsPanel.Context.PRODUCT;
     }
 
     /**

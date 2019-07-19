@@ -60,7 +60,7 @@ public class Pricing
     @Inject
     public Pricing( AppEventBus eventBus )
     {
-        itemsPanel = new PricingItemsPanel( eventBus );
+        itemsPanel = new PricingItemsPanel( eventBus, PricingItemsPanel.Context.PRODUCT );
 
         initWidget( binder.createAndBindUi( this ) );
 
@@ -75,7 +75,7 @@ public class Pricing
      */
     public void update( biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing result )
     {
-        itemsPanel.fillFromTemplate( result.getItems() );
+        itemsPanel.fill( result.getItems() );
         priceExclVat.setValue( result.getTotalPriceExclVat() );
 
         evalReadOnlyPriceExclVat( result.getItems() );

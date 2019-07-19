@@ -45,6 +45,7 @@ import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.html.Label;
@@ -85,6 +86,8 @@ public class PricingItemsPanel
 
     private static ItemsUiBinder binder = GWT.create( ItemsUiBinder.class );
 
+    private final Context context;
+
     @UiField
     MaterialTree pricingTree;
 
@@ -121,6 +124,9 @@ public class PricingItemsPanel
     @UiField
     MaterialLink eventPart;
 
+    @UiField
+    MaterialDropDown types;
+
     private TreeItemWithModel rootTreeItem;
 
     private String selectedItemCompositeKey;
@@ -140,9 +146,10 @@ public class PricingItemsPanel
     private boolean isReadOnly;
 
     @Inject
-    public PricingItemsPanel( AppEventBus eventBus )
+    public PricingItemsPanel( AppEventBus eventBus, Context context )
     {
-        this.bus = eventBus;
+        this.bus = checkNotNull( eventBus, "EventBus can't be null" );
+        this.context = checkNotNull( context, "Context can't be null" );
 
         initWidget( binder.createAndBindUi( this ) );
         mapper = GWT.create( PricingItemMapper.class );
@@ -163,6 +170,34 @@ public class PricingItemsPanel
 
         btnAdd.setEnabled( false );
         btnDelete.setEnabled( false );
+
+        //workaround to hide an item as for example billingItem.setVisible( false ) is not working properly
+        types.clear();
+
+        switch ( context )
+        {
+            case INVOICE:
+            {
+                types.add( standard );
+                types.add( billingItem );
+                types.add( webinar );
+                types.add( attendee );
+                types.add( eventPart );
+
+                break;
+            }
+            case ORDER:
+            case PRODUCT:
+            {
+                types.add( standard );
+                types.add( orderItem );
+                types.add( webinar );
+                types.add( attendee );
+                types.add( eventPart );
+
+                break;
+            }
+        }
 
         bus.addHandler( RowItemSelectionEvent.TYPE, event -> btnDelete.setEnabled( !isReadOnly && event.isSelected() ) );
         bus.addHandler( ItemChangedCalculateEvent.TYPE, event -> calculate() );
@@ -287,7 +322,7 @@ public class PricingItemsPanel
 
         if ( parentItem == null )
         {
-            fillFromTemplate( rootAsList );
+            fill( rootAsList );
         }
         else
         {
@@ -338,28 +373,6 @@ public class PricingItemsPanel
     }
 
     /**
-     * Updates pricing item tree and row items.
-     *
-     * @param items the pricing items
-     */
-    public void fill( @Nullable List<PricingItem> items )
-    {
-        reset();
-        fill( items, false );
-    }
-
-    /**
-     * Updates pricing item tree and row items that represents product's pricing template.
-     *
-     * @param items the pricing items taken from product pricing template
-     */
-    public void fillFromTemplate( @Nullable List<PricingItem> items )
-    {
-        reset();
-        fill( items, true );
-    }
-
-    /**
      * Changes the specified VAT for entire pricing tree recursively.
      *
      * @param rate the vat rate to be set
@@ -380,9 +393,16 @@ public class PricingItemsPanel
         this.rootTreeItem.changeCurrencyInTree( currency );
     }
 
-    private void fill( @Nullable List<PricingItem> items, boolean template )
+    /**
+     * Updates pricing item tree and row items.
+     *
+     * @param items the pricing items
+     */
+    public void fill( @Nullable List<PricingItem> items )
     {
-        rootTreeItem = TreeItemWithModel.parent( bus, template );
+        reset();
+
+        rootTreeItem = TreeItemWithModel.parent( bus, context );
 
         pricingTree.add( rootTreeItem );
         selectedTreeItem = rootTreeItem;
@@ -428,7 +448,7 @@ public class PricingItemsPanel
 
     private void clearAndPopulateRows( @Nonnull TreeItemWithModel selected )
     {
-        if ( rootTreeItem.isPricingTemplate() && rootTreeItem.equals( selected ) )
+        if ( rootTreeItem.isProductContext() && rootTreeItem.equals( selected ) )
         {
             // root tree item represents only single product, so don't allow add more items
             btnAdd.setEnabled( false );
@@ -618,6 +638,13 @@ public class PricingItemsPanel
         itemType.setIconType( EVENT );
     }
 
+    public enum Context
+    {
+        PRODUCT,
+        ORDER,
+        INVOICE
+    }
+
     interface PricingItemMapper
             extends ObjectMapper<PricingItem>
     {
@@ -627,5 +654,4 @@ public class PricingItemsPanel
             extends UiBinder<HTMLPanel, PricingItemsPanel>
     {
     }
-
 }

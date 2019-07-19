@@ -98,7 +98,7 @@ public class EditInvoiceView
         setActive( Route.INVOICES );
 
         customer = new CustomerPanel<>( eventBus, addressLookup );
-        items = new PricingItemsPanel( eventBus );
+        items = new PricingItemsPanel( eventBus, PricingItemsPanel.Context.INVOICE );
         transactions = new InvoiceTransactions();
 
         add( binder.createAndBindUi( this ) );
