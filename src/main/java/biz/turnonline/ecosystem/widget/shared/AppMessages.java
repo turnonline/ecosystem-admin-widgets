@@ -288,6 +288,9 @@ public interface AppMessages
     @Key( "label.totalVatBase" )
     String labelTotalVatBase();
 
+    @Key( "label.amountToPay" )
+    String labelAmountToPay();
+
     @Key( value = "label.currency" )
     String labelCurrency();
 

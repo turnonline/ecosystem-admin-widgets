@@ -2,9 +2,12 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PaymentMethodComboBox;
+import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -15,7 +18,9 @@ import gwt.material.design.client.ui.MaterialLongBox;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -26,8 +31,6 @@ public class InvoiceDetail
 {
     private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
 
-    // description
-
     @UiField
     InvoiceTypeComboBox invoiceType;
 
@@ -37,15 +40,11 @@ public class InvoiceDetail
     @UiField
     MaterialLongBox variableSymbol;
 
-    // Dates
-
     @UiField
     MaterialDatePicker dateOfIssue;
 
     @UiField
     MaterialDatePicker dateOfTaxable;
-
-    // Texts
 
     @UiField
     MaterialTextArea finalText;
@@ -53,13 +52,29 @@ public class InvoiceDetail
     @UiField
     MaterialTextArea introductoryText;
 
-    // payment
-
     @UiField
     MaterialDatePicker dueDate;
 
     @UiField
     PaymentMethodComboBox paymentMethod;
+
+    @UiField
+    MaterialDatePicker created;
+
+    @UiField
+    MaterialDatePicker modified;
+
+    @UiField
+    MaterialTextBox priceExclVat;
+
+    @UiField
+    MaterialTextBox vatBase;
+
+    @UiField
+    MaterialTextBox priceInclVat;
+
+    @UiField
+    MaterialTextBox toPay;
 
     private Invoice invoice;
 
@@ -68,17 +83,31 @@ public class InvoiceDetail
     {
         initWidget( binder.createAndBindUi( this ) );
 
-        invoiceNumber.setEnabled( false );
-        variableSymbol.setEnabled( false );
+        paymentMethod.setPaddingBottom( 7 );
+        invoiceType.setPaddingBottom( 7 );
+
+        created.setReadOnly( true );
+        modified.setReadOnly( true );
+        invoiceNumber.setReadOnly( true );
+        variableSymbol.setReadOnly( true );
+        priceExclVat.setReadOnly( true );
+        vatBase.setReadOnly( true );
+        priceInclVat.setReadOnly( true );
+        toPay.setReadOnly( true );
     }
 
     /**
      * If {@code true} sets all editable fields read only.
-     * If {@code false} sets all fields previously editable back to be editable.
      */
     public void setReadOnly( boolean readOnly )
     {
-
+        invoiceType.setReadOnly( readOnly );
+        dateOfIssue.setReadOnly( readOnly );
+        dateOfTaxable.setReadOnly( readOnly );
+        finalText.setReadOnly( readOnly );
+        introductoryText.setReadOnly( readOnly );
+        dueDate.setReadOnly( readOnly );
+        paymentMethod.setReadOnly( readOnly );
     }
 
     /**
@@ -123,6 +152,9 @@ public class InvoiceDetail
 
         InvoicePayment payment = invoice.getPayment();
 
+        created.setValue( invoice.getCreatedDate() );
+        modified.setValue( invoice.getModificationDate() );
+
         // description
         invoiceType.setSingleValueByCode( invoice.getType() );
         invoiceNumber.setValue( invoice.getInvoiceNumber() );
@@ -139,11 +171,50 @@ public class InvoiceDetail
         // payment
         dueDate.setValue( payment != null ? payment.getDueDate() : null );
         paymentMethod.setSingleValueByCode( payment != null ? payment.getMethod() : null );
+
+        InvoicePricing pricing = invoice.getPricing();
+        if ( pricing == null )
+        {
+            updatePricing( null, null, null, null );
+        }
+        else
+        {
+            Double amountToPay = payment == null ? null : payment.getTotalAmount();
+            PricingItemsPanel.updatePricing( pricing.getTotalPriceExclVat(),
+                    pricing.getTotalVatBase(),
+                    pricing.getTotalPrice(),
+                    amountToPay,
+                    pricing.getItems(),
+                    priceExclVat,
+                    vatBase,
+                    priceInclVat,
+                    toPay );
+        }
     }
 
     public void clear()
     {
         invoice = null;
+    }
+
+    /**
+     * Updates total price details.
+     */
+    public void updatePricing( @Nullable Double totalPriceExclVat,
+                               @Nullable Double totalVatBase,
+                               @Nullable Double totalPrice,
+                               @Nullable List<PricingItem> items )
+    {
+        PricingItemsPanel.updatePricing(
+                totalPriceExclVat,
+                totalVatBase,
+                totalPrice,
+                null,
+                items,
+                priceExclVat,
+                vatBase,
+                priceInclVat,
+                toPay );
     }
 
     private InvoicePayment ensurePayment( Invoice invoice )

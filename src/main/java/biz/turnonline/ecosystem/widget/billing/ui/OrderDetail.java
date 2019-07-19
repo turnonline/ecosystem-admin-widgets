@@ -10,11 +10,11 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.OrderPeriodicityComboBox;
+import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.StaticCodeBook;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -128,6 +128,8 @@ public class OrderDetail
     {
         this.bus = eventBus;
         initWidget( binder.createAndBindUi( this ) );
+
+        invoiceType.setPaddingBottom( 7 );
 
         lastBillingDate.setReadOnly( true );
         nextBillingDate.setReadOnly( true );
@@ -299,41 +301,12 @@ public class OrderDetail
                                @Nullable Double totalPrice,
                                @Nullable List<PricingItem> items )
     {
-        String price;
-        String base;
-        String finalPrice;
-        String currency = null;
-
-        if ( items != null && !items.isEmpty() )
-        {
-            currency = items.get( 0 ).getCurrency();
-        }
-
-        if ( currency != null )
-        {
-            if ( totalPriceExclVat != null && totalVatBase != null && totalPrice != null )
-            {
-                price = NumberFormat.getCurrencyFormat( currency ).format( totalPriceExclVat );
-                base = NumberFormat.getCurrencyFormat( currency ).format( totalVatBase );
-                finalPrice = NumberFormat.getCurrencyFormat( currency ).format( totalPrice );
-            }
-            else
-            {
-                price = NumberFormat.getCurrencyFormat( currency ).format( 0.0 );
-                base = NumberFormat.getCurrencyFormat( currency ).format( 0.0 );
-                finalPrice = NumberFormat.getCurrencyFormat( currency ).format( 0.0 );
-            }
-        }
-        else
-        {
-            price = "0";
-            base = "0";
-            finalPrice = "0";
-        }
-
-        priceExclVat.setValue( price );
-        vatBase.setValue( base );
-        priceInclVat.setValue( finalPrice );
+        PricingItemsPanel.updatePricing(
+                totalPriceExclVat,
+                totalVatBase,
+                totalPrice,
+                items,
+                priceExclVat, vatBase, priceInclVat );
     }
 
     private void fireOrderPeriodicityChangeEvent( ValueChangeEvent<List<StaticCodeBook>> event )

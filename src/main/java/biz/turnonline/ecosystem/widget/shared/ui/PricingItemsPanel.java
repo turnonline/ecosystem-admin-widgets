@@ -35,6 +35,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import com.github.nmorel.gwtjackson.client.ObjectMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -48,6 +49,7 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.table.Table;
 import gwt.material.design.client.ui.table.TableData;
@@ -204,6 +206,118 @@ public class PricingItemsPanel
         pricingTree.addSelectionHandler( e -> clearAndPopulateRows( ( TreeItemWithModel ) e.getSelectedItem() ) );
 
         itemsRoot.addBody( new MaterialWidget( DOM.createTBody() ) );
+    }
+
+    /**
+     * The price properties formatting.
+     *
+     * @param priceExclVat    the price excluding VAT
+     * @param vatBase         the VAT base
+     * @param finalPrice      the final price including VAT
+     * @param items           the pricing items
+     * @param priceExclVatBox the text box of the price excluding VAT
+     * @param vatBaseBox      the input text of the base VAT
+     * @param priceInclVatBox the text box of price final price
+     */
+    public static void updatePricing( @Nullable Double priceExclVat,
+                                      @Nullable Double vatBase,
+                                      @Nullable Double finalPrice,
+                                      @Nullable List<PricingItem> items,
+                                      @Nonnull MaterialTextBox priceExclVatBox,
+                                      @Nonnull MaterialTextBox vatBaseBox,
+                                      @Nonnull MaterialTextBox priceInclVatBox )
+    {
+        updatePricing( priceExclVat,
+                vatBase,
+                finalPrice,
+                null,
+                items,
+                priceExclVatBox,
+                vatBaseBox,
+                priceInclVatBox,
+                null );
+    }
+
+    /**
+     * The price properties formatting.
+     *
+     * @param priceExclVat    the price excluding VAT
+     * @param vatBase         the VAT base
+     * @param finalPrice      the final price including VAT
+     * @param amountToPay     the total amount to be paid
+     * @param items           the pricing items
+     * @param priceExclVatBox the text box of the price excluding VAT
+     * @param vatBaseBox      the input text of the base VAT
+     * @param priceInclVatBox the text box of price final price
+     * @param toPayBox        the text box of total amount to be paid
+     */
+    public static void updatePricing( @Nullable Double priceExclVat,
+                                      @Nullable Double vatBase,
+                                      @Nullable Double finalPrice,
+                                      @Nullable Double amountToPay,
+                                      @Nullable List<PricingItem> items,
+                                      @Nonnull MaterialTextBox priceExclVatBox,
+                                      @Nonnull MaterialTextBox vatBaseBox,
+                                      @Nonnull MaterialTextBox priceInclVatBox,
+                                      @Nullable MaterialTextBox toPayBox )
+    {
+        String excludingVat;
+        String base;
+        String includingVat;
+        String currency = null;
+        String toPay;
+
+        if ( items != null && !items.isEmpty() )
+        {
+            currency = items.get( 0 ).getCurrency();
+        }
+
+        if ( currency != null )
+        {
+            if ( priceExclVat != null && vatBase != null && finalPrice != null )
+            {
+                excludingVat = formatPrice( currency, priceExclVat );
+                base = formatPrice( currency, vatBase );
+                includingVat = formatPrice( currency, finalPrice );
+
+                if ( amountToPay == null )
+                {
+                    toPay = formatPrice( currency, finalPrice );
+                }
+                else
+                {
+                    toPay = formatPrice( currency, amountToPay );
+                }
+            }
+            else
+            {
+                excludingVat = formatPrice( currency, 0.0 );
+                base = formatPrice( currency, 0.0 );
+                includingVat = formatPrice( currency, 0.0 );
+                toPay = formatPrice( currency, 0.0 );
+            }
+        }
+        else
+        {
+            excludingVat = "0";
+            base = "0";
+            includingVat = "0";
+            toPay = "0";
+        }
+
+        priceExclVatBox.setValue( excludingVat );
+        vatBaseBox.setValue( base );
+        priceInclVatBox.setValue( includingVat );
+
+        if ( toPayBox != null )
+        {
+            toPayBox.setValue( toPay );
+        }
+    }
+
+    static String formatPrice( @Nonnull String currency, @Nonnull Double number )
+    {
+        return NumberFormat.getCurrencyFormat( currency ).format( number );
     }
 
     /**

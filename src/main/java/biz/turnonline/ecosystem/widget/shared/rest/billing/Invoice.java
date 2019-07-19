@@ -36,6 +36,7 @@ import java.util.Objects;
 public final class Invoice
         implements HasCustomer
 {
+    private Date createdDate;
 
     /**
      * The value may be {@code null}.
@@ -126,6 +127,22 @@ public final class Invoice
      * The value may be {@code null}.
      */
     private String type;
+
+    /**
+     * @return value or {@code null} for none
+     */
+    public Date getCreatedDate()
+    {
+        return createdDate;
+    }
+
+    /**
+     * @param createdDate createdDate or {@code null} for none
+     */
+    public void setCreatedDate( Date createdDate )
+    {
+        this.createdDate = createdDate;
+    }
 
     /**
      * @return value or {@code null} for none

@@ -30,6 +30,7 @@ import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -48,6 +49,11 @@ import gwt.material.design.client.ui.MaterialButton;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus.NEW;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus.PAID;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus.SENT;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus.valueOf;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -134,6 +140,9 @@ public class EditInvoiceView
         InvoicePricing pricing = invoice.getPricing();
         items.fill( pricing == null ? null : pricing.getItems() );
 
+        InvoiceStatus status = invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
+        detail.setReadOnly( status == SENT || status == PAID );
+
         Scheduler.get().scheduleDeferred( () -> {
             EditInvoice where = ( EditInvoice ) controller.getWhere();
             tabs.selectTab( where.getTab() );
@@ -156,6 +165,10 @@ public class EditInvoiceView
     public void update( @Nonnull Pricing pricing )
     {
         items.update( pricing );
+        detail.updatePricing( pricing.getTotalPriceExclVat(),
+                pricing.getTotalVatBase(),
+                pricing.getTotalPrice(),
+                pricing.getItems() );
     }
 
     interface EditInvoiceViewUiBinder

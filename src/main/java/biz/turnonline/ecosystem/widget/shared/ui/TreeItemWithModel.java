@@ -25,7 +25,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingStructureTempl
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import com.google.common.base.Strings;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 
@@ -35,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
+import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
 import static gwt.material.design.client.constants.IconType.ASSIGNMENT;
 import static gwt.material.design.client.constants.IconType.ASSIGNMENT_TURNED_IN;
 import static gwt.material.design.client.constants.IconType.EVENT;
@@ -97,7 +97,7 @@ public class TreeItemWithModel
         if ( model.getCurrency() != null && model.getFinalPriceExclVat() != null )
         {
             itemName = ( Strings.isNullOrEmpty( model.getItemName() ) ? "" : model.getItemName() + " - " )
-                    + NumberFormat.getCurrencyFormat( model.getCurrency() ).format( model.getFinalPriceExclVat() );
+                    + formatPrice( model.getCurrency(), model.getFinalPriceExclVat() );
         }
         else
         {
