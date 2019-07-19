@@ -36,6 +36,7 @@ import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 import static gwt.material.design.client.constants.IconType.ASSIGNMENT;
+import static gwt.material.design.client.constants.IconType.ASSIGNMENT_TURNED_IN;
 import static gwt.material.design.client.constants.IconType.EVENT;
 import static gwt.material.design.client.constants.IconType.FOLDER;
 import static gwt.material.design.client.constants.IconType.LOOKS_ONE;
@@ -50,7 +51,7 @@ import static gwt.material.design.client.constants.IconType.PERSONAL_VIDEO;
 public class TreeItemWithModel
         extends MaterialTreeItem
 {
-    public static final String STANDARD = "Standard";
+    static final String STANDARD = "Standard";
 
     static final String ORDER_ITEM = "OrderItem";
 
@@ -59,6 +60,8 @@ public class TreeItemWithModel
     static final String ATTENDEE = "Attendee";
 
     static final String EVENT_PART = "EventPart";
+
+    static final String BILLING_ITEM = "BillingItem";
 
     private static AppMessages messages = AppMessages.INSTANCE;
 
@@ -103,6 +106,10 @@ public class TreeItemWithModel
         if ( STANDARD.equals( itemType ) )
         {
             setIconType( LOOKS_ONE );
+        }
+        if ( BILLING_ITEM.equals( itemType ) )
+        {
+            setIconType( ASSIGNMENT_TURNED_IN );
         }
         else if ( ORDER_ITEM.equals( itemType ) )
         {

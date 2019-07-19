@@ -1,5 +1,6 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingStructureTemplate;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
@@ -13,7 +14,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 
@@ -58,7 +58,7 @@ public class Pricing
     Discounts discounts;
 
     @Inject
-    public Pricing( EventBus eventBus )
+    public Pricing( AppEventBus eventBus )
     {
         itemsPanel = new PricingItemsPanel( eventBus );
 

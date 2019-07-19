@@ -39,7 +39,7 @@
                     <b:CustomerPanel ui:field="customer"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabItems" grid="s12">
-                    <b:BillingItems ui:field="items"/>
+                    <s:PricingItemsPanel ui:field="items"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabTransactions" grid="s12">
                     <b:InvoiceTransactions ui:field="transactions"/>

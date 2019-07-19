@@ -29,8 +29,8 @@ import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.shared.event.ProductAutoCompleteEvent;
+import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
@@ -75,7 +75,7 @@ public class EditOrderPresenter
     {
         bus().addHandler( OrderBackEvent.TYPE, event -> controller().goTo( new Orders() ) );
         bus().addHandler( SaveOrderEvent.TYPE, this::orderSaved );
-        bus().addHandler( CalculatePricingEvent.TYPE, this::recalculated );
+        bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
         bus().addHandler( OrderScheduleChangeEvent.TYPE, this::adjustNextBillingDate );
         bus().addHandler( DueDateNumberOfDaysEvent.TYPE, this::adjustDueDate );
         bus().addHandler( IssueOrderInvoiceEvent.TYPE, this::issueOrderInvoice );
@@ -114,9 +114,9 @@ public class EditOrderPresenter
         }
     }
 
-    private void recalculated( CalculatePricingEvent event )
+    private void recalculated( RecalculatedPricingEvent event )
     {
-        bus().billing().calculate( event.getPricing(), response -> view().update( response ) );
+        view().update( event.getPricing() );
     }
 
     private void created( Order response, FacadeCallback.Failure failure )

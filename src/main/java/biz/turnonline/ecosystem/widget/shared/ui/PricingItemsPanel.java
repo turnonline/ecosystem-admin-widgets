@@ -18,9 +18,10 @@
 
 package biz.turnonline.ecosystem.widget.shared.ui;
 
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
 import biz.turnonline.ecosystem.widget.shared.event.ItemChangedCalculateEvent;
+import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.event.RowItemSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.JSON;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
@@ -40,7 +41,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
@@ -61,11 +61,13 @@ import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.ATTENDEE;
+import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.BILLING_ITEM;
 import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.EVENT_PART;
 import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.ORDER_ITEM;
 import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.STANDARD;
 import static biz.turnonline.ecosystem.widget.shared.ui.TreeItemWithModel.WEBINAR;
 import static gwt.material.design.client.constants.IconType.ASSIGNMENT;
+import static gwt.material.design.client.constants.IconType.ASSIGNMENT_TURNED_IN;
 import static gwt.material.design.client.constants.IconType.EVENT;
 import static gwt.material.design.client.constants.IconType.LOOKS_ONE;
 import static gwt.material.design.client.constants.IconType.PEOPLE;
@@ -105,6 +107,9 @@ public class PricingItemsPanel
     MaterialLink standard;
 
     @UiField
+    MaterialLink billingItem;
+
+    @UiField
     MaterialLink orderItem;
 
     @UiField
@@ -122,7 +127,7 @@ public class PricingItemsPanel
 
     private TreeItemWithModel selectedTreeItem;
 
-    private EventBus bus;
+    private AppEventBus bus;
 
     private PricingItemMapper mapper;
 
@@ -135,7 +140,7 @@ public class PricingItemsPanel
     private boolean isReadOnly;
 
     @Inject
-    public PricingItemsPanel( EventBus eventBus )
+    public PricingItemsPanel( AppEventBus eventBus )
     {
         this.bus = eventBus;
 
@@ -442,6 +447,10 @@ public class PricingItemsPanel
         {
             this.itemType.setIconType( ASSIGNMENT );
         }
+        if ( BILLING_ITEM.equals( itemType ) )
+        {
+            this.itemType.setIconType( ASSIGNMENT_TURNED_IN );
+        }
         else if ( WEBINAR.equals( itemType ) )
         {
             this.itemType.setIconType( PERSONAL_VIDEO );
@@ -489,10 +498,8 @@ public class PricingItemsPanel
 
     private void calculate()
     {
-        Pricing pricing = new Pricing();
-        pricing.setItems( bind() );
-
-        bus.fireEvent( new CalculatePricingEvent( pricing ) );
+        Pricing pricing = new Pricing().setItems( bind() );
+        bus.billing().calculate( pricing, response -> bus.fireEvent( new RecalculatedPricingEvent( response ) ) );
     }
 
     private TableData header( String label, String width )
@@ -552,6 +559,9 @@ public class PricingItemsPanel
             case ASSIGNMENT:
                 item.setItemType( ORDER_ITEM );
                 break;
+            case ASSIGNMENT_TURNED_IN:
+                item.setItemType( BILLING_ITEM );
+                break;
             case PERSONAL_VIDEO:
                 item.setItemType( WEBINAR );
                 break;
@@ -576,6 +586,12 @@ public class PricingItemsPanel
     void standard( ClickEvent event )
     {
         itemType.setIconType( LOOKS_ONE );
+    }
+
+    @UiHandler( "billingItem" )
+    void billingItem( ClickEvent event )
+    {
+        itemType.setIconType( ASSIGNMENT_TURNED_IN );
     }
 
     @UiHandler( "orderItem" )

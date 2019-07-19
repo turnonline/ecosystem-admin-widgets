@@ -23,13 +23,16 @@ import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.ArrayList;
 
@@ -51,6 +54,7 @@ public class EditInvoicePresenter
     public void bind()
     {
         bus().addHandler( InvoiceBackEvent.TYPE, event -> controller().goTo( new Invoices() ) );
+        bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
 
         bus().addHandler( SaveInvoiceEvent.TYPE, event -> {
             Invoice invoice = event.getInvoice();
@@ -95,8 +99,19 @@ public class EditInvoicePresenter
         return invoice;
     }
 
+    private void recalculated( RecalculatedPricingEvent event )
+    {
+        view().update( event.getPricing() );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Invoice>
     {
+        /**
+         * Updates the order's pricing (details and items) UI by recalculated price.
+         *
+         * @param pricing the recalculated price
+         */
+        void update( @Nonnull Pricing pricing );
     }
 }

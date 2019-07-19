@@ -18,38 +18,15 @@
 
 package biz.turnonline.ecosystem.widget.shared.event;
 
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
-import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Pricing calculation event with {@link Pricing} payload
+ * Pricing calculation event handler.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class CalculatePricingEvent
-        extends GwtEvent<CalculatePricingEventHandler>
+public interface RecalculatedPricingEventHandler
+        extends EventHandler
 {
-    public static Type<CalculatePricingEventHandler> TYPE = new Type<>();
-
-    private final Pricing pricing;
-
-    public CalculatePricingEvent( Pricing pricing )
-    {
-        this.pricing = pricing;
-    }
-
-    public Type<CalculatePricingEventHandler> getAssociatedType()
-    {
-        return TYPE;
-    }
-
-    public Pricing getPricing()
-    {
-        return pricing;
-    }
-
-    protected void dispatch( CalculatePricingEventHandler handler )
-    {
-        handler.onCalculatePricing( this );
-    }
+    void onCalculatePricing( RecalculatedPricingEvent event );
 }

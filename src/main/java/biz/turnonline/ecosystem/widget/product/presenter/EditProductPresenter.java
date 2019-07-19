@@ -24,7 +24,7 @@ import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
-import biz.turnonline.ecosystem.widget.shared.event.CalculatePricingEvent;
+import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
@@ -83,8 +83,7 @@ public class EditProductPresenter
             }
         } );
 
-        bus().addHandler( CalculatePricingEvent.TYPE, event ->
-                bus().billing().calculate( event.getPricing(), response -> view().update( response ) ) );
+        bus().addHandler( RecalculatedPricingEvent.TYPE, event -> view().update( event.getPricing() ) );
 
     }
 

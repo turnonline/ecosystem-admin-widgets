@@ -31,6 +31,7 @@ import biz.turnonline.ecosystem.widget.billing.ui.EditOrderTabs;
 import biz.turnonline.ecosystem.widget.billing.ui.InvoiceDetail;
 import biz.turnonline.ecosystem.widget.billing.ui.OrderDetail;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
@@ -49,7 +50,6 @@ import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 
@@ -113,7 +113,7 @@ public class EditOrderView
     private PlaceController controller;
 
     @Inject
-    public EditOrderView( EventBus eventBus,
+    public EditOrderView( AppEventBus eventBus,
                           PlaceController controller,
                           @Named( "EditOrderBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                           AddressLookupListener addressLookup )

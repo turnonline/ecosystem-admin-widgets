@@ -22,14 +22,16 @@ import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.presenter.EditInvoicePresenter;
-import biz.turnonline.ecosystem.widget.billing.ui.BillingItems;
 import biz.turnonline.ecosystem.widget.billing.ui.CustomerPanel;
 import biz.turnonline.ecosystem.widget.billing.ui.EditInvoiceTabs;
 import biz.turnonline.ecosystem.widget.billing.ui.InvoiceDetail;
 import biz.turnonline.ecosystem.widget.billing.ui.InvoiceTransactions;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
+import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -41,9 +43,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialButton;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -56,15 +58,11 @@ public class EditInvoiceView
 {
     private static EditInvoiceViewUiBinder binder = GWT.create( EditInvoiceViewUiBinder.class );
 
-    private PlaceController controller;
-
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
     EditInvoiceTabs tabs;
-
-    // -- tab contents
 
     @UiField
     InvoiceDetail detail;
@@ -73,12 +71,10 @@ public class EditInvoiceView
     CustomerPanel<Invoice> customer;
 
     @UiField( provided = true )
-    BillingItems items;
+    PricingItemsPanel items;
 
     @UiField( provided = true )
     InvoiceTransactions transactions;
-
-    // -- buttons
 
     @UiField
     MaterialButton btnSave;
@@ -86,13 +82,10 @@ public class EditInvoiceView
     @UiField
     MaterialButton btnBack;
 
-    interface EditInvoiceViewUiBinder
-            extends UiBinder<HTMLPanel, EditInvoiceView>
-    {
-    }
+    private PlaceController controller;
 
     @Inject
-    public EditInvoiceView( EventBus eventBus,
+    public EditInvoiceView( AppEventBus eventBus,
                             PlaceController controller,
                             @Named( "EditInvoiceBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                             AddressLookupListener addressLookup )
@@ -105,8 +98,8 @@ public class EditInvoiceView
         setActive( Route.INVOICES );
 
         customer = new CustomerPanel<>( eventBus, addressLookup );
-        items = new BillingItems( eventBus );
-        transactions = new InvoiceTransactions( );
+        items = new PricingItemsPanel( eventBus );
+        transactions = new InvoiceTransactions();
 
         add( binder.createAndBindUi( this ) );
     }
@@ -118,7 +111,15 @@ public class EditInvoiceView
 
         detail.bind( invoice );
         customer.bind( invoice );
-        items.bind( invoice.getPricing() );
+
+        InvoicePricing pricing = invoice.getPricing();
+        if ( pricing == null )
+        {
+            pricing = new InvoicePricing();
+            invoice.setPricing( pricing );
+        }
+
+        pricing.setItems( items.bind() );
     }
 
     @Override
@@ -128,8 +129,10 @@ public class EditInvoiceView
 
         detail.fill( invoice );
         customer.fill( invoice );
-        items.fill( invoice.getPricing() != null ? invoice.getPricing() : new InvoicePricing() );
         transactions.fill( invoice );
+
+        InvoicePricing pricing = invoice.getPricing();
+        items.fill( pricing == null ? null : pricing.getItems() );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditInvoice where = ( EditInvoice ) controller.getWhere();
@@ -147,5 +150,16 @@ public class EditInvoiceView
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveInvoiceEvent( getModel() ) );
+    }
+
+    @Override
+    public void update( @Nonnull Pricing pricing )
+    {
+        items.update( pricing );
+    }
+
+    interface EditInvoiceViewUiBinder
+            extends UiBinder<HTMLPanel, EditInvoiceView>
+    {
     }
 }

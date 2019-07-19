@@ -30,6 +30,7 @@ import biz.turnonline.ecosystem.widget.product.ui.Invoicing;
 import biz.turnonline.ecosystem.widget.product.ui.Pricing;
 import biz.turnonline.ecosystem.widget.product.ui.Publishing;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -42,7 +43,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialButton;
 
 import javax.annotation.Nullable;
@@ -91,7 +91,7 @@ public class EditProductView
     private PlaceController controller;
 
     @Inject
-    public EditProductView( EventBus eventBus,
+    public EditProductView( AppEventBus eventBus,
                             PlaceController controller,
                             @Named( "EditProductBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                             AddressLookupListener addressLookup )
