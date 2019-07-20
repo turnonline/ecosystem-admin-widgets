@@ -250,25 +250,26 @@ public class OrderDetail
             {
                 break;
             }
-            case ACTIVE:
-            {
-                stepper.nextStep();
-                active.setSuccessText( messages.descriptionOrderStatusActive() );
-
-                suspendedHandler = suspended.addClickHandler( e -> fireOrderStatusChangeEvent( SUSPENDED ) );
-
-                break;
-            }
             case SUSPENDED:
             case ISSUE:
             {
                 stepper.nextStep();
-                stepper.nextStep();
 
                 active.setSuccessText( messages.descriptionOrderStatusActivate() );
+                active.clearStatusText();
                 suspended.setErrorText( messages.descriptionOrderStatusSuspended() );
 
                 activeHandler = active.addClickHandler( e -> fireOrderStatusChangeEvent( ACTIVE ) );
+
+                break;
+            }
+            case ACTIVE:
+            {
+                stepper.nextStep();
+                stepper.nextStep();
+                active.setSuccessText( messages.descriptionOrderStatusActive() );
+
+                suspendedHandler = suspended.addClickHandler( e -> fireOrderStatusChangeEvent( SUSPENDED ) );
 
                 break;
             }

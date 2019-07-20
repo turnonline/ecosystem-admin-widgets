@@ -25,23 +25,25 @@
 
     <g:HTMLPanel>
         <m:MaterialRow>
-            <s:SectionTitle iconType="LINEAR_SCALE" title="{msg.labelOrderStatus}"/>
+            <m:MaterialColumn grid="s12 m9">
+                <s:SectionTitle iconType="LINEAR_SCALE" title="{msg.labelOrderStatus}"/>
 
-            <m:MaterialPanel width="100%" marginTop="10" ui:field="stepperPanel" marginBottom="25">
-                <addins:stepper.MaterialStepper ui:field="stepper" detectOrientation="true">
-                    <addins:stepper.MaterialStep step="0" title="TRIALING" ui:field="trialing"
-                                                 description="{msg.descriptionOrderStatusTrialing}"/>
+                <m:MaterialPanel width="100%" marginTop="10" ui:field="stepperPanel" marginBottom="25">
+                    <addins:stepper.MaterialStepper ui:field="stepper" detectOrientation="true">
+                        <addins:stepper.MaterialStep step="0" title="TRIALING" ui:field="trialing"
+                                                     description="{msg.descriptionOrderStatusTrialing}"/>
 
-                    <addins:stepper.MaterialStep step="1" title="ACTIVE" ui:field="active" lineDistanceWidth="120"
-                                                 description="{msg.descriptionOrderStatusActivate}"/>
+                        <addins:stepper.MaterialStep step="1" title="SUSPENDED" ui:field="suspended"
+                                                     description="{msg.descriptionOrderStatusSuspend}"/>
 
-                    <addins:stepper.MaterialStep step="2" title="SUSPENDED" ui:field="suspended"
-                                                 description="{msg.descriptionOrderStatusSuspend}"/>
+                        <addins:stepper.MaterialStep step="2" title="ACTIVE" ui:field="active"
+                                                     description="{msg.descriptionOrderStatusActivate}"/>
 
-                    <addins:stepper.MaterialStep step="3" title="FINISHED" ui:field="finished"
-                                                 description="{msg.descriptionOrderStatusFinished}"/>
-                </addins:stepper.MaterialStepper>
-            </m:MaterialPanel>
+                        <addins:stepper.MaterialStep step="3" title="FINISHED" ui:field="finished"
+                                                     description="{msg.descriptionOrderStatusFinished}"/>
+                    </addins:stepper.MaterialStepper>
+                </m:MaterialPanel>
+            </m:MaterialColumn>
         </m:MaterialRow>
 
         <m:MaterialRow paddingTop="10">
