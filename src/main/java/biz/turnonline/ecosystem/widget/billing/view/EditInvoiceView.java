@@ -30,7 +30,6 @@ import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -41,6 +40,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -50,10 +50,10 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus.NEW;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus.PAID;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus.SENT;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus.valueOf;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.NEW;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.PAID;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.SENT;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.valueOf;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -110,6 +110,12 @@ public class EditInvoiceView
         add( binder.createAndBindUi( this ) );
     }
 
+    @UiFactory
+    InvoiceDetail createInvoiceDetail()
+    {
+        return new InvoiceDetail( bus() );
+    }
+
     @Override
     protected void beforeGetModel()
     {
@@ -140,7 +146,7 @@ public class EditInvoiceView
         InvoicePricing pricing = invoice.getPricing();
         items.fill( pricing == null ? null : pricing.getItems() );
 
-        InvoiceStatus status = invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
+        Invoice.Status status = invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
         detail.setReadOnly( status == SENT || status == PAID );
 
         Scheduler.get().scheduleDeferred( () -> {
@@ -169,6 +175,13 @@ public class EditInvoiceView
                 pricing.getTotalVatBase(),
                 pricing.getTotalPrice(),
                 pricing.getItems() );
+    }
+
+    @Override
+    public void setStatus( @Nonnull Invoice.Status status )
+    {
+        detail.setStatus( status );
+        items.setReadOnly( NEW != status );
     }
 
     interface EditInvoiceViewUiBinder

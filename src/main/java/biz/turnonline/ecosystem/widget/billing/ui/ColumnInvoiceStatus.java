@@ -1,7 +1,6 @@
 package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceStatus;
 import biz.turnonline.ecosystem.widget.shared.ui.NotSafeHtmlColumn;
 
 import java.util.HashMap;
@@ -17,10 +16,10 @@ public class ColumnInvoiceStatus
 
     static
     {
-        colorMap.put( InvoiceStatus.NEW.name(), "blue" );
-        colorMap.put( InvoiceStatus.SENT.name(), "orange" );
-        colorMap.put( InvoiceStatus.CANCELED.name(), "red" );
-        colorMap.put( InvoiceStatus.PAID.name(), "green" );
+        colorMap.put( Invoice.Status.NEW.name(), "blue" );
+        colorMap.put( Invoice.Status.SENT.name(), "orange" );
+        colorMap.put( Invoice.Status.CANCELED.name(), "red" );
+        colorMap.put( Invoice.Status.PAID.name(), "green" );
     }
 
     @Override

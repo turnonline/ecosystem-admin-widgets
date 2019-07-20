@@ -465,4 +465,15 @@ public final class Invoice
     {
         return Objects.hash( id, orderId );
     }
+
+    public enum Status
+    {
+        NEW,
+
+        SENT,
+
+        PAID,
+
+        CANCELED
+    }
 }

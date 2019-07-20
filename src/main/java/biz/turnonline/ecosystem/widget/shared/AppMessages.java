@@ -591,6 +591,21 @@ public interface AppMessages
     @Key( "label.order.status" )
     String labelOrderStatus();
 
+    @Key( "label.invoice.currentStatus" )
+    String labelInvoiceCurrentStatus();
+
+    @Key( "label.invoice.status.new" )
+    String labelInvoiceStatusNew();
+
+    @Key( "label.invoice.status.sent" )
+    String labelInvoiceStatusSent();
+
+    @Key( "label.invoice.status.paid" )
+    String labelInvoiceStatusPaid();
+
+    @Key( "label.invoice.status.canceled" )
+    String labelInvoiceStatusCanceled();
+
     // tooltips
 
     @Key( "tooltip.domain.tip.naked" )
@@ -724,6 +739,9 @@ public interface AppMessages
     @Key( "msg.order.status.suspended" )
     String msgOrderStatusSuspended();
 
+    @Key( "msg.invoice.status.sent" )
+    String msgInvoiceStatusSent();
+
     // other
 
     @Key( value = "copyright" )
@@ -746,4 +764,19 @@ public interface AppMessages
 
     @Key( "description.order.status.finished" )
     String descriptionOrderStatusFinished();
+
+    @Key( "description.invoice.status.new" )
+    String descriptionInvoiceStatusNew();
+
+    @Key( "description.invoice.status.sendTo" )
+    String descriptionInvoiceStatusSendTo();
+
+    @Key( "description.invoice.status.sent" )
+    String descriptionInvoiceStatusSent();
+
+    @Key( "description.invoice.status.paid" )
+    String descriptionInvoiceStatusPaid();
+
+    @Key( "description.invoice.status.canceled" )
+    String descriptionInvoiceStatusCanceled();
 }

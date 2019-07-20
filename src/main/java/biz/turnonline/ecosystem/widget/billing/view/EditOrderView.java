@@ -137,6 +137,12 @@ public class EditOrderView
         return new OrderDetail( bus() );
     }
 
+    @UiFactory
+    InvoiceDetail createInvoiceDetail()
+    {
+        return new InvoiceDetail( bus() );
+    }
+
     @Override
     protected void beforeGetModel()
     {

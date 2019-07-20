@@ -173,7 +173,7 @@ public class PricingItemsPanel
         btnAdd.setEnabled( false );
         btnDelete.setEnabled( false );
 
-        //workaround to hide an item as for example billingItem.setVisible( false ) is not working properly
+        //workaround to hide an item as for example billingItem.setVisible( false ) doesn't work properly
         types.clear();
 
         switch ( context )

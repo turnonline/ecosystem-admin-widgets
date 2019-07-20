@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
+import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
@@ -35,6 +36,8 @@ import com.google.gwt.place.shared.PlaceController;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.ArrayList;
+
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.SENT;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -55,6 +58,7 @@ public class EditInvoicePresenter
     {
         bus().addHandler( InvoiceBackEvent.TYPE, event -> controller().goTo( new Invoices() ) );
         bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
+        bus().addHandler( InvoiceStatusChangeEvent.TYPE, this::changeInvoiceStatus );
 
         bus().addHandler( SaveInvoiceEvent.TYPE, event -> {
             Invoice invoice = event.getInvoice();
@@ -104,6 +108,17 @@ public class EditInvoicePresenter
         view().update( event.getPricing() );
     }
 
+    private void changeInvoiceStatus( InvoiceStatusChangeEvent event )
+    {
+        Invoice.Status status = event.getInvoiceStatus();
+        if ( SENT == status )
+        {
+            success( messages.msgInvoiceStatusSent() );
+        }
+
+        view().setStatus( status );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Invoice>
     {
@@ -113,5 +128,12 @@ public class EditInvoicePresenter
          * @param pricing the recalculated price
          */
         void update( @Nonnull Pricing pricing );
+
+        /**
+         * Sets the current invoice status. It have an impact on whether some action buttons will be enabled or not.
+         *
+         * @param status the current status to be set
+         */
+        void setStatus( @Nonnull Invoice.Status status );
     }
 }
