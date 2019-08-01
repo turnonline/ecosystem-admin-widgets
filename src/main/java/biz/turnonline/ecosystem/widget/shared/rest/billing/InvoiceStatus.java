@@ -18,10 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
-import java.util.List;
-
 /**
- * Model definition for InvoiceCollection.
+ * Model definition for InvoiceStatus.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the TurnOnline.biz Product Billing. For a detailed
@@ -31,28 +29,23 @@ import java.util.List;
  *
  * @author Google, Inc.
  */
-@SuppressWarnings( "javadoc" )
-public final class InvoiceCollection
+public final class InvoiceStatus
 {
-    /**
-     * The value may be {@code null}.
-     */
-    private List<Invoice> items;
+    private String status;
 
-    /**
-     * @return value or {@code null} for none
-     */
-    public List<Invoice> getItems()
+    public String getStatus()
     {
-        return items;
+        return status;
     }
 
-    /**
-     * @param items items or {@code null} for none
-     */
-    public InvoiceCollection setItems( List<Invoice> items )
+    public InvoiceStatus setStatus( String status )
     {
-        this.items = items;
+        this.status = status;
         return this;
+    }
+
+    public Invoice.Status getStatusEnum()
+    {
+        return Invoice.Status.valueOf( status );
     }
 }
