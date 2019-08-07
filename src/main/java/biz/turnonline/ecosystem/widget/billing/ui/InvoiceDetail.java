@@ -273,6 +273,7 @@ public class InvoiceDetail
     public void setStatus( @Nonnull Invoice.Status status )
     {
         currentStatus = checkNotNull( status, "Invoice status can't be null" );
+        stepSent.setEnabled( true );
 
         if ( invoice != null && invoice.getId() != null )
         {
@@ -364,7 +365,8 @@ public class InvoiceDetail
         if ( invoice != null && invoice.getOrderId() != null && invoice.getId() != null )
         {
             // this action is available only for persisted invoice
-            bus.fireEvent( new InvoiceStatusChangeEvent( SENT, invoice.getOrderId(), invoice.getId() ) );
+            stepSent.setEnabled( false );
+            bus.fireEvent( new InvoiceStatusChangeEvent( currentStatus, SENT, invoice.getOrderId(), invoice.getId() ) );
         }
         else
         {

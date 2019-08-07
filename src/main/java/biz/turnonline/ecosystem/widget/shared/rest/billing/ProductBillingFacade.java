@@ -44,7 +44,9 @@ import javax.ws.rs.QueryParam;
 public interface ProductBillingFacade
         extends RestService
 {
-    // products
+    //////////////////////
+    ////// products //////
+    //////////////////////
 
     @GET
     @Path( "products" )
@@ -84,7 +86,9 @@ public interface ProductBillingFacade
                                @PathParam( "order" ) Integer order,
                                FacadeCallback<Void> callback );
 
-    // orders
+    //////////////////////
+    ////// orders ////////
+    //////////////////////
 
     @GET
     @Path( "orders" )
@@ -126,7 +130,9 @@ public interface ProductBillingFacade
                             OrderStatus status,
                             FacadeCallback<Void> callback );
 
-    // invoices
+    //////////////////////
+    ////// invoices //////
+    //////////////////////
 
     @GET
     @Path( "invoices" )
@@ -165,6 +171,14 @@ public interface ProductBillingFacade
                         Invoice invoice,
                         FacadeCallback<Invoice> callback );
 
+    @PUT
+    @Path( "orders/{order_id}/invoices/{invoice_id}" )
+    void sendInvoice( @PathParam( "order_id" ) Long orderId,
+                      @PathParam( "invoice_id" ) Long invoiceId,
+                      @HeaderParam( "vnd.turnon.cloud.send-invoice" ) Boolean sendInvoice,
+                      Invoice invoice,
+                      FacadeCallback<Invoice> callback );
+
     @DELETE
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
     void deleteInvoice( @PathParam( "order_id" ) Long orderId,
@@ -175,7 +189,9 @@ public interface ProductBillingFacade
     @Path( "prices" )
     void calculate( Pricing pricing, SuccessCallback<Pricing> callback );
 
-    // codebooks
+    //////////////////////
+    ////// codebooks /////
+    //////////////////////
 
     @GET
     @Path( "codebook/billing-units" )

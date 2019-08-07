@@ -35,14 +35,20 @@ public class InvoiceStatusChangeEvent
 {
     public static Type<InvoiceStatusChangeEventHandler> TYPE = new Type<>();
 
+    private final Invoice.Status originStatus;
+
     private final Invoice.Status status;
 
     private final Long orderId;
 
     private final Long invoiceId;
 
-    public InvoiceStatusChangeEvent( @Nonnull Invoice.Status status, @Nonnull Long orderId, @Nonnull Long invoiceId )
+    public InvoiceStatusChangeEvent( @Nonnull Invoice.Status originStatus,
+                                     @Nonnull Invoice.Status status,
+                                     @Nonnull Long orderId,
+                                     @Nonnull Long invoiceId )
     {
+        this.originStatus = checkNotNull( status, "Invoice origin status can't be null" );
         this.status = checkNotNull( status, "Invoice status can't be null" );
         this.orderId = checkNotNull( orderId, "Order ID can't be null" );
         this.invoiceId = checkNotNull( invoiceId, "Invoice ID can't be null" );
@@ -51,6 +57,16 @@ public class InvoiceStatusChangeEvent
     public Type<InvoiceStatusChangeEventHandler> getAssociatedType()
     {
         return TYPE;
+    }
+
+    /**
+     * Returns the status of the invoice right before has been changed.
+     *
+     * @return the origin invoice status
+     */
+    public Invoice.Status getOriginStatus()
+    {
+        return originStatus;
     }
 
     /**

@@ -148,6 +148,7 @@ public class EditInvoiceView
 
         Invoice.Status status = invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
         detail.setReadOnly( status == SENT || status == PAID );
+        items.setReadOnly( NEW != status );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditInvoice where = ( EditInvoice ) controller.getWhere();

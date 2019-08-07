@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
@@ -111,12 +112,28 @@ public class EditInvoicePresenter
     private void changeInvoiceStatus( InvoiceStatusChangeEvent event )
     {
         Invoice.Status status = event.getInvoiceStatus();
-        if ( SENT == status )
-        {
-            success( messages.msgInvoiceStatusSent() );
-        }
-
-        view().setStatus( status );
+        bus().billing().sendInvoice( event.getOrderId(), event.getInvoiceId(),
+                SENT == status, new Invoice(), ( response, failure ) -> {
+                    if ( SENT.name().equalsIgnoreCase( response.getStatus() ) )
+                    {
+                        success( messages.msgInvoiceStatusSent(), failure );
+                        view().setStatus( SENT );
+                    }
+                    else if ( failure.isNotFound() )
+                    {
+                        error( AppMessages.INSTANCE.msgErrorRecordDoesNotExists() );
+                        view().setStatus( event.getOriginStatus() );
+                    }
+                    else if ( failure.isBadRequest() )
+                    {
+                        error( AppMessages.INSTANCE.msgErrorBadRequest( failure.response().getText() ) );
+                        view().setStatus( event.getOriginStatus() );
+                    }
+                    else
+                    {
+                        view().setStatus( event.getOriginStatus() );
+                    }
+                } );
     }
 
     public interface IView
