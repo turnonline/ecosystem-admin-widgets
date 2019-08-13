@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.billing.view;
 
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
+import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.presenter.EditInvoicePresenter;
@@ -44,6 +45,7 @@ import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 
 import javax.annotation.Nonnull;
@@ -51,7 +53,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.NEW;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.PAID;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.SENT;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.valueOf;
 
@@ -87,6 +88,18 @@ public class EditInvoiceView
 
     @UiField
     MaterialButton btnBack;
+
+    @UiField
+    MaterialAnchorButton sendInvoice;
+
+    @UiField
+    MaterialAnchorButton emailInvoice;
+
+    @UiField
+    MaterialAnchorButton downloadInvoice;
+
+    @UiField
+    MaterialAnchorButton cancelInvoice;
 
     private PlaceController controller;
 
@@ -146,14 +159,17 @@ public class EditInvoiceView
         InvoicePricing pricing = invoice.getPricing();
         items.fill( pricing == null ? null : pricing.getItems() );
 
-        Invoice.Status status = invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
-        detail.setReadOnly( status == SENT || status == PAID );
-        items.setReadOnly( NEW != status );
+        setStatus( status( invoice ) );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditInvoice where = ( EditInvoice ) controller.getWhere();
             tabs.selectTab( where.getTab() );
         } );
+    }
+
+    private Invoice.Status status( Invoice invoice )
+    {
+        return invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
     }
 
     @UiHandler( "btnBack" )
@@ -166,6 +182,28 @@ public class EditInvoiceView
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveInvoiceEvent( getModel() ) );
+    }
+
+    @UiHandler( "sendInvoice" )
+    public void sendInvoiceClick( ClickEvent event )
+    {
+        Invoice inv = getRawModel();
+        bus().fireEvent( new InvoiceStatusChangeEvent( status( inv ), SENT, inv.getOrderId(), inv.getId() ) );
+    }
+
+    @UiHandler( "emailInvoice" )
+    public void emailInvoiceClick( ClickEvent event )
+    {
+    }
+
+    @UiHandler( "downloadInvoice" )
+    public void downloadInvoiceClick( ClickEvent event )
+    {
+    }
+
+    @UiHandler( "cancelInvoice" )
+    public void cancelInvoiceClick( ClickEvent event )
+    {
     }
 
     @Override
@@ -183,6 +221,7 @@ public class EditInvoiceView
     {
         detail.setStatus( status );
         items.setReadOnly( NEW != status );
+        sendInvoice.setEnabled( NEW == status );
     }
 
     interface EditInvoiceViewUiBinder

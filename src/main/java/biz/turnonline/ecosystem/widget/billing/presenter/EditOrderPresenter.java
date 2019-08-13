@@ -51,6 +51,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.valueOf;
 
@@ -307,17 +309,16 @@ public class EditOrderPresenter
 
         bus().billing().changeOrderStatus( event.getOrderId(), os,
                 ( response, failure ) -> {
-                    if ( Order.Status.ACTIVE == status )
+                    if ( ACTIVE == status )
                     {
                         success( messages.msgOrderStatusActive(), failure );
                     }
-                    else if ( Order.Status.SUSPENDED == status )
+                    else if ( SUSPENDED == status )
                     {
                         warn( messages.msgOrderStatusSuspended(), failure );
                     }
+                    view().setStatus( status );
                 } );
-
-        view().setStatus( status );
     }
 
     public interface IView

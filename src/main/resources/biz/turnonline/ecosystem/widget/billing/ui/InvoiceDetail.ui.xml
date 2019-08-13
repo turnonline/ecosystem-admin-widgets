@@ -43,6 +43,15 @@
             </m:MaterialColumn>
         </m:MaterialRow>
 
+        <m:MaterialRow grid="s12 m12" backgroundColor="BLUE_LIGHTEN_5">
+            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}"/>
+
+            <m:MaterialTextBox ui:field="toPay" label="{msg.labelAmountToPay}" grid="m2" fontWeight="BOLD"/>
+            <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelTotalPriceExclVat}" grid="m2"/>
+            <m:MaterialTextBox ui:field="vatBase" label="{msg.labelTotalVatBase}" grid="m2"/>
+            <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelTotalPrice}" grid="m2"/>
+        </m:MaterialRow>
+
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
@@ -72,15 +81,6 @@
                 <m:MaterialDatePicker ui:field="created" placeholder="{msg.labelCreated}"/>
                 <m:MaterialDatePicker ui:field="modified" placeholder="{msg.labelModified}"/>
             </m:MaterialColumn>
-        </m:MaterialRow>
-
-        <m:MaterialRow>
-            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}"/>
-
-            <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelTotalPriceExclVat}" grid="m2"/>
-            <m:MaterialTextBox ui:field="vatBase" label="{msg.labelTotalVatBase}" grid="m2"/>
-            <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelTotalPrice}" grid="m2"/>
-            <m:MaterialTextBox ui:field="toPay" label="{msg.labelAmountToPay}" grid="m2" fontWeight="BOLD"/>
         </m:MaterialRow>
 
         <m:MaterialRow>

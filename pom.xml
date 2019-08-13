@@ -150,7 +150,8 @@
         <dependency>
             <groupId>org.ctoolkit.gwt</groupId>
             <artifactId>ctoolkit-tinygwt</artifactId>
-            <version>0.7-20190812.165053-1</version>
+            <!--suppress MavenModelInspection -->
+            <version>0.7</version>
             <scope>provided</scope>
         </dependency>
 

@@ -695,6 +695,18 @@ public interface AppMessages
     @Key( "tooltip.order.delete" )
     String tooltipOrderDelete();
 
+    @Key( "tooltip.invoice.send" )
+    String tooltipInvoiceSend();
+
+    @Key( "tooltip.invoice.send.email" )
+    String tooltipInvoiceSendEmail();
+
+    @Key( "tooltip.invoice.cancel" )
+    String tooltipInvoiceCancel();
+
+    @Key( "tooltip.invoice.download" )
+    String tooltipInvoiceDownload();
+
     // messages
 
     @Key( value = "msg.recordDeleted" )
