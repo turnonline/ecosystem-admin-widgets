@@ -168,6 +168,12 @@ public interface AppMessages
     @Key( value = "label.editOrder" )
     String labelEditOrder();
 
+    @Key( "label.send" )
+    String labelSend();
+
+    @Key( "label.invoice" )
+    String labelInvoice();
+
     @Key( value = "label.invoices" )
     String labelInvoices();
 
@@ -659,9 +665,6 @@ public interface AppMessages
     @Key( value = "tooltip.edit.invoice" )
     String tooltipEditInvoice();
 
-    @Key( value = "tooltip.delete.invoice" )
-    String tooltipDeleteInvoice();
-
     @Key( value = "tooltip.save.invoice" )
     String tooltipSaveInvoice();
 
@@ -703,6 +706,9 @@ public interface AppMessages
 
     @Key( "tooltip.invoice.cancel" )
     String tooltipInvoiceCancel();
+
+    @Key( "tooltip.invoice.delete" )
+    String tooltipInvoiceDelete();
 
     @Key( "tooltip.invoice.download" )
     String tooltipInvoiceDownload();
@@ -791,4 +797,7 @@ public interface AppMessages
 
     @Key( "description.invoice.status.canceled" )
     String descriptionInvoiceStatusCanceled();
+
+    @Key( "description.invoice.send" )
+    String descriptionInvoiceSend();
 }

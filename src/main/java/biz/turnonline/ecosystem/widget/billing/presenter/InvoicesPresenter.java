@@ -21,12 +21,9 @@ package biz.turnonline.ecosystem.widget.billing.presenter;
 import biz.turnonline.ecosystem.widget.billing.event.DeleteInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
+import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.util.Formatter;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -52,15 +49,14 @@ public class InvoicesPresenter
                 controller().goTo( new EditInvoice( event.getOrderId(), event.getInvoiceId(), "tabDetail" ) )
         );
 
-        bus().addHandler( DeleteInvoiceEvent.TYPE, event -> {
-            for ( Invoice invoice : event.getInvoices() )
-            {
-                bus().billing().deleteInvoice( invoice.getOrderId(), invoice.getId(),
-                        ( SuccessCallback<Void> ) response -> {
-                            success( messages.msgRecordDeleted( Formatter.formatInvoiceName( invoice ) ) );
-                            Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                        } );
-            }
+        bus().addHandler( DeleteInvoiceEvent.TYPE, this::deleteInvoice );
+    }
+
+    private void deleteInvoice( DeleteInvoiceEvent event )
+    {
+        bus().billing().deleteInvoice( event.getOrderId(), event.getInvoiceId(), ( response, failure ) -> {
+            controller().goTo( new Invoices() );
+            success( messages.msgRecordDeleted( event.getInvoiceNumber() ), failure );
         } );
     }
 

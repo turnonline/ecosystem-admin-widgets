@@ -43,6 +43,8 @@ public class InvoiceStatusChangeEvent
 
     private final Long invoiceId;
 
+    private String email;
+
     public InvoiceStatusChangeEvent( @Nonnull Invoice.Status originStatus,
                                      @Nonnull Invoice.Status status,
                                      @Nonnull Long orderId,
@@ -97,6 +99,26 @@ public class InvoiceStatusChangeEvent
     public Long getInvoiceId()
     {
         return invoiceId;
+    }
+
+    /**
+     * Returns the target email address where the invoice to be sent.
+     *
+     * @return the target email address
+     */
+    public String getEmail()
+    {
+        return email;
+    }
+
+    /**
+     * Sets the target email address
+     *
+     * @param email target email address to be set
+     */
+    public void setEmail( String email )
+    {
+        this.email = email;
     }
 
     protected void dispatch( InvoiceStatusChangeEventHandler handler )

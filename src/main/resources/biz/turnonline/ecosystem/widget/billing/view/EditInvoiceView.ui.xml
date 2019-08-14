@@ -25,6 +25,20 @@
 
     <g:HTMLPanel>
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:ConfirmationWindow ui:field="confirmation"/>
+
+        <m:MaterialDialog type="DEFAULT" dismissible="true" inDuration="300" outDuration="300"
+                          ui:field="emailDialog" grid="s6" offset="s3">
+            <m:MaterialDialogContent>
+                <m:MaterialTitle description="{msg.descriptionInvoiceSend}"/>
+                <m:MaterialTextBox ui:field="targetEmail" fontWeight="BOLD" focus="true"/>
+            </m:MaterialDialogContent>
+            <m:MaterialDialogFooter>
+                <m:MaterialButton ui:field="btnSendInvoice" text="{msg.labelSend}" type="FLAT"
+                                  waves="DEFAULT" iconType="MAIL_OUTLINE"
+                                  backgroundColor="BLUE" textColor="WHITE"/>
+            </m:MaterialDialogFooter>
+        </m:MaterialDialog>
 
         <m:MaterialPanel shadow="1" margin="20" marginBottom="0">
             <b:EditInvoiceTabs ui:field="tabs"/>
@@ -71,6 +85,9 @@
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
                                         iconType="CANCEL" ui:field="cancelInvoice"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceCancel}"/>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
+                                        iconType="DELETE" ui:field="deleteInvoice"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceDelete}"/>
             </m:MaterialFABList>
         </m:MaterialFAB>
     </g:HTMLPanel>

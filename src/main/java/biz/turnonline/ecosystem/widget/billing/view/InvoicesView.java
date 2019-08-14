@@ -18,7 +18,6 @@
 
 package biz.turnonline.ecosystem.widget.billing.view;
 
-import biz.turnonline.ecosystem.widget.billing.event.DeleteInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.presenter.InvoicesPresenter;
 import biz.turnonline.ecosystem.widget.billing.ui.ColumnInvoiceActions;
@@ -29,12 +28,9 @@ import biz.turnonline.ecosystem.widget.billing.ui.InvoicesDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnCustomer;
-import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
-import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.ui.SmartTable;
-import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -47,7 +43,6 @@ import gwt.material.design.client.ui.MaterialButton;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -65,13 +60,7 @@ public class InvoicesView
     MaterialButton btnNew;
 
     @UiField
-    MaterialButton btnDelete;
-
-    @UiField
     SmartTable<Invoice> table;
-
-    @UiField
-    ConfirmationWindow confirmationWindow;
 
     @Override
     public void refresh()
@@ -94,11 +83,6 @@ public class InvoicesView
 
         add( binder.createAndBindUi( this ) );
         initTable();
-
-        confirmationWindow.getBtnOk().addClickHandler( event -> {
-            List<Invoice> selectedRowModels = table.getSelectedRowModels( false );
-            bus().fireEvent( new DeleteInvoiceEvent( selectedRowModels ) );
-        } );
     }
 
     private void initTable()
@@ -127,32 +111,10 @@ public class InvoicesView
         table.configure( new InvoicesDataSource( ( AppEventBus ) bus() ) );
     }
 
+    @SuppressWarnings( "unused" )
     @UiHandler( "btnNew" )
     public void handleNew( ClickEvent event )
     {
         bus().fireEvent( new EditInvoiceEvent() );
-    }
-
-    @UiHandler( "btnDelete" )
-    public void handleDelete( ClickEvent event )
-    {
-        List<Invoice> selected = table.getSelectedRowModels( false );
-        if ( !selected.isEmpty() )
-        {
-            confirmationWindow.open( new Question()
-            {
-                @Override
-                public int selectedRecords()
-                {
-                    return selected.size();
-                }
-
-                @Override
-                public String name()
-                {
-                    return Formatter.formatInvoiceName( selected.get( 0 ) );
-                }
-            } );
-        }
     }
 }

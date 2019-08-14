@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
+import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
@@ -28,16 +29,19 @@ import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import com.google.gwt.place.shared.PlaceController;
+import org.fusesource.restygwt.client.ServiceRoots;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.ArrayList;
 
+import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.SENT;
 
 /**
@@ -60,6 +64,7 @@ public class EditInvoicePresenter
         bus().addHandler( InvoiceBackEvent.TYPE, event -> controller().goTo( new Invoices() ) );
         bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
         bus().addHandler( InvoiceStatusChangeEvent.TYPE, this::changeInvoiceStatus );
+        bus().addHandler( DownloadInvoiceEvent.TYPE, this::downloadInvoice );
 
         bus().addHandler( SaveInvoiceEvent.TYPE, event -> {
             Invoice invoice = event.getInvoice();
@@ -112,8 +117,17 @@ public class EditInvoicePresenter
     private void changeInvoiceStatus( InvoiceStatusChangeEvent event )
     {
         Invoice.Status status = event.getInvoiceStatus();
+        Invoice invoice = new Invoice();
+        String email = event.getEmail();
+        if ( email != null )
+        {
+            Customer customer = new Customer();
+            customer.setContactEmail( email );
+            invoice.setCustomer( customer );
+        }
+
         bus().billing().sendInvoice( event.getOrderId(), event.getInvoiceId(),
-                SENT == status, new Invoice(), ( response, failure ) -> {
+                SENT == status, invoice, ( response, failure ) -> {
                     if ( SENT.name().equalsIgnoreCase( response.getStatus() ) )
                     {
                         success( messages.msgInvoiceStatusSent(), failure );
@@ -136,9 +150,28 @@ public class EditInvoicePresenter
                 } );
     }
 
+    private void downloadInvoice( DownloadInvoiceEvent event )
+    {
+        String url = ServiceRoots.get( PRODUCT_BILLING_API_ROOT )
+                + "pdf/orders/"
+                + event.getOrderId()
+                + "/invoices/"
+                + event.getInvoiceId()
+                + "/"
+                + event.getPin();
+        view().downloadInvoice( url );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Invoice>
     {
+        /**
+         * Downloads invoice PDF from the specified URL.
+         *
+         * @param url the full path to the invoice PDF
+         */
+        void downloadInvoice( @Nonnull String url );
+
         /**
          * Updates the order's pricing (details and items) UI by recalculated price.
          *

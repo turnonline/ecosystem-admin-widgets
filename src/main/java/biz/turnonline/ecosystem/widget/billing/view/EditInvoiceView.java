@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.billing.view;
 
+import biz.turnonline.ecosystem.widget.billing.event.DeleteInvoiceEvent;
+import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
@@ -29,14 +31,17 @@ import biz.turnonline.ecosystem.widget.billing.ui.InvoiceDetail;
 import biz.turnonline.ecosystem.widget.billing.ui.InvoiceTransactions;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
+import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.place.shared.PlaceController;
@@ -47,11 +52,14 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialDialog;
+import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.NEW;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.SENT;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.valueOf;
@@ -67,6 +75,9 @@ public class EditInvoiceView
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
+
+    @UiField
+    ConfirmationWindow confirmation;
 
     @UiField
     EditInvoiceTabs tabs;
@@ -101,6 +112,15 @@ public class EditInvoiceView
     @UiField
     MaterialAnchorButton cancelInvoice;
 
+    @UiField
+    MaterialAnchorButton deleteInvoice;
+
+    @UiField
+    MaterialTextBox targetEmail;
+
+    @UiField
+    MaterialDialog emailDialog;
+
     private PlaceController controller;
 
     @Inject
@@ -121,6 +141,13 @@ public class EditInvoiceView
         transactions = new InvoiceTransactions();
 
         add( binder.createAndBindUi( this ) );
+
+        targetEmail.setReturnBlankAsNull( true );
+
+        confirmation.getBtnOk().addClickHandler( event -> {
+            Invoice inv = getRawModel();
+            bus().fireEvent( new DeleteInvoiceEvent( inv.getOrderId(), inv.getId(), inv.getInvoiceNumber() ) );
+        } );
     }
 
     @UiFactory
@@ -160,6 +187,7 @@ public class EditInvoiceView
         items.fill( pricing == null ? null : pricing.getItems() );
 
         setStatus( status( invoice ) );
+        downloadInvoice.setEnabled( invoice.getPin() != null );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditInvoice where = ( EditInvoice ) controller.getWhere();
@@ -173,37 +201,92 @@ public class EditInvoiceView
     }
 
     @UiHandler( "btnBack" )
+    @SuppressWarnings( "unused" )
     public void handleBack( ClickEvent event )
     {
         bus().fireEvent( new InvoiceBackEvent() );
     }
 
     @UiHandler( "btnSave" )
+    @SuppressWarnings( "unused" )
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveInvoiceEvent( getModel() ) );
     }
 
     @UiHandler( "sendInvoice" )
-    public void sendInvoiceClick( ClickEvent event )
+    @SuppressWarnings( "unused" )
+    public void sendInvoice( ClickEvent event )
     {
         Invoice inv = getRawModel();
         bus().fireEvent( new InvoiceStatusChangeEvent( status( inv ), SENT, inv.getOrderId(), inv.getId() ) );
     }
 
     @UiHandler( "emailInvoice" )
-    public void emailInvoiceClick( ClickEvent event )
+    @SuppressWarnings( "unused" )
+    public void emailInvoice( ClickEvent event )
     {
+        emailDialog.open();
     }
 
     @UiHandler( "downloadInvoice" )
-    public void downloadInvoiceClick( ClickEvent event )
+    @SuppressWarnings( "unused" )
+    public void downloadInvoice( ClickEvent event )
     {
+        Invoice inv = getRawModel();
+        bus().fireEvent( new DownloadInvoiceEvent( inv.getOrderId(), inv.getId(), inv.getPin() ) );
     }
 
     @UiHandler( "cancelInvoice" )
-    public void cancelInvoiceClick( ClickEvent event )
+    @SuppressWarnings( "unused" )
+    public void cancelInvoice( ClickEvent event )
     {
+    }
+
+    @UiHandler( "deleteInvoice" )
+    @SuppressWarnings( "unused" )
+    public void deleteInvoice( ClickEvent event )
+    {
+        confirmation.open( new ConfirmationWindow.Question()
+        {
+            @Override
+            public int selectedRecords()
+            {
+                return 1;
+            }
+
+            @Override
+            public String name()
+            {
+                Invoice inv = getRawModel();
+                return AppMessages.INSTANCE.labelInvoice().toLowerCase() + " " + inv.getInvoiceNumber();
+            }
+        } );
+
+    }
+
+    @SuppressWarnings( "unused" )
+    @UiHandler( "btnSendInvoice" )
+    public void btnSendInvoice( ClickEvent event )
+    {
+        String email = targetEmail.getValue();
+        if ( email != null )
+        {
+            Invoice inv = getRawModel();
+            InvoiceStatusChangeEvent emailingEvent;
+            emailingEvent = new InvoiceStatusChangeEvent( status( inv ), SENT, inv.getOrderId(), inv.getId() );
+            emailingEvent.setEmail( email );
+
+            bus().fireEvent( emailingEvent );
+        }
+        emailDialog.close();
+    }
+
+    @Override
+    public void downloadInvoice( @Nonnull String url )
+    {
+        JavaScriptObject newWindow = newWindow( "", "_blank", "" );
+        setWindowTarget( newWindow, checkNotNull( url, "Invoice PDF URL can't be null" ) );
     }
 
     @Override
@@ -221,7 +304,13 @@ public class EditInvoiceView
     {
         detail.setStatus( status );
         items.setReadOnly( NEW != status );
-        sendInvoice.setEnabled( NEW == status );
+
+        boolean persisted = getRawModel() != null && getRawModel().getId() != null;
+        sendInvoice.setEnabled( NEW == status && persisted );
+        deleteInvoice.setEnabled( NEW == status && persisted );
+        emailInvoice.setEnabled( NEW != status && persisted );
+        //cancelInvoice.setEnabled( ( SENT == status || PAID == status ) && persisted );
+        cancelInvoice.setEnabled( false );
     }
 
     interface EditInvoiceViewUiBinder
