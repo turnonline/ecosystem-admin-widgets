@@ -110,9 +110,6 @@ public class EditInvoiceView
     MaterialAnchorButton downloadInvoice;
 
     @UiField
-    MaterialAnchorButton cancelInvoice;
-
-    @UiField
     MaterialAnchorButton deleteInvoice;
 
     @UiField
@@ -237,12 +234,6 @@ public class EditInvoiceView
         bus().fireEvent( new DownloadInvoiceEvent( inv.getOrderId(), inv.getId(), inv.getPin() ) );
     }
 
-    @UiHandler( "cancelInvoice" )
-    @SuppressWarnings( "unused" )
-    public void cancelInvoice( ClickEvent event )
-    {
-    }
-
     @UiHandler( "deleteInvoice" )
     @SuppressWarnings( "unused" )
     public void deleteInvoice( ClickEvent event )
@@ -309,8 +300,6 @@ public class EditInvoiceView
         sendInvoice.setEnabled( NEW == status && persisted );
         deleteInvoice.setEnabled( NEW == status && persisted );
         emailInvoice.setEnabled( NEW != status && persisted );
-        //cancelInvoice.setEnabled( ( SENT == status || PAID == status ) && persisted );
-        cancelInvoice.setEnabled( false );
     }
 
     interface EditInvoiceViewUiBinder

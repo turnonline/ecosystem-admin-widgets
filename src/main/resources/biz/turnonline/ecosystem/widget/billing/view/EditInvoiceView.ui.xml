@@ -83,9 +83,6 @@
                                         iconType="FILE_DOWNLOAD" ui:field="downloadInvoice"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceDownload}"/>
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
-                                        iconType="CANCEL" ui:field="cancelInvoice"
-                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceCancel}"/>
-                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
                                         iconType="DELETE" ui:field="deleteInvoice"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceDelete}"/>
             </m:MaterialFABList>
