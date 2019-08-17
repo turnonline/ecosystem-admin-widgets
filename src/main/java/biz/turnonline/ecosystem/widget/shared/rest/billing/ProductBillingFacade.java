@@ -179,6 +179,15 @@ public interface ProductBillingFacade
                       Invoice invoice,
                       FacadeCallback<Invoice> callback );
 
+    @PUT
+    @Path( "orders/{order_id}/invoices/{invoice_id}" )
+    void emailInvoice( @PathParam( "order_id" ) Long orderId,
+                       @PathParam( "invoice_id" ) Long invoiceId,
+                       @HeaderParam( "vnd.turnon.cloud.send-invoice" ) Boolean sendInvoice,
+                       @HeaderParam( "vnd.turnon.cloud.contact-email" ) String email,
+                       Invoice invoice,
+                       FacadeCallback<Invoice> callback );
+
     @DELETE
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
     void deleteInvoice( @PathParam( "order_id" ) Long orderId,

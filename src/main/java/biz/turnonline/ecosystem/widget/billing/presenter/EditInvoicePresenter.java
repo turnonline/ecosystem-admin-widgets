@@ -28,8 +28,8 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
@@ -117,37 +117,17 @@ public class EditInvoicePresenter
     private void changeInvoiceStatus( InvoiceStatusChangeEvent event )
     {
         Invoice.Status status = event.getInvoiceStatus();
-        Invoice invoice = new Invoice();
         String email = event.getEmail();
-        if ( email != null )
+        if ( email == null )
         {
-            Customer customer = new Customer();
-            customer.setContactEmail( email );
-            invoice.setCustomer( customer );
+            bus().billing().sendInvoice( event.getOrderId(), event.getInvoiceId(),
+                    SENT == status, new Invoice(), new SendInvoiceCallback( event ) );
         }
-
-        bus().billing().sendInvoice( event.getOrderId(), event.getInvoiceId(),
-                SENT == status, invoice, ( response, failure ) -> {
-                    if ( SENT.name().equalsIgnoreCase( response.getStatus() ) )
-                    {
-                        success( messages.msgInvoiceStatusSent(), failure );
-                        view().setStatus( SENT );
-                    }
-                    else if ( failure.isNotFound() )
-                    {
-                        error( AppMessages.INSTANCE.msgErrorRecordDoesNotExists() );
-                        view().setStatus( event.getOriginStatus() );
-                    }
-                    else if ( failure.isBadRequest() )
-                    {
-                        error( AppMessages.INSTANCE.msgErrorBadRequest( failure.response().getText() ) );
-                        view().setStatus( event.getOriginStatus() );
-                    }
-                    else
-                    {
-                        view().setStatus( event.getOriginStatus() );
-                    }
-                } );
+        else
+        {
+            bus().billing().emailInvoice( event.getOrderId(), event.getInvoiceId(), Boolean.TRUE,
+                    email, new Invoice(), new SendInvoiceCallback( event ) );
+        }
     }
 
     private void downloadInvoice( DownloadInvoiceEvent event )
@@ -185,5 +165,40 @@ public class EditInvoicePresenter
          * @param status the current status to be set
          */
         void setStatus( @Nonnull Invoice.Status status );
+    }
+
+    private class SendInvoiceCallback
+            implements FacadeCallback<Invoice>
+    {
+        private final InvoiceStatusChangeEvent event;
+
+        private SendInvoiceCallback( InvoiceStatusChangeEvent event )
+        {
+            this.event = event;
+        }
+
+        @Override
+        public void done( Invoice response, Failure failure )
+        {
+            if ( SENT.name().equalsIgnoreCase( response.getStatus() ) )
+            {
+                success( messages.msgInvoiceStatusSent(), failure );
+                view().setStatus( SENT );
+            }
+            else if ( failure.isNotFound() )
+            {
+                error( AppMessages.INSTANCE.msgErrorRecordDoesNotExists() );
+                view().setStatus( event.getOriginStatus() );
+            }
+            else if ( failure.isBadRequest() )
+            {
+                error( AppMessages.INSTANCE.msgErrorBadRequest( failure.response().getText() ) );
+                view().setStatus( event.getOriginStatus() );
+            }
+            else
+            {
+                view().setStatus( event.getOriginStatus() );
+            }
+        }
     }
 }
