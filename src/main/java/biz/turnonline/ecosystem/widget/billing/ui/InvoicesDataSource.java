@@ -2,42 +2,56 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.ui.RefreshableDataSource;
-import biz.turnonline.ecosystem.widget.shared.ui.SmartTableLoadResult;
-import gwt.material.design.client.data.loader.LoadCallback;
-import gwt.material.design.client.data.loader.LoadConfig;
+import gwt.material.design.incubator.client.infinitescroll.data.DataSource;
+import gwt.material.design.incubator.client.infinitescroll.data.LoadCallback;
+import gwt.material.design.incubator.client.infinitescroll.data.LoadConfig;
+import gwt.material.design.incubator.client.infinitescroll.data.LoadResult;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class InvoicesDataSource
-        extends RefreshableDataSource<Invoice>
+        implements DataSource<Invoice>
 {
-    private AppEventBus eventBus;
+    private AppEventBus bus;
 
-    public InvoicesDataSource( AppEventBus eventBus )
+    private int totalLength;
+
+    private int currentLength;
+
+    public InvoicesDataSource( AppEventBus bus )
     {
-        this.eventBus = eventBus;
+        this.bus = bus;
+        this.totalLength = 10000;
+        this.currentLength = 0;
     }
 
     @Override
-    public void load( LoadConfig<Invoice> loadConfig, LoadCallback<Invoice> callback )
+    public void load( LoadConfig<Invoice> config, LoadCallback<Invoice> callback )
     {
-        super.load( loadConfig, callback );
-
-        int limit = loadConfig.getLimit();
-        int offset = loadConfig.getOffset();
-
-        eventBus.billing().getInvoices(
-                offset,
-                limit,
+        bus.billing().getInvoices(
+                config.getOffset(),
+                config.getLimit(),
                 true,
-                response -> callback.onSuccess( new SmartTableLoadResult<>( response.getItems(), loadConfig ) ) );
-    }
+                response -> {
+                    List<Invoice> items = response.getItems();
+                    int size = items.size();
+                    int limit = config.getLimit();
+                    if ( size < limit )
+                    {
+                        totalLength = currentLength;
+                    }
+                    else
+                    {
+                        currentLength = currentLength + size;
+                    }
 
-    @Override
-    public boolean useRemoteSort()
-    {
-        return true;
+                    callback.onSuccess( new LoadResult<>(
+                            items,
+                            config.getOffset(),
+                            totalLength ) );
+                } );
     }
 }

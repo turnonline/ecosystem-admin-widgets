@@ -18,7 +18,6 @@
 
 package biz.turnonline.ecosystem.widget.billing.view;
 
-import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.presenter.InvoicesPresenter;
 import biz.turnonline.ecosystem.widget.billing.ui.ColumnInvoiceActions;
 import biz.turnonline.ecosystem.widget.billing.ui.ColumnInvoiceId;
@@ -30,16 +29,23 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnCustomer;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
-import biz.turnonline.ecosystem.widget.shared.ui.SmartTable;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
-import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialCard;
+import gwt.material.design.client.ui.MaterialColumn;
+import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
+import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
+import gwt.material.design.incubator.client.infinitescroll.data.LoadConfig;
+import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleManager;
+import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleType;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -57,21 +63,7 @@ public class InvoicesView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
-    MaterialButton btnNew;
-
-    @UiField
-    SmartTable<Invoice> table;
-
-    @Override
-    public void refresh()
-    {
-        table.refresh();
-    }
-
-    interface InvoicesViewUiBinder
-            extends UiBinder<HTMLPanel, InvoicesView>
-    {
-    }
+    InfiniteScrollPanel<Invoice> scroll;
 
     @Inject
     public InvoicesView( EventBus eventBus, @Named( "InvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
@@ -83,6 +75,39 @@ public class InvoicesView
 
         add( binder.createAndBindUi( this ) );
         initTable();
+
+        scroll.setLoadConfig( new LoadConfig<>( 0, 20 ) );
+        scroll.setDataSource( new InvoicesDataSource( ( AppEventBus ) eventBus ) );
+        scroll.setRenderer( this::createColumn );
+        scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( "Please wait while we are getting your data" ) );
+
+        scroll.addLoadingHandler( event -> MaterialToast.fireToast( "Loading: Index[" + event.getStartIndex() + ", " + event.getLastIndex() + "]" ) );
+        scroll.addLoadedHandler( event -> MaterialToast.fireToast( "Loaded: " + event.getResult().getData().size() + " Items" ) );
+        scroll.addCompleteHandler( event -> MaterialToast.fireToast( "Complete Event fired: " + event.getTotal() + " Total Item(s)" ) );
+        scroll.addErrorHandler( event -> MaterialToast.fireToast( "Error: " + event.getMessage() ) );
+        scroll.setRecycleManager( new RecycleManager( RecycleType.DISPLAY ) );
+    }
+
+    @Override
+    public void refresh()
+    {
+        scroll.reload();
+    }
+
+    private MaterialWidget createColumn( Invoice invoice )
+    {
+        MaterialColumn column = new MaterialColumn( 4, 8, 12 );
+        MaterialCard card = new MaterialCard();
+        card.setMargin( 10 );
+        card.setPadding( 20 );
+
+        MaterialLabel title = new MaterialLabel( invoice.getInvoiceNumber() );
+        title.setFontWeight( Style.FontWeight.BOLD );
+        card.add( title );
+        card.add( new MaterialLabel( "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ) );
+
+        column.add( card );
+        return column;
     }
 
     private void initTable()
@@ -101,20 +126,10 @@ public class InvoicesView
 
         ColumnInvoiceActions actions = new ColumnInvoiceActions( bus() );
         actions.setWidth( "5%" );
-
-        table.addColumn( id, messages.labelId() );
-        table.addColumn( status, messages.labelStatus() );
-        table.addColumn( customer, messages.labelCustomer() );
-        table.addColumn( price, messages.labelPrice() );
-        table.addColumn( actions );
-
-        table.configure( new InvoicesDataSource( ( AppEventBus ) bus() ) );
     }
 
-    @SuppressWarnings( "unused" )
-    @UiHandler( "btnNew" )
-    public void handleNew( ClickEvent event )
+    interface InvoicesViewUiBinder
+            extends UiBinder<HTMLPanel, InvoicesView>
     {
-        bus().fireEvent( new EditInvoiceEvent() );
     }
 }
