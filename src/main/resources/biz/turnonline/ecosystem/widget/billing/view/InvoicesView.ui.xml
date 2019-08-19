@@ -23,14 +23,11 @@
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
-    <g:HTMLPanel>
+    <g:HTMLPanel height="100%">
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
 
         <m:MaterialPanel>
-            <m:MaterialRow>
-                <inc:infinitescroll.InfiniteScrollPanel grid="s12 m12 l12" ui:field="scroll"
-                                                        overflow="AUTO" height="600px"/>
-            </m:MaterialRow>
+            <inc:infinitescroll.InfiniteScrollPanel grid="s12 m12" ui:field="scroll" overflow="AUTO"/>
         </m:MaterialPanel>
 
     </g:HTMLPanel>

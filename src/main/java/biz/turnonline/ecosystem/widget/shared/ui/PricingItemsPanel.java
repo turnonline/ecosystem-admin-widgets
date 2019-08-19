@@ -315,7 +315,7 @@ public class PricingItemsPanel
         }
     }
 
-    static String formatPrice( @Nonnull String currency, @Nonnull Double number )
+    public static String formatPrice( @Nonnull String currency, @Nonnull Double number )
     {
         return NumberFormat.getCurrencyFormat( currency ).format( number );
     }
