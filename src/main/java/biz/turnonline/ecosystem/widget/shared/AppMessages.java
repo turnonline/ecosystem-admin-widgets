@@ -612,6 +612,9 @@ public interface AppMessages
     @Key( "label.invoice.status.canceled" )
     String labelInvoiceStatusCanceled();
 
+    @Key( "label.invoice.loading" )
+    String labelInvoiceLoading();
+
     // tooltips
 
     @Key( "tooltip.domain.tip.naked" )

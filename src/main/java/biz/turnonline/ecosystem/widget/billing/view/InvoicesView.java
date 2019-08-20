@@ -25,8 +25,7 @@ import biz.turnonline.ecosystem.widget.billing.ui.InvoicesDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -60,11 +59,10 @@ import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleType;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.HashMap;
-import java.util.Map;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.NEW;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.valueOf;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType.TAX_DOCUMENT;
 import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
@@ -83,16 +81,6 @@ public class InvoicesView
         implements InvoicesPresenter.IView
 {
     private static InvoicesViewUiBinder binder = GWT.create( InvoicesViewUiBinder.class );
-
-    private static Map<Invoice.Status, Color> colorMap = new HashMap<>();
-
-    static
-    {
-        colorMap.put( Invoice.Status.NEW, BLUE );
-        colorMap.put( Invoice.Status.SENT, ORANGE );
-        colorMap.put( Invoice.Status.CANCELED, RED );
-        colorMap.put( Invoice.Status.PAID, GREEN );
-    }
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -115,12 +103,10 @@ public class InvoicesView
         scroll.setLoadConfig( new LoadConfig<>( 0, 20 ) );
         scroll.setDataSource( new InvoicesDataSource( ( AppEventBus ) eventBus ) );
         scroll.setRenderer( this::createWidget );
-        scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( "Please wait while we are getting your data" ) );
+        scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelInvoiceLoading() ) );
         scroll.setRecycleManager( new RecycleManager( RecycleType.DETACH ) );
 
-        Window.addResizeHandler( event -> GWT.log( "Height: " + event.getHeight() ) );
         Window.addResizeHandler( event -> scroll.setHeight( ( event.getHeight() - headerHeight ) + "px" ) );
-
         Scheduler.get().scheduleDeferred( () -> {
             headerHeight = scaffoldHeader.getElement().getClientHeight() + breadcrumb.getElement().getClientHeight();
             scroll.setHeight( ( Window.getClientHeight() - headerHeight ) + "px" );
@@ -153,22 +139,15 @@ public class InvoicesView
             cardImage.add( image );
         }
 
-        MaterialLabel title = new MaterialLabel( invoice.getInvoiceNumber() );
-        title.setFontWeight( Style.FontWeight.BOLD );
-        title.setFontSize( "1.2em" );
-
         MaterialCardContent content = new MaterialCardContent();
+        content.setPaddingBottom( 0 );
         card.add( content );
-        content.add( title );
 
-        MaterialColumn firstColumn = new MaterialColumn();
-        firstColumn.setPaddingLeft( 0 );
-        content.add( firstColumn );
-
+        // customer as a title
         Customer customer = invoice.getCustomer();
+        String name = "";
         if ( customer != null )
         {
-            String name;
             if ( customer.getCompany() )
             {
                 name = customer.getBusinessName();
@@ -177,29 +156,42 @@ public class InvoicesView
             {
                 name = customer.getFirstName() + " " + customer.getLastName();
             }
-            MaterialLabel nameText = new MaterialLabel( name );
-            nameText.setFontWeight( Style.FontWeight.BOLD );
-            nameText.setPaddingTop( 8 );
-            firstColumn.add( nameText );
         }
 
-        // second column
-        MaterialColumn secondColumn = new MaterialColumn();
-        secondColumn.setPaddingTop( 8 );
-        secondColumn.setPaddingLeft( 20 );
-        content.add( secondColumn );
+        MaterialRow titleRow = new MaterialRow();
+        MaterialColumn titleColumn = new MaterialColumn( 12, 12, 12 );
+        titleColumn.setPaddingLeft( 0 );
+        titleRow.add( titleColumn );
+        content.add( titleColumn );
 
-        MaterialRow secondColumnRow1 = new MaterialRow();
-        MaterialRow secondColumnRow2 = new MaterialRow();
-        secondColumn.add( secondColumnRow1 );
-        secondColumn.add( secondColumnRow2 );
+        MaterialLabel title = new MaterialLabel( name );
+        title.setFontSize( "1.5em" );
+        title.setFontWeight( Style.FontWeight.BOLD );
+        titleColumn.add( title );
+
+        // first column
+        MaterialColumn firstColumn = new MaterialColumn( 12, 6, 6 );
+        firstColumn.setPaddingTop( 8 );
+        firstColumn.setPaddingLeft( 0 );
+        content.add( firstColumn );
+
+        MaterialLabel invoiceNumber = new MaterialLabel( invoice.getInvoiceNumber() );
+        invoiceNumber.setFontWeight( Style.FontWeight.BOLD );
+        firstColumn.add( invoiceNumber );
+
+        MaterialRow firstColumnRow1 = new MaterialRow();
+        firstColumnRow1.setPaddingTop( 10 );
+        MaterialRow firstColumnRow2 = new MaterialRow();
+
+        firstColumn.add( firstColumnRow1 );
+        firstColumn.add( firstColumnRow2 );
 
         // invoice type
         MaterialChip typeChip = new MaterialChip();
         typeChip.setBackgroundColor( typeColor( invoice.getType() ) );
         typeChip.setText( typeText( invoice.getType() ) );
         typeChip.setTextColor( WHITE );
-        secondColumnRow1.add( typeChip );
+        firstColumnRow1.add( typeChip );
 
         // invoice status
         Invoice.Status status = invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
@@ -207,47 +199,57 @@ public class InvoicesView
         statusChip.setBackgroundColor( statusColor( status ) );
         statusChip.setText( statusText( status ) );
         statusChip.setTextColor( WHITE );
-        secondColumnRow2.add( statusChip );
+        firstColumnRow2.add( statusChip );
 
-        // third column
-        MaterialColumn thirdColumn = new MaterialColumn();
-        thirdColumn.setPaddingTop( 8 );
-        thirdColumn.setPaddingLeft( 20 );
-        content.add( thirdColumn );
+        // second column
+        MaterialColumn secondColumn = new MaterialColumn( 12, 6, 6 );
+        secondColumn.setPaddingTop( 8 );
+        secondColumn.setPaddingLeft( 0 );
+        content.add( secondColumn );
 
-        MaterialRow thirdColumnRow1 = new MaterialRow();
-        MaterialRow thirdColumnRow2 = new MaterialRow();
-        thirdColumn.add( thirdColumnRow1 );
-        thirdColumn.add( thirdColumnRow2 );
+        MaterialRow secondColumnRow1 = new MaterialRow();
+        MaterialRow secondColumnRow2 = new MaterialRow();
+        secondColumn.add( secondColumnRow1 );
+        secondColumn.add( secondColumnRow2 );
 
         // pricing
-        thirdColumnRow1.add( new MaterialLabel( messages.labelPriceExcludingVat() ) );
+        secondColumnRow1.add( new MaterialLabel( messages.labelAmountToPay() ) );
 
-        String excludingVat;
-        InvoicePricing pricing = invoice.getPricing();
-        // TODO currency for now is hardcoded
-        String currency = "EUR";
+        String toPay;
+        InvoicePayment payment = invoice.getPayment();
 
-        if ( pricing != null )
+        if ( payment != null )
         {
-            Double priceExclVat = pricing.getTotalPriceExclVat();
-            if ( priceExclVat != null )
+            String currency = invoice.getCurrency();
+            Double totalAmount = payment.getTotalAmount();
+
+            if ( currency != null )
             {
-                excludingVat = formatPrice( currency, priceExclVat );
+                if ( totalAmount != null )
+                {
+                    toPay = formatPrice( currency, totalAmount );
+                }
+                else
+                {
+                    toPay = formatPrice( currency, 0.0 );
+                }
             }
             else
             {
-                excludingVat = formatPrice( currency, 0.0 );
+                toPay = totalAmount == null ? "0" : totalAmount.toString();
             }
         }
         else
         {
-            excludingVat = "0";
+            toPay = "0";
         }
 
-        thirdColumnRow2.add( new MaterialLabel( excludingVat ) );
+        MaterialLabel toPayAsText = new MaterialLabel( toPay );
+        toPayAsText.setFontSize( "1.2em" );
+        toPayAsText.setFontWeight( Style.FontWeight.BOLD );
+        secondColumnRow2.add( toPayAsText );
 
-        // action buttons
+        // card's action buttons
         MaterialLink edit = new MaterialLink( EDIT );
         edit.setIconColor( BLUE );
         edit.setPaddingTop( 10 );
@@ -261,7 +263,14 @@ public class InvoicesView
                 bus().fireEvent( new DownloadInvoiceEvent( invoice.getOrderId(), invoice.getId(), invoice.getPin() ) ) );
 
         MaterialCardAction actions = new MaterialCardAction();
-        card.add( actions );
+        actions.setMarginTop( 0 );
+        actions.setPadding( 5 );
+        MaterialRow actionsRow = new MaterialRow();
+        actionsRow.setMarginBottom( 0 );
+        MaterialColumn actionsColumn = new MaterialColumn( 12, 12, 12 );
+        actionsColumn.add( actions );
+        actionsRow.add( actionsColumn );
+        card.add( actionsRow );
 
         actions.add( edit );
         actions.add( download );
@@ -273,9 +282,24 @@ public class InvoicesView
 
     private Color statusColor( Invoice.Status status )
     {
-        if ( colorMap.containsKey( status ) )
+        switch ( status )
         {
-            return colorMap.get( status );
+            case NEW:
+            {
+                return BLUE;
+            }
+            case SENT:
+            {
+                return ORANGE;
+            }
+            case PAID:
+            {
+                return GREEN;
+            }
+            case CANCELED:
+            {
+                return RED;
+            }
         }
 
         return GREY;
@@ -309,17 +333,17 @@ public class InvoicesView
 
     private Color typeColor( String type )
     {
-        if ( type.equalsIgnoreCase( InvoiceType.TAX_DOCUMENT.name() ) )
+        if ( type.equalsIgnoreCase( TAX_DOCUMENT.name() ) )
         {
             return GREEN;
         }
 
-        return GREY;
+        return BLUE;
     }
 
     private String typeText( String type )
     {
-        if ( type.equalsIgnoreCase( InvoiceType.TAX_DOCUMENT.name() ) )
+        if ( type.equalsIgnoreCase( TAX_DOCUMENT.name() ) )
         {
             return messages.labelTaxDocument();
         }
