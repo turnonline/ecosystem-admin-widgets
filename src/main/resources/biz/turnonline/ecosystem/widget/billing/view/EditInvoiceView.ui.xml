@@ -80,7 +80,7 @@
                                         iconType="MAIL_OUTLINE" ui:field="emailInvoice"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceSendEmail}"/>
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="ORANGE"
-                                        iconType="FILE_DOWNLOAD" ui:field="downloadInvoice"
+                                        iconType="CLOUD_DOWNLOAD" ui:field="downloadInvoice"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceDownload}"/>
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
                                         iconType="DELETE" ui:field="deleteInvoice"

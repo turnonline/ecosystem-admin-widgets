@@ -24,8 +24,11 @@ import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
@@ -50,6 +53,9 @@ public class InvoicesPresenter
         );
 
         bus().addHandler( DeleteInvoiceEvent.TYPE, this::deleteInvoice );
+
+        view().setDataSource( ( offset, limit, callback ) ->
+                bus().billing().getInvoices( offset, limit, true, callback ) );
     }
 
     private void deleteInvoice( DeleteInvoiceEvent event )
@@ -64,11 +70,19 @@ public class InvoicesPresenter
     public void onBackingObject()
     {
         onAfterBackingObject();
+
+        Invoices where = ( Invoices ) controller().getWhere();
+        if ( where.getScrollspy() != null )
+        {
+            view().scrollTo( where.getScrollspy() );
+        }
     }
 
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView
     {
-        void refresh();
+        void scrollTo( @Nullable String scrollspy );
+
+        void setDataSource( InfiniteScroll.Callback<Invoice> callback );
     }
 }

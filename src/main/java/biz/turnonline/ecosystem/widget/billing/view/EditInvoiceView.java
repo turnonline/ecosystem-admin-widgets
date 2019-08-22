@@ -201,7 +201,7 @@ public class EditInvoiceView
     @SuppressWarnings( "unused" )
     public void handleBack( ClickEvent event )
     {
-        bus().fireEvent( new InvoiceBackEvent() );
+        bus().fireEvent( new InvoiceBackEvent( getRawModel() ) );
     }
 
     @UiHandler( "btnSave" )

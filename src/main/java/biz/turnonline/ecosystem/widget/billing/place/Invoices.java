@@ -30,8 +30,15 @@ public class Invoices
 {
     private Long orderId;
 
+    private String scrollspy;
+
     public Invoices()
     {
+    }
+
+    public Invoices( String scrollspy )
+    {
+        this.scrollspy = scrollspy;
     }
 
     public Invoices( Long orderId )
@@ -42,6 +49,11 @@ public class Invoices
     public Long getOrderId()
     {
         return orderId;
+    }
+
+    public String getScrollspy()
+    {
+        return scrollspy;
     }
 
     @Prefix( value = "invoices" )
@@ -59,7 +71,7 @@ public class Invoices
                 }
                 catch ( NumberFormatException e )
                 {
-                    return new Invoices();
+                    return new Invoices( token );
                 }
             }
             else
@@ -71,6 +83,10 @@ public class Invoices
         @Override
         public String getToken( Invoices place )
         {
+            if ( place.getScrollspy() != null )
+            {
+                return place.getScrollspy();
+            }
             if ( place.getOrderId() == null )
             {
                 return "";

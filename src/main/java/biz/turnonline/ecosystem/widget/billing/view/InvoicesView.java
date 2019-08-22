@@ -21,11 +21,10 @@ package biz.turnonline.ecosystem.widget.billing.view;
 import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.presenter.InvoicesPresenter;
-import biz.turnonline.ecosystem.widget.billing.ui.InvoicesDataSource;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -39,7 +38,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.ImageType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialCardAction;
@@ -52,11 +50,8 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
-import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
-import gwt.material.design.incubator.client.infinitescroll.data.LoadConfig;
-import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleManager;
-import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleType;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -70,8 +65,9 @@ import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.ORANGE;
 import static gwt.material.design.client.constants.Color.RED;
 import static gwt.material.design.client.constants.Color.WHITE;
+import static gwt.material.design.client.constants.IconType.CLOUD_DOWNLOAD;
 import static gwt.material.design.client.constants.IconType.EDIT;
-import static gwt.material.design.client.constants.IconType.FILE_DOWNLOAD;
+import static gwt.material.design.client.constants.IconType.VISIBILITY;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -86,7 +82,7 @@ public class InvoicesView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
-    InfiniteScrollPanel<Invoice> scroll;
+    InfiniteScroll<Invoice> scroll;
 
     private int headerHeight;
 
@@ -100,11 +96,8 @@ public class InvoicesView
 
         add( binder.createAndBindUi( this ) );
 
-        scroll.setLoadConfig( new LoadConfig<>( 0, 20 ) );
-        scroll.setDataSource( new InvoicesDataSource( ( AppEventBus ) eventBus ) );
         scroll.setRenderer( this::createWidget );
         scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelInvoiceLoading() ) );
-        scroll.setRecycleManager( new RecycleManager( RecycleType.DETACH ) );
 
         Window.addResizeHandler( event -> scroll.setHeight( ( event.getHeight() - headerHeight ) + "px" ) );
         Scheduler.get().scheduleDeferred( () -> {
@@ -114,32 +107,41 @@ public class InvoicesView
     }
 
     @Override
-    public void refresh()
+    public void scrollTo( @Nullable String scrollspy )
     {
-        scroll.reload();
+        scroll.scrollTo( scrollspy );
+    }
+
+    @Override
+    public void setDataSource( InfiniteScroll.Callback<Invoice> callback )
+    {
+        scroll.unload();
+        scroll.setDataSource( callback );
     }
 
     private MaterialWidget createWidget( Invoice invoice )
     {
         MaterialCard card = new MaterialCard();
-        card.setMinHeight( "240px" );
+        card.setScrollspy( invoice.getScrollspy() );
+        card.setMinHeight( "266px" );
         card.setDetectOrientation( true );
         card.setMarginTop( 10 );
         card.setPaddingBottom( 0 );
 
-        if ( invoice.getServingUrl() != null )
+        boolean hasImageUrl = invoice.getServingUrl() != null;
+        if ( hasImageUrl )
         {
             MaterialCardImage cardImage = new MaterialCardImage();
             card.add( cardImage );
 
-            MaterialImage image = new MaterialImage( invoice.getServingUrl(), ImageType.MATERIALBOXED );
-            image.setMinHeight( "220px" );
+            MaterialImage image = new MaterialImage( invoice.getServingUrl() );
 
             cardImage.setWaves( WavesType.LIGHT );
             cardImage.add( image );
         }
 
         MaterialCardContent content = new MaterialCardContent();
+        content.setMaxHeight( "200px" );
         content.setPaddingBottom( 0 );
         card.add( content );
 
@@ -250,17 +252,34 @@ public class InvoicesView
         secondColumnRow2.add( toPayAsText );
 
         // card's action buttons
-        MaterialLink edit = new MaterialLink( EDIT );
+        MaterialLink edit = new MaterialLink();
         edit.setIconColor( BLUE );
         edit.setPaddingTop( 10 );
         edit.addClickHandler( event ->
                 bus().fireEvent( new EditInvoiceEvent( invoice ) ) );
 
-        MaterialLink download = new MaterialLink( FILE_DOWNLOAD );
-        download.setIconColor( ORANGE );
-        download.setPaddingTop( 10 );
-        download.addClickHandler( event ->
-                bus().fireEvent( new DownloadInvoiceEvent( invoice.getOrderId(), invoice.getId(), invoice.getPin() ) ) );
+        if ( NEW == status )
+        {
+            edit.setIconType( EDIT );
+        }
+        else
+        {
+            edit.setIconType( VISIBILITY );
+        }
+
+        MaterialLink download = null;
+        if ( hasImageUrl )
+        {
+            download = new MaterialLink( CLOUD_DOWNLOAD );
+            download.setIconColor( ORANGE );
+            download.setPaddingTop( 10 );
+            download.addClickHandler( event ->
+            {
+                DownloadInvoiceEvent de;
+                de = new DownloadInvoiceEvent( invoice.getOrderId(), invoice.getId(), invoice.getPin() );
+                bus().fireEvent( de );
+            } );
+        }
 
         MaterialCardAction actions = new MaterialCardAction();
         actions.setMarginTop( 0 );
@@ -273,7 +292,10 @@ public class InvoicesView
         card.add( actionsRow );
 
         actions.add( edit );
-        actions.add( download );
+        if ( download != null )
+        {
+            actions.add( download );
+        }
 
         MaterialColumn column = new MaterialColumn( 12, 6, 6 );
         column.add( card );

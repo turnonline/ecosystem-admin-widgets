@@ -61,7 +61,7 @@ public class EditInvoicePresenter
     @Override
     public void bind()
     {
-        bus().addHandler( InvoiceBackEvent.TYPE, event -> controller().goTo( new Invoices() ) );
+        bus().addHandler( InvoiceBackEvent.TYPE, event -> controller().goTo( new Invoices( event.getScrollspy() ) ) );
         bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
         bus().addHandler( InvoiceStatusChangeEvent.TYPE, this::changeInvoiceStatus );
         bus().addHandler( DownloadInvoiceEvent.TYPE, this::downloadInvoice );
