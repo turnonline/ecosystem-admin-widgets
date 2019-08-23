@@ -573,6 +573,9 @@ public interface AppMessages
     @Key( value = "label.cancel" )
     String labelCancel();
 
+    @Key( "label.close" )
+    String labelClose();
+
     @Key( value = "label.save" )
     String labelSave();
 
