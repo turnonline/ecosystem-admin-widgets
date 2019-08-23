@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialImage;
@@ -94,6 +95,9 @@ public class InvoiceCard
     @UiField
     MaterialImage overlayImage;
 
+    @UiField
+    MaterialButton btnCloseOverlay;
+
     private AppMessages messages = AppMessages.INSTANCE;
 
     public InvoiceCard( Invoice invoice, EventBus bus )
@@ -108,7 +112,8 @@ public class InvoiceCard
         {
             invoiceImage.setUrl( invoice.getServingUrl() );
             invoiceImage.addClickHandler( e -> overlay.open( invoiceImage ) );
-            overlayImage.setUrl( invoice.getServingUrl() + "=s1600" );
+            overlayImage.setUrl( invoice.getServingUrl() + "=s1200" );
+            btnCloseOverlay.addClickHandler( e -> overlay.close() );
             overlay.addClickHandler( event -> overlay.close() );
         }
         else

@@ -26,8 +26,10 @@
                     marginTop="10" marginBottom="10"
                     paddingTop="15" paddingBottom="0">
 
-        <addins:overlay.MaterialOverlay ui:field="overlay" backgroundColor="BLUE" overflow="SCROLL">
+        <addins:overlay.MaterialOverlay ui:field="overlay" textAlign="CENTER"
+                                        backgroundColor="BLUE" overflow="SCROLL">
             <m:MaterialImage ui:field="overlayImage" width="100%"/>
+            <m:MaterialButton ui:field="btnCloseOverlay" marginTop="10" marginBottom="20" text="{msg.labelClose}"/>
         </addins:overlay.MaterialOverlay>
 
         <m:MaterialCardImage waves="LIGHT">
