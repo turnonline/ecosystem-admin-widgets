@@ -57,6 +57,9 @@ public class InvoicesView
     @UiField
     InfiniteScroll<Invoice> scroll;
 
+    @UiField
+    MaterialAnchorButton newInvoice;
+
     private int headerHeight;
 
     @Inject
@@ -77,6 +80,13 @@ public class InvoicesView
             headerHeight = scaffoldHeader.getElement().getClientHeight() + breadcrumb.getElement().getClientHeight();
             scroll.setHeight( ( Window.getClientHeight() - headerHeight + 22 ) + "px" );
         } );
+
+        newInvoice.addClickHandler( event -> bus().fireEvent( new EditInvoiceEvent() ) );
+
+        // refresh action setup
+        breadcrumb.setRefreshTooltip( messages.tooltipInvoiceListRefresh() );
+        breadcrumb.setNavSectionVisible( true );
+        breadcrumb.addRefreshClickHandler( event -> scroll.reload() );
     }
 
     @Override

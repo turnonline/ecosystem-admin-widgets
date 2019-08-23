@@ -665,9 +665,6 @@ public interface AppMessages
     @Key( value = "tooltip.save.order" )
     String tooltipSaveOrder();
 
-    @Key( value = "tooltip.new.invoice" )
-    String tooltipNewInvoice();
-
     @Key( value = "tooltip.edit.invoice" )
     String tooltipEditInvoice();
 
@@ -718,6 +715,12 @@ public interface AppMessages
 
     @Key( "tooltip.invoice.download" )
     String tooltipInvoiceDownload();
+
+    @Key( "tooltip.invoice.new" )
+    String tooltipInvoiceNew();
+
+    @Key( "tooltip.invoice.list.refresh" )
+    String tooltipInvoiceListRefresh();
 
     // messages
 

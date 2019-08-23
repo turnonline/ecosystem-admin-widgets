@@ -24,10 +24,12 @@
 
     <g:HTMLPanel height="100%">
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:InfiniteScroll grid="s12 m12" ui:field="scroll"/>
 
-        <m:MaterialPanel>
-            <s:InfiniteScroll grid="s12 m12" ui:field="scroll"/>
-        </m:MaterialPanel>
-
+        <m:MaterialFAB>
+            <m:MaterialAnchorButton type="FLOATING" size="LARGE" backgroundColor="GREEN" ui:field="newInvoice"
+                                    iconType="ADD" tooltipPosition="LEFT" tooltip="{msg.tooltipInvoiceNew}"
+                                    tooltipDelayMs="700"/>
+        </m:MaterialFAB>
     </g:HTMLPanel>
 </ui:UiBinder>

@@ -1,18 +1,22 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.Composite;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.constants.HideOn;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.Position;
+import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialBreadcrumb;
+import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialNavBar;
+import gwt.material.design.client.ui.MaterialNavSection;
 
 import java.util.List;
 
@@ -22,11 +26,13 @@ import java.util.List;
 public class ScaffoldBreadcrumb
         extends Composite
 {
-    private MaterialNavBar navBar;
+    private MaterialLink refresh;
+
+    private MaterialNavSection navSection;
 
     public ScaffoldBreadcrumb( List<BreadcrumbItem> items, PlaceController placeController )
     {
-        navBar = new MaterialNavBar();
+        MaterialNavBar navBar = new MaterialNavBar();
         navBar.setBackgroundColor( Color.GREY_LIGHTEN_5 );
         navBar.setPaddingLeft( 20 );
 
@@ -62,15 +68,36 @@ public class ScaffoldBreadcrumb
             navBar.add( breadcrumb );
         }
 
+        navSection = new MaterialNavSection();
+        navSection.setFloat( Style.Float.RIGHT );
+        navSection.setVisible( false );
+        navSection.setHideOn( HideOn.NONE );
+        navBar.add( navSection );
+
+        refresh = new MaterialLink();
+        refresh.setIconType( IconType.REFRESH );
+        refresh.setIconColor( Color.BLACK );
+        refresh.setWaves( WavesType.LIGHT );
+        navSection.add( refresh );
+
         initWidget( navBar );
     }
 
-    @Override
-    protected void onLoad()
+    public void setNavSectionVisible( boolean visible )
     {
-        super.onLoad();
+        navSection.setVisible( visible );
+    }
 
-        navBar.getNavMenu().setDisplay( Display.NONE );
+    public void setRefreshTooltip( String tooltip )
+    {
+        refresh.setTooltip( tooltip );
+        refresh.setTooltipPosition( Position.LEFT );
+        refresh.setTooltipDelayMs( 700 );
+    }
+
+    public void addRefreshClickHandler( ClickHandler handler )
+    {
+        refresh.addClickHandler( handler );
     }
 
     public static class BreadcrumbItem
