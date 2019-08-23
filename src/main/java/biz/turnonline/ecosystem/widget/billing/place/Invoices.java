@@ -28,6 +28,7 @@ import com.google.gwt.place.shared.Prefix;
 public class Invoices
         extends Place
 {
+    public static final String PREFIX = "invoices";
     private Long orderId;
 
     private String scrollspy;
@@ -56,7 +57,7 @@ public class Invoices
         return scrollspy;
     }
 
-    @Prefix( value = "invoices" )
+    @Prefix( value = PREFIX )
     public static class Tokenizer
             implements PlaceTokenizer<Invoices>
     {

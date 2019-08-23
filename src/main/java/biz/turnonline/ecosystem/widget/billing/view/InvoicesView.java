@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.billing.view;
 
 import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
+import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.billing.presenter.InvoicesPresenter;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
@@ -33,6 +34,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
@@ -255,8 +257,11 @@ public class InvoicesView
         MaterialLink edit = new MaterialLink();
         edit.setIconColor( BLUE );
         edit.setPaddingTop( 10 );
-        edit.addClickHandler( event ->
-                bus().fireEvent( new EditInvoiceEvent( invoice ) ) );
+        edit.addClickHandler( event -> {
+            // add record in to history (to manage scrolling to selected card once going back), but do not fire event
+            History.newItem( Invoices.PREFIX + ":" + invoice.getScrollspy(), false );
+            bus().fireEvent( new EditInvoiceEvent( invoice ) );
+        } );
 
         if ( NEW == status )
         {

@@ -228,7 +228,7 @@
     </dependencies>
 
     <properties>
-        <gwt-bom.version>2.8.2-20190812.172235-5</gwt-bom.version>
+        <gwt-bom.version>2.8.2-20190823.034038-6</gwt-bom.version>
         <gwt-plugin.version>2.8.2</gwt-plugin.version>
         <!-- keep dagger-compiler and auto-factory version same as gwt-bom -->
         <dagger-compiler.version>2.24</dagger-compiler.version>
