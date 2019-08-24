@@ -56,6 +56,7 @@ public class EditInvoicePresenter
                                  PlaceController placeController )
     {
         super( eventBus, view, placeController );
+        setPlace( EditInvoice.class );
     }
 
     @Override

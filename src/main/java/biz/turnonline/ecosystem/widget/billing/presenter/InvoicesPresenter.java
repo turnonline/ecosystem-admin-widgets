@@ -43,6 +43,7 @@ public class InvoicesPresenter
                               PlaceController placeController )
     {
         super( eventBus, view, placeController );
+        setPlace( Invoices.class );
     }
 
     @Override

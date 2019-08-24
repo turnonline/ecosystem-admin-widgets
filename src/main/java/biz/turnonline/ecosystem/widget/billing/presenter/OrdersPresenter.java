@@ -44,6 +44,7 @@ public class OrdersPresenter
                             PlaceController placeController )
     {
         super( eventBus, view, placeController );
+        setPlace( Orders.class );
     }
 
     @Override

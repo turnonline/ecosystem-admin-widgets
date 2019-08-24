@@ -70,6 +70,7 @@ public class EditOrderPresenter
                                PlaceController placeController )
     {
         super( eventBus, view, placeController );
+        setPlace( EditOrder.class );
     }
 
     @Override
