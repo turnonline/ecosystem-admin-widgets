@@ -140,22 +140,15 @@ public class InfiniteScroll<T>
             {
                 private int totalLength = MAX_TOTAL_LENGTH;
 
-                private int currentLength = 0;
-
                 @Override
                 public void onSuccess( Items<T> response )
                 {
                     List<T> items = response.getItems();
                     int size = items.size();
-                    currentLength = currentLength == 0 ? size : currentLength;
 
                     if ( size < config.getLimit() )
                     {
-                        totalLength = currentLength;
-                    }
-                    else
-                    {
-                        currentLength = currentLength + size;
+                        totalLength = config.getOffset() + size;
                     }
 
                     callback.onSuccess( new LoadResult<>( items, config.getOffset(), totalLength ) );

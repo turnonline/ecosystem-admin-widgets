@@ -21,6 +21,7 @@ package biz.turnonline.ecosystem.widget.billing.place;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
+import com.google.gwt.user.client.History;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -29,6 +30,9 @@ public class Invoices
         extends Place
 {
     public static final String PREFIX = "invoices";
+
+    private static final String COLON_PREFIX = PREFIX + ":";
+
     private Long orderId;
 
     private String scrollspy;
@@ -55,6 +59,27 @@ public class Invoices
     public String getScrollspy()
     {
         return scrollspy;
+    }
+
+    /**
+     * Returns the boolean indication whether current history token represents an invoice list scrollspy.
+     * An empty invoices place is being considered as a scrollspy too.
+     *
+     * @return {@code true} if invoice list scrollspy history token
+     */
+    public static boolean isCurrentTokenScrollspy()
+    {
+        Tokenizer tokenizer = new Tokenizer();
+        String token = History.getToken();
+        if ( !token.startsWith( COLON_PREFIX ) )
+        {
+            return false;
+        }
+
+        token = token.substring( COLON_PREFIX.length() );
+
+        Invoices place = tokenizer.getPlace( token );
+        return token.isEmpty() || place.getScrollspy() != null;
     }
 
     @Prefix( value = PREFIX )

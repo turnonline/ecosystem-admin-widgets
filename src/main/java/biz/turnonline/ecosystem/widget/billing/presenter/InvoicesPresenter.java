@@ -18,15 +18,18 @@
 
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
+import biz.turnonline.ecosystem.widget.billing.event.ClearInvoicesFilterEvent;
 import biz.turnonline.ecosystem.widget.billing.event.DeleteInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import com.google.gwt.place.shared.PlaceController;
+import org.ctoolkit.gwt.client.facade.Items;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -37,6 +40,8 @@ import javax.inject.Inject;
 public class InvoicesPresenter
         extends Presenter<InvoicesPresenter.IView, AppEventBus>
 {
+    private InvoiceDataSource dataSource;
+
     @Inject
     public InvoicesPresenter( AppEventBus eventBus,
                               IView view,
@@ -54,9 +59,9 @@ public class InvoicesPresenter
         );
 
         bus().addHandler( DeleteInvoiceEvent.TYPE, this::deleteInvoice );
+        bus().addHandler( ClearInvoicesFilterEvent.TYPE, this::clearFilter );
 
-        view().setDataSource( ( offset, limit, callback ) ->
-                bus().billing().getInvoices( offset, limit, true, callback ) );
+        view().setDataSource( dataSource = new InvoiceDataSource() );
     }
 
     private void deleteInvoice( DeleteInvoiceEvent event )
@@ -65,6 +70,24 @@ public class InvoicesPresenter
             controller().goTo( new Invoices() );
             success( messages.msgRecordDeleted( event.getInvoiceNumber() ), failure );
         } );
+    }
+
+    private void clearFilter( ClearInvoicesFilterEvent event )
+    {
+        dataSource.filterBy( null );
+        view().clear();
+        controller().goTo( new Invoices() );
+    }
+
+    @Override
+    protected void onBeforeBackingObject()
+    {
+        Invoices where = ( Invoices ) controller().getWhere();
+        Long orderId = where.getOrderId();
+        if ( dataSource.filterBy( orderId ) )
+        {
+            view().clear();
+        }
     }
 
     @Override
@@ -77,6 +100,8 @@ public class InvoicesPresenter
         {
             view().scrollTo( where.getScrollspy() );
         }
+
+        view().setClearFilterEnabled( dataSource.isFilter() );
     }
 
     public interface IView
@@ -84,6 +109,62 @@ public class InvoicesPresenter
     {
         void scrollTo( @Nullable String scrollspy );
 
+        void clear();
+
         void setDataSource( InfiniteScroll.Callback<Invoice> callback );
+
+        void setClearFilterEnabled( boolean enabled );
+    }
+
+    private class InvoiceDataSource
+            implements InfiniteScroll.Callback<Invoice>
+    {
+        private Long orderId;
+
+        @Override
+        public void load( int offset, int limit, SuccessCallback<Items<Invoice>> callback )
+        {
+            if ( orderId == null )
+            {
+                bus().billing().getInvoices( offset, limit, true, callback );
+            }
+            else
+            {
+                bus().billing().getOrderInvoices( orderId, offset, limit, true, callback );
+            }
+        }
+
+        boolean isFilter()
+        {
+            return orderId != null;
+        }
+
+        /**
+         * Sets the filter criteria.
+         *
+         * @param orderId the order identification
+         * @return {@code true} if criteria has changed
+         */
+        boolean filterBy( @Nullable Long orderId )
+        {
+            boolean clear = false;
+
+            if ( this.orderId == null && orderId != null )
+            {
+                clear = true;
+            }
+
+            if ( this.orderId != null && orderId == null )
+            {
+                clear = true;
+            }
+            if ( this.orderId != null && orderId != null )
+            {
+                clear = !this.orderId.equals( orderId );
+            }
+
+            this.orderId = orderId;
+            return clear;
+        }
     }
 }

@@ -28,6 +28,8 @@ public class ScaffoldBreadcrumb
 {
     private MaterialLink refresh;
 
+    private MaterialLink clearFilter;
+
     private MaterialNavSection navSection;
 
     public ScaffoldBreadcrumb( List<BreadcrumbItem> items, PlaceController placeController )
@@ -74,6 +76,12 @@ public class ScaffoldBreadcrumb
         navSection.setHideOn( HideOn.NONE );
         navBar.add( navSection );
 
+        clearFilter = new MaterialLink();
+        clearFilter.setIconType( IconType.CANCEL );
+        clearFilter.setIconColor( Color.BLACK );
+        clearFilter.setWaves( WavesType.LIGHT );
+        navSection.add( clearFilter );
+
         refresh = new MaterialLink();
         refresh.setIconType( IconType.REFRESH );
         refresh.setIconColor( Color.BLACK );
@@ -98,6 +106,23 @@ public class ScaffoldBreadcrumb
     public void addRefreshClickHandler( ClickHandler handler )
     {
         refresh.addClickHandler( handler );
+    }
+
+    public void setClearFilterEnabled( boolean enabled )
+    {
+        clearFilter.setEnabled( enabled );
+    }
+
+    public void setClearFilterTooltip( String tooltip )
+    {
+        clearFilter.setTooltip( tooltip );
+        clearFilter.setTooltipPosition( Position.LEFT );
+        clearFilter.setTooltipDelayMs( 700 );
+    }
+
+    public void addClearFilterClickHandler( ClickHandler handler )
+    {
+        clearFilter.addClickHandler( handler );
     }
 
     public static class BreadcrumbItem

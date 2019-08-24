@@ -722,6 +722,9 @@ public interface AppMessages
     @Key( "tooltip.invoice.list.refresh" )
     String tooltipInvoiceListRefresh();
 
+    @Key( "tooltip.invoice.list.clearFilter" )
+    String tooltipInvoiceListClearFilter();
+
     // messages
 
     @Key( value = "msg.recordDeleted" )

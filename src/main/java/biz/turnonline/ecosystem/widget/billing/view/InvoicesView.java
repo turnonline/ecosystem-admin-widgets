@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.billing.view;
 
+import biz.turnonline.ecosystem.widget.billing.event.ClearInvoicesFilterEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.presenter.InvoicesPresenter;
 import biz.turnonline.ecosystem.widget.billing.ui.InvoiceCard;
@@ -75,10 +76,12 @@ public class InvoicesView
         scroll.setRenderer( this::createCard );
         scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelInvoiceLoading() ) );
 
-        Window.addResizeHandler( event -> scroll.setHeight( ( event.getHeight() - headerHeight ) + "px" ) );
+        Window.addResizeHandler( event -> scroll.setMinHeight( ( event.getHeight() - headerHeight ) + "px" ) );
         Scheduler.get().scheduleDeferred( () -> {
-            headerHeight = scaffoldHeader.getElement().getClientHeight() + breadcrumb.getElement().getClientHeight();
-            scroll.setHeight( ( Window.getClientHeight() - headerHeight + 22 ) + "px" );
+            headerHeight = scaffoldHeader.getElement().getClientHeight()
+                    + breadcrumb.getElement().getClientHeight()
+                    - 22;
+            scroll.setMinHeight( ( Window.getClientHeight() - headerHeight ) + "px" );
         } );
 
         newInvoice.addClickHandler( event -> bus().fireEvent( new EditInvoiceEvent() ) );
@@ -87,6 +90,11 @@ public class InvoicesView
         breadcrumb.setRefreshTooltip( messages.tooltipInvoiceListRefresh() );
         breadcrumb.setNavSectionVisible( true );
         breadcrumb.addRefreshClickHandler( event -> scroll.reload() );
+
+        // clear filter action setup
+        breadcrumb.setClearFilterEnabled( false );
+        breadcrumb.setClearFilterTooltip( messages.tooltipInvoiceListClearFilter() );
+        breadcrumb.addClearFilterClickHandler( event -> bus().fireEvent( new ClearInvoicesFilterEvent() ) );
     }
 
     @Override
@@ -100,6 +108,18 @@ public class InvoicesView
     {
         scroll.unload();
         scroll.setDataSource( callback );
+    }
+
+    @Override
+    public void clear()
+    {
+        scroll.unload();
+    }
+
+    @Override
+    public void setClearFilterEnabled( boolean enabled )
+    {
+        breadcrumb.setClearFilterEnabled( enabled );
     }
 
     private Widget createCard( Invoice invoice )

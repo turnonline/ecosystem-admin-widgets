@@ -144,8 +144,10 @@ public interface ProductBillingFacade
     @GET
     @Path( "orders/{order_id}/invoices" )
     void getOrderInvoices( @PathParam( "order_id" ) Long orderId,
-                           Invoice invoice,
-                           SuccessCallback<Invoice> callback );
+                           @QueryParam( "offset" ) Integer offset,
+                           @QueryParam( "limit" ) Integer limit,
+                           @QueryParam( "lightList" ) boolean lightList,
+                           SuccessCallback<Items<Invoice>> callback );
 
     @POST
     @Path( "orders/{order_id}/invoices" )

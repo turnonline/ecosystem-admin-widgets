@@ -188,8 +188,12 @@ public class InvoiceCard
 
         // action event handlers
         editLink.addClickHandler( event -> {
-            // add record in to history (to manage scrolling to selected card once going back), but do not fire event
-            History.newItem( Invoices.PREFIX + ":" + invoice.getScrollspy(), false );
+            // don't add history record if there is already an another token not managing scrollspy
+            if ( Invoices.isCurrentTokenScrollspy() )
+            {
+                // add record in to history (to manage scrolling to selected card once going back), but don't fire event
+                History.newItem( Invoices.PREFIX + ":" + invoice.getScrollspy(), false );
+            }
             bus.fireEvent( new EditInvoiceEvent( invoice ) );
         } );
 
