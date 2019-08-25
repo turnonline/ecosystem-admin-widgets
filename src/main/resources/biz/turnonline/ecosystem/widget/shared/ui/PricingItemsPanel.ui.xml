@@ -53,11 +53,11 @@
                                     text="Standard" separator="true"/>
 
                     <m:MaterialLink ui:field="billingItem" fontSize="0.9em" width="150px" waves="DEFAULT"
-                                    textColor="BLACK" iconType="ASSIGNMENT_TURNED_IN" iconColor="BLUE" iconPosition="LEFT"
+                                    textColor="BLACK" iconType="ASSIGNMENT" iconColor="BLUE" iconPosition="LEFT"
                                     text="BillingItem" separator="true"/>
 
                     <m:MaterialLink ui:field="orderItem" fontSize="0.9em" width="150px" waves="DEFAULT"
-                                    textColor="BLACK" iconType="ASSIGNMENT" iconColor="BLUE" iconPosition="LEFT"
+                                    textColor="BLACK" iconType="ASSIGNMENT_TURNED_IN" iconColor="BLUE" iconPosition="LEFT"
                                     text="OrderItem" separator="true"/>
 
                     <m:MaterialLink ui:field="webinar" fontSize="0.9em" width="150px" waves="DEFAULT"

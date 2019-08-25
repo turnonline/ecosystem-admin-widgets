@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.billing.view;
 
 import biz.turnonline.ecosystem.widget.billing.event.DeleteInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
+import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
@@ -105,6 +106,9 @@ public class EditInvoiceView
 
     @UiField
     MaterialAnchorButton emailInvoice;
+
+    @UiField
+    MaterialAnchorButton viewOrder;
 
     @UiField
     MaterialAnchorButton downloadInvoice;
@@ -198,45 +202,46 @@ public class EditInvoiceView
     }
 
     @UiHandler( "btnBack" )
-    @SuppressWarnings( "unused" )
-    public void handleBack( ClickEvent event )
+    public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new InvoiceBackEvent( getRawModel() ) );
     }
 
     @UiHandler( "btnSave" )
-    @SuppressWarnings( "unused" )
-    public void handleSave( ClickEvent event )
+    public void handleSave( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new SaveInvoiceEvent( getModel() ) );
     }
 
     @UiHandler( "sendInvoice" )
-    @SuppressWarnings( "unused" )
-    public void sendInvoice( ClickEvent event )
+    public void sendInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         Invoice inv = getRawModel();
         bus().fireEvent( new InvoiceStatusChangeEvent( status( inv ), SENT, inv.getOrderId(), inv.getId() ) );
     }
 
     @UiHandler( "emailInvoice" )
-    @SuppressWarnings( "unused" )
-    public void emailInvoice( ClickEvent event )
+    public void emailInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         emailDialog.open();
     }
 
+    @UiHandler( "viewOrder" )
+    public void viewOrderClick( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        Invoice invoice = getRawModel();
+        bus().fireEvent( new EditOrderEvent( invoice.getOrderId() ) );
+    }
+
     @UiHandler( "downloadInvoice" )
-    @SuppressWarnings( "unused" )
-    public void downloadInvoice( ClickEvent event )
+    public void downloadInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         Invoice inv = getRawModel();
         bus().fireEvent( new DownloadInvoiceEvent( inv.getOrderId(), inv.getId(), inv.getPin() ) );
     }
 
     @UiHandler( "deleteInvoice" )
-    @SuppressWarnings( "unused" )
-    public void deleteInvoice( ClickEvent event )
+    public void deleteInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         confirmation.open( new ConfirmationWindow.Question()
         {
@@ -256,9 +261,8 @@ public class EditInvoiceView
 
     }
 
-    @SuppressWarnings( "unused" )
     @UiHandler( "btnSendInvoice" )
-    public void btnSendInvoice( ClickEvent event )
+    public void btnSendInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         String email = targetEmail.getValue();
         if ( email != null )
@@ -297,6 +301,7 @@ public class EditInvoiceView
         items.setReadOnly( NEW != status );
 
         boolean persisted = getRawModel() != null && getRawModel().getId() != null;
+        viewOrder.setEnabled( persisted );
         sendInvoice.setEnabled( NEW == status && persisted );
         deleteInvoice.setEnabled( NEW == status && persisted );
         emailInvoice.setEnabled( NEW != status && persisted );

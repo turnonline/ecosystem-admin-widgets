@@ -112,11 +112,11 @@ public class TreeItemWithModel
         }
         if ( BILLING_ITEM.equals( itemType ) )
         {
-            setIconType( ASSIGNMENT_TURNED_IN );
+            setIconType( ASSIGNMENT );
         }
         else if ( ORDER_ITEM.equals( itemType ) )
         {
-            setIconType( ASSIGNMENT );
+            setIconType( ASSIGNMENT_TURNED_IN );
         }
         else if ( WEBINAR.equals( itemType ) )
         {

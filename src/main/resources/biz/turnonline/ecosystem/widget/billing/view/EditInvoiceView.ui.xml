@@ -76,9 +76,12 @@
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="GREEN"
                                         iconType="SEND" ui:field="sendInvoice"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceSend}"/>
-                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="GREEN"
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="ORANGE"
                                         iconType="MAIL_OUTLINE" ui:field="emailInvoice"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceSendEmail}"/>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="ORANGE"
+                                        iconType="ASSIGNMENT_TURNED_IN" ui:field="viewOrder"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipEditOrder}"/>
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="ORANGE"
                                         iconType="CLOUD_DOWNLOAD" ui:field="downloadInvoice"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceDownload}"/>

@@ -153,7 +153,7 @@ public abstract class BillingModule
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Orders(), IconType.SHOPPING_CART, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Orders(), IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditOrder() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
@@ -166,7 +166,7 @@ public abstract class BillingModule
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.SHOPPING_CART, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }

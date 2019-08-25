@@ -579,11 +579,11 @@ public class PricingItemsPanel
         String itemType = selected.getChildItemType();
         if ( ORDER_ITEM.equals( itemType ) )
         {
-            this.itemType.setIconType( ASSIGNMENT );
+            this.itemType.setIconType( ASSIGNMENT_TURNED_IN );
         }
         if ( BILLING_ITEM.equals( itemType ) )
         {
-            this.itemType.setIconType( ASSIGNMENT_TURNED_IN );
+            this.itemType.setIconType( ASSIGNMENT );
         }
         else if ( WEBINAR.equals( itemType ) )
         {
@@ -652,25 +652,25 @@ public class PricingItemsPanel
     }
 
     @UiHandler( "btnCollapse" )
-    void onCollapseTree( ClickEvent e )
+    void onCollapseTree( @SuppressWarnings( "unused" ) ClickEvent e )
     {
         pricingTree.collapse();
     }
 
     @UiHandler( "btnExpand" )
-    void onExpandTree( ClickEvent e )
+    void onExpandTree( @SuppressWarnings( "unused" ) ClickEvent e )
     {
         pricingTree.expand();
     }
 
     @UiHandler( "btnCalculate" )
-    void onCalculate( ClickEvent e )
+    void onCalculate( @SuppressWarnings( "unused" ) ClickEvent e )
     {
         calculate();
     }
 
     @UiHandler( "btnAdd" )
-    public void handleAdd( ClickEvent event )
+    public void handleAdd( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         TreeItemWithModel selected = ( TreeItemWithModel ) pricingTree.getSelectedItem();
 
@@ -690,10 +690,10 @@ public class PricingItemsPanel
             case LOOKS_ONE:
                 item.setItemType( STANDARD );
                 break;
-            case ASSIGNMENT:
+            case ASSIGNMENT_TURNED_IN:
                 item.setItemType( ORDER_ITEM );
                 break;
-            case ASSIGNMENT_TURNED_IN:
+            case ASSIGNMENT:
                 item.setItemType( BILLING_ITEM );
                 break;
             case PERSONAL_VIDEO:
@@ -711,43 +711,43 @@ public class PricingItemsPanel
     }
 
     @UiHandler( "btnDelete" )
-    public void handleDelete( ClickEvent event )
+    public void handleDelete( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         deleteSelectedRows();
     }
 
     @UiHandler( "standard" )
-    void standard( ClickEvent event )
+    void standard( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         itemType.setIconType( LOOKS_ONE );
     }
 
     @UiHandler( "billingItem" )
-    void billingItem( ClickEvent event )
-    {
-        itemType.setIconType( ASSIGNMENT_TURNED_IN );
-    }
-
-    @UiHandler( "orderItem" )
-    void orderItem( ClickEvent event )
+    void billingItem( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         itemType.setIconType( ASSIGNMENT );
     }
 
+    @UiHandler( "orderItem" )
+    void orderItem( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        itemType.setIconType( ASSIGNMENT_TURNED_IN );
+    }
+
     @UiHandler( "webinar" )
-    void webinar( ClickEvent event )
+    void webinar( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         itemType.setIconType( PERSONAL_VIDEO );
     }
 
     @UiHandler( "attendee" )
-    void attendee( ClickEvent event )
+    void attendee( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         itemType.setIconType( PEOPLE );
     }
 
     @UiHandler( "eventPart" )
-    void eventPart( ClickEvent event )
+    void eventPart( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         itemType.setIconType( EVENT );
     }

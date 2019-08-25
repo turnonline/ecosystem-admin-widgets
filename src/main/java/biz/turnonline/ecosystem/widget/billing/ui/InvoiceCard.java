@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
+import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
@@ -82,6 +83,9 @@ public class InvoiceCard
 
     @UiField
     MaterialLink editLink;
+
+    @UiField
+    MaterialLink viewOrder;
 
     @UiField
     MaterialLink downloadLink;
@@ -187,17 +191,27 @@ public class InvoiceCard
         }
 
         // action event handlers
+        String scrollspyHistoryToken = Invoices.PREFIX + ":" + invoice.getScrollspy();
+
         editLink.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy
             if ( Invoices.isCurrentTokenScrollspy() )
             {
                 // add record in to history (to manage scrolling to selected card once going back), but don't fire event
-                History.newItem( Invoices.PREFIX + ":" + invoice.getScrollspy(), false );
+                History.newItem( scrollspyHistoryToken, false );
             }
             bus.fireEvent( new EditInvoiceEvent( invoice ) );
         } );
 
-        downloadLink.setVisible( hasImageUrl );
+        viewOrder.addClickHandler( event -> {
+            // don't add history record if there is already an another token not managing scrollspy
+            if ( Invoices.isCurrentTokenScrollspy() )
+            {
+                // add record in to history (to manage scrolling to selected card once going back), but don't fire event
+                History.newItem( scrollspyHistoryToken, false );
+            }
+            bus.fireEvent( new EditOrderEvent( invoice.getOrderId() ) );
+        } );
 
         if ( hasImageUrl )
         {
@@ -208,6 +222,7 @@ public class InvoiceCard
                 bus.fireEvent( de );
             } );
         }
+        downloadLink.setVisible( hasImageUrl );
     }
 
     private Color statusColor( Invoice.Status status )

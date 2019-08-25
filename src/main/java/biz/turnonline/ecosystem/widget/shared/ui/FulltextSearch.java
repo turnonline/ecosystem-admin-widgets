@@ -56,7 +56,7 @@ public class FulltextSearch
         iconMap.put( GlobalItemType.CONTACT, IconType.CONTACT_PHONE );
         iconMap.put( GlobalItemType.PRODUCT, IconType.TABLET_MAC );
         iconMap.put( GlobalItemType.INVOICE, IconType.ASSIGNMENT );
-        iconMap.put( GlobalItemType.ORDER, IconType.SHOPPING_CART );
+        iconMap.put( GlobalItemType.ORDER, IconType.ASSIGNMENT_TURNED_IN );
 
         listRedirectionMap.put( GlobalItemType.CONTACT, global -> Router.routeToList( Route.CONTACTS ) );
         listRedirectionMap.put( GlobalItemType.PRODUCT, global -> Router.routeToList( Route.PRODUCTS ) );

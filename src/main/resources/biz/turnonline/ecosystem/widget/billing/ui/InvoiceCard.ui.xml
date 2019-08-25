@@ -70,8 +70,12 @@
         <m:MaterialRow marginBottom="0">
             <m:MaterialColumn grid="s12 m12 l12">
                 <m:MaterialCardAction marginTop="0" padding="5">
-                    <m:MaterialLink ui:field="editLink" iconColor="BLUE" paddingTop="10" iconType="EDIT"/>
-                    <m:MaterialLink ui:field="downloadLink" iconColor="ORANGE" paddingTop="10" iconType="CLOUD_DOWNLOAD"/>
+                    <m:MaterialLink ui:field="editLink" iconColor="BLUE" paddingTop="10" iconType="EDIT"
+                                    marginLeft="10"/>
+                    <m:MaterialLink ui:field="viewOrder" iconColor="BLUE" paddingTop="10" iconType="ASSIGNMENT_TURNED_IN"
+                                    marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipEditOrder}"/>
+                    <m:MaterialLink ui:field="downloadLink" iconColor="BLUE" paddingTop="10" iconType="CLOUD_DOWNLOAD"
+                                    marginLeft="10"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>
         </m:MaterialRow>
