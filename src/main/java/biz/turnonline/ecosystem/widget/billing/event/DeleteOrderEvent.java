@@ -4,12 +4,12 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import com.google.gwt.event.shared.GwtEvent;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
+ * Represents a request to delete specified order.
+ *
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class DeleteOrderEvent
@@ -17,23 +17,11 @@ public class DeleteOrderEvent
 {
     public static Type<DeleteOrderEventHandler> TYPE = new Type<DeleteOrderEventHandler>();
 
-    private final List<Order> orders;
-
-    private final boolean redirectToList;
-
-    public DeleteOrderEvent( List<Order> orders )
-    {
-        this.orders = orders;
-        this.redirectToList = false;
-    }
+    private final Order order;
 
     public DeleteOrderEvent( @Nonnull Order order )
     {
-        List<Order> orders = new ArrayList<>();
-        orders.add( checkNotNull( order, "Order cannot be null" ) );
-
-        this.orders = orders;
-        this.redirectToList = true;
+        this.order = checkNotNull( order, "Order cannot be null" );
     }
 
     public Type<DeleteOrderEventHandler> getAssociatedType()
@@ -46,13 +34,8 @@ public class DeleteOrderEvent
         handler.onDeleteOrder( this );
     }
 
-    public List<Order> getOrders()
+    public Order getOrder()
     {
-        return orders;
-    }
-
-    public boolean isRedirectToList()
-    {
-        return redirectToList;
+        return order;
     }
 }

@@ -600,6 +600,9 @@ public interface AppMessages
     @Key( "label.order.status" )
     String labelOrderStatus();
 
+    @Key( "label.order.loading" )
+    String labelOrderLoading();
+
     @Key( "label.invoice.currentStatus" )
     String labelInvoiceCurrentStatus();
 
@@ -700,6 +703,9 @@ public interface AppMessages
 
     @Key( "tooltip.order.delete" )
     String tooltipOrderDelete();
+
+    @Key( "tooltip.order.list.refresh" )
+    String tooltipOrderListRefresh();
 
     @Key( "tooltip.invoice.send" )
     String tooltipInvoiceSend();

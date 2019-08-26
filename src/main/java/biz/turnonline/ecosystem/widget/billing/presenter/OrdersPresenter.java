@@ -26,10 +26,11 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
@@ -53,23 +54,14 @@ public class OrdersPresenter
         bus().addHandler( EditOrderEvent.TYPE,
                 event -> controller().goTo( new EditOrder( event.getId(), "tabDetail" ) ) );
 
-        bus().addHandler( DeleteOrderEvent.TYPE, event -> {
-            for ( Order order : event.getOrders() )
-            {
-                bus().billing().deleteOrder( order.getId(),
-                        ( SuccessCallback<Void> ) response -> {
-                            success( messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
-                            if ( event.isRedirectToList() )
-                            {
-                                controller().goTo( new Orders() );
-                            }
-                            else
-                            {
-                                Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                            }
-                        } );
-            }
-        } );
+        bus().addHandler( DeleteOrderEvent.TYPE, event -> bus().billing().deleteOrder( event.getOrder().getId(),
+                ( SuccessCallback<Void> ) response -> {
+                    success( messages.msgRecordDeleted( Formatter.formatOrderName( event.getOrder() ) ) );
+                    controller().goTo( new Orders() );
+                } ) );
+
+        view().setDataSource( ( offset, limit, callback ) ->
+                bus().billing().getOrders( offset, limit, true, callback ) );
     }
 
     @Override
@@ -81,6 +73,10 @@ public class OrdersPresenter
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView
     {
-        void refresh();
+        void scrollTo( @Nullable String scrollspy );
+
+        void clear();
+
+        void setDataSource( InfiniteScroll.Callback<Order> callback );
     }
 }

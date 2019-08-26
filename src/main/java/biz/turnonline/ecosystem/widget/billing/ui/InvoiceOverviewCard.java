@@ -54,11 +54,11 @@ import static gwt.material.design.client.constants.IconType.EDIT;
 import static gwt.material.design.client.constants.IconType.VISIBILITY;
 
 /**
- * Invoice overview card component as an item for the infinite invoice list.
+ * Invoice overview card component.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class InvoiceCard
+public class InvoiceOverviewCard
         extends Composite
 {
     private static InvoiceCardUiBinder binder = GWT.create( InvoiceCardUiBinder.class );
@@ -104,7 +104,7 @@ public class InvoiceCard
 
     private AppMessages messages = AppMessages.INSTANCE;
 
-    public InvoiceCard( Invoice invoice, EventBus bus )
+    public InvoiceOverviewCard( Invoice invoice, EventBus bus )
     {
         initWidget( binder.createAndBindUi( this ) );
 
@@ -297,7 +297,7 @@ public class InvoiceCard
     }
 
     interface InvoiceCardUiBinder
-            extends UiBinder<MaterialCard, InvoiceCard>
+            extends UiBinder<MaterialCard, InvoiceOverviewCard>
     {
     }
 }

@@ -45,29 +45,12 @@ public abstract class Presenter<V extends IView, E extends EventBus>
         setTitle( "TurnOnline.biz Administration" );
     }
 
-    @Override
-    protected final E bus()
-    {
-        return ( E ) super.bus();
-    }
-
-    /**
-     * <p>Set title of page. Call this method in {@link org.ctoolkit.gwt.client.presenter.BinderyPresenter#onBackingObject()}
-     * method to ensure that title will be rendered on every page correctly.</p>
-     *
-     * @param titleText text which will be shown in the browser window title
-     */
-    public void setTitle( String titleText )
-    {
-        Window.setTitle( titleText );
-    }
-
     /**
      * <p>Show info message.</p>
      *
      * @param msg message to show in feedback panel
      */
-    public void info( String msg )
+    public static void info( String msg )
     {
         MaterialToast.fireToast( msg, "cyan" );
     }
@@ -77,7 +60,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param msg message to show in feedback panel
      */
-    public void success( String msg )
+    public static void success( String msg )
     {
         MaterialToast.fireToast( msg, "green" );
     }
@@ -87,7 +70,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param msg message to show in feedback panel
      */
-    public void warn( String msg )
+    public static void warn( String msg )
     {
         MaterialToast.fireToast( msg, "amber" );
     }
@@ -97,7 +80,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param msg message to show in feedback panel
      */
-    public void warn( String msg, FacadeCallback.Failure failure )
+    public static void warn( String msg, FacadeCallback.Failure failure )
     {
         if ( failure.isFailure() )
         {
@@ -126,7 +109,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param msg message to show in feedback panel
      */
-    public void error( String msg )
+    public static void error( String msg )
     {
         MaterialToast.fireToast( msg, "red" );
     }
@@ -136,7 +119,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param success message to show in feedback panel
      */
-    public void success( String success, FacadeCallback.Failure failure )
+    public static void success( String success, FacadeCallback.Failure failure )
     {
         if ( failure.isFailure() )
         {
@@ -158,5 +141,22 @@ public abstract class Presenter<V extends IView, E extends EventBus>
         {
             success( success );
         }
+    }
+
+    @Override
+    protected final E bus()
+    {
+        return ( E ) super.bus();
+    }
+
+    /**
+     * <p>Set title of page. Call this method in {@link org.ctoolkit.gwt.client.presenter.BinderyPresenter#onBackingObject()}
+     * method to ensure that title will be rendered on every page correctly.</p>
+     *
+     * @param titleText text which will be shown in the browser window title
+     */
+    public void setTitle( String titleText )
+    {
+        Window.setTitle( titleText );
     }
 }

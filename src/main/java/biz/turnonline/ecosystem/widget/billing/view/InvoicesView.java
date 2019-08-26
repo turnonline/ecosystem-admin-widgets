@@ -21,7 +21,7 @@ package biz.turnonline.ecosystem.widget.billing.view;
 import biz.turnonline.ecosystem.widget.billing.event.ClearInvoicesFilterEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.presenter.InvoicesPresenter;
-import biz.turnonline.ecosystem.widget.billing.ui.InvoiceCard;
+import biz.turnonline.ecosystem.widget.billing.ui.InvoiceOverviewCard;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -29,8 +29,10 @@ import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -44,6 +46,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * Invoice list view implemented by infinite scroll where single invoice is rendered by {@link InvoiceOverviewCard}.
+ *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class InvoicesView
@@ -84,8 +88,6 @@ public class InvoicesView
             scroll.setMinHeight( ( Window.getClientHeight() - headerHeight ) + "px" );
         } );
 
-        newInvoice.addClickHandler( event -> bus().fireEvent( new EditInvoiceEvent() ) );
-
         // refresh action setup
         breadcrumb.setRefreshTooltip( messages.tooltipInvoiceListRefresh() );
         breadcrumb.setNavSectionVisible( true );
@@ -125,8 +127,14 @@ public class InvoicesView
     private Widget createCard( Invoice invoice )
     {
         MaterialColumn column = new MaterialColumn( 12, 6, 6 );
-        column.add( new InvoiceCard( invoice, bus() ) );
+        column.add( new InvoiceOverviewCard( invoice, bus() ) );
         return column;
+    }
+
+    @UiHandler( "newInvoice" )
+    public void newInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        bus().fireEvent( new EditInvoiceEvent() );
     }
 
     interface InvoicesViewUiBinder

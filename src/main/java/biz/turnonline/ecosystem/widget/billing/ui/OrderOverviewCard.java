@@ -1,0 +1,347 @@
+/*
+ * Copyright (c) 2019 Comvai, s.r.o. All Rights Reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+package biz.turnonline.ecosystem.widget.billing.ui;
+
+import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Composite;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialCard;
+import gwt.material.design.client.ui.MaterialChip;
+import gwt.material.design.client.ui.MaterialDatePicker;
+import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialLink;
+
+import javax.annotation.Nonnull;
+
+import static biz.turnonline.ecosystem.widget.shared.presenter.Presenter.success;
+import static biz.turnonline.ecosystem.widget.shared.presenter.Presenter.warn;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ISSUE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
+import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
+import static gwt.material.design.client.constants.Color.BLUE;
+import static gwt.material.design.client.constants.Color.CYAN;
+import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_1;
+import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_2;
+import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_3;
+import static gwt.material.design.client.constants.Color.GREEN;
+import static gwt.material.design.client.constants.Color.GREY;
+import static gwt.material.design.client.constants.Color.RED;
+import static gwt.material.design.client.constants.Color.RED_LIGHTEN_2;
+import static gwt.material.design.client.constants.Color.YELLOW;
+
+/**
+ * Order overview card component.
+ *
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
+ */
+public class OrderOverviewCard
+        extends Composite
+{
+    private static OrderCardUiBinder binder = GWT.create( OrderCardUiBinder.class );
+
+    private final AppEventBus bus;
+
+    @UiField
+    MaterialLabel title;
+
+    @UiField
+    MaterialChip orderStatus;
+
+    @UiField
+    MaterialChip periodicity;
+
+    @UiField
+    MaterialLabel totalPriceExclVat;
+
+    @UiField
+    MaterialLabel totalPrice;
+
+    @UiField
+    MaterialDatePicker lastBillingDate;
+
+    @UiField
+    MaterialDatePicker nextBillingDate;
+
+    @UiField
+    MaterialLink editLink;
+
+    @UiField
+    MaterialLink activate;
+
+    @UiField
+    MaterialLink pause;
+
+    private Order order;
+
+    private AppMessages messages = AppMessages.INSTANCE;
+
+    public OrderOverviewCard( @Nonnull Order order, @Nonnull AppEventBus bus )
+    {
+        this.bus = bus;
+        this.order = order;
+
+        initWidget( binder.createAndBindUi( this ) );
+
+        // customer as a title
+        Customer customer = order.getCustomer();
+        String name = "";
+        if ( customer != null )
+        {
+            if ( customer.getCompany() )
+            {
+                name = customer.getBusinessName();
+            }
+            else
+            {
+                name = customer.getFirstName() + " " + customer.getLastName();
+            }
+        }
+        title.setText( name );
+
+        // order periodicity
+        OrderPeriodicity periodicityEnum = order.getPeriodicity() == null
+                ? MANUALLY : OrderPeriodicity.valueOf( order.getPeriodicity() );
+
+        periodicity.setBackgroundColor( periodicityColor( periodicityEnum ) );
+        periodicity.setText( periodicityText( periodicityEnum ) );
+
+        // total price at order of current items
+        String priceEV;
+        String price;
+        String currency = "EUR";
+        Double priceExclVat = order.getTotalPriceExclVat();
+        Double totalPrice = order.getTotalPrice();
+
+        if ( currency != null )
+        {
+            if ( priceExclVat != null )
+            {
+                priceEV = formatPrice( currency, priceExclVat );
+            }
+            else
+            {
+                priceEV = formatPrice( currency, 0.0 );
+            }
+
+            if ( totalPrice != null )
+            {
+                price = formatPrice( currency, totalPrice );
+            }
+            else
+            {
+                price = formatPrice( currency, 0.0 );
+            }
+        }
+        else
+        {
+            priceEV = priceExclVat == null ? "0" : priceExclVat.toString();
+            price = totalPrice == null ? "0" : totalPrice.toString();
+        }
+
+        totalPriceExclVat.setText( priceEV );
+        this.totalPrice.setText( price );
+
+        // billing dates
+        lastBillingDate.getPlaceholderLabel().setFontSize( totalPriceExclVat.getFontSize() );
+        lastBillingDate.setReadOnly( true );
+        lastBillingDate.setValue( order.getLastBillingDate() );
+
+        nextBillingDate.getPlaceholderLabel().setFontSize( totalPriceExclVat.getFontSize() );
+        nextBillingDate.setReadOnly( true );
+        nextBillingDate.setValue( order.getNextBillingDate() );
+
+        // order status
+        Order.Status status = order.getStatus() == null ? SUSPENDED : Order.Status.valueOf( order.getStatus() );
+        statusChanged( status );
+    }
+
+    private void statusChanged( Order.Status status )
+    {
+        orderStatus.setBackgroundColor( statusColor( status ) );
+        orderStatus.setText( statusText( status ) );
+
+        nextBillingDate.setVisible( status == TRIALING || status == ACTIVE );
+
+        // action buttons
+        activate.setVisible( status == SUSPENDED || status == ISSUE );
+        pause.setVisible( status == ACTIVE );
+    }
+
+    @UiHandler( "editLink" )
+    public void editLink( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        bus.fireEvent( new EditOrderEvent( order.getId() ) );
+    }
+
+    @UiHandler( "activate" )
+    public void changeStatus( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        activate.setEnabled( false );
+        callChangeStatus( ACTIVE );
+    }
+
+    @UiHandler( "pause" )
+    public void pause( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        pause.setEnabled( false );
+        callChangeStatus( SUSPENDED );
+    }
+
+    private void callChangeStatus( Order.Status status )
+    {
+        OrderStatus os = new OrderStatus();
+        os.setStatus( status.name() );
+
+        bus.billing().changeOrderStatus( order.getId(), os, ( response, failure ) -> {
+            statusChanged( status );
+
+            activate.setEnabled( true );
+            pause.setEnabled( true );
+
+            if ( ACTIVE == status )
+            {
+                success( messages.msgOrderStatusActive(), failure );
+            }
+            else if ( SUSPENDED == status )
+            {
+                warn( messages.msgOrderStatusSuspended(), failure );
+            }
+        } );
+    }
+
+    private Color statusColor( Order.Status status )
+    {
+        switch ( status )
+        {
+            case TRIALING:
+            {
+                return YELLOW;
+            }
+            case ACTIVE:
+            {
+                return BLUE;
+            }
+            case SUSPENDED:
+            {
+                return RED_LIGHTEN_2;
+            }
+            case ISSUE:
+            {
+                return RED;
+            }
+            case FINISHED:
+            {
+                return GREEN;
+            }
+        }
+
+        return GREY;
+    }
+
+    private String statusText( Order.Status status )
+    {
+        switch ( status )
+        {
+            case TRIALING:
+            {
+                return messages.descriptionOrderStatusTrialing();
+            }
+            case ACTIVE:
+            {
+                return messages.descriptionOrderStatusActive();
+            }
+            case SUSPENDED:
+            {
+                return messages.descriptionOrderStatusSuspended();
+            }
+            case ISSUE:
+            {
+                return "";
+            }
+            case FINISHED:
+            {
+                return messages.descriptionOrderStatusFinished();
+            }
+        }
+        String error = "Unknown order status: " + status;
+        GWT.log( error );
+        throw new IllegalArgumentException( error );
+    }
+
+    private Color periodicityColor( OrderPeriodicity periodicity )
+    {
+        switch ( periodicity )
+        {
+            case ANNUALLY:
+                return CYAN_LIGHTEN_1;
+            case SEMI_ANNUALLY:
+                return CYAN_LIGHTEN_2;
+            case QUARTERLY:
+            case MONTHLY:
+            case WEEKLY:
+                return CYAN_LIGHTEN_3;
+            case MANUALLY:
+                return CYAN;
+        }
+        String error = "Unknown order status: " + periodicity;
+        GWT.log( error );
+        throw new IllegalArgumentException( error );
+    }
+
+    private String periodicityText( OrderPeriodicity periodicity )
+    {
+        switch ( periodicity )
+        {
+            case ANNUALLY:
+                return messages.labelAnnually();
+            case SEMI_ANNUALLY:
+                return messages.labelSemiAnnually();
+            case QUARTERLY:
+                return messages.labelQuarterly();
+            case MONTHLY:
+                return messages.labelMonthly();
+            case WEEKLY:
+                return messages.labelWeekly();
+            case MANUALLY:
+                return messages.labelManually();
+        }
+        String error = "Unknown order periodicity: " + periodicity;
+        GWT.log( error );
+        throw new IllegalArgumentException( error );
+    }
+
+    interface OrderCardUiBinder
+            extends UiBinder<MaterialCard, OrderOverviewCard>
+    {
+    }
+}

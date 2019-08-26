@@ -125,6 +125,11 @@ public class ScaffoldBreadcrumb
         clearFilter.addClickHandler( handler );
     }
 
+    public void setClearFilterVisible( boolean visible )
+    {
+        clearFilter.setVisible( visible );
+    }
+
     public static class BreadcrumbItem
     {
         private Place place;
