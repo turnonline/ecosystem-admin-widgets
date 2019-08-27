@@ -21,8 +21,8 @@ package biz.turnonline.ecosystem.widget.billing.view;
 import biz.turnonline.ecosystem.widget.billing.event.DeleteOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.IssueOrderInvoiceEvent;
-import biz.turnonline.ecosystem.widget.billing.event.OrderBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderInvoicesEvent;
+import biz.turnonline.ecosystem.widget.billing.event.OrderListEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
 import biz.turnonline.ecosystem.widget.billing.presenter.EditOrderPresenter;
@@ -190,26 +190,26 @@ public class EditOrderView
     }
 
     @UiHandler( "btnBack" )
-    public void handleBack( ClickEvent event )
+    public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        bus().fireEvent( new OrderBackEvent() );
+        bus().fireEvent( new OrderListEvent( getRawModel() ) );
     }
 
     @UiHandler( "btnSave" )
-    public void handleSave( ClickEvent event )
+    public void handleSave( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new SaveOrderEvent( getModel() ) );
     }
 
     @UiHandler( "issueInvoice" )
-    public void issueInvoiceClick( ClickEvent event )
+    public void issueInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         Order order = getRawModel();
         bus().fireEvent( new IssueOrderInvoiceEvent( order.getId() ) );
     }
 
     @UiHandler( "viewInvoice" )
-    public void viewInvoiceClick( ClickEvent event )
+    public void viewInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         Invoice invoice = lastInvoice.getInvoice();
         if ( invoice != null && invoice.getOrderId() != null && invoice.getId() != null )
@@ -219,14 +219,14 @@ public class EditOrderView
     }
 
     @UiHandler( "orderInvoices" )
-    public void orderInvoicesClick( ClickEvent event )
+    public void orderInvoices( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         Order order = getRawModel();
         bus().fireEvent( new OrderInvoicesEvent( order.getId() ) );
     }
 
     @UiHandler( "deleteOrder" )
-    public void deleteOrderClick( ClickEvent event )
+    public void deleteOrder( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         Order order = getRawModel();
         bus().fireEvent( new DeleteOrderEvent( order ) );

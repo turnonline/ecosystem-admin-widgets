@@ -18,10 +18,15 @@
 
 package biz.turnonline.ecosystem.widget.billing.place;
 
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import com.google.common.base.Splitter;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 import com.google.gwt.user.client.History;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -32,6 +37,12 @@ public class Invoices
     public static final String PREFIX = "invoices";
 
     private static final String COLON_PREFIX = PREFIX + ":";
+
+    private static final String SCROLL = "scroll";
+
+    private static final String SEPARATOR = "::";
+
+    private static final String ORDER = "order";
 
     private Long orderId;
 
@@ -51,21 +62,26 @@ public class Invoices
         this.orderId = orderId;
     }
 
-    public Long getOrderId()
+    public static String getScrollspy( @Nullable Invoice invoice )
     {
-        return orderId;
+        return invoice == null ? null : scrollspy( invoice.getOrderId(), invoice.getId() );
     }
 
-    public String getScrollspy()
+    private static String scrollspy( Long orderId, Long invoiceId )
     {
-        return scrollspy;
+        return "/" + SCROLL + "/" + orderId + SEPARATOR + invoiceId;
+    }
+
+    private static String order( Long orderId )
+    {
+        return "/" + ORDER + "/" + orderId;
     }
 
     /**
      * Returns the boolean indication whether current history token represents an invoice list scrollspy.
      * An empty invoices place is being considered as a scrollspy too.
      *
-     * @return {@code true} if invoice list scrollspy history token
+     * @return {@code true} if invoice list represents scrollspy history token
      */
     public static boolean isCurrentTokenScrollspy()
     {
@@ -82,6 +98,16 @@ public class Invoices
         return token.isEmpty() || place.getScrollspy() != null;
     }
 
+    public Long getOrderId()
+    {
+        return orderId;
+    }
+
+    public String getScrollspy()
+    {
+        return scrollspy;
+    }
+
     @Prefix( value = PREFIX )
     public static class Tokenizer
             implements PlaceTokenizer<Invoices>
@@ -89,21 +115,23 @@ public class Invoices
         @Override
         public Invoices getPlace( String token )
         {
-            if ( !token.isEmpty() )
+            Invoices place = new Invoices();
+            List<String> pieces = Splitter.on( "/" ).omitEmptyStrings().trimResults().splitToList( token );
+
+            if ( pieces.contains( SCROLL ) )
             {
-                try
-                {
-                    return new Invoices( Long.valueOf( token ) );
-                }
-                catch ( NumberFormatException e )
-                {
-                    return new Invoices( token );
-                }
+                int index = pieces.indexOf( SCROLL );
+                String[] fullId = pieces.get( index + 1 ).split( SEPARATOR );
+                place.scrollspy = scrollspy( Long.valueOf( fullId[0] ), Long.valueOf( fullId[1] ) );
             }
-            else
+
+            if ( pieces.contains( ORDER ) )
             {
-                return new Invoices();
+                int index = pieces.indexOf( ORDER );
+                String id = pieces.get( index + 1 );
+                place.orderId = Long.valueOf( id );
             }
+            return place;
         }
 
         @Override
@@ -119,7 +147,7 @@ public class Invoices
             }
             else
             {
-                return place.getOrderId().toString();
+                return order( place.getOrderId() );
             }
         }
     }

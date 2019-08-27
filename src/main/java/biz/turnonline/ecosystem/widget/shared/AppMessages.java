@@ -704,6 +704,9 @@ public interface AppMessages
     @Key( "tooltip.order.delete" )
     String tooltipOrderDelete();
 
+    @Key( "tooltip.order.number" )
+    String tooltipOrderNumber();
+
     @Key( "tooltip.order.list.refresh" )
     String tooltipOrderListRefresh();
 

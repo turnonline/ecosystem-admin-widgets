@@ -108,7 +108,7 @@ public class InvoiceOverviewCard
     {
         initWidget( binder.createAndBindUi( this ) );
 
-        card.setScrollspy( invoice.getScrollspy() );
+        card.setScrollspy( Invoices.getScrollspy( invoice ) );
 
         // invoice image
         boolean hasImageUrl = invoice.getServingUrl() != null;
@@ -191,7 +191,7 @@ public class InvoiceOverviewCard
         }
 
         // action event handlers
-        String scrollspyHistoryToken = Invoices.PREFIX + ":" + invoice.getScrollspy();
+        String scrollspyHistoryToken = Invoices.PREFIX + ":" + Invoices.getScrollspy( invoice );
 
         editLink.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy

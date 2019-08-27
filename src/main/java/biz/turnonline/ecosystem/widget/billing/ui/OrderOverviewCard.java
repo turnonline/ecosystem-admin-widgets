@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
+import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
@@ -30,6 +31,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialCard;
@@ -49,10 +51,10 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.T
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
 import static gwt.material.design.client.constants.Color.BLUE;
-import static gwt.material.design.client.constants.Color.CYAN;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_1;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_3;
+import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_4;
+import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_5;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.RED;
@@ -70,6 +72,12 @@ public class OrderOverviewCard
     private static OrderCardUiBinder binder = GWT.create( OrderCardUiBinder.class );
 
     private final AppEventBus bus;
+
+    @UiField
+    MaterialCard card;
+
+    @UiField
+    MaterialChip id;
 
     @UiField
     MaterialLabel title;
@@ -111,6 +119,9 @@ public class OrderOverviewCard
         this.order = order;
 
         initWidget( binder.createAndBindUi( this ) );
+
+        card.setScrollspy( Orders.getScrollspy( order ) );
+        id.setText( String.valueOf( order.getId() ) );
 
         // customer as a title
         Customer customer = order.getCustomer();
@@ -200,6 +211,12 @@ public class OrderOverviewCard
     @UiHandler( "editLink" )
     public void editLink( @SuppressWarnings( "unused" ) ClickEvent event )
     {
+        // don't add history record if there is already an another token not managing scrollspy
+        if ( Orders.isCurrentTokenScrollspy() )
+        {
+            // add record in to history (to manage scrolling to selected card once going back), but don't fire event
+            History.newItem( Orders.PREFIX + ":" + Orders.getScrollspy( order ), false );
+        }
         bus.fireEvent( new EditOrderEvent( order.getId() ) );
     }
 
@@ -303,15 +320,15 @@ public class OrderOverviewCard
         switch ( periodicity )
         {
             case ANNUALLY:
-                return CYAN_LIGHTEN_1;
-            case SEMI_ANNUALLY:
                 return CYAN_LIGHTEN_2;
+            case SEMI_ANNUALLY:
+                return CYAN_LIGHTEN_3;
             case QUARTERLY:
             case MONTHLY:
             case WEEKLY:
-                return CYAN_LIGHTEN_3;
+                return CYAN_LIGHTEN_4;
             case MANUALLY:
-                return CYAN;
+                return CYAN_LIGHTEN_5;
         }
         String error = "Unknown order status: " + periodicity;
         GWT.log( error );

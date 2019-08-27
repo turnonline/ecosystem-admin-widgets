@@ -112,7 +112,7 @@ public class OrdersView
     @Override
     public void scrollTo( @Nullable String scrollspy )
     {
-
+        scroll.scrollTo( scrollspy );
     }
 
     @Override
@@ -124,6 +124,7 @@ public class OrdersView
     @Override
     public void setDataSource( InfiniteScroll.Callback<Order> callback )
     {
+        scroll.unload();
         scroll.setDataSource( callback );
     }
 

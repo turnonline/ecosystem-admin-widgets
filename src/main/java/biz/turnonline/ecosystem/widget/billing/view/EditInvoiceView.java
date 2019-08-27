@@ -21,7 +21,7 @@ package biz.turnonline.ecosystem.widget.billing.view;
 import biz.turnonline.ecosystem.widget.billing.event.DeleteInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
-import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
+import biz.turnonline.ecosystem.widget.billing.event.InvoiceListEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
@@ -204,7 +204,7 @@ public class EditInvoiceView
     @UiHandler( "btnBack" )
     public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        bus().fireEvent( new InvoiceBackEvent( getRawModel() ) );
+        bus().fireEvent( new InvoiceListEvent( getRawModel() ) );
     }
 
     @UiHandler( "btnSave" )

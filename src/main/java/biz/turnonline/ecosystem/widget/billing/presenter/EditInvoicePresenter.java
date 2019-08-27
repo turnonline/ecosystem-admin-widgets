@@ -19,7 +19,7 @@
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
 import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
-import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
+import biz.turnonline.ecosystem.widget.billing.event.InvoiceListEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
@@ -62,7 +62,7 @@ public class EditInvoicePresenter
     @Override
     public void bind()
     {
-        bus().addHandler( InvoiceBackEvent.TYPE, event -> controller().goTo( new Invoices( event.getScrollspy() ) ) );
+        bus().addHandler( InvoiceListEvent.TYPE, event -> controller().goTo( new Invoices( event.getScrollspy() ) ) );
         bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
         bus().addHandler( InvoiceStatusChangeEvent.TYPE, this::changeInvoiceStatus );
         bus().addHandler( DownloadInvoiceEvent.TYPE, this::downloadInvoice );

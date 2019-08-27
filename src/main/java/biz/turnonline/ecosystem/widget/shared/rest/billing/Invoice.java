@@ -455,11 +455,6 @@ public final class Invoice
         return this;
     }
 
-    public String getScrollspy()
-    {
-        return getOrderId() + "::" + getId();
-    }
-
     @Override
     public boolean equals( Object o )
     {

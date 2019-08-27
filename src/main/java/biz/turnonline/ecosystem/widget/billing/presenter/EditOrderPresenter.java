@@ -20,8 +20,8 @@ package biz.turnonline.ecosystem.widget.billing.presenter;
 
 import biz.turnonline.ecosystem.widget.billing.event.DueDateNumberOfDaysEvent;
 import biz.turnonline.ecosystem.widget.billing.event.IssueOrderInvoiceEvent;
-import biz.turnonline.ecosystem.widget.billing.event.OrderBackEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderInvoicesEvent;
+import biz.turnonline.ecosystem.widget.billing.event.OrderListEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderScheduleChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.OrderStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveOrderEvent;
@@ -76,7 +76,7 @@ public class EditOrderPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( OrderBackEvent.TYPE, event -> controller().goTo( new Orders() ) );
+        bus().addHandler( OrderListEvent.TYPE, event -> controller().goTo( new Orders() ) );
         bus().addHandler( SaveOrderEvent.TYPE, this::orderSaved );
         bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
         bus().addHandler( OrderScheduleChangeEvent.TYPE, this::adjustNextBillingDate );

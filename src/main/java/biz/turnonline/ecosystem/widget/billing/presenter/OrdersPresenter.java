@@ -68,6 +68,12 @@ public class OrdersPresenter
     public void onBackingObject()
     {
         onAfterBackingObject();
+
+        Orders where = ( Orders ) controller().getWhere();
+        if ( where.getScrollspy() != null )
+        {
+            view().scrollTo( where.getScrollspy() );
+        }
     }
 
     public interface IView
