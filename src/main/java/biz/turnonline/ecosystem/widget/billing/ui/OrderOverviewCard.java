@@ -186,6 +186,7 @@ public class OrderOverviewCard
         lastBillingDate.getPlaceholderLabel().setFontSize( totalPriceExclVat.getFontSize() );
         lastBillingDate.setReadOnly( true );
         lastBillingDate.setValue( order.getLastBillingDate() );
+        lastBillingDate.setVisible( order.getLastBillingDate() != null );
 
         nextBillingDate.getPlaceholderLabel().setFontSize( totalPriceExclVat.getFontSize() );
         nextBillingDate.setReadOnly( true );
@@ -193,6 +194,8 @@ public class OrderOverviewCard
 
         // order status
         Order.Status status = order.getStatus() == null ? SUSPENDED : Order.Status.valueOf( order.getStatus() );
+        nextBillingDate.setVisible( ( status == TRIALING || status == ACTIVE ) && order.getNextBillingDate() != null );
+
         statusChanged( status );
     }
 
@@ -200,8 +203,6 @@ public class OrderOverviewCard
     {
         orderStatus.setBackgroundColor( statusColor( status ) );
         orderStatus.setText( statusText( status ) );
-
-        nextBillingDate.setVisible( status == TRIALING || status == ACTIVE );
 
         // action buttons
         activate.setVisible( status == SUSPENDED || status == ISSUE );
