@@ -28,7 +28,7 @@
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
                 <m:MaterialTextBox ui:field="itemName" label="{msg.labelItemName}"/>
-                <m:MaterialTextArea ui:field="snippet" label="{msg.labelSnippet}"/>
+                <m:MaterialTextArea ui:field="snippet" label="{msg.labelSnippet}" resizeRule="FOCUS"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m4">

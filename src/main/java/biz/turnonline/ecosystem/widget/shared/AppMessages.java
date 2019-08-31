@@ -405,6 +405,9 @@ public interface AppMessages
     @Key( "label.product.pricing.template" )
     String labelProductPricingTemplate();
 
+    @Key( "label.product.loading" )
+    String labelProductLoading();
+
     @Key( value = "label.discountCode" )
     String labelDiscountCode();
 
@@ -688,6 +691,9 @@ public interface AppMessages
 
     @Key( value = "tooltip.productAutocomplete" )
     String tooltipProductAutocomplete();
+
+    @Key( "tooltip.product.list.refresh" )
+    String tooltipProductListRefresh();
 
     @Key( value = "tooltip.contactAutocomplete" )
     String tooltipContactAutocomplete();

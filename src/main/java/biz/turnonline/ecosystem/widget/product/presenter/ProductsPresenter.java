@@ -21,12 +21,13 @@ package biz.turnonline.ecosystem.widget.product.presenter;
 import biz.turnonline.ecosystem.widget.product.event.DeleteProductEvent;
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
+import biz.turnonline.ecosystem.widget.product.place.Products;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -51,15 +52,14 @@ public class ProductsPresenter
         bus().addHandler( EditProductEvent.TYPE, event ->
                 controller().goTo( new EditProduct( event.getId(), "tabDetail" ) ) );
 
-        bus().addHandler( DeleteProductEvent.TYPE, event -> {
-            for ( Product product : event.getProducts() )
-            {
-                bus().billing().deleteProduct( product.getId(), ( SuccessCallback<Void> ) response -> {
-                    success( messages.msgRecordDeleted( Formatter.formatProductName( product ) ) );
-                    Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                } );
-            }
-        } );
+        bus().addHandler( DeleteProductEvent.TYPE, event ->
+                bus().billing().deleteProduct( event.getProduct().getId(), ( SuccessCallback<Void> ) response -> {
+                    success( messages.msgRecordDeleted( Formatter.formatProductName( event.getProduct() ) ) );
+                    controller().goTo( new Products() );
+                } ) );
+
+        view().setDataSource( ( offset, limit, callback ) ->
+                bus().billing().getProducts( offset, limit, false, false, callback ) );
     }
 
     @Override
@@ -71,6 +71,8 @@ public class ProductsPresenter
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView
     {
-        void refresh();
+        void clear();
+
+        void setDataSource( InfiniteScroll.Callback<Product> callback );
     }
 }
