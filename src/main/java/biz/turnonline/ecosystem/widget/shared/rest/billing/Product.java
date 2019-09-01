@@ -37,11 +37,6 @@ public final class Product
     /**
      * The value may be {@code null}.
      */
-    private String about;
-
-    /**
-     * The value may be {@code null}.
-     */
     private Date createdDate;
 
     /**
@@ -77,6 +72,11 @@ public final class Product
     /**
      * The value may be {@code null}.
      */
+    private ProductOverview overview;
+
+    /**
+     * The value may be {@code null}.
+     */
     private ProductPricing pricing;
 
     /**
@@ -88,23 +88,6 @@ public final class Product
      * The value may be {@code null}.
      */
     private String snippet;
-
-    /**
-     * @return value or {@code null} for none
-     */
-    public String getAbout()
-    {
-        return about;
-    }
-
-    /**
-     * @param about about or {@code null} for none
-     */
-    public Product setAbout( String about )
-    {
-        this.about = about;
-        return this;
-    }
 
     /**
      * @return value or {@code null} for none
@@ -222,6 +205,23 @@ public final class Product
     public Product setModificationDate( Date modificationDate )
     {
         this.modificationDate = modificationDate;
+        return this;
+    }
+
+    /**
+     * @return value or {@code null} for none
+     */
+    public ProductOverview getOverview()
+    {
+        return overview;
+    }
+
+    /**
+     * @param overview overview or {@code null} for none
+     */
+    public Product setOverview( ProductOverview overview )
+    {
+        this.overview = overview;
         return this;
     }
 

@@ -59,7 +59,7 @@ public class ProductsPresenter
                 } ) );
 
         view().setDataSource( ( offset, limit, callback ) ->
-                bus().billing().getProducts( offset, limit, false, false, callback ) );
+                bus().billing().getProducts( offset, limit, true, false, callback ) );
     }
 
     @Override

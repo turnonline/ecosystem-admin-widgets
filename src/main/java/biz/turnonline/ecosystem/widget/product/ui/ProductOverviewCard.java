@@ -21,9 +21,8 @@ package biz.turnonline.ecosystem.widget.product.ui;
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductOverview;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
@@ -48,7 +47,6 @@ import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
 
@@ -114,21 +112,16 @@ public class ProductOverviewCard
         title.setText( product.getItemName() );
         snippet.setText( product.getSnippet() );
 
-        ProductPublishing publishing = product.getPublishing();
-        if ( publishing != null )
+        ProductOverview overview = product.getOverview();
+        if ( overview != null )
         {
-            List<ProductPicture> pictures = publishing.getPictures();
-            if ( pictures != null && !pictures.isEmpty() )
+            String url = overview.getThumbnailUrl();
+            if ( url != null )
             {
-                ProductPicture picture = pictures.get( 0 );
-                String url = picture.getServingUrl();
-                if ( url != null )
-                {
-                    thumbnail.setUrl( url + "=s" + MIN_HEIGHT + "-c" );
-                }
+                thumbnail.setUrl( url + "=s" + MIN_HEIGHT + "-c" );
             }
 
-            if ( publishing.getPublished() != null && publishing.getPublished() )
+            if ( overview.getPublished() != null && overview.getPublished() )
             {
                 title.setIconColor( Color.GREEN );
                 title.setIconType( IconType.LOCK_OPEN );
