@@ -5,8 +5,8 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public interface BackEventHandler
+public interface ProductListEventHandler
         extends EventHandler
 {
-    void onBack( BackEvent event );
+    void onBack( ProductListEvent event );
 }

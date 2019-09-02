@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
+import biz.turnonline.ecosystem.widget.product.place.Products;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductOverview;
@@ -26,10 +27,9 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.Color;
@@ -43,6 +43,7 @@ import gwt.material.design.client.ui.MaterialCollection;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 
@@ -61,10 +62,6 @@ public class ProductOverviewCard
     private static final int MIN_HEIGHT = 220;
 
     private static ProductOverviewCardUiBinder binder = GWT.create( ProductOverviewCardUiBinder.class );
-
-    private final EventBus bus;
-
-    private final Product product;
 
     @UiField
     MaterialCard card;
@@ -102,12 +99,14 @@ public class ProductOverviewCard
     @UiField
     MaterialCardAction cardAction;
 
+    @UiField
+    MaterialLink edit;
+
     public ProductOverviewCard( @Nonnull Product product, @Nonnull EventBus bus )
     {
-        this.bus = bus;
-        this.product = product;
-
         initWidget( binder.createAndBindUi( this ) );
+
+        card.setScrollspy( Products.getScrollspy( product ) );
 
         title.setText( product.getItemName() );
         snippet.setText( product.getSnippet() );
@@ -192,12 +191,18 @@ public class ProductOverviewCard
         {
             cardAction.setBorderTop( "0" );
         }
-    }
 
-    @UiHandler( "edit" )
-    public void edit( @SuppressWarnings( "unused" ) ClickEvent event )
-    {
-        bus.fireEvent( new EditProductEvent( product ) );
+        // action event handlers
+        String scrollspyHistoryToken = Products.PREFIX + ":" + Products.getScrollspy( product );
+        edit.addClickHandler( e -> {
+            // don't add history record if there is already an another token not managing scrollspy
+            if ( Products.isCurrentTokenScrollspy() )
+            {
+                // add record in to history (to manage scrolling to selected card once going back), but don't fire event
+                History.newItem( scrollspyHistoryToken, false );
+            }
+            bus.fireEvent( new EditProductEvent( product ) );
+        } );
     }
 
     interface ProductOverviewCardUiBinder

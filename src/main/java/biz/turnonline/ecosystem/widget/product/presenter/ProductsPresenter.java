@@ -30,6 +30,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
@@ -66,11 +67,19 @@ public class ProductsPresenter
     public void onBackingObject()
     {
         onAfterBackingObject();
+
+        Products where = ( Products ) controller().getWhere();
+        if ( where.getScrollspy() != null )
+        {
+            view().scrollTo( where.getScrollspy() );
+        }
     }
 
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView
     {
+        void scrollTo( @Nullable String scrollspy );
+
         void clear();
 
         void setDataSource( InfiniteScroll.Callback<Product> callback );

@@ -39,6 +39,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -102,6 +103,12 @@ public class ProductsView
     public void newProduct( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new EditProductEvent() );
+    }
+
+    @Override
+    public void scrollTo( @Nullable String scrollspy )
+    {
+        scroll.scrollTo( scrollspy );
     }
 
     @Override

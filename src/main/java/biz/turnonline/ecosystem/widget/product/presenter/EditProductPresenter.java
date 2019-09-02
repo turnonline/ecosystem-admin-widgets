@@ -18,7 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.product.presenter;
 
-import biz.turnonline.ecosystem.widget.product.event.BackEvent;
+import biz.turnonline.ecosystem.widget.product.event.ProductListEvent;
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
 import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
@@ -64,7 +64,7 @@ public class EditProductPresenter
             }
         } );
 
-        bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Products() ) );
+        bus().addHandler( ProductListEvent.TYPE, event -> controller().goTo( new Products( event.getScrollspy() ) ) );
 
         bus().addHandler( SaveProductEvent.TYPE, event -> {
             Product product = event.getProduct();

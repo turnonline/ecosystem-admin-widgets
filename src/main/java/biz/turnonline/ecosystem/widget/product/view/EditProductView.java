@@ -18,7 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.product.view;
 
-import biz.turnonline.ecosystem.widget.product.event.BackEvent;
+import biz.turnonline.ecosystem.widget.product.event.ProductListEvent;
 import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.presenter.EditProductPresenter;
@@ -143,13 +143,13 @@ public class EditProductView
     }
 
     @UiHandler( "btnBack" )
-    public void handleBack( ClickEvent event )
+    public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        bus().fireEvent( new BackEvent() );
+        bus().fireEvent( new ProductListEvent( getRawModel() ) );
     }
 
     @UiHandler( "btnSave" )
-    public void handleSave( ClickEvent event )
+    public void handleSave( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new SaveProductEvent( getModel() ) );
     }
