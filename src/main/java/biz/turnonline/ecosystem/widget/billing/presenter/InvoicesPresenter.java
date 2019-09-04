@@ -23,7 +23,6 @@ import biz.turnonline.ecosystem.widget.billing.event.DeleteInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
@@ -38,16 +37,14 @@ import javax.inject.Inject;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class InvoicesPresenter
-        extends Presenter<InvoicesPresenter.IView, AppEventBus>
+        extends Presenter<InvoicesPresenter.IView>
 {
     private InvoiceDataSource dataSource;
 
     @Inject
-    public InvoicesPresenter( AppEventBus eventBus,
-                              IView view,
-                              PlaceController placeController )
+    public InvoicesPresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
         setPlace( Invoices.class );
     }
 

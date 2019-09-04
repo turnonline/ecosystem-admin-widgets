@@ -42,7 +42,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialButton;
 
 import javax.inject.Inject;
@@ -73,21 +72,10 @@ public class ContactsView
     @UiField
     ConfirmationWindow confirmationWindow;
 
-    @Override
-    public void refresh()
-    {
-        table.refresh();
-    }
-
-    interface ContactsViewUiBinder
-            extends UiBinder<HTMLPanel, ContactsView>
-    {
-    }
-
     @Inject
-    public ContactsView( EventBus eventBus, @Named( "ContactsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public ContactsView( @Named( "ContactsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
-        super( eventBus );
+        super();
 
         this.breadcrumb = breadcrumb;
         setActive( Route.CONTACTS );
@@ -99,6 +87,12 @@ public class ContactsView
             List<ContactCard> selectedRowModels = table.getSelectedRowModels( false );
             bus().fireEvent( new DeleteContactEvent( selectedRowModels ) );
         } );
+    }
+
+    @Override
+    public void refresh()
+    {
+        table.refresh();
     }
 
     private void initTable()
@@ -154,5 +148,10 @@ public class ContactsView
                 }
             } );
         }
+    }
+
+    interface ContactsViewUiBinder
+            extends UiBinder<HTMLPanel, ContactsView>
+    {
     }
 }

@@ -22,7 +22,6 @@ import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.Contacts;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
@@ -34,14 +33,12 @@ import javax.inject.Inject;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditContactPresenter
-        extends Presenter<EditContactPresenter.IView, AppEventBus>
+        extends Presenter<EditContactPresenter.IView>
 {
     @Inject
-    public EditContactPresenter( AppEventBus eventBus,
-                                 IView view,
-                                 PlaceController placeController )
+    public EditContactPresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
     }
 
     @Override

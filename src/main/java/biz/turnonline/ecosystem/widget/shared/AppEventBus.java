@@ -23,16 +23,24 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
+
 /**
+ * The event bus dedicated to be used within application widgets to eases decoupling
+ * by allowing objects to interact without having direct dependencies upon one another.
+ *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @Singleton
 public class AppEventBus
         extends SimpleEventBus
 {
+    private static AppEventBus INSTANCE;
+
     private final AccountStewardFacade accountSteward;
 
     private final ProductBillingFacade productBilling;
@@ -53,21 +61,53 @@ public class AppEventBus
         this.configuration = configuration;
     }
 
+    /**
+     * The convenient static method to access application wide event bud.
+     */
+    public static AppEventBus get()
+    {
+        if ( INSTANCE == null )
+        {
+            throw new IllegalArgumentException( "EventBus has not been initialized yet!" );
+        }
+        return INSTANCE;
+    }
+
+    /**
+     * Sets the initialized event bus to be available via static method.
+     */
+    static void set( @Nonnull AppEventBus bus )
+    {
+        INSTANCE = checkNotNull( bus, "AppEventBus is can't be null" );
+    }
+
+    /**
+     * Account steward service facade.
+     */
     public AccountStewardFacade account()
     {
         return accountSteward;
     }
 
+    /**
+     * Product billing service facade.
+     */
     public ProductBillingFacade billing()
     {
         return productBilling;
     }
 
+    /**
+     * Search service facade.
+     */
     public SearchFacade search()
     {
         return searchFacade;
     }
 
+    /**
+     * Application wide configuration.
+     */
     public Configuration config()
     {
         return configuration;

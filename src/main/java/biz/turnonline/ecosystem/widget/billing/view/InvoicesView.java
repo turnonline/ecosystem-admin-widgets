@@ -36,7 +36,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
@@ -68,9 +67,9 @@ public class InvoicesView
     private int headerHeight;
 
     @Inject
-    public InvoicesView( EventBus eventBus, @Named( "InvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public InvoicesView( @Named( "InvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
-        super( eventBus );
+        super();
 
         this.breadcrumb = breadcrumb;
         setActive( Route.INVOICES );

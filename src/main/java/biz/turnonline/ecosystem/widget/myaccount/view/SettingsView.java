@@ -42,7 +42,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialSwitch;
@@ -129,14 +128,13 @@ public class SettingsView
     DomainsPanel domains;
 
     @Inject
-    public SettingsView( EventBus eventBus,
-                         @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+    public SettingsView( @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                          AddressLookupListener addressLookup )
     {
-        super( eventBus );
+        super();
 
         this.breadcrumb = breadcrumb;
-        this.domains = new DomainsPanel( eventBus );
+        this.domains = new DomainsPanel( bus() );
 
         setActive( Route.MY_ACCOUNT );
 

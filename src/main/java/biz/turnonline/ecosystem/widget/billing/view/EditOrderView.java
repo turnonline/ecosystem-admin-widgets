@@ -113,20 +113,19 @@ public class EditOrderView
     private PlaceController controller;
 
     @Inject
-    public EditOrderView( AppEventBus eventBus,
-                          PlaceController controller,
+    public EditOrderView( PlaceController controller,
                           @Named( "EditOrderBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                           AddressLookupListener addressLookup )
     {
-        super( eventBus );
+        super();
 
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
         setActive( Route.ORDERS );
 
-        customer = new CustomerPanel<>( eventBus, addressLookup );
-        items = new PricingItemsPanel( eventBus, PricingItemsPanel.Context.ORDER );
+        customer = new CustomerPanel<>( bus(), addressLookup );
+        items = new PricingItemsPanel( AppEventBus.get(), PricingItemsPanel.Context.ORDER );
 
         add( binder.createAndBindUi( this ) );
     }

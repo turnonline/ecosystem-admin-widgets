@@ -20,7 +20,6 @@ package biz.turnonline.ecosystem.widget.myaccount.presenter;
 
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.place.MyAccount;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
@@ -34,14 +33,12 @@ import javax.inject.Inject;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class MyAccountPresenter
-        extends Presenter<MyAccountPresenter.IView, AppEventBus>
+        extends Presenter<MyAccountPresenter.IView>
 {
     @Inject
-    public MyAccountPresenter( AppEventBus eventBus,
-                               IView view,
-                               PlaceController controller )
+    public MyAccountPresenter( IView view, PlaceController controller )
     {
-        super( eventBus, view, controller );
+        super( view, controller );
         setPlace( MyAccount.class );
     }
 

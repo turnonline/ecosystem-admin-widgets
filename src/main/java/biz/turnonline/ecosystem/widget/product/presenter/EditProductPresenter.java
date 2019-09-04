@@ -23,7 +23,6 @@ import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
 import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
@@ -41,14 +40,12 @@ import javax.inject.Inject;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditProductPresenter
-        extends Presenter<EditProductPresenter.IView, AppEventBus>
+        extends Presenter<EditProductPresenter.IView>
 {
     @Inject
-    public EditProductPresenter( AppEventBus eventBus,
-                                 IView view,
-                                 PlaceController placeController )
+    public EditProductPresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
     }
 
     @Override

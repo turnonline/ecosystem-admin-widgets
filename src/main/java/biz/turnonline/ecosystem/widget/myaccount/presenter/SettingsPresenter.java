@@ -23,7 +23,6 @@ import biz.turnonline.ecosystem.widget.myaccount.event.DomainDeleteEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
@@ -43,16 +42,14 @@ import static biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType.D
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class SettingsPresenter
-        extends Presenter<SettingsPresenter.IView, AppEventBus>
+        extends Presenter<SettingsPresenter.IView>
 {
     private static final int DOMAINS_LIMIT = 100;
 
     @Inject
-    public SettingsPresenter( AppEventBus eventBus,
-                              IView view,
-                              PlaceController controller )
+    public SettingsPresenter( IView view, PlaceController controller )
     {
-        super( eventBus, view, controller );
+        super( view, controller );
         setPlace( Settings.class );
     }
 

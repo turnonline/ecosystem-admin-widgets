@@ -125,20 +125,19 @@ public class EditInvoiceView
     private PlaceController controller;
 
     @Inject
-    public EditInvoiceView( AppEventBus eventBus,
-                            PlaceController controller,
+    public EditInvoiceView( PlaceController controller,
                             @Named( "EditInvoiceBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                             AddressLookupListener addressLookup )
     {
-        super( eventBus );
+        super();
 
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
         setActive( Route.INVOICES );
 
-        customer = new CustomerPanel<>( eventBus, addressLookup );
-        items = new PricingItemsPanel( eventBus, PricingItemsPanel.Context.INVOICE );
+        customer = new CustomerPanel<>( bus(), addressLookup );
+        items = new PricingItemsPanel( AppEventBus.get(), PricingItemsPanel.Context.INVOICE );
         transactions = new InvoiceTransactions();
 
         add( binder.createAndBindUi( this ) );

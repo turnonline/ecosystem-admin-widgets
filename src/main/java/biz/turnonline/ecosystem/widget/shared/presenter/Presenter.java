@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.shared.presenter;
 
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import com.google.gwt.core.client.GWT;
@@ -33,14 +34,14 @@ import org.ctoolkit.gwt.client.view.IView;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public abstract class Presenter<V extends IView, E extends EventBus>
+public abstract class Presenter<V extends IView>
         extends BinderyPresenter<V>
 {
     protected AppMessages messages = AppMessages.INSTANCE;
 
-    public Presenter( E eventBus, V view, PlaceController placeController )
+    public Presenter( V view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( AppEventBus.get(), view, placeController );
 
         setTitle( "TurnOnline.biz Administration" );
     }
@@ -144,9 +145,9 @@ public abstract class Presenter<V extends IView, E extends EventBus>
     }
 
     @Override
-    protected final E bus()
+    protected final AppEventBus bus()
     {
-        return ( E ) super.bus();
+        return ( AppEventBus ) super.bus();
     }
 
     /**

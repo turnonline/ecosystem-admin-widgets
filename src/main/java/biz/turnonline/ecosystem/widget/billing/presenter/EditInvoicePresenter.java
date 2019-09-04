@@ -24,7 +24,6 @@ import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -48,14 +47,12 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditInvoicePresenter
-        extends Presenter<EditInvoicePresenter.IView, AppEventBus>
+        extends Presenter<EditInvoicePresenter.IView>
 {
     @Inject
-    public EditInvoicePresenter( AppEventBus eventBus,
-                                 IView view,
-                                 PlaceController placeController )
+    public EditInvoicePresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
         setPlace( EditInvoice.class );
     }
 

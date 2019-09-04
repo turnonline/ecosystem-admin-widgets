@@ -28,7 +28,6 @@ import biz.turnonline.ecosystem.widget.billing.event.SaveOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.billing.place.Orders;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.event.ProductAutoCompleteEvent;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -60,16 +59,14 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodici
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditOrderPresenter
-        extends Presenter<EditOrderPresenter.IView, AppEventBus>
+        extends Presenter<EditOrderPresenter.IView>
 {
     private static final int NUMBER_OF_DAYS_DEFAULT = 14;
 
     @Inject
-    public EditOrderPresenter( AppEventBus eventBus,
-                               IView view,
-                               PlaceController placeController )
+    public EditOrderPresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
         setPlace( EditOrder.class );
     }
 

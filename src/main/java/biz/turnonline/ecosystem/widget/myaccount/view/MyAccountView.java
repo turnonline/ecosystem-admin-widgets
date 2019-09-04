@@ -43,7 +43,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -212,11 +211,10 @@ public class MyAccountView
     LogoUploader logoUploader;
 
     @Inject
-    public MyAccountView( EventBus eventBus,
-                          @Named( "MyAccountBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+    public MyAccountView( @Named( "MyAccountBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                           AddressLookupListener addressLookup )
     {
-        super( eventBus );
+        super();
 
         this.breadcrumb = breadcrumb;
         setActive( Route.MY_ACCOUNT );

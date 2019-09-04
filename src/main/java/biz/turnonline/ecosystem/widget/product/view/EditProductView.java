@@ -91,20 +91,19 @@ public class EditProductView
     private PlaceController controller;
 
     @Inject
-    public EditProductView( AppEventBus eventBus,
-                            PlaceController controller,
+    public EditProductView( PlaceController controller,
                             @Named( "EditProductBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                             AddressLookupListener addressLookup )
     {
-        super( eventBus );
+        super();
 
         this.controller = controller;
 
         this.breadcrumb = breadcrumb;
         setActive( Route.PRODUCTS );
 
-        publishing = new Publishing( eventBus );
-        pricing = new Pricing( eventBus );
+        publishing = new Publishing( bus() );
+        pricing = new Pricing( AppEventBus.get() );
 
         add( binder.createAndBindUi( this ) );
 

@@ -22,7 +22,6 @@ import biz.turnonline.ecosystem.widget.billing.event.DeleteOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
 import biz.turnonline.ecosystem.widget.billing.place.Orders;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
@@ -37,14 +36,12 @@ import javax.inject.Inject;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class OrdersPresenter
-        extends Presenter<OrdersPresenter.IView, AppEventBus>
+        extends Presenter<OrdersPresenter.IView>
 {
     @Inject
-    public OrdersPresenter( AppEventBus eventBus,
-                            IView view,
-                            PlaceController placeController )
+    public OrdersPresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
         setPlace( Orders.class );
     }
 

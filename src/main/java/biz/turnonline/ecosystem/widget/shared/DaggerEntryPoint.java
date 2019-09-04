@@ -18,7 +18,6 @@
 
 package biz.turnonline.ecosystem.widget.shared;
 
-import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.DOM;
@@ -43,7 +42,7 @@ public abstract class DaggerEntryPoint
         DaggerComponent component = component();
 
         // initialize static event bus
-        FirebaseAuthDispatcher.INSTANCE.initEventBus( component.getEventBus() );
+        AppEventBus.set( component.getEventBus() );
 
         // remove splashcreen
         DOM.getElementById( "splashscreen" ).removeFromParent();
