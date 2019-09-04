@@ -149,7 +149,7 @@ public class OrderOverviewCard
         // total price at order of current items
         String priceEV;
         String price;
-        String currency = "EUR";
+        String currency = order.getCurrency() == null ? bus.config().getCurrency() : order.getCurrency();
         Double priceExclVat = order.getTotalPriceExclVat();
         Double totalPrice = order.getTotalPrice();
 

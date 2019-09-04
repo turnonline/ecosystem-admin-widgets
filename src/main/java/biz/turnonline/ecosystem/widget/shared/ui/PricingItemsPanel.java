@@ -401,7 +401,7 @@ public class PricingItemsPanel
         ProductInvoicing invoicing = product.getInvoicing();
 
         String currency = pricing.getCurrency();
-        currency = currency == null ? "EUR" : currency;
+        currency = currency == null ? bus.config().getCurrency() : currency;
 
         Double priceExclVat = pricing.getPriceExclVat();
         String unit = invoicing == null ? null : invoicing.getUnit();
@@ -676,7 +676,7 @@ public class PricingItemsPanel
 
         PricingItem item = new PricingItem();
         item.setPriceExclVat( 0D );
-        item.setCurrency( currency == null ? "EUR" : currency );
+        item.setCurrency( currency == null ? bus.config().getCurrency() : currency );
 
         PricingItem model = selected.getModel();
         if ( model != null && model.getVat() != null )

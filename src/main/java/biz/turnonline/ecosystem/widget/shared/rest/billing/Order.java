@@ -49,6 +49,11 @@ public final class Order
     /**
      * The value may be {@code null}.
      */
+    private String currency;
+
+    /**
+     * The value may be {@code null}.
+     */
     private Customer customer;
 
     /**
@@ -147,6 +152,23 @@ public final class Order
     public Order setCreatedDate( Date createdDate )
     {
         this.createdDate = createdDate;
+        return this;
+    }
+
+    /**
+     * @return value or {@code null} for none
+     */
+    public String getCurrency()
+    {
+        return currency;
+    }
+
+    /**
+     * @param currency customer or {@code null} for none
+     */
+    public Order setCurrency( String currency )
+    {
+        this.currency = currency;
         return this;
     }
 
