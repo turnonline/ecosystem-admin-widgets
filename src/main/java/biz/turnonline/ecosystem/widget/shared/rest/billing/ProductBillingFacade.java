@@ -53,25 +53,25 @@ public interface ProductBillingFacade
     void getProducts( @QueryParam( "offset" ) Integer offset,
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "lightList" ) boolean lightList,
-                      @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                      @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
                       SuccessCallback<Items<Product>> callback );
 
     @GET
     @Path( "products/{product_id}" )
     void findProductById( @PathParam( "product_id" ) Long productId,
-                          @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                          @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
                           FacadeCallback<Product> callback );
 
     @POST
     @Path( "products" )
-    void createProduct( @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+    void createProduct( @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
                         Product product,
                         FacadeCallback<Product> callback );
 
     @PUT
     @Path( "products/{product_id}" )
     void updateProduct( @PathParam( "product_id" ) Long productId,
-                        @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                        @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
                         Product product,
                         FacadeCallback<Product> callback );
 
