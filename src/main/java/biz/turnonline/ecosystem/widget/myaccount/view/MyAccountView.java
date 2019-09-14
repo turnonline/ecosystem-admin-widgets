@@ -438,7 +438,7 @@ public class MyAccountView
             personalStreet.setValue( null );
             personalCity.setValue( null );
             personalPostcode.setValue( null );
-            personalCountry.setValue( null );
+            personalCountry.setSingleValueByCode( null );
         }
         else
         {
@@ -479,7 +479,7 @@ public class MyAccountView
             postalStreet.setValue( null );
             postalCity.setValue( null );
             postalPostcode.setValue( null );
-            postalCountry.setValue( null );
+            postalCountry.setSingleValueByCode( null );
         }
         else
         {
