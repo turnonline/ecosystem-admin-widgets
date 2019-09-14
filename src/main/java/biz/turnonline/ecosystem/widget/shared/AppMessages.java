@@ -695,6 +695,9 @@ public interface AppMessages
     @Key( "tooltip.product.list.refresh" )
     String tooltipProductListRefresh();
 
+    @Key( "tooltip.product.delete" )
+    String tooltipProductDelete();
+
     @Key( value = "tooltip.contactAutocomplete" )
     String tooltipContactAutocomplete();
 

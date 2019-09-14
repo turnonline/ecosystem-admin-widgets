@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.product.view;
 
+import biz.turnonline.ecosystem.widget.product.event.DeleteProductEvent;
 import biz.turnonline.ecosystem.widget.product.event.ProductListEvent;
 import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
@@ -43,6 +44,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 
 import javax.annotation.Nullable;
@@ -87,6 +89,9 @@ public class EditProductView
 
     @UiField
     MaterialButton btnBack;
+
+    @UiField
+    MaterialAnchorButton deleteProduct;
 
     private PlaceController controller;
 
@@ -139,6 +144,8 @@ public class EditProductView
             EditProduct where = ( EditProduct ) controller.getWhere();
             tabs.selectTab( where.getTab() );
         } );
+
+        deleteProduct.setEnabled( product.getId() != null );
     }
 
     @UiHandler( "btnBack" )
@@ -151,6 +158,12 @@ public class EditProductView
     public void handleSave( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new SaveProductEvent( getModel() ) );
+    }
+
+    @UiHandler( "deleteProduct" )
+    public void deleteProduct( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        bus().fireEvent( new DeleteProductEvent( getModel() ) );
     }
 
     @Override
