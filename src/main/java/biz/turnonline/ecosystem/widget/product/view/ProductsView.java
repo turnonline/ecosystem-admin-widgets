@@ -71,6 +71,7 @@ public class ProductsView
 
         add( binder.createAndBindUi( this ) );
 
+        scroll.enableMasonry();
         scroll.setRenderer( this::createCard );
         scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelProductLoading() ) );
 

@@ -23,6 +23,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.masonry.MaterialMasonry;
+import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
 import gwt.material.design.incubator.client.infinitescroll.data.DataSource;
 import gwt.material.design.incubator.client.infinitescroll.data.LoadCallback;
@@ -44,6 +47,8 @@ public class InfiniteScroll<T>
         extends InfiniteScrollPanel<T>
 {
     private static int MAX_TOTAL_LENGTH;
+
+    private MaterialMasonry masonry;
 
     /**
      * Default constructor with predefined values.
@@ -85,6 +90,28 @@ public class InfiniteScroll<T>
     }
 
     /**
+     * Once enabled placing rendered widgets will be in optimal position based on available vertical space,
+     * sort of like a mason fitting stones in a wall.
+     */
+    public void enableMasonry()
+    {
+        masonry = new MaterialMasonry();
+    }
+
+    @Override
+    public void add( Widget child )
+    {
+        if ( masonry == null || child instanceof InfiniteScrollLoader )
+        {
+            super.add( child );
+        }
+        else
+        {
+            masonry.add( child );
+        }
+    }
+
+    /**
      * Sets infinite scroll data source callback.
      *
      * @param callback the client callback impl. to be set
@@ -104,6 +131,12 @@ public class InfiniteScroll<T>
         if ( getChildren().size() == 0 )
         {
             super.load();
+            if ( masonry != null )
+            {
+                // for some unknown reason we need to force to attach masonry component on every reload
+                masonry.clear();
+                super.add( masonry );
+            }
         }
     }
 
