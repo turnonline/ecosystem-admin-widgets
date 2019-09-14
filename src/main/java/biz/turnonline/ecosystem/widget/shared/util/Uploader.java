@@ -36,4 +36,25 @@ public class Uploader
 
         return null;
     }
+
+    public static String constructUploadUrl( String pathPrefix )
+    {
+        return pathPrefix + "storage-upload" + "?access_token=" + getIdToken();
+    }
+
+    private static native String getIdToken() /*-{
+        var firebase = $wnd.firebase;
+
+        // firebase is initialized
+        if ( firebase )
+        {
+            var user = firebase.auth().currentUser;
+            if ( user )
+            {
+                return user.ma;
+            }
+        }
+
+        return "";
+    }-*/;
 }

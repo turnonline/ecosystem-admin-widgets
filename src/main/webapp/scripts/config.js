@@ -33,6 +33,7 @@ firebase = {
     auth: function () {
         return {
             currentUser: {
+                ma: token,
                 getIdToken: function () {
                     return {
                         then: function ( callback ) {

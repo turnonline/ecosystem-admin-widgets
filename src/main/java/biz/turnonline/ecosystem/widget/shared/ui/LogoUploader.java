@@ -54,7 +54,7 @@ public class LogoUploader
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 
-        setUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ) + "storage-upload" );
+        setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ) ) );
 
         FlowPanel previewWrapper = new FlowPanel();
         previewWrapper.addStyleName( "valign center" );
