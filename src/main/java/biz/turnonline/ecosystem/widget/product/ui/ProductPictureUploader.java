@@ -1,6 +1,7 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.Firebase;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
@@ -29,7 +30,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWARD_API_ROOT;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -69,7 +70,7 @@ public class ProductPictureUploader
             }
         } );
 
-        uploader.setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ) ) );
+        Firebase.getIdToken( token -> uploader.setUrl( Uploader.constructUploadUrl( ServiceRoots.get( PRODUCT_BILLING_API_ROOT ), token ) ) );
     }
 
     @Override

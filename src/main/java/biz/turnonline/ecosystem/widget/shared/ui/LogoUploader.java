@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Resources;
+import biz.turnonline.ecosystem.widget.shared.rest.Firebase;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
@@ -54,7 +55,7 @@ public class LogoUploader
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 
-        setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ) ) );
+        Firebase.getIdToken( token -> setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ), token ) ) );
 
         FlowPanel previewWrapper = new FlowPanel();
         previewWrapper.addStyleName( "valign center" );
