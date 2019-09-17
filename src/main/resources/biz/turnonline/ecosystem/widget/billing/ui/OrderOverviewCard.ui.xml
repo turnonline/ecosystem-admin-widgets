@@ -34,10 +34,10 @@
         <m:MaterialRow grid="s12" paddingLeft="20" marginBottom="0" minHeight="158px">
             <m:MaterialColumn grid="s12 m4 l4" paddingLeft="0" paddingTop="5" paddingBottom="0">
                 <m:MaterialRow>
-                    <m:MaterialChip ui:field="orderStatus" textColor="WHITE" textAlign="CENTER"/>
+                    <m:MaterialChip ui:field="orderStatus" textColor="WHITE" textAlign="CENTER" iconPosition="LEFT"/>
                 </m:MaterialRow>
                 <m:MaterialRow>
-                    <m:MaterialChip ui:field="periodicity" textColor="BLACK"/>
+                    <m:MaterialChip ui:field="periodicity" textColor="BLACK" iconType="REPEAT" iconPosition="LEFT"/>
                 </m:MaterialRow>
                 <m:MaterialRow>
                     <m:MaterialChip ui:field="id" backgroundColor="BLUE_GREY_LIGHTEN_4" textColor="BLACK"

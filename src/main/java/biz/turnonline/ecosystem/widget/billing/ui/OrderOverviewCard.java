@@ -34,6 +34,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialDatePicker;
@@ -203,6 +204,7 @@ public class OrderOverviewCard
     {
         orderStatus.setBackgroundColor( statusColor( status ) );
         orderStatus.setText( statusText( status ) );
+        orderStatus.setIconType( statusIconType( status ) );
 
         // action buttons
         activate.setVisible( status == SUSPENDED || status == ISSUE );
@@ -309,6 +311,36 @@ public class OrderOverviewCard
             case FINISHED:
             {
                 return messages.descriptionOrderStatusFinished();
+            }
+        }
+        String error = "Unknown order status: " + status;
+        GWT.log( error );
+        throw new IllegalArgumentException( error );
+    }
+
+    private IconType statusIconType( Order.Status status )
+    {
+        switch ( status )
+        {
+            case TRIALING:
+            {
+                return IconType.ALARM;
+            }
+            case ACTIVE:
+            {
+                return IconType.ALARM_ON;
+            }
+            case SUSPENDED:
+            {
+                return IconType.ALARM_OFF;
+            }
+            case ISSUE:
+            {
+                return IconType.ALARM_OFF;
+            }
+            case FINISHED:
+            {
+                return IconType.ALARM_OFF;
             }
         }
         String error = "Unknown order status: " + status;
