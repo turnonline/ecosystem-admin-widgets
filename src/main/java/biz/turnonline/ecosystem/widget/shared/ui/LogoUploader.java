@@ -19,7 +19,6 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Resources;
-import biz.turnonline.ecosystem.widget.shared.rest.Firebase;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
@@ -27,6 +26,7 @@ import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.FlowPanel;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.client.ui.MaterialImage;
+import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
 import org.fusesource.restygwt.client.ServiceRoots;
 
@@ -55,7 +55,15 @@ public class LogoUploader
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 
-        Firebase.getIdToken( token -> setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ), token ) ) );
+        // any URL is needed to be initialized
+        setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ), null ) );
+        addAttachHandler( event -> {
+            if ( event.isAttached() )
+            {
+                new FirebaseAuthFacade().getIdToken( ( ( token, key ) ->
+                        setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ), token ) ) ) );
+            }
+        } );
 
         FlowPanel previewWrapper = new FlowPanel();
         previewWrapper.addStyleName( "valign center" );

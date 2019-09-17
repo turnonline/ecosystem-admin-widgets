@@ -4,7 +4,7 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.event.RestCallEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
-import org.ctoolkit.gwt.client.facade.FirebaseAuthAwareRequestSender;
+import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.fusesource.restygwt.client.Dispatcher;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.callback.DefaultFilterawareRequestCallback;
@@ -19,7 +19,7 @@ public class FirebaseAuthDispatcher
 {
     public static final FirebaseAuthDispatcher INSTANCE = new FirebaseAuthDispatcher();
 
-    private final FirebaseAuthAwareRequestSender firebaseAware = new FirebaseAuthAwareRequestSender();
+    private final FirebaseAuthFacade authFacade = new FirebaseAuthFacade();
 
     @Override
     public Request send( Method method, RequestBuilder builder )
@@ -33,7 +33,7 @@ public class FirebaseAuthDispatcher
         } );
 
         builder.setCallback( filtered );
-        firebaseAware.send( builder );
+        authFacade.send( builder );
         return null;
     }
 }

@@ -1,7 +1,6 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
-import biz.turnonline.ecosystem.widget.shared.rest.Firebase;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
@@ -22,6 +21,7 @@ import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialRow;
+import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
 import org.fusesource.restygwt.client.ServiceRoots;
 
@@ -39,11 +39,6 @@ public class ProductPictureUploader
         extends Composite
         implements HasModel<ProductPublishing>
 {
-    interface ImageUploaderUiBinder
-            extends UiBinder<HTMLPanel, ProductPictureUploader>
-    {
-    }
-
     private static ImageUploaderUiBinder binder = GWT.create( ImageUploaderUiBinder.class );
 
     @UiField
@@ -70,7 +65,15 @@ public class ProductPictureUploader
             }
         } );
 
-        Firebase.getIdToken( token -> uploader.setUrl( Uploader.constructUploadUrl( ServiceRoots.get( PRODUCT_BILLING_API_ROOT ), token ) ) );
+        // any URL is needed to be initialized
+        uploader.setUrl( Uploader.constructUploadUrl( ServiceRoots.get( PRODUCT_BILLING_API_ROOT ), null ) );
+        addAttachHandler( event -> {
+            if ( event.isAttached() )
+            {
+                new FirebaseAuthFacade().getIdToken( ( token, key ) ->
+                        uploader.setUrl( Uploader.constructUploadUrl( ServiceRoots.get( PRODUCT_BILLING_API_ROOT ), token ) ) );
+            }
+        } );
     }
 
     @Override
@@ -105,11 +108,6 @@ public class ProductPictureUploader
         {
             model.setPictures( new ArrayList<>() );
         }
-    }
-
-    public MaterialFileUploader getUploader()
-    {
-        return uploader;
     }
 
     protected void removeImage( MaterialColumn column )
@@ -163,5 +161,10 @@ public class ProductPictureUploader
         column.add( image );
 
         imagesMap.put( column, productPicture );
+    }
+
+    interface ImageUploaderUiBinder
+            extends UiBinder<HTMLPanel, ProductPictureUploader>
+    {
     }
 }
