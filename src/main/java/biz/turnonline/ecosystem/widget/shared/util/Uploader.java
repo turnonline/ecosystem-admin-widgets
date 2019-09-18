@@ -36,9 +36,4 @@ public class Uploader
 
         return null;
     }
-
-    public static String constructUploadUrl( String pathPrefix, String token )
-    {
-        return pathPrefix + "storage-upload" + ( token == null ? "" : "?access_token=" + token );
-    }
 }

@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Resources;
+import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
@@ -28,7 +29,6 @@ import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.client.ui.MaterialImage;
 import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
-import org.fusesource.restygwt.client.ServiceRoots;
 
 import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWARD_API_ROOT;
 
@@ -55,13 +55,12 @@ public class LogoUploader
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 
-        // any URL is needed to be initialized
-        setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ), null ) );
+        // Any URL is needed to properly initialize the uploader
+        setUrl( UploaderTokenCallback.url( ACCOUNT_STEWARD_API_ROOT ) );
         addAttachHandler( event -> {
             if ( event.isAttached() )
             {
-                new FirebaseAuthFacade().getIdToken( ( ( token, key ) ->
-                        setUrl( Uploader.constructUploadUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ), token ) ) ) );
+                new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) this::setUrl, ACCOUNT_STEWARD_API_ROOT );
             }
         } );
 

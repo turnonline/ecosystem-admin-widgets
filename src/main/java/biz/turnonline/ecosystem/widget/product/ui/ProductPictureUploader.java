@@ -1,6 +1,7 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
+import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
@@ -23,7 +24,6 @@ import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
-import org.fusesource.restygwt.client.ServiceRoots;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -65,13 +65,13 @@ public class ProductPictureUploader
             }
         } );
 
-        // any URL is needed to be initialized
-        uploader.setUrl( Uploader.constructUploadUrl( ServiceRoots.get( PRODUCT_BILLING_API_ROOT ), null ) );
-        addAttachHandler( event -> {
+        // Any URL is needed to properly initialize the uploader
+        uploader.setUrl( UploaderTokenCallback.url( PRODUCT_BILLING_API_ROOT ) );
+        uploader.addAttachHandler( event -> {
             if ( event.isAttached() )
             {
-                new FirebaseAuthFacade().getIdToken( ( token, key ) ->
-                        uploader.setUrl( Uploader.constructUploadUrl( ServiceRoots.get( PRODUCT_BILLING_API_ROOT ), token ) ) );
+                new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url ->
+                        uploader.setUrl( url ), PRODUCT_BILLING_API_ROOT );
             }
         } );
     }

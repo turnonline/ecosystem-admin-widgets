@@ -150,7 +150,7 @@
         <dependency>
             <groupId>org.ctoolkit.gwt</groupId>
             <artifactId>ctoolkit-tinygwt</artifactId>
-            <version>0.9-20190917.162509-2</version>
+            <version>0.9</version>
             <scope>provided</scope>
         </dependency>
 
