@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
 import biz.turnonline.ecosystem.widget.shared.rest.Contact;
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
 
 /**
  * Model definition for Customer.
@@ -33,7 +34,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.Contact;
  */
 @SuppressWarnings( "javadoc" )
 public final class Customer
-        implements Contact
+        implements Contact, RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -403,6 +404,11 @@ public final class Customer
         return this;
     }
 
+    public boolean setPostalAddressIf( CustomerPostalAddress postalAddress )
+    {
+        return setIfNotAllNull( this::setPostalAddress, postalAddress );
+    }
+
     /**
      * @return value or {@code null} for none
      */
@@ -503,5 +509,32 @@ public final class Customer
     {
         this.vatId = vatId;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        // country is excluded from the check.
+        // If only country property has set (default) it means no user input so ignore.
+        return allNull( account,
+                businessName,
+                ccEmail,
+                city,
+                companyId,
+                contactEmail,
+                contactPhone,
+                email,
+                firstName,
+                middleName,
+                lastName,
+                locale,
+                postalAddress,
+                postcode,
+                prefix,
+                street,
+                suffix,
+                taxId,
+                vatId
+        );
     }
 }

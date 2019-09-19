@@ -84,7 +84,7 @@ public class EditOrderView
     OrderDetail detail;
 
     @UiField( provided = true )
-    CustomerPanel<Order> customer;
+    CustomerPanel customer;
 
     @UiField( provided = true )
     PricingItemsPanel items;
@@ -124,7 +124,7 @@ public class EditOrderView
         this.breadcrumb = breadcrumb;
         setActive( Route.ORDERS );
 
-        customer = new CustomerPanel<>( bus(), addressLookup );
+        customer = new CustomerPanel( bus(), addressLookup );
         items = new PricingItemsPanel( AppEventBus.get(), PricingItemsPanel.Context.ORDER );
 
         add( binder.createAndBindUi( this ) );
@@ -148,7 +148,7 @@ public class EditOrderView
         Order order = getRawModel();
 
         detail.bind( order );
-        customer.bind( order );
+        order.setCustomerIf( customer.bind( order.getCustomer() ) );
         order.setItems( items.bind() );
     }
 
@@ -158,7 +158,7 @@ public class EditOrderView
         Order order = getRawModel();
 
         detail.fill( order );
-        customer.fill( order );
+        customer.fill( order.getCustomer() );
 
         items.reset();
         items.fill( order.getItems() );

@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.Date;
 
 /**
@@ -33,6 +35,7 @@ import java.util.Date;
  */
 @SuppressWarnings( "javadoc" )
 public final class NumberSeries
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -120,5 +123,11 @@ public final class NumberSeries
     {
         this.symbol = symbol;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( code );
     }
 }

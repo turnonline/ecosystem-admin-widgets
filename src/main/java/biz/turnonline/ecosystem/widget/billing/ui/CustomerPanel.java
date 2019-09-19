@@ -26,13 +26,12 @@ import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.CustomerPostalAddress;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.HasCustomer;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchContact;
 import biz.turnonline.ecosystem.widget.shared.ui.ContactAutoComplete;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -46,12 +45,13 @@ import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
+import javax.annotation.Nullable;
+
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class CustomerPanel<T extends HasCustomer>
+public class CustomerPanel
         extends Composite
-        implements HasModel<T>
 {
     private static CustomerPanelUiBinder binder = GWT.create( CustomerPanelUiBinder.class );
 
@@ -179,71 +179,95 @@ public class CustomerPanel<T extends HasCustomer>
         } );
         postalStreet.add( new InputSearchIcon() );
         postalStreet.getElement().setAttribute( "autocomplete", "off" );
+
+        prefix.setReturnBlankAsNull( true );
+        firstName.setReturnBlankAsNull( true );
+        middleName.setReturnBlankAsNull( true );
+        lastName.setReturnBlankAsNull( true );
+        suffix.setReturnBlankAsNull( true );
+        companyId.setReturnBlankAsNull( true );
+        taxId.setReturnBlankAsNull( true );
+        vatId.setReturnBlankAsNull( true );
+        phone.setReturnBlankAsNull( true );
+        email.setReturnBlankAsNull( true );
+        ccEmail.setReturnBlankAsNull( true );
+        street.setReturnBlankAsNull( true );
+        city.setReturnBlankAsNull( true );
+        postCode.setReturnBlankAsNull( true );
+        postalBusinessName.setReturnBlankAsNull( true );
+        postalPrefix.setReturnBlankAsNull( true );
+        postalFirstName.setReturnBlankAsNull( true );
+        postalLastName.setReturnBlankAsNull( true );
+        postalSuffix.setReturnBlankAsNull( true );
+        postalStreet.setReturnBlankAsNull( true );
+        postalCity.setReturnBlankAsNull( true );
+        postalPostCode.setReturnBlankAsNull( true );
     }
 
-    @Override
-    public void bind( T model )
+    public Customer bind( @Nullable Customer customer )
     {
-        Customer contact = model.getCustomer();
+        if ( customer == null )
+        {
+            customer = new Customer();
+        }
 
         // person
-        contact.setPrefix( prefix.getValue() );
-        contact.setFirstName( firstName.getValue() );
-        contact.setMiddleName( middleName.getValue() );
-        contact.setLastName( lastName.getValue() );
-        contact.setSuffix( suffix.getValue() );
+        customer.setPrefix( prefix.getValue() );
+        customer.setFirstName( firstName.getValue() );
+        customer.setMiddleName( middleName.getValue() );
+        customer.setLastName( lastName.getValue() );
+        customer.setSuffix( suffix.getValue() );
 
         // company
-        contact.setBusinessName( businessName.getItemBox().getValue() );
-        contact.setCompanyId( companyId.getValue() );
-        contact.setVatId( vatId.getValue() );
-        contact.setTaxId( taxId.getValue() );
+        String businessNameValue = businessName.getItemBox().getValue();
+        customer.setBusinessName( Strings.isNullOrEmpty( businessNameValue ) ? null : businessNameValue );
+        customer.setCompanyId( companyId.getValue() );
+        customer.setVatId( vatId.getValue() );
+        customer.setTaxId( taxId.getValue() );
 
         // contacts
-        contact.setContactPhone( phone.getValue() );
-        contact.setContactEmail( email.getValue() );
-        contact.setCcEmail( ccEmail.getValue() );
+        customer.setContactPhone( phone.getValue() );
+        customer.setContactEmail( email.getValue() );
+        customer.setCcEmail( ccEmail.getValue() );
 
         // invoice address
-        contact.setStreet( street.getValue() );
-        contact.setCity( city.getValue() );
-        contact.setPostcode( postCode.getCleanValue() );
-        contact.setCountry( country.getSingleValueByCode() );
+        customer.setStreet( street.getValue() );
+        customer.setCity( city.getValue() );
+        customer.setCountry( country.getSingleValueByCode() );
 
-        CustomerPostalAddress postalAddress = contact.getPostalAddress();
-        if ( hasPostalAddress() )
+        // setReturnBlankAsNull is not working for getCleanValue()
+        String postcodeValue = postCode.getCleanValue();
+        customer.setPostcode( Strings.isNullOrEmpty( postcodeValue ) ? null : postcodeValue );
+
+        CustomerPostalAddress postalAddress = customer.getPostalAddress();
+        if ( customer.getPostalAddress() == null )
         {
-            if ( contact.getPostalAddress() == null )
-            {
-                postalAddress = new CustomerPostalAddress();
-                contact.setPostalAddress( postalAddress );
-            }
-
-            postalAddress.setBusinessName( postalBusinessName.getValue() );
-            postalAddress.setPrefix( postalPrefix.getValue() );
-            postalAddress.setFirstName( postalFirstName.getValue() );
-            postalAddress.setLastName( postalLastName.getValue() );
-            postalAddress.setSuffix( postalSuffix.getValue() );
-            postalAddress.setStreet( postalStreet.getValue() );
-            postalAddress.setCity( postalCity.getValue() );
-            postalAddress.setPostcode( postalPostCode.getCleanValue() );
-            postalAddress.setCountry( postalCountry.getSingleValueByCode() );
-        }
-    }
-
-    @Override
-    public void fill( T model )
-    {
-        if ( model.getCustomer() == null )
-        {
-            model.setCustomer( new Customer() );
+            postalAddress = new CustomerPostalAddress();
         }
 
-        fill( model.getCustomer() );
+        postalAddress.setBusinessName( postalBusinessName.getValue() );
+        postalAddress.setPrefix( postalPrefix.getValue() );
+        postalAddress.setFirstName( postalFirstName.getValue() );
+        postalAddress.setLastName( postalLastName.getValue() );
+        postalAddress.setSuffix( postalSuffix.getValue() );
+        postalAddress.setStreet( postalStreet.getValue() );
+        postalAddress.setCity( postalCity.getValue() );
+        // setReturnBlankAsNull is not working for getCleanValue()
+        postcodeValue = postalPostCode.getCleanValue();
+        postalAddress.setPostcode( Strings.isNullOrEmpty( postcodeValue ) ? null : postcodeValue );
+        postalAddress.setCountry( postalCountry.getSingleValueByCode() );
+
+        customer.setPostalAddressIf( postalAddress );
+        return customer;
     }
 
-    private void fill( Customer customer )
+    public void fill( @Nullable Customer customer )
     {
+        if ( customer == null )
+        {
+            customer = new Customer();
+        }
+
         // person
         prefix.setValue( customer.getPrefix() );
         firstName.setValue( customer.getFirstName() );
@@ -282,19 +306,6 @@ public class CustomerPanel<T extends HasCustomer>
         postalPostCode.setValue( postalAddress != null ? postalAddress.getPostcode() : null );
         postalPostCode.reload();
         postalCountry.setSingleValueByCode( postalAddress != null ? postalAddress.getCountry() : null );
-    }
-
-    private boolean hasPostalAddress()
-    {
-        return postalBusinessName.getValue() != null ||
-                postalPrefix.getValue() != null ||
-                postalFirstName != null ||
-                postalLastName != null ||
-                postalSuffix != null ||
-                postalStreet != null ||
-                postalCity != null ||
-                postalPostCode != null ||
-                postalCountry != null;
     }
 
     // -- private helpers

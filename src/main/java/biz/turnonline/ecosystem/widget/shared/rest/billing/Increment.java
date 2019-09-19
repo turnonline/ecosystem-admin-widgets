@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * Model definition for Increment.
  *
@@ -31,6 +33,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  */
 @SuppressWarnings( "javadoc" )
 public final class Increment
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -162,5 +165,11 @@ public final class Increment
     {
         this.year = year;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( current, id, length, postfix, prefix, year );
     }
 }

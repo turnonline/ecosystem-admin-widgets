@@ -37,6 +37,8 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.valueOf;
 
 /**
+ * Invoice detail form.
+ *
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class InvoiceDetail
@@ -133,6 +135,15 @@ public class InvoiceDetail
         priceInclVat.setReadOnly( true );
         toPay.setReadOnly( true );
 
+        invoiceNumber.setReturnBlankAsNull( true );
+        variableSymbol.setReturnBlankAsNull( true );
+        finalText.setReturnBlankAsNull( true );
+        introductoryText.setReturnBlankAsNull( true );
+        priceExclVat.setReturnBlankAsNull( true );
+        vatBase.setReturnBlankAsNull( true );
+        priceInclVat.setReturnBlankAsNull( true );
+        toPay.setReturnBlankAsNull( true );
+
         Window.addResizeHandler( resizeEvent -> detectAndApplyOrientation() );
         detectAndApplyOrientation();
     }
@@ -176,26 +187,17 @@ public class InvoiceDetail
     @Override
     public void bind( Invoice invoice )
     {
-        // description
-        invoice.setType( invoiceType.getSingleValueByCode() );
+        invoice.setType( invoiceType.getSingleValueByCode() )
+                .setDateOfIssue( dateOfIssue.getValue() )
+                .setDateOfTaxable( dateOfTaxable.getValue() )
+                .setFinalText( finalText.getValue() )
+                .setIntroductoryText( introductoryText.getValue() );
 
-        // dates
-        invoice.setDateOfIssue( dateOfIssue.getValue() );
-        invoice.setDateOfTaxable( dateOfTaxable.getValue() );
+        InvoicePayment payment = new InvoicePayment();
+        payment.setDueDate( dueDate.getValue() )
+                .setMethod( paymentMethod.getSingleValueByCode() );
 
-        // texts
-        invoice.setFinalText( finalText.getValue() );
-        invoice.setIntroductoryText( introductoryText.getValue() );
-
-        // payment
-        if ( dueDate != null )
-        {
-            ensurePayment( invoice ).setDueDate( dueDate.getValue() );
-        }
-        if ( paymentMethod != null )
-        {
-            ensurePayment( invoice ).setMethod( paymentMethod.getSingleValueByCode() );
-        }
+        invoice.setPaymentIf( payment );
     }
 
     @Override
@@ -373,18 +375,6 @@ public class InvoiceDetail
             // for this case component local status handling is sufficient
             setStatus( SENT );
         }
-    }
-
-    private InvoicePayment ensurePayment( Invoice invoice )
-    {
-        InvoicePayment payment = invoice.getPayment();
-        if ( payment == null )
-        {
-            invoice.setPayment( new InvoicePayment() );
-            payment = invoice.getPayment();
-        }
-
-        return payment;
     }
 
     interface DetailUiBinder

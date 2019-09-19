@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * Model definition for BankAccount.
  *
@@ -31,6 +33,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  */
 @SuppressWarnings( "javadoc" )
 public final class BankAccount
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -140,5 +143,11 @@ public final class BankAccount
     {
         this.id = id;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( id );
     }
 }

@@ -87,7 +87,7 @@ public class EditInvoiceView
     InvoiceDetail detail;
 
     @UiField( provided = true )
-    CustomerPanel<Invoice> customer;
+    CustomerPanel customer;
 
     @UiField( provided = true )
     PricingItemsPanel items;
@@ -136,7 +136,7 @@ public class EditInvoiceView
         this.breadcrumb = breadcrumb;
         setActive( Route.INVOICES );
 
-        customer = new CustomerPanel<>( bus(), addressLookup );
+        customer = new CustomerPanel( bus(), addressLookup );
         items = new PricingItemsPanel( AppEventBus.get(), PricingItemsPanel.Context.INVOICE );
         transactions = new InvoiceTransactions();
 
@@ -162,7 +162,7 @@ public class EditInvoiceView
         Invoice invoice = getRawModel();
 
         detail.bind( invoice );
-        customer.bind( invoice );
+        invoice.setCustomerIf( customer.bind( invoice.getCustomer() ) );
 
         InvoicePricing pricing = invoice.getPricing();
         if ( pricing == null )
@@ -180,7 +180,7 @@ public class EditInvoiceView
         Invoice invoice = getRawModel();
 
         detail.fill( invoice );
-        customer.fill( invoice );
+        customer.fill( invoice.getCustomer() );
         transactions.fill( invoice );
 
         InvoicePricing pricing = invoice.getPricing();

@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +37,7 @@ import java.util.Objects;
  */
 @SuppressWarnings( "javadoc" )
 public final class Invoice
-        implements HasCustomer
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -181,6 +183,11 @@ public final class Invoice
     {
         this.customer = customer;
         return this;
+    }
+
+    public void setCustomerIf( Customer customer )
+    {
+        setIfNotAllNull( this::setCustomer, customer );
     }
 
     /**
@@ -353,6 +360,11 @@ public final class Invoice
         return this;
     }
 
+    public boolean setPaymentIf( InvoicePayment payment )
+    {
+        return setIfNotAllNull( this::setPayment, payment );
+    }
+
     /**
      * @return value or {@code null} for none
      */
@@ -469,6 +481,21 @@ public final class Invoice
     public int hashCode()
     {
         return Objects.hash( id, orderId );
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( customer,
+                dateOfIssue,
+                dateOfTaxable,
+                finalText,
+                introductoryText,
+                numberSeries,
+                payment,
+                pricing,
+                status,
+                type );
     }
 
     public enum Status

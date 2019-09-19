@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * Model definition for PricingProduct.
  *
@@ -31,6 +33,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  */
 @SuppressWarnings( "javadoc" )
 public final class PricingProduct
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -74,5 +77,11 @@ public final class PricingProduct
     {
         this.templateId = templateId;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( id );
     }
 }

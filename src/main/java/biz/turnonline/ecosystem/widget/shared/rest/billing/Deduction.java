@@ -43,11 +43,6 @@ public final class Deduction
     private Double settlement;
 
     /**
-     * The value may be {@code null}.
-     */
-    private Double tlement;
-
-    /**
      * @return value or {@code null} for none
      */
     public String getInvoiceNumber()
@@ -78,23 +73,6 @@ public final class Deduction
     public Deduction setSettlement( Double settlement )
     {
         this.settlement = settlement;
-        return this;
-    }
-
-    /**
-     * @return value or {@code null} for none
-     */
-    public Double getTlement()
-    {
-        return tlement;
-    }
-
-    /**
-     * @param tlement tlement or {@code null} for none
-     */
-    public Deduction setTlement( Double tlement )
-    {
-        this.tlement = tlement;
         return this;
     }
 }

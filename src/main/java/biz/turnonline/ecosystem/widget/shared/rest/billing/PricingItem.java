@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,7 @@ import java.util.Map;
  */
 @SuppressWarnings( "javadoc" )
 public final class PricingItem
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -673,4 +676,22 @@ public final class PricingItem
         return this;
     }
 
+    @Override
+    public boolean allNull()
+    {
+        return allNull( amount,
+                checkedIn,
+                currency,
+                discountCode,
+                itemName,
+                itemType,
+                items,
+                order,
+                priceExclVat,
+                product,
+                subsidiary,
+                unit,
+                vat
+        );
+    }
 }
