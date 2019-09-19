@@ -332,15 +332,15 @@ public class OrderOverviewCard
             }
             case SUSPENDED:
             {
-                return IconType.ALARM_OFF;
+                return IconType.PAUSE_CIRCLE_FILLED;
             }
             case ISSUE:
             {
-                return IconType.ALARM_OFF;
+                return IconType.WARNING;
             }
             case FINISHED:
             {
-                return IconType.ALARM_OFF;
+                return IconType.CHECK_CIRCLE;
             }
         }
         String error = "Unknown order status: " + status;
