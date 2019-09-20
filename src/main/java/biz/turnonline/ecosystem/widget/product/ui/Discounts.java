@@ -5,7 +5,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductDiscount;
 import biz.turnonline.ecosystem.widget.shared.ui.DiscountRuleComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.DiscountUnitComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.MaterialChipTextBox;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -84,7 +83,6 @@ public class Discounts
     {
         for ( int i = 0; i < values.size(); i++ )
         {
-            GWT.log( i + "" );
             ProductDiscount discount = values.get( i );
             MaterialRow row = ( MaterialRow ) rows.getWidget( i );
 

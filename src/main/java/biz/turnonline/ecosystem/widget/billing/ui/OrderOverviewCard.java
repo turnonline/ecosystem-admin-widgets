@@ -34,6 +34,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.HideOn;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
@@ -123,6 +124,10 @@ public class OrderOverviewCard
 
         card.setScrollspy( Orders.getScrollspy( order ) );
         id.setText( String.valueOf( order.getId() ) );
+
+        orderStatus.getChipLabel().setHideOn( HideOn.HIDE_ON_MED );
+        periodicity.getChipLabel().setHideOn( HideOn.HIDE_ON_MED );
+        id.setHideOn( HideOn.HIDE_ON_MED );
 
         // customer as a title
         Customer customer = order.getCustomer();

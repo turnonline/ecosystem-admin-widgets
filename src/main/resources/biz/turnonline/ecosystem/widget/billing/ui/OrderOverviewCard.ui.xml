@@ -32,7 +32,7 @@
         </m:MaterialRow>
 
         <m:MaterialRow grid="s12" paddingLeft="20" marginBottom="0" minHeight="158px">
-            <m:MaterialColumn grid="s12 m4 l4" paddingLeft="0" paddingTop="5" paddingBottom="0">
+            <m:MaterialColumn grid="s12 m4 l5" paddingLeft="0" paddingTop="5" paddingBottom="0">
                 <m:MaterialRow>
                     <m:MaterialChip ui:field="orderStatus" textColor="WHITE" textAlign="CENTER" iconPosition="LEFT"/>
                 </m:MaterialRow>
@@ -55,7 +55,7 @@
                     <m:MaterialLabel ui:field="totalPrice" fontSize="1.2em" fontWeight="BOLD"/>
                 </m:MaterialRow>
             </m:MaterialColumn>
-            <m:MaterialColumn grid="s12 m4 l4" paddingLeft="0" paddingTop="8">
+            <m:MaterialColumn grid="s12 m4 l3" paddingLeft="0" paddingTop="8">
                 <m:MaterialDatePicker ui:field="lastBillingDate" placeholder="{msg.labelBillingLastDate}"/>
                 <m:MaterialDatePicker ui:field="nextBillingDate" placeholder="{msg.labelBillingNextDate}"/>
             </m:MaterialColumn>
