@@ -36,12 +36,14 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialDoubleBox;
+import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.table.TableData;
 import gwt.material.design.client.ui.table.TableRow;
@@ -69,7 +71,7 @@ class RowItem
     private final TreeItemWithModel treeItem;
 
     @UiField
-    MaterialCheckBox checkedIn;
+    MaterialSwitch checkedIn;
 
     @UiField( provided = true )
     ProductAutoComplete itemNameSearch;
@@ -130,6 +132,7 @@ class RowItem
         delete.addValueChangeHandler( event -> bus.fireEvent( new RowItemSelectionEvent( event.getValue() ) ) );
 
         checkedIn.addValueChangeHandler( event -> bus.fireEvent( new ItemChangedCalculateEvent() ) );
+        checkedIn.addClickHandler( event -> handleEnabled( !checkedIn.getValue() ) );
 
         ( ( TableData ) checkedIn.getParent() ).setDataAttribute( "data-title", messages.labelCheckedIn() );
         ( ( TableData ) itemNameSearch.getParent() ).setDataAttribute( "data-title", messages.labelItemName() );
@@ -259,6 +262,8 @@ class RowItem
 
         originAmountReadOnly = amount.isReadOnly();
         originVatReadOnly = vat.isReadOnly();
+
+        handleEnabled( model.getCheckedIn() );
     }
 
     public MaterialCheckBox getDelete()
@@ -298,6 +303,15 @@ class RowItem
 
                     bus.fireEvent( new ProductAutoCompleteEvent( p, treeItem ) );
                 } );
+    }
+
+    private void handleEnabled( boolean enabled )
+    {
+        ( ( HasEnabled ) itemName ).setEnabled( enabled );
+        amount.setEnabled( enabled );
+        priceExclVat.setEnabled( enabled );
+        unit.setEnabled( enabled );
+        vat.setEnabled( enabled );
     }
 
     interface ItemUiBinder

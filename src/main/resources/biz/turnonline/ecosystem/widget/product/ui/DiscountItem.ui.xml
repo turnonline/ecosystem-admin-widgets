@@ -21,27 +21,23 @@
              xmlns:t="urn:import:gwt.material.design.client.ui.table">
 
     <t:TableRow class="data-row">
-        <t:TableData verticalAlign="MIDDLE">
-            <m:MaterialCheckBox ui:field="delete"/>
+        <t:TableData>
+            <m:MaterialCheckBox ui:field="selected"/>
+        </t:TableData>
+        <t:TableData verticalAlign="TOP">
+            <m:MaterialDoubleBox ui:field="off"/>
+        </t:TableData>
+        <t:TableData verticalAlign="TOP">
+            <s:DiscountUnitComboBox ui:field="unit"/>
+        </t:TableData>
+        <t:TableData verticalAlign="TOP">
+            <s:DiscountRuleComboBox ui:field="rule"/>
+        </t:TableData>
+        <t:TableData verticalAlign="TOP">
+            <s:MaterialChipTextBox ui:field="codes"/>
         </t:TableData>
         <t:TableData>
-            <s:ProductAutoComplete ui:field="itemNameSearch" visible="false"/>
-            <m:MaterialTextBox ui:field="itemNameStandard"/>
-        </t:TableData>
-        <t:TableData>
-            <m:MaterialDoubleBox ui:field="amount"/>
-        </t:TableData>
-        <t:TableData>
-            <m:MaterialDoubleBox ui:field="priceExclVat"/>
-        </t:TableData>
-        <t:TableData>
-            <s:BillingUnitComboBox ui:field="unit"/>
-        </t:TableData>
-        <t:TableData>
-            <s:VatRateComboBox ui:field="vat"/>
-        </t:TableData>
-        <t:TableData verticalAlign="MIDDLE">
-            <m:MaterialSwitch ui:field="checkedIn"/>
+            <m:MaterialSwitch ui:field="enabled"/>
         </t:TableData>
     </t:TableRow>
 </ui:UiBinder>

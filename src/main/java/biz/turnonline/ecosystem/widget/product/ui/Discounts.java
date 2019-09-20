@@ -2,24 +2,23 @@ package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductDiscount;
-import biz.turnonline.ecosystem.widget.shared.ui.DiscountRuleComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.DiscountUnitComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.MaterialChipTextBox;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCheckBox;
-import gwt.material.design.client.ui.MaterialDoubleBox;
-import gwt.material.design.client.ui.MaterialRow;
-import gwt.material.design.client.ui.MaterialSwitch;
+import gwt.material.design.client.ui.html.Label;
+import gwt.material.design.client.ui.table.Table;
+import gwt.material.design.client.ui.table.TableData;
+import gwt.material.design.client.ui.table.TableHeader;
+import gwt.material.design.client.ui.table.TableRow;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -38,7 +37,9 @@ public class Discounts
 
     private FlowPanel actions = new FlowPanel();
 
-    private FlowPanel rows = new FlowPanel();
+    private Table itemsRoot = new Table();
+
+    private MaterialWidget tbody = new MaterialWidget( DOM.createTBody() );
 
     private List<ProductDiscount> values = new ArrayList<>();
 
@@ -47,7 +48,9 @@ public class Discounts
         initWidget( root );
 
         root.add( actions );
-        root.add( rows );
+        root.add( itemsRoot );
+
+        // -- actions
 
         actions.getElement().setAttribute( "style", "margin: 10px 10px;padding-bottom: 20px;" );
 
@@ -65,12 +68,31 @@ public class Discounts
         btnRemove.setWaves( WavesType.RED );
         btnRemove.addClickHandler( event -> deleteSelectedRows() );
         actions.add( btnRemove );
+
+        // -- table
+        itemsRoot.addStyleName( "table" );
+
+        // header
+
+        MaterialWidget thead = new MaterialWidget( DOM.createTHead() );
+        itemsRoot.addHead( thead );
+
+        TableRow thRow = new TableRow();
+        thRow.add( selectHeader() );
+        thRow.add( header( messages.labelValue(), "15%" ) );
+        thRow.add( header( messages.labelDiscountType(), "15%" ) );
+        thRow.add( header( messages.labelDiscountRule(), "20%" ) );
+        thRow.add( header( messages.labelCodes(), "40%" ) );
+        thRow.add( header( messages.labelActive(), "5%" ) );
+        thead.add( thRow );
+
+        // body
+        itemsRoot.addBody( tbody );
     }
 
     @Override
     public void setValue( @Nullable List<ProductDiscount> value )
     {
-        rows.clear();
         values.clear();
 
         if ( value != null && !value.isEmpty() )
@@ -82,19 +104,15 @@ public class Discounts
     @Override
     public List<ProductDiscount> getValue()
     {
+        List<ProductDiscount> discounts = new ArrayList<>(  );
+
         for ( int i = 0; i < values.size(); i++ )
         {
-            ProductDiscount discount = values.get( i );
-            MaterialRow row = ( MaterialRow ) rows.getWidget( i );
-
-            discount.setOff( ( ( MaterialDoubleBox ) row.getWidget( 1 ) ).getValue() );
-            discount.setUnit( ( ( DiscountUnitComboBox ) row.getWidget( 2 ) ).getSingleValueByCode() );
-            discount.setRule( ( ( DiscountRuleComboBox ) row.getWidget( 3 ) ).getSingleValueByCode() );
-            discount.setCodes( ( ( MaterialChipTextBox ) row.getWidget( 4 ) ).getChippedValue() );
-            discount.setEnabled( ( ( MaterialSwitch ) row.getWidget( 5 ) ).getValue() );
+            DiscountItem item = (DiscountItem) tbody.getWidget( i );
+            discounts.add( item.getValue() );
         }
 
-        return values;
+        return discounts;
     }
 
     protected void newRow()
@@ -106,88 +124,45 @@ public class Discounts
 
     protected void deleteSelectedRows()
     {
-        List<MaterialRow> rowsToDelete = new ArrayList<>();
+        List<DiscountItem> itemsToDelete = new ArrayList<>();
         List<ProductDiscount> discountsToDelete = new ArrayList<>();
 
-        for ( int i = 0; i < rows.getWidgetCount(); i++ )
+        for ( int i = 0; i < tbody.getWidgetCount(); i++ )
         {
-            MaterialRow row = ( MaterialRow ) rows.getWidget( i );
-            MaterialCheckBox selected = ( MaterialCheckBox ) row.getWidget( 0 );
+            DiscountItem item = ( DiscountItem ) tbody.getWidget( i );
+            MaterialCheckBox selected = item.getSelected();
             if ( selected.getValue() )
             {
-                rowsToDelete.add( row );
+                itemsToDelete.add( item );
                 discountsToDelete.add( values.get( i ) );
             }
         }
 
-        rowsToDelete.forEach( Widget::removeFromParent );
+        itemsToDelete.forEach( Widget::removeFromParent );
         values.removeAll( discountsToDelete );
+    }
+
+    private TableData selectHeader()
+    {
+        TableHeader header = new TableHeader();
+        header.setWidth( "5%" );
+        return header;
+    }
+
+    private TableData header( String label, String width )
+    {
+        TableHeader header = new TableHeader();
+        header.add( new Label( label ) );
+        header.setWidth( width );
+        return header;
     }
 
     private void createRow( ProductDiscount discount )
     {
-        MaterialRow row = new MaterialRow();
-        row.setMarginBottom( 0 );
-        rows.add( row );
-
-        MaterialCheckBox selected = new MaterialCheckBox();
-        selected.setGrid( "s12 m1" );
-        selected.getElement().setAttribute( "style", "margin: 30px 0 0 0;" );
-        selected.setWidth( "4%" );
-        selected.addClickHandler( event -> row.setBackgroundColor( selected.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
-        row.add( selected );
-
-        MaterialDoubleBox off = new MaterialDoubleBox();
-        off.setLabel( messages.labelValue() );
-        off.setValue( discount.getOff() );
-        off.setGrid( "s12 m2" );
-        row.add( off );
-
-        DiscountUnitComboBox unit = new DiscountUnitComboBox();
-        unit.setLabel( messages.labelDiscountType() );
-        unit.setSingleValueByCode( discount.getUnit() );
-        unit.setGrid( "s12 m2" );
-        row.add( unit );
-
-        DiscountRuleComboBox rule = new DiscountRuleComboBox();
-        rule.setLabel( messages.labelDiscountRule() );
-        rule.setSingleValueByCode( discount.getRule() );
-        rule.setGrid( "s12 m2" );
-        row.add( rule );
-
-        MaterialChipTextBox codes = new MaterialChipTextBox();
-        codes.setLetter( "C" );
-        codes.setLabel( messages.labelCodes() );
-        codes.setChippedValue( discount.getCodes() );
-        codes.setGrid( "s12 m5" );
-        row.add( codes );
-
-        MaterialSwitch enabled = new MaterialSwitch( discount.getEnabled() );
-        enabled.setGrid( "s12 m1" );
-        enabled.setWidth( "5%" );
-        enabled.setDisplay( Display.INITIAL );
-        enabled.setMarginTop( 25 );
-        enabled.setMarginLeft( -40 );
-        enabled.addValueChangeHandler( event -> handleEnabled( row ) );
-        row.add( enabled );
-
-        handleEnabled( row );
+        DiscountItem item = new DiscountItem();
+        item.setValue( discount );
+        tbody.add( item );
 
         values.add( discount );
-    }
-
-    private void handleEnabled( MaterialRow row )
-    {
-        MaterialSwitch enabled = ( MaterialSwitch ) row.getWidget( 5 );
-        for ( int i = 0; i < row.getWidgetCount(); i++ )
-        {
-            if ( i == 0 || i == 5 )
-            {
-                continue;
-            }
-
-            HasEnabled hasEnabled = ( HasEnabled ) row.getWidget( i );
-            hasEnabled.setEnabled( enabled.getValue() );
-        }
     }
 }

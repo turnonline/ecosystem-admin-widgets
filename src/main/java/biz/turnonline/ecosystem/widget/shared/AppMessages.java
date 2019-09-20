@@ -435,6 +435,9 @@ public interface AppMessages
     @Key( value = "label.codes" )
     String labelCodes();
 
+    @Key( value = "label.active" )
+    String labelActive();
+
     @Key( value = "label.priceDefinition" )
     String labelPriceDefinition();
 

@@ -161,13 +161,13 @@ public class PricingItemsPanel
         itemsRoot.addHead( thead );
 
         TableRow thRow = new TableRow();
-        thRow.add( header( messages.labelCheckedIn(), "5%" ) );
+        thRow.add( selectHeader() );
         thRow.add( header( messages.labelItemName(), "40%" ) );
         thRow.add( header( messages.labelAmount(), "10%" ) );
         thRow.add( header( messages.labelPriceExcludingVat(), "15%" ) );
         thRow.add( header( messages.labelUnit(), "15%" ) );
         thRow.add( header( messages.labelVat(), "10%" ) );
-        thRow.add( deleteHeader() );
+        thRow.add( header( messages.labelCheckedIn(), "5%" ) );
         thead.add( thRow );
 
         btnAdd.setEnabled( false );
@@ -644,9 +644,9 @@ public class PricingItemsPanel
         return header;
     }
 
-    private TableData deleteHeader()
+    private TableData selectHeader()
     {
-        TableHeader header = new TableHeader( new MaterialIcon( IconType.DELETE ) );
+        TableHeader header = new TableHeader(  );
         header.setWidth( "5%" );
         return header;
     }
