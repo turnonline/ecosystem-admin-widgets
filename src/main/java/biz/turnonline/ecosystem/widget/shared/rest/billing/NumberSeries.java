@@ -128,6 +128,6 @@ public final class NumberSeries
     @Override
     public boolean allNull()
     {
-        return allNull( code );
+        return allNull( code, increment, symbol );
     }
 }

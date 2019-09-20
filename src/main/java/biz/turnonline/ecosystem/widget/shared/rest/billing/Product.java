@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.Date;
 
 /**
@@ -33,6 +35,7 @@ import java.util.Date;
  */
 @SuppressWarnings( "javadoc" )
 public final class Product
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -123,6 +126,11 @@ public final class Product
         return this;
     }
 
+    public void setEventIf( Event event )
+    {
+        setIfNotAllNull( this::setEvent, event );
+    }
+
     /**
      * @return value or {@code null} for none
      */
@@ -157,6 +165,11 @@ public final class Product
         return this;
     }
 
+    public void setInvoicingIf( ProductInvoicing invoicing )
+    {
+        setIfNotAllNull( this::setInvoicing, invoicing );
+    }
+
     /**
      * @return value or {@code null} for none
      */
@@ -189,6 +202,11 @@ public final class Product
     {
         this.metaFields = metaFields;
         return this;
+    }
+
+    public void setMetaFieldsIf( ProductMetaFields metaFields )
+    {
+        setIfNotAllNull( this::setMetaFields, metaFields );
     }
 
     /**
@@ -259,6 +277,11 @@ public final class Product
         return this;
     }
 
+    public void setPublishingIf( ProductPublishing publishing )
+    {
+        setIfNotAllNull( this::setPublishing, publishing );
+    }
+
     /**
      * @return value or {@code null} for none
      */
@@ -274,5 +297,11 @@ public final class Product
     {
         this.snippet = snippet;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( event, invoicing, itemName, metaFields, pricing, publishing, snippet );
     }
 }

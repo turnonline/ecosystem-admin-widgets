@@ -1,8 +1,7 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -10,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.addins.client.richeditor.MaterialRichEditor;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
@@ -17,14 +17,8 @@ import javax.inject.Inject;
  */
 public class Content
         extends Composite
-        implements HasModel<Product>
 {
     private static ContentUiBinder binder = GWT.create( ContentUiBinder.class );
-
-    interface ContentUiBinder
-            extends UiBinder<HTMLPanel, Content>
-    {
-    }
 
     @UiField
     MaterialRichEditor editor;
@@ -35,28 +29,32 @@ public class Content
         initWidget( binder.createAndBindUi( this ) );
     }
 
-    @Override
-    public void bind( Product product )
+    public ProductPublishing bind( @Nullable ProductPublishing publishing )
     {
-        product.getPublishing().setDescription( editor.getHTML() );
-    }
-
-    @Override
-    public void fill( Product product )
-    {
-        ProductPublishing publishing = getProductPublishing( product );
-        editor.setHTML( publishing.getDescription() );
-    }
-
-    private ProductPublishing getProductPublishing( Product product )
-    {
-        ProductPublishing publishing = product.getPublishing();
         if ( publishing == null )
         {
             publishing = new ProductPublishing();
-            product.setPublishing( publishing );
         }
 
+        String html = editor.getHTML();
+        publishing.setDescription( Strings.isNullOrEmpty( html ) ? null : html );
         return publishing;
+    }
+
+    public void fill( @Nullable ProductPublishing publishing )
+    {
+        if ( publishing == null )
+        {
+            editor.clear();
+        }
+        else
+        {
+            editor.setHTML( publishing.getDescription() );
+        }
+    }
+
+    interface ContentUiBinder
+            extends UiBinder<HTMLPanel, Content>
+    {
     }
 }

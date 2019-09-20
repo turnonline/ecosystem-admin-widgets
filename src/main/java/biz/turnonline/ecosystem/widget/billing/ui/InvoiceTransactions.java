@@ -2,7 +2,6 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.client.ui.table.AbstractDataTable;
 import gwt.material.design.client.ui.table.MaterialDataTable;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
  */
 public class InvoiceTransactions
         extends MaterialDataTable<Transaction>
-        implements HasModel<Invoice>
 {
     public InvoiceTransactions()
     {
@@ -36,12 +34,10 @@ public class InvoiceTransactions
         addColumn( amount, "Amount" ); // TODO: localize
     }
 
-    @Override
     public void bind( Invoice invoice )
     {
     }
 
-    @Override
     public void fill( Invoice invoice )
     {
         setRowData( 0, invoice.getPayment() != null && invoice.getPayment().getTransactions() != null ? invoice.getPayment().getTransactions() : new ArrayList<>() );

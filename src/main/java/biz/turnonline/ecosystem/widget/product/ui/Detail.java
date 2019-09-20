@@ -3,7 +3,6 @@ package biz.turnonline.ecosystem.widget.product.ui;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductMetaFields;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.MaterialChipTextBox;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
@@ -25,7 +24,6 @@ import java.util.List;
  */
 public class Detail
         extends Composite
-        implements HasModel<Product>
 {
     private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
 
@@ -70,6 +68,11 @@ public class Detail
         priceInclVat.setReadOnly( true );
         created.setReadOnly( true );
         modified.setReadOnly( true );
+
+        itemName.setReturnBlankAsNull( true );
+        snippet.setReturnBlankAsNull( true );
+        availableFields.setReturnBlankAsNull( true );
+        mandatoryFields.setReturnBlankAsNull( true );
     }
 
     /**
@@ -94,25 +97,36 @@ public class Detail
         fillPricing( pricing );
     }
 
-    @Override
     public void bind( Product product )
     {
         product.setItemName( itemName.getValue() );
         product.setSnippet( snippet.getValue() );
 
-        product.getMetaFields().setAvailable( availableFields.getChippedValue() );
-        product.getMetaFields().setMandatory( mandatoryFields.getChippedValue() );
+        List<String> available = availableFields.getChippedValue();
+        List<String> mandatory = mandatoryFields.getChippedValue();
+
+        ProductMetaFields metaFields = new ProductMetaFields();
+        metaFields.setAvailable( available.isEmpty() ? null : available );
+        metaFields.setMandatory( mandatory.isEmpty() ? null : mandatory );
+        product.setMetaFieldsIf( metaFields );
     }
 
-    @Override
     public void fill( Product product )
     {
         itemName.setValue( product.getItemName() );
         snippet.setValue( product.getSnippet() );
 
-        ProductMetaFields metaFields = getMetaFields( product );
-        availableFields.setChippedValue( metaFields.getAvailable() );
-        mandatoryFields.setChippedValue( metaFields.getMandatory() );
+        ProductMetaFields metaFields = product.getMetaFields();
+        if ( metaFields != null )
+        {
+            availableFields.setChippedValue( metaFields.getAvailable() );
+            mandatoryFields.setChippedValue( metaFields.getMandatory() );
+        }
+        else
+        {
+            availableFields.clear();
+            mandatoryFields.clear();
+        }
 
         created.setValue( product.getCreatedDate() );
         modified.setValue( product.getModificationDate() );
@@ -149,16 +163,6 @@ public class Detail
         priceExclVat.setValue( price );
         vat.setSingleValueByCode( pricing.getVat() );
         priceInclVat.setValue( finalPrice );
-    }
-
-    private ProductMetaFields getMetaFields( Product product )
-    {
-        if ( product.getMetaFields() == null )
-        {
-            product.setMetaFields( new ProductMetaFields() );
-        }
-
-        return product.getMetaFields();
     }
 
     private void ensureMandatoryFields()

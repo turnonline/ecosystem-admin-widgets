@@ -21,6 +21,7 @@ import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialSwitch;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class Discounts
     }
 
     @Override
-    public void setValue( List<ProductDiscount> value )
+    public void setValue( @Nullable List<ProductDiscount> value )
     {
         rows.clear();
         values.clear();

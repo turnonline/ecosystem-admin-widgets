@@ -6,7 +6,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingStructureTempl
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
@@ -18,6 +17,7 @@ import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialSwitch;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,6 @@ import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
  */
 public class Pricing
         extends Composite
-        implements HasModel<Product>
 {
     private static PricingUiBinder binder = GWT.create( PricingUiBinder.class );
 
@@ -66,6 +65,8 @@ public class Pricing
 
         vat.addValueChangeHandler( e -> itemsPanel.changeVatInTree( e.getValue().get( 0 ) ) );
         currency.addValueChangeHandler( e -> itemsPanel.setCurrency( e.getValue().get( 0 ) ) );
+
+        priceExclVat.setReturnBlankAsNull( true );
     }
 
     /**
@@ -91,10 +92,12 @@ public class Pricing
         priceExclVat.setValue( price );
     }
 
-    @Override
-    public void bind( Product product )
+    public ProductPricing bind( @Nullable ProductPricing pricing )
     {
-        ProductPricing pricing = getProductPricing( product );
+        if ( pricing == null )
+        {
+            pricing = new ProductPricing();
+        }
 
         pricing.setPriceExclVat( priceExclVat.getValue() );
         pricing.setCurrency( currency.getSingleValue() );
@@ -116,9 +119,9 @@ public class Pricing
         }
 
         pricing.setTemplate( templates );
+        return pricing;
     }
 
-    @Override
     public void fill( @Nonnull Product product )
     {
         ProductPricing pricing = getProductPricing( checkNotNull( product, "Product cannot be null" ) );
@@ -188,11 +191,6 @@ public class Pricing
         {
             pricing = new ProductPricing();
             product.setPricing( pricing );
-        }
-
-        if ( pricing.getDiscounts() == null )
-        {
-            pricing.setDiscounts( new ArrayList<>() );
         }
 
         return pricing;

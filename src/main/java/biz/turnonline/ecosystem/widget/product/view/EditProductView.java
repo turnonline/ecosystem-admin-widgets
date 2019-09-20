@@ -121,11 +121,11 @@ public class EditProductView
         Product product = getRawModel();
 
         detail.bind( product );
-        content.bind( product );
-        publishing.bind( product );
-        pricing.bind( product );
-        invoicing.bind( product );
-        event.bind( product );
+        product.setPublishingIf( content.bind( product.getPublishing() ) );
+        product.setPublishingIf( publishing.bind( product.getPublishing() ) );
+        product.setPricing( pricing.bind( product.getPricing() ) );
+        product.setInvoicingIf( invoicing.bind( product.getInvoicing() ) );
+        product.setEventIf( event.bind( product.getEvent() ) );
     }
 
     @Override
@@ -134,11 +134,11 @@ public class EditProductView
         Product product = getRawModel();
 
         detail.fill( product );
-        content.fill( product );
-        publishing.fill( product );
+        content.fill( product.getPublishing() );
+        publishing.fill( product.getPublishing() );
         pricing.fill( product );
-        invoicing.fill( product );
-        event.fill( product );
+        invoicing.fill( product.getInvoicing() );
+        event.fill( product.getEvent() );
 
         Scheduler.get().scheduleDeferred( () -> {
             EditProduct where = ( EditProduct ) controller.getWhere();

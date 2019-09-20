@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * Model definition for ProductInvoicing.
  *
@@ -31,6 +33,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  */
 @SuppressWarnings( "javadoc" )
 public final class ProductInvoicing
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -86,6 +89,11 @@ public final class ProductInvoicing
         return this;
     }
 
+    public void setNumberSeriesIf( NumberSeries numberSeries )
+    {
+        setIfNotAllNull( this::setNumberSeries, numberSeries );
+    }
+
     /**
      * @return value or {@code null} for none
      */
@@ -118,5 +126,11 @@ public final class ProductInvoicing
     {
         this.unit = unit;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( code, numberSeries, trialPeriod, unit );
     }
 }

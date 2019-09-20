@@ -170,6 +170,6 @@ public final class Increment
     @Override
     public boolean allNull()
     {
-        return allNull( current, id, length, postfix, prefix, year );
+        return allNull( current, length, postfix, prefix, year );
     }
 }

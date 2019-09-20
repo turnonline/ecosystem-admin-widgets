@@ -420,7 +420,14 @@ public final class Order
     @Override
     public boolean allNull()
     {
-        return false;
+        return allNull( beginOn,
+                customer,
+                invoiceType,
+                items,
+                numberOfDays,
+                periodicity,
+                status
+        );
     }
 
     public enum Status

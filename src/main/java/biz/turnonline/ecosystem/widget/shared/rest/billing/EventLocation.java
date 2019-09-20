@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * Model definition for EventLocation.
  *
@@ -31,6 +33,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  */
 @SuppressWarnings( "javadoc" )
 public final class EventLocation
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -228,5 +231,13 @@ public final class EventLocation
     {
         this.street = street;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        // country is excluded from the check.
+        // If only country property has set (default) it means no user input so ignore.
+        return allNull( city, infoEmail, infoPhone, name, postcode, street );
     }
 }

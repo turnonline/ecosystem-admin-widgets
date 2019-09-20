@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +36,7 @@ import java.util.List;
  */
 @SuppressWarnings( "javadoc" )
 public final class ProductPublishing
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -253,5 +256,11 @@ public final class ProductPublishing
     {
         this.published = published;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( at, description, pictures );
     }
 }

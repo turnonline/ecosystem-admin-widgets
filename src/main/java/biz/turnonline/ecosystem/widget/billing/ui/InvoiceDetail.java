@@ -6,7 +6,6 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PaymentMethodComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
@@ -43,7 +42,6 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status
  */
 public class InvoiceDetail
         extends Composite
-        implements HasModel<Invoice>
 {
     private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
 
@@ -184,8 +182,7 @@ public class InvoiceDetail
         return invoice;
     }
 
-    @Override
-    public void bind( Invoice invoice )
+    public void bind( @Nonnull Invoice invoice )
     {
         invoice.setType( invoiceType.getSingleValueByCode() )
                 .setDateOfIssue( dateOfIssue.getValue() )
@@ -200,8 +197,7 @@ public class InvoiceDetail
         invoice.setPaymentIf( payment );
     }
 
-    @Override
-    public void fill( Invoice invoice )
+    public void fill( @Nonnull Invoice invoice )
     {
         this.invoice = invoice;
 

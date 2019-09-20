@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.Date;
 
 /**
@@ -33,6 +35,7 @@ import java.util.Date;
  */
 @SuppressWarnings( "javadoc" )
 public final class Event
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -76,6 +79,11 @@ public final class Event
         return this;
     }
 
+    public void setBeginIf( EventBegin begin )
+    {
+        setIfNotAllNull( this::setBegin, begin );
+    }
+
     /**
      * @return value or {@code null} for none
      */
@@ -110,6 +118,11 @@ public final class Event
         return this;
     }
 
+    public void setEndIf( EventEnd end )
+    {
+        setIfNotAllNull( this::setEnd, end );
+    }
+
     /**
      * @return value or {@code null} for none
      */
@@ -125,6 +138,11 @@ public final class Event
     {
         this.location = location;
         return this;
+    }
+
+    public void setLocationIf( EventLocation location )
+    {
+        setIfNotAllNull( this::setLocation, location );
     }
 
     /**
@@ -144,4 +162,9 @@ public final class Event
         return this;
     }
 
+    @Override
+    public boolean allNull()
+    {
+        return allNull( begin, deadline, end, location, seats );
+    }
 }

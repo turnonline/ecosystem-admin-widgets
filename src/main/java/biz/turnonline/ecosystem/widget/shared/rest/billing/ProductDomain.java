@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * Model definition for ProductDomain.
  *
@@ -31,6 +33,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  */
 @SuppressWarnings( "javadoc" )
 public final class ProductDomain
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -140,5 +143,11 @@ public final class ProductDomain
     {
         this.url = url;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( name, uri );
     }
 }

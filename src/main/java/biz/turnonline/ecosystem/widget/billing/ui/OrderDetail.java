@@ -7,7 +7,6 @@ import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.OrderPeriodicityComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
@@ -53,7 +52,6 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodici
  */
 public class OrderDetail
         extends Composite
-        implements HasModel<Order>
 {
     private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
 
@@ -173,8 +171,7 @@ public class OrderDetail
         }
     }
 
-    @Override
-    public void bind( Order order )
+    public void bind( @Nonnull Order order )
     {
         order.setBeginOn( beginOn.getValue() );
         order.setNumberOfDays( numberOfDays.getValue() );
@@ -183,8 +180,7 @@ public class OrderDetail
         order.setStatus( currentStatus == null ? SUSPENDED.name() : currentStatus.name() );
     }
 
-    @Override
-    public void fill( Order order )
+    public void fill( @Nonnull Order order )
     {
         this.orderId = order.getId();
 

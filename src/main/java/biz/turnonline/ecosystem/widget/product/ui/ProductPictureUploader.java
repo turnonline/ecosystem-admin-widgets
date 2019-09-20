@@ -4,7 +4,6 @@ import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -25,7 +24,6 @@ import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +35,6 @@ import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLI
  */
 public class ProductPictureUploader
         extends Composite
-        implements HasModel<ProductPublishing>
 {
     private static ImageUploaderUiBinder binder = GWT.create( ImageUploaderUiBinder.class );
 
@@ -76,10 +73,12 @@ public class ProductPictureUploader
         } );
     }
 
-    @Override
     public void bind( ProductPublishing model )
     {
-        model.getPictures().clear();
+        if ( model.getPictures() != null )
+        {
+            model.getPictures().clear();
+        }
 
         int order = 1;
         for ( Map.Entry<MaterialColumn, ProductPicture> entry : imagesMap.entrySet() )
@@ -92,7 +91,6 @@ public class ProductPictureUploader
         }
     }
 
-    @Override
     public void fill( ProductPublishing model )
     {
         images.clear();
@@ -106,7 +104,7 @@ public class ProductPictureUploader
         }
         else
         {
-            model.setPictures( new ArrayList<>() );
+            model.setPictures( null );
         }
     }
 

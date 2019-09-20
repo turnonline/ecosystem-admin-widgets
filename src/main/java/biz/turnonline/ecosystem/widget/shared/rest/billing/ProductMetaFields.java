@@ -18,6 +18,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ import java.util.List;
  */
 @SuppressWarnings( "javadoc" )
 public final class ProductMetaFields
+        implements RelevantNullChecker
 {
     /**
      * The value may be {@code null}.
@@ -76,5 +79,11 @@ public final class ProductMetaFields
     {
         this.mandatory = mandatory;
         return this;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( available, mandatory );
     }
 }
