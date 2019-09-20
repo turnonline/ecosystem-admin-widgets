@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.contact.view;
 
 import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
+import biz.turnonline.ecosystem.widget.contact.event.DeleteContactEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
@@ -38,6 +39,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
+import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialSwitch;
@@ -65,6 +67,9 @@ public class EditContactView
 
     @UiField
     MaterialButton btnBack;
+
+    @UiField
+    MaterialAnchorButton deleteContact;
 
     @UiField
     MaterialSwitch company;
@@ -272,6 +277,8 @@ public class EditContactView
     {
         ContactCard contact = getRawModel();
 
+        deleteContact.setEnabled( contact.getId() != null );
+
         company.setValue( contact.getCompany() );
 
         // person
@@ -337,6 +344,13 @@ public class EditContactView
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveContactEvent( getModel() ) );
+    }
+
+    @UiHandler( "deleteContact" )
+    public void deleteOrder( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        ContactCard contact = getRawModel();
+        bus().fireEvent( new DeleteContactEvent( contact ) );
     }
 
     private void handleHasPostalAddress()

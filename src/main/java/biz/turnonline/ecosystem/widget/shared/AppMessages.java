@@ -626,6 +626,9 @@ public interface AppMessages
 
     // tooltips
 
+    @Key( value = "tooltip.contactListRefresh" )
+    String tooltipContactListRefresh();
+
     @Key( "tooltip.domain.tip.naked" )
     String tooltipDomainTipNaked();
 
@@ -640,6 +643,9 @@ public interface AppMessages
 
     @Key( value = "tooltip.delete.contact" )
     String tooltipDeleteContact();
+
+    @Key( value = "tooltip.contact.delete" )
+    String tooltipContactDelete();
 
     @Key( value = "tooltip.save.account" )
     String tooltipSaveAccount();

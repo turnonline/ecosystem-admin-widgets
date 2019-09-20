@@ -18,7 +18,6 @@
 
 package biz.turnonline.ecosystem.widget.contact.view;
 
-import biz.turnonline.ecosystem.widget.contact.event.DeleteContactEvent;
 import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.ContactsPresenter;
 import biz.turnonline.ecosystem.widget.contact.ui.ColumnActions;
@@ -29,12 +28,9 @@ import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactAddress;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactContacts;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactName;
 import biz.turnonline.ecosystem.widget.shared.ui.ColumnContactType;
-import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
-import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.ui.SmartTable;
-import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,11 +38,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialAnchorButton;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -61,16 +56,10 @@ public class ContactsView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
-    MaterialButton btnNew;
-
-    @UiField
-    MaterialButton btnDelete;
+    MaterialAnchorButton newContact;
 
     @UiField
     SmartTable<ContactCard> table;
-
-    @UiField
-    ConfirmationWindow confirmationWindow;
 
     @Inject
     public ContactsView( @Named( "ContactsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
@@ -83,10 +72,12 @@ public class ContactsView
         add( binder.createAndBindUi( this ) );
         initTable();
 
-        confirmationWindow.getBtnOk().addClickHandler( event -> {
-            List<ContactCard> selectedRowModels = table.getSelectedRowModels( false );
-            bus().fireEvent( new DeleteContactEvent( selectedRowModels ) );
-        } );
+        // refresh action setup
+        breadcrumb.setRefreshTooltip( messages.tooltipContactListRefresh() );
+        breadcrumb.setNavSectionVisible( true );
+        breadcrumb.addRefreshClickHandler( event -> refresh() );
+
+        breadcrumb.setClearFilterVisible( false );
     }
 
     @Override
@@ -121,33 +112,10 @@ public class ContactsView
         table.configure( new ContactsDataSource( ( AppEventBus ) bus() ) );
     }
 
-    @UiHandler( "btnNew" )
+    @UiHandler( "newContact" )
     public void handleNew( ClickEvent event )
     {
         bus().fireEvent( new EditContactEvent() );
-    }
-
-    @UiHandler( "btnDelete" )
-    public void handleDelete( ClickEvent event )
-    {
-        List<ContactCard> selected = table.getSelectedRowModels( false );
-        if ( !selected.isEmpty() )
-        {
-            confirmationWindow.open( new Question()
-            {
-                @Override
-                public int selectedRecords()
-                {
-                    return selected.size();
-                }
-
-                @Override
-                public String name()
-                {
-                    return Formatter.formatContactName( selected.get( 0 ) );
-                }
-            } );
-        }
     }
 
     interface ContactsViewUiBinder

@@ -19,12 +19,14 @@
 package biz.turnonline.ecosystem.widget.contact.presenter;
 
 import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
+import biz.turnonline.ecosystem.widget.contact.event.DeleteContactEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.Contacts;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
+import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -45,24 +47,8 @@ public class EditContactPresenter
     public void bind()
     {
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Contacts() ) );
-
-        bus().addHandler( SaveContactEvent.TYPE, event -> {
-            ContactCard contactCard = event.getContactCard();
-            String loginId = bus().config().getLoginId();
-
-            if ( contactCard.getId() == null )
-            {
-                bus().account().create( loginId, contactCard, ( SuccessCallback<ContactCard> ) response -> {
-                    success( messages.msgRecordCreated() );
-                    controller().goTo( new EditContact( response.getId() ) );
-                } );
-            }
-            else
-            {
-                bus().account().update( loginId, contactCard.getId(), contactCard,
-                        ( SuccessCallback<ContactCard> ) response -> success( messages.msgRecordUpdated() ) );
-            }
-        } );
+        bus().addHandler( SaveContactEvent.TYPE, this::save );
+        bus().addHandler( DeleteContactEvent.TYPE, this::delete );
     }
 
     @Override
@@ -92,5 +78,35 @@ public class EditContactPresenter
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<ContactCard>
     {
+    }
+
+    private void save( SaveContactEvent event )
+    {
+        ContactCard contactCard = event.getContactCard();
+        String loginId = bus().config().getLoginId();
+
+        if ( contactCard.getId() == null )
+        {
+            bus().account().create( loginId, contactCard, ( SuccessCallback<ContactCard> ) response -> {
+                success( messages.msgRecordCreated() );
+                controller().goTo( new EditContact( response.getId() ) );
+            } );
+        }
+        else
+        {
+            bus().account().update( loginId, contactCard.getId(), contactCard,
+                    ( SuccessCallback<ContactCard> ) response -> success( messages.msgRecordUpdated() ) );
+        }
+    }
+
+    private void delete( DeleteContactEvent event )
+    {
+        ContactCard contactCard = event.getContactCard();
+
+        bus().account().delete( bus().config().getLoginId(), contactCard.getId(),
+                ( SuccessCallback<Void> ) response -> {
+                    success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
+                    controller().goTo( new Contacts() );
+                } );
     }
 }

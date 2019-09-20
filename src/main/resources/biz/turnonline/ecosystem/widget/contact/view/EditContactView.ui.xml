@@ -157,5 +157,13 @@
                               text="{msg.labelBack}"/>
         </m:MaterialRow>
 
+        <m:MaterialFAB>
+            <m:MaterialAnchorButton type="FLOATING" iconType="DEHAZE" size="LARGE"/>
+            <m:MaterialFABList>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
+                                        iconType="DELETE" ui:field="deleteContact"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipContactDelete}"/>
+            </m:MaterialFABList>
+        </m:MaterialFAB>
     </g:HTMLPanel>
 </ui:UiBinder>
