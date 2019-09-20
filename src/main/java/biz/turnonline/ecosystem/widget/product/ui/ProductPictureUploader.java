@@ -24,8 +24,10 @@ import gwt.material.design.client.ui.MaterialRow;
 import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
@@ -85,7 +87,13 @@ public class ProductPictureUploader
         {
             ProductPicture picture = entry.getValue();
             picture.setOrder( order );
-            model.getPictures().add( picture );
+            List<ProductPicture> pictures = model.getPictures();
+            if ( pictures == null )
+            {
+                pictures = new ArrayList<>();
+                model.setPictures( pictures );
+            }
+            pictures.add( picture );
 
             order++;
         }
