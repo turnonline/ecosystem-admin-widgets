@@ -56,5 +56,7 @@ public class SmartTable<T>
         super.build();
         getScaffolding().getToolPanel().clear();
         getScaffolding().getInfoPanel().clear();
+        getScaffolding().getTopPanel().getElement().getStyle().setPadding( 0, Style.Unit.PX );
+        getScaffolding().getTopPanel().getElement().getStyle().setHeight( 0, Style.Unit.PX );
     }
 }
