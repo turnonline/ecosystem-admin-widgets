@@ -24,6 +24,14 @@
 
     <g:HTMLPanel>
         <m:MaterialRow>
+            <m:MaterialRow class="blue lighten-5 col s12 m12" marginBottom="0" marginTop="10">
+                <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}" iconMarginLeft="10"/>
+
+                <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}" grid="m2"/>
+                <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}" grid="m2"/>
+                <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelPriceIncludingVat}" grid="m2"/>
+            </m:MaterialRow>
+
             <m:MaterialColumn grid="s12 m6">
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
@@ -44,13 +52,6 @@
                 <m:MaterialDatePicker ui:field="created" placeholder="{msg.labelCreated}"/>
                 <m:MaterialDatePicker ui:field="modified" placeholder="{msg.labelModified}"/>
             </m:MaterialColumn>
-        </m:MaterialRow>
-        <m:MaterialRow>
-            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}"/>
-
-            <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}" grid="m2"/>
-            <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}" grid="m2"/>
-            <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelPriceIncludingVat}" grid="m2"/>
         </m:MaterialRow>
     </g:HTMLPanel>
 </ui:UiBinder>

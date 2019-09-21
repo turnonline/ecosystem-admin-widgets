@@ -44,7 +44,7 @@
         </m:MaterialRow>
 
         <m:MaterialRow grid="s12 m12" backgroundColor="BLUE_LIGHTEN_5">
-            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}"/>
+            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}" iconMarginLeft="10"/>
 
             <m:MaterialTextBox ui:field="toPay" label="{msg.labelAmountToPay}" grid="m2" fontWeight="BOLD"/>
             <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelTotalPriceExclVat}" grid="m2"/>

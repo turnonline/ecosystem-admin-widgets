@@ -44,4 +44,9 @@ public class SectionTitle
     {
         this.title.setDescription( title );
     }
+
+    public void setIconMarginLeft( double marginLeft )
+    {
+        icon.setMarginLeft( marginLeft );
+    }
 }
