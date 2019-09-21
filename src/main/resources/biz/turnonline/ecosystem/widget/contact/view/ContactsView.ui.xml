@@ -25,7 +25,7 @@
     <g:HTMLPanel>
         <ui2:ScaffoldBreadcrumb ui:field="breadcrumb"/>
 
-        <m:MaterialRow padding="20">
+        <m:MaterialRow padding="20" paddingTop="10">
             <ui2:SmartTable ui:field="table"/>
         </m:MaterialRow>
 

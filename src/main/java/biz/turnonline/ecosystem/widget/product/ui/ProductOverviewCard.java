@@ -25,6 +25,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductOverview;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
+import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -48,8 +49,6 @@ import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nonnull;
-
-import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
 
 /**
  * {@link Product} overview card component.
@@ -117,7 +116,7 @@ public class ProductOverviewCard
             String url = overview.getThumbnailUrl();
             if ( url != null )
             {
-                thumbnail.setUrl( url + "=s" + MIN_HEIGHT + "-c" );
+                thumbnail.setUrl( url + "=s" + ( MIN_HEIGHT * 2 ) + "-c" );
             }
 
             if ( overview.getPublished() != null && overview.getPublished() )
@@ -135,28 +134,13 @@ public class ProductOverviewCard
 
         // product pricing
         ProductPricing pricing = product.getPricing();
-        String formattedPrice;
         String currency = pricing.getCurrency();
         Double priceExclVatValue = pricing.getPriceExclVat();
 
-        if ( currency != null )
-        {
-            if ( priceExclVatValue != null )
-            {
-                formattedPrice = formatPrice( currency, priceExclVatValue );
-            }
-            else
-            {
-                formattedPrice = formatPrice( currency, 0.0 );
-            }
-        }
-        else
-        {
-            formattedPrice = priceExclVatValue == null ? "0" : priceExclVatValue.toString();
-        }
+        String formattedPriceExclVat = Formatter.formatPrice( currency, priceExclVatValue );
 
         priceExclVat.setReadOnly( true );
-        priceExclVat.setText( formattedPrice );
+        priceExclVat.setText( formattedPriceExclVat );
         vat.setReadOnly( true );
         vat.setSingleValueByCode( pricing.getVat() );
 
