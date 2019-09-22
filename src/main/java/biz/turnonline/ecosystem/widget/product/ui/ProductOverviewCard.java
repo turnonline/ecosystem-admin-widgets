@@ -24,8 +24,8 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductOverview;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
+import biz.turnonline.ecosystem.widget.shared.ui.PriceTextBox;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
-import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -46,7 +46,6 @@ import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
-import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nonnull;
 
@@ -81,7 +80,7 @@ public class ProductOverviewCard
     MaterialCardContent content;
 
     @UiField
-    MaterialTextBox priceExclVat;
+    PriceTextBox priceExclVat;
 
     @UiField
     VatRateComboBox vat;
@@ -134,13 +133,9 @@ public class ProductOverviewCard
 
         // product pricing
         ProductPricing pricing = product.getPricing();
-        String currency = pricing.getCurrency();
-        Double priceExclVatValue = pricing.getPriceExclVat();
-
-        String formattedPriceExclVat = Formatter.formatPrice( currency, priceExclVatValue );
 
         priceExclVat.setReadOnly( true );
-        priceExclVat.setText( formattedPriceExclVat );
+        priceExclVat.setValue( pricing.getPriceExclVat(), pricing.getCurrency() );
         vat.setReadOnly( true );
         vat.setSingleValueByCode( pricing.getVat() );
 

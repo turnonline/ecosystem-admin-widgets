@@ -17,7 +17,8 @@
   -->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:m='urn:import:gwt.material.design.client.ui'>
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:s='urn:import:biz.turnonline.ecosystem.widget.shared.ui'>
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
@@ -48,11 +49,11 @@
             <m:MaterialColumn grid="s12 m4 l4" paddingLeft="0" paddingTop="5" paddingBottom="0">
                 <m:MaterialRow>
                     <m:MaterialLabel text="{msg.labelTotalPriceExclVat}"/>
-                    <m:MaterialLabel ui:field="totalPriceExclVat" fontSize="1.2em" fontWeight="BOLD"/>
+                    <s:PriceLabel ui:field="totalPriceExclVat" fontSize="1.2em" fontWeight="BOLD"/>
                 </m:MaterialRow>
                 <m:MaterialRow>
                     <m:MaterialLabel text="{msg.labelTotalPrice}"/>
-                    <m:MaterialLabel ui:field="totalPrice" fontSize="1.2em" fontWeight="BOLD"/>
+                    <s:PriceLabel ui:field="totalPrice" fontSize="1.2em" fontWeight="BOLD"/>
                 </m:MaterialRow>
             </m:MaterialColumn>
             <m:MaterialColumn grid="s12 m4 l3" paddingLeft="0" paddingTop="8">

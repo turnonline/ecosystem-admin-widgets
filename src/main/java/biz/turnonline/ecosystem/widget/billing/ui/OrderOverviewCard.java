@@ -26,6 +26,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
+import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -51,7 +52,6 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.I
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
-import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_3;
@@ -91,10 +91,10 @@ public class OrderOverviewCard
     MaterialChip periodicity;
 
     @UiField
-    MaterialLabel totalPriceExclVat;
+    PriceLabel totalPriceExclVat;
 
     @UiField
-    MaterialLabel totalPrice;
+    PriceLabel totalPrice;
 
     @UiField
     MaterialDatePicker lastBillingDate;
@@ -153,40 +153,12 @@ public class OrderOverviewCard
         periodicity.setText( periodicityText( periodicityEnum ) );
 
         // total price at order of current items
-        String priceEV;
-        String price;
         String currency = order.getCurrency() == null ? bus.config().getCurrency() : order.getCurrency();
         Double priceExclVat = order.getTotalPriceExclVat();
         Double totalPrice = order.getTotalPrice();
 
-        if ( currency != null )
-        {
-            if ( priceExclVat != null )
-            {
-                priceEV = formatPrice( currency, priceExclVat );
-            }
-            else
-            {
-                priceEV = formatPrice( currency, 0.0 );
-            }
-
-            if ( totalPrice != null )
-            {
-                price = formatPrice( currency, totalPrice );
-            }
-            else
-            {
-                price = formatPrice( currency, 0.0 );
-            }
-        }
-        else
-        {
-            priceEV = priceExclVat == null ? "0" : priceExclVat.toString();
-            price = totalPrice == null ? "0" : totalPrice.toString();
-        }
-
-        totalPriceExclVat.setText( priceEV );
-        this.totalPrice.setText( price );
+        totalPriceExclVat.setValue( priceExclVat, currency );
+        this.totalPrice.setValue( totalPrice, currency );
 
         // billing dates
         lastBillingDate.getPlaceholderLabel().setFontSize( totalPriceExclVat.getFontSize() );

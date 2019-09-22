@@ -33,7 +33,7 @@
                                  iconType="LOCK" iconColor="RED" iconPosition="RIGHT" iconSize="MEDIUM"/>
             <m:MaterialTextArea ui:field="snippet" readOnly="true" resizeRule="AUTO" marginTop="0"/>
             <m:MaterialRow margin="0">
-                <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}"
+                <s:PriceTextBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}"
                                    fontWeight="BOLD" grid="m6"/>
                 <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}"
                                    fontWeight="BOLD" grid="m6"/>

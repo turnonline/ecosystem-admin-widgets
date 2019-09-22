@@ -26,6 +26,7 @@ import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
+import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -44,7 +45,6 @@ import gwt.material.design.client.ui.MaterialLink;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.NEW;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.valueOf;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType.TAX_DOCUMENT;
-import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
@@ -79,7 +79,7 @@ public class InvoiceOverviewCard
     MaterialChip status;
 
     @UiField
-    MaterialLabel amountToPay;
+    PriceLabel amountToPay;
 
     @UiField
     MaterialLink editLink;
@@ -150,35 +150,16 @@ public class InvoiceOverviewCard
         status.setText( statusText( statusEnum ) );
 
         // pricing
-        String toPay;
         InvoicePayment payment = invoice.getPayment();
 
-        if ( payment != null )
+        if ( payment == null )
         {
-            String currency = invoice.getCurrency();
-            Double totalAmount = payment.getTotalAmount();
-
-            if ( currency != null )
-            {
-                if ( totalAmount != null )
-                {
-                    toPay = formatPrice( currency, totalAmount );
-                }
-                else
-                {
-                    toPay = formatPrice( currency, 0.0 );
-                }
-            }
-            else
-            {
-                toPay = totalAmount == null ? "0" : totalAmount.toString();
-            }
+            amountToPay.setText( "0" );
         }
         else
         {
-            toPay = "0";
+            amountToPay.setValue( payment.getTotalAmount(), invoice.getCurrency() );
         }
-        amountToPay.setText( toPay );
 
         // actions
         if ( NEW == statusEnum )
