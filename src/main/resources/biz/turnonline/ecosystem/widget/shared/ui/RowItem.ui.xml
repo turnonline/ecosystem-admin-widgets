@@ -20,9 +20,11 @@
              xmlns:s='urn:import:biz.turnonline.ecosystem.widget.shared.ui'
              xmlns:t="urn:import:gwt.material.design.client.ui.table">
 
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
     <t:TableRow class="data-row">
         <t:TableData verticalAlign="MIDDLE">
-            <m:MaterialCheckBox ui:field="delete"/>
+            <m:MaterialCheckBox ui:field="checkedIn"/>
         </t:TableData>
         <t:TableData>
             <s:ProductAutoComplete ui:field="itemNameSearch" visible="false"/>
@@ -41,7 +43,14 @@
             <s:VatRateComboBox ui:field="vat"/>
         </t:TableData>
         <t:TableData verticalAlign="MIDDLE">
-            <m:MaterialSwitch ui:field="checkedIn"/>
+            <m:MaterialButton ui:field="delete"
+                              tooltip="{msg.labelDelete}"
+                              type="FLOATING"
+                              size="MEDIUM"
+                              waves="DEFAULT"
+                              backgroundColor="RED"
+                              iconType="DELETE"
+                              iconColor="WHITE"/>
         </t:TableData>
     </t:TableRow>
 </ui:UiBinder>

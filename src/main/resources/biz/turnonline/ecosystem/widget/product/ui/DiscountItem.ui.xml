@@ -20,9 +20,11 @@
              xmlns:s='urn:import:biz.turnonline.ecosystem.widget.shared.ui'
              xmlns:t="urn:import:gwt.material.design.client.ui.table">
 
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
     <t:TableRow class="data-row">
         <t:TableData>
-            <m:MaterialCheckBox ui:field="selected"/>
+            <m:MaterialCheckBox ui:field="enabled"/>
         </t:TableData>
         <t:TableData verticalAlign="TOP">
             <m:MaterialDoubleBox ui:field="off"/>
@@ -37,7 +39,14 @@
             <s:MaterialChipTextBox ui:field="codes"/>
         </t:TableData>
         <t:TableData>
-            <m:MaterialSwitch ui:field="enabled"/>
+            <m:MaterialButton ui:field="btnDelete"
+                              tooltip="{msg.labelDelete}"
+                              type="FLOATING"
+                              size="MEDIUM"
+                              waves="DEFAULT"
+                              backgroundColor="RED"
+                              iconType="DELETE"
+                              iconColor="WHITE"/>
         </t:TableData>
     </t:TableRow>
 </ui:UiBinder>

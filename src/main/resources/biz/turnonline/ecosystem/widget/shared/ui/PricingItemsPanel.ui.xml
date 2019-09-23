@@ -30,10 +30,6 @@
                                   textColor="GREEN" iconType="ADD_CIRCLE" text="{msg.labelAdd}"
                                   marginTop="10" marginBottom="10" marginRight="10"/>
 
-                <m:MaterialButton ui:field="btnDelete" type="OUTLINED" waves="RED" backgroundColor="WHITE"
-                                  textColor="RED" iconType="DELETE" text="{msg.labelDelete}"
-                                  marginTop="10" marginBottom="10" marginRight="10"/>
-
                 <m:MaterialButton ui:field="btnCalculate" type="OUTLINED" waves="GREEN" backgroundColor="WHITE"
                                   textColor="GREEN" iconType="REFRESH" text="{msg.labelCalculate}"
                                   marginTop="10" marginBottom="10" marginRight="10"/>

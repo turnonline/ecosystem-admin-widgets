@@ -6,14 +6,12 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.table.Table;
 import gwt.material.design.client.ui.table.TableData;
@@ -62,13 +60,6 @@ public class Discounts
         btnAdd.addClickHandler( event -> newRow() );
         actions.add( btnAdd );
 
-        MaterialButton btnRemove = new MaterialButton( messages.labelDelete(), IconType.DELETE, ButtonType.OUTLINED );
-        btnRemove.setIconColor( Color.RED );
-        btnRemove.setTextColor( Color.RED );
-        btnRemove.setWaves( WavesType.RED );
-        btnRemove.addClickHandler( event -> deleteSelectedRows() );
-        actions.add( btnRemove );
-
         // -- table
         itemsRoot.addStyleName( "table" );
 
@@ -78,12 +69,12 @@ public class Discounts
         itemsRoot.addHead( thead );
 
         TableRow thRow = new TableRow();
-        thRow.add( selectHeader() );
+        thRow.add( header( messages.labelActive(), "5%" ) );
         thRow.add( header( messages.labelValue(), "15%" ) );
         thRow.add( header( messages.labelDiscountType(), "15%" ) );
         thRow.add( header( messages.labelDiscountRule(), "20%" ) );
         thRow.add( header( messages.labelCodes(), "40%" ) );
-        thRow.add( header( messages.labelActive(), "5%" ) );
+        thRow.add( header( "", "5%" ) );
         thead.add( thRow );
 
         // body
@@ -122,33 +113,6 @@ public class Discounts
         createRow( discount );
     }
 
-    protected void deleteSelectedRows()
-    {
-        List<DiscountItem> itemsToDelete = new ArrayList<>();
-        List<ProductDiscount> discountsToDelete = new ArrayList<>();
-
-        for ( int i = 0; i < tbody.getWidgetCount(); i++ )
-        {
-            DiscountItem item = ( DiscountItem ) tbody.getWidget( i );
-            MaterialCheckBox selected = item.getSelected();
-            if ( selected.getValue() )
-            {
-                itemsToDelete.add( item );
-                discountsToDelete.add( values.get( i ) );
-            }
-        }
-
-        itemsToDelete.forEach( Widget::removeFromParent );
-        values.removeAll( discountsToDelete );
-    }
-
-    private TableData selectHeader()
-    {
-        TableHeader header = new TableHeader();
-        header.setWidth( "5%" );
-        return header;
-    }
-
     private TableData header( String label, String width )
     {
         TableHeader header = new TableHeader();
@@ -161,8 +125,13 @@ public class Discounts
     {
         DiscountItem item = new DiscountItem();
         item.setValue( discount );
-        tbody.add( item );
 
+        item.getBtnDelete().addClickHandler( event -> {
+            values.remove( discount );
+            item.removeFromParent();
+        } );
+
+        tbody.add( item );
         values.add( discount );
     }
 }

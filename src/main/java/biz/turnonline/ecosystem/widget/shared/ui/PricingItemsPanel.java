@@ -22,7 +22,6 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.ItemChangedCalculateEvent;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
-import biz.turnonline.ecosystem.widget.shared.event.RowItemSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.JSON;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
@@ -103,9 +102,6 @@ public class PricingItemsPanel
     MaterialButton btnAdd;
 
     @UiField
-    MaterialButton btnDelete;
-
-    @UiField
     MaterialIcon itemType;
 
     @UiField
@@ -143,8 +139,6 @@ public class PricingItemsPanel
 
     private boolean originBtnAddEnabled;
 
-    private boolean originBtnDeleteEnabled;
-
     private boolean isReadOnly;
 
     @Inject
@@ -161,17 +155,16 @@ public class PricingItemsPanel
         itemsRoot.addHead( thead );
 
         TableRow thRow = new TableRow();
-        thRow.add( selectHeader() );
+        thRow.add( header( messages.labelCheckedIn(), "5%" ) );
         thRow.add( header( messages.labelItemName(), "40%" ) );
         thRow.add( header( messages.labelAmount(), "10%" ) );
         thRow.add( header( messages.labelPriceExcludingVat(), "15%" ) );
         thRow.add( header( messages.labelUnit(), "15%" ) );
         thRow.add( header( messages.labelVat(), "10%" ) );
-        thRow.add( header( messages.labelCheckedIn(), "5%" ) );
+        thRow.add( header( "", "5%" ) );
         thead.add( thRow );
 
         btnAdd.setEnabled( false );
-        btnDelete.setEnabled( false );
 
         //workaround to hide an item as for example billingItem.setVisible( false ) doesn't work properly
         types.clear();
@@ -201,7 +194,6 @@ public class PricingItemsPanel
             }
         }
 
-        bus.addHandler( RowItemSelectionEvent.TYPE, event -> btnDelete.setEnabled( !isReadOnly && event.isSelected() ) );
         bus.addHandler( ItemChangedCalculateEvent.TYPE, event -> calculate() );
         pricingTree.addSelectionHandler( e -> clearAndPopulateRows( ( TreeItemWithModel ) e.getSelectedItem() ) );
 
@@ -337,17 +329,14 @@ public class PricingItemsPanel
         if ( readOnly )
         {
             originBtnAddEnabled = btnAdd.isEnabled();
-            originBtnDeleteEnabled = btnDelete.isEnabled();
 
             btnAdd.setEnabled( false );
-            btnDelete.setEnabled( false );
             btnCalculate.setEnabled( false );
             rootTreeItem.setChildrenReadOnly( true );
         }
         else
         {
             btnAdd.setEnabled( originBtnAddEnabled );
-            btnDelete.setEnabled( originBtnDeleteEnabled );
             btnCalculate.setEnabled( true );
             rootTreeItem.setChildrenReadOnly( false );
         }
@@ -532,7 +521,6 @@ public class PricingItemsPanel
         pricingTree.expand();
 
         originBtnAddEnabled = btnAdd.isEnabled();
-        originBtnDeleteEnabled = btnDelete.isEnabled();
     }
 
     public void update( @Nonnull Pricing pricing )
@@ -573,7 +561,6 @@ public class PricingItemsPanel
         }
 
         itemsRoot.getBody().clear();
-        btnDelete.setEnabled( false );
         selectedItemCompositeKey = selected.getItemCompositeKey();
 
         String itemType = selected.getChildItemType();
@@ -605,29 +592,8 @@ public class PricingItemsPanel
         List<RowItem> items = selected.getChildrenRows();
         if ( items != null )
         {
-            items.forEach( i -> {
-                if ( !btnDelete.isEnabled() && i.getDelete().getValue() )
-                {
-                    // make delete button enabled if there is already at least one row selected
-                    btnDelete.setEnabled( true );
-                }
-                itemsRoot.getBody().add( i );
-            } );
+            items.forEach( i -> itemsRoot.getBody().add( i ) );
         }
-    }
-
-    private void deleteSelectedRows()
-    {
-        itemsRoot.getBody().getChildrenList().forEach( widget -> {
-            if ( ( ( RowItem ) widget ).getDelete().getValue() )
-            {
-                ( ( RowItem ) widget ).remove();
-            }
-        } );
-
-        // disabled as all selected rows just has been removed
-        btnDelete.setEnabled( false );
-        calculate();
     }
 
     private void calculate()
@@ -641,13 +607,6 @@ public class PricingItemsPanel
         TableHeader header = new TableHeader();
         header.add( new Label( label ) );
         header.setWidth( width );
-        return header;
-    }
-
-    private TableData selectHeader()
-    {
-        TableHeader header = new TableHeader(  );
-        header.setWidth( "5%" );
         return header;
     }
 
@@ -707,13 +666,8 @@ public class PricingItemsPanel
                 break;
         }
 
-        itemsRoot.getBody().add( selected.add( item ).getRowItem() );
-    }
-
-    @UiHandler( "btnDelete" )
-    public void handleDelete( @SuppressWarnings( "unused" ) ClickEvent event )
-    {
-        deleteSelectedRows();
+        RowItem rowItem = selected.add( item ).getRowItem();
+        itemsRoot.getBody().add( rowItem );
     }
 
     @UiHandler( "standard" )

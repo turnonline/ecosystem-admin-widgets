@@ -23,7 +23,6 @@ import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Preconditions;
 import biz.turnonline.ecosystem.widget.shared.event.ItemChangedCalculateEvent;
 import biz.turnonline.ecosystem.widget.shared.event.ProductAutoCompleteEvent;
-import biz.turnonline.ecosystem.widget.shared.event.RowItemSelectionEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingProduct;
@@ -31,6 +30,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -39,10 +39,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.web.bindery.event.shared.EventBus;
-import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialDoubleBox;
-import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.table.TableData;
 import gwt.material.design.client.ui.table.TableRow;
@@ -70,7 +69,7 @@ class RowItem
     private final TreeItemWithModel treeItem;
 
     @UiField
-    MaterialSwitch checkedIn;
+    MaterialCheckBox checkedIn;
 
     @UiField( provided = true )
     ProductAutoComplete itemNameSearch;
@@ -91,7 +90,7 @@ class RowItem
     BillingUnitComboBox unit;
 
     @UiField
-    MaterialCheckBox delete;
+    MaterialButton delete;
 
     private HasValue<String> itemName;
 
@@ -126,9 +125,9 @@ class RowItem
         amount.setReturnBlankAsNull( true );
         priceExclVat.setReturnBlankAsNull( true );
 
-        delete.getElement().setAttribute( "style", "margin: 0;" );
-        delete.addClickHandler( event -> row.setBackgroundColor( delete.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
-        delete.addValueChangeHandler( event -> bus.fireEvent( new RowItemSelectionEvent( event.getValue() ) ) );
+        delete.getElement().getStyle().setMargin(0, Style.Unit.PX );
+        delete.getElement().getStyle().setOpacity(1 );
+        delete.addClickHandler( event -> remove() );
 
         checkedIn.addValueChangeHandler( event -> bus.fireEvent( new ItemChangedCalculateEvent() ) );
 
@@ -262,7 +261,7 @@ class RowItem
         originVatReadOnly = vat.isReadOnly();
     }
 
-    public MaterialCheckBox getDelete()
+    public MaterialButton getDelete()
     {
         return delete;
     }

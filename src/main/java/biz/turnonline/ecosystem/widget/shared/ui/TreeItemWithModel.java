@@ -83,6 +83,8 @@ public class TreeItemWithModel
         this.eventBus = checkNotNull( eventBus, "EventBus can't be null" );
         this.model = null;
         this.context = checkNotNull( context, "Context can't be null" );
+
+        addClickHandler( event -> getTree().expand() ); // override default collapsible behavior - always expanded
     }
 
     private TreeItemWithModel( @Nonnull EventBus eventBus,

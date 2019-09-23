@@ -9,10 +9,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
-import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialDoubleBox;
-import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.table.TableRow;
 
 /**
@@ -22,8 +21,6 @@ public class DiscountItem
         extends Composite
         implements TakesValue<ProductDiscount>
 {
-    private TableRow row;
-
     private static DiscountItemUiBinder binder = GWT.create( DiscountItemUiBinder.class );
 
     interface DiscountItemUiBinder
@@ -34,7 +31,7 @@ public class DiscountItem
     private ProductDiscount discount;
 
     @UiField
-    MaterialCheckBox selected;
+    MaterialCheckBox enabled;
 
     @UiField
     MaterialDoubleBox off;
@@ -49,14 +46,14 @@ public class DiscountItem
     MaterialChipTextBox codes;
 
     @UiField
-    MaterialSwitch enabled;
+    MaterialButton btnDelete;
 
     public DiscountItem()
     {
-        initWidget( row = binder.createAndBindUi( this ) );
+        initWidget( binder.createAndBindUi( this ) );
+        enabled.addClickHandler( event -> handleEnabled( enabled.getValue() ) );
 
-        selected.addClickHandler( event -> row.setBackgroundColor( selected.getValue() ? Color.GREY_LIGHTEN_5 : Color.WHITE ) );
-        enabled.addClickHandler( event -> handleEnabled( !enabled.getValue() ) );
+        btnDelete.getElement().getStyle().setOpacity( 1 );
     }
 
     @Override
@@ -64,7 +61,6 @@ public class DiscountItem
     {
         this.discount = discount;
 
-        selected.setValue( false );
         off.setValue( discount.getOff() );
         unit.setSingleValueByCode( discount.getUnit() );
         rule.setSingleValueByCode( discount.getRule() );
@@ -86,9 +82,9 @@ public class DiscountItem
         return discount;
     }
 
-    public MaterialCheckBox getSelected()
+    public MaterialButton getBtnDelete()
     {
-        return selected;
+        return btnDelete;
     }
 
     private void handleEnabled( boolean enabled )
