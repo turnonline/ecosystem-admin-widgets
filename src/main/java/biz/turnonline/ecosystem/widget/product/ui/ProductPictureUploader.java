@@ -43,8 +43,20 @@ public class ProductPictureUploader
     @UiField
     MaterialRow images;
 
-    @UiField
-    MaterialFileUploader uploader;
+    @UiField( provided = true )
+    MaterialFileUploader uploader = new MaterialFileUploader()
+    {
+        @Override
+        public void load()
+        {
+            // setUrl and than load widget, otherwise firebase will be executed after widget initialization
+            new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
+                        setUrl( url );
+                        super.load();
+                    }, PRODUCT_BILLING_API_ROOT
+            );
+        }
+    };
 
     private Map<MaterialColumn, ProductPicture> imagesMap = new HashMap<>();
 
@@ -66,13 +78,6 @@ public class ProductPictureUploader
 
         // Any URL is needed to properly initialize the uploader
         uploader.setUrl( UploaderTokenCallback.url( PRODUCT_BILLING_API_ROOT ) );
-        uploader.addAttachHandler( event -> {
-            if ( event.isAttached() )
-            {
-                new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url ->
-                        uploader.setUrl( url ), PRODUCT_BILLING_API_ROOT );
-            }
-        } );
     }
 
     public void bind( ProductPublishing model )
