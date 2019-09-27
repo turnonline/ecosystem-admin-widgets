@@ -28,6 +28,8 @@ public class ConfirmationWindow
 
     private Heading question = new Heading( HeadingSize.H6 );
 
+    private MaterialIcon icon;
+
     private MaterialButton btnOk;
 
     private MaterialButton btnClose;
@@ -36,14 +38,14 @@ public class ConfirmationWindow
     {
         super( messages.labelConfirmation() );
 
-        MaterialIcon icon = new MaterialIcon( IconType.HELP );
+        icon = new MaterialIcon( IconType.HELP );
         icon.setGrid( "s2 m2" );
         icon.setPadding( 0 );
         icon.setIconColor( PRIMARY_COLOR );
         icon.setIconSize( IconSize.MEDIUM );
 
         question.getElement().setAttribute( "style", "display:inline;padding: 20px 0 10px 5px;top: -5px;position: relative;" );
-        question.setGrid( "s10 m10" );
+        question.setGrid( "s8 m8" );
 
         MaterialRow panel = new MaterialRow();
         panel.setSeparator( true );
@@ -68,6 +70,12 @@ public class ConfirmationWindow
 
     }
 
+    public void open( String text )
+    {
+        this.question.setText( text );
+        open();
+    }
+
     public void open( Question question )
     {
         String text = question.selectedRecords() > 1 ? question.msgMultipleRecords() : question.msgOneRecord();
@@ -83,6 +91,11 @@ public class ConfirmationWindow
     public MaterialButton getBtnClose()
     {
         return btnClose;
+    }
+
+    public void setIconType( IconType iconType )
+    {
+        icon.setIconType( iconType );
     }
 
     protected MaterialButton newBtnOk()

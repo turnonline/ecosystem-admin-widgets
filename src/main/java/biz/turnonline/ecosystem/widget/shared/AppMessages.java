@@ -839,4 +839,9 @@ public interface AppMessages
 
     @Key( "description.invoice.send" )
     String descriptionInvoiceSend();
+
+    // question
+
+    @Key( value = "question.deleteRecord" )
+    String questionDeleteRecord( );
 }

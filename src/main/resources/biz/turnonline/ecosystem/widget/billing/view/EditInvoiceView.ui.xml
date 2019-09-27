@@ -25,7 +25,7 @@
 
     <g:HTMLPanel>
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
-        <s:ConfirmationWindow ui:field="confirmation"/>
+        <s:ConfirmationWindow ui:field="confirmation" iconType="DELETE"/>
 
         <m:MaterialDialog type="DEFAULT" dismissible="true" inDuration="300" outDuration="300"
                           ui:field="emailDialog" grid="s6" offset="s3">

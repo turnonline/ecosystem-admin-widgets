@@ -23,8 +23,10 @@ import biz.turnonline.ecosystem.widget.contact.event.DeleteContactEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCardPostalAddress;
+import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.ui.LogoUploader;
@@ -61,6 +63,9 @@ public class EditContactView
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
+
+    @UiField
+    ConfirmationWindow confirmation;
 
     @UiField
     MaterialButton btnSave;
@@ -209,6 +214,8 @@ public class EditContactView
             postalCountry.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
         postalStreet.add( new InputSearchIcon() );
+
+        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteContactEvent( getRawModel() )) );
     }
 
     @Override
@@ -347,10 +354,9 @@ public class EditContactView
     }
 
     @UiHandler( "deleteContact" )
-    public void deleteOrder( @SuppressWarnings( "unused" ) ClickEvent event )
+    public void deleteContact( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        ContactCard contact = getRawModel();
-        bus().fireEvent( new DeleteContactEvent( contact ) );
+        confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
     }
 
     private void handleHasPostalAddress()

@@ -26,6 +26,7 @@
 
     <g:HTMLPanel>
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:ConfirmationWindow ui:field="confirmation" iconType="DELETE"/>
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
             <m:MaterialRow marginBottom="0" paddingTop="20">

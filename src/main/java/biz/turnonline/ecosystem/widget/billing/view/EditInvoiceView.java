@@ -242,21 +242,7 @@ public class EditInvoiceView
     @UiHandler( "deleteInvoice" )
     public void deleteInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        confirmation.open( new ConfirmationWindow.Question()
-        {
-            @Override
-            public int selectedRecords()
-            {
-                return 1;
-            }
-
-            @Override
-            public String name()
-            {
-                Invoice inv = getRawModel();
-                return AppMessages.INSTANCE.labelInvoice().toLowerCase() + " " + inv.getInvoiceNumber();
-            }
-        } );
+        confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
 
     }
 

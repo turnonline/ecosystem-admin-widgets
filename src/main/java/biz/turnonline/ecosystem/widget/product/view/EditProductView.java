@@ -32,7 +32,9 @@ import biz.turnonline.ecosystem.widget.product.ui.Pricing;
 import biz.turnonline.ecosystem.widget.product.ui.Publishing;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -62,6 +64,9 @@ public class EditProductView
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
+
+    @UiField
+    ConfirmationWindow confirmation;
 
     @UiField
     EditProductTabs tabs;
@@ -113,6 +118,8 @@ public class EditProductView
         add( binder.createAndBindUi( this ) );
 
         event.init( addressLookup );
+
+        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteProductEvent( getRawModel() )) );
     }
 
     @Override
@@ -163,7 +170,7 @@ public class EditProductView
     @UiHandler( "deleteProduct" )
     public void deleteProduct( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        bus().fireEvent( new DeleteProductEvent( getModel() ) );
+        confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
     }
 
     @Override

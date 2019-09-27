@@ -32,10 +32,12 @@ import biz.turnonline.ecosystem.widget.billing.ui.InvoiceDetail;
 import biz.turnonline.ecosystem.widget.billing.ui.OrderDetail;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
+import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -76,6 +78,9 @@ public class EditOrderView
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
+
+    @UiField
+    ConfirmationWindow confirmation;
 
     @UiField
     EditOrderTabs tabs;
@@ -128,6 +133,8 @@ public class EditOrderView
         items = new PricingItemsPanel( AppEventBus.get(), PricingItemsPanel.Context.ORDER );
 
         add( binder.createAndBindUi( this ) );
+
+        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteOrderEvent( getRawModel() )) );
     }
 
     @UiFactory
@@ -227,8 +234,7 @@ public class EditOrderView
     @UiHandler( "deleteOrder" )
     public void deleteOrder( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        Order order = getRawModel();
-        bus().fireEvent( new DeleteOrderEvent( order ) );
+        confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
     }
 
     @Override
