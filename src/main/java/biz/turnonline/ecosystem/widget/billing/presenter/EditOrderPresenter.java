@@ -73,7 +73,7 @@ public class EditOrderPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( OrderListEvent.TYPE, event -> controller().goTo( new Orders() ) );
+        bus().addHandler( OrderListEvent.TYPE, event -> controller().goTo( new Orders( event.getScrollspy() ) ) );
         bus().addHandler( SaveOrderEvent.TYPE, this::orderSaved );
         bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
         bus().addHandler( OrderScheduleChangeEvent.TYPE, this::adjustNextBillingDate );

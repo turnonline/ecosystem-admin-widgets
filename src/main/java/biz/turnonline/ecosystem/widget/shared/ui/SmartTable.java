@@ -18,7 +18,6 @@ public class SmartTable<T>
         setSelectionType( SelectionType.NONE );
 
         getTableTitle().setText( "" );
-        getScaffolding().getTopPanel().addStyleName( "top-panel grey lighten-5 grey-text text-darken-3" );
         getScaffolding().getTableBody().getElement().getStyle().setHeight( 100, Style.Unit.PCT );
         ( ( AbstractDataTable.DefaultTableScaffolding ) getScaffolding() ).getXScrollPanel().removeFromParent();
     }

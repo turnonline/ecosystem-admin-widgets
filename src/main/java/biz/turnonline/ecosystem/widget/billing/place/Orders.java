@@ -46,6 +46,11 @@ public class Orders
     {
     }
 
+    public Orders( String scrollspy )
+    {
+        this.scrollspy = scrollspy;
+    }
+
     public static String getScrollspy( @Nullable Order order )
     {
         return order == null || order.getId() == null ? null : scrollspy( String.valueOf( order.getId() ) );
