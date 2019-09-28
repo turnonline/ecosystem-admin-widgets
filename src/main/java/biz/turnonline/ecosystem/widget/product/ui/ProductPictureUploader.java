@@ -1,5 +1,6 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
+import biz.turnonline.ecosystem.widget.product.event.ProductIdChangeEvent;
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
@@ -43,6 +44,8 @@ public class ProductPictureUploader
     @UiField
     MaterialRow images;
 
+    private Long productId;
+
     @UiField( provided = true )
     MaterialFileUploader uploader = new MaterialFileUploader()
     {
@@ -51,7 +54,7 @@ public class ProductPictureUploader
         {
             // setUrl and than load widget, otherwise firebase will be executed after widget initialization
             new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
-                        setUrl( url );
+                setUrl( url + ( productId == null ? "" : "&productId=" + productId ) );
                         super.load();
                     }, PRODUCT_BILLING_API_ROOT
             );
@@ -76,8 +79,7 @@ public class ProductPictureUploader
             }
         } );
 
-        // Any URL is needed to properly initialize the uploader
-        uploader.setUrl( UploaderTokenCallback.url( PRODUCT_BILLING_API_ROOT ) );
+        eventBus.addHandler( ProductIdChangeEvent.TYPE, event -> this.productId = event.getProductId() );
     }
 
     public void bind( ProductPublishing model )
@@ -114,10 +116,6 @@ public class ProductPictureUploader
             model.getPictures().stream()
                     .sorted( Comparator.comparing( ProductPicture::getOrder ) )
                     .forEach( this::addImage );
-        }
-        else
-        {
-            model.setPictures( null );
         }
     }
 
