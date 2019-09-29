@@ -31,10 +31,12 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchProduct;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -94,8 +96,6 @@ class RowItem
 
     private HasValue<String> itemName;
 
-    private TableRow row;
-
     private boolean originCheckedInEnabled;
 
     private boolean originItemNameSearchReadOnly;
@@ -110,6 +110,8 @@ class RowItem
 
     private boolean originUnitReadOnly;
 
+    private boolean originDeleteEnabled;
+
     private boolean isReadOnly;
 
     RowItem( @Nonnull EventBus eventBus, @Nonnull TreeItemWithModel treeItem )
@@ -120,14 +122,13 @@ class RowItem
         itemNameSearch = new ProductAutoComplete( eventBus );
         itemNameSearch.addSelectionHandler( this::fillFrom );
 
-        initWidget( row = binder.createAndBindUi( this ) );
+        initWidget( binder.createAndBindUi( this ) );
 
         amount.setReturnBlankAsNull( true );
         priceExclVat.setReturnBlankAsNull( true );
 
-        delete.getElement().getStyle().setMargin(0, Style.Unit.PX );
-        delete.getElement().getStyle().setOpacity(1 );
-        delete.addClickHandler( event -> remove() );
+        delete.getElement().getStyle().setMargin( 0, Style.Unit.PX );
+        delete.getElement().getStyle().setOpacity( 1 );
 
         checkedIn.addValueChangeHandler( event -> bus.fireEvent( new ItemChangedCalculateEvent() ) );
 
@@ -202,6 +203,7 @@ class RowItem
             originPriceExclVatReadOnly = priceExclVat.isReadOnly();
             originVatReadOnly = vat.isReadOnly();
             originUnitReadOnly = unit.isReadOnly();
+            originDeleteEnabled = delete.isEnabled();
 
             checkedIn.setEnabled( false );
             itemNameSearch.setReadOnly( true );
@@ -210,6 +212,7 @@ class RowItem
             priceExclVat.setReadOnly( true );
             vat.setReadOnly( true );
             unit.setReadOnly( true );
+            delete.setEnabled( false );
         }
         else
         {
@@ -220,6 +223,7 @@ class RowItem
             priceExclVat.setReadOnly( originPriceExclVatReadOnly );
             vat.setReadOnly( originVatReadOnly );
             unit.setReadOnly( originUnitReadOnly );
+            delete.setEnabled( originDeleteEnabled );
         }
     }
 
@@ -261,11 +265,6 @@ class RowItem
         originVatReadOnly = vat.isReadOnly();
     }
 
-    public MaterialButton getDelete()
-    {
-        return delete;
-    }
-
     /**
      * Returns tree item that's being associated with this row item
      *
@@ -279,7 +278,7 @@ class RowItem
     /**
      * Removes this row item widget from the pricing tree component and table of rows too.
      */
-    void remove()
+    private void remove()
     {
         treeItem.removeFromParent();
         treeItem.remove( this );
@@ -298,6 +297,12 @@ class RowItem
 
                     bus.fireEvent( new ProductAutoCompleteEvent( p, treeItem ) );
                 } );
+    }
+
+    @UiHandler( "delete" )
+    public void delete( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        remove();
     }
 
     interface ItemUiBinder
