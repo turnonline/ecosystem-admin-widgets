@@ -113,13 +113,15 @@ public class ProductPictureUploader
 
         if ( model.getPictures() != null )
         {
+            // However order number will be populated by the backend, at client side still might be a null for a while
             model.getPictures().stream()
-                    .sorted( Comparator.comparing( ProductPicture::getOrder ) )
+                    .sorted( Comparator.comparing( ProductPicture::getOrder, ( o1, o2 ) ->
+                            o1 == null || o2 == null ? 0 : o1.compareTo( o2 ) ) )
                     .forEach( this::addImage );
         }
     }
 
-    protected void removeImage( MaterialColumn column )
+    private void removeImage( MaterialColumn column )
     {
         ProductPicture picture = imagesMap.remove( column );
         column.removeFromParent();
