@@ -55,8 +55,6 @@ public class LogoUploader
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 
-        // Any URL is needed to properly initialize the uploader
-        setUrl( UploaderTokenCallback.url( ACCOUNT_STEWARD_API_ROOT ) );
         addAttachHandler( event -> {
             if ( event.isAttached() )
             {
@@ -105,5 +103,16 @@ public class LogoUploader
         model.setStorageName( uploadItem.getStorageName() );
 
         preview.setUrl( uploadItem.getServingUrl() );
+    }
+
+    @Override
+    public void load()
+    {
+        // setUrl and than load widget, otherwise firebase will be executed after widget initialization
+        new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
+                    setUrl( url );
+                    super.load();
+                }, ACCOUNT_STEWARD_API_ROOT
+        );
     }
 }

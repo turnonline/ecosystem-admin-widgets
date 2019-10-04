@@ -54,7 +54,7 @@ public class ProductPictureUploader
         {
             // setUrl and than load widget, otherwise firebase will be executed after widget initialization
             new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
-                setUrl( url + ( productId == null ? "" : "&productId=" + productId ) );
+                        setUrl( url + ( productId == null ? "" : "&productId=" + productId ) );
                         super.load();
                     }, PRODUCT_BILLING_API_ROOT
             );
