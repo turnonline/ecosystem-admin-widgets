@@ -40,7 +40,7 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.ArrayList;
 
-import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_STORAGE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.SENT;
 
 /**
@@ -130,7 +130,7 @@ public class EditInvoicePresenter
 
     private void downloadInvoice( DownloadInvoiceEvent event )
     {
-        String url = ServiceRoots.get( PRODUCT_BILLING_API_ROOT )
+        String url = ServiceRoots.get( PRODUCT_BILLING_STORAGE )
                 + "pdf/orders/"
                 + event.getOrderId()
                 + "/invoices/"

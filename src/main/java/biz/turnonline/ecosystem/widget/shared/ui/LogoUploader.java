@@ -31,6 +31,7 @@ import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
 
 import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWARD_API_ROOT;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWARD_STORAGE;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -112,7 +113,7 @@ public class LogoUploader
         new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
                     setUrl( url );
                     super.load();
-                }, ACCOUNT_STEWARD_API_ROOT
+                }, ACCOUNT_STEWARD_STORAGE
         );
     }
 }

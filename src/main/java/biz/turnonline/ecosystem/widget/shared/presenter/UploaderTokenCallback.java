@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 public interface UploaderTokenCallback
         extends TokenCallback
 {
-    String UPLOAD_BASE_PATH = "storage-upload";
+    String UPLOAD_BASE_PATH = "upload";
 
     /**
      * Returns the full upload URL as a composition of the service root associated with given key and upload base path.

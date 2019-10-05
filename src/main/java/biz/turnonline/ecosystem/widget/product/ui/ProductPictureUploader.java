@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_STORAGE;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -56,7 +56,7 @@ public class ProductPictureUploader
             new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
                         setUrl( url + ( productId == null ? "" : "&productId=" + productId ) );
                         super.load();
-                    }, PRODUCT_BILLING_API_ROOT
+                    }, PRODUCT_BILLING_STORAGE
             );
         }
     };
