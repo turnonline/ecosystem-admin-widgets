@@ -31,21 +31,18 @@ public class Discounts
 {
     private static final AppMessages messages = AppMessages.INSTANCE;
 
-    private FlowPanel root = new FlowPanel();
-
-    private FlowPanel actions = new FlowPanel();
-
-    private Table itemsRoot = new Table();
-
     private MaterialWidget tbody = new MaterialWidget( DOM.createTBody() );
 
     private List<ProductDiscount> values = new ArrayList<>();
 
     public Discounts()
     {
+        FlowPanel root = new FlowPanel();
         initWidget( root );
 
+        FlowPanel actions = new FlowPanel();
         root.add( actions );
+        Table itemsRoot = new Table();
         root.add( itemsRoot );
 
         // -- actions
@@ -85,6 +82,7 @@ public class Discounts
     public void setValue( @Nullable List<ProductDiscount> value )
     {
         values.clear();
+        tbody.clear();
 
         if ( value != null && !value.isEmpty() )
         {
@@ -106,7 +104,7 @@ public class Discounts
         return discounts;
     }
 
-    protected void newRow()
+    private void newRow()
     {
         ProductDiscount discount = new ProductDiscount();
         discount.setEnabled( true );
