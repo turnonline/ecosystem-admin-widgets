@@ -59,7 +59,7 @@ import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_4;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_5;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
-import static gwt.material.design.client.constants.Color.RED;
+import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
 import static gwt.material.design.client.constants.Color.RED_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.YELLOW;
 
@@ -254,7 +254,7 @@ public class OrderOverviewCard
             }
             case ISSUE:
             {
-                return RED;
+                return RED_DARKEN_2;
             }
             case FINISHED:
             {
@@ -283,7 +283,7 @@ public class OrderOverviewCard
             }
             case ISSUE:
             {
-                return "";
+                return messages.descriptionOrderStatusIssue();
             }
             case FINISHED:
             {
@@ -313,7 +313,7 @@ public class OrderOverviewCard
             }
             case ISSUE:
             {
-                return IconType.WARNING;
+                return IconType.CLOSE;
             }
             case FINISHED:
             {

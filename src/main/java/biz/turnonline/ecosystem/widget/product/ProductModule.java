@@ -59,6 +59,7 @@ public abstract class ProductModule
 
     // -- activity & places
 
+    @Singleton
     @Provides
     static PlaceHistoryMapper providePlaceHistoryMapper()
     {
@@ -79,6 +80,7 @@ public abstract class ProductModule
         return new ActivityManager( mapper, eventBus );
     }
 
+    @Singleton
     @Provides
     static PlaceHistoryHandler.Historian provideHistorian()
     {

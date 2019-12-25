@@ -819,6 +819,9 @@ public interface AppMessages
     @Key( "description.order.status.suspend" )
     String descriptionOrderStatusSuspend();
 
+    @Key( "description.order.status.issue" )
+    String descriptionOrderStatusIssue();
+
     @Key( "description.order.status.finished" )
     String descriptionOrderStatusFinished();
 

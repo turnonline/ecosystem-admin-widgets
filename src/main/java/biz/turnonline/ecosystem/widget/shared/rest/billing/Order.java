@@ -34,7 +34,6 @@ import java.util.List;
  *
  * @author Google, Inc.
  */
-@SuppressWarnings( "javadoc" )
 public final class Order
         implements RelevantNullChecker
 {
@@ -432,14 +431,31 @@ public final class Order
 
     public enum Status
     {
+        /**
+         * A service or subscription in trialing state, a trial run.
+         */
         TRIALING,
 
+        /**
+         * A new or active order. It is not in a trial and there is no overdue payment.
+         */
         ACTIVE,
 
+        /**
+         * Either creditor or debtor has paused the execution.
+         */
         SUSPENDED,
 
+        /**
+         * Set by system if there is an overdue payment.
+         * The most recent payment for some reason has failed or debtor has refused the purchase order.
+         */
         ISSUE,
 
+        /**
+         * A non recurring purchase order that has been completed. Generally it means an ordered product has been paid.
+         * A subscription that has been expired due to running its normal life cycle.
+         */
         FINISHED
     }
 }
