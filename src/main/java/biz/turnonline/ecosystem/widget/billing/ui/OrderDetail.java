@@ -246,9 +246,21 @@ public class OrderDetail
             {
                 break;
             }
-            case SUSPENDED:
             case ISSUE:
             {
+                stepper.nextStep();
+
+                active.setSuccessText( messages.descriptionOrderStatusActivate() );
+                active.clearStatusText();
+                suspended.setErrorText( messages.descriptionOrderStatusIssue() );
+
+                activeHandler = active.addClickHandler( e -> fireOrderStatusChangeEvent( ACTIVE ) );
+
+                break;
+            }
+            case SUSPENDED:
+            {
+                // difference comparing to ISSUE status is setErrorText has different description
                 stepper.nextStep();
 
                 active.setSuccessText( messages.descriptionOrderStatusActivate() );
