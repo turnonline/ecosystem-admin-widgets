@@ -78,6 +78,7 @@
                                 <module>biz.turnonline.ecosystem.widget.Product</module>
                                 <module>biz.turnonline.ecosystem.widget.Billing</module>
                                 <module>biz.turnonline.ecosystem.widget.MyAccount</module>
+                                <module>biz.turnonline.ecosystem.widget.Purchase</module>
                             </modules>
                         </configuration>
                         <goals>

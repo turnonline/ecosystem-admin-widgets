@@ -13,7 +13,7 @@ public enum Route
     ORDERS( "/billing", "orders", 4 ),
     PRODUCTS( "/products", "products", 5 ),
     CONTACTS( "/contacts", "contacts", 6 ),
-    DASHBOARD( "/dashboard" ),
+    PURCHASES( "/purchases", "purchases", 7 ),
     LOGOUT( "/logout" );
 
     private String url;

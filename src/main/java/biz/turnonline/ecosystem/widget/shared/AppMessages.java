@@ -183,6 +183,9 @@ public interface AppMessages
     @Key( value = "label.editInvoice" )
     String labelEditInvoice();
 
+    @Key( "label.purchases" )
+    String labelPurchases();
+
     @Key( value = "label.confirmation" )
     String labelConfirmation();
 
