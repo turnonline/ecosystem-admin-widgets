@@ -19,7 +19,8 @@
 package biz.turnonline.ecosystem.widget.purchase.view;
 
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.purchase.ui.PurchaseOrderOverviewCard;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -55,7 +56,7 @@ public class PurchaseOrdersView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
-    InfiniteScroll<Order> scroll;
+    InfiniteScroll<PurchaseOrder> scroll;
 
     private int headerHeight;
 
@@ -81,16 +82,17 @@ public class PurchaseOrdersView
         } );
 
         // refresh action setup
-        breadcrumb.setRefreshTooltip( messages.tooltipOrderListRefresh() );
+        breadcrumb.setRefreshTooltip( messages.tooltipPurchaseOrderListRefresh() );
         breadcrumb.setNavSectionVisible( true );
         breadcrumb.addRefreshClickHandler( event -> scroll.reload() );
 
         breadcrumb.setClearFilterVisible( false );
     }
 
-    private Widget createCard( Order order )
+    private Widget createCard( PurchaseOrder order )
     {
         MaterialColumn column = new MaterialColumn( 12, 6, 6 );
+        column.add( new PurchaseOrderOverviewCard( order, ( AppEventBus ) bus() ) );
         return column;
     }
 
@@ -107,7 +109,7 @@ public class PurchaseOrdersView
     }
 
     @Override
-    public void setDataSource( InfiniteScroll.Callback<Order> callback )
+    public void setDataSource( InfiniteScroll.Callback<PurchaseOrder> callback )
     {
         scroll.unload();
         scroll.setDataSource( callback );

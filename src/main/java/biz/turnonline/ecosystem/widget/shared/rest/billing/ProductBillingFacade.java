@@ -40,6 +40,7 @@ import javax.ws.rs.QueryParam;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
+@SuppressWarnings( "VoidMethodAnnotatedWithGET" )
 @Options( dispatcher = FirebaseAuthDispatcher.class, serviceRootKey = Configuration.PRODUCT_BILLING_API_ROOT )
 public interface ProductBillingFacade
         extends RestService
@@ -214,4 +215,26 @@ public interface ProductBillingFacade
     void getVatRates( @QueryParam( "domicile" ) String domicile,
                       @HeaderParam( "Accept-Language" ) String acceptLanguage,
                       SuccessCallback<Items<VatRate>> callback );
+
+    //////////////////////
+    ///// purchases //////
+    //////////////////////
+
+    @GET
+    @Path( "purchases/orders" )
+    void searchPurchaseOrders( @QueryParam( "offset" ) Integer offset,
+                               @QueryParam( "limit" ) Integer limit,
+                               @QueryParam( "lightList" ) boolean lightList,
+                               SuccessCallback<Items<PurchaseOrder>> callback );
+
+    @GET
+    @Path( "purchases/orders/{order_id}" )
+    void getPurchaseOrder( @PathParam( "order_id" ) Long orderId,
+                           @QueryParam( "invoices" ) Integer numberOf,
+                           FacadeCallback<PurchaseOrder> callback );
+
+    @DELETE
+    @Path( "purchases/orders/{order_id}" )
+    void declinePurchaseOrder( @PathParam( "order_id" ) Long orderId,
+                               FacadeCallback<Void> callback );
 }

@@ -18,7 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.place;
 
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
 import com.google.common.base.Splitter;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
@@ -53,7 +53,7 @@ public class PurchaseOrders
         this.scrollspy = scrollspy;
     }
 
-    public static String getScrollspy( @Nullable Order order )
+    public static String getScrollspy( @Nullable PurchaseOrder order )
     {
         return order == null || order.getId() == null ? null : scrollspy( String.valueOf( order.getId() ) );
     }

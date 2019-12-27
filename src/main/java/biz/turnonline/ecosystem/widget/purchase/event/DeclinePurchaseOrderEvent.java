@@ -49,8 +49,8 @@ public class DeclinePurchaseOrderEvent
      *
      * @return the purchase order ID
      */
-    public PurchaseOrder getId()
+    public Long getId()
     {
-        return purchaseOrder;
+        return purchaseOrder.getId();
     }
 }

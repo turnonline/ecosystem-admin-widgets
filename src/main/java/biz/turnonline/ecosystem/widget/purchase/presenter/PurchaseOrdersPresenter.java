@@ -18,11 +18,11 @@
 
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
+import biz.turnonline.ecosystem.widget.purchase.event.DeclinePurchaseOrderEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetail;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import com.google.gwt.place.shared.PlaceController;
@@ -32,7 +32,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * Purchase order list view presenter..
+ * Purchase order list view presenter.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
@@ -49,11 +49,12 @@ public class PurchaseOrdersPresenter
     @Override
     public void bind()
     {
+        bus().addHandler( DeclinePurchaseOrderEvent.TYPE, this::declined );
         bus().addHandler( PurchaseOrderDetailEvent.TYPE,
                 event -> controller().goTo( new PurchaseOrderDetail( event.getId() ) ) );
 
         view().setDataSource( ( offset, limit, callback ) ->
-                bus().billing().getOrders( offset, limit, true, callback ) );
+                bus().billing().searchPurchaseOrders( offset, limit, true, callback ) );
     }
 
     @Override
@@ -68,6 +69,12 @@ public class PurchaseOrdersPresenter
         }
     }
 
+    private void declined( DeclinePurchaseOrderEvent event )
+    {
+        bus().billing().declinePurchaseOrder( event.getId(),
+                ( response, failure ) -> success( messages.msgPurchaseOrderDeclined(), failure ) );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<List<PurchaseOrder>>
     {
@@ -75,6 +82,6 @@ public class PurchaseOrdersPresenter
 
         void clear();
 
-        void setDataSource( InfiniteScroll.Callback<Order> callback );
+        void setDataSource( InfiniteScroll.Callback<PurchaseOrder> callback );
     }
 }

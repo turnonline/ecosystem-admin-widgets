@@ -731,6 +731,18 @@ public interface AppMessages
     @Key( "tooltip.order.list.refresh" )
     String tooltipOrderListRefresh();
 
+    @Key( "tooltip.purchase.order.number" )
+    String tooltipPurchaseOrderNumber();
+
+    @Key( "tooltip.purchase.order.list.refresh" )
+    String tooltipPurchaseOrderListRefresh();
+
+    @Key( "tooltip.purchase.order.view" )
+    String tooltipPurchaseOrderView();
+
+    @Key( "tooltip.purchase.order.decline" )
+    String tooltipPurchaseOrderDecline();
+
     @Key( "tooltip.invoice.send" )
     String tooltipInvoiceSend();
 
@@ -798,6 +810,9 @@ public interface AppMessages
 
     @Key( "msg.order.status.suspended" )
     String msgOrderStatusSuspended();
+
+    @Key( "msg.purchase.order.declined" )
+    String msgPurchaseOrderDeclined();
 
     @Key( "msg.invoice.status.sent" )
     String msgInvoiceStatusSent();

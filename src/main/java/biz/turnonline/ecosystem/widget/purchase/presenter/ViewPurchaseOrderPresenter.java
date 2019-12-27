@@ -19,11 +19,9 @@
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
 import biz.turnonline.ecosystem.widget.purchase.event.BackEvent;
-import biz.turnonline.ecosystem.widget.purchase.event.DeclinePurchaseOrderEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetail;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
 import com.google.gwt.place.shared.PlaceController;
 
@@ -48,7 +46,6 @@ public class ViewPurchaseOrderPresenter
     public void bind()
     {
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new PurchaseOrders() ) );
-        bus().addHandler( DeclinePurchaseOrderEvent.TYPE, this::delete );
     }
 
     @Override
@@ -62,17 +59,6 @@ public class ViewPurchaseOrderPresenter
         }
 
         onAfterBackingObject();
-    }
-
-    private void delete( DeclinePurchaseOrderEvent event )
-    {
-        PurchaseOrder po = event.getPurchaseOrder();
-
-        bus().account().delete( bus().config().getLoginId(), po.getId(),
-                ( SuccessCallback<Void> ) response -> {
-                    success( messages.msgRecordDeleted( po.formattedName() ) );
-                    controller().goTo( new PurchaseOrders() );
-                } );
     }
 
     public interface IView
