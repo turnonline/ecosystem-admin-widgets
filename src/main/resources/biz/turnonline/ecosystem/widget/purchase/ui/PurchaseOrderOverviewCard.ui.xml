@@ -22,7 +22,7 @@
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
-    <m:MaterialCard minHeight="266px" ui:field="card" detectOrientation="true"
+    <m:MaterialCard minHeight="295px" ui:field="card" detectOrientation="true"
                     marginTop="10" marginBottom="10"
                     paddingTop="15" paddingBottom="0">
 

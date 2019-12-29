@@ -27,6 +27,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -40,6 +41,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialDatePicker;
+import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 
@@ -111,6 +113,9 @@ public class OrderOverviewCard
     @UiField
     MaterialLink pause;
 
+    @UiField
+    MaterialImage debtorLogo;
+
     private Order order;
 
     private AppMessages messages = AppMessages.INSTANCE;
@@ -137,6 +142,11 @@ public class OrderOverviewCard
             if ( customer.getCompany() )
             {
                 name = customer.getBusinessName();
+                String logo = customer.getLogoServingUrl();
+                if ( !Strings.isNullOrEmpty( logo ) )
+                {
+                    debtorLogo.setUrl( logo );
+                }
             }
             else
             {

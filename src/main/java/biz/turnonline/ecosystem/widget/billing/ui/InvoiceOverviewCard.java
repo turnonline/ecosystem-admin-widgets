@@ -49,7 +49,7 @@ import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.ORANGE;
-import static gwt.material.design.client.constants.Color.RED;
+import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
 import static gwt.material.design.client.constants.IconType.EDIT;
 import static gwt.material.design.client.constants.IconType.VISIBILITY;
 
@@ -224,7 +224,7 @@ public class InvoiceOverviewCard
             }
             case CANCELED:
             {
-                return RED;
+                return RED_DARKEN_2;
             }
         }
 

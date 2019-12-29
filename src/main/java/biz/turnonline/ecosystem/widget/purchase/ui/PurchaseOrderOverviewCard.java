@@ -28,6 +28,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -134,7 +135,11 @@ public class PurchaseOrderOverviewCard
         if ( creditor != null )
         {
             name = creditor.getBusinessName();
-            creditorLogo.setUrl( creditor.getLogoServingUrl() );
+            String logo = creditor.getLogoServingUrl();
+            if ( !Strings.isNullOrEmpty( logo ) )
+            {
+                creditorLogo.setUrl( logo );
+            }
         }
         title.setText( name );
 
@@ -223,6 +228,7 @@ public class PurchaseOrderOverviewCard
     {
         decline.setEnabled( false );
         bus.fireEvent( new DeclinePurchaseOrderEvent( order ) );
+        removeFromParent();
     }
 
     private Color statusColor( Order.Status status )
