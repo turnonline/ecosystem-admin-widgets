@@ -231,7 +231,7 @@ public interface ProductBillingFacade
     @Path( "purchases/orders/{order_id}" )
     void getPurchaseOrder( @PathParam( "order_id" ) Long orderId,
                            @QueryParam( "invoices" ) Integer numberOf,
-                           FacadeCallback<PurchaseOrder> callback );
+                           SuccessCallback<PurchaseOrder> callback );
 
     @DELETE
     @Path( "purchases/orders/{order_id}" )

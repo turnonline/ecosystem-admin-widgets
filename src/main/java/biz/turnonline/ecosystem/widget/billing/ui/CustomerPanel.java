@@ -294,7 +294,7 @@ public class CustomerPanel
         postCode.reload();
         country.setSingleValueByCode( customer.getCountry() );
 
-        // postall address
+        // postal address
         CustomerPostalAddress postalAddress = customer.getPostalAddress();
         postalBusinessName.setValue( postalAddress != null ? postalAddress.getBusinessName() : null );
         postalPrefix.setValue( postalAddress != null ? postalAddress.getPrefix() : null );

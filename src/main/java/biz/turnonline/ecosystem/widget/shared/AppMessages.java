@@ -72,8 +72,14 @@ public interface AppMessages
     @Key( value = "label.customer" )
     String labelCustomer();
 
+    @Key( "label.supplier" )
+    String labelSupplier();
+
     @Key( value = "label.items" )
     String labelItems();
+
+    @Key( "label.order" )
+    String labelOrder();
 
     @Key( "label.orderItems" )
     String labelOrderItems();
@@ -864,5 +870,8 @@ public interface AppMessages
     // question
 
     @Key( value = "question.deleteRecord" )
-    String questionDeleteRecord( );
+    String questionDeleteRecord();
+
+    @Key( "question.purchase.order.decline" )
+    String questionPurchaseOrderDecline();
 }

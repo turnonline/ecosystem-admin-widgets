@@ -20,10 +20,10 @@ package biz.turnonline.ecosystem.widget.purchase;
 
 import biz.turnonline.ecosystem.widget.purchase.place.HistoryMapper;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
+import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
-import biz.turnonline.ecosystem.widget.purchase.presenter.ViewPurchaseOrderPresenter;
+import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrderDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrdersView;
-import biz.turnonline.ecosystem.widget.purchase.view.ViewPurchaseOrderView;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
@@ -133,7 +133,7 @@ public abstract class PurchaseModule
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditOrder() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT_TURNED_IN, messages.labelOrder() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
@@ -164,5 +164,5 @@ public abstract class PurchaseModule
 
     @Binds
     @Singleton
-    abstract ViewPurchaseOrderPresenter.IView provideViewPurchaseOrderView( ViewPurchaseOrderView view );
+    abstract PurchaseOrderDetailsPresenter.IView provideViewPurchaseOrderView( PurchaseOrderDetailsView view );
 }

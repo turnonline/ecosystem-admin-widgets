@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetail;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -32,11 +33,11 @@ import javax.inject.Inject;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class ViewPurchaseOrderPresenter
-        extends Presenter<ViewPurchaseOrderPresenter.IView>
+public class PurchaseOrderDetailsPresenter
+        extends Presenter<PurchaseOrderDetailsPresenter.IView>
 {
     @Inject
-    public ViewPurchaseOrderPresenter( IView view, PlaceController placeController )
+    public PurchaseOrderDetailsPresenter( IView view, PlaceController placeController )
     {
         super( view, placeController );
         setPlace( PurchaseOrderDetail.class );
@@ -51,18 +52,29 @@ public class ViewPurchaseOrderPresenter
     @Override
     public void onBackingObject()
     {
-        view().setModel( null );
-
         PurchaseOrderDetail where = ( PurchaseOrderDetail ) controller().getWhere();
-        if ( where.getId() != null )
+        if ( where.getId() == null )
         {
+            setModel( new PurchaseOrder() );
+        }
+        else
+        {
+            bus().billing().getPurchaseOrder( where.getId(), 1, this::setModel );
         }
 
         onAfterBackingObject();
     }
 
+    private void setModel( PurchaseOrder response )
+    {
+        PurchaseOrderDetail where = ( PurchaseOrderDetail ) controller().getWhere();
+        view().setModel( response );
+        Scheduler.get().scheduleDeferred( () -> view().selectTab( where.getTab() ) );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<PurchaseOrder>
     {
+        void selectTab( String tab );
     }
 }

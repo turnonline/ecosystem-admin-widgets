@@ -30,16 +30,36 @@ import com.google.gwt.place.shared.Prefix;
 public class PurchaseOrderDetail
         extends Place
 {
-    private Long id;
+    private final Long id;
 
-    public PurchaseOrderDetail( Long id )
+    private final String tab;
+
+    public PurchaseOrderDetail( Long id, String tab )
     {
         this.id = id;
+        this.tab = tab;
+    }
+
+    private static Long tryParseId( String id )
+    {
+        try
+        {
+            return Long.valueOf( id );
+        }
+        catch ( NumberFormatException e )
+        {
+            return null;
+        }
     }
 
     public Long getId()
     {
         return id;
+    }
+
+    public String getTab()
+    {
+        return tab;
     }
 
     @Prefix( value = "order-detail" )
@@ -49,13 +69,48 @@ public class PurchaseOrderDetail
         @Override
         public PurchaseOrderDetail getPlace( String token )
         {
-            return new PurchaseOrderDetail( "".equals( token ) ? null : Long.valueOf( token ) );
+            Long id = null;
+            String tab = null;
+
+            if ( !token.isEmpty() )
+            {
+                String[] tokens = token.split( "\\|" );
+                if ( tokens.length == 1 )
+                {
+                    id = tryParseId( tokens[0] );
+                    if ( id == null )
+                    {
+                        tab = tokens[0];
+                    }
+                }
+                else if ( tokens.length == 2 )
+                {
+                    id = tryParseId( tokens[0] );
+                    tab = tokens[1];
+                }
+            }
+
+            return new PurchaseOrderDetail( id, tab );
         }
 
         @Override
         public String getToken( PurchaseOrderDetail place )
         {
-            return place.getId() != null ? place.getId().toString() : "";
+            String token = "";
+            if ( place.getId() != null )
+            {
+                token += place.getId();
+            }
+            if ( place.getTab() != null )
+            {
+                if ( !token.isEmpty() )
+                {
+                    token += "|";
+                }
+                token += place.getTab();
+            }
+
+            return token;
         }
     }
 }

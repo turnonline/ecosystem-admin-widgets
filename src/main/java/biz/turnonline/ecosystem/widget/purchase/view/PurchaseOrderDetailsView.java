@@ -20,10 +20,18 @@ package biz.turnonline.ecosystem.widget.purchase.view;
 
 import biz.turnonline.ecosystem.widget.purchase.event.BackEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.DeclinePurchaseOrderEvent;
-import biz.turnonline.ecosystem.widget.purchase.presenter.ViewPurchaseOrderPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
+import biz.turnonline.ecosystem.widget.purchase.ui.CreditorPanel;
+import biz.turnonline.ecosystem.widget.purchase.ui.IncomingInvoiceDetails;
+import biz.turnonline.ecosystem.widget.purchase.ui.PurchaseOrderDetails;
+import biz.turnonline.ecosystem.widget.purchase.ui.PurchaseOrderDetailsTabs;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
+import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -38,15 +46,20 @@ import gwt.material.design.client.ui.MaterialButton;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
+
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
 
 /**
  * Purchase order detail view form.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class ViewPurchaseOrderView
+public class PurchaseOrderDetailsView
         extends View<PurchaseOrder>
-        implements ViewPurchaseOrderPresenter.IView
+        implements PurchaseOrderDetailsPresenter.IView
 {
     private static EditContactsViewUiBinder binder = GWT.create( EditContactsViewUiBinder.class );
 
@@ -57,17 +70,33 @@ public class ViewPurchaseOrderView
     ConfirmationWindow confirmation;
 
     @UiField
+    PurchaseOrderDetailsTabs tabs;
+
+    @UiField
+    PurchaseOrderDetails detail;
+
+    @UiField( provided = true )
+    PricingItemsPanel items;
+
+    @UiField
+    CreditorPanel creditor;
+
+    @UiField
+    IncomingInvoiceDetails lastInvoice;
+
+    @UiField
     MaterialButton btnBack;
 
     @UiField
     MaterialAnchorButton decline;
 
     @Inject
-    public ViewPurchaseOrderView( @Named( "ViewPurchaseOrderBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public PurchaseOrderDetailsView( @Named( "ViewPurchaseOrderBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super();
 
         this.breadcrumb = breadcrumb;
+        items = new PricingItemsPanel( AppEventBus.get(), PricingItemsPanel.Context.PURCHASE_ORDER );
         setActive( Route.CONTACTS );
 
         add( binder.createAndBindUi( this ) );
@@ -83,6 +112,22 @@ public class ViewPurchaseOrderView
     @Override
     protected void afterSetModel()
     {
+        PurchaseOrder order = getRawModel();
+        detail.fill( order );
+        creditor.fill( order.getCreditor() );
+
+        Order.Status status = order.getStatus() == null ? SUSPENDED : Order.Status.valueOf( order.getStatus() );
+        decline.setEnabled( status == TRIALING || status == ACTIVE || status == SUSPENDED );
+
+        items.reset();
+        items.fill( order.getItems() );
+        items.setReadOnly( true );
+
+        List<IncomingInvoice> invoices = order.getInvoices();
+        if ( invoices != null && !invoices.isEmpty() )
+        {
+            lastInvoice.fill( invoices.get( 0 ) );
+        }
     }
 
     @UiHandler( "btnBack" )
@@ -94,11 +139,17 @@ public class ViewPurchaseOrderView
     @UiHandler( "decline" )
     public void deleteContact( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
+        confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDecline() );
+    }
+
+    @Override
+    public void selectTab( String tab )
+    {
+        tabs.selectTab( tab );
     }
 
     interface EditContactsViewUiBinder
-            extends UiBinder<HTMLPanel, ViewPurchaseOrderView>
+            extends UiBinder<HTMLPanel, PurchaseOrderDetailsView>
     {
     }
 }

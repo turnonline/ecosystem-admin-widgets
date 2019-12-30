@@ -51,7 +51,7 @@ public class PurchaseOrdersPresenter
     {
         bus().addHandler( DeclinePurchaseOrderEvent.TYPE, this::declined );
         bus().addHandler( PurchaseOrderDetailEvent.TYPE,
-                event -> controller().goTo( new PurchaseOrderDetail( event.getId() ) ) );
+                event -> controller().goTo( new PurchaseOrderDetail( event.getId(), "tabDetails" ) ) );
 
         view().setDataSource( ( offset, limit, callback ) ->
                 bus().billing().searchPurchaseOrders( offset, limit, true, callback ) );
