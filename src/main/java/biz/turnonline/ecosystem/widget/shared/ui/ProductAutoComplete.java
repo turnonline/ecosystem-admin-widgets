@@ -21,6 +21,8 @@ public class ProductAutoComplete
 {
     private static AppMessages messages = AppMessages.INSTANCE;
 
+    private InputSearchIcon icon;
+
     public ProductAutoComplete( EventBus eventBus )
     {
         super( new ProductOracle( eventBus ) );
@@ -28,7 +30,7 @@ public class ProductAutoComplete
         setLimit( 5 );
 
         FlowPanel parent = ( FlowPanel ) getItemBox().getParent().getParent().getParent().getParent();
-        InputSearchIcon icon = new InputSearchIcon();
+        icon = new InputSearchIcon();
         icon.getElement().getStyle().setMarginTop( -42, Style.Unit.PX );
         parent.add( icon );
 
@@ -38,6 +40,16 @@ public class ProductAutoComplete
 
         setTooltip( messages.tooltipProductAutocomplete() );
     }
+
+    public void setReadOnly( boolean readOnly )
+    {
+        super.setReadOnly( readOnly );
+        icon.setVisible( !readOnly );
+        // workaround how to hide tooltip for read only mode, setting 'null' does not help,
+        // tooltip null would be shown
+        setTooltipDelayMs( readOnly ? 1000000 : 700 );
+    }
+
 
     private static class ProductOracle
             extends MaterialSuggestionOracle

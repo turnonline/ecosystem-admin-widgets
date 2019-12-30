@@ -355,6 +355,16 @@ public class TreeItemWithModel
     }
 
     /**
+     * Returns boolean indication whether model has been initialized from PURCHASE_ORDER.
+     *
+     * @return {@code true} if initialized from PURCHASE_ORDER
+     */
+    boolean isPurchaseOrderContext()
+    {
+        return context == PricingItemsPanel.Context.PURCHASE_ORDER;
+    }
+
+    /**
      * Returns row item that's being associated with this tree item
      *
      * @return the associated row item

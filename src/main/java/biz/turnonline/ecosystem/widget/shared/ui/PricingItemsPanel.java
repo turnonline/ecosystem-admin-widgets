@@ -102,6 +102,12 @@ public class PricingItemsPanel
     MaterialButton btnAdd;
 
     @UiField
+    MaterialIcon btnCollapse;
+
+    @UiField
+    MaterialIcon btnExpand;
+
+    @UiField
     MaterialIcon itemType;
 
     @UiField
@@ -161,7 +167,11 @@ public class PricingItemsPanel
         thRow.add( header( messages.labelPriceExcludingVat(), "15%" ) );
         thRow.add( header( messages.labelUnit(), "15%" ) );
         thRow.add( header( messages.labelVat(), "10%" ) );
-        thRow.add( header( "", "5%" ) );
+        if ( context != Context.PURCHASE_ORDER )
+        {
+            // delete action column won't be shown for PURCHASE_ORDER
+            thRow.add( header( "", "5%" ) );
+        }
         thead.add( thRow );
 
         btnAdd.setEnabled( false );
@@ -190,6 +200,15 @@ public class PricingItemsPanel
                 types.add( attendee );
                 types.add( eventPart );
 
+                break;
+            }
+            case PURCHASE_ORDER:
+            {
+                btnAdd.setVisible( false );
+                btnCalculate.setVisible( false );
+                btnCollapse.setVisible( false );
+                btnExpand.setVisible( false );
+                itemType.setVisible( false );
                 break;
             }
         }
@@ -710,6 +729,7 @@ public class PricingItemsPanel
     {
         PRODUCT,
         ORDER,
+        PURCHASE_ORDER,
         INVOICE
     }
 

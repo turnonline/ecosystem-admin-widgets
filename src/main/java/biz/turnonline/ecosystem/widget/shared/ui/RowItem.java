@@ -94,6 +94,9 @@ class RowItem
     @UiField
     MaterialButton delete;
 
+    @UiField
+    TableData deleteColumn;
+
     private HasValue<String> itemName;
 
     private boolean originCheckedInEnabled;
@@ -152,6 +155,12 @@ class RowItem
         else
         {
             itemName = itemNameStandard;
+        }
+
+        if ( treeItem.isPurchaseOrderContext() )
+        {
+            deleteColumn.removeFromParent();
+            deleteColumn.setVisible( false );
         }
     }
 

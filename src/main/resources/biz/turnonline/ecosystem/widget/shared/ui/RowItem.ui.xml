@@ -42,7 +42,7 @@
         <t:TableData>
             <s:VatRateComboBox ui:field="vat"/>
         </t:TableData>
-        <t:TableData verticalAlign="MIDDLE">
+        <t:TableData verticalAlign="MIDDLE" ui:field="deleteColumn">
             <m:MaterialButton ui:field="delete"
                               tooltip="{msg.labelDelete}"
                               type="FLOATING"
