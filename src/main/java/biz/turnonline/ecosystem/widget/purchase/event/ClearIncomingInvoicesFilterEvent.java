@@ -16,17 +16,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.event;
+package biz.turnonline.ecosystem.widget.purchase.event;
 
-import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * Download invoice event handler.
+ * Represents a request to clear incoming invoice list filter.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public interface DownloadInvoiceEventHandler
-        extends EventHandler
+public class ClearIncomingInvoicesFilterEvent
+        extends GwtEvent<ClearIncomingInvoicesFilterEventHandler>
 {
-    void onDownloadInvoice( DownloadInvoiceEvent event );
+    public static Type<ClearIncomingInvoicesFilterEventHandler> TYPE = new Type<>();
+
+    public Type<ClearIncomingInvoicesFilterEventHandler> getAssociatedType()
+    {
+        return TYPE;
+    }
+
+    protected void dispatch( ClearIncomingInvoicesFilterEventHandler handler )
+    {
+        handler.onClearIncomingInvoicesFilter( this );
+    }
 }

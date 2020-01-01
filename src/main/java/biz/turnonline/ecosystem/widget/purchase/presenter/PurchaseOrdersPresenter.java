@@ -20,7 +20,7 @@ package biz.turnonline.ecosystem.widget.purchase.presenter;
 
 import biz.turnonline.ecosystem.widget.purchase.event.DeclinePurchaseOrderEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
-import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetail;
+import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetails;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
@@ -51,7 +51,7 @@ public class PurchaseOrdersPresenter
     {
         bus().addHandler( DeclinePurchaseOrderEvent.TYPE, this::declined );
         bus().addHandler( PurchaseOrderDetailEvent.TYPE,
-                event -> controller().goTo( new PurchaseOrderDetail( event.getId(), "tabDetails" ) ) );
+                event -> controller().goTo( new PurchaseOrderDetails( event.getId(), "tabDetails" ) ) );
 
         view().setDataSource( ( offset, limit, callback ) ->
                 bus().billing().searchPurchaseOrders( offset, limit, true, callback ) );

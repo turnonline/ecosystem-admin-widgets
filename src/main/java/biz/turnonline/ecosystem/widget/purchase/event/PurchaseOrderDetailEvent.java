@@ -16,15 +16,11 @@ public class PurchaseOrderDetailEvent
 {
     public static Type<PurchaseOrderDetailEventHandler> TYPE = new Type<>();
 
-    private Long orderId;
-
-    public PurchaseOrderDetailEvent()
-    {
-    }
+    private final Long orderId;
 
     public PurchaseOrderDetailEvent( @Nonnull Long orderId )
     {
-        this.orderId = checkNotNull( orderId, "Purchase order can't be null" );
+        this.orderId = checkNotNull( orderId, "Purchase order ID can't be null" );
     }
 
     public Type<PurchaseOrderDetailEventHandler> getAssociatedType()
@@ -38,9 +34,9 @@ public class PurchaseOrderDetailEvent
     }
 
     /**
-     * Returns the purchase order ID or {@code null} if the event represents a new order request.
+     * Returns the purchase order ID.
      *
-     * @return the purchase order ID or {@code null}
+     * @return the purchase order ID
      */
     public Long getId()
     {

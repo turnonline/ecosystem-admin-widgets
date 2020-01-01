@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.Color;
@@ -18,6 +19,7 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialNavBar;
 import gwt.material.design.client.ui.MaterialNavSection;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -34,8 +36,13 @@ public class ScaffoldBreadcrumb
 
     public ScaffoldBreadcrumb( List<BreadcrumbItem> items, PlaceController placeController )
     {
+        this( items, placeController, null );
+    }
+
+    public ScaffoldBreadcrumb( List<BreadcrumbItem> items, PlaceController placeController, @Nullable Widget child )
+    {
         MaterialNavBar navBar = new MaterialNavBar();
-        navBar.setBackgroundColor( Color.GREY_LIGHTEN_5 );
+        navBar.setBackgroundColor( Color.WHITE );
         navBar.setPaddingLeft( 20 );
 
         for ( int i = 0; i < items.size(); i++ )
@@ -80,13 +87,20 @@ public class ScaffoldBreadcrumb
         clearFilter.setIconType( IconType.CANCEL );
         clearFilter.setIconColor( Color.BLACK );
         clearFilter.setWaves( WavesType.LIGHT );
+        clearFilter.setPaddingRight( 0 );
         navSection.add( clearFilter );
 
         refresh = new MaterialLink();
         refresh.setIconType( IconType.REFRESH );
         refresh.setIconColor( Color.BLACK );
         refresh.setWaves( WavesType.LIGHT );
+        refresh.setPaddingRight( 0 );
         navSection.add( refresh );
+
+        if ( child != null )
+        {
+            navSection.add( child );
+        }
 
         initWidget( navBar );
     }

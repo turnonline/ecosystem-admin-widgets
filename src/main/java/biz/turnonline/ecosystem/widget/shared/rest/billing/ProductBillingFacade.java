@@ -237,4 +237,25 @@ public interface ProductBillingFacade
     @Path( "purchases/orders/{order_id}" )
     void declinePurchaseOrder( @PathParam( "order_id" ) Long orderId,
                                FacadeCallback<Void> callback );
+
+    @GET
+    @Path( "purchases/invoices" )
+    void searchIncomingInvoices( @QueryParam( "offset" ) Integer offset,
+                                 @QueryParam( "limit" ) Integer limit,
+                                 @QueryParam( "lightList" ) boolean lightList,
+                                 SuccessCallback<Items<IncomingInvoice>> callback );
+
+    @GET
+    @Path( "purchases/orders/{order_id}/invoices" )
+    void listOrderIncomingInvoices( @PathParam( "order_id" ) Long orderId,
+                                    @QueryParam( "offset" ) Integer offset,
+                                    @QueryParam( "limit" ) Integer limit,
+                                    @QueryParam( "lightList" ) boolean lightList,
+                                    SuccessCallback<Items<IncomingInvoice>> callback );
+
+    @GET
+    @Path( "purchases/orders/{order_id}/invoices/{invoice_id}" )
+    void getIncomingOrderInvoice( @PathParam( "order_id" ) Long orderId,
+                                  @PathParam( "invoice_id" ) Long invoiceId,
+                                  SuccessCallback<IncomingInvoice> callback );
 }

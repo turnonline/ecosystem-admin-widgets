@@ -19,9 +19,12 @@
 package biz.turnonline.ecosystem.widget.purchase;
 
 import biz.turnonline.ecosystem.widget.purchase.place.HistoryMapper;
+import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
+import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoicesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
+import biz.turnonline.ecosystem.widget.purchase.view.IncomingInvoicesView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrderDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrdersView;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
@@ -41,7 +44,11 @@ import com.google.web.bindery.event.shared.EventBus;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.WavesType;
+import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialRow;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -141,13 +148,50 @@ public abstract class PurchaseModule
     @Provides
     @Singleton
     @Named( "PurchaseOrdersBreadcrumb" )
-    static ScaffoldBreadcrumb providePurchaseOrdersBreadcrumb( PlaceController placeController )
+    static ScaffoldBreadcrumb providePurchaseOrdersBreadcrumb( PlaceController controller )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
 
-        return new ScaffoldBreadcrumb( items, placeController );
+        return new ScaffoldBreadcrumb( items, controller, providePurchaseViewTypes( controller ) );
+    }
+
+    @Provides
+    @Singleton
+    @Named( "IncomingInvoicesBreadcrumb" )
+    static ScaffoldBreadcrumb provideIncomingInvoicesBreadcrumb( PlaceController controller )
+    {
+        List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelInvoices() ) );
+
+        return new ScaffoldBreadcrumb( items, controller, providePurchaseViewTypes( controller ) );
+    }
+
+    private static MaterialRow providePurchaseViewTypes( PlaceController controller )
+    {
+        MaterialRow viewTypes = new MaterialRow();
+
+        MaterialLink ordersButton = new MaterialLink();
+        viewTypes.add( ordersButton );
+        ordersButton.setIconType( IconType.ASSIGNMENT_TURNED_IN );
+        ordersButton.setIconColor( Color.BLACK );
+        ordersButton.setWaves( WavesType.LIGHT );
+        ordersButton.setPaddingRight( 0 );
+        ordersButton.addClickHandler( event -> controller.goTo( new PurchaseOrders() ) );
+
+        MaterialLink invoicesButton = new MaterialLink();
+        viewTypes.add( invoicesButton );
+        invoicesButton.setIconType( IconType.ASSIGNMENT );
+        invoicesButton.setIconColor( Color.BLACK );
+        invoicesButton.setWaves( WavesType.LIGHT );
+        invoicesButton.setPaddingRight( 0 );
+        invoicesButton.addClickHandler( event -> controller.goTo( new IncomingInvoices() ) );
+
+        return viewTypes;
     }
 
     @Binds
@@ -164,5 +208,9 @@ public abstract class PurchaseModule
 
     @Binds
     @Singleton
-    abstract PurchaseOrderDetailsPresenter.IView provideViewPurchaseOrderView( PurchaseOrderDetailsView view );
+    abstract PurchaseOrderDetailsPresenter.IView providePurchaseOrderDetailsView( PurchaseOrderDetailsView view );
+
+    @Binds
+    @Singleton
+    abstract IncomingInvoicesPresenter.IView provideIncomingInvoicesView( IncomingInvoicesView view );
 }

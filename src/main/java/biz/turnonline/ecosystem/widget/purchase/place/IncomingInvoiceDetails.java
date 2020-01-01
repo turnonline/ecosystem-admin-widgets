@@ -23,20 +23,23 @@ import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
 /**
- * Purchase order detail place.
+ * Incoming invoice details place.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class PurchaseOrderDetail
+public class IncomingInvoiceDetails
         extends Place
 {
-    private final Long id;
+    private final Long orderId;
+
+    private final Long invoiceId;
 
     private final String tab;
 
-    public PurchaseOrderDetail( Long id, String tab )
+    public IncomingInvoiceDetails( Long orderId, Long invoiceId, String tab )
     {
-        this.id = id;
+        this.orderId = orderId;
+        this.invoiceId = invoiceId;
         this.tab = tab;
     }
 
@@ -52,9 +55,14 @@ public class PurchaseOrderDetail
         }
     }
 
-    public Long getId()
+    public Long getInvoiceId()
     {
-        return id;
+        return invoiceId;
+    }
+
+    public Long getOrderId()
+    {
+        return orderId;
     }
 
     public String getTab()
@@ -62,14 +70,15 @@ public class PurchaseOrderDetail
         return tab;
     }
 
-    @Prefix( value = "order-detail" )
+    @Prefix( value = "invoice-detail" )
     public static class Tokenizer
-            implements PlaceTokenizer<PurchaseOrderDetail>
+            implements PlaceTokenizer<IncomingInvoiceDetails>
     {
         @Override
-        public PurchaseOrderDetail getPlace( String token )
+        public IncomingInvoiceDetails getPlace( String token )
         {
-            Long id = null;
+            Long orderId = null;
+            Long invoiceId = null;
             String tab = null;
 
             if ( !token.isEmpty() )
@@ -77,29 +86,35 @@ public class PurchaseOrderDetail
                 String[] tokens = token.split( "\\|" );
                 if ( tokens.length == 1 )
                 {
-                    id = tryParseId( tokens[0] );
-                    if ( id == null )
-                    {
-                        tab = tokens[0];
-                    }
+                    tab = tokens[0];
                 }
-                else if ( tokens.length == 2 )
+                else if ( tokens.length == 3 )
                 {
-                    id = tryParseId( tokens[0] );
-                    tab = tokens[1];
+                    orderId = tryParseId( tokens[0] );
+                    invoiceId = tryParseId( tokens[1] );
+                    tab = tokens[2];
                 }
             }
 
-            return new PurchaseOrderDetail( id, tab );
+            return new IncomingInvoiceDetails( orderId, invoiceId, tab );
         }
 
         @Override
-        public String getToken( PurchaseOrderDetail place )
+        public String getToken( IncomingInvoiceDetails place )
         {
             String token = "";
-            if ( place.getId() != null )
+
+            if ( place.getOrderId() != null )
             {
-                token += place.getId();
+                token += place.getOrderId();
+            }
+            if ( place.getInvoiceId() != null )
+            {
+                if ( !token.isEmpty() )
+                {
+                    token += "|";
+                }
+                token += place.getInvoiceId();
             }
             if ( place.getTab() != null )
             {

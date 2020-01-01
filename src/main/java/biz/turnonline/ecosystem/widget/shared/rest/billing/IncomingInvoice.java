@@ -51,11 +51,6 @@ public final class IncomingInvoice
     /**
      * The value may be {@code null}.
      */
-    private Customer customer;
-
-    /**
-     * The value may be {@code null}.
-     */
     private Date dateOfIssue;
 
     /**
@@ -91,17 +86,17 @@ public final class IncomingInvoice
     /**
      * The value may be {@code null}.
      */
+    private String pin;
+
+    /**
+     * The value may be {@code null}.
+     */
     private InvoicePricing pricing;
 
     /**
      * The value may be {@code null}.
      */
     private String servingUrl;
-
-    /**
-     * The value may be {@code null}.
-     */
-    private String status;
 
     /**
      * The value may be {@code null}.
@@ -156,23 +151,6 @@ public final class IncomingInvoice
     public IncomingInvoice setCurrency( String currency )
     {
         this.currency = currency;
-        return this;
-    }
-
-    /**
-     * @return value or {@code null} for none
-     */
-    public Customer getCustomer()
-    {
-        return customer;
-    }
-
-    /**
-     * @param customer customer or {@code null} for none
-     */
-    public IncomingInvoice setCustomer( Customer customer )
-    {
-        this.customer = customer;
         return this;
     }
 
@@ -298,6 +276,23 @@ public final class IncomingInvoice
     /**
      * @return value or {@code null} for none
      */
+    public String getPin()
+    {
+        return pin;
+    }
+
+    /**
+     * @param pin pin or {@code null} for none
+     */
+    public IncomingInvoice setPin( String pin )
+    {
+        this.pin = pin;
+        return this;
+    }
+
+    /**
+     * @return value or {@code null} for none
+     */
     public InvoicePricing getPricing()
     {
         return pricing;
@@ -326,23 +321,6 @@ public final class IncomingInvoice
     public IncomingInvoice setServingUrl( String servingUrl )
     {
         this.servingUrl = servingUrl;
-        return this;
-    }
-
-    /**
-     * @return value or {@code null} for none
-     */
-    public String getStatus()
-    {
-        return status;
-    }
-
-    /**
-     * @param status status or {@code null} for none
-     */
-    public IncomingInvoice setStatus( String status )
-    {
-        this.status = status;
         return this;
     }
 

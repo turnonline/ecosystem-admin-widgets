@@ -19,7 +19,7 @@
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
 import biz.turnonline.ecosystem.widget.purchase.event.BackEvent;
-import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetail;
+import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetails;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
@@ -40,7 +40,7 @@ public class PurchaseOrderDetailsPresenter
     public PurchaseOrderDetailsPresenter( IView view, PlaceController placeController )
     {
         super( view, placeController );
-        setPlace( PurchaseOrderDetail.class );
+        setPlace( PurchaseOrderDetails.class );
     }
 
     @Override
@@ -52,7 +52,7 @@ public class PurchaseOrderDetailsPresenter
     @Override
     public void onBackingObject()
     {
-        PurchaseOrderDetail where = ( PurchaseOrderDetail ) controller().getWhere();
+        PurchaseOrderDetails where = ( PurchaseOrderDetails ) controller().getWhere();
         if ( where.getId() == null )
         {
             setModel( new PurchaseOrder() );
@@ -67,7 +67,7 @@ public class PurchaseOrderDetailsPresenter
 
     private void setModel( PurchaseOrder response )
     {
-        PurchaseOrderDetail where = ( PurchaseOrderDetail ) controller().getWhere();
+        PurchaseOrderDetails where = ( PurchaseOrderDetails ) controller().getWhere();
         view().setModel( response );
         Scheduler.get().scheduleDeferred( () -> view().selectTab( where.getTab() ) );
     }

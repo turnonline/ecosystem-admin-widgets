@@ -34,7 +34,6 @@ import java.util.List;
  *
  * @author Google, Inc.
  */
-@SuppressWarnings( "javadoc" )
 public final class InvoicePayment
         implements RelevantNullChecker
 {

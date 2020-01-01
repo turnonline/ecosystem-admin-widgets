@@ -773,6 +773,9 @@ public interface AppMessages
     @Key( "tooltip.invoice.list.clearFilter" )
     String tooltipInvoiceListClearFilter();
 
+    @Key( "tooltip.purchase.invoice.view" )
+    String tooltipPurchaseInvoiceView();
+
     // messages
 
     @Key( value = "msg.recordDeleted" )

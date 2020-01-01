@@ -16,18 +16,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.ui;
+package biz.turnonline.ecosystem.widget.purchase.ui;
 
-import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
-import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
-import biz.turnonline.ecosystem.widget.billing.place.Invoices;
+import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceDetailsEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
+import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Creditor;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
@@ -42,26 +44,28 @@ import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.NEW;
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.valueOf;
+import javax.annotation.Nullable;
+import java.util.Date;
+
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType.TAX_DOCUMENT;
+import static gwt.material.design.client.constants.Color.BLACK;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
-import static gwt.material.design.client.constants.Color.ORANGE;
 import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
-import static gwt.material.design.client.constants.IconType.EDIT;
-import static gwt.material.design.client.constants.IconType.VISIBILITY;
+import static gwt.material.design.client.constants.Color.WHITE;
 
 /**
- * Invoice overview card component.
+ * Incoming invoice (purchases) overview card component.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class InvoiceOverviewCard
+public class IncomingInvoiceOverviewCard
         extends Composite
 {
     private static InvoiceCardUiBinder binder = GWT.create( InvoiceCardUiBinder.class );
+
+    private static DateTimeFormat FORMATTER = DateTimeFormat.getFormat( "dd MMMM yyyy" );
 
     @UiField
     MaterialImage invoiceImage;
@@ -70,13 +74,16 @@ public class InvoiceOverviewCard
     MaterialLabel title;
 
     @UiField
+    MaterialImage creditorLogo;
+
+    @UiField
     MaterialLabel invoiceNumber;
 
     @UiField
     MaterialChip type;
 
     @UiField
-    MaterialChip status;
+    MaterialChip dueDate;
 
     @UiField
     PriceLabel amountToPay;
@@ -104,11 +111,11 @@ public class InvoiceOverviewCard
 
     private AppMessages messages = AppMessages.INSTANCE;
 
-    public InvoiceOverviewCard( Invoice invoice, EventBus bus )
+    public IncomingInvoiceOverviewCard( IncomingInvoice invoice, EventBus bus )
     {
         initWidget( binder.createAndBindUi( this ) );
 
-        card.setScrollspy( Invoices.getScrollspy( invoice ) );
+        card.setScrollspy( IncomingInvoices.getScrollspy( invoice ) );
 
         // invoice image
         boolean hasImageUrl = invoice.getServingUrl() != null;
@@ -125,18 +132,16 @@ public class InvoiceOverviewCard
             invoiceImage.setVisible( false );
         }
 
-        // customer as a title
-        Customer customer = invoice.getCustomer();
+        // creditor as a title
+        Creditor creditor = invoice.getCreditor();
         String name = "";
-        if ( customer != null )
+        if ( creditor != null )
         {
-            if ( customer.getCompany() )
+            name = creditor.getBusinessName();
+            String logo = creditor.getLogoServingUrl();
+            if ( !Strings.isNullOrEmpty( logo ) )
             {
-                name = customer.getBusinessName();
-            }
-            else
-            {
-                name = customer.getFirstName() + " " + customer.getLastName();
+                creditorLogo.setUrl( logo );
             }
         }
         title.setText( name );
@@ -145,116 +150,78 @@ public class InvoiceOverviewCard
         type.setBackgroundColor( typeColor( invoice.getType() ) );
         type.setText( typeText( invoice.getType() ) );
 
-        Invoice.Status statusEnum = invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
-        status.setBackgroundColor( statusColor( statusEnum ) );
-        status.setText( statusText( statusEnum ) );
-
         // pricing
         InvoicePayment payment = invoice.getPayment();
 
         if ( payment == null )
         {
             amountToPay.setText( "0" );
+            dueDate.setVisible( false );
         }
         else
         {
             amountToPay.setValue( payment.getTotalAmount(), invoice.getCurrency() );
-        }
+            Date due = payment.getDueDate();
 
-        // actions
-        if ( NEW == statusEnum )
-        {
-            editLink.setIconType( EDIT );
-        }
-        else
-        {
-            editLink.setIconType( VISIBILITY );
+            dueDate.setText( due == null ? "none" : FORMATTER.format( due ) );
+            dueDate.setBackgroundColor( dueDateColor( due ) );
+
+            if ( dueDate.getBackgroundColor() == WHITE )
+            {
+                dueDate.setTextColor( BLACK );
+                dueDate.setBorder( "1px solid black" );
+            }
+            else
+            {
+                dueDate.setTextColor( WHITE );
+            }
         }
 
         // action event handlers
-        String scrollspyHistoryToken = Invoices.PREFIX + ":" + Invoices.getScrollspy( invoice );
+        String scrollspyHistoryToken = IncomingInvoices.PREFIX + ":" + IncomingInvoices.getScrollspy( invoice );
 
         editLink.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy
-            if ( Invoices.isCurrentTokenScrollspy() )
+            if ( IncomingInvoices.isCurrentTokenScrollspy() )
             {
                 // add record in to history (to manage scrolling to selected card once going back), but don't fire event
                 History.newItem( scrollspyHistoryToken, false );
             }
-            bus.fireEvent( new EditInvoiceEvent( invoice ) );
+            bus.fireEvent( new IncomingInvoiceDetailsEvent( invoice ) );
         } );
 
         viewOrder.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy
-            if ( Invoices.isCurrentTokenScrollspy() )
+            if ( IncomingInvoices.isCurrentTokenScrollspy() )
             {
                 // add record in to history (to manage scrolling to selected card once going back), but don't fire event
                 History.newItem( scrollspyHistoryToken, false );
             }
-            bus.fireEvent( new EditOrderEvent( invoice.getOrderId() ) );
+            bus.fireEvent( new PurchaseOrderDetailEvent( invoice.getOrderId() ) );
         } );
 
         if ( hasImageUrl )
         {
             downloadLink.addClickHandler( event ->
-            {
-                DownloadInvoiceEvent de;
-                de = new DownloadInvoiceEvent( invoice.getOrderId(), invoice.getId(), invoice.getPin() );
-                bus.fireEvent( de );
-            } );
+                    bus.fireEvent( new DownloadInvoiceEvent( invoice.getOrderId(), invoice.getId(), invoice.getPin() ) ) );
         }
         downloadLink.setVisible( hasImageUrl );
     }
 
-    private Color statusColor( Invoice.Status status )
+    private Color dueDateColor( @Nullable Date date )
     {
-        switch ( status )
+        if ( date == null )
         {
-            case NEW:
-            {
-                return BLUE;
-            }
-            case SENT:
-            {
-                return ORANGE;
-            }
-            case PAID:
-            {
-                return GREEN;
-            }
-            case CANCELED:
-            {
-                return RED_DARKEN_2;
-            }
+            return GREY;
         }
-
-        return GREY;
-    }
-
-    private String statusText( Invoice.Status status )
-    {
-        switch ( status )
+        else if ( date.after( new Date() ) )
         {
-            case NEW:
-            {
-                return messages.descriptionInvoiceStatusNew();
-            }
-            case SENT:
-            {
-                return messages.descriptionInvoiceStatusSent();
-            }
-            case PAID:
-            {
-                return messages.descriptionInvoiceStatusPaid();
-            }
-            case CANCELED:
-            {
-                return messages.descriptionInvoiceStatusCanceled();
-            }
+            return WHITE;
         }
-        String error = "Unknown invoice status: " + status;
-        GWT.log( error );
-        throw new IllegalArgumentException( error );
+        else
+        {
+            return RED_DARKEN_2;
+        }
     }
 
     private Color typeColor( String type )
@@ -278,7 +245,7 @@ public class InvoiceOverviewCard
     }
 
     interface InvoiceCardUiBinder
-            extends UiBinder<MaterialCard, InvoiceOverviewCard>
+            extends UiBinder<MaterialCard, IncomingInvoiceOverviewCard>
     {
     }
 }

@@ -18,13 +18,13 @@
 
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
-import biz.turnonline.ecosystem.widget.billing.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceListEvent;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
@@ -34,13 +34,11 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import com.google.gwt.place.shared.PlaceController;
-import org.fusesource.restygwt.client.ServiceRoots;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.ArrayList;
 
-import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_STORAGE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.SENT;
 
 /**
@@ -130,14 +128,7 @@ public class EditInvoicePresenter
 
     private void downloadInvoice( DownloadInvoiceEvent event )
     {
-        String url = ServiceRoots.get( PRODUCT_BILLING_STORAGE )
-                + "pdf/orders/"
-                + event.getOrderId()
-                + "/invoices/"
-                + event.getInvoiceId()
-                + "/"
-                + event.getPin();
-        view().downloadInvoice( url );
+        view().downloadInvoice( event.downloadInvoiceUrl() );
     }
 
     public interface IView

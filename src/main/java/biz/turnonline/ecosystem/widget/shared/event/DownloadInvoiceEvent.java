@@ -16,12 +16,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.billing.event;
+package biz.turnonline.ecosystem.widget.shared.event;
 
 import com.google.gwt.event.shared.GwtEvent;
+import org.fusesource.restygwt.client.ServiceRoots;
 
 import javax.annotation.Nonnull;
 
+import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_STORAGE;
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
@@ -85,5 +87,16 @@ public class DownloadInvoiceEvent
     public String getPin()
     {
         return pin;
+    }
+
+    public String downloadInvoiceUrl()
+    {
+        return ServiceRoots.get( PRODUCT_BILLING_STORAGE )
+                + "pdf/orders/"
+                + getOrderId()
+                + "/invoices/"
+                + getInvoiceId()
+                + "/"
+                + getPin();
     }
 }
