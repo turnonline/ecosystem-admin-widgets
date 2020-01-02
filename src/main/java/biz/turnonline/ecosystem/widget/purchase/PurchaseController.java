@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase;
 
+import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoicesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
@@ -35,9 +36,10 @@ public class PurchaseController
 {
     @Inject
     public PurchaseController( PurchaseOrdersPresenter orders,
-                               PurchaseOrderDetailsPresenter viewDetail,
-                               IncomingInvoicesPresenter invoices )
+                               PurchaseOrderDetailsPresenter orderDetail,
+                               IncomingInvoicesPresenter invoices,
+                               IncomingInvoiceDetailsPresenter invoiceDetails )
     {
-        super( orders, viewDetail, invoices );
+        super( orders, orderDetail, invoices, invoiceDetails );
     }
 }

@@ -55,7 +55,7 @@ public class IncomingInvoicesPresenter
     public void bind()
     {
         bus().addHandler( IncomingInvoiceDetailsEvent.TYPE, event ->
-                controller().goTo( new IncomingInvoiceDetails( event.getOrderId(), event.getInvoiceId(), "tabDetail" ) )
+                controller().goTo( new IncomingInvoiceDetails( event.getOrderId(), event.getInvoiceId(), "tabDetails" ) )
         );
 
         bus().addHandler( DownloadInvoiceEvent.TYPE, e -> view().downloadInvoice( e.downloadInvoiceUrl() ) );

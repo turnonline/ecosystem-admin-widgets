@@ -18,7 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
-import biz.turnonline.ecosystem.widget.purchase.event.BackEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderListEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetails;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -46,7 +46,7 @@ public class PurchaseOrderDetailsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new PurchaseOrders() ) );
+        bus().addHandler( PurchaseOrderListEvent.TYPE, e -> controller().goTo( new PurchaseOrders( e.getScrollspy() ) ) );
     }
 
     @Override
@@ -75,6 +75,11 @@ public class PurchaseOrderDetailsPresenter
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<PurchaseOrder>
     {
+        /**
+         * Selects the specified tab to be visible to the user.
+         *
+         * @param tab the name of the tab to be selected
+         */
         void selectTab( String tab );
     }
 }

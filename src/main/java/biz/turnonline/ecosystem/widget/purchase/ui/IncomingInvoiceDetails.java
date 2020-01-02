@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Incoming invoice detail read only form panel.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class IncomingInvoiceDetails
         extends Composite

@@ -35,7 +35,7 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodici
  * Management all of the single order properties.
  * Fires following events:
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class PurchaseOrderDetails
         extends Composite

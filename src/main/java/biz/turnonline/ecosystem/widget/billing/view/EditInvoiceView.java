@@ -28,7 +28,6 @@ import biz.turnonline.ecosystem.widget.billing.presenter.EditInvoicePresenter;
 import biz.turnonline.ecosystem.widget.billing.ui.CustomerPanel;
 import biz.turnonline.ecosystem.widget.billing.ui.EditInvoiceTabs;
 import biz.turnonline.ecosystem.widget.billing.ui.InvoiceDetail;
-import biz.turnonline.ecosystem.widget.billing.ui.InvoiceTransactions;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
@@ -40,6 +39,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
+import biz.turnonline.ecosystem.widget.shared.ui.Transactions;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -92,8 +92,8 @@ public class EditInvoiceView
     @UiField( provided = true )
     PricingItemsPanel items;
 
-    @UiField( provided = true )
-    InvoiceTransactions transactions;
+    @UiField
+    Transactions transactions;
 
     @UiField
     MaterialButton btnSave;
@@ -138,7 +138,6 @@ public class EditInvoiceView
 
         customer = new CustomerPanel( bus(), addressLookup );
         items = new PricingItemsPanel( AppEventBus.get(), PricingItemsPanel.Context.INVOICE );
-        transactions = new InvoiceTransactions();
 
         add( binder.createAndBindUi( this ) );
 
@@ -181,7 +180,6 @@ public class EditInvoiceView
 
         detail.fill( invoice );
         customer.fill( invoice.getCustomer() );
-        transactions.fill( invoice );
 
         InvoicePricing pricing = invoice.getPricing();
         items.fill( pricing == null ? null : pricing.getItems() );

@@ -50,7 +50,7 @@
 
         <m:MaterialRow float="LEFT">
             <m:MaterialButton ui:field="btnBack" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="WHITE"
-                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBack}"
+                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBackList}"
                               text="{msg.labelBack}"/>
         </m:MaterialRow>
 

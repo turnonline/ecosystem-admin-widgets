@@ -167,7 +167,7 @@ public class PricingItemsPanel
         thRow.add( header( messages.labelPriceExcludingVat(), "15%" ) );
         thRow.add( header( messages.labelUnit(), "15%" ) );
         thRow.add( header( messages.labelVat(), "10%" ) );
-        if ( context != Context.PURCHASE_ORDER )
+        if ( context != Context.VIEW_ONLY )
         {
             // delete action column won't be shown for PURCHASE_ORDER
             thRow.add( header( "", "5%" ) );
@@ -202,7 +202,7 @@ public class PricingItemsPanel
 
                 break;
             }
-            case PURCHASE_ORDER:
+            case VIEW_ONLY:
             {
                 btnAdd.setVisible( false );
                 btnCalculate.setVisible( false );
@@ -540,6 +540,7 @@ public class PricingItemsPanel
         pricingTree.expand();
 
         originBtnAddEnabled = btnAdd.isEnabled();
+        setReadOnly( context == Context.VIEW_ONLY );
     }
 
     public void update( @Nonnull Pricing pricing )
@@ -729,8 +730,8 @@ public class PricingItemsPanel
     {
         PRODUCT,
         ORDER,
-        PURCHASE_ORDER,
-        INVOICE
+        INVOICE,
+        VIEW_ONLY
     }
 
     interface PricingItemMapper

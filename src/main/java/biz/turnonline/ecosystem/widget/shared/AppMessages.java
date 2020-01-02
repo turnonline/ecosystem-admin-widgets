@@ -695,8 +695,8 @@ public interface AppMessages
     @Key( value = "tooltip.save.invoice" )
     String tooltipSaveInvoice();
 
-    @Key( value = "tooltip.back" )
-    String tooltipBack();
+    @Key( value = "tooltip.back.list" )
+    String tooltipBackList();
 
     @Key( value = "tooltip.addressAutocomplete" )
     String tooltipAddressAutocomplete();

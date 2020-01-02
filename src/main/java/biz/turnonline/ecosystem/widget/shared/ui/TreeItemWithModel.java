@@ -361,7 +361,7 @@ public class TreeItemWithModel
      */
     boolean isPurchaseOrderContext()
     {
-        return context == PricingItemsPanel.Context.PURCHASE_ORDER;
+        return context == PricingItemsPanel.Context.VIEW_ONLY;
     }
 
     /**

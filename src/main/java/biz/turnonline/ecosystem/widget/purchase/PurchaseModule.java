@@ -21,9 +21,11 @@ package biz.turnonline.ecosystem.widget.purchase;
 import biz.turnonline.ecosystem.widget.purchase.place.HistoryMapper;
 import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
+import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoicesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
+import biz.turnonline.ecosystem.widget.purchase.view.IncomingInvoiceDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.IncomingInvoicesView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrderDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrdersView;
@@ -147,6 +149,19 @@ public abstract class PurchaseModule
 
     @Provides
     @Singleton
+    @Named( "ViewIncomingInvoiceBreadcrumb" )
+    static ScaffoldBreadcrumb provideViewIncomingInvoiceBreadcrumb( PlaceController placeController )
+    {
+        List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelOrder() ) );
+
+        return new ScaffoldBreadcrumb( items, placeController );
+    }
+
+    @Provides
+    @Singleton
     @Named( "PurchaseOrdersBreadcrumb" )
     static ScaffoldBreadcrumb providePurchaseOrdersBreadcrumb( PlaceController controller )
     {
@@ -181,6 +196,7 @@ public abstract class PurchaseModule
         ordersButton.setIconColor( Color.BLACK );
         ordersButton.setWaves( WavesType.LIGHT );
         ordersButton.setPaddingRight( 0 );
+        ordersButton.setTooltip( messages.labelOrders() );
         ordersButton.addClickHandler( event -> controller.goTo( new PurchaseOrders() ) );
 
         MaterialLink invoicesButton = new MaterialLink();
@@ -189,6 +205,7 @@ public abstract class PurchaseModule
         invoicesButton.setIconColor( Color.BLACK );
         invoicesButton.setWaves( WavesType.LIGHT );
         invoicesButton.setPaddingRight( 0 );
+        invoicesButton.setTooltip( messages.labelInvoices() );
         invoicesButton.addClickHandler( event -> controller.goTo( new IncomingInvoices() ) );
 
         return viewTypes;
@@ -213,4 +230,8 @@ public abstract class PurchaseModule
     @Binds
     @Singleton
     abstract IncomingInvoicesPresenter.IView provideIncomingInvoicesView( IncomingInvoicesView view );
+
+    @Binds
+    @Singleton
+    abstract IncomingInvoiceDetailsPresenter.IView provideIncomingInvoiceDetailsView( IncomingInvoiceDetailsView view );
 }
