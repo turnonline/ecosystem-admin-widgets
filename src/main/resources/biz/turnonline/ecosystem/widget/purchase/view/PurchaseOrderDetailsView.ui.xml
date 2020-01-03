@@ -57,6 +57,12 @@
         <m:MaterialFAB>
             <m:MaterialAnchorButton type="FLOATING" iconType="DEHAZE" size="LARGE"/>
             <m:MaterialFABList>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="ORANGE"
+                                        iconType="PAGEVIEW" ui:field="viewLastInvoice"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipOrderLastInvoice}"/>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="ORANGE"
+                                        iconType="ASSIGNMENT" ui:field="orderInvoices"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipOrderPastInvoices}"/>
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
                                         iconType="CLOSE" ui:field="decline"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipPurchaseOrderDecline}"/>

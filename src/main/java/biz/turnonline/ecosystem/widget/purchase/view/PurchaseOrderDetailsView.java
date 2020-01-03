@@ -19,6 +19,8 @@
 package biz.turnonline.ecosystem.widget.purchase.view;
 
 import biz.turnonline.ecosystem.widget.purchase.event.DeclinePurchaseOrderEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceDetailsEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderInvoicesEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderListEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.CreditorPanel;
@@ -88,6 +90,9 @@ public class PurchaseOrderDetailsView
     MaterialButton btnBack;
 
     @UiField
+    MaterialAnchorButton viewLastInvoice;
+
+    @UiField
     MaterialAnchorButton decline;
 
     @Inject
@@ -121,6 +126,11 @@ public class PurchaseOrderDetailsView
         if ( invoices != null && !invoices.isEmpty() )
         {
             lastInvoice.fill( invoices.get( 0 ) );
+            viewLastInvoice.setEnabled( true );
+        }
+        else
+        {
+            viewLastInvoice.setEnabled( false );
         }
     }
 
@@ -133,7 +143,25 @@ public class PurchaseOrderDetailsView
     @UiHandler( "decline" )
     public void deleteContact( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDecline() );
+        PurchaseOrder order = getRawModel();
+        confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDecline( order.formattedName() ) );
+    }
+
+    @UiHandler( "orderInvoices" )
+    public void orderInvoices( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        PurchaseOrder order = getRawModel();
+        bus().fireEvent( new PurchaseOrderInvoicesEvent( order.getId() ) );
+    }
+
+    @UiHandler( "viewLastInvoice" )
+    public void viewLastInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        IncomingInvoice invoice = lastInvoice.getInvoice();
+        if ( invoice != null && invoice.getOrderId() != null && invoice.getId() != null )
+        {
+            bus().fireEvent( new IncomingInvoiceDetailsEvent( invoice ) );
+        }
     }
 
     @Override

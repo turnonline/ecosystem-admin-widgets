@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.purchase.event.DeclinePurchaseOrderEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderInvoicesEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
@@ -27,6 +28,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Creditor;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PurchaseOrder;
+import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
@@ -74,6 +76,9 @@ public class PurchaseOrderOverviewCard
     private static OrderCardUiBinder binder = GWT.create( OrderCardUiBinder.class );
 
     private final AppEventBus bus;
+
+    @UiField
+    ConfirmationWindow confirmation;
 
     @UiField
     MaterialCard card;
@@ -173,6 +178,9 @@ public class PurchaseOrderOverviewCard
         nextBillingDate.setVisible( ( status == TRIALING || status == ACTIVE ) && order.getNextBillingDate() != null );
 
         statusChanged( status );
+
+        confirmation.getBtnOk().setText( messages.labelDecline() );
+        confirmation.getBtnOk().addClickHandler( this::declinedOrder );
     }
 
     private void statusChanged( Order.Status status )
@@ -223,8 +231,19 @@ public class PurchaseOrderOverviewCard
         bus.fireEvent( new PurchaseOrderDetailEvent( order.getId() ) );
     }
 
+    @UiHandler( "orderInvoices" )
+    public void orderInvoices( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        bus.fireEvent( new PurchaseOrderInvoicesEvent( order.getId() ) );
+    }
+
     @UiHandler( "decline" )
     public void declineOrder( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDecline( order.formattedName() ) );
+    }
+
+    private void declinedOrder( @SuppressWarnings( "unused" ) ClickEvent ok )
     {
         decline.setEnabled( false );
         bus.fireEvent( new DeclinePurchaseOrderEvent( order ) );

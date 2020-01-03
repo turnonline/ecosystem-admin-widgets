@@ -50,7 +50,6 @@ import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialRow;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -140,7 +139,6 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb provideViewPurchaseOrderBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT_TURNED_IN, messages.labelOrder() ) );
 
@@ -153,9 +151,9 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb provideViewIncomingInvoiceBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelOrder() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelInvoice() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
@@ -166,11 +164,10 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb providePurchaseOrdersBreadcrumb( PlaceController controller )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
 
-        return new ScaffoldBreadcrumb( items, controller, providePurchaseViewTypes( controller ) );
+        return new ScaffoldBreadcrumb( items, controller, provideInvoicesNavigationLink( controller ) );
     }
 
     @Provides
@@ -179,28 +176,16 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb provideIncomingInvoicesBreadcrumb( PlaceController controller )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelInvoices() ) );
 
-        return new ScaffoldBreadcrumb( items, controller, providePurchaseViewTypes( controller ) );
+        return new ScaffoldBreadcrumb( items, controller, provideInvoicesNavigationLink( controller ) );
     }
 
-    private static MaterialRow providePurchaseViewTypes( PlaceController controller )
+    private static MaterialLink provideInvoicesNavigationLink( PlaceController controller )
     {
-        MaterialRow viewTypes = new MaterialRow();
-
-        MaterialLink ordersButton = new MaterialLink();
-        viewTypes.add( ordersButton );
-        ordersButton.setIconType( IconType.ASSIGNMENT_TURNED_IN );
-        ordersButton.setIconColor( Color.BLACK );
-        ordersButton.setWaves( WavesType.LIGHT );
-        ordersButton.setPaddingRight( 0 );
-        ordersButton.setTooltip( messages.labelOrders() );
-        ordersButton.addClickHandler( event -> controller.goTo( new PurchaseOrders() ) );
-
         MaterialLink invoicesButton = new MaterialLink();
-        viewTypes.add( invoicesButton );
         invoicesButton.setIconType( IconType.ASSIGNMENT );
         invoicesButton.setIconColor( Color.BLACK );
         invoicesButton.setWaves( WavesType.LIGHT );
@@ -208,7 +193,7 @@ public abstract class PurchaseModule
         invoicesButton.setTooltip( messages.labelInvoices() );
         invoicesButton.addClickHandler( event -> controller.goTo( new IncomingInvoices() ) );
 
-        return viewTypes;
+        return invoicesButton;
     }
 
     @Binds

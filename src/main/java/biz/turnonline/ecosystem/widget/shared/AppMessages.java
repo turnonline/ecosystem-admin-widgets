@@ -228,7 +228,7 @@ public interface AppMessages
     @Key( value = "label.invoicing" )
     String labelInvoicing();
 
-    @Key( value = "label.logo")
+    @Key( value = "label.logo" )
     String labelLogo();
 
     @Key( "label.stamp" )
@@ -365,6 +365,9 @@ public interface AppMessages
 
     @Key( "label.modified" )
     String labelModified();
+
+    @Key( "label.decline" )
+    String labelDecline();
 
     @Key( value = "label.domain" )
     String labelDomain();
@@ -725,7 +728,7 @@ public interface AppMessages
     @Key( "tooltip.order.lastInvoice" )
     String tooltipOrderLastInvoice();
 
-    @Key( "tooltip.order.pastInvoices" )
+    @Key( "tooltip.order.invoices" )
     String tooltipOrderPastInvoices();
 
     @Key( "tooltip.order.delete" )
@@ -876,5 +879,5 @@ public interface AppMessages
     String questionDeleteRecord();
 
     @Key( "question.purchase.order.decline" )
-    String questionPurchaseOrderDecline();
+    String questionPurchaseOrderDecline( String company );
 }

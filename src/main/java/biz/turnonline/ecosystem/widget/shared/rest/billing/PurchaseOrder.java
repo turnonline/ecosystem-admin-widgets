@@ -473,7 +473,7 @@ public final class PurchaseOrder
             {
                 builder.append( " (" );
                 builder.append( id );
-                builder.append( " )" );
+                builder.append( ")" );
             }
         }
 

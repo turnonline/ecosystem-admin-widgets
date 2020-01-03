@@ -26,6 +26,7 @@
                     marginTop="10" marginBottom="10"
                     paddingTop="15" paddingBottom="0">
 
+        <s:ConfirmationWindow ui:field="confirmation" iconType="DELETE"/>
         <m:MaterialRow grid="s12" marginBottom="15" paddingLeft="20" paddingTop="15" minHeight="49px">
             <m:MaterialColumn grid="s11" paddingLeft="0">
                 <m:MaterialLabel ui:field="title" fontSize="1.5em" fontWeight="BOLD" addStyleNames="truncate"/>
@@ -70,6 +71,8 @@
                 <m:MaterialCardAction marginTop="0" padding="5">
                     <m:MaterialLink ui:field="detailLink" iconColor="BLUE" paddingTop="10" iconType="VISIBILITY"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipPurchaseOrderView}"/>
+                    <m:MaterialLink ui:field="orderInvoices" iconColor="BLUE" paddingTop="10" iconType="ASSIGNMENT"
+                                    marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipOrderPastInvoices}"/>
                     <m:MaterialLink ui:field="decline" iconColor="RED" paddingTop="10" iconType="CLOSE"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipPurchaseOrderDecline}"/>
                 </m:MaterialCardAction>

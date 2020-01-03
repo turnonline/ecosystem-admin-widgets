@@ -18,7 +18,9 @@
 
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
+import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderInvoicesEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderListEvent;
+import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrderDetails;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -47,6 +49,7 @@ public class PurchaseOrderDetailsPresenter
     public void bind()
     {
         bus().addHandler( PurchaseOrderListEvent.TYPE, e -> controller().goTo( new PurchaseOrders( e.getScrollspy() ) ) );
+        bus().addHandler( PurchaseOrderInvoicesEvent.TYPE, e -> controller().goTo( new IncomingInvoices( e.getOrderId() ) ) );
     }
 
     @Override
