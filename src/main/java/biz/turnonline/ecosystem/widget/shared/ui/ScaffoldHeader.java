@@ -54,7 +54,7 @@ public class ScaffoldHeader
 
         email.setText( getFirebaseCurrentUserData( "email" ) );
         email.setHref( Route.MY_ACCOUNT.url() );
-        avatar.setUrl( getFirebaseCurrentUserData( "photoURL" ) );
+        avatar.setUrl( getFirebaseCurrentUserData( "photoURL" ) + "=s40-c");
         avatar.getElement().setAttribute( "width", "40" );
 
         btnSettings.setHref( Route.SETTINGS.url() );
