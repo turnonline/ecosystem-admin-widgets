@@ -11,9 +11,10 @@ public enum Route
     SETTINGS( "/my-account", "my-account/settings", 2 ),
     INVOICES( "/billing", "invoices", 3 ),
     ORDERS( "/billing", "orders", 4 ),
-    PRODUCTS( "/products", "products", 5 ),
-    CONTACTS( "/contacts", "contacts", 6 ),
-    PURCHASES( "/purchases", "invoices", 7 ),
+    BILLS( "/bills", "bills", 5 ),
+    PRODUCTS( "/products", "products", 6 ),
+    CONTACTS( "/contacts", "contacts", 7 ),
+    PURCHASES( "/purchases", "invoices", 8 ),
     LOGOUT( "/logout" );
 
     private String url;

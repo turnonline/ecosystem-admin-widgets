@@ -1,0 +1,39 @@
+<!--
+  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <ui2:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+
+        <m:MaterialRow padding="20" paddingTop="10">
+            <ui2:SmartTable ui:field="table"/>
+        </m:MaterialRow>
+
+        <m:MaterialFAB>
+            <m:MaterialAnchorButton type="FLOATING" size="LARGE" backgroundColor="GREEN" ui:field="newBill"
+                                    iconType="ADD" tooltipPosition="LEFT" tooltip="{msg.tooltipNewBill}"
+                                    tooltipDelayMs="700"/>
+        </m:MaterialFAB>
+
+    </g:HTMLPanel>
+</ui:UiBinder>

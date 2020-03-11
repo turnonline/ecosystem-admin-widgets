@@ -16,14 +16,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package biz.turnonline.ecosystem.widget.product;
+package biz.turnonline.ecosystem.widget.bill;
 
-import biz.turnonline.ecosystem.widget.product.place.HistoryMapper;
-import biz.turnonline.ecosystem.widget.product.place.Products;
-import biz.turnonline.ecosystem.widget.product.presenter.EditProductPresenter;
-import biz.turnonline.ecosystem.widget.product.presenter.ProductsPresenter;
-import biz.turnonline.ecosystem.widget.product.view.EditProductView;
-import biz.turnonline.ecosystem.widget.product.view.ProductsView;
+import biz.turnonline.ecosystem.widget.bill.place.Bills;
+import biz.turnonline.ecosystem.widget.bill.place.HistoryMapper;
+import biz.turnonline.ecosystem.widget.bill.presenter.BillsPresenter;
+import biz.turnonline.ecosystem.widget.bill.presenter.EditBillPresenter;
+import biz.turnonline.ecosystem.widget.bill.view.BillsView;
+import biz.turnonline.ecosystem.widget.bill.view.EditBillView;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
@@ -54,13 +54,12 @@ import java.util.List;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @Module
-public abstract class ProductModule
+public abstract class BillModule
 {
     private static AppMessages messages = AppMessages.INSTANCE;
 
     // -- activity & places
 
-    @Singleton
     @Provides
     static PlaceHistoryMapper providePlaceHistoryMapper()
     {
@@ -81,7 +80,6 @@ public abstract class ProductModule
         return new ActivityManager( mapper, eventBus );
     }
 
-    @Singleton
     @Provides
     static PlaceHistoryHandler.Historian provideHistorian()
     {
@@ -97,7 +95,7 @@ public abstract class ProductModule
                                                            EventBus eventBus )
     {
         PlaceHistoryHandler handler = new PlaceHistoryHandler( mapper, historian );
-        handler.register( controller, eventBus, ProductEntryPoint.DEFAULT_PLACE );
+        handler.register( controller, eventBus, BillEntryPoint.DEFAULT_PLACE );
         return handler;
     }
 
@@ -151,32 +149,32 @@ public abstract class ProductModule
 
     @Provides
     @Singleton
-    @Named( "EditProductBreadcrumb" )
-    static ScaffoldBreadcrumb provideEditProductBreadcrumb( PlaceController placeController )
+    @Named( "EditBillBreadcrumb" )
+    static ScaffoldBreadcrumb provideEditBillBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Products(), IconType.TABLET_MAC, messages.labelProducts() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditProduct() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Bills(), IconType.RECEIPT, messages.labelBills() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditBill() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
 
     @Provides
     @Singleton
-    @Named( "ProductsBreadcrumb" )
-    static ScaffoldBreadcrumb provideProductsBreadcrumb( PlaceController placeController )
+    @Named( "BillsBreadcrumb" )
+    static ScaffoldBreadcrumb provideBillsBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.TABLET_MAC, messages.labelProducts() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.RECEIPT, messages.labelBills() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
 
     @Binds
     @Singleton
-    abstract ActivityMapper provideActivityMapper( ProductController controller );
+    abstract ActivityMapper provideActivityMapper( BillController controller );
 
     // -- event bus
 
@@ -188,10 +186,10 @@ public abstract class ProductModule
 
     @Binds
     @Singleton
-    abstract ProductsPresenter.IView provideProductsView( ProductsView view );
+    abstract BillsPresenter.IView provideBillsView(BillsView view );
 
 
     @Binds
     @Singleton
-    abstract EditProductPresenter.IView provideEditProductView( EditProductView view );
+    abstract EditBillPresenter.IView provideEditBillView(EditBillView view );
 }

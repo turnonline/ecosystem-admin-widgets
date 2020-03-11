@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:s='urn:import:biz.turnonline.ecosystem.widget.shared.ui'>
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:ConfirmationWindow ui:field="confirmation" iconType="DELETE"/>
+
+        <m:MaterialRow paddingLeft="20" float="LEFT">
+            <m:MaterialButton ui:field="btnSave" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE"
+                              textColor="WHITE" iconType="CHECK" tooltip="{msg.tooltipSaveBill}"
+                              text="{msg.labelSave}"/>
+            <m:MaterialButton ui:field="btnBack" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="WHITE"
+                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBackList}"
+                              text="{msg.labelBack}"/>
+        </m:MaterialRow>
+
+        <m:MaterialFAB>
+            <m:MaterialAnchorButton type="FLOATING" iconType="DEHAZE" size="LARGE"/>
+            <m:MaterialFABList>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
+                                        iconType="DELETE" ui:field="deleteBill"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipBillDelete}"/>
+            </m:MaterialFABList>
+        </m:MaterialFAB>
+    </g:HTMLPanel>
+</ui:UiBinder>

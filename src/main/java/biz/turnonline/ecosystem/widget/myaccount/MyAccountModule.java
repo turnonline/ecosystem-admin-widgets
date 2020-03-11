@@ -30,6 +30,7 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.BillFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -129,6 +130,13 @@ public abstract class MyAccountModule
     static SearchFacade provideSearchFacade()
     {
         return GWT.create( SearchFacade.class );
+    }
+
+    @Singleton
+    @Provides
+    static BillFacade provideBillFacade()
+    {
+        return GWT.create( BillFacade.class );
     }
 
     @Singleton

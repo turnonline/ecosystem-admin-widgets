@@ -46,5 +46,9 @@
             <directory>target/${project.build.finalName}/purchase.widget</directory>
             <outputDirectory>purchase.widget</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>target/${project.build.finalName}/bill.widget</directory>
+            <outputDirectory>bill.widget</outputDirectory>
+        </fileSet>
     </fileSets>
 </assembly>

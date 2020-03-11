@@ -174,6 +174,12 @@ public interface AppMessages
     @Key( value = "label.editOrder" )
     String labelEditOrder();
 
+    @Key( value = "label.editBill" )
+    String labelEditBill();
+
+    @Key( value = "label.bills" )
+    String labelBills();
+
     @Key( "label.send" )
     String labelSend();
 
@@ -778,6 +784,18 @@ public interface AppMessages
 
     @Key( "tooltip.purchase.invoice.view" )
     String tooltipPurchaseInvoiceView();
+
+    @Key( value = "tooltip.bill.new" )
+    String tooltipNewBill();
+
+    @Key( value = "tooltip.bill.save" )
+    String tooltipSaveBill();
+
+    @Key( value = "tooltip.bill.delete" )
+    String tooltipBillDelete();
+
+    @Key( value = "tooltip.bill.list.refresh" )
+    String tooltipBillListRefresh();
 
     // messages
 

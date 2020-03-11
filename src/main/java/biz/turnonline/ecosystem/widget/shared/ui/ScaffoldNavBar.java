@@ -43,6 +43,7 @@ public class ScaffoldNavBar
         nav().add( newNavLinkWithSeparator( messages.labelSettings(), Route.SETTINGS.url(), IconType.SETTINGS ) );
         nav().add( newNavLink( messages.labelInvoices(), Route.INVOICES.url(), IconType.ASSIGNMENT ) );
         nav().add( newNavLink( messages.labelOrders(), Route.ORDERS.url(), IconType.ASSIGNMENT_TURNED_IN ) );
+        nav().add( newNavLinkWithSeparator( messages.labelBills(), Route.BILLS.url(), IconType.RECEIPT ) );
         nav().add( newNavLink( messages.labelProducts(), Route.PRODUCTS.url(), IconType.TABLET_MAC ) );
         nav().add( newNavLinkWithSeparator( messages.labelContacts(), Route.CONTACTS.url(), IconType.CONTACT_PHONE ) );
         nav().add( newNavLinkWithSeparator( messages.labelPurchases(), Route.PURCHASES.url(), IconType.SHOPPING_CART ) );
