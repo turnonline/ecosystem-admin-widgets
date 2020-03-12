@@ -26,7 +26,13 @@ import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.Options;
 import org.fusesource.restygwt.client.RestService;
 
-import javax.ws.rs.*;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
 /**
  * The Bill resource REST facade service interface.
@@ -60,13 +66,13 @@ public interface BillFacade
                     FacadeCallback<Bill> callback);
 
     @PUT
-    @Path("products/{bill_id}")
+    @Path("bills/{bill_id}")
     void updateBill(@PathParam("bill_id") Long billId,
                        Bill bill,
                        FacadeCallback<Bill> callback);
 
     @DELETE
-    @Path("products/{bill_id}")
+    @Path("bills/{bill_id}")
     void deleteBill(@PathParam("bill_id") Long billId,
                        FacadeCallback<Void> callback);
 }

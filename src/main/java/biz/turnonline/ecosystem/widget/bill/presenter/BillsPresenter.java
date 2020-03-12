@@ -19,10 +19,14 @@
 package biz.turnonline.ecosystem.widget.bill.presenter;
 
 import biz.turnonline.ecosystem.widget.bill.event.EditBillEvent;
+import biz.turnonline.ecosystem.widget.bill.place.Bills;
 import biz.turnonline.ecosystem.widget.bill.place.EditBill;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
@@ -40,18 +44,31 @@ public class BillsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( EditBillEvent.TYPE, event -> controller().goTo( new EditBill( event.getId() ) ) );
+        bus().addHandler( EditBillEvent.TYPE, event -> controller().goTo( new EditBill( event.getId(), "tabDetail" ) ) );
+
+        view().setDataSource( ( offset, limit, callback ) ->
+                bus().bill().getBills( offset, limit, true, callback ) );
     }
 
     @Override
     public void onBackingObject()
     {
         onAfterBackingObject();
+
+        Bills where = ( Bills ) controller().getWhere();
+        if ( where.getScrollspy() != null )
+        {
+            view().scrollTo( where.getScrollspy() );
+        }
     }
 
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView
     {
-        void refresh();
+        void scrollTo( @Nullable String scrollspy );
+
+        void clear();
+
+        void setDataSource( InfiniteScroll.Callback<Bill> callback );
     }
 }

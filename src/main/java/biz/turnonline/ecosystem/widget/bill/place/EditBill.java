@@ -30,9 +30,12 @@ public class EditBill
 {
     private Long id;
 
-    public EditBill(Long id )
+    private String tab;
+
+    public EditBill( Long id, String tab )
     {
         this.id = id;
+        this.tab = tab;
     }
 
     @Prefix( value = "edit-bill" )
@@ -40,20 +43,72 @@ public class EditBill
             implements PlaceTokenizer<EditBill>
     {
         @Override
-        public EditBill getPlace(String token )
+        public EditBill getPlace( String token )
         {
-            return new EditBill( "".equals( token ) ? null : Long.valueOf( token ) );
+            Long id = null;
+            String tab = null;
+
+            if ( !token.isEmpty() )
+            {
+                String[] tokens = token.split( "\\|" );
+                if ( tokens.length == 1 )
+                {
+                    id = tryParseId( tokens[0] );
+                    if ( id == null )
+                    {
+                        tab = tokens[0];
+                    }
+                }
+                else if ( tokens.length == 2 )
+                {
+                    id = tryParseId( tokens[0] );
+                    tab = tokens[1];
+                }
+            }
+
+            return new EditBill( id, tab );
         }
 
         @Override
         public String getToken( EditBill place )
         {
-            return place.getId() != null ? place.getId().toString() : "";
+            String token = "";
+            if ( place.getId() != null )
+            {
+                token += place.getId();
+            }
+            if ( place.getTab() != null )
+            {
+                if ( !token.isEmpty() )
+                {
+                    token += "|";
+                }
+                token += place.getTab();
+            }
+
+            return token;
         }
     }
 
     public Long getId()
     {
         return id;
+    }
+
+    public String getTab()
+    {
+        return tab;
+    }
+
+    private static Long tryParseId( String id )
+    {
+        try
+        {
+            return Long.valueOf( id );
+        }
+        catch ( NumberFormatException e )
+        {
+            return null;
+        }
     }
 }

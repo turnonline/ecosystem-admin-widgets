@@ -21,7 +21,10 @@ package biz.turnonline.ecosystem.widget.bill.view;
 import biz.turnonline.ecosystem.widget.bill.event.BackEvent;
 import biz.turnonline.ecosystem.widget.bill.event.DeleteBillEvent;
 import biz.turnonline.ecosystem.widget.bill.event.SaveBillEvent;
+import biz.turnonline.ecosystem.widget.bill.place.EditBill;
 import biz.turnonline.ecosystem.widget.bill.presenter.EditBillPresenter;
+import biz.turnonline.ecosystem.widget.bill.ui.BillDetail;
+import biz.turnonline.ecosystem.widget.bill.ui.EditBillTabs;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
@@ -29,7 +32,9 @@ import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -53,6 +58,12 @@ public class EditBillView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
+    EditBillTabs tabs;
+
+    @UiField
+    BillDetail detail;
+
+    @UiField
     ConfirmationWindow confirmation;
 
     @UiField
@@ -64,12 +75,16 @@ public class EditBillView
     @UiField
     MaterialAnchorButton deleteBill;
 
+    private PlaceController controller;
+
     @Inject
-    public EditBillView(@Named( "EditBillBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public EditBillView(@Named( "EditBillBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+                        PlaceController controller )
     {
         super();
 
         this.breadcrumb = breadcrumb;
+        this.controller = controller;
         setActive( Route.BILLS );
 
         add( binder.createAndBindUi( this ) );
@@ -82,6 +97,7 @@ public class EditBillView
     {
         Bill bill = getRawModel();
 
+        detail.bind( bill );
         // TODO: implement
     }
 
@@ -90,7 +106,13 @@ public class EditBillView
     {
         Bill bill = getRawModel();
 
+        detail.fill( bill );
+
         // TODO: implement
+        Scheduler.get().scheduleDeferred( () -> {
+            EditBill where = ( EditBill ) controller.getWhere();
+            tabs.selectTab( where.getTab() );
+        } );
 
         deleteBill.setEnabled( bill.getId() != null );
     }

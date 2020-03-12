@@ -73,12 +73,11 @@ public class EditBillPresenter
 
     private void save(SaveBillEvent event) {
         Bill bill = event.getBill();
-        String loginId = bus().config().getLoginId();
 
         if (bill.getId() == null) {
             bus().bill().createBill(bill, (SuccessCallback<Bill>) response -> {
                 success(messages.msgRecordCreated());
-                controller().goTo(new EditBill(response.getId()));
+                controller().goTo(new EditBill(response.getId(), "tabDetail"));
             });
         } else {
             bus().bill().updateBill(bill.getId(), bill,

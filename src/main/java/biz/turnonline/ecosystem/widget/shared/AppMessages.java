@@ -645,6 +645,21 @@ public interface AppMessages
     @Key( "label.invoice.loading" )
     String labelInvoiceLoading();
 
+    @Key( "label.bill.loading" )
+    String labelBillLoading();
+
+    @Key( "label.billNumber" )
+    String labelBillNumber();
+
+    @Key( "label.cashRegisterDocument" )
+    String labelCashRegisterDocument();
+
+    @Key( "label.incomingInvoice" )
+    String labelIncomingInvoice();
+
+    @Key( "label.billType" )
+    String labelBillType();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )
@@ -796,6 +811,9 @@ public interface AppMessages
 
     @Key( value = "tooltip.bill.list.refresh" )
     String tooltipBillListRefresh();
+
+    @Key( value = "tooltip.bill.edit" )
+    String tooltipEditBill();
 
     // messages
 
