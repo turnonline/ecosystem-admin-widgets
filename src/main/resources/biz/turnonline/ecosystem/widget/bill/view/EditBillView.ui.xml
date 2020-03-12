@@ -36,11 +36,11 @@
                 <m:MaterialColumn m:id="tabDetail" grid="s12">
                     <b:BillDetail ui:field="detail"/>
                 </m:MaterialColumn>
-                <m:MaterialColumn m:id="tabSeller" grid="s12">
-                        <!--todo-->
-                </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabItems" grid="s12">
                         <!--todo-->
+                </m:MaterialColumn>
+                <m:MaterialColumn m:id="tabSupplier" grid="s12">
+                    <b:BillSupplier ui:field="supplier"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

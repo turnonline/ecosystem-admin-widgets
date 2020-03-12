@@ -1,6 +1,5 @@
 package biz.turnonline.ecosystem.widget.bill.ui;
 
-import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.ui.BillTypeComboBox;
 import com.google.gwt.core.client.GWT;
@@ -21,8 +20,6 @@ public class BillDetail
         extends Composite
 {
     private static DetailUiBinder binder = GWT.create( DetailUiBinder.class );
-
-    private static AppMessages messages = AppMessages.INSTANCE;
 
     @UiField
     MaterialTextBox billNumber;

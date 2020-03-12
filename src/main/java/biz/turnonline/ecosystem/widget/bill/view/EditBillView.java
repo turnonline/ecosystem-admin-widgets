@@ -24,7 +24,9 @@ import biz.turnonline.ecosystem.widget.bill.event.SaveBillEvent;
 import biz.turnonline.ecosystem.widget.bill.place.EditBill;
 import biz.turnonline.ecosystem.widget.bill.presenter.EditBillPresenter;
 import biz.turnonline.ecosystem.widget.bill.ui.BillDetail;
+import biz.turnonline.ecosystem.widget.bill.ui.BillSupplier;
 import biz.turnonline.ecosystem.widget.bill.ui.EditBillTabs;
+import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
@@ -63,6 +65,9 @@ public class EditBillView
     @UiField
     BillDetail detail;
 
+    @UiField( provided = true )
+    BillSupplier supplier;
+
     @UiField
     ConfirmationWindow confirmation;
 
@@ -78,8 +83,9 @@ public class EditBillView
     private PlaceController controller;
 
     @Inject
-    public EditBillView(@Named( "EditBillBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
-                        PlaceController controller )
+    public EditBillView( @Named( "EditBillBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+                         PlaceController controller,
+                         AddressLookupListener addressLookup )
     {
         super();
 
@@ -87,9 +93,11 @@ public class EditBillView
         this.controller = controller;
         setActive( Route.BILLS );
 
+        supplier = new BillSupplier(addressLookup);
+
         add( binder.createAndBindUi( this ) );
 
-        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteBillEvent( getRawModel() )) );
+        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteBillEvent( getRawModel() ) ) );
     }
 
     @Override
@@ -98,6 +106,7 @@ public class EditBillView
         Bill bill = getRawModel();
 
         detail.bind( bill );
+        supplier.bind( bill );
         // TODO: implement
     }
 
@@ -107,6 +116,7 @@ public class EditBillView
         Bill bill = getRawModel();
 
         detail.fill( bill );
+        supplier.fill( bill );
 
         // TODO: implement
         Scheduler.get().scheduleDeferred( () -> {
@@ -130,7 +140,7 @@ public class EditBillView
     }
 
     @UiHandler( "deleteBill" )
-    public void deleteBill(@SuppressWarnings( "unused" ) ClickEvent event )
+    public void deleteBill( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
     }
