@@ -22,13 +22,13 @@ var Configuration = {
     VAT: "STANDARD",
     LOGIN_ID: "pohorelec@turnonline.biz",
     LOGO: "",
-    ACCOUNT_STEWARD_STORAGE: "https://account.turnon.cloud/storage/steward/v1",
-    PRODUCT_BILLING_STORAGE: "https://billing.turnon.cloud/storage/billing/v1",
-    ACCOUNT_STEWARD_API_ROOT: "https://account.turnon.cloud/api/steward/v1",
-    PRODUCT_BILLING_API_ROOT: "https://billing.turnon.cloud/api/billing/v1",
+    ACCOUNT_STEWARD_STORAGE: "https://account.turnonline.cloud/storage/steward/v1",
+    PRODUCT_BILLING_STORAGE: "https://billing.turnonline.cloud/storage/billing/v1",
+    ACCOUNT_STEWARD_API_ROOT: "https://account.turnonline.cloud/api/steward/v1",
+    PRODUCT_BILLING_API_ROOT: "https://billing.turnonline.cloud/api/billing/v1",
     BILL_API_ROOT: "https://bill.turnonline.cloud/api/bill/v1",
     BILL_STORAGE: "https://bill.turnonline.cloud/storage/bill/v1",
-    SEARCH_API_ROOT: "https://search.turnon.cloud/api/search/v1",
+    SEARCH_API_ROOT: "https://search.turnonline.cloud/api/search/v1",
     MAPS_API_KEY: "AIzaSyBcFynhFn5xRAXBDshvHMJqn3BNF2ypEOs"
 };
 
@@ -45,7 +45,7 @@ firebase = {
                     }
                 },
                 email: "john.foo@turnonline.biz",
-                photoURL: "https://www.google.com/s2/photos/public/AIbEiAIAAABDCPeaz9KoqZfZbSILdmNhcmRfcGhvdG8qKDRkMTJhZDMzMzlhOGIzZThmOWY4NmU1N2RiZTgwNjdhOGZmNTY4YjQwAT0MVCzv9oi9rn31QqHvEYzDsYFd?sz=48"
+                photoURL: "https://i1.sndcdn.com/avatars-000337104679-fbgb18-t500x500.jpg"
             }
         }
     }

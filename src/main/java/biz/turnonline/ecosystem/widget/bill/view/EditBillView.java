@@ -24,11 +24,14 @@ import biz.turnonline.ecosystem.widget.bill.event.SaveBillEvent;
 import biz.turnonline.ecosystem.widget.bill.place.EditBill;
 import biz.turnonline.ecosystem.widget.bill.presenter.EditBillPresenter;
 import biz.turnonline.ecosystem.widget.bill.ui.BillDetail;
+import biz.turnonline.ecosystem.widget.bill.ui.BillItems;
 import biz.turnonline.ecosystem.widget.bill.ui.BillSupplier;
 import biz.turnonline.ecosystem.widget.bill.ui.EditBillTabs;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.BillItem;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -43,6 +46,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialLink;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -65,11 +69,17 @@ public class EditBillView
     @UiField
     BillDetail detail;
 
+    @UiField
+    BillItems items;
+
     @UiField( provided = true )
     BillSupplier supplier;
 
     @UiField
     ConfirmationWindow confirmation;
+
+    @UiField
+    MaterialLink addItem;
 
     @UiField
     MaterialButton btnSave;
@@ -107,7 +117,7 @@ public class EditBillView
 
         detail.bind( bill );
         supplier.bind( bill );
-        // TODO: implement
+        bill.setItems( items.getValue() );
     }
 
     @Override
@@ -117,14 +127,23 @@ public class EditBillView
 
         detail.fill( bill );
         supplier.fill( bill );
+        items.setValue( bill.getItems() );
 
-        // TODO: implement
         Scheduler.get().scheduleDeferred( () -> {
             EditBill where = ( EditBill ) controller.getWhere();
             tabs.selectTab( where.getTab() );
         } );
 
         deleteBill.setEnabled( bill.getId() != null );
+    }
+
+    @UiHandler( "addItem" )
+    public void add( ClickEvent event )
+    {
+        BillItem item = new BillItem();
+        item.setCurrency( Configuration.get().getCurrency() );
+        item.setAmount( 1D );
+        items.addRow( item );
     }
 
     @UiHandler( "btnBack" )
