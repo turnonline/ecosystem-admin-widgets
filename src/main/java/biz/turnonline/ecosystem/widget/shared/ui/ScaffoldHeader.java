@@ -52,9 +52,12 @@ public class ScaffoldHeader
         search = new FulltextSearch( eventBus );
         initWidget( binder.createAndBindUi( this ) );
 
-        email.setText( getFirebaseCurrentUserData( "email" ) );
-        email.setHref( Route.MY_ACCOUNT.url() );
-        avatar.setUrl( getFirebaseCurrentUserData( "photoURL" ) + "=s40-c");
+        String userEmail = getFirebaseCurrentUserData( "email" );
+        String userPhotoUrl = getFirebaseCurrentUserData( "photoURL" );
+
+        this.email.setText( userEmail );
+        this.email.setHref( Route.MY_ACCOUNT.url() );
+        avatar.setUrl( userPhotoUrl.startsWith( "data:image" ) ? userPhotoUrl : userPhotoUrl + "=s40-c" );
         avatar.getElement().setAttribute( "width", "40" );
 
         btnSettings.setHref( Route.SETTINGS.url() );

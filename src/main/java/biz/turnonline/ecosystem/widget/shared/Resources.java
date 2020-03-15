@@ -12,7 +12,7 @@ public interface Resources
 {
     Resources INSTANCE = GWT.create( Resources.class );
 
-    @Source("no-image.png")
+    @Source({"no-image.png"})
     ImageResource noImage();
 
     @Source("logo.png")

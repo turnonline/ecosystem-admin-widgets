@@ -660,6 +660,9 @@ public interface AppMessages
     @Key( "label.billType" )
     String labelBillType();
 
+    @Key( "label.billScan" )
+    String labelBillScan();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )

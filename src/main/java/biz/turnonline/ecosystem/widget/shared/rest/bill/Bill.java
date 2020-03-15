@@ -52,8 +52,17 @@ public class Bill
     @JsonProperty( "totalPrice" )
     private Double totalPrice = null;
 
+    @JsonProperty( "currency" )
+    private String currency = null;
+
     @JsonProperty( "type" )
     private TypeEnum type = null;
+
+    @JsonProperty( "servingUrl" )
+    private String servingUrl;
+
+    @JsonProperty( "storageName" )
+    private String storageName;
 
     public Bill billNumber( String billNumber )
     {
@@ -263,6 +272,22 @@ public class Bill
         this.totalPrice = totalPrice;
     }
 
+    /**
+     * The bill currency
+     *
+     * @return currency
+     **/
+    @JsonProperty( "currency" )
+    public String getCurrency()
+    {
+        return currency;
+    }
+
+    public void setCurrency( String currency )
+    {
+        this.currency = currency;
+    }
+
     public Bill type( TypeEnum type )
     {
         this.type = type;
@@ -283,6 +308,38 @@ public class Bill
     public void setType( TypeEnum type )
     {
         this.type = type;
+    }
+
+    /**
+     * Serving url of bill scan
+     *
+     * @return type
+     **/
+    @JsonProperty( "servingUrl" )
+    public String getServingUrl()
+    {
+        return servingUrl;
+    }
+
+    public void setServingUrl( String servingUrl )
+    {
+        this.servingUrl = servingUrl;
+    }
+
+    /**
+     * Storage name of bill scan
+     *
+     * @return type
+     **/
+    @JsonProperty( "storageName" )
+    public String getStorageName()
+    {
+        return storageName;
+    }
+
+    public void setStorageName( String storageName )
+    {
+        this.storageName = storageName;
     }
 
     @Override

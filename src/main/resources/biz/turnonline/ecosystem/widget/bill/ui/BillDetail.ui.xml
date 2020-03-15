@@ -18,19 +18,31 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui"
+             xmlns:b="urn:import:biz.turnonline.ecosystem.widget.bill.ui">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
         <m:MaterialRow>
             <m:MaterialColumn grid="s12 m3">
+                <!--logo-->
+                <s:SectionTitle iconType="ADD_A_PHOTO" title="{msg.labelBillScan}"/>
+                <b:BillUploader ui:field="billUploader" marginBottom="20"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
                 <m:MaterialColumn grid="m12" paddingLeft="0">
                     <m:MaterialTextBox ui:field="itemName" label="{msg.labelItemName}" paddingLeft="0"/>
                     <m:MaterialTextBox ui:field="billNumber" label="{msg.labelBillNumber}" paddingLeft="0"/>
-                    <m:MaterialDoubleBox ui:field="totalPrice" label="{msg.labelTotalPrice}" paddingLeft="0"/>
+
+                    <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
+                        <m:MaterialDoubleBox ui:field="totalPrice" label="{msg.labelTotalPrice}" paddingLeft="0" grid="m8"/>
+                        <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" paddingLeft="0" paddingRight="0" grid="m4"/>
+                    </m:MaterialColumn>
+
                     <s:BillTypeComboBox ui:field="billType" label="{msg.labelBillType}" grid="m8" paddingLeft="0"/>
                     <m:MaterialDatePicker ui:field="dateOfIssue" placeholder="{msg.labelDateOfIssue}" grid="m8" paddingLeft="0"/>
                 </m:MaterialColumn>
@@ -42,7 +54,6 @@
                 <m:MaterialDatePicker ui:field="created" grid="m8" placeholder="{msg.labelCreated}" paddingLeft="0"/>
                 <m:MaterialDatePicker ui:field="modified" grid="m8" placeholder="{msg.labelModified}" paddingLeft="0"/>
             </m:MaterialColumn>
-
         </m:MaterialRow>
     </g:HTMLPanel>
 </ui:UiBinder>
