@@ -36,19 +36,6 @@
                 <m:MaterialColumn m:id="tabDetail" grid="s12">
                     <b:BillDetail ui:field="detail"/>
                 </m:MaterialColumn>
-                <m:MaterialColumn m:id="tabItems" grid="s12">
-                    <m:MaterialLink ui:field="addItem"
-                                    shadow="0"
-                                    waves="DEFAULT"
-                                    text="{msg.labelAdd}"
-                                    type="OUTLINED"
-                                    iconType="ADD_CIRCLE"
-                                    backgroundColor="WHITE"
-                                    border="1px solid"
-                                    textColor="GREEN"/>
-
-                    <b:BillItems ui:field="items"/>
-                </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabSupplier" grid="s12">
                     <b:BillSupplier ui:field="supplier"/>
                 </m:MaterialColumn>

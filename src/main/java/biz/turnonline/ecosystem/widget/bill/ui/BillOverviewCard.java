@@ -112,8 +112,6 @@ public class BillOverviewCard
             billImage.setVisible( false );
         }
 
-        // TODO: add selected fields
-
         card.setScrollspy( Bills.getScrollspy( bill ) );
     }
 

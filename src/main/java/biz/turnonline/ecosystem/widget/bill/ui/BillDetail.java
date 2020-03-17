@@ -1,16 +1,21 @@
 package biz.turnonline.ecosystem.widget.bill.ui;
 
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.BillItem;
 import biz.turnonline.ecosystem.widget.shared.ui.BillTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialDoubleBox;
+import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nonnull;
@@ -50,6 +55,12 @@ public class BillDetail
     @UiField
     BillUploader billUploader;
 
+    @UiField
+    BillItems items;
+
+    @UiField
+    MaterialLink addItem;
+
     public BillDetail()
     {
         initWidget( binder.createAndBindUi( this ) );
@@ -69,6 +80,7 @@ public class BillDetail
 
         bill.setServingUrl( billUploader.getValue().getServingUrl() );
         bill.setStorageName( billUploader.getValue().getStorageName() );
+        bill.setItems( items.getValue() );
     }
 
     public void fill( @Nonnull Bill bill )
@@ -87,10 +99,21 @@ public class BillDetail
 
         created.setValue( bill.getCreatedDate() );
         modified.setValue( bill.getModificationDate() );
+
+        items.setValue( bill.getItems() );
     }
 
     interface DetailUiBinder
             extends UiBinder<HTMLPanel, BillDetail>
     {
+    }
+
+    @UiHandler( "addItem" )
+    public void add( ClickEvent event )
+    {
+        BillItem item = new BillItem();
+        item.setCurrency( Configuration.get().getCurrency() );
+        item.setAmount( 1D );
+        items.addRow( item );
     }
 }

@@ -14,7 +14,6 @@ public class EditBillTabs
         super();
 
         add( newTabItem( messages.labelDetail(), "tabDetail", IconType.VISIBILITY ) );
-        add( newTabItem( messages.labelItems(), "tabItems", IconType.REORDER ) );
         add( newTabItem( messages.labelSupplier(), "tabSupplier", IconType.PERM_IDENTITY ) );
     }
 }

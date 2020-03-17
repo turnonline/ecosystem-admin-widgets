@@ -1,6 +1,7 @@
 package biz.turnonline.ecosystem.widget.bill.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
@@ -12,6 +13,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
+import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
@@ -25,6 +27,9 @@ public class BillSupplier
         extends Composite
 {
     private static SupplierUiBinder binder = GWT.create( SupplierUiBinder.class );
+
+    @UiField
+    MaterialImage billScan = new MaterialImage( Resources.INSTANCE.noImage() );
 
     // company
 
@@ -117,6 +122,8 @@ public class BillSupplier
             supplier = new Supplier();
             bill.setSupplier( supplier );
         }
+
+        billScan.setUrl( bill.getServingUrl() != null ? bill.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
 
         businessName.setValue( supplier.getBusinessName() );
         companyId.setValue( supplier.getCompanyId() );

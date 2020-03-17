@@ -33,46 +33,50 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import java.util.Date;
 
 /**
  * The Bill resource REST facade service interface.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-@SuppressWarnings("VoidMethodAnnotatedWithGET")
-@Options(dispatcher = FirebaseAuthDispatcher.class, serviceRootKey = Configuration.BILL_API_ROOT)
+@SuppressWarnings( "VoidMethodAnnotatedWithGET" )
+@Options( dispatcher = FirebaseAuthDispatcher.class, serviceRootKey = Configuration.BILL_API_ROOT )
 public interface BillFacade
-        extends RestService {
+        extends RestService
+{
 
     //////////////////////
     ////// bills //////
     //////////////////////
 
     @GET
-    @Path("bills")
-    void getBills(@QueryParam("offset") Integer offset,
-                 @QueryParam("limit") Integer limit,
-                 @QueryParam("lightList") boolean lightList,
-                 SuccessCallback<Items<Bill>> callback);
+    @Path( "bills" )
+    void getBills( @QueryParam( "offset" ) Integer offset,
+                   @QueryParam( "limit" ) Integer limit,
+                   @QueryParam( "dateOfIssueFrom" ) Date dateOfIssueFrom,
+                   @QueryParam( "dateOfIssueTo" ) Date dateOfIssueTo,
+                   @QueryParam( "lightList" ) boolean lightList,
+                   SuccessCallback<Items<Bill>> callback );
 
     @GET
-    @Path("bills/{bill_id}")
-    void findBillById(@PathParam("bill_id") Long billId,
-                      FacadeCallback<Bill> callback);
+    @Path( "bills/{bill_id}" )
+    void findBillById( @PathParam( "bill_id" ) Long billId,
+                       FacadeCallback<Bill> callback );
 
     @POST
-    @Path("bills")
-    void createBill(Bill bill,
-                    FacadeCallback<Bill> callback);
+    @Path( "bills" )
+    void createBill( Bill bill,
+                     FacadeCallback<Bill> callback );
 
     @PUT
-    @Path("bills/{bill_id}")
-    void updateBill(@PathParam("bill_id") Long billId,
-                       Bill bill,
-                       FacadeCallback<Bill> callback);
+    @Path( "bills/{bill_id}" )
+    void updateBill( @PathParam( "bill_id" ) Long billId,
+                     Bill bill,
+                     FacadeCallback<Bill> callback );
 
     @DELETE
-    @Path("bills/{bill_id}")
-    void deleteBill(@PathParam("bill_id") Long billId,
-                       FacadeCallback<Void> callback);
+    @Path( "bills/{bill_id}" )
+    void deleteBill( @PathParam( "bill_id" ) Long billId,
+                     FacadeCallback<Void> callback );
 }

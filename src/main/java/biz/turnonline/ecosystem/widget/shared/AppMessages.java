@@ -663,6 +663,18 @@ public interface AppMessages
     @Key( "label.billScan" )
     String labelBillScan();
 
+    @Key( "label.currentMonth" )
+    String labelCurrentMonth(String firstDay, String lastDay);
+
+    @Key( "label.lastMonths" )
+    String labelLastMonths(String lastDay);
+
+    @Key( "label.uploadBatch" )
+    String labelUploadBatch();
+
+    @Key( "label.uploadBatchDescription" )
+    String labelUploadBatchDescription();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )
@@ -867,6 +879,9 @@ public interface AppMessages
 
     @Key( "msg.invoice.status.sent" )
     String msgInvoiceStatusSent();
+
+    @Key( "msg.batch.created" )
+    String msgBatchCreated(String name);
 
     // other
 

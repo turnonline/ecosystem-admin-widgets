@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialSection;
@@ -48,5 +49,10 @@ public class SectionTitle
     public void setIconMarginLeft( double marginLeft )
     {
         icon.setMarginLeft( marginLeft );
+    }
+
+    public void setTextColor( Color color ){
+        this.icon.setIconColor( color );
+        this.title.setTextColor( color );
     }
 }
