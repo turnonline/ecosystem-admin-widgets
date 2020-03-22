@@ -8,5 +8,5 @@ import com.google.gwt.event.shared.EventHandler;
 public interface EditBillEventHandler
         extends EventHandler
 {
-    void onEditBill(EditBillEvent event);
+    void onEditBill( EditBillEvent event );
 }

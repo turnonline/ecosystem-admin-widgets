@@ -239,7 +239,7 @@
         <gwt-bom.version>2.8.2</gwt-bom.version>
         <gwt-plugin.version>2.8.2</gwt-plugin.version>
         <!-- keep dagger-compiler and auto-factory version same as gwt-bom -->
-        <dagger-compiler.version>2.25.4</dagger-compiler.version>
+        <dagger-compiler.version>2.27</dagger-compiler.version>
         <auto-factory.version>1.0-beta7</auto-factory.version>
         <!-- end annotationProcessor config -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>

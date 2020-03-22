@@ -37,6 +37,8 @@ public class BillOverviewCard
 {
     private static BillCardUiBinder binder = GWT.create( BillCardUiBinder.class );
 
+    private final AppEventBus bus;
+
     @UiField
     MaterialImage billImage;
 
@@ -73,8 +75,6 @@ public class BillOverviewCard
     @UiField
     MaterialLink editLink;
 
-    private final AppEventBus bus;
-
     private Bill bill;
 
     private AppMessages messages = AppMessages.INSTANCE;
@@ -92,7 +92,7 @@ public class BillOverviewCard
         type.setBackgroundColor( typeColor( bill.getType().name() ) );
         totalPrice.setValue( bill.getTotalPrice(), bill.getCurrency() );
         supplier.setValue( bill.getSupplier().getBusinessName() + " [" + bill.getSupplier().getCompanyId() + "]" );
-        dateOfIssue.setValue( DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_FULL).format( bill.getDateOfIssue() ) );
+        dateOfIssue.setValue( DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_FULL ).format( bill.getDateOfIssue() ) );
 
         // bill image
         boolean hasImageUrl = bill.getServingUrl() != null;

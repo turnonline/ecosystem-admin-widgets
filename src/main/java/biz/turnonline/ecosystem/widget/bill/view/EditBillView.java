@@ -93,7 +93,7 @@ public class EditBillView
         this.controller = controller;
         setActive( Route.BILLS );
 
-        supplier = new BillSupplier(addressLookup);
+        supplier = new BillSupplier( addressLookup );
 
         add( binder.createAndBindUi( this ) );
 

@@ -34,64 +34,77 @@ import javax.inject.Inject;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditBillPresenter
-        extends Presenter<EditBillPresenter.IView> {
+        extends Presenter<EditBillPresenter.IView>
+{
     @Inject
-    public EditBillPresenter(IView view, PlaceController placeController) {
-        super(view, placeController);
+    public EditBillPresenter( IView view, PlaceController placeController )
+    {
+        super( view, placeController );
+        setPlace( EditBill.class );
     }
 
     @Override
-    public void bind() {
-        bus().addHandler(BackEvent.TYPE, event -> controller().goTo(new Bills()));
-        bus().addHandler(SaveBillEvent.TYPE, this::save);
-        bus().addHandler(DeleteBillEvent.TYPE, this::delete);
+    public void bind()
+    {
+        bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Bills() ) );
+        bus().addHandler( SaveBillEvent.TYPE, this::save );
+        bus().addHandler( DeleteBillEvent.TYPE, this::delete );
     }
 
     @Override
-    public void onBackingObject() {
-        view().setModel(newBill());
+    public void onBackingObject()
+    {
+        view().setModel( newBill() );
 
-        EditBill where = (EditBill) controller().getWhere();
-        if (where.getId() != null) {
-            bus().bill().findBillById(where.getId(),
-                    (SuccessCallback<Bill>) response -> view().setModel(response));
+        EditBill where = ( EditBill ) controller().getWhere();
+        if ( where.getId() != null )
+        {
+            bus().bill().findBillById( where.getId(),
+                    ( SuccessCallback<Bill> ) response -> view().setModel( response ) );
         }
 
         onAfterBackingObject();
     }
 
-    private Bill newBill() {
+    private Bill newBill()
+    {
         Bill bill = new Bill();
-        bill.setType(Bill.TypeEnum.CASH_REGISTER_DOCUMENT);
+        bill.setType( Bill.TypeEnum.CASH_REGISTER_DOCUMENT );
 
         return bill;
     }
 
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<Bill> {
-    }
-
-    private void save(SaveBillEvent event) {
+    private void save( SaveBillEvent event )
+    {
         Bill bill = event.getBill();
 
-        if (bill.getId() == null) {
-            bus().bill().createBill(bill, (SuccessCallback<Bill>) response -> {
-                success(messages.msgRecordCreated());
-                controller().goTo(new EditBill(response.getId(), "tabDetail"));
-            });
-        } else {
-            bus().bill().updateBill(bill.getId(), bill,
-                    (SuccessCallback<Bill>) response -> success(messages.msgRecordUpdated()));
+        if ( bill.getId() == null )
+        {
+            bus().bill().createBill( bill, ( SuccessCallback<Bill> ) response -> {
+                success( messages.msgRecordCreated() );
+                controller().goTo( new EditBill( response.getId(), "tabDetail" ) );
+            } );
+        }
+        else
+        {
+            bus().bill().updateBill( bill.getId(), bill,
+                    ( SuccessCallback<Bill> ) response -> success( messages.msgRecordUpdated() ) );
         }
     }
 
-    private void delete(DeleteBillEvent event) {
+    private void delete( DeleteBillEvent event )
+    {
         Bill bill = event.getBill();
 
-        bus().bill().deleteBill(bill.getId(),
-                (SuccessCallback<Void>) response -> {
-                    success(messages.msgRecordDeleted(bill.getItemName()));
-                    controller().goTo(new Bills());
-                });
+        bus().bill().deleteBill( bill.getId(),
+                ( SuccessCallback<Void> ) response -> {
+                    success( messages.msgRecordDeleted( bill.getItemName() ) );
+                    controller().goTo( new Bills() );
+                } );
+    }
+
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView<Bill>
+    {
     }
 }

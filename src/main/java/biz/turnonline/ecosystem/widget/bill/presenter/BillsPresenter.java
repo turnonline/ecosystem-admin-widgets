@@ -30,6 +30,7 @@ import com.google.gwt.place.shared.PlaceController;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -41,6 +42,7 @@ public class BillsPresenter
     public BillsPresenter( IView view, PlaceController placeController )
     {
         super( view, placeController );
+        setPlace( Bills.class );
     }
 
     @Override
@@ -48,8 +50,9 @@ public class BillsPresenter
     {
         bus().addHandler( EditBillEvent.TYPE, event -> controller().goTo( new EditBill( event.getId(), "tabDetail" ) ) );
         bus().addHandler( NewBillEvent.TYPE, event -> {
-            success(messages.msgBatchCreated(event.getBill().getItemName()));
-            bus().bill().createBill( event.getBill(), ( response, failure ) -> { } );
+            success( messages.msgBatchCreated( event.getBill().getItemName() ) );
+            bus().bill().createBill( event.getBill(), ( response, failure ) -> {
+            } );
         } );
 
         view().setDataSourceCurrentMonth( ( offset, limit, callback ) ->
@@ -71,7 +74,7 @@ public class BillsPresenter
     }
 
     public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
+            extends org.ctoolkit.gwt.client.view.IView<List<Bill>>
     {
         void scrollTo( @Nullable String scrollspy );
 

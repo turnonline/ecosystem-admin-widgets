@@ -30,7 +30,7 @@ import gwt.material.design.client.ui.MaterialImage;
 import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
 
-import static biz.turnonline.ecosystem.widget.shared.Configuration.BILL_STORAGE;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.BILLING_PROCESSOR_STORAGE;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -57,7 +57,7 @@ public class BillUploader
         addAttachHandler( event -> {
             if ( event.isAttached() )
             {
-                new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) this::setUrl, BILL_STORAGE );
+                new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) this::setUrl, BILLING_PROCESSOR_STORAGE );
             }
         } );
 
@@ -66,7 +66,7 @@ public class BillUploader
         previewWrapper.getElement().getStyle().setProperty( "margin", "auto" );
         add( previewWrapper );
 
-        previewWrapper.getElement().getStyle().setHeight( 100, Style.Unit.PCT);
+        previewWrapper.getElement().getStyle().setHeight( 100, Style.Unit.PCT );
         previewWrapper.getElement().getStyle().setOverflow( Style.Overflow.SCROLL );
         previewWrapper.add( preview );
 
@@ -112,7 +112,7 @@ public class BillUploader
         new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
                     setUrl( url );
                     super.load();
-                }, BILL_STORAGE
+                }, BILLING_PROCESSOR_STORAGE
         );
     }
 }

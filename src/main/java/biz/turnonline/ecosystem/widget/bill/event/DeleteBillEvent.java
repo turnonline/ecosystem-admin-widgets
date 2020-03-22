@@ -13,7 +13,7 @@ public class DeleteBillEvent
 
     private final Bill bill;
 
-    public DeleteBillEvent(Bill bill)
+    public DeleteBillEvent( Bill bill )
     {
         this.bill = bill;
     }

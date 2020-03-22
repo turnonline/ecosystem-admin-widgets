@@ -13,7 +13,7 @@ public class SaveBillEvent
 
     private final Bill bill;
 
-    public SaveBillEvent(Bill bill)
+    public SaveBillEvent( Bill bill )
     {
         this.bill = bill;
     }

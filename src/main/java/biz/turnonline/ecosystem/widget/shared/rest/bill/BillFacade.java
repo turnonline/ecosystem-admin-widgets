@@ -41,7 +41,7 @@ import java.util.Date;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 @SuppressWarnings( "VoidMethodAnnotatedWithGET" )
-@Options( dispatcher = FirebaseAuthDispatcher.class, serviceRootKey = Configuration.BILL_API_ROOT )
+@Options( dispatcher = FirebaseAuthDispatcher.class, serviceRootKey = Configuration.BILLING_PROCESSOR_API_ROOT )
 public interface BillFacade
         extends RestService
 {

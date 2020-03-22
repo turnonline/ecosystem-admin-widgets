@@ -28,6 +28,7 @@ import javax.inject.Singleton;
  */
 @Singleton
 @Component( modules = BillModule.class )
-public interface BillComponent extends DaggerComponent
+public interface BillComponent
+        extends DaggerComponent
 {
 }
