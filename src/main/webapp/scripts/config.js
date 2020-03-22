@@ -20,7 +20,7 @@ var Configuration = {
     DOMICILE: "SK",
     CURRENCY: "EUR",
     VAT: "STANDARD",
-    LOGIN_ID: "pohorelec@turnonline.biz",
+    LOGIN_ID: "",
     LOGO: "",
     ACCOUNT_STEWARD_STORAGE: "https://account.turnonline.cloud/storage/steward/v1",
     PRODUCT_BILLING_STORAGE: "https://billing.turnonline.cloud/storage/billing/v1",
@@ -29,7 +29,7 @@ var Configuration = {
     BILL_API_ROOT: "https://bill.turnonline.cloud/api/bill/v1",
     BILL_STORAGE: "https://bill.turnonline.cloud/storage/bill/v1",
     SEARCH_API_ROOT: "https://search.turnonline.cloud/api/search/v1",
-    MAPS_API_KEY: "AIzaSyBcFynhFn5xRAXBDshvHMJqn3BNF2ypEOs"
+    MAPS_API_KEY: ""
 };
 
 var token = window.localStorage.getItem("turnonline-token");
