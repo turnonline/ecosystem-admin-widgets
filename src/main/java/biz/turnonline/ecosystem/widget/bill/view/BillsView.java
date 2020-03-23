@@ -51,7 +51,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static biz.turnonline.ecosystem.widget.shared.Configuration.BILLING_PROCESSOR_STORAGE;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.BILL_STORAGE;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -66,7 +66,7 @@ public class BillsView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField( provided = true )
-    BatchDropBox batchDropBox = new BatchDropBox( BILLING_PROCESSOR_STORAGE )
+    BatchDropBox batchDropBox = new BatchDropBox( BILL_STORAGE )
     {
         @Override
         public void onUpload( UploadItem uploadItem )
