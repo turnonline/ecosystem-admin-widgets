@@ -17,7 +17,7 @@ public class BillTypeComboBox
 
     static
     {
-        types.add( new StaticCodeBook( "CASH_REGISTER_DOCUMENT", messages.labelCashRegisterDocument() ) );
+        types.add( new StaticCodeBook( "RECEIPT", messages.labelCashRegisterDocument() ) );
         types.add( new StaticCodeBook( "INCOMING_INVOICE", messages.labelIncomingInvoice() ) );
     }
 
@@ -30,6 +30,6 @@ public class BillTypeComboBox
     @Override
     protected String defaultValue()
     {
-        return "CASH_REGISTER_DOCUMENT";
+        return "RECEIPT";
     }
 }

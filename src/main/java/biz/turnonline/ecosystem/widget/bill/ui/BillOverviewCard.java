@@ -5,6 +5,7 @@ import biz.turnonline.ecosystem.widget.bill.place.Bills;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,8 +25,11 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.CASH_REGISTER_DOCUMENT;
+import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.RECEIPT;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
 
@@ -95,13 +99,16 @@ public class BillOverviewCard
         dateOfIssue.setValue( DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_FULL).format( bill.getDateOfIssue() ) );
 
         // bill image
-        boolean hasImageUrl = bill.getServingUrl() != null;
+        List<Scan> scans = Optional.ofNullable( bill.getScans()).orElse( new ArrayList<>(  ) );
+        Scan scan = scans.isEmpty() ? new Scan() : scans.get( 0 );
+
+        boolean hasImageUrl = scan.getServingUrl() != null;
         billImage.getElement().getStyle().setProperty( "margin", "auto" );
         if ( hasImageUrl )
         {
-            billImage.setUrl( bill.getServingUrl() );
+            billImage.setUrl( scan.getServingUrl() );
             billImage.addClickHandler( e -> overlay.open( billImage ) );
-            overlayImage.setUrl( bill.getServingUrl() + "=s1200" );
+            overlayImage.setUrl( scan.getServingUrl() + "=s1200" );
             btnCloseOverlay.addClickHandler( e -> overlay.close() );
             btnCloseOverlay.getElement().getStyle().setProperty( "margin", "auto" );
             btnCloseOverlay.setMarginBottom( 10 );
@@ -129,7 +136,7 @@ public class BillOverviewCard
 
     private Color typeColor( String type )
     {
-        if ( type.equalsIgnoreCase( CASH_REGISTER_DOCUMENT.name() ) )
+        if ( type.equalsIgnoreCase( RECEIPT.name() ) )
         {
             return GREEN;
         }
@@ -139,7 +146,7 @@ public class BillOverviewCard
 
     private String typeText( String type )
     {
-        if ( type.equalsIgnoreCase( CASH_REGISTER_DOCUMENT.name() ) )
+        if ( type.equalsIgnoreCase( RECEIPT.name() ) )
         {
             return messages.labelCashRegisterDocument();
         }

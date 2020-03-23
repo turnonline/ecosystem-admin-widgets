@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.bill.presenter.BillsPresenter;
 import biz.turnonline.ecosystem.widget.bill.ui.BillOverviewCard;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
 import biz.turnonline.ecosystem.widget.shared.ui.BatchDropBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
@@ -46,6 +47,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import static biz.turnonline.ecosystem.widget.shared.Configuration.BILL_STORAGE;
@@ -113,13 +115,15 @@ public class BillsView
     private void createNewBill( UploadItem uploadItem )
     {
         Bill bill = new Bill();
-        bill.setServingUrl( uploadItem.getServingUrl() );
-        bill.setStorageName( uploadItem.getStorageName() );
+
+        bill.setScans( Collections.singletonList(
+                new Scan().servingUrl( uploadItem.getServingUrl() ).storageName( uploadItem.getStorageName() )
+        ) );
         bill.setItemName( uploadItem.getFileName() );
         bill.setDateOfIssue( new Date() );
         bill.setSupplier( new Supplier() );
         bill.setItems( new ArrayList<>() );
-        bill.setType( Bill.TypeEnum.CASH_REGISTER_DOCUMENT );
+        bill.setType( Bill.TypeEnum.RECEIPT );
 
         bus().fireEvent( new NewBillEvent( bill ) );
     }

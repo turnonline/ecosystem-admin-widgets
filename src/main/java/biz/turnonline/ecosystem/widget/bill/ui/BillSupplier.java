@@ -3,6 +3,7 @@ package biz.turnonline.ecosystem.widget.bill.ui;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
@@ -19,6 +20,9 @@ import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -44,20 +48,6 @@ public class BillSupplier
 
     @UiField
     MaterialTextBox vatId;
-
-    // person
-
-    @UiField
-    MaterialTextBox prefix;
-
-    @UiField
-    MaterialTextBox firstName;
-
-    @UiField
-    MaterialTextBox lastName;
-
-    @UiField
-    MaterialTextBox suffix;
 
     // address
 
@@ -103,11 +93,6 @@ public class BillSupplier
         supplier.setTaxId( taxId.getValue() );
         supplier.setVatId( vatId.getValue() );
 
-        supplier.setPrefix( prefix.getValue() );
-        supplier.setFirstName( firstName.getValue() );
-        supplier.setLastName( lastName.getValue() );
-        supplier.setSuffix( suffix.getValue() );
-
         supplier.setStreet( street.getValue() );
         supplier.setCity( city.getValue() );
         supplier.setPostcode( postCode.getValue() );
@@ -123,17 +108,15 @@ public class BillSupplier
             bill.setSupplier( supplier );
         }
 
-        billScan.setUrl( bill.getServingUrl() != null ? bill.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
+        List<Scan> scans = Optional.ofNullable( bill.getScans()).orElse( new ArrayList<>(  ) );
+        Scan scan = scans.isEmpty() ? new Scan() : scans.get( 0 );
+
+        billScan.setUrl( scan.getServingUrl() != null ? scan.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
 
         businessName.setValue( supplier.getBusinessName() );
         companyId.setValue( supplier.getCompanyId() );
         taxId.setValue( supplier.getTaxId() );
         vatId.setValue( supplier.getVatId() );
-
-        prefix.setValue( supplier.getPrefix() );
-        firstName.setValue( supplier.getFirstName() );
-        lastName.setValue( supplier.getLastName() );
-        suffix.setValue( supplier.getSuffix() );
 
         street.setValue( supplier.getStreet() );
         city.setValue( supplier.getCity() );

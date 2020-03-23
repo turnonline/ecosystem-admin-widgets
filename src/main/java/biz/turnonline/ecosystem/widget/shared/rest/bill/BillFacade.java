@@ -54,8 +54,8 @@ public interface BillFacade
     @Path( "bills" )
     void getBills( @QueryParam( "offset" ) Integer offset,
                    @QueryParam( "limit" ) Integer limit,
-                   @QueryParam( "dateOfIssueFrom" ) Date dateOfIssueFrom,
-                   @QueryParam( "dateOfIssueTo" ) Date dateOfIssueTo,
+                   @QueryParam( "from" ) Date dateOfIssueFrom,
+                   @QueryParam( "to" ) Date dateOfIssueTo,
                    @QueryParam( "lightList" ) boolean lightList,
                    SuccessCallback<Items<Bill>> callback );
 
