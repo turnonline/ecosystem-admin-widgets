@@ -16,8 +16,7 @@
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.ctoolkit.maven</groupId>
@@ -28,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>biz.turnonline.ecosystem</groupId>
     <artifactId>ecosystem-admin-widgets</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>TurnOnline.biz Ecosystem Administration</name>
     <description>TurnOnline.biz Ecosystem Administration GWT based widgets, distributed as zip</description>
@@ -133,6 +132,13 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <doclint>none</doclint>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -230,10 +236,10 @@
     </dependencies>
 
     <properties>
-        <gwt-bom.version>2.8.2-20200104.060711-9</gwt-bom.version>
+        <gwt-bom.version>2.8.2</gwt-bom.version>
         <gwt-plugin.version>2.8.2</gwt-plugin.version>
         <!-- keep dagger-compiler and auto-factory version same as gwt-bom -->
-        <dagger-compiler.version>2.25.4</dagger-compiler.version>
+        <dagger-compiler.version>2.27</dagger-compiler.version>
         <auto-factory.version>1.0-beta7</auto-factory.version>
         <!-- end annotationProcessor config -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>

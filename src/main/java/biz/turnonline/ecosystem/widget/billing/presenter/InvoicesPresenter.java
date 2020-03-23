@@ -32,6 +32,7 @@ import org.ctoolkit.gwt.client.facade.Items;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -102,7 +103,7 @@ public class InvoicesPresenter
     }
 
     public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
+            extends org.ctoolkit.gwt.client.view.IView<List<Invoice>>
     {
         void scrollTo( @Nullable String scrollspy );
 

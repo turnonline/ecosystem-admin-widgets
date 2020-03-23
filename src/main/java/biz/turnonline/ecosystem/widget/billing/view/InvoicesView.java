@@ -43,6 +43,7 @@ import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * Invoice list view implemented by infinite scroll where single invoice is rendered by {@link InvoiceOverviewCard}.
@@ -50,7 +51,7 @@ import javax.inject.Named;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class InvoicesView
-        extends View
+        extends View<List<Invoice>>
         implements InvoicesPresenter.IView
 {
     private static InvoicesViewUiBinder binder = GWT.create( InvoicesViewUiBinder.class );

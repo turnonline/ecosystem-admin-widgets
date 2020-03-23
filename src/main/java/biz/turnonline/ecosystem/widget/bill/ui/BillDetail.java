@@ -115,11 +115,6 @@ public class BillDetail
         items.setValue( bill.getItems() );
     }
 
-    interface DetailUiBinder
-            extends UiBinder<HTMLPanel, BillDetail>
-    {
-    }
-
     @UiHandler( "addItem" )
     public void add( ClickEvent event )
     {
@@ -127,5 +122,10 @@ public class BillDetail
         item.setCurrency( Configuration.get().getCurrency() );
         item.setAmount( 1D );
         items.addRow( item );
+    }
+
+    interface DetailUiBinder
+            extends UiBinder<HTMLPanel, BillDetail>
+    {
     }
 }

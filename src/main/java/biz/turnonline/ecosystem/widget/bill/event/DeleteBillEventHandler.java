@@ -8,5 +8,5 @@ import com.google.gwt.event.shared.EventHandler;
 public interface DeleteBillEventHandler
         extends EventHandler
 {
-    void onDeleteBill(DeleteBillEvent event);
+    void onDeleteBill( DeleteBillEvent event );
 }

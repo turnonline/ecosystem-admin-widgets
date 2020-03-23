@@ -49,14 +49,15 @@ import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
-import static biz.turnonline.ecosystem.widget.shared.Configuration.BILL_STORAGE;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.BILLING_PROCESSOR_STORAGE;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class BillsView
-        extends View
+        extends View<List<Bill>>
         implements BillsPresenter.IView
 {
     private static BillsViewUiBinder binder = GWT.create( BillsViewUiBinder.class );
@@ -65,7 +66,7 @@ public class BillsView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField( provided = true )
-    BatchDropBox batchDropBox = new BatchDropBox( BILL_STORAGE )
+    BatchDropBox batchDropBox = new BatchDropBox( BILLING_PROCESSOR_STORAGE )
     {
         @Override
         public void onUpload( UploadItem uploadItem )
@@ -147,7 +148,7 @@ public class BillsView
     }
 
     @UiHandler( "newBill" )
-    public void handleNew( ClickEvent event )
+    public void handleNew( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new EditBillEvent() );
     }

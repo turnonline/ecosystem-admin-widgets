@@ -186,10 +186,10 @@ public abstract class BillModule
 
     @Binds
     @Singleton
-    abstract BillsPresenter.IView provideBillsView(BillsView view );
+    abstract BillsPresenter.IView provideBillsView( BillsView view );
 
 
     @Binds
     @Singleton
-    abstract EditBillPresenter.IView provideEditBillView(EditBillView view );
+    abstract EditBillPresenter.IView provideEditBillView( EditBillView view );
 }

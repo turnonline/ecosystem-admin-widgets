@@ -33,7 +33,8 @@ public class BillItems
         return new BillItemRow();
     }
 
-    private void header(String header, String width) {
+    private void header( String header, String width )
+    {
         Label label = new Label( header );
         label.getElement().getStyle().setOverflow( Style.Overflow.AUTO );
 

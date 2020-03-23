@@ -17,7 +17,7 @@ public class EditBillEvent
     {
     }
 
-    public EditBillEvent(Bill bill)
+    public EditBillEvent( Bill bill )
     {
         this.bill = bill;
     }

@@ -8,5 +8,5 @@ import com.google.gwt.event.shared.EventHandler;
 public interface BackEventHandler
         extends EventHandler
 {
-    void onBack(BackEvent event);
+    void onBack( BackEvent event );
 }

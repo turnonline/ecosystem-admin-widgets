@@ -37,9 +37,9 @@ public class BillItemRow
     private MaterialDoubleBox priceExclVat = new MaterialDoubleBox();
 
     private VatRateComboBox vat = new VatRateComboBox();
-    
+
     private MaterialDoubleBox priceInclVat = new MaterialDoubleBox();
-    
+
     private MaterialButton remove = new MaterialButton();
 
     public BillItemRow()
@@ -78,7 +78,7 @@ public class BillItemRow
         TableData columnPriceInclVat = column( priceInclVat );
         columnPriceInclVat.setPaddingLeft( 0 );
         columnPriceInclVat.setWidth( "15%" );
-        
+
         TableData columnRemove = column( remove );
         columnRemove.setPaddingRight( 0 );
         columnRemove.setWidth( "5%" );

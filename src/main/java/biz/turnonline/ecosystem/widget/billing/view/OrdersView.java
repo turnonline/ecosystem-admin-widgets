@@ -43,6 +43,7 @@ import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * Order list view implemented by infinite scroll where single order is rendered by {@link OrderOverviewCard}.
@@ -50,7 +51,7 @@ import javax.inject.Named;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class OrdersView
-        extends View
+        extends View<List<Order>>
         implements OrdersPresenter.IView
 {
     private static OrdersViewUiBinder binder = GWT.create( OrdersViewUiBinder.class );

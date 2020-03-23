@@ -18,17 +18,11 @@
 
 package biz.turnonline.ecosystem.widget.bill;
 
-import biz.turnonline.ecosystem.widget.bill.place.Bills;
-import biz.turnonline.ecosystem.widget.bill.place.EditBill;
 import biz.turnonline.ecosystem.widget.bill.presenter.BillsPresenter;
 import biz.turnonline.ecosystem.widget.bill.presenter.EditBillPresenter;
-import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
-import com.google.gwt.place.shared.Place;
+import org.ctoolkit.gwt.client.presenter.PresenterController;
 
 import javax.inject.Inject;
-import java.util.HashMap;
 
 /**
  * App controller maps place to a presenter.
@@ -36,32 +30,11 @@ import java.util.HashMap;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class BillController
-        implements ActivityMapper
+        extends PresenterController
 {
-    private static HashMap<String, Presenter> presenters = null;
-
     @Inject
-    public BillController(BillsPresenter billsPresenter,
-                          EditBillPresenter editBillPresenter)
+    public BillController( BillsPresenter bills, EditBillPresenter editBill )
     {
-        if ( presenters == null )
-        {
-            presenters = new HashMap<>();
-
-            presenters.put( Bills.class.getName(), billsPresenter);
-            presenters.put( EditBill.class.getName(), editBillPresenter);
-        }
-    }
-
-    @Override
-    public Activity getActivity( final Place place )
-    {
-        Presenter presenter = presenters.get( place.getClass().getName() );
-        if ( presenter == null )
-        {
-            presenter = presenters.get( BillEntryPoint.DEFAULT_PLACE.getClass().getName() );
-        }
-
-        return presenter;
+        super( bills, editBill );
     }
 }

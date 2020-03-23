@@ -8,5 +8,5 @@ import com.google.gwt.event.shared.EventHandler;
 public interface SaveBillEventHandler
         extends EventHandler
 {
-    void onSaveBill(SaveBillEvent event);
+    void onSaveBill( SaveBillEvent event );
 }
