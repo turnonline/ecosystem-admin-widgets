@@ -79,6 +79,20 @@ public class Discounts
     }
 
     @Override
+    public List<ProductDiscount> getValue()
+    {
+        List<ProductDiscount> discounts = new ArrayList<>();
+
+        for ( int i = 0; i < values.size(); i++ )
+        {
+            DiscountItem item = ( DiscountItem ) tbody.getWidget( i );
+            discounts.add( item.getValue() );
+        }
+
+        return discounts;
+    }
+
+    @Override
     public void setValue( @Nullable List<ProductDiscount> value )
     {
         values.clear();
@@ -88,20 +102,6 @@ public class Discounts
         {
             value.forEach( this::createRow );
         }
-    }
-
-    @Override
-    public List<ProductDiscount> getValue()
-    {
-        List<ProductDiscount> discounts = new ArrayList<>(  );
-
-        for ( int i = 0; i < values.size(); i++ )
-        {
-            DiscountItem item = (DiscountItem) tbody.getWidget( i );
-            discounts.add( item.getValue() );
-        }
-
-        return discounts;
     }
 
     private void newRow()

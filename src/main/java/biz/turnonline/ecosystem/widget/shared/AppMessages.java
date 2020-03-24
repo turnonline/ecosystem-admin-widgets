@@ -664,10 +664,10 @@ public interface AppMessages
     String labelBillScan();
 
     @Key( "label.currentMonth" )
-    String labelCurrentMonth(String firstDay, String lastDay);
+    String labelCurrentMonth( String firstDay, String lastDay );
 
     @Key( "label.lastMonths" )
-    String labelLastMonths(String lastDay);
+    String labelLastMonths( String lastDay );
 
     @Key( "label.uploadBatch" )
     String labelUploadBatch();
@@ -881,7 +881,7 @@ public interface AppMessages
     String msgInvoiceStatusSent();
 
     @Key( "msg.batch.created" )
-    String msgBatchCreated(String name);
+    String msgBatchCreated( String name );
 
     // other
 

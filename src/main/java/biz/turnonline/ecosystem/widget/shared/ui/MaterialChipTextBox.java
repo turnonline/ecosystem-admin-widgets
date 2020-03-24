@@ -33,6 +33,13 @@ public class MaterialChipTextBox
         } );
     }
 
+    public List<String> getChippedValue()
+    {
+        List<String> values = new ArrayList<>();
+        iterate( chip -> values.add( ( chip ).getText() ) );
+        return values;
+    }
+
     public void setChippedValue( List<String> value )
     {
         removeAllChips();
@@ -45,13 +52,6 @@ public class MaterialChipTextBox
         {
             setText( null );
         }
-    }
-
-    public List<String> getChippedValue()
-    {
-        List<String> values = new ArrayList<>();
-        iterate( chip -> values.add( ( chip ).getText() ) );
-        return values;
     }
 
     public void addChip( String text )
@@ -121,12 +121,6 @@ public class MaterialChipTextBox
         }
     }
 
-    @FunctionalInterface
-    private interface Action
-    {
-        void doAction( MaterialChip chip );
-    }
-
     public HandlerRegistration addChipCloseHandler( ChipCloseEventHandler handler )
     {
         return addHandler( handler, ChipCloseEvent.TYPE );
@@ -150,5 +144,11 @@ public class MaterialChipTextBox
     public void setLetter( String letter )
     {
         this.letter = letter;
+    }
+
+    @FunctionalInterface
+    private interface Action
+    {
+        void doAction( MaterialChip chip );
     }
 }

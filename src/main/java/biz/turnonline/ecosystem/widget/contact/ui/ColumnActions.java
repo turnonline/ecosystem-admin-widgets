@@ -18,9 +18,9 @@ import gwt.material.design.client.ui.table.cell.WidgetColumn;
 public class ColumnActions
         extends WidgetColumn<ContactCard, MaterialButton>
 {
-    protected AppMessages messages = AppMessages.INSTANCE;
-
     private final EventBus eventBus;
+
+    protected AppMessages messages = AppMessages.INSTANCE;
 
     public ColumnActions( EventBus eventBus )
     {

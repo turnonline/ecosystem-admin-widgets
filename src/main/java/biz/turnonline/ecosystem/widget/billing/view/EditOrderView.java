@@ -134,7 +134,7 @@ public class EditOrderView
 
         add( binder.createAndBindUi( this ) );
 
-        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteOrderEvent( getRawModel() )) );
+        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteOrderEvent( getRawModel() ) ) );
     }
 
     @UiFactory

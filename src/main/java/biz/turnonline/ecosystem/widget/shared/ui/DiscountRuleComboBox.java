@@ -11,9 +11,9 @@ import java.util.List;
 public class DiscountRuleComboBox
         extends StaticCodeBookListBox
 {
-    private static List<StaticCodeBook> rules = new ArrayList<>();
-
     private static final AppMessages messages = AppMessages.INSTANCE;
+
+    private static List<StaticCodeBook> rules = new ArrayList<>();
 
     static
     {

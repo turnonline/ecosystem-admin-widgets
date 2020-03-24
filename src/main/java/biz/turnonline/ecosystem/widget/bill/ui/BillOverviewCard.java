@@ -99,7 +99,7 @@ public class BillOverviewCard
         dateOfIssue.setValue( DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_FULL ).format( bill.getDateOfIssue() ) );
 
         // bill image
-        List<Scan> scans = Optional.ofNullable( bill.getScans()).orElse( new ArrayList<>(  ) );
+        List<Scan> scans = Optional.ofNullable( bill.getScans() ).orElse( new ArrayList<>() );
         Scan scan = scans.isEmpty() ? new Scan() : scans.get( 0 );
 
         boolean hasImageUrl = scan.getServingUrl() != null;

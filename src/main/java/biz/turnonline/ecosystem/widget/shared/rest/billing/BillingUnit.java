@@ -32,7 +32,8 @@ import biz.turnonline.ecosystem.widget.shared.rest.CodeBook;
  * @author Google, Inc.
  */
 @SuppressWarnings( "javadoc" )
-public final class BillingUnit implements CodeBook
+public final class BillingUnit
+        implements CodeBook
 {
     /**
      * The value may be {@code null}.

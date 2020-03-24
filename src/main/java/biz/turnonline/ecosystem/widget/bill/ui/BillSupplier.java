@@ -108,7 +108,7 @@ public class BillSupplier
             bill.setSupplier( supplier );
         }
 
-        List<Scan> scans = Optional.ofNullable( bill.getScans()).orElse( new ArrayList<>(  ) );
+        List<Scan> scans = Optional.ofNullable( bill.getScans() ).orElse( new ArrayList<>() );
         Scan scan = scans.isEmpty() ? new Scan() : scans.get( 0 );
 
         billScan.setUrl( scan.getServingUrl() != null ? scan.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );

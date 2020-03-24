@@ -9,14 +9,16 @@ import gwt.material.design.client.ui.html.Span;
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
-public class ColumnBadge extends Span
+public class ColumnBadge
+        extends Span
 {
-    public ColumnBadge( String text, Color textColor, Color bgColor) {
-        super( Document.get().createSpanElement(), CssName.BADGE);
+    public ColumnBadge( String text, Color textColor, Color bgColor )
+    {
+        super( Document.get().createSpanElement(), CssName.BADGE );
 
-        setText(text);
-        setTextColor(textColor);
-        setBackgroundColor(bgColor);
+        setText( text );
+        setTextColor( textColor );
+        setBackgroundColor( bgColor );
 
         setLayoutPosition( Style.Position.RELATIVE );
         setRight( 0 );

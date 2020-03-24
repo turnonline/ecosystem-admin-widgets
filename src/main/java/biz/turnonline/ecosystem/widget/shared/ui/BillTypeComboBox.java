@@ -11,9 +11,9 @@ import java.util.List;
 public class BillTypeComboBox
         extends StaticCodeBookListBox
 {
-    private static List<StaticCodeBook> types = new ArrayList<>();
-
     private static final AppMessages messages = AppMessages.INSTANCE;
+
+    private static List<StaticCodeBook> types = new ArrayList<>();
 
     static
     {

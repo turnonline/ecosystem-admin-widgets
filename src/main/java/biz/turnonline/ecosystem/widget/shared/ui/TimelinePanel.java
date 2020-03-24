@@ -22,8 +22,6 @@ public abstract class TimelinePanel<T>
 {
     private static TimelinePanelUiBinder binder = GWT.create( TimelinePanelUiBinder.class );
 
-    private AppMessages messages = AppMessages.INSTANCE;
-
     @UiField
     protected MaterialRow content;
 
@@ -34,7 +32,8 @@ public abstract class TimelinePanel<T>
     SectionTitle lastMonthsTitle;
 
     @UiField( provided = true )
-    InfiniteScroll<T> scrollCurrentMonth = new InfiniteScroll<T>( 0, Integer.MAX_VALUE, 10000 ){
+    InfiniteScroll<T> scrollCurrentMonth = new InfiniteScroll<T>( 0, Integer.MAX_VALUE, 10000 )
+    {
         @Override
         protected void onLoad()
         {
@@ -45,6 +44,8 @@ public abstract class TimelinePanel<T>
 
     @UiField
     InfiniteScroll<T> scrollLastMonths;
+
+    private AppMessages messages = AppMessages.INSTANCE;
 
     public TimelinePanel( String loaderText )
     {
@@ -59,54 +60,6 @@ public abstract class TimelinePanel<T>
 
         currentMonthTitle.setTitle( currentMonthTitle() );
         lastMonthsTitle.setTitle( lastMonthsTitle() );
-    }
-
-    protected abstract Widget createCard( T model );
-
-    public void reload()
-    {
-        scrollCurrentMonth.reload();
-        scrollLastMonths.reload();
-    }
-
-    public void scrollTo( @Nullable String scrollspy )
-    {
-        scrollLastMonths.scrollTo( scrollspy );
-    }
-
-    public void clear()
-    {
-        scrollCurrentMonth.unload();
-        scrollLastMonths.unload();
-    }
-
-    public void setDataSourceCurrentMonth( InfiniteScroll.Callback<T> callback )
-    {
-        scrollCurrentMonth.unload();
-        scrollCurrentMonth.setDataSource( callback );
-    }
-
-    public void setDataSourceLastMonths( InfiniteScroll.Callback<T> callback )
-    {
-        scrollLastMonths.unload();
-        scrollLastMonths.setDataSource( callback );
-    }
-
-    // -- helpers
-
-    private String currentMonthTitle()
-    {
-        String lastDayFormatted = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.MONTH_DAY ).format( lastDayOfCurrentMonth() );
-        String firstDayFormatted = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.MONTH_DAY ).format( firstDayOfCurrentMonth() );
-
-        return messages.labelCurrentMonth(firstDayFormatted, lastDayFormatted);
-    }
-
-    private String lastMonthsTitle()
-    {
-        String lastDateFormatted = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.MONTH_DAY ).format( lastDayOfPreviousMonth() );
-
-        return messages.labelLastMonths( lastDateFormatted );
     }
 
     public static Date firstDayOfCurrentMonth()
@@ -131,6 +84,54 @@ public abstract class TimelinePanel<T>
         lastDayOfPreviousMonthDate.setDate( lastDayOfPreviousMonthDate.getDate() - 1 );
 
         return lastDayOfPreviousMonthDate;
+    }
+
+    protected abstract Widget createCard( T model );
+
+    public void reload()
+    {
+        scrollCurrentMonth.reload();
+        scrollLastMonths.reload();
+    }
+
+    public void scrollTo( @Nullable String scrollspy )
+    {
+        scrollLastMonths.scrollTo( scrollspy );
+    }
+
+    // -- helpers
+
+    public void clear()
+    {
+        scrollCurrentMonth.unload();
+        scrollLastMonths.unload();
+    }
+
+    public void setDataSourceCurrentMonth( InfiniteScroll.Callback<T> callback )
+    {
+        scrollCurrentMonth.unload();
+        scrollCurrentMonth.setDataSource( callback );
+    }
+
+    public void setDataSourceLastMonths( InfiniteScroll.Callback<T> callback )
+    {
+        scrollLastMonths.unload();
+        scrollLastMonths.setDataSource( callback );
+    }
+
+    private String currentMonthTitle()
+    {
+        String lastDayFormatted = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.MONTH_DAY ).format( lastDayOfCurrentMonth() );
+        String firstDayFormatted = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.MONTH_DAY ).format( firstDayOfCurrentMonth() );
+
+        return messages.labelCurrentMonth( firstDayFormatted, lastDayFormatted );
+    }
+
+    private String lastMonthsTitle()
+    {
+        String lastDateFormatted = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.MONTH_DAY ).format( lastDayOfPreviousMonth() );
+
+        return messages.labelLastMonths( lastDateFormatted );
     }
 
     interface TimelinePanelUiBinder

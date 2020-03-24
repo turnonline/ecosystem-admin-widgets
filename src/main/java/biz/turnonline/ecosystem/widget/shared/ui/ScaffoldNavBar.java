@@ -20,20 +20,15 @@ import gwt.material.design.client.ui.MaterialSideNavPush;
 public class ScaffoldNavBar
         extends Composite
 {
-    private AppMessages messages = AppMessages.INSTANCE;
-
     private static ScaffoldNavBarUiBinder binder = GWT.create( ScaffoldNavBarUiBinder.class );
-
-    interface ScaffoldNavBarUiBinder
-            extends UiBinder<MaterialSideNavPush, ScaffoldNavBar>
-    {
-    }
 
     @UiField
     MaterialNavBrand logoLink;
 
     @UiField
     MaterialImage logo;
+
+    private AppMessages messages = AppMessages.INSTANCE;
 
     public ScaffoldNavBar()
     {
@@ -86,5 +81,10 @@ public class ScaffoldNavBar
     private MaterialSideNavPush nav()
     {
         return ( MaterialSideNavPush ) getWidget();
+    }
+
+    interface ScaffoldNavBarUiBinder
+            extends UiBinder<MaterialSideNavPush, ScaffoldNavBar>
+    {
     }
 }

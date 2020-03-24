@@ -28,6 +28,7 @@ import javax.inject.Singleton;
  */
 @Singleton
 @Component( modules = ProductModule.class )
-public interface ProductComponent extends DaggerComponent
+public interface ProductComponent
+        extends DaggerComponent
 {
 }

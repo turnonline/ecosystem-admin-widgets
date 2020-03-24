@@ -18,11 +18,6 @@ public class SectionTitle
 {
     private static SectionTitle.SectionTitleUiBinder binder = GWT.create( SectionTitle.SectionTitleUiBinder.class );
 
-    interface SectionTitleUiBinder
-            extends UiBinder<MaterialSection, SectionTitle>
-    {
-    }
-
     @UiField
     MaterialIcon icon;
 
@@ -51,8 +46,14 @@ public class SectionTitle
         icon.setMarginLeft( marginLeft );
     }
 
-    public void setTextColor( Color color ){
+    public void setTextColor( Color color )
+    {
         this.icon.setIconColor( color );
         this.title.setTextColor( color );
+    }
+
+    interface SectionTitleUiBinder
+            extends UiBinder<MaterialSection, SectionTitle>
+    {
     }
 }

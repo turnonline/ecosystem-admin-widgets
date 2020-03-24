@@ -23,13 +23,6 @@ public class DiscountItem
 {
     private static DiscountItemUiBinder binder = GWT.create( DiscountItemUiBinder.class );
 
-    interface DiscountItemUiBinder
-            extends UiBinder<TableRow, DiscountItem>
-    {
-    }
-
-    private ProductDiscount discount;
-
     @UiField
     MaterialCheckBox enabled;
 
@@ -48,12 +41,26 @@ public class DiscountItem
     @UiField
     MaterialButton btnDelete;
 
+    private ProductDiscount discount;
+
     public DiscountItem()
     {
         initWidget( binder.createAndBindUi( this ) );
         enabled.addClickHandler( event -> handleEnabled( enabled.getValue() ) );
 
         btnDelete.getElement().getStyle().setOpacity( 1 );
+    }
+
+    @Override
+    public ProductDiscount getValue()
+    {
+        discount.setOff( off.getValue() );
+        discount.setUnit( unit.getSingleValueByCode() );
+        discount.setRule( rule.getSingleValueByCode() );
+        discount.setCodes( codes.getChippedValue() );
+        discount.setEnabled( enabled.getValue() );
+
+        return discount;
     }
 
     @Override
@@ -70,18 +77,6 @@ public class DiscountItem
         handleEnabled( discount.getEnabled() );
     }
 
-    @Override
-    public ProductDiscount getValue()
-    {
-        discount.setOff( off.getValue() );
-        discount.setUnit( unit.getSingleValueByCode() );
-        discount.setRule( rule.getSingleValueByCode() );
-        discount.setCodes( codes.getChippedValue() );
-        discount.setEnabled( enabled.getValue() );
-
-        return discount;
-    }
-
     public MaterialButton getBtnDelete()
     {
         return btnDelete;
@@ -93,5 +88,10 @@ public class DiscountItem
         unit.setEnabled( enabled );
         rule.setEnabled( enabled );
         codes.setEnabled( enabled );
+    }
+
+    interface DiscountItemUiBinder
+            extends UiBinder<TableRow, DiscountItem>
+    {
     }
 }

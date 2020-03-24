@@ -85,8 +85,8 @@ public class BillDetail
 
         Scan scan = new Scan();
         scan.setOrder( 1 );
-        scan.setServingUrl(  billUploader.getValue().getServingUrl());
-        scan.setStorageName(billUploader.getValue().getStorageName()  );
+        scan.setServingUrl( billUploader.getValue().getServingUrl() );
+        scan.setStorageName( billUploader.getValue().getStorageName() );
         bill.setScans( Collections.singletonList( scan ) );
 
         bill.setItems( items.getValue() );
@@ -101,7 +101,7 @@ public class BillDetail
         billType.setSingleValueByCode( bill.getType() != null ? bill.getType().name() : null );
         currency.setSingleValue( bill.getCurrency() );
 
-        List<Scan> scans = Optional.ofNullable( bill.getScans()).orElse( new ArrayList<>(  ) );
+        List<Scan> scans = Optional.ofNullable( bill.getScans() ).orElse( new ArrayList<>() );
         Scan scan = scans.isEmpty() ? new Scan() : scans.get( 0 );
 
         Image image = new Image();

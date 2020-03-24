@@ -20,11 +20,6 @@ public class Invoicing
 {
     private static PricingUiBinder binder = GWT.create( PricingUiBinder.class );
 
-    interface PricingUiBinder
-            extends UiBinder<HTMLPanel, Invoicing>
-    {
-    }
-
     @UiField
     MaterialIntegerBox trialPeriod;
 
@@ -60,5 +55,10 @@ public class Invoicing
 
         trialPeriod.setValue( invoicing.getTrialPeriod() );
         unit.setSingleValueByCode( invoicing.getUnit() );
+    }
+
+    interface PricingUiBinder
+            extends UiBinder<HTMLPanel, Invoicing>
+    {
     }
 }

@@ -28,6 +28,7 @@ import javax.inject.Singleton;
  */
 @Singleton
 @Component( modules = ContactModule.class )
-public interface ContactComponent extends DaggerComponent
+public interface ContactComponent
+        extends DaggerComponent
 {
 }

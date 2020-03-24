@@ -94,19 +94,15 @@ public abstract class BillingModule
 
     @Provides
     @Singleton
-    static PlaceHistoryHandler providePlaceHistoryHandler( PlaceHistoryMapper mapper, PlaceHistoryHandler.Historian historian,
-                                                           PlaceController controller, EventBus eventBus )
+    static PlaceHistoryHandler providePlaceHistoryHandler( PlaceHistoryMapper mapper,
+                                                           PlaceHistoryHandler.Historian historian,
+                                                           PlaceController controller,
+                                                           EventBus eventBus )
     {
         PlaceHistoryHandler handler = new PlaceHistoryHandler( mapper, historian );
         handler.register( controller, eventBus, BillingEntryPoint.DEFAULT_PLACE );
         return handler;
     }
-
-    @Binds
-    @Singleton
-    abstract ActivityMapper provideActivityMapper( BillingController controller );
-
-    // -- configuration
 
     @Singleton
     @Provides
@@ -115,7 +111,7 @@ public abstract class BillingModule
         return Configuration.get();
     }
 
-    // rest facade
+    // -- configuration
 
     @Singleton
     @Provides
@@ -123,6 +119,8 @@ public abstract class BillingModule
     {
         return GWT.create( AccountStewardFacade.class );
     }
+
+    // rest facade
 
     @Singleton
     @Provides
@@ -152,8 +150,6 @@ public abstract class BillingModule
         return config.initAddressLookupListener();
     }
 
-    // -- breadcrumbs
-
     @Provides
     @Singleton
     @Named( "EditOrderBreadcrumb" )
@@ -166,6 +162,8 @@ public abstract class BillingModule
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
+
+    // -- breadcrumbs
 
     @Provides
     @Singleton
@@ -203,6 +201,10 @@ public abstract class BillingModule
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
+
+    @Binds
+    @Singleton
+    abstract ActivityMapper provideActivityMapper( BillingController controller );
 
     // -- event bus
 

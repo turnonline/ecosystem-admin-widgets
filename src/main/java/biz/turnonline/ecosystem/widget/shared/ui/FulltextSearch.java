@@ -35,16 +35,21 @@ import java.util.stream.Collectors;
 public class FulltextSearch
         extends MaterialAutoComplete
 {
-    private CssNameMixin<FulltextSearch, Theme> cssNameMixin;
-
     private static AppMessages messages = AppMessages.INSTANCE;
 
     private static Map<GlobalItemType, String> localizationMap = new HashMap<>();
+
     private static Map<GlobalItemType, IconType> iconMap = new HashMap<>();
+
     private static Map<GlobalItemType, Redirection> listRedirectionMap = new HashMap<>();
+
     private static Map<GlobalItemType, Redirection> detailRedirectionMap = new HashMap<>();
+
     private static Map<GlobalItemType, Integer> searchOrderMap = new HashMap<>();
+
     private static Map<Route, GlobalItemType> routeMap = new HashMap<>();
+
+    private static Route route;
 
     static
     {
@@ -79,12 +84,12 @@ public class FulltextSearch
         routeMap.put( Route.ORDERS, GlobalItemType.ORDER );
     }
 
-    private static Route route;
-
     static
     {
         MaterialDesignBase.injectCss( InlineSearchClientBundle.INSTANCE.inlineSearchCss() );
     }
+
+    private CssNameMixin<FulltextSearch, Theme> cssNameMixin;
 
     public FulltextSearch( EventBus eventBus )
     {
@@ -149,6 +154,12 @@ public class FulltextSearch
         route = activeRoute;
     }
 
+    @FunctionalInterface
+    private interface Redirection
+    {
+        void redirect( SearchGlobal global );
+    }
+
     private static class Oracle
             extends MaterialSuggestionOracle
     {
@@ -194,7 +205,7 @@ public class FulltextSearch
                         List<SearchGlobal> sortedByType = wrapped.stream()
                                 .sorted( Comparator.comparing( SearchGlobalWrapper::getOrder ) )
                                 .map( SearchGlobalWrapper::getGlobal )
-                                .collect( Collectors.toList());
+                                .collect( Collectors.toList() );
 
                         GlobalItemType currentType = null;
                         List<MaterialSuggestionOracle.Suggestion> suggests = new ArrayList<>();
@@ -292,7 +303,7 @@ public class FulltextSearch
         public String getDisplayString()
         {
             String url = global.getImageUrl();
-            if ( url == null || "".equals( url ))
+            if ( url == null || "".equals( url ) )
             {
                 url = Resources.INSTANCE.noImage().getSafeUri().asString();
             }
@@ -316,12 +327,6 @@ public class FulltextSearch
         {
             return global;
         }
-    }
-
-    @FunctionalInterface
-    private interface Redirection
-    {
-        void redirect( SearchGlobal global );
     }
 
     private static class SearchGlobalWrapper

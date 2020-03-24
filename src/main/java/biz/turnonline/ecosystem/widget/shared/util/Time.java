@@ -31,7 +31,7 @@ public class Time
         if ( time != null )
         {
             int hours = time / 3600;
-            int minutes = ( time % 3600) / 60;
+            int minutes = ( time % 3600 ) / 60;
 
             return DateTimeFormat.getFormat( "HH:mm" ).parse( hours + ":" + minutes );
         }

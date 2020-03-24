@@ -57,6 +57,6 @@ public class ColumnTransactionPaymentMethod
     public MaterialChip getValue( Transaction object )
     {
         String form = object.getForm();
-        return new MaterialChip(localizationMap.get( form ), iconTypeMap.get( form ));
+        return new MaterialChip( localizationMap.get( form ), iconTypeMap.get( form ) );
     }
 }

@@ -75,11 +75,6 @@ public class EditContactPresenter
         return contactCard;
     }
 
-    public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<ContactCard>
-    {
-    }
-
     private void save( SaveContactEvent event )
     {
         ContactCard contactCard = event.getContactCard();
@@ -108,5 +103,10 @@ public class EditContactPresenter
                     success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
                     controller().goTo( new Contacts() );
                 } );
+    }
+
+    public interface IView
+            extends org.ctoolkit.gwt.client.view.IView<ContactCard>
+    {
     }
 }

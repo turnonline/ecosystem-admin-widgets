@@ -119,7 +119,7 @@ public class EditProductView
 
         event.init( addressLookup );
 
-        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteProductEvent( getRawModel() )) );
+        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteProductEvent( getRawModel() ) ) );
     }
 
     @Override

@@ -69,7 +69,7 @@ public class EditBillPresenter
     private Bill newBill()
     {
         Bill bill = new Bill();
-        bill.setType(Bill.TypeEnum.RECEIPT);
+        bill.setType( Bill.TypeEnum.RECEIPT );
 
         return bill;
     }

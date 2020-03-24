@@ -35,18 +35,6 @@ public abstract class Repeater<T>
         addBody( tbody );
     }
 
-    @Override
-    public void setValue( List<T> value )
-    {
-        this.value = value;
-        tbody.clear();
-
-        if ( value != null )
-        {
-            value.forEach( this::addRow );
-        }
-    }
-
     @SuppressWarnings( "unchecked" )
     public List<T> getValue()
     {
@@ -66,6 +54,18 @@ public abstract class Repeater<T>
         }
 
         return value;
+    }
+
+    @Override
+    public void setValue( List<T> value )
+    {
+        this.value = value;
+        tbody.clear();
+
+        if ( value != null )
+        {
+            value.forEach( this::addRow );
+        }
     }
 
     @SuppressWarnings( "unchecked" )

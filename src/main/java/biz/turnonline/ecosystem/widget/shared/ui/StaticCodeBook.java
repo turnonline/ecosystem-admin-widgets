@@ -18,25 +18,25 @@ public class StaticCodeBook
         this.label = label;
     }
 
-    public void setCode( String code )
-    {
-        this.code = code;
-    }
-
     @Override
     public String getCode()
     {
         return code;
     }
 
-    public void setLabel( String label )
+    public void setCode( String code )
     {
-        this.label = label;
+        this.code = code;
     }
 
     @Override
     public String getLabel()
     {
         return label;
+    }
+
+    public void setLabel( String label )
+    {
+        this.label = label;
     }
 }

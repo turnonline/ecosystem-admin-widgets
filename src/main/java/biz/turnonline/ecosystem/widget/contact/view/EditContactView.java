@@ -215,7 +215,7 @@ public class EditContactView
         } );
         postalStreet.add( new InputSearchIcon() );
 
-        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteContactEvent( getRawModel() )) );
+        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteContactEvent( getRawModel() ) ) );
     }
 
     @Override
