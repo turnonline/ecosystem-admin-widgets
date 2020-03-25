@@ -12,12 +12,15 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.bill;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.Objects;
 
 /**
  * Supplier
  */
 public class Supplier
+        implements RelevantNullChecker
 {
     private String businessName;
 
@@ -243,6 +246,12 @@ public class Supplier
             return "null";
         }
         return o.toString().replace( "\n", "\n    " );
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( businessName, companyId, taxId, vatId, street, city, country, postcode );
     }
 }
 

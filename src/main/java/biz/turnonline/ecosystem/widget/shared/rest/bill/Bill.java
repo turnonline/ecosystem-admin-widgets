@@ -12,6 +12,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.bill;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +22,7 @@ import java.util.Objects;
  * A document that represent a scanned receipt or incoming invoice. The content of a bill (receipt) interpreted as data.
  */
 public class Bill
+        implements RelevantNullChecker
 {
     private String billNumber;
 
@@ -335,6 +338,18 @@ public class Bill
             return "null";
         }
         return o.toString().replace( "\n", "\n    " );
+    }
+
+    public boolean setSupplierIf( Supplier supplier )
+    {
+        return setIfNotAllNull( this::setSupplier, supplier );
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( billNumber, createdDate, dateOfIssue, id, itemName,
+                items, modificationDate, supplier, totalPrice, type, currency, scans );
     }
 
     /**

@@ -70,6 +70,10 @@ public class BillDetail
     {
         initWidget( binder.createAndBindUi( this ) );
 
+        billNumber.setReturnBlankAsNull( true );
+        itemName.setReturnBlankAsNull( true );
+        totalPrice.setReturnBlankAsNull( true );
+
         created.setReadOnly( true );
         modified.setReadOnly( true );
     }

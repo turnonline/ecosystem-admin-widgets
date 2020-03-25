@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.INCOMING_INVOICE;
 import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.RECEIPT;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
@@ -91,8 +92,8 @@ public class BillOverviewCard
 
         initWidget( binder.createAndBindUi( this ) );
 
-        itemName.setText( bill.getItemName() );
-        billNumber.setText( bill.getBillNumber() );
+        itemName.setText( Optional.ofNullable( bill.getItemName() ).orElse( "-" ) );
+        billNumber.setText( Optional.ofNullable( bill.getBillNumber() ).orElse( "-" ) );
         type.setText( typeText( bill.getType().name() ) );
         type.setBackgroundColor( typeColor( bill.getType().name() ) );
         totalPrice.setValue( bill.getTotalPrice(), bill.getCurrency() );
@@ -152,7 +153,11 @@ public class BillOverviewCard
             return messages.labelCashRegisterDocument();
         }
 
-        return messages.labelIncomingInvoice();
+        if (type.equalsIgnoreCase( INCOMING_INVOICE.name() )) {
+            return messages.labelIncomingInvoice();
+        }
+
+        return "-";
     }
 
     private String formatSupplier( Supplier supplier )
