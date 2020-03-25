@@ -6,6 +6,7 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -95,7 +96,7 @@ public class BillOverviewCard
         type.setText( typeText( bill.getType().name() ) );
         type.setBackgroundColor( typeColor( bill.getType().name() ) );
         totalPrice.setValue( bill.getTotalPrice(), bill.getCurrency() );
-        supplier.setValue( bill.getSupplier().getBusinessName() + " [" + bill.getSupplier().getCompanyId() + "]" );
+        supplier.setValue( formatSupplier( bill.getSupplier() ) );
         dateOfIssue.setValue( DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_FULL ).format( bill.getDateOfIssue() ) );
 
         // bill image
@@ -152,6 +153,28 @@ public class BillOverviewCard
         }
 
         return messages.labelIncomingInvoice();
+    }
+
+    private String formatSupplier( Supplier supplier )
+    {
+        StringBuilder sb = new StringBuilder();
+
+        if ( supplier.getBusinessName() != null )
+        {
+            sb.append( supplier.getBusinessName() );
+        }
+
+        if ( supplier.getCompanyId() != null )
+        {
+            sb.append( sb.length() == 0 ? sb.append( supplier.getCompanyId() ) : " [" + bill.getSupplier().getCompanyId() + "]" );
+        }
+
+        if ( sb.length() == 0 )
+        {
+            sb.append( "-" );
+        }
+
+        return sb.toString();
     }
 
     interface BillCardUiBinder
