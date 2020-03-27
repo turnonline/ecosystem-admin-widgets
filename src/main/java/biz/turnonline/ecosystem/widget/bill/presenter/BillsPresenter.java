@@ -52,7 +52,6 @@ public class BillsPresenter
         bus().addHandler( NewBillEvent.TYPE, event -> {
             success( messages.msgBatchCreated( event.getBill().getItemName() ) );
             bus().bill().createBill( event.getBill(), ( response, failure ) -> {
-                controller().goTo( new Bills() );
             } );
         } );
 
