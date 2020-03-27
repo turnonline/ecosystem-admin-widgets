@@ -96,7 +96,7 @@ public class BillsView
         this.breadcrumb = breadcrumb;
         setActive( Route.BILLS );
 
-        batchDropBox.setAcceptedFiles( "image/*" );
+        batchDropBox.setAcceptedFiles( "image/*,application/pdf" );
 
         add( binder.createAndBindUi( this ) );
 
