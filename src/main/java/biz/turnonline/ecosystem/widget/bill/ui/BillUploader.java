@@ -51,6 +51,8 @@ public class BillUploader
         setBorder( "1px dashed #ccc" );
         getElement().getStyle().setCursor( Style.Cursor.POINTER );
 
+        setAcceptedFiles( "image/*" );
+
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 

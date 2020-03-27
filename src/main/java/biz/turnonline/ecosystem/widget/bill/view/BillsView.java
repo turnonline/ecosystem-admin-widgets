@@ -96,6 +96,8 @@ public class BillsView
         this.breadcrumb = breadcrumb;
         setActive( Route.BILLS );
 
+        batchDropBox.setAcceptedFiles( "image/*" );
+
         add( binder.createAndBindUi( this ) );
 
         // refresh action setup
