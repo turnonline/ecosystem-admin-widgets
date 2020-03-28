@@ -1,23 +1,32 @@
 package biz.turnonline.ecosystem.widget.billing.event;
 
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import com.google.gwt.event.shared.GwtEvent;
 
-import java.util.List;
+import javax.annotation.Nonnull;
+
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * Represents a request to delete specified invoice.
+ *
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class DeleteInvoiceEvent
         extends GwtEvent<DeleteInvoiceEventHandler>
 {
     public static Type<DeleteInvoiceEventHandler> TYPE = new Type<DeleteInvoiceEventHandler>();
 
-    private final List<Invoice> invoices;
+    private final Long orderId;
 
-    public DeleteInvoiceEvent( List<Invoice> invoices )
+    private final Long invoiceId;
+
+    private final String invoiceNumber;
+
+    public DeleteInvoiceEvent( @Nonnull Long orderId, @Nonnull Long invoiceId, @Nonnull String invoiceNumber )
     {
-        this.invoices = invoices;
+        this.orderId = checkNotNull( orderId, "Order ID can't be null" );
+        this.invoiceId = checkNotNull( invoiceId, "Invoice ID can't be null" );
+        this.invoiceNumber = checkNotNull( invoiceNumber, "Invoice number can't be null" );
     }
 
     public Type<DeleteInvoiceEventHandler> getAssociatedType()
@@ -30,8 +39,33 @@ public class DeleteInvoiceEvent
         handler.onDeleteInvoice( this );
     }
 
-    public List<Invoice> getInvoices()
+    /**
+     * Returns the order identification.
+     *
+     * @return the order ID
+     */
+    public Long getOrderId()
     {
-        return invoices;
+        return orderId;
+    }
+
+    /**
+     * Returns the invoice identification.
+     *
+     * @return the invoice ID
+     */
+    public Long getInvoiceId()
+    {
+        return invoiceId;
+    }
+
+    /**
+     * Returns the invoice number.
+     *
+     * @return the invoice number
+     */
+    public String getInvoiceNumber()
+    {
+        return invoiceNumber;
     }
 }

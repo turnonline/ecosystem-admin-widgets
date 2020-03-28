@@ -18,33 +18,34 @@
 
 package biz.turnonline.ecosystem.widget.product.presenter;
 
-import biz.turnonline.ecosystem.widget.product.event.BackEvent;
+import biz.turnonline.ecosystem.widget.product.event.ProductListEvent;
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
 import biz.turnonline.ecosystem.widget.product.event.SaveProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditProductPresenter
-        extends Presenter<EditProductPresenter.IView, AppEventBus>
+        extends Presenter<EditProductPresenter.IView>
 {
     @Inject
-    public EditProductPresenter( AppEventBus eventBus,
-                                 IView view,
-                                 PlaceController placeController )
+    public EditProductPresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
     }
 
     @Override
@@ -60,7 +61,7 @@ public class EditProductPresenter
             }
         } );
 
-        bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Products() ) );
+        bus().addHandler( ProductListEvent.TYPE, event -> controller().goTo( new Products( event.getScrollspy() ) ) );
 
         bus().addHandler( SaveProductEvent.TYPE, event -> {
             Product product = event.getProduct();
@@ -75,9 +76,12 @@ public class EditProductPresenter
             else
             {
                 bus().billing().updateProduct( product.getId(), false, product,
-                        ( SuccessCallback<Product> ) response -> success( messages.msgRecordUpdated() ) );
+                        ( SuccessCallback<Product> ) this::onProductSuccess );
             }
         } );
+
+        bus().addHandler( RecalculatedPricingEvent.TYPE, event -> view().update( event.getPricing() ) );
+
     }
 
     @Override
@@ -88,7 +92,7 @@ public class EditProductPresenter
         EditProduct where = ( EditProduct ) controller().getWhere();
         if ( where.getId() != null )
         {
-            bus().billing().findProductById( where.getId(),
+            bus().billing().findProductById( where.getId(), true,
                     ( SuccessCallback<Product> ) response -> view().setModel( response ) );
         }
 
@@ -114,8 +118,28 @@ public class EditProductPresenter
         }
     }
 
+    private void onProductSuccess( Product response )
+    {
+        ProductPricing pricing = response.getPricing();
+        view().updatePriceExclVat( pricing == null ? 0.0 : pricing.getPriceExclVat() );
+        success( messages.msgRecordUpdated() );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Product>
     {
+        /**
+         * Updates the product pricing items UI by recalculated pricing.
+         *
+         * @param pricing the recalculated pricing
+         */
+        void update( Pricing pricing );
+
+        /**
+         * Updates the product's price (excl. VAT) at pricing panel.
+         *
+         * @param price the price to be shown to user
+         */
+        void updatePriceExclVat( @Nullable Double price );
     }
 }

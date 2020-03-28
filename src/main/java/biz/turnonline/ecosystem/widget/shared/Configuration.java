@@ -27,9 +27,17 @@ public class Configuration
 
     public static final String LOGO = "LOGO";
 
+    public static final String ACCOUNT_STEWARD_STORAGE = "ACCOUNT_STEWARD_STORAGE";
+
+    public static final String PRODUCT_BILLING_STORAGE = "PRODUCT_BILLING_STORAGE";
+
+    public static final String BILLING_PROCESSOR_STORAGE = "BILLING_PROCESSOR_STORAGE";
+
     public static final String ACCOUNT_STEWARD_API_ROOT = "ACCOUNT_STEWARD_API_ROOT";
 
     public static final String PRODUCT_BILLING_API_ROOT = "PRODUCT_BILLING_API_ROOT";
+
+    public static final String BILLING_PROCESSOR_API_ROOT = "BILLING_PROCESSOR_API_ROOT";
 
     public static final String SEARCH_API_ROOT = "SEARCH_API_ROOT";
 
@@ -63,8 +71,12 @@ public class Configuration
     {
         Dictionary dictionary = Dictionary.getDictionary( CONFIGURATION_OBJECT );
 
+        ServiceRoots.add( ACCOUNT_STEWARD_STORAGE, dictionary.get( ACCOUNT_STEWARD_STORAGE ) );
+        ServiceRoots.add( PRODUCT_BILLING_STORAGE, dictionary.get( PRODUCT_BILLING_STORAGE ) );
+        ServiceRoots.add( BILLING_PROCESSOR_STORAGE, dictionary.get( BILLING_PROCESSOR_STORAGE ) );
         ServiceRoots.add( ACCOUNT_STEWARD_API_ROOT, dictionary.get( ACCOUNT_STEWARD_API_ROOT ) );
         ServiceRoots.add( PRODUCT_BILLING_API_ROOT, dictionary.get( PRODUCT_BILLING_API_ROOT ) );
+        ServiceRoots.add( BILLING_PROCESSOR_API_ROOT, dictionary.get( BILLING_PROCESSOR_API_ROOT ) );
         ServiceRoots.add( SEARCH_API_ROOT, dictionary.get( SEARCH_API_ROOT ) );
 
         Defaults.setDateFormat( REST_DATE_FORMAT );

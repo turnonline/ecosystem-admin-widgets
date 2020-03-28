@@ -41,6 +41,33 @@ public class EditInvoice
         this.tab = tab;
     }
 
+    private static Long tryParseId( String id )
+    {
+        try
+        {
+            return Long.valueOf( id );
+        }
+        catch ( NumberFormatException e )
+        {
+            return null;
+        }
+    }
+
+    public Long getInvoiceId()
+    {
+        return invoiceId;
+    }
+
+    public Long getOrderId()
+    {
+        return orderId;
+    }
+
+    public String getTab()
+    {
+        return tab;
+    }
+
     @Prefix( value = "edit-invoice" )
     public static class Tokenizer
             implements PlaceTokenizer<EditInvoice>
@@ -97,33 +124,6 @@ public class EditInvoice
             }
 
             return token;
-        }
-    }
-
-    public Long getInvoiceId()
-    {
-        return invoiceId;
-    }
-
-    public Long getOrderId()
-    {
-        return orderId;
-    }
-
-    public String getTab()
-    {
-        return tab;
-    }
-
-    private static Long tryParseId( String id )
-    {
-        try
-        {
-            return Long.valueOf( id );
-        }
-        catch ( NumberFormatException e )
-        {
-            return null;
         }
     }
 }

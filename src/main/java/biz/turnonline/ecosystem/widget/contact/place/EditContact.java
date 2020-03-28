@@ -35,6 +35,11 @@ public class EditContact
         this.id = id;
     }
 
+    public Long getId()
+    {
+        return id;
+    }
+
     @Prefix( value = "edit-contact" )
     public static class Tokenizer
             implements PlaceTokenizer<EditContact>
@@ -50,10 +55,5 @@ public class EditContact
         {
             return place.getId() != null ? place.getId().toString() : "";
         }
-    }
-
-    public Long getId()
-    {
-        return id;
     }
 }

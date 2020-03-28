@@ -3,21 +3,25 @@ package biz.turnonline.ecosystem.widget.product.event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import com.google.gwt.event.shared.GwtEvent;
 
-import java.util.List;
+import javax.annotation.Nonnull;
+
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
+ * Represents a request to delete specified product.
+ *
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class DeleteProductEvent
         extends GwtEvent<DeleteProductEventHandler>
 {
-    public static Type<DeleteProductEventHandler> TYPE = new Type<DeleteProductEventHandler>();
+    public static Type<DeleteProductEventHandler> TYPE = new Type<>();
 
-    private final List<Product> products;
+    private final Product product;
 
-    public DeleteProductEvent( List<Product> products )
+    public DeleteProductEvent( @Nonnull Product product )
     {
-        this.products = products;
+        this.product = checkNotNull( product, "Product cannot be null" );
     }
 
     public Type<DeleteProductEventHandler> getAssociatedType()
@@ -30,8 +34,8 @@ public class DeleteProductEvent
         handler.onDeleteProduct( this );
     }
 
-    public List<Product> getProducts()
+    public Product getProduct()
     {
-        return products;
+        return product;
     }
 }

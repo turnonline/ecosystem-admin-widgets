@@ -19,11 +19,14 @@
 package biz.turnonline.ecosystem.widget.contact.view;
 
 import biz.turnonline.ecosystem.widget.contact.event.BackEvent;
+import biz.turnonline.ecosystem.widget.contact.event.DeleteContactEvent;
 import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCardPostalAddress;
+import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.ui.LogoUploader;
@@ -37,8 +40,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
+import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialSwitch;
@@ -62,10 +65,16 @@ public class EditContactView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
+    ConfirmationWindow confirmation;
+
+    @UiField
     MaterialButton btnSave;
 
     @UiField
     MaterialButton btnBack;
+
+    @UiField
+    MaterialAnchorButton deleteContact;
 
     @UiField
     MaterialSwitch company;
@@ -168,11 +177,10 @@ public class EditContactView
     CountryComboBox postalCountry;
 
     @Inject
-    public EditContactView( EventBus eventBus,
-                            @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
+    public EditContactView( @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                             AddressLookupListener addressLookup )
     {
-        super( eventBus );
+        super();
 
         this.breadcrumb = breadcrumb;
         setActive( Route.CONTACTS );
@@ -206,6 +214,8 @@ public class EditContactView
             postalCountry.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
         postalStreet.add( new InputSearchIcon() );
+
+        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteContactEvent( getRawModel() ) ) );
     }
 
     @Override
@@ -274,6 +284,8 @@ public class EditContactView
     {
         ContactCard contact = getRawModel();
 
+        deleteContact.setEnabled( contact.getId() != null );
+
         company.setValue( contact.getCompany() );
 
         // person
@@ -339,6 +351,12 @@ public class EditContactView
     public void handleSave( ClickEvent event )
     {
         bus().fireEvent( new SaveContactEvent( getModel() ) );
+    }
+
+    @UiHandler( "deleteContact" )
+    public void deleteContact( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
     }
 
     private void handleHasPostalAddress()

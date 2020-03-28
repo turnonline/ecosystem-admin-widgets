@@ -18,15 +18,9 @@
 
 package biz.turnonline.ecosystem.widget.contact.presenter;
 
-import biz.turnonline.ecosystem.widget.contact.event.DeleteContactEvent;
 import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
-import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
-import biz.turnonline.ecosystem.widget.shared.util.Formatter;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
@@ -35,31 +29,18 @@ import javax.inject.Inject;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class ContactsPresenter
-        extends Presenter<ContactsPresenter.IView, AppEventBus>
+        extends Presenter<ContactsPresenter.IView>
 {
     @Inject
-    public ContactsPresenter( AppEventBus eventBus,
-                              IView view,
-                              PlaceController placeController )
+    public ContactsPresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
     }
 
     @Override
     public void bind()
     {
         bus().addHandler( EditContactEvent.TYPE, event -> controller().goTo( new EditContact( event.getId() ) ) );
-
-        bus().addHandler( DeleteContactEvent.TYPE, event -> {
-            for ( ContactCard contactCard : event.getContactCards() )
-            {
-                bus().account().delete( bus().config().getLoginId(), contactCard.getId(),
-                        ( SuccessCallback<Void> ) response -> {
-                            success( messages.msgRecordDeleted( Formatter.formatContactName( contactCard ) ) );
-                            Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                        } );
-            }
-        } );
     }
 
     @Override

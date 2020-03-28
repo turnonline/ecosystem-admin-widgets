@@ -18,21 +18,13 @@
 
 package biz.turnonline.ecosystem.widget.billing;
 
-import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
-import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
-import biz.turnonline.ecosystem.widget.billing.place.Invoices;
-import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.billing.presenter.EditInvoicePresenter;
 import biz.turnonline.ecosystem.widget.billing.presenter.EditOrderPresenter;
 import biz.turnonline.ecosystem.widget.billing.presenter.InvoicesPresenter;
 import biz.turnonline.ecosystem.widget.billing.presenter.OrdersPresenter;
-import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
-import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
-import com.google.gwt.place.shared.Place;
+import org.ctoolkit.gwt.client.presenter.PresenterController;
 
 import javax.inject.Inject;
-import java.util.HashMap;
 
 /**
  * App controller maps place to a presenter.
@@ -40,36 +32,14 @@ import java.util.HashMap;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class BillingController
-        implements ActivityMapper
+        extends PresenterController
 {
-    private static HashMap<String, Presenter> presenters = null;
-
     @Inject
-    public BillingController( OrdersPresenter ordersPresenter,
-                              EditOrderPresenter editOrderPresenter,
-                              InvoicesPresenter invoicesPresenter,
-                              EditInvoicePresenter editInvoicePresenter )
+    public BillingController( OrdersPresenter orders,
+                              EditOrderPresenter editOrder,
+                              InvoicesPresenter invoices,
+                              EditInvoicePresenter editInvoice )
     {
-        if ( presenters == null )
-        {
-            presenters = new HashMap<>();
-
-            presenters.put( Orders.class.getName(), ordersPresenter );
-            presenters.put( EditOrder.class.getName(), editOrderPresenter );
-            presenters.put( Invoices.class.getName(), invoicesPresenter );
-            presenters.put( EditInvoice.class.getName(), editInvoicePresenter );
-        }
-    }
-
-    @Override
-    public Activity getActivity( final Place place )
-    {
-        Presenter presenter = presenters.get( place.getClass().getName() );
-        if ( presenter == null )
-        {
-            presenter = presenters.get( BillingEntryPoint.DEFAULT_PLACE.getClass().getName() );
-        }
-
-        return presenter;
+        super( orders, editOrder, invoices, editInvoice );
     }
 }

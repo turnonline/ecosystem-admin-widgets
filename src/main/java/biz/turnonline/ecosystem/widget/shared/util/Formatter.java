@@ -1,7 +1,6 @@
 package biz.turnonline.ecosystem.widget.shared.util;
 
 import biz.turnonline.ecosystem.widget.shared.rest.Contact;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 
@@ -25,11 +24,6 @@ public class Formatter
     public static String formatOrderName( Order order )
     {
         return order.getId().toString();
-    }
-
-    public static String formatInvoiceName( Invoice invoice )
-    {
-        return invoice.getInvoiceNumber();
     }
 
     public static String formatPostcode( String postcode )

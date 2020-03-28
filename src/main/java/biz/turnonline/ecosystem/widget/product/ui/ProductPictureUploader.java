@@ -1,9 +1,10 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
+import biz.turnonline.ecosystem.widget.product.event.ProductIdChangeEvent;
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
+import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -21,35 +22,44 @@ import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialRow;
+import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
-import org.fusesource.restygwt.client.ServiceRoots;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_API_ROOT;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLING_STORAGE;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class ProductPictureUploader
         extends Composite
-        implements HasModel<ProductPublishing>
 {
-    interface ImageUploaderUiBinder
-            extends UiBinder<HTMLPanel, ProductPictureUploader>
-    {
-    }
-
     private static ImageUploaderUiBinder binder = GWT.create( ImageUploaderUiBinder.class );
 
     @UiField
     MaterialRow images;
 
-    @UiField
-    MaterialFileUploader uploader;
+    private Long productId;
+
+    @UiField( provided = true )
+    MaterialFileUploader uploader = new MaterialFileUploader()
+    {
+        @Override
+        public void load()
+        {
+            // setUrl and than load widget, otherwise firebase will be executed after widget initialization
+            new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
+                        setUrl( url + ( productId == null ? "" : "&productId=" + productId ) );
+                        super.load();
+                    }, PRODUCT_BILLING_STORAGE
+            );
+        }
+    };
 
     private Map<MaterialColumn, ProductPicture> imagesMap = new HashMap<>();
 
@@ -69,26 +79,33 @@ public class ProductPictureUploader
             }
         } );
 
-        uploader.setUrl( ServiceRoots.get( PRODUCT_BILLING_API_ROOT ) + "storage-upload" );
+        eventBus.addHandler( ProductIdChangeEvent.TYPE, event -> this.productId = event.getProductId() );
     }
 
-    @Override
     public void bind( ProductPublishing model )
     {
-        model.getPictures().clear();
+        if ( model.getPictures() != null )
+        {
+            model.getPictures().clear();
+        }
 
         int order = 1;
         for ( Map.Entry<MaterialColumn, ProductPicture> entry : imagesMap.entrySet() )
         {
             ProductPicture picture = entry.getValue();
             picture.setOrder( order );
-            model.getPictures().add( picture );
+            List<ProductPicture> pictures = model.getPictures();
+            if ( pictures == null )
+            {
+                pictures = new ArrayList<>();
+                model.setPictures( pictures );
+            }
+            pictures.add( picture );
 
             order++;
         }
     }
 
-    @Override
     public void fill( ProductPublishing model )
     {
         images.clear();
@@ -96,22 +113,15 @@ public class ProductPictureUploader
 
         if ( model.getPictures() != null )
         {
+            // However order number will be populated by the backend, at client side still might be a null for a while
             model.getPictures().stream()
-                    .sorted( Comparator.comparing( ProductPicture::getOrder ) )
+                    .sorted( Comparator.comparing( ProductPicture::getOrder, ( o1, o2 ) ->
+                            o1 == null || o2 == null ? 0 : o1.compareTo( o2 ) ) )
                     .forEach( this::addImage );
         }
-        else
-        {
-            model.setPictures( new ArrayList<>() );
-        }
     }
 
-    public MaterialFileUploader getUploader()
-    {
-        return uploader;
-    }
-
-    protected void removeImage( MaterialColumn column )
+    private void removeImage( MaterialColumn column )
     {
         ProductPicture picture = imagesMap.remove( column );
         column.removeFromParent();
@@ -162,5 +172,10 @@ public class ProductPictureUploader
         column.add( image );
 
         imagesMap.put( column, productPicture );
+    }
+
+    interface ImageUploaderUiBinder
+            extends UiBinder<HTMLPanel, ProductPictureUploader>
+    {
     }
 }

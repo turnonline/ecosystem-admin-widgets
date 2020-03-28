@@ -3,8 +3,6 @@ package biz.turnonline.ecosystem.widget.contact.event;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import com.google.gwt.event.shared.GwtEvent;
 
-import java.util.List;
-
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
@@ -13,11 +11,11 @@ public class DeleteContactEvent
 {
     public static Type<DeleteContactEventHandler> TYPE = new Type<DeleteContactEventHandler>();
 
-    private final List<ContactCard> contactCards;
+    private final ContactCard contactCard;
 
-    public DeleteContactEvent( List<ContactCard> contactCards )
+    public DeleteContactEvent( ContactCard contactCard )
     {
-        this.contactCards = contactCards;
+        this.contactCard = contactCard;
     }
 
     public Type<DeleteContactEventHandler> getAssociatedType()
@@ -30,8 +28,8 @@ public class DeleteContactEvent
         handler.onDeleteContact( this );
     }
 
-    public List<ContactCard> getContactCards()
+    public ContactCard getContactCard()
     {
-        return contactCards;
+        return contactCard;
     }
 }

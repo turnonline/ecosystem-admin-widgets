@@ -20,12 +20,13 @@
              xmlns:ma='urn:import:gwt.material.design.addins.client'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:map='urn:import:gwt.material.design.incubator.client.google.addresslookup'
-             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+             xmlns:s='urn:import:biz.turnonline.ecosystem.widget.shared.ui'>
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:ConfirmationWindow ui:field="confirmation" iconType="DELETE"/>
 
         <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20" paddingTop="5">
             <m:MaterialRow marginBottom="0" paddingTop="20">
@@ -153,9 +154,17 @@
                               textColor="WHITE" iconType="CHECK" tooltip="{msg.tooltipSaveContact}"
                               text="{msg.labelSave}"/>
             <m:MaterialButton ui:field="btnBack" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="WHITE"
-                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBack}"
+                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBackList}"
                               text="{msg.labelBack}"/>
         </m:MaterialRow>
 
+        <m:MaterialFAB>
+            <m:MaterialAnchorButton type="FLOATING" iconType="DEHAZE" size="LARGE"/>
+            <m:MaterialFABList>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
+                                        iconType="DELETE" ui:field="deleteContact"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipContactDelete}"/>
+            </m:MaterialFABList>
+        </m:MaterialFAB>
     </g:HTMLPanel>
 </ui:UiBinder>

@@ -72,8 +72,14 @@ public interface AppMessages
     @Key( value = "label.customer" )
     String labelCustomer();
 
+    @Key( "label.supplier" )
+    String labelSupplier();
+
     @Key( value = "label.items" )
     String labelItems();
+
+    @Key( "label.order" )
+    String labelOrder();
 
     @Key( "label.orderItems" )
     String labelOrderItems();
@@ -168,11 +174,29 @@ public interface AppMessages
     @Key( value = "label.editOrder" )
     String labelEditOrder();
 
+    @Key( value = "label.editBill" )
+    String labelEditBill();
+
+    @Key( value = "label.bills" )
+    String labelBills();
+
+    @Key( "label.send" )
+    String labelSend();
+
+    @Key( "label.invoice" )
+    String labelInvoice();
+
     @Key( value = "label.invoices" )
     String labelInvoices();
 
+    @Key( "label.lastInvoice" )
+    String labelLastInvoice();
+
     @Key( value = "label.editInvoice" )
     String labelEditInvoice();
+
+    @Key( "label.purchases" )
+    String labelPurchases();
 
     @Key( value = "label.confirmation" )
     String labelConfirmation();
@@ -210,7 +234,7 @@ public interface AppMessages
     @Key( value = "label.invoicing" )
     String labelInvoicing();
 
-    @Key( value = "label.logo")
+    @Key( value = "label.logo" )
     String labelLogo();
 
     @Key( "label.stamp" )
@@ -228,14 +252,29 @@ public interface AppMessages
     @Key( value = "label.pricing" )
     String labelPricing();
 
+    @Key( "label.pricingItems" )
+    String labelPricingItems();
+
     @Key( value = "label.event" )
     String labelEvent();
 
     @Key( "label.billing.info" )
     String labelBillingInfo();
 
-    @Key( "label.billingDefaults" )
+    @Key( "label.billing.defaults" )
     String labelBillingDefaults();
+
+    @Key( "label.billing.schedule" )
+    String labelBillingSchedule();
+
+    @Key( value = "label.billing.beginOn" )
+    String labelBillingBeginOn();
+
+    @Key( "label.billing.nextDate" )
+    String labelBillingNextDate();
+
+    @Key( "label.billing.lastDate" )
+    String labelBillingLastDate();
 
     @Key( "label.billingContact" )
     String labelBillingContact();
@@ -257,6 +296,21 @@ public interface AppMessages
 
     @Key( value = "label.priceExcludingVat" )
     String labelPriceExcludingVat();
+
+    @Key( "label.priceIncludingVat" )
+    String labelPriceIncludingVat();
+
+    @Key( "label.totalPrice" )
+    String labelTotalPrice();
+
+    @Key( "label.totalPriceExclVat" )
+    String labelTotalPriceExclVat();
+
+    @Key( "label.totalVatBase" )
+    String labelTotalVatBase();
+
+    @Key( "label.amountToPay" )
+    String labelAmountToPay();
 
     @Key( value = "label.currency" )
     String labelCurrency();
@@ -309,6 +363,18 @@ public interface AppMessages
     @Key( value = "label.linkedInShare" )
     String labelLinkedInShare();
 
+    @Key( "label.changes" )
+    String labelChanges();
+
+    @Key( "label.created" )
+    String labelCreated();
+
+    @Key( "label.modified" )
+    String labelModified();
+
+    @Key( "label.decline" )
+    String labelDecline();
+
     @Key( value = "label.domain" )
     String labelDomain();
 
@@ -354,6 +420,12 @@ public interface AppMessages
     @Key( "label.domain.placeholder.subdomain" )
     String labelDomainPlaceholderSubdomain();
 
+    @Key( "label.product.pricing.template" )
+    String labelProductPricingTemplate();
+
+    @Key( "label.product.loading" )
+    String labelProductLoading();
+
     @Key( value = "label.discountCode" )
     String labelDiscountCode();
 
@@ -380,6 +452,9 @@ public interface AppMessages
 
     @Key( value = "label.codes" )
     String labelCodes();
+
+    @Key( value = "label.active" )
+    String labelActive();
 
     @Key( value = "label.priceDefinition" )
     String labelPriceDefinition();
@@ -453,9 +528,6 @@ public interface AppMessages
     @Key( value = "label.taxDocument" )
     String labelTaxDocument();
 
-    @Key( value = "label.beginAt" )
-    String labelBeginAt();
-
     @Key( value = "label.numberOfDays" )
     String labelNumberOfDays();
 
@@ -525,6 +597,9 @@ public interface AppMessages
     @Key( value = "label.cancel" )
     String labelCancel();
 
+    @Key( "label.close" )
+    String labelClose();
+
     @Key( value = "label.save" )
     String labelSave();
 
@@ -546,7 +621,64 @@ public interface AppMessages
     @Key( "label.language.cs" )
     String labelLanguageCs();
 
+    @Key( "label.order.status" )
+    String labelOrderStatus();
+
+    @Key( "label.order.loading" )
+    String labelOrderLoading();
+
+    @Key( "label.invoice.currentStatus" )
+    String labelInvoiceCurrentStatus();
+
+    @Key( "label.invoice.status.new" )
+    String labelInvoiceStatusNew();
+
+    @Key( "label.invoice.status.sent" )
+    String labelInvoiceStatusSent();
+
+    @Key( "label.invoice.status.paid" )
+    String labelInvoiceStatusPaid();
+
+    @Key( "label.invoice.status.canceled" )
+    String labelInvoiceStatusCanceled();
+
+    @Key( "label.invoice.loading" )
+    String labelInvoiceLoading();
+
+    @Key( "label.bill.loading" )
+    String labelBillLoading();
+
+    @Key( "label.billNumber" )
+    String labelBillNumber();
+
+    @Key( "label.cashRegisterDocument" )
+    String labelCashRegisterDocument();
+
+    @Key( "label.incomingInvoice" )
+    String labelIncomingInvoice();
+
+    @Key( "label.billType" )
+    String labelBillType();
+
+    @Key( "label.billScan" )
+    String labelBillScan();
+
+    @Key( "label.currentMonth" )
+    String labelCurrentMonth( String firstDay, String lastDay );
+
+    @Key( "label.lastMonths" )
+    String labelLastMonths( String lastDay );
+
+    @Key( "label.uploadBatch" )
+    String labelUploadBatch();
+
+    @Key( "label.uploadBatchDescription" )
+    String labelUploadBatchDescription();
+
     // tooltips
+
+    @Key( value = "tooltip.contactListRefresh" )
+    String tooltipContactListRefresh();
 
     @Key( "tooltip.domain.tip.naked" )
     String tooltipDomainTipNaked();
@@ -562,6 +694,9 @@ public interface AppMessages
 
     @Key( value = "tooltip.delete.contact" )
     String tooltipDeleteContact();
+
+    @Key( value = "tooltip.contact.delete" )
+    String tooltipContactDelete();
 
     @Key( value = "tooltip.save.account" )
     String tooltipSaveAccount();
@@ -593,20 +728,14 @@ public interface AppMessages
     @Key( value = "tooltip.save.order" )
     String tooltipSaveOrder();
 
-    @Key( value = "tooltip.new.invoice" )
-    String tooltipNewInvoice();
-
     @Key( value = "tooltip.edit.invoice" )
     String tooltipEditInvoice();
-
-    @Key( value = "tooltip.delete.invoice" )
-    String tooltipDeleteInvoice();
 
     @Key( value = "tooltip.save.invoice" )
     String tooltipSaveInvoice();
 
-    @Key( value = "tooltip.back" )
-    String tooltipBack();
+    @Key( value = "tooltip.back.list" )
+    String tooltipBackList();
 
     @Key( value = "tooltip.addressAutocomplete" )
     String tooltipAddressAutocomplete();
@@ -620,8 +749,86 @@ public interface AppMessages
     @Key( value = "tooltip.productAutocomplete" )
     String tooltipProductAutocomplete();
 
+    @Key( "tooltip.product.list.refresh" )
+    String tooltipProductListRefresh();
+
+    @Key( "tooltip.product.delete" )
+    String tooltipProductDelete();
+
     @Key( value = "tooltip.contactAutocomplete" )
     String tooltipContactAutocomplete();
+
+    @Key( "tooltip.order.issueInvoice" )
+    String tooltipOrderIssueInvoice();
+
+    @Key( "tooltip.order.lastInvoice" )
+    String tooltipOrderLastInvoice();
+
+    @Key( "tooltip.order.invoices" )
+    String tooltipOrderPastInvoices();
+
+    @Key( "tooltip.order.delete" )
+    String tooltipOrderDelete();
+
+    @Key( "tooltip.order.number" )
+    String tooltipOrderNumber();
+
+    @Key( "tooltip.order.list.refresh" )
+    String tooltipOrderListRefresh();
+
+    @Key( "tooltip.purchase.order.number" )
+    String tooltipPurchaseOrderNumber();
+
+    @Key( "tooltip.purchase.order.list.refresh" )
+    String tooltipPurchaseOrderListRefresh();
+
+    @Key( "tooltip.purchase.order.view" )
+    String tooltipPurchaseOrderView();
+
+    @Key( "tooltip.purchase.order.decline" )
+    String tooltipPurchaseOrderDecline();
+
+    @Key( "tooltip.invoice.send" )
+    String tooltipInvoiceSend();
+
+    @Key( "tooltip.invoice.send.email" )
+    String tooltipInvoiceSendEmail();
+
+    @Key( "tooltip.invoice.cancel" )
+    String tooltipInvoiceCancel();
+
+    @Key( "tooltip.invoice.delete" )
+    String tooltipInvoiceDelete();
+
+    @Key( "tooltip.invoice.download" )
+    String tooltipInvoiceDownload();
+
+    @Key( "tooltip.invoice.new" )
+    String tooltipInvoiceNew();
+
+    @Key( "tooltip.invoice.list.refresh" )
+    String tooltipInvoiceListRefresh();
+
+    @Key( "tooltip.invoice.list.clearFilter" )
+    String tooltipInvoiceListClearFilter();
+
+    @Key( "tooltip.purchase.invoice.view" )
+    String tooltipPurchaseInvoiceView();
+
+    @Key( value = "tooltip.bill.new" )
+    String tooltipNewBill();
+
+    @Key( value = "tooltip.bill.save" )
+    String tooltipSaveBill();
+
+    @Key( value = "tooltip.bill.delete" )
+    String tooltipBillDelete();
+
+    @Key( value = "tooltip.bill.list.refresh" )
+    String tooltipBillListRefresh();
+
+    @Key( value = "tooltip.bill.edit" )
+    String tooltipEditBill();
 
     // messages
 
@@ -652,8 +859,79 @@ public interface AppMessages
     @Key( value = "msg.pictureDeleted" )
     String msgPictureDeleted();
 
+    @Key( "msg.invoice.issued" )
+    String msgInvoiceIssued();
+
+    @Key( "msg.order.created" )
+    String msgOrderCreated();
+
+    @Key( "msg.order.updated" )
+    String msgOrderUpdated();
+
+    @Key( "msg.order.status.active" )
+    String msgOrderStatusActive();
+
+    @Key( "msg.order.status.suspended" )
+    String msgOrderStatusSuspended();
+
+    @Key( "msg.purchase.order.declined" )
+    String msgPurchaseOrderDeclined();
+
+    @Key( "msg.invoice.status.sent" )
+    String msgInvoiceStatusSent();
+
+    @Key( "msg.batch.created" )
+    String msgBatchCreated( String name );
+
     // other
 
     @Key( value = "copyright" )
     String copyright();
+
+    @Key( "description.order.status.trialing" )
+    String descriptionOrderStatusTrialing();
+
+    @Key( "description.order.status.active" )
+    String descriptionOrderStatusActive();
+
+    @Key( "description.order.status.activate" )
+    String descriptionOrderStatusActivate();
+
+    @Key( "description.order.status.suspended" )
+    String descriptionOrderStatusSuspended();
+
+    @Key( "description.order.status.suspend" )
+    String descriptionOrderStatusSuspend();
+
+    @Key( "description.order.status.issue" )
+    String descriptionOrderStatusIssue();
+
+    @Key( "description.order.status.finished" )
+    String descriptionOrderStatusFinished();
+
+    @Key( "description.invoice.status.new" )
+    String descriptionInvoiceStatusNew();
+
+    @Key( "description.invoice.status.sendTo" )
+    String descriptionInvoiceStatusSendTo();
+
+    @Key( "description.invoice.status.sent" )
+    String descriptionInvoiceStatusSent();
+
+    @Key( "description.invoice.status.paid" )
+    String descriptionInvoiceStatusPaid();
+
+    @Key( "description.invoice.status.canceled" )
+    String descriptionInvoiceStatusCanceled();
+
+    @Key( "description.invoice.send" )
+    String descriptionInvoiceSend();
+
+    // question
+
+    @Key( value = "question.deleteRecord" )
+    String questionDeleteRecord();
+
+    @Key( "question.purchase.order.decline" )
+    String questionPurchaseOrderDecline( String company );
 }

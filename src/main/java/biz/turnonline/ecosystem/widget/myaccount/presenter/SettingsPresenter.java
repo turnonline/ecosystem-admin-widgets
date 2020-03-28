@@ -23,7 +23,6 @@ import biz.turnonline.ecosystem.widget.myaccount.event.DomainDeleteEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
@@ -43,16 +42,14 @@ import static biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType.D
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class SettingsPresenter
-        extends Presenter<SettingsPresenter.IView, AppEventBus>
+        extends Presenter<SettingsPresenter.IView>
 {
     private static final int DOMAINS_LIMIT = 100;
 
     @Inject
-    public SettingsPresenter( AppEventBus eventBus,
-                              IView view,
-                              PlaceController controller )
+    public SettingsPresenter( IView view, PlaceController controller )
     {
-        super( eventBus, view, controller );
+        super( view, controller );
         setPlace( Settings.class );
     }
 
@@ -63,7 +60,7 @@ public class SettingsPresenter
                 event -> bus()
                         .account()
                         .update( bus().config().getLoginId(), event.getInvoicing(),
-                                ( response, failure ) -> message( messages.msgRecordUpdated(), failure ) ) );
+                                ( response, failure ) -> success( messages.msgRecordUpdated(), failure ) ) );
 
         bus().addHandler( CreateDomainEvent.TYPE,
                 event -> bus()
@@ -131,7 +128,7 @@ public class SettingsPresenter
 
     private void domainCreated( Domain domain, FacadeCallback.Failure failure )
     {
-        message( messages.msgRecordUpdated(), failure );
+        success( messages.msgRecordUpdated(), failure );
         if ( failure.isSuccess() )
         {
             loadDomains( ROOT );
@@ -140,7 +137,7 @@ public class SettingsPresenter
 
     private void domainDeleted( FacadeCallback.Failure failure, String name )
     {
-        message( messages.msgRecordDeleted( name ), failure );
+        success( messages.msgRecordDeleted( name ), failure );
         if ( failure.isSuccess() )
         {
             loadDomains( ROOT );

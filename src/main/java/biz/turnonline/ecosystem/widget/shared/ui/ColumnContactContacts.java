@@ -14,13 +14,13 @@ public class ColumnContactContacts<T extends Contact>
     {
         StringBuilder sb = new StringBuilder();
         sb.append( "<div style='padding: 10px 0;'>" );
-        if ( object.getContactEmail() != null && !"".equals( object.getContactEmail() ))
+        if ( object.getContactEmail() != null && !"".equals( object.getContactEmail() ) )
         {
             constructContact( object.getContactEmail(), IconType.EMAIL, sb );
             sb.append( "<br/>" );
         }
 
-        if ( object.getContactPhone() != null && !"".equals( object.getContactPhone() ))
+        if ( object.getContactPhone() != null && !"".equals( object.getContactPhone() ) )
         {
             constructContact( object.getContactPhone(), IconType.PHONE, sb );
         }

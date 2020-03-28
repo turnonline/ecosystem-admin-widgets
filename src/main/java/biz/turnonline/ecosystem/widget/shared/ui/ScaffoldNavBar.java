@@ -20,20 +20,15 @@ import gwt.material.design.client.ui.MaterialSideNavPush;
 public class ScaffoldNavBar
         extends Composite
 {
-    private AppMessages messages = AppMessages.INSTANCE;
-
     private static ScaffoldNavBarUiBinder binder = GWT.create( ScaffoldNavBarUiBinder.class );
-
-    interface ScaffoldNavBarUiBinder
-            extends UiBinder<MaterialSideNavPush, ScaffoldNavBar>
-    {
-    }
 
     @UiField
     MaterialNavBrand logoLink;
 
     @UiField
     MaterialImage logo;
+
+    private AppMessages messages = AppMessages.INSTANCE;
 
     public ScaffoldNavBar()
     {
@@ -42,9 +37,11 @@ public class ScaffoldNavBar
         nav().add( newNavLink( messages.labelMyAccount(), Route.MY_ACCOUNT.url(), IconType.PERSON ) );
         nav().add( newNavLinkWithSeparator( messages.labelSettings(), Route.SETTINGS.url(), IconType.SETTINGS ) );
         nav().add( newNavLink( messages.labelInvoices(), Route.INVOICES.url(), IconType.ASSIGNMENT ) );
-        nav().add( newNavLink( messages.labelOrders(), Route.ORDERS.url(), IconType.SHOPPING_CART ) );
+        nav().add( newNavLink( messages.labelOrders(), Route.ORDERS.url(), IconType.ASSIGNMENT_TURNED_IN ) );
         nav().add( newNavLink( messages.labelProducts(), Route.PRODUCTS.url(), IconType.TABLET_MAC ) );
         nav().add( newNavLinkWithSeparator( messages.labelContacts(), Route.CONTACTS.url(), IconType.CONTACT_PHONE ) );
+        nav().add( newNavLink( messages.labelPurchases(), Route.PURCHASES.url(), IconType.SHOPPING_CART ) );
+        nav().add( newNavLinkWithSeparator( messages.labelBills(), Route.BILLS.url(), IconType.RECEIPT ) );
         nav().add( newNavLink( messages.labelLogout(), Route.LOGOUT.url(), IconType.POWER_SETTINGS_NEW ) );
 
         // logo
@@ -84,5 +81,10 @@ public class ScaffoldNavBar
     private MaterialSideNavPush nav()
     {
         return ( MaterialSideNavPush ) getWidget();
+    }
+
+    interface ScaffoldNavBarUiBinder
+            extends UiBinder<MaterialSideNavPush, ScaffoldNavBar>
+    {
     }
 }

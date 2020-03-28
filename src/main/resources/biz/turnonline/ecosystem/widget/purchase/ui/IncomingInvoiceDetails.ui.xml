@@ -1,0 +1,66 @@
+<!--
+  ~ Copyright (c) 2017 Comvai, s.r.o. All Rights Reserved.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <m:MaterialRow grid="s12 m12" backgroundColor="BLUE_LIGHTEN_5">
+            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}" iconMarginLeft="10"/>
+
+            <m:MaterialTextBox ui:field="toPay" label="{msg.labelAmountToPay}" grid="m2" fontWeight="BOLD"/>
+            <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelTotalPriceExclVat}" grid="m2"/>
+            <m:MaterialTextBox ui:field="vatBase" label="{msg.labelTotalVatBase}" grid="m2"/>
+            <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelTotalPrice}" grid="m2"/>
+        </m:MaterialRow>
+
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m3">
+                <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
+
+                <s:InvoiceTypeComboBox ui:field="invoiceType" label="{msg.labelInvoiceType}"/>
+                <m:MaterialTextBox ui:field="invoiceNumber" label="{msg.labelInvoiceNumber}"/>
+                <m:MaterialLongBox ui:field="variableSymbol" label="{msg.labelVariableSymbol}"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
+                <s:SectionTitle iconType="DATE_RANGE" title="{msg.labelDates}"/>
+
+                <m:MaterialDatePicker ui:field="dateOfIssue" placeholder="{msg.labelDateOfIssue}"/>
+                <m:MaterialDatePicker ui:field="dateOfTaxable" placeholder="{msg.labelDateOfTaxable}"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
+                <s:SectionTitle iconType="PAYMENT" title="{msg.labelPayment}"/>
+
+                <s:PaymentMethodComboBox ui:field="paymentMethod" label="{msg.labelPaymentMethod}"/>
+                <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
+                <s:SectionTitle iconType="ACCESS_TIME" title="{msg.labelChanges}"/>
+
+                <m:MaterialDatePicker ui:field="created" placeholder="{msg.labelCreated}"/>
+                <m:MaterialDatePicker ui:field="modified" placeholder="{msg.labelModified}"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+    </g:HTMLPanel>
+</ui:UiBinder>

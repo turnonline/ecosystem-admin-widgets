@@ -5,11 +5,10 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.EventBegin;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.EventEnd;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.EventLocation;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.util.Time;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -24,6 +23,7 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import static biz.turnonline.ecosystem.widget.shared.util.Maps.findAddressComponent;
@@ -33,7 +33,6 @@ import static biz.turnonline.ecosystem.widget.shared.util.Maps.findAddressCompon
  */
 public class EventPanel
         extends Composite
-        implements HasModel<Product>
 {
     private static EventUiBinder binder = GWT.create( EventUiBinder.class );
 
@@ -100,6 +99,14 @@ public class EventPanel
     public EventPanel()
     {
         initWidget( binder.createAndBindUi( this ) );
+
+        seats.setReturnBlankAsNull( true );
+        locationName.setReturnBlankAsNull( true );
+        locationPhone.setReturnBlankAsNull( true );
+        locationEmail.setReturnBlankAsNull( true );
+        locationStreet.setReturnBlankAsNull( true );
+        locationCity.setReturnBlankAsNull( true );
+        locationPostCode.setReturnBlankAsNull( true );
     }
 
     public void init( AddressLookupListener addressLookup )
@@ -119,40 +126,48 @@ public class EventPanel
         locationStreet.add( new InputSearchIcon() );
     }
 
-    @Override
-    public void bind( Product product )
+    public Event bind( @Nullable Event event )
     {
-        Event event = product.getEvent();
+        if ( event == null )
+        {
+            event = new Event();
+        }
 
         event.setDeadline( deadline.getValue() );
         event.setSeats( seats.getValue() );
 
-        EventBegin begin = event.getBegin();
+        EventBegin begin = new EventBegin();
         begin.setOn( beginOn.getValue() );
         begin.setFrom( Time.dateToInteger( beginFrom.getValue() ) );
         begin.setTo( Time.dateToInteger( beginTo.getValue() ) );
         begin.setShow( beginShow.getValue() );
+        event.setBeginIf( begin );
 
-        EventEnd end = event.getEnd();
+        EventEnd end = new EventEnd();
         end.setOn( endOn.getValue() );
         end.setFrom( Time.dateToInteger( endFrom.getValue() ) );
         end.setTo( Time.dateToInteger( endTo.getValue() ) );
         end.setShow( endShow.getValue() );
+        event.setEndIf( end );
 
-        EventLocation location = event.getLocation();
+        EventLocation location = new EventLocation();
         location.setName( locationName.getValue() );
         location.setInfoPhone( locationPhone.getValue() );
         location.setInfoEmail( locationEmail.getValue() );
         location.setStreet( locationStreet.getValue() );
-        location.setPostcode( locationPostCode.getValue() );
+        // setReturnBlankAsNull is not working for getCleanValue()
+        String postcodeValue = locationPostCode.getCleanValue();
+        location.setPostcode( Strings.isNullOrEmpty( postcodeValue ) ? null : postcodeValue );
         location.setCity( locationCity.getValue() );
         location.setCountry( locationCountry.getSingleValueByCode() );
+        event.setLocationIf( location );
+
+        return event;
     }
 
-    @Override
-    public void fill( Product product )
+    public void fill( @Nullable Event event )
     {
-        Event event = getEvent( product );
+        event = adjustEvent( event );
 
         deadline.setValue( event.getDeadline() );
         seats.setValue( event.getSeats() );
@@ -179,13 +194,11 @@ public class EventPanel
         locationCountry.setSingleValueByCode( location.getCountry() );
     }
 
-    private Event getEvent( Product product )
+    private Event adjustEvent( Event event )
     {
-        Event event = product.getEvent();
         if ( event == null )
         {
             event = new Event();
-            product.setEvent( event );
         }
 
         if ( event.getBegin() == null )

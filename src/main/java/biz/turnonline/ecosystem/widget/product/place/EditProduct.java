@@ -38,6 +38,28 @@ public class EditProduct
         this.tab = tab;
     }
 
+    private static Long tryParseId( String id )
+    {
+        try
+        {
+            return Long.valueOf( id );
+        }
+        catch ( NumberFormatException e )
+        {
+            return null;
+        }
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public String getTab()
+    {
+        return tab;
+    }
+
     @Prefix( value = "edit-product" )
     public static class Tokenizer
             implements PlaceTokenizer<EditProduct>
@@ -87,28 +109,6 @@ public class EditProduct
             }
 
             return token;
-        }
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public String getTab()
-    {
-        return tab;
-    }
-
-    private static Long tryParseId( String id )
-    {
-        try
-        {
-            return Long.valueOf( id );
-        }
-        catch ( NumberFormatException e )
-        {
-            return null;
         }
     }
 }

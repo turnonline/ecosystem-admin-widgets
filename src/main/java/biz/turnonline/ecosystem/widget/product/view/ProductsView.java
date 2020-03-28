@@ -18,39 +18,33 @@
 
 package biz.turnonline.ecosystem.widget.product.view;
 
-import biz.turnonline.ecosystem.widget.product.event.DeleteProductEvent;
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.presenter.ProductsPresenter;
-import biz.turnonline.ecosystem.widget.product.ui.ColumnActions;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.product.ui.ProductOverviewCard;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
-import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductName;
-import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductPicture;
-import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductPrice;
-import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductPublished;
-import biz.turnonline.ecosystem.widget.shared.ui.ColumnProductVat;
-import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
-import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;
-import biz.turnonline.ecosystem.widget.shared.ui.ProductsDataSource;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
-import biz.turnonline.ecosystem.widget.shared.ui.SmartTable;
-import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
-import gwt.material.design.client.ui.MaterialButton;
+import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.client.ui.MaterialColumn;
+import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.List;
 
 /**
+ * Product list view implemented by infinite scroll where single product is rendered by {@link ProductOverviewCard}.
+ *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class ProductsView
@@ -63,97 +57,71 @@ public class ProductsView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
-    MaterialButton btnNew;
+    InfiniteScroll<Product> scroll;
 
-    @UiField
-    MaterialButton btnDelete;
-
-    @UiField
-    SmartTable<Product> table;
-
-    @UiField
-    ConfirmationWindow confirmationWindow;
+    private int headerHeight;
 
     @Inject
-    public ProductsView( EventBus eventBus, @Named( "ProductsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public ProductsView( @Named( "ProductsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
-        super( eventBus );
+        super();
 
         this.breadcrumb = breadcrumb;
         setActive( Route.PRODUCTS );
 
         add( binder.createAndBindUi( this ) );
-        initTable();
 
-        confirmationWindow.getBtnOk().addClickHandler( event -> {
-            List<Product> selectedRowModels = table.getSelectedRowModels( false );
-            bus().fireEvent( new DeleteProductEvent( selectedRowModels ) );
+        scroll.enableMasonry();
+        scroll.setRenderer( this::createCard );
+        scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelProductLoading() ) );
+
+        Window.addResizeHandler( event -> scroll.setMinHeight( ( event.getHeight() - headerHeight ) + "px" ) );
+        Scheduler.get().scheduleDeferred( () -> {
+            headerHeight = scaffoldHeader.getElement().getClientHeight()
+                    + breadcrumb.getElement().getClientHeight()
+                    - 22;
+            scroll.setMinHeight( ( Window.getClientHeight() - headerHeight ) + "px" );
         } );
+
+        // refresh action setup
+        breadcrumb.setRefreshTooltip( messages.tooltipProductListRefresh() );
+        breadcrumb.setNavSectionVisible( true );
+        breadcrumb.addRefreshClickHandler( event -> scroll.reload() );
+
+        breadcrumb.setClearFilterVisible( false );
     }
 
-    @Override
-    public void refresh()
+    private Widget createCard( Product product )
     {
-        table.refresh();
+        MaterialColumn column = new MaterialColumn( 12, 6, 4 );
+        column.setPadding( 0 );
+        column.add( new ProductOverviewCard( product, bus() ) );
+        return column;
     }
 
-    private void initTable()
-    {
-        ColumnProductPicture picture = new ColumnProductPicture();
-        picture.width( "5%" );
-
-        ColumnProductPublished published = new ColumnProductPublished();
-        published.width( "5%" );
-
-        ColumnProductName name = new ColumnProductName();
-        name.width( "40%" );
-
-        ColumnProductPrice price = new ColumnProductPrice();
-        price.width( "25%" );
-
-        ColumnProductVat vat = new ColumnProductVat();
-        vat.width( "20%" );
-
-        ColumnActions actions = new ColumnActions( bus() );
-        actions.width( "5%" );
-
-        table.addColumn( picture );
-        table.addColumn( published );
-        table.addColumn( messages.labelName(), name );
-        table.addColumn( messages.labelPriceExcludingVat(), price );
-        table.addColumn( messages.labelVat(), vat );
-        table.addColumn( actions );
-
-        table.configure( new ProductsDataSource( ( AppEventBus ) bus() ) );
-    }
-
-    @UiHandler( "btnNew" )
-    public void handleNew( ClickEvent event )
+    @UiHandler( "newProduct" )
+    public void newProduct( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new EditProductEvent() );
     }
 
-    @UiHandler( "btnDelete" )
-    public void handleDelete( ClickEvent event )
+    @Override
+    public void scrollTo( @Nullable String scrollspy )
     {
-        List<Product> selected = table.getSelectedRowModels( false );
-        if ( !selected.isEmpty() )
-        {
-            confirmationWindow.open( new Question()
-            {
-                @Override
-                public int selectedRecords()
-                {
-                    return selected.size();
-                }
+        scroll.scrollTo( scrollspy );
+    }
 
-                @Override
-                public String name()
-                {
-                    return Formatter.formatProductName( selected.get( 0 ) );
-                }
-            } );
-        }
+    @Override
+    public void clear()
+    {
+        scroll.unload();
+    }
+
+    @Override
+    public void setDataSource( InfiniteScroll.Callback<Product> callback )
+    {
+        scroll.unload();
+        scroll.setDataSource( callback );
     }
 
     interface ProductsViewUiBinder

@@ -18,18 +18,47 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:addins='urn:import:gwt.material.design.addins.client'
              xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
         <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m9">
+                <s:SectionTitle iconType="LINEAR_SCALE" title="{msg.labelInvoiceCurrentStatus}"/>
+
+                <m:MaterialPanel width="100%" marginTop="10" ui:field="stepperPanel" marginBottom="25">
+                    <addins:stepper.MaterialStepper ui:field="stepper" detectOrientation="true">
+                        <addins:stepper.MaterialStep step="1" title="{msg.labelInvoiceStatusNew}" ui:field="stepNew"
+                                                     description="{msg.descriptionInvoiceStatusNew}"/>
+
+                        <addins:stepper.MaterialStep step="2" title="{msg.labelInvoiceStatusSent}" ui:field="stepSent"
+                                                     description="{msg.descriptionInvoiceStatusSent}"/>
+
+                        <addins:stepper.MaterialStep step="3" title="{msg.labelInvoiceStatusPaid}" ui:field="lastStep"
+                                                     description="{msg.descriptionInvoiceStatusPaid}"/>
+                    </addins:stepper.MaterialStepper>
+                </m:MaterialPanel>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+
+        <m:MaterialRow grid="s12 m12" backgroundColor="BLUE_LIGHTEN_5">
+            <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}" iconMarginLeft="10"/>
+
+            <m:MaterialTextBox ui:field="toPay" label="{msg.labelAmountToPay}" grid="m2" fontWeight="BOLD"/>
+            <m:MaterialTextBox ui:field="priceExclVat" label="{msg.labelTotalPriceExclVat}" grid="m2"/>
+            <m:MaterialTextBox ui:field="vatBase" label="{msg.labelTotalVatBase}" grid="m2"/>
+            <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelTotalPrice}" grid="m2"/>
+        </m:MaterialRow>
+
+        <m:MaterialRow>
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
-                <s:InvoiceTypeListBox ui:field="invoiceType" placeholder="{msg.labelInvoiceType}"/>
-                <m:MaterialTextBox ui:field="invoiceNumber" placeholder="{msg.labelInvoiceNumber}"/>
-                <m:MaterialLongBox ui:field="variableSymbol" placeholder="{msg.labelVariableSymbol}"/>
+                <s:InvoiceTypeComboBox ui:field="invoiceType" label="{msg.labelInvoiceType}"/>
+                <m:MaterialTextBox ui:field="invoiceNumber" label="{msg.labelInvoiceNumber}"/>
+                <m:MaterialLongBox ui:field="variableSymbol" label="{msg.labelVariableSymbol}"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">
@@ -42,8 +71,15 @@
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="PAYMENT" title="{msg.labelPayment}"/>
 
-                <s:PaymentMethodListBox ui:field="paymentMethod" placeholder="{msg.labelPaymentMethod}"/>
+                <s:PaymentMethodComboBox ui:field="paymentMethod" label="{msg.labelPaymentMethod}"/>
                 <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m2" offset="m1">
+                <s:SectionTitle iconType="ACCESS_TIME" title="{msg.labelChanges}"/>
+
+                <m:MaterialDatePicker ui:field="created" placeholder="{msg.labelCreated}"/>
+                <m:MaterialDatePicker ui:field="modified" placeholder="{msg.labelModified}"/>
             </m:MaterialColumn>
         </m:MaterialRow>
 

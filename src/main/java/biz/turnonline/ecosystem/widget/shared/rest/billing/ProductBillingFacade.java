@@ -40,35 +40,39 @@ import javax.ws.rs.QueryParam;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
+@SuppressWarnings( "VoidMethodAnnotatedWithGET" )
 @Options( dispatcher = FirebaseAuthDispatcher.class, serviceRootKey = Configuration.PRODUCT_BILLING_API_ROOT )
 public interface ProductBillingFacade
         extends RestService
 {
-    // products
+    //////////////////////
+    ////// products //////
+    //////////////////////
 
     @GET
     @Path( "products" )
     void getProducts( @QueryParam( "offset" ) Integer offset,
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "lightList" ) boolean lightList,
-                      @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                      @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
                       SuccessCallback<Items<Product>> callback );
 
     @GET
     @Path( "products/{product_id}" )
     void findProductById( @PathParam( "product_id" ) Long productId,
+                          @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
                           FacadeCallback<Product> callback );
 
     @POST
     @Path( "products" )
-    void createProduct( @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+    void createProduct( @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
                         Product product,
                         FacadeCallback<Product> callback );
 
     @PUT
     @Path( "products/{product_id}" )
     void updateProduct( @PathParam( "product_id" ) Long productId,
-                        @HeaderParam( "X-Calc-PricingItems" ) boolean calcPricingItems,
+                        @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
                         Product product,
                         FacadeCallback<Product> callback );
 
@@ -83,7 +87,9 @@ public interface ProductBillingFacade
                                @PathParam( "order" ) Integer order,
                                FacadeCallback<Void> callback );
 
-    // orders
+    //////////////////////
+    ////// orders ////////
+    //////////////////////
 
     @GET
     @Path( "orders" )
@@ -95,6 +101,7 @@ public interface ProductBillingFacade
     @GET
     @Path( "orders/{order_id}" )
     void findOrderById( @PathParam( "order_id" ) Long orderId,
+                        @QueryParam( "invoices" ) Integer numberOf,
                         FacadeCallback<Order> callback );
 
     @POST
@@ -113,7 +120,20 @@ public interface ProductBillingFacade
     void deleteOrder( @PathParam( "order_id" ) Long orderId,
                       FacadeCallback<Void> callback );
 
-    // invoices
+    @GET
+    @Path( "orders/{order_id}/status" )
+    void getOrderStatus( @PathParam( "order_id" ) Long orderId,
+                         SuccessCallback<OrderStatus> callback );
+
+    @PUT
+    @Path( "orders/{order_id}/status" )
+    void changeOrderStatus( @PathParam( "order_id" ) Long orderId,
+                            OrderStatus status,
+                            FacadeCallback<Void> callback );
+
+    //////////////////////
+    ////// invoices //////
+    //////////////////////
 
     @GET
     @Path( "invoices" )
@@ -121,6 +141,20 @@ public interface ProductBillingFacade
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "lightList" ) boolean lightList,
                       SuccessCallback<Items<Invoice>> callback );
+
+    @GET
+    @Path( "orders/{order_id}/invoices" )
+    void getOrderInvoices( @PathParam( "order_id" ) Long orderId,
+                           @QueryParam( "offset" ) Integer offset,
+                           @QueryParam( "limit" ) Integer limit,
+                           @QueryParam( "lightList" ) boolean lightList,
+                           SuccessCallback<Items<Invoice>> callback );
+
+    @POST
+    @Path( "orders/{order_id}/invoices" )
+    void createOrderInvoice( @PathParam( "order_id" ) Long orderId,
+                             Invoice invoice,
+                             FacadeCallback<Invoice> callback );
 
     @GET
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
@@ -140,6 +174,23 @@ public interface ProductBillingFacade
                         Invoice invoice,
                         FacadeCallback<Invoice> callback );
 
+    @PUT
+    @Path( "orders/{order_id}/invoices/{invoice_id}" )
+    void sendInvoice( @PathParam( "order_id" ) Long orderId,
+                      @PathParam( "invoice_id" ) Long invoiceId,
+                      @HeaderParam( "vnd.turnon.cloud.send-invoice" ) Boolean sendInvoice,
+                      Invoice invoice,
+                      FacadeCallback<Invoice> callback );
+
+    @PUT
+    @Path( "orders/{order_id}/invoices/{invoice_id}" )
+    void emailInvoice( @PathParam( "order_id" ) Long orderId,
+                       @PathParam( "invoice_id" ) Long invoiceId,
+                       @HeaderParam( "vnd.turnon.cloud.send-invoice" ) Boolean sendInvoice,
+                       @HeaderParam( "vnd.turnon.cloud.contact-email" ) String email,
+                       Invoice invoice,
+                       FacadeCallback<Invoice> callback );
+
     @DELETE
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
     void deleteInvoice( @PathParam( "order_id" ) Long orderId,
@@ -150,7 +201,9 @@ public interface ProductBillingFacade
     @Path( "prices" )
     void calculate( Pricing pricing, SuccessCallback<Pricing> callback );
 
-    // codebooks
+    //////////////////////
+    ////// codebooks /////
+    //////////////////////
 
     @GET
     @Path( "codebook/billing-units" )
@@ -162,4 +215,47 @@ public interface ProductBillingFacade
     void getVatRates( @QueryParam( "domicile" ) String domicile,
                       @HeaderParam( "Accept-Language" ) String acceptLanguage,
                       SuccessCallback<Items<VatRate>> callback );
+
+    //////////////////////
+    ///// purchases //////
+    //////////////////////
+
+    @GET
+    @Path( "purchases/orders" )
+    void searchPurchaseOrders( @QueryParam( "offset" ) Integer offset,
+                               @QueryParam( "limit" ) Integer limit,
+                               @QueryParam( "lightList" ) boolean lightList,
+                               SuccessCallback<Items<PurchaseOrder>> callback );
+
+    @GET
+    @Path( "purchases/orders/{order_id}" )
+    void getPurchaseOrder( @PathParam( "order_id" ) Long orderId,
+                           @QueryParam( "invoices" ) Integer numberOf,
+                           SuccessCallback<PurchaseOrder> callback );
+
+    @DELETE
+    @Path( "purchases/orders/{order_id}" )
+    void declinePurchaseOrder( @PathParam( "order_id" ) Long orderId,
+                               FacadeCallback<Void> callback );
+
+    @GET
+    @Path( "purchases/invoices" )
+    void searchIncomingInvoices( @QueryParam( "offset" ) Integer offset,
+                                 @QueryParam( "limit" ) Integer limit,
+                                 @QueryParam( "lightList" ) boolean lightList,
+                                 SuccessCallback<Items<IncomingInvoice>> callback );
+
+    @GET
+    @Path( "purchases/orders/{order_id}/invoices" )
+    void listOrderIncomingInvoices( @PathParam( "order_id" ) Long orderId,
+                                    @QueryParam( "offset" ) Integer offset,
+                                    @QueryParam( "limit" ) Integer limit,
+                                    @QueryParam( "lightList" ) boolean lightList,
+                                    SuccessCallback<Items<IncomingInvoice>> callback );
+
+    @GET
+    @Path( "purchases/orders/{order_id}/invoices/{invoice_id}" )
+    void getIncomingOrderInvoice( @PathParam( "order_id" ) Long orderId,
+                                  @PathParam( "invoice_id" ) Long invoiceId,
+                                  SuccessCallback<IncomingInvoice> callback );
 }

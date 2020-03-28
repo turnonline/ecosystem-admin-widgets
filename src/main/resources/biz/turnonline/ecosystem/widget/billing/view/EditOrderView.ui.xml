@@ -25,6 +25,7 @@
 
     <g:HTMLPanel>
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:ConfirmationWindow ui:field="confirmation" iconType="DELETE"/>
 
         <m:MaterialPanel shadow="1" margin="20" marginBottom="0">
             <o:EditOrderTabs ui:field="tabs"/>
@@ -36,10 +37,13 @@
                     <o:OrderDetail ui:field="detail"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabItems" grid="s12">
-                    <o:OrderItems ui:field="items"/>
+                    <s:PricingItemsPanel ui:field="items"/>
                 </m:MaterialColumn>
                 <m:MaterialColumn m:id="tabCustomer" grid="s12">
                     <o:CustomerPanel ui:field="customer"/>
+                </m:MaterialColumn>
+                <m:MaterialColumn m:id="tabInvoice" grid="s12">
+                    <o:InvoiceDetail ui:field="lastInvoice"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>
@@ -49,9 +53,26 @@
                               textColor="WHITE" iconType="CHECK" tooltip="{msg.tooltipSaveOrder}"
                               text="{msg.labelSave}"/>
             <m:MaterialButton ui:field="btnBack" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="WHITE"
-                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBack}"
+                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBackList}"
                               text="{msg.labelBack}"/>
         </m:MaterialRow>
 
+        <m:MaterialFAB>
+            <m:MaterialAnchorButton type="FLOATING" iconType="DEHAZE" size="LARGE"/>
+            <m:MaterialFABList>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="GREEN"
+                                        iconType="PLAYLIST_ADD" ui:field="issueInvoice"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipOrderIssueInvoice}"/>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="ORANGE"
+                                        iconType="PAGEVIEW" ui:field="viewInvoice"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipOrderLastInvoice}"/>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="ORANGE"
+                                        iconType="ASSIGNMENT" ui:field="orderInvoices"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipOrderPastInvoices}"/>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
+                                        iconType="DELETE" ui:field="deleteOrder"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipOrderDelete}"/>
+            </m:MaterialFABList>
+        </m:MaterialFAB>
     </g:HTMLPanel>
 </ui:UiBinder>

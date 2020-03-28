@@ -18,23 +18,18 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.shared.ui">
+             xmlns:s='urn:import:biz.turnonline.ecosystem.widget.shared.ui'>
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
-        <ui2:ConfirmationWindow ui:field="confirmationWindow"/>
+        <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:InfiniteScroll grid="s12 m12" ui:field="scroll"/>
 
-        <ui2:ScaffoldBreadcrumb ui:field="breadcrumb"/>
-
-        <m:MaterialRow paddingTop="20" paddingLeft="20" float="LEFT">
-            <m:MaterialButton marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE" textColor="WHITE" iconType="CONTROL_POINT" tooltip="{msg.tooltipNewProduct}" text="{msg.labelNew}" ui:field="btnNew"/>
-            <m:MaterialButton ui:field="btnDelete" marginRight="10" type="FLAT" waves="LIGHT" textColor="WHITE" backgroundColor="RED_DARKEN_1" iconType="DELETE" tooltip="{msg.tooltipDeleteProduct}" text="{msg.labelDelete}"/>
-        </m:MaterialRow>
-
-        <m:MaterialRow padding="20">
-            <ui2:SmartTable ui:field="table"/>
-        </m:MaterialRow>
-
+        <m:MaterialFAB>
+            <m:MaterialAnchorButton type="FLOATING" size="LARGE" backgroundColor="GREEN" ui:field="newProduct"
+                                    iconType="ADD" tooltipPosition="LEFT" tooltip="{msg.tooltipNewProduct}"
+                                    tooltipDelayMs="700"/>
+        </m:MaterialFAB>
     </g:HTMLPanel>
 </ui:UiBinder>

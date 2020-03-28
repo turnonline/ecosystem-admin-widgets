@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.shared.view;
 
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldHeader;
@@ -53,16 +54,16 @@ public abstract class View<T>
      */
     protected FlowPanel root;
 
-    public View( EventBus eventBus )
+    public View()
     {
-        super( eventBus );
+        super( AppEventBus.get() );
 
         // body content
         root = new FlowPanel();
         initWidget( root );
 
         // header
-        scaffoldHeader = new ScaffoldHeader( eventBus );
+        scaffoldHeader = new ScaffoldHeader( bus() );
         root.add( scaffoldHeader );
 
         // side bar

@@ -57,6 +57,11 @@ public class SearchContact
         return lastName;
     }
 
+    public void setLastName( String lastName )
+    {
+        this.lastName = lastName;
+    }
+
     @Override
     public String getPostcode()
     {
@@ -93,14 +98,14 @@ public class SearchContact
         return null;
     }
 
-    public void setLastName( String lastName )
-    {
-        this.lastName = lastName;
-    }
-
     public String getCompanyId()
     {
         return companyId;
+    }
+
+    public void setCompanyId( String companyId )
+    {
+        this.companyId = companyId;
     }
 
     @Override
@@ -121,14 +126,14 @@ public class SearchContact
         return null;
     }
 
-    public void setCompanyId( String companyId )
-    {
-        this.companyId = companyId;
-    }
-
     public String getBusinessName()
     {
         return businessName;
+    }
+
+    public void setBusinessName( String businessName )
+    {
+        this.businessName = businessName;
     }
 
     @Override
@@ -147,11 +152,6 @@ public class SearchContact
     public Boolean getCompany()
     {
         return null;
-    }
-
-    public void setBusinessName( String businessName )
-    {
-        this.businessName = businessName;
     }
 
     public String getOwner()

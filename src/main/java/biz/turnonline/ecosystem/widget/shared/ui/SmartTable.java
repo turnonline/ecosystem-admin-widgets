@@ -1,10 +1,8 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import com.google.gwt.dom.client.Style;
-import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.data.DataSource;
 import gwt.material.design.client.data.SelectionType;
-import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.pager.MaterialDataPager;
 import gwt.material.design.client.ui.table.AbstractDataTable;
 import gwt.material.design.client.ui.table.MaterialDataTable;
@@ -17,16 +15,10 @@ public class SmartTable<T>
 {
     public SmartTable()
     {
-        setSelectionType( SelectionType.MULTIPLE );
-
-        MaterialIcon btnRefresh = new MaterialIcon( IconType.REFRESH );
-        btnRefresh.addClickHandler( event -> SmartTable.this.refresh() );
-        btnRefresh.addStyleName( "waves-effect waves-light circle" );
+        setSelectionType( SelectionType.NONE );
 
         getTableTitle().setText( "" );
-        getScaffolding().getTopPanel().addStyleName( "top-panel grey lighten-5 grey-text text-darken-3" );
         getScaffolding().getTableBody().getElement().getStyle().setHeight( 100, Style.Unit.PCT );
-        getScaffolding().getToolPanel().add( btnRefresh );
         ( ( AbstractDataTable.DefaultTableScaffolding ) getScaffolding() ).getXScrollPanel().removeFromParent();
     }
 
@@ -55,5 +47,13 @@ public class SmartTable<T>
         {
             ( ( RefreshableDataSource ) getDataSource() ).refresh();
         }
+    }
+
+    @Override
+    protected void build()
+    {
+        super.build();
+
+        getScaffolding().getTopPanel().setVisible( false );
     }
 }

@@ -34,6 +34,7 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.BillFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -93,19 +94,15 @@ public abstract class BillingModule
 
     @Provides
     @Singleton
-    static PlaceHistoryHandler providePlaceHistoryHandler( PlaceHistoryMapper mapper, PlaceHistoryHandler.Historian historian,
-                                                           PlaceController controller, EventBus eventBus )
+    static PlaceHistoryHandler providePlaceHistoryHandler( PlaceHistoryMapper mapper,
+                                                           PlaceHistoryHandler.Historian historian,
+                                                           PlaceController controller,
+                                                           EventBus eventBus )
     {
         PlaceHistoryHandler handler = new PlaceHistoryHandler( mapper, historian );
         handler.register( controller, eventBus, BillingEntryPoint.DEFAULT_PLACE );
         return handler;
     }
-
-    @Binds
-    @Singleton
-    abstract ActivityMapper provideActivityMapper( BillingController controller );
-
-    // -- configuration
 
     @Singleton
     @Provides
@@ -114,7 +111,7 @@ public abstract class BillingModule
         return Configuration.get();
     }
 
-    // rest facade
+    // -- configuration
 
     @Singleton
     @Provides
@@ -122,6 +119,8 @@ public abstract class BillingModule
     {
         return GWT.create( AccountStewardFacade.class );
     }
+
+    // rest facade
 
     @Singleton
     @Provides
@@ -139,12 +138,17 @@ public abstract class BillingModule
 
     @Singleton
     @Provides
+    static BillFacade provideBillFacade()
+    {
+        return GWT.create( BillFacade.class );
+    }
+
+    @Singleton
+    @Provides
     static AddressLookupListener provideAddressLookupListener( Configuration config )
     {
         return config.initAddressLookupListener();
     }
-
-    // -- breadcrumbs
 
     @Provides
     @Singleton
@@ -153,11 +157,13 @@ public abstract class BillingModule
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Orders(), IconType.SHOPPING_CART, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Orders(), IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditOrder() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
+
+    // -- breadcrumbs
 
     @Provides
     @Singleton
@@ -166,7 +172,7 @@ public abstract class BillingModule
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.SHOPPING_CART, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
@@ -195,6 +201,10 @@ public abstract class BillingModule
 
         return new ScaffoldBreadcrumb( items, placeController );
     }
+
+    @Binds
+    @Singleton
+    abstract ActivityMapper provideActivityMapper( BillingController controller );
 
     // -- event bus
 

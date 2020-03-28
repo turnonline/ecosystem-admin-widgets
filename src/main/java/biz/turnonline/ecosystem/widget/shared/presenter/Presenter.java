@@ -18,6 +18,7 @@
 
 package biz.turnonline.ecosystem.widget.shared.presenter;
 
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import com.google.gwt.core.client.GWT;
@@ -33,33 +34,16 @@ import org.ctoolkit.gwt.client.view.IView;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public abstract class Presenter<V extends IView, E extends EventBus>
+public abstract class Presenter<V extends IView>
         extends BinderyPresenter<V>
 {
     protected AppMessages messages = AppMessages.INSTANCE;
 
-    public Presenter( E eventBus, V view, PlaceController placeController )
+    public Presenter( V view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( AppEventBus.get(), view, placeController );
 
         setTitle( "TurnOnline.biz Administration" );
-    }
-
-    @Override
-    protected final E bus()
-    {
-        return ( E ) super.bus();
-    }
-
-    /**
-     * <p>Set title of page. Call this method in {@link org.ctoolkit.gwt.client.presenter.BinderyPresenter#onBackingObject()}
-     * method to ensure that title will be rendered on every page correctly.</p>
-     *
-     * @param titleText text which will be shown in the browser window title
-     */
-    public void setTitle( String titleText )
-    {
-        Window.setTitle( titleText );
     }
 
     /**
@@ -67,7 +51,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param msg message to show in feedback panel
      */
-    public void info( String msg )
+    public static void info( String msg )
     {
         MaterialToast.fireToast( msg, "cyan" );
     }
@@ -77,19 +61,48 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param msg message to show in feedback panel
      */
-    public void success( String msg )
+    public static void success( String msg )
     {
         MaterialToast.fireToast( msg, "green" );
     }
 
     /**
-     * <p>Show info message.</p>
+     * <p>Show warning message.</p>
      *
      * @param msg message to show in feedback panel
      */
-    public void warn( String msg )
+    public static void warn( String msg )
     {
         MaterialToast.fireToast( msg, "amber" );
+    }
+
+    /**
+     * <p>Show warning message.</p>
+     *
+     * @param msg message to show in feedback panel
+     */
+    public static void warn( String msg, FacadeCallback.Failure failure )
+    {
+        if ( failure.isFailure() )
+        {
+            if ( failure.isNotFound() )
+            {
+                error( AppMessages.INSTANCE.msgErrorRecordDoesNotExists() );
+            }
+            else if ( failure.isBadRequest() )
+            {
+                error( AppMessages.INSTANCE.msgErrorBadRequest( failure.response().getText() ) );
+            }
+            else
+            {
+                error( AppMessages.INSTANCE.msgErrorRemoteServiceCall() );
+                GWT.log( "Exception has occurred while calling remote service: " + failure.response().getText() );
+            }
+        }
+        else
+        {
+            warn( msg );
+        }
     }
 
     /**
@@ -97,7 +110,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param msg message to show in feedback panel
      */
-    public void error( String msg )
+    public static void error( String msg )
     {
         MaterialToast.fireToast( msg, "red" );
     }
@@ -107,7 +120,7 @@ public abstract class Presenter<V extends IView, E extends EventBus>
      *
      * @param success message to show in feedback panel
      */
-    public void message( String success, FacadeCallback.Failure failure )
+    public static void success( String success, FacadeCallback.Failure failure )
     {
         if ( failure.isFailure() )
         {
@@ -129,5 +142,22 @@ public abstract class Presenter<V extends IView, E extends EventBus>
         {
             success( success );
         }
+    }
+
+    @Override
+    protected final AppEventBus bus()
+    {
+        return ( AppEventBus ) super.bus();
+    }
+
+    /**
+     * <p>Set title of page. Call this method in {@link org.ctoolkit.gwt.client.presenter.BinderyPresenter#onBackingObject()}
+     * method to ensure that title will be rendered on every page correctly.</p>
+     *
+     * @param titleText text which will be shown in the browser window title
+     */
+    public void setTitle( String titleText )
+    {
+        Window.setTitle( titleText );
     }
 }

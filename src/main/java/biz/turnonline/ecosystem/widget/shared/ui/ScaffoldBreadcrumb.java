@@ -1,19 +1,25 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.constants.HideOn;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.Position;
+import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialBreadcrumb;
+import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialNavBar;
+import gwt.material.design.client.ui.MaterialNavSection;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -22,12 +28,21 @@ import java.util.List;
 public class ScaffoldBreadcrumb
         extends Composite
 {
-    private MaterialNavBar navBar;
+    private MaterialLink refresh;
+
+    private MaterialLink clearFilter;
+
+    private MaterialNavSection navSection;
 
     public ScaffoldBreadcrumb( List<BreadcrumbItem> items, PlaceController placeController )
     {
-        navBar = new MaterialNavBar();
-        navBar.setBackgroundColor( Color.GREY_LIGHTEN_5 );
+        this( items, placeController, null );
+    }
+
+    public ScaffoldBreadcrumb( List<BreadcrumbItem> items, PlaceController placeController, @Nullable Widget child )
+    {
+        MaterialNavBar navBar = new MaterialNavBar();
+        navBar.setBackgroundColor( Color.WHITE );
         navBar.setPaddingLeft( 20 );
 
         for ( int i = 0; i < items.size(); i++ )
@@ -62,15 +77,71 @@ public class ScaffoldBreadcrumb
             navBar.add( breadcrumb );
         }
 
+        navSection = new MaterialNavSection();
+        navSection.setFloat( Style.Float.RIGHT );
+        navSection.setVisible( false );
+        navSection.setHideOn( HideOn.NONE );
+        navBar.add( navSection );
+
+        clearFilter = new MaterialLink();
+        clearFilter.setIconType( IconType.CANCEL );
+        clearFilter.setIconColor( Color.BLACK );
+        clearFilter.setWaves( WavesType.LIGHT );
+        clearFilter.setPaddingRight( 0 );
+        navSection.add( clearFilter );
+
+        refresh = new MaterialLink();
+        refresh.setIconType( IconType.REFRESH );
+        refresh.setIconColor( Color.BLACK );
+        refresh.setWaves( WavesType.LIGHT );
+        refresh.setPaddingRight( 0 );
+        navSection.add( refresh );
+
+        if ( child != null )
+        {
+            navSection.add( child );
+        }
+
         initWidget( navBar );
     }
 
-    @Override
-    protected void onLoad()
+    public void setNavSectionVisible( boolean visible )
     {
-        super.onLoad();
+        navSection.setVisible( visible );
+    }
 
-        navBar.getNavMenu().setDisplay( Display.NONE );
+    public void setRefreshTooltip( String tooltip )
+    {
+        refresh.setTooltip( tooltip );
+        refresh.setTooltipPosition( Position.LEFT );
+        refresh.setTooltipDelayMs( 700 );
+    }
+
+    public void addRefreshClickHandler( ClickHandler handler )
+    {
+        refresh.addClickHandler( handler );
+    }
+
+    public void setClearFilterEnabled( boolean enabled )
+    {
+        clearFilter.setEnabled( enabled );
+    }
+
+    public void setClearFilterTooltip( String tooltip )
+    {
+        clearFilter.setTooltip( tooltip );
+        clearFilter.setTooltipPosition( Position.LEFT );
+        clearFilter.setTooltipDelayMs( 700 );
+    }
+
+    public void addClearFilterClickHandler( ClickHandler handler )
+    {
+        clearFilter.addClickHandler( handler );
+    }
+
+    public void setClearFilterVisible( boolean visible )
+    {
+        clearFilter.setVisible( visible );
     }
 
     public static class BreadcrumbItem

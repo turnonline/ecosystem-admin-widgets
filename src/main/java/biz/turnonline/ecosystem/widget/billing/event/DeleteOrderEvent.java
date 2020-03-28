@@ -3,9 +3,13 @@ package biz.turnonline.ecosystem.widget.billing.event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import com.google.gwt.event.shared.GwtEvent;
 
-import java.util.List;
+import javax.annotation.Nonnull;
+
+import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
+ * Represents a request to delete specified order.
+ *
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class DeleteOrderEvent
@@ -13,11 +17,11 @@ public class DeleteOrderEvent
 {
     public static Type<DeleteOrderEventHandler> TYPE = new Type<DeleteOrderEventHandler>();
 
-    private final List<Order> orders;
+    private final Order order;
 
-    public DeleteOrderEvent( List<Order> orders )
+    public DeleteOrderEvent( @Nonnull Order order )
     {
-        this.orders = orders;
+        this.order = checkNotNull( order, "Order cannot be null" );
     }
 
     public Type<DeleteOrderEventHandler> getAssociatedType()
@@ -30,8 +34,8 @@ public class DeleteOrderEvent
         handler.onDeleteOrder( this );
     }
 
-    public List<Order> getOrders()
+    public Order getOrder()
     {
-        return orders;
+        return order;
     }
 }

@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gwt.core.client.GWT;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -41,7 +42,10 @@ public class Preconditions
     {
         if ( reference == null )
         {
-            throw new NullPointerException( String.valueOf( errorMessage ) );
+            String error = String.valueOf( errorMessage );
+            NullPointerException exception = new NullPointerException( error );
+            GWT.log( error, exception );
+            throw exception;
         }
         return reference;
     }

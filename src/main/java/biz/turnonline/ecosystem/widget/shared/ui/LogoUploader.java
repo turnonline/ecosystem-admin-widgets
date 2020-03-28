@@ -19,6 +19,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Resources;
+import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
@@ -26,10 +27,11 @@ import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.FlowPanel;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.client.ui.MaterialImage;
+import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
-import org.fusesource.restygwt.client.ServiceRoots;
 
 import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWARD_API_ROOT;
+import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWARD_STORAGE;
 
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
@@ -54,7 +56,12 @@ public class LogoUploader
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 
-        setUrl( ServiceRoots.get( ACCOUNT_STEWARD_API_ROOT ) + "storage-upload" );
+        addAttachHandler( event -> {
+            if ( event.isAttached() )
+            {
+                new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) this::setUrl, ACCOUNT_STEWARD_API_ROOT );
+            }
+        } );
 
         FlowPanel previewWrapper = new FlowPanel();
         previewWrapper.addStyleName( "valign center" );
@@ -97,5 +104,16 @@ public class LogoUploader
         model.setStorageName( uploadItem.getStorageName() );
 
         preview.setUrl( uploadItem.getServingUrl() );
+    }
+
+    @Override
+    public void load()
+    {
+        // setUrl and than load widget, otherwise firebase will be executed after widget initialization
+        new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
+                    setUrl( url );
+                    super.load();
+                }, ACCOUNT_STEWARD_STORAGE
+        );
     }
 }

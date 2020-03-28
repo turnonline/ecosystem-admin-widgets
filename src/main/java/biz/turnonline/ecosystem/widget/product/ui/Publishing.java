@@ -1,8 +1,6 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
-import biz.turnonline.ecosystem.widget.shared.ui.HasModel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -12,12 +10,13 @@ import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialSwitch;
 import gwt.material.design.client.ui.MaterialTextBox;
 
+import javax.annotation.Nullable;
+
 /**
  * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
  */
 public class Publishing
         extends Composite
-        implements HasModel<Product>
 {
     private static PublishingUiBinder binder = GWT.create( PublishingUiBinder.class );
 
@@ -56,12 +55,17 @@ public class Publishing
         uploader = new ProductPictureUploader( eventBus );
 
         initWidget( binder.createAndBindUi( this ) );
+
+        atName.setReturnBlankAsNull( true );
+        atUri.setReturnBlankAsNull( true );
     }
 
-    @Override
-    public void bind( Product product )
+    public ProductPublishing bind( @Nullable ProductPublishing publishing )
     {
-        ProductPublishing publishing = product.getPublishing();
+        if ( publishing == null )
+        {
+            publishing = new ProductPublishing();
+        }
 
         if ( publishing.getAt() != null )
         {
@@ -76,12 +80,15 @@ public class Publishing
         publishing.setLinkedInShare( linkedInShare.getValue() );
 
         uploader.bind( publishing );
+        return publishing;
     }
 
-    @Override
-    public void fill( Product product )
+    public void fill( @Nullable ProductPublishing publishing )
     {
-        ProductPublishing publishing = getProductPublishing( product );
+        if ( publishing == null )
+        {
+            publishing = new ProductPublishing();
+        }
 
         atName.setValue( publishing.getAt() != null ? publishing.getAt().getName() : null );
         atUri.setValue( publishing.getAt() != null ? publishing.getAt().getUri() : null );
@@ -92,18 +99,6 @@ public class Publishing
         googlePlus.setValue( publishing.getGooglePlus() != null ? publishing.getGooglePlus() : false );
         linkedInShare.setValue( publishing.getLinkedInShare() != null ? publishing.getLinkedInShare() : false );
         uploader.fill( publishing );
-    }
-
-    private ProductPublishing getProductPublishing( Product product )
-    {
-        ProductPublishing publishing = product.getPublishing();
-        if ( publishing == null )
-        {
-            publishing = new ProductPublishing();
-            product.setPublishing( publishing );
-        }
-
-        return publishing;
     }
 
     interface PublishingUiBinder

@@ -18,42 +18,40 @@
 
 package biz.turnonline.ecosystem.widget.billing.view;
 
-import biz.turnonline.ecosystem.widget.billing.event.DeleteInvoiceEvent;
+import biz.turnonline.ecosystem.widget.billing.event.ClearInvoicesFilterEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.presenter.InvoicesPresenter;
-import biz.turnonline.ecosystem.widget.billing.ui.ColumnInvoiceActions;
-import biz.turnonline.ecosystem.widget.billing.ui.ColumnInvoiceId;
-import biz.turnonline.ecosystem.widget.billing.ui.ColumnInvoicePrice;
-import biz.turnonline.ecosystem.widget.billing.ui.ColumnInvoiceStatus;
-import biz.turnonline.ecosystem.widget.billing.ui.InvoicesDataSource;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.billing.ui.InvoiceOverviewCard;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.ui.ColumnCustomer;
-import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
-import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow.Question;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
-import biz.turnonline.ecosystem.widget.shared.ui.SmartTable;
-import biz.turnonline.ecosystem.widget.shared.util.Formatter;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.web.bindery.event.shared.EventBus;
-import gwt.material.design.client.ui.MaterialButton;
+import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.client.ui.MaterialAnchorButton;
+import gwt.material.design.client.ui.MaterialColumn;
+import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 
 /**
+ * Invoice list view implemented by infinite scroll where single invoice is rendered by {@link InvoiceOverviewCard}.
+ *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class InvoicesView
-        extends View
+        extends View<List<Invoice>>
         implements InvoicesPresenter.IView
 {
     private static InvoicesViewUiBinder binder = GWT.create( InvoicesViewUiBinder.class );
@@ -62,93 +60,81 @@ public class InvoicesView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
-    MaterialButton btnNew;
+    InfiniteScroll<Invoice> scroll;
 
     @UiField
-    MaterialButton btnDelete;
+    MaterialAnchorButton newInvoice;
 
-    @UiField
-    SmartTable<Invoice> table;
-
-    @UiField
-    ConfirmationWindow confirmationWindow;
+    private int headerHeight;
 
     @Inject
-    public InvoicesView( EventBus eventBus, @Named( "InvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public InvoicesView( @Named( "InvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
-        super( eventBus );
+        super();
 
         this.breadcrumb = breadcrumb;
         setActive( Route.INVOICES );
 
         add( binder.createAndBindUi( this ) );
-        initTable();
 
-        confirmationWindow.getBtnOk().addClickHandler( event -> {
-            List<Invoice> selectedRowModels = table.getSelectedRowModels( false );
-            bus().fireEvent( new DeleteInvoiceEvent( selectedRowModels ) );
+        scroll.setRenderer( this::createCard );
+        scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelInvoiceLoading() ) );
+
+        Window.addResizeHandler( event -> scroll.setMinHeight( ( event.getHeight() - headerHeight ) + "px" ) );
+        Scheduler.get().scheduleDeferred( () -> {
+            headerHeight = scaffoldHeader.getElement().getClientHeight()
+                    + breadcrumb.getElement().getClientHeight()
+                    - 22;
+            scroll.setMinHeight( ( Window.getClientHeight() - headerHeight ) + "px" );
         } );
+
+        // refresh action setup
+        breadcrumb.setRefreshTooltip( messages.tooltipInvoiceListRefresh() );
+        breadcrumb.setNavSectionVisible( true );
+        breadcrumb.addRefreshClickHandler( event -> scroll.reload() );
+
+        // clear filter action setup
+        breadcrumb.setClearFilterEnabled( false );
+        breadcrumb.setClearFilterTooltip( messages.tooltipInvoiceListClearFilter() );
+        breadcrumb.addClearFilterClickHandler( event -> bus().fireEvent( new ClearInvoicesFilterEvent() ) );
     }
 
     @Override
-    public void refresh()
+    public void scrollTo( @Nullable String scrollspy )
     {
-        table.refresh();
+        scroll.scrollTo( scrollspy );
     }
 
-    private void initTable()
+    @Override
+    public void setDataSource( InfiniteScroll.Callback<Invoice> callback )
     {
-        ColumnInvoiceId id = new ColumnInvoiceId();
-        id.width( "20%" );
-
-        ColumnInvoiceStatus status = new ColumnInvoiceStatus();
-        status.width( "20%" );
-
-        ColumnCustomer<Invoice> customer = new ColumnCustomer<>();
-        customer.width( "25%" );
-
-        ColumnInvoicePrice price = new ColumnInvoicePrice();
-        price.width( "20%" );
-
-        ColumnInvoiceActions actions = new ColumnInvoiceActions( bus() );
-        actions.width( "5%" );
-
-        table.addColumn( messages.labelId(), id );
-        table.addColumn( messages.labelStatus(), status );
-        table.addColumn( messages.labelCustomer(), customer );
-        table.addColumn( messages.labelPrice(), price );
-        table.addColumn( actions );
-
-        table.configure( new InvoicesDataSource( ( AppEventBus ) bus() ) );
+        scroll.unload();
+        scroll.setDataSource( callback );
     }
 
-    @UiHandler( "btnNew" )
-    public void handleNew( ClickEvent event )
+    @Override
+    public void clear()
+    {
+        scroll.unload();
+    }
+
+    @Override
+    public void setClearFilterEnabled( boolean enabled )
+    {
+        breadcrumb.setClearFilterEnabled( enabled );
+    }
+
+    private Widget createCard( Invoice invoice )
+    {
+        MaterialColumn column = new MaterialColumn( 12, 6, 6 );
+        column.add( new InvoiceOverviewCard( invoice, bus() ) );
+        return column;
+    }
+
+    @UiHandler( "newInvoice" )
+    public void newInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new EditInvoiceEvent() );
-    }
-
-    @UiHandler( "btnDelete" )
-    public void handleDelete( ClickEvent event )
-    {
-        List<Invoice> selected = table.getSelectedRowModels( false );
-        if ( !selected.isEmpty() )
-        {
-            confirmationWindow.open( new Question()
-            {
-                @Override
-                public int selectedRecords()
-                {
-                    return selected.size();
-                }
-
-                @Override
-                public String name()
-                {
-                    return Formatter.formatInvoiceName( selected.get( 0 ) );
-                }
-            } );
-        }
     }
 
     interface InvoicesViewUiBinder

@@ -18,39 +18,49 @@
 
 package biz.turnonline.ecosystem.widget.billing.presenter;
 
-import biz.turnonline.ecosystem.widget.billing.event.InvoiceBackEvent;
+import biz.turnonline.ecosystem.widget.billing.event.InvoiceListEvent;
+import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.billing.event.SaveInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditInvoice;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
+import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.ArrayList;
+
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.SENT;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class EditInvoicePresenter
-        extends Presenter<EditInvoicePresenter.IView, AppEventBus>
+        extends Presenter<EditInvoicePresenter.IView>
 {
     @Inject
-    public EditInvoicePresenter( AppEventBus eventBus,
-                                 IView view,
-                                 PlaceController placeController )
+    public EditInvoicePresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
+        setPlace( EditInvoice.class );
     }
 
     @Override
     public void bind()
     {
-        bus().addHandler( InvoiceBackEvent.TYPE, event -> controller().goTo( new Invoices() ) );
+        bus().addHandler( InvoiceListEvent.TYPE, event -> controller().goTo( new Invoices( event.getScrollspy() ) ) );
+        bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
+        bus().addHandler( InvoiceStatusChangeEvent.TYPE, this::changeInvoiceStatus );
+        bus().addHandler( DownloadInvoiceEvent.TYPE, this::downloadInvoice );
 
         bus().addHandler( SaveInvoiceEvent.TYPE, event -> {
             Invoice invoice = event.getInvoice();
@@ -95,8 +105,89 @@ public class EditInvoicePresenter
         return invoice;
     }
 
+    private void recalculated( RecalculatedPricingEvent event )
+    {
+        view().update( event.getPricing() );
+    }
+
+    private void changeInvoiceStatus( InvoiceStatusChangeEvent event )
+    {
+        Invoice.Status status = event.getInvoiceStatus();
+        String email = event.getEmail();
+        if ( email == null )
+        {
+            bus().billing().sendInvoice( event.getOrderId(), event.getInvoiceId(),
+                    SENT == status, new Invoice(), new SendInvoiceCallback( event ) );
+        }
+        else
+        {
+            bus().billing().emailInvoice( event.getOrderId(), event.getInvoiceId(), Boolean.TRUE,
+                    email, new Invoice(), new SendInvoiceCallback( event ) );
+        }
+    }
+
+    private void downloadInvoice( DownloadInvoiceEvent event )
+    {
+        view().downloadInvoice( event.downloadInvoiceUrl() );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Invoice>
     {
+        /**
+         * Downloads invoice PDF from the specified URL.
+         *
+         * @param url the full path to the invoice PDF
+         */
+        void downloadInvoice( @Nonnull String url );
+
+        /**
+         * Updates the order's pricing (details and items) UI by recalculated price.
+         *
+         * @param pricing the recalculated price
+         */
+        void update( @Nonnull Pricing pricing );
+
+        /**
+         * Sets the current invoice status. It have an impact on whether some action buttons will be enabled or not.
+         *
+         * @param status the current status to be set
+         */
+        void setStatus( @Nonnull Invoice.Status status );
+    }
+
+    private class SendInvoiceCallback
+            implements FacadeCallback<Invoice>
+    {
+        private final InvoiceStatusChangeEvent event;
+
+        private SendInvoiceCallback( InvoiceStatusChangeEvent event )
+        {
+            this.event = event;
+        }
+
+        @Override
+        public void done( Invoice response, Failure failure )
+        {
+            if ( SENT.name().equalsIgnoreCase( response.getStatus() ) )
+            {
+                success( messages.msgInvoiceStatusSent(), failure );
+                view().setStatus( SENT );
+            }
+            else if ( failure.isNotFound() )
+            {
+                error( AppMessages.INSTANCE.msgErrorRecordDoesNotExists() );
+                view().setStatus( event.getOriginStatus() );
+            }
+            else if ( failure.isBadRequest() )
+            {
+                error( AppMessages.INSTANCE.msgErrorBadRequest( failure.response().getText() ) );
+                view().setStatus( event.getOriginStatus() );
+            }
+            else
+            {
+                view().setStatus( event.getOriginStatus() );
+            }
+        }
     }
 }

@@ -21,28 +21,29 @@ package biz.turnonline.ecosystem.widget.billing.presenter;
 import biz.turnonline.ecosystem.widget.billing.event.DeleteOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.EditOrder;
-import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.util.Formatter;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class OrdersPresenter
-        extends Presenter<OrdersPresenter.IView, AppEventBus>
+        extends Presenter<OrdersPresenter.IView>
 {
     @Inject
-    public OrdersPresenter( AppEventBus eventBus,
-                            IView view,
-                            PlaceController placeController )
+    public OrdersPresenter( IView view, PlaceController placeController )
     {
-        super( eventBus, view, placeController );
+        super( view, placeController );
+        setPlace( Orders.class );
     }
 
     @Override
@@ -51,27 +52,35 @@ public class OrdersPresenter
         bus().addHandler( EditOrderEvent.TYPE,
                 event -> controller().goTo( new EditOrder( event.getId(), "tabDetail" ) ) );
 
-        bus().addHandler( DeleteOrderEvent.TYPE, event -> {
-            for ( Order order : event.getOrders() )
-            {
-                bus().billing().deleteOrder( order.getId(),
-                        ( SuccessCallback<Void> ) response -> {
-                            success( messages.msgRecordDeleted( Formatter.formatOrderName( order ) ) );
-                            Scheduler.get().scheduleDeferred( () -> view().refresh() );
-                        } );
-            }
-        } );
+        bus().addHandler( DeleteOrderEvent.TYPE, event -> bus().billing().deleteOrder( event.getOrder().getId(),
+                ( SuccessCallback<Void> ) response -> {
+                    success( messages.msgRecordDeleted( Formatter.formatOrderName( event.getOrder() ) ) );
+                    controller().goTo( new Orders() );
+                } ) );
+
+        view().setDataSource( ( offset, limit, callback ) ->
+                bus().billing().getOrders( offset, limit, true, callback ) );
     }
 
     @Override
     public void onBackingObject()
     {
         onAfterBackingObject();
+
+        Orders where = ( Orders ) controller().getWhere();
+        if ( where.getScrollspy() != null )
+        {
+            view().scrollTo( where.getScrollspy() );
+        }
     }
 
     public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
+            extends org.ctoolkit.gwt.client.view.IView<List<Order>>
     {
-        void refresh();
+        void scrollTo( @Nullable String scrollspy );
+
+        void clear();
+
+        void setDataSource( InfiniteScroll.Callback<Order> callback );
     }
 }
