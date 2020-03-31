@@ -15,23 +15,33 @@
  *
  */
 
-package biz.turnonline.ecosystem.widget.billing.place;
+package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
-import com.google.gwt.place.shared.PlaceHistoryMapper;
-import com.google.gwt.place.shared.WithTokenizers;
-
-/**
- * Custom tokenizer holder. Put all new tokenizer implementations here.
- *
- * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
- */
-@WithTokenizers( {
-        Orders.Tokenizer.class,
-        EditOrder.Tokenizer.class,
-        Invoices.Tokenizer.class,
-        EditInvoice.Tokenizer.class
-} )
-public interface HistoryMapper
-        extends PlaceHistoryMapper
+public final class TransactionBank
 {
+    private String code;
+
+    private String iban;
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public TransactionBank setCode( String code )
+    {
+        this.code = code;
+        return this;
+    }
+
+    public String getIban()
+    {
+        return iban;
+    }
+
+    public TransactionBank setIban( String iban )
+    {
+        this.iban = iban;
+        return this;
+    }
 }
