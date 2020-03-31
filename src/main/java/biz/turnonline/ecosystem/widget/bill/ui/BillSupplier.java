@@ -58,7 +58,7 @@ public class BillSupplier
     MaterialTextBox city;
 
     @UiField
-    MaterialInputMask<String> postCode;
+    MaterialInputMask postCode;
 
     @UiField
     CountryComboBox country;

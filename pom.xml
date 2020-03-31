@@ -243,7 +243,7 @@
         <auto-factory.version>1.0-beta7</auto-factory.version>
         <!-- end annotationProcessor config -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-        <gwt-material.version>2.1.1</gwt-material.version>
+        <gwt-material.version>2.3.0</gwt-material.version>
     </properties>
 
 </project>

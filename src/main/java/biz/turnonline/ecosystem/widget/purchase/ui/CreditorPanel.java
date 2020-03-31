@@ -70,7 +70,7 @@ public class CreditorPanel
     MaterialTextBox city;
 
     @UiField
-    MaterialInputMask<String> postCode;
+    MaterialInputMask postCode;
 
     @UiField
     CountryComboBox country;
