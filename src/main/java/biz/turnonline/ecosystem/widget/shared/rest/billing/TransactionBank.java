@@ -17,12 +17,31 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
-/**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
- */
-public enum PaymentMethod
+public final class TransactionBank
 {
-    TRANSFER,
-    CASH,
-    CARD_PAYMENT
+    private String code;
+
+    private String iban;
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public TransactionBank setCode( String code )
+    {
+        this.code = code;
+        return this;
+    }
+
+    public String getIban()
+    {
+        return iban;
+    }
+
+    public TransactionBank setIban( String iban )
+    {
+        this.iban = iban;
+        return this;
+    }
 }

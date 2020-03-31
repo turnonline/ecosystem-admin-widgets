@@ -54,7 +54,7 @@ public class ColumnTransactionPaymentMethod
     @Override
     public MaterialChip getValue( Transaction object )
     {
-        String form = object.getForm();
+        String form = object.getType();
         return new MaterialChip( localizationMap.get( form ), iconTypeMap.get( form ) );
     }
 }

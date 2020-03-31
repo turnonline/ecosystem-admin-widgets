@@ -2,6 +2,7 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BankAccount;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
@@ -9,7 +10,9 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PaymentMethodComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
+import biz.turnonline.ecosystem.widget.shared.ui.StaticCodeBook;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -109,6 +112,15 @@ public class InvoiceDetail
     @UiField
     MaterialStep lastStep;
 
+    @UiField
+    MaterialTextBox iban;
+
+    @UiField
+    MaterialTextBox bic;
+
+    @UiField
+    MaterialTextBox beneficiary;
+
     private Invoice invoice;
 
     private Invoice.Status currentStatus;
@@ -120,6 +132,8 @@ public class InvoiceDetail
     {
         this.bus = eventBus;
         initWidget( binder.createAndBindUi( this ) );
+
+        paymentMethod.addValueChangeHandler( this::paymentMethodChanged );
 
         paymentMethod.setPaddingBottom( 7 );
         invoiceType.setPaddingBottom( 7 );
@@ -141,6 +155,9 @@ public class InvoiceDetail
         vatBase.setReturnBlankAsNull( true );
         priceInclVat.setReturnBlankAsNull( true );
         toPay.setReturnBlankAsNull( true );
+        iban.setReturnBlankAsNull( true );
+        bic.setReturnBlankAsNull( true );
+        beneficiary.setReturnBlankAsNull( true );
 
         Window.addResizeHandler( resizeEvent -> detectAndApplyOrientation() );
         detectAndApplyOrientation();
@@ -192,7 +209,28 @@ public class InvoiceDetail
 
         InvoicePayment payment = new InvoicePayment();
         payment.setDueDate( dueDate.getValue() )
-                .setMethod( paymentMethod.getSingleValueByCode() );
+                .setType( paymentMethod.getSingleValueByCode() );
+
+        String ibanValue = iban.getValue();
+        String bicValue = bic.getValue();
+        String beneficiaryValue = beneficiary.getValue();
+
+        if ( isPaymentMethodTransfer()
+                && ( ibanValue != null || bicValue != null || beneficiaryValue != null ) )
+        {
+            BankAccount bankAccount = new BankAccount();
+            bankAccount.setIban( ibanValue );
+            bankAccount.setBic( bicValue );
+            bankAccount.setBeneficiary( beneficiaryValue );
+            payment.setBankAccount( bankAccount );
+        }
+        else
+        {
+            iban.clear();
+            bic.clear();
+            beneficiary.clear();
+            payment.setBankAccount( null );
+        }
 
         invoice.setPaymentIf( payment );
     }
@@ -221,7 +259,7 @@ public class InvoiceDetail
 
         // payment
         dueDate.setValue( payment != null ? payment.getDueDate() : null );
-        paymentMethod.setSingleValueByCode( payment != null ? payment.getMethod() : null );
+        paymentMethod.setSingleValueByCode( payment != null ? payment.getType() : null );
 
         try
         {
@@ -251,6 +289,21 @@ public class InvoiceDetail
                     vatBase,
                     priceInclVat,
                     toPay );
+        }
+
+        BankAccount bankAccount = payment == null ? null : payment.getBankAccount();
+        if ( isPaymentMethodTransfer() && bankAccount != null )
+        {
+            payment.setBankAccount( bankAccount );
+            iban.setValue( bankAccount.getIban() );
+            bic.setValue( bankAccount.getBic() );
+            beneficiary.setValue( bankAccount.getBeneficiary() );
+        }
+        else
+        {
+            iban.clear();
+            bic.clear();
+            beneficiary.clear();
         }
     }
 
@@ -371,6 +424,19 @@ public class InvoiceDetail
             // for this case component local status handling is sufficient
             setStatus( SENT );
         }
+    }
+
+    private void paymentMethodChanged( ValueChangeEvent<List<StaticCodeBook>> e )
+    {
+        boolean transfer = isPaymentMethodTransfer();
+        iban.setVisible( transfer );
+        bic.setVisible( transfer );
+        beneficiary.setVisible( transfer );
+    }
+
+    private boolean isPaymentMethodTransfer()
+    {
+        return "TRANSFER".equals( paymentMethod.getSingleValueByCode() );
     }
 
     interface DetailUiBinder

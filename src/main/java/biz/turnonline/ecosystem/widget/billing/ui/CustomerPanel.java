@@ -64,9 +64,6 @@ public class CustomerPanel
     MaterialTextBox firstName;
 
     @UiField
-    MaterialTextBox middleName;
-
-    @UiField
     MaterialTextBox lastName;
 
     @UiField
@@ -182,7 +179,6 @@ public class CustomerPanel
 
         prefix.setReturnBlankAsNull( true );
         firstName.setReturnBlankAsNull( true );
-        middleName.setReturnBlankAsNull( true );
         lastName.setReturnBlankAsNull( true );
         suffix.setReturnBlankAsNull( true );
         companyId.setReturnBlankAsNull( true );
@@ -214,7 +210,6 @@ public class CustomerPanel
         // person
         customer.setPrefix( prefix.getValue() );
         customer.setFirstName( firstName.getValue() );
-        customer.setMiddleName( middleName.getValue() );
         customer.setLastName( lastName.getValue() );
         customer.setSuffix( suffix.getValue() );
 
@@ -271,7 +266,6 @@ public class CustomerPanel
         // person
         prefix.setValue( customer.getPrefix() );
         firstName.setValue( customer.getFirstName() );
-        middleName.setValue( customer.getMiddleName() );
         lastName.setValue( customer.getLastName() );
         suffix.setValue( customer.getSuffix() );
 

@@ -121,7 +121,7 @@ public class IncomingInvoiceDetails
 
         InvoicePayment payment = new InvoicePayment();
         payment.setDueDate( dueDate.getValue() )
-                .setMethod( paymentMethod.getSingleValueByCode() );
+                .setType( paymentMethod.getSingleValueByCode() );
     }
 
     public void fill( @Nonnull IncomingInvoice invoice )
@@ -144,7 +144,7 @@ public class IncomingInvoiceDetails
 
         // payment
         dueDate.setValue( payment != null ? payment.getDueDate() : null );
-        paymentMethod.setSingleValueByCode( payment != null ? payment.getMethod() : null );
+        paymentMethod.setSingleValueByCode( payment != null ? payment.getType() : null );
 
         InvoicePricing pricing = invoice.getPricing();
         if ( pricing == null )

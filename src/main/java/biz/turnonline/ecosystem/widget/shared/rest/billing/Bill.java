@@ -17,12 +17,44 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
-/**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
- */
-public enum PaymentMethod
+public final class Bill
 {
-    TRANSFER,
-    CASH,
-    CARD_PAYMENT
+    private Long id;
+
+    private Long invoiceId;
+
+    private Long orderId;
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public Bill setId( Long id )
+    {
+        this.id = id;
+        return this;
+    }
+
+    public Long getInvoiceId()
+    {
+        return invoiceId;
+    }
+
+    public Bill setInvoiceId( Long invoiceId )
+    {
+        this.invoiceId = invoiceId;
+        return this;
+    }
+
+    public Long getOrderId()
+    {
+        return orderId;
+    }
+
+    public Bill setOrderId( Long orderId )
+    {
+        this.orderId = orderId;
+        return this;
+    }
 }

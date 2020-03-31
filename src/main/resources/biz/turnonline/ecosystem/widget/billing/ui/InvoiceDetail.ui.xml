@@ -66,13 +66,16 @@
 
                 <m:MaterialDatePicker ui:field="dateOfIssue" placeholder="{msg.labelDateOfIssue}"/>
                 <m:MaterialDatePicker ui:field="dateOfTaxable" placeholder="{msg.labelDateOfTaxable}"/>
+                <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="PAYMENT" title="{msg.labelPayment}"/>
 
                 <s:PaymentMethodComboBox ui:field="paymentMethod" label="{msg.labelPaymentMethod}"/>
-                <m:MaterialDatePicker ui:field="dueDate" placeholder="{msg.labelDueDate}"/>
+                <m:MaterialTextBox ui:field="iban" label="{msg.labelBeneficiaryIban}"/>
+                <m:MaterialTextBox ui:field="bic" label="{msg.labelBeneficiaryBic}"/>
+                <m:MaterialTextBox ui:field="beneficiary" label="{msg.labelBeneficiaryName}"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m2" offset="m1">

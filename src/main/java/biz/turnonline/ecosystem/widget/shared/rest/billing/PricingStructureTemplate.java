@@ -1,4 +1,21 @@
 /*
+ *  Copyright (c) 2020 TurnOnline.biz s.r.o.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+/*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -21,234 +38,132 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Model definition for PricingStructureTemplate.
- *
- * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
- * transmitted over HTTP when working with the TurnOnline.biz Product Billing. For a detailed
- * explanation see:
- * <a href="https://developers.google.com/api-client-library/java/google-http-java-client/json">https://developers.google.com/api-client-library/java/google-http-java-client/json</a>
- * </p>
- *
- * @author Google, Inc.
- */
-@SuppressWarnings( "javadoc" )
 public final class PricingStructureTemplate
 {
-    /**
-     * The value may be {@code null}.
-     */
     private Double amount;
 
-    /**
-     * The value may be {@code null}.
-     */
     private Boolean checkedIn;
 
-    /**
-     * The value may be {@code null}.
-     */
     private Integer id;
 
-    /**
-     * The value may be {@code null}.
-     */
     private String itemName;
 
-    /**
-     * The value may be {@code null}.
-     */
     private String itemType;
 
-    /**
-     * The value may be {@code null}.
-     */
     private List<PricingStructureTemplate> items;
 
-    /**
-     * The value may be {@code null}.
-     */
     private Integer order;
 
-    /**
-     * The value may be {@code null}.
-     */
     private Double priceExclVat;
 
-    /**
-     * The value may be {@code null}.
-     */
     private Map<String, Object> subsidiary;
 
-    /**
-     * The value may be {@code null}.
-     */
     private String unit;
 
-    /**
-     * @return value or {@code null} for none
-     */
     public Double getAmount()
     {
         return amount;
     }
 
-    /**
-     * @param amount amount or {@code null} for none
-     */
     public PricingStructureTemplate setAmount( Double amount )
     {
         this.amount = amount;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public Boolean getCheckedIn()
     {
         return checkedIn;
     }
 
-    /**
-     * @param checkedIn checkedIn or {@code null} for none
-     */
     public PricingStructureTemplate setCheckedIn( Boolean checkedIn )
     {
         this.checkedIn = checkedIn;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public Integer getId()
     {
         return id;
     }
 
-    /**
-     * @param id id or {@code null} for none
-     */
     public PricingStructureTemplate setId( Integer id )
     {
         this.id = id;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public String getItemName()
     {
         return itemName;
     }
 
-    /**
-     * @param itemName itemName or {@code null} for none
-     */
     public PricingStructureTemplate setItemName( String itemName )
     {
         this.itemName = itemName;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public String getItemType()
     {
         return itemType;
     }
 
-    /**
-     * @param itemType itemType or {@code null} for none
-     */
     public PricingStructureTemplate setItemType( String itemType )
     {
         this.itemType = itemType;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public List<PricingStructureTemplate> getItems()
     {
         return items;
     }
 
-    /**
-     * @param items items or {@code null} for none
-     */
     public PricingStructureTemplate setItems( List<PricingStructureTemplate> items )
     {
         this.items = items;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public Integer getOrder()
     {
         return order;
     }
 
-    /**
-     * @param order order or {@code null} for none
-     */
     public PricingStructureTemplate setOrder( Integer order )
     {
         this.order = order;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public Double getPriceExclVat()
     {
         return priceExclVat;
     }
 
-    /**
-     * @param priceExclVat priceExclVat or {@code null} for none
-     */
     public PricingStructureTemplate setPriceExclVat( Double priceExclVat )
     {
         this.priceExclVat = priceExclVat;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public Map<String, Object> getSubsidiary()
     {
         return subsidiary;
     }
 
-    /**
-     * @param subsidiary subsidiary or {@code null} for none
-     */
     public PricingStructureTemplate setSubsidiary( Map<String, Object> subsidiary )
     {
         this.subsidiary = subsidiary;
         return this;
     }
 
-    /**
-     * @return value or {@code null} for none
-     */
     public String getUnit()
     {
         return unit;
     }
 
-    /**
-     * @param unit unit or {@code null} for none
-     */
     public PricingStructureTemplate setUnit( String unit )
     {
         this.unit = unit;

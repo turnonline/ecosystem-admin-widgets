@@ -567,6 +567,15 @@ public interface AppMessages
     @Key( value = "label.cardPayment" )
     String labelCardPayment();
 
+    @Key( "label.beneficiary.iban" )
+    String labelBeneficiaryIban();
+
+    @Key( "label.beneficiary.bic" )
+    String labelBeneficiaryBic();
+
+    @Key( "label.beneficiary.name" )
+    String labelBeneficiaryName();
+
     @Key( value = "label.texts" )
     String labelInvoiceTexts();
 

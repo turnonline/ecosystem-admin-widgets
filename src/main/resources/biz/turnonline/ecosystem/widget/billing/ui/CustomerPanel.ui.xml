@@ -49,7 +49,6 @@
                             <s:SectionTitle iconType="PERSON" title="{msg.labelPerson}"/>
 
                             <m:MaterialTextBox label="{msg.labelFirstName}" ui:field="firstName"/>
-                            <m:MaterialTextBox label="{msg.labelMiddleName}" ui:field="middleName"/>
                             <m:MaterialTextBox label="{msg.labelLastName}" ui:field="lastName"/>
                             <m:MaterialRow>
                                 <m:MaterialColumn grid="s12 m6" paddingLeft="0">
