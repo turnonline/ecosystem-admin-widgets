@@ -5,8 +5,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  */
 public enum PaymentMethod
 {
-    BANK_TRANSFER,
+    TRANSFER,
     CASH,
-    CREDIT_CARD,
-    DEBIT_CARD
+    CARD_PAYMENT
 }

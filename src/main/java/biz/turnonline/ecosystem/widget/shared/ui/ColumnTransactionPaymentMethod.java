@@ -42,15 +42,13 @@ public class ColumnTransactionPaymentMethod
 
     static
     {
-        localizationMap.put( PaymentMethod.BANK_TRANSFER.name(), messages.labelBankTransfer() );
+        localizationMap.put( PaymentMethod.TRANSFER.name(), messages.labelBankTransfer() );
         localizationMap.put( PaymentMethod.CASH.name(), messages.labelCash() );
-        localizationMap.put( PaymentMethod.CREDIT_CARD.name(), messages.labelCreditCard() );
-        localizationMap.put( PaymentMethod.DEBIT_CARD.name(), messages.labelDebitCard() );
+        localizationMap.put( PaymentMethod.CARD_PAYMENT.name(), messages.labelCardPayment() );
 
-        iconTypeMap.put( PaymentMethod.BANK_TRANSFER.name(), IconType.ACCOUNT_BALANCE );
+        iconTypeMap.put( PaymentMethod.TRANSFER.name(), IconType.ACCOUNT_BALANCE );
         iconTypeMap.put( PaymentMethod.CASH.name(), IconType.ACCOUNT_BALANCE_WALLET );
-        iconTypeMap.put( PaymentMethod.CREDIT_CARD.name(), IconType.PAYMENT );
-        iconTypeMap.put( PaymentMethod.DEBIT_CARD.name(), IconType.PAYMENT );
+        iconTypeMap.put( PaymentMethod.CARD_PAYMENT.name(), IconType.PAYMENT );
     }
 
     @Override

@@ -18,10 +18,9 @@ public class PaymentMethodComboBox
 
     static
     {
-        types.add( new StaticCodeBook( PaymentMethod.BANK_TRANSFER.name(), messages.labelBankTransfer() ) );
+        types.add( new StaticCodeBook( PaymentMethod.TRANSFER.name(), messages.labelBankTransfer() ) );
+        types.add( new StaticCodeBook( PaymentMethod.CARD_PAYMENT.name(), messages.labelCardPayment() ) );
         types.add( new StaticCodeBook( PaymentMethod.CASH.name(), messages.labelCash() ) );
-        types.add( new StaticCodeBook( PaymentMethod.CREDIT_CARD.name(), messages.labelCreditCard() ) );
-        types.add( new StaticCodeBook( PaymentMethod.DEBIT_CARD.name(), messages.labelDebitCard() ) );
     }
 
     @Override
@@ -33,6 +32,6 @@ public class PaymentMethodComboBox
     @Override
     protected String defaultValue()
     {
-        return PaymentMethod.BANK_TRANSFER.name();
+        return PaymentMethod.TRANSFER.name();
     }
 }

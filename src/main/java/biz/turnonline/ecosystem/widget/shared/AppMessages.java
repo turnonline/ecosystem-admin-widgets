@@ -564,11 +564,8 @@ public interface AppMessages
     @Key( value = "label.cash" )
     String labelCash();
 
-    @Key( value = "label.creditCard" )
-    String labelCreditCard();
-
-    @Key( value = "label.debitCard" )
-    String labelDebitCard();
+    @Key( value = "label.cardPayment" )
+    String labelCardPayment();
 
     @Key( value = "label.texts" )
     String labelInvoiceTexts();
