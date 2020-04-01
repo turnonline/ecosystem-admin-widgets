@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.product.presenter.ProductsPresenter;
 import biz.turnonline.ecosystem.widget.product.ui.ProductOverviewCard;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScrollLoader;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.view.View;
@@ -36,7 +37,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialColumn;
-import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
