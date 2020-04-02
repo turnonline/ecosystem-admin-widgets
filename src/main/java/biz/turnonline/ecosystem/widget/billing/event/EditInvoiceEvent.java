@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * </ul>
  * Event created by no arg constructor {@link EditInvoiceEvent} will open an edit form to create a new invoice.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class EditInvoiceEvent
         extends GwtEvent<EditInvoiceEventHandler>

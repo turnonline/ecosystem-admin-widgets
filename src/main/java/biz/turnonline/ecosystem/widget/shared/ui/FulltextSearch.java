@@ -47,7 +47,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class FulltextSearch
         extends MaterialAutoComplete

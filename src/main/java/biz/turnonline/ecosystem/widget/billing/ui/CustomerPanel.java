@@ -47,7 +47,7 @@ import gwt.material.design.incubator.client.google.addresslookup.js.options.Plac
 import javax.annotation.Nullable;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class CustomerPanel
         extends Composite

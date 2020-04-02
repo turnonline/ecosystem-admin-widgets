@@ -36,7 +36,7 @@ import gwt.material.design.incubator.client.timer.TimerProgress;
 import static gwt.material.design.client.base.viewport.Resolution.LAPTOP_4K;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ScaffoldHeader
         extends Composite

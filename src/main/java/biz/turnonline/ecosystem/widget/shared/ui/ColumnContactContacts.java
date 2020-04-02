@@ -21,7 +21,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.Contact;
 import gwt.material.design.client.constants.IconType;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnContactContacts<T extends Contact>
         extends NotSafeHtmlColumn<T>

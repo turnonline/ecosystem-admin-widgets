@@ -20,7 +20,7 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 import com.google.gwt.user.client.Window;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public enum Route
 {

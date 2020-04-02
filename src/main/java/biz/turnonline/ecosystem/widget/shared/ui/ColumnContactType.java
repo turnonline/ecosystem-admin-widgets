@@ -24,7 +24,7 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnContactType<T extends Contact>
         extends WidgetColumn<T, MaterialIcon>

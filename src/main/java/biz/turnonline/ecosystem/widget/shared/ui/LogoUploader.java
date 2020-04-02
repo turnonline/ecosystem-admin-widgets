@@ -33,7 +33,7 @@ import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWA
 import static biz.turnonline.ecosystem.widget.shared.Configuration.ACCOUNT_STEWARD_STORAGE;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class LogoUploader
         extends MaterialFileUploader

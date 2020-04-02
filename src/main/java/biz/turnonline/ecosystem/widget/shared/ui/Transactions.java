@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * List of payment transactions table related to single invoice.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class Transactions
         extends MaterialDataTable<Transaction>

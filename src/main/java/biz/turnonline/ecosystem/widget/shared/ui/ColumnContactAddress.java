@@ -27,7 +27,7 @@ import gwt.material.design.client.ui.table.cell.WidgetColumn;
 import static biz.turnonline.ecosystem.widget.shared.util.Formatter.formatPostcode;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnContactAddress<T extends Contact>
         extends WidgetColumn<T, FlowPanel>

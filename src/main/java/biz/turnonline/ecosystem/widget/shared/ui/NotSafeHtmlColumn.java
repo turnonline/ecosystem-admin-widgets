@@ -22,7 +22,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import gwt.material.design.client.ui.table.cell.Column;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public abstract class NotSafeHtmlColumn<T>
         extends Column<T, String>

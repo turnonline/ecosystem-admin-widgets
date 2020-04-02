@@ -9,7 +9,7 @@ import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
 /**
  * Overridden material InfinteScrollLoader due to black background color
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class InfiniteScrollLoader
         extends gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader

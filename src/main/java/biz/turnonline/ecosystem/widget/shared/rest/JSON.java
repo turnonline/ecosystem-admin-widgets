@@ -23,7 +23,7 @@ import com.github.nmorel.gwtjackson.client.ObjectMapper;
 /**
  * JSON convenient methods to serialize and deserialize objects.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class JSON
 {

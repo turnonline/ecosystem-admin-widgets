@@ -20,7 +20,7 @@ package biz.turnonline.ecosystem.widget.bill.event;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public interface DeleteBillEventHandler
         extends EventHandler

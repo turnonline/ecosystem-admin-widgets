@@ -21,7 +21,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class SaveOrderEvent
         extends GwtEvent<SaveOrderEventHandler>

@@ -20,7 +20,7 @@ package biz.turnonline.ecosystem.widget.contact.event;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class BackEvent
         extends GwtEvent<BackEventHandler>

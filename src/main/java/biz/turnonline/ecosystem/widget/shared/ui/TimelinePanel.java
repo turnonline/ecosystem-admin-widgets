@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 import java.util.Date;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public abstract class TimelinePanel<T>
         extends Composite

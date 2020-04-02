@@ -21,7 +21,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class PriceTextBox
         extends MaterialTextBox

@@ -53,7 +53,7 @@ import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class BillOverviewCard
         extends Composite

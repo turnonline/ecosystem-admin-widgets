@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class CurrencyComboBox
         extends MaterialComboBox<String>

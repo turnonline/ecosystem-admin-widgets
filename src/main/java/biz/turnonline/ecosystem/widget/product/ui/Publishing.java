@@ -30,7 +30,7 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import javax.annotation.Nullable;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class Publishing
         extends Composite

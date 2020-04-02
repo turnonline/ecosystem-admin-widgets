@@ -22,7 +22,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.CodeBookRestFacade;
 import com.google.gwt.user.client.ui.InlineLabel;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class CodeBookReadOnlyBox<T extends CodeBook>
         extends InlineLabel

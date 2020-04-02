@@ -23,7 +23,7 @@ import gwt.material.design.client.data.loader.LoadResult;
 import java.util.List;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class SmartTableLoadResult<T>
         extends LoadResult<T>

@@ -42,7 +42,7 @@ import java.util.List;
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class Pricing
         extends Composite

@@ -24,7 +24,7 @@ import com.google.gwt.event.shared.GwtEvent;
 /**
  * Represents a request to list all products.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ProductListEvent
         extends GwtEvent<ProductListEventHandler>

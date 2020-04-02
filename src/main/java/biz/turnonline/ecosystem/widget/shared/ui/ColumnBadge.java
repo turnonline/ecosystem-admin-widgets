@@ -24,7 +24,7 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.html.Span;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnBadge
         extends Span

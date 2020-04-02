@@ -32,7 +32,7 @@ import gwt.material.design.client.ui.MaterialNavBrand;
 import gwt.material.design.client.ui.MaterialSideNavPush;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ScaffoldNavBar
         extends Composite

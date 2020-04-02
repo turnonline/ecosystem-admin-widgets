@@ -46,7 +46,7 @@ import javax.inject.Inject;
 import static biz.turnonline.ecosystem.widget.shared.util.Maps.findAddressComponent;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class EventPanel
         extends Composite

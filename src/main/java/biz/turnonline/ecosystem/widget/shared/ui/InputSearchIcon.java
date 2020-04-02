@@ -23,7 +23,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class InputSearchIcon
         extends MaterialIcon

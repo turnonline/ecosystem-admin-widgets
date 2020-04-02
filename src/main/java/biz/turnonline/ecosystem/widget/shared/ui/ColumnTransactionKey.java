@@ -20,7 +20,7 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnTransactionKey
         extends NotSafeHtmlColumn<Transaction>

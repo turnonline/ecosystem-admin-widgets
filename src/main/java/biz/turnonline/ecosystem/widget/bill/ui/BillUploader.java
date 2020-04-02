@@ -32,7 +32,7 @@ import org.ctoolkit.gwt.client.facade.UploadItem;
 import static biz.turnonline.ecosystem.widget.shared.Configuration.BILLING_PROCESSOR_STORAGE;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class BillUploader
         extends MaterialFileUploader

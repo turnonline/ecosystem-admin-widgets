@@ -23,7 +23,7 @@ import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.client.ui.html.Option;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 class CodeBookComboBox<T extends CodeBook>
         extends MaterialComboBox<T>

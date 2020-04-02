@@ -34,7 +34,7 @@ import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Heading;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ConfirmationWindow
         extends MaterialWindow

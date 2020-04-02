@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class Content
         extends Composite

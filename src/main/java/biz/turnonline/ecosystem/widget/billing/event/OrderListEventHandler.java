@@ -22,7 +22,7 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * Order list event handler.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public interface OrderListEventHandler
         extends EventHandler

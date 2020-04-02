@@ -27,7 +27,7 @@ import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 /**
  * Represents a request to delete specified product.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class DeleteProductEvent
         extends GwtEvent<DeleteProductEventHandler>

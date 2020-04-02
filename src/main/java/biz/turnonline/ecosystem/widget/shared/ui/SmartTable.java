@@ -25,7 +25,7 @@ import gwt.material.design.client.ui.table.AbstractDataTable;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class SmartTable<T>
         extends MaterialDataTable<T>

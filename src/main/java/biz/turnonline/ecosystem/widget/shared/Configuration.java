@@ -28,7 +28,7 @@ import org.fusesource.restygwt.client.ServiceRoots;
 import static org.ctoolkit.gwt.client.Constants.REST_DATE_FORMAT;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class Configuration
 {

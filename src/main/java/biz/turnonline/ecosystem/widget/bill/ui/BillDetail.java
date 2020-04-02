@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class BillDetail
         extends Composite

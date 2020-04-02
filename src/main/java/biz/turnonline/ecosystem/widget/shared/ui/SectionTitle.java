@@ -28,7 +28,7 @@ import gwt.material.design.client.ui.MaterialSection;
 import gwt.material.design.client.ui.MaterialTitle;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class SectionTitle
         extends Composite

@@ -18,7 +18,7 @@
 package biz.turnonline.ecosystem.widget.shared.rest;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public interface Contact
 {

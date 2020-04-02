@@ -58,7 +58,7 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status
 /**
  * Invoice detail form.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class InvoiceDetail
         extends Composite

@@ -21,7 +21,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import com.google.gwt.text.client.DoubleRenderer;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnTransactionAmount
         extends NotSafeHtmlColumn<Transaction>

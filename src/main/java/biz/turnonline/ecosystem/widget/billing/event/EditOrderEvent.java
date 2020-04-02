@@ -23,7 +23,7 @@ import com.google.gwt.event.shared.GwtEvent;
 /**
  * Represents a request to view or edit {@link Order}.
  *
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class EditOrderEvent
         extends GwtEvent<EditOrderEventHandler>

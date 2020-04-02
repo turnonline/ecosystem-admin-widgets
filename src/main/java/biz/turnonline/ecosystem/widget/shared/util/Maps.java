@@ -23,7 +23,7 @@ import gwt.material.design.incubator.client.google.addresslookup.js.options.resu
 import java.util.Arrays;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class Maps
 {

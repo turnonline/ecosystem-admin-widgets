@@ -30,7 +30,7 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnActions
         extends WidgetColumn<ContactCard, MaterialButton>

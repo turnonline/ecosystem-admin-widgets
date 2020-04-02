@@ -20,7 +20,7 @@ package biz.turnonline.ecosystem.widget.shared.rest;
 import org.ctoolkit.gwt.client.facade.Items;
 
 /**
- * @author <a href="mailto:pohorelec@turnonlie.biz">Jozef Pohorelec</a>
+ * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class CodeBookCallback<T extends Items<T>>
         implements SuccessCallback<T>
