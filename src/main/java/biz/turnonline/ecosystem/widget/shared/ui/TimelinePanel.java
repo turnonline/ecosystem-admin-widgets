@@ -26,7 +26,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialRow;
-import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 
 import javax.annotation.Nullable;
 import java.util.Date;
