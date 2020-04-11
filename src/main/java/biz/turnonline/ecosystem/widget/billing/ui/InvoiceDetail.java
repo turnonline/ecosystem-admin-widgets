@@ -204,6 +204,9 @@ public class InvoiceDetail
         introductoryText.setReadOnly( readOnly );
         dueDate.setReadOnly( readOnly );
         paymentMethod.setReadOnly( readOnly );
+        iban.setReadOnly( readOnly );
+        bic.setReadOnly( readOnly );
+        beneficiary.setReadOnly( readOnly );
     }
 
     /**
