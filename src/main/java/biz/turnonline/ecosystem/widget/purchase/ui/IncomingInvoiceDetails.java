@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BankAccount;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
@@ -87,6 +88,15 @@ public class IncomingInvoiceDetails
     @UiField
     MaterialTextBox toPay;
 
+    @UiField
+    MaterialTextBox iban;
+
+    @UiField
+    MaterialTextBox bic;
+
+    @UiField
+    MaterialTextBox beneficiary;
+
     private IncomingInvoice invoice;
 
     @Inject
@@ -111,6 +121,9 @@ public class IncomingInvoiceDetails
         vatBase.setReadOnly( true );
         priceInclVat.setReadOnly( true );
         toPay.setReadOnly( true );
+        iban.setReadOnly( true );
+        bic.setReadOnly( true );
+        beneficiary.setReadOnly( true );
 
         invoiceNumber.setReturnBlankAsNull( true );
         variableSymbol.setReturnBlankAsNull( true );
@@ -118,6 +131,9 @@ public class IncomingInvoiceDetails
         vatBase.setReturnBlankAsNull( true );
         priceInclVat.setReturnBlankAsNull( true );
         toPay.setReturnBlankAsNull( true );
+        iban.setReturnBlankAsNull( true );
+        bic.setReturnBlankAsNull( true );
+        beneficiary.setReturnBlankAsNull( true );
     }
 
     /**
@@ -181,6 +197,21 @@ public class IncomingInvoiceDetails
                     priceInclVat,
                     toPay );
         }
+
+        BankAccount bankAccount = payment == null ? null : payment.getBankAccount();
+        if ( isPaymentMethodTransfer() && bankAccount != null )
+        {
+            payment.setBankAccount( bankAccount );
+            iban.setValue( bankAccount.getIban() );
+            bic.setValue( bankAccount.getBic() );
+            beneficiary.setValue( bankAccount.getBeneficiary() );
+        }
+        else
+        {
+            iban.clear();
+            bic.clear();
+            beneficiary.clear();
+        }
     }
 
     public void clear()
@@ -206,6 +237,11 @@ public class IncomingInvoiceDetails
                 vatBase,
                 priceInclVat,
                 toPay );
+    }
+
+    private boolean isPaymentMethodTransfer()
+    {
+        return "TRANSFER".equals( paymentMethod.getSingleValueByCode() );
     }
 
     interface DetailUiBinder
