@@ -26,7 +26,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>biz.turnonline.ecosystem</groupId>
     <artifactId>ecosystem-admin-widgets</artifactId>
-    <version>0.5</version>
+    <version>0.6-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>TurnOnline.biz Ecosystem Administration</name>
     <description>TurnOnline.biz Ecosystem Administration GWT based widgets, distributed as zip</description>
@@ -36,7 +36,7 @@
         <connection>scm:git:[fetch=]git@github.com:turnonline/ecosystem-admin-widgets.git</connection>
         <developerConnection>scm:git:[push=]git@github.com:turnonline/ecosystem-admin-widgets.git</developerConnection>
         <url>https://github.com/turnonline/ecosystem-admin-widgets</url>
-        <tag>ecosystem-admin-widgets-0.5</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
