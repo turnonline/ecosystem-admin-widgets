@@ -58,7 +58,7 @@ class CodeBookComboBox<T extends CodeBook>
             if ( code == null )
             {
                 int index = getIndexByString( defaultValue() );
-                if ( index > 0 )
+                if ( index >= 0 )
                 {
                     setSelectedIndex( index );
                 }
@@ -66,7 +66,7 @@ class CodeBookComboBox<T extends CodeBook>
             else
             {
                 int index = getIndexByString( code );
-                if ( index > 0 )
+                if ( index >= 0 )
                 {
                     setSelectedIndex( index );
                 }
