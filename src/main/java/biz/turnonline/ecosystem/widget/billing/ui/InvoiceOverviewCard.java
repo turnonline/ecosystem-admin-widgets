@@ -26,6 +26,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -67,6 +68,9 @@ public class InvoiceOverviewCard
 
     @UiField
     MaterialLabel title;
+
+    @UiField
+    MaterialImage debtorLogo;
 
     @UiField
     MaterialLabel invoiceNumber;
@@ -132,6 +136,11 @@ public class InvoiceOverviewCard
             if ( customer.getCompany() )
             {
                 name = customer.getBusinessName();
+                String logo = customer.getLogoServingUrl();
+                if ( !Strings.isNullOrEmpty( logo ) )
+                {
+                    debtorLogo.setUrl( logo );
+                }
             }
             else
             {

@@ -43,7 +43,7 @@ import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.Date;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType.TAX_DOCUMENT;
@@ -163,7 +163,7 @@ public class IncomingInvoiceOverviewCard
             Date due = payment.getDueDate();
 
             dueDate.setText( due == null ? "none" : FORMATTER.format( due ) );
-            dueDate.setBackgroundColor( dueDateColor( due ) );
+            dueDate.setBackgroundColor( dueDateColor( payment ) );
 
             if ( dueDate.getBackgroundColor() == WHITE )
             {
@@ -207,8 +207,16 @@ public class IncomingInvoiceOverviewCard
         downloadLink.setVisible( hasImageUrl );
     }
 
-    private Color dueDateColor( @Nullable Date date )
+    private Color dueDateColor( @Nonnull InvoicePayment payment )
     {
+        Date date = payment.getDueDate();
+        Double totalAmount = payment.getTotalAmount();
+
+        if ( totalAmount != null && totalAmount <= 0.0 )
+        {
+            return GREEN;
+        }
+
         if ( date == null )
         {
             return GREY;

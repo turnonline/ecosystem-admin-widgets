@@ -38,8 +38,11 @@
 
         <m:MaterialCardContent minHeight="221px" paddingBottom="0">
             <m:MaterialRow grid="s12" marginBottom="5" paddingLeft="0">
-                <m:MaterialColumn grid="s12" paddingLeft="0">
-                    <m:MaterialLabel ui:field="title" fontSize="1.5em" fontWeight="BOLD"/>
+                <m:MaterialColumn grid="s10" paddingLeft="0">
+                    <m:MaterialLabel ui:field="title" fontSize="1.5em" fontWeight="BOLD" addStyleNames="truncate"/>
+                </m:MaterialColumn>
+                <m:MaterialColumn grid="s2" paddingLeft="0">
+                    <m:MaterialImage ui:field="debtorLogo" float="RIGHT" maxHeight="2em"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
 
