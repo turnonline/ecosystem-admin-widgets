@@ -34,6 +34,7 @@ import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -56,8 +57,10 @@ import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.NEW;
@@ -154,6 +157,12 @@ public class EditInvoiceView
         return new InvoiceDetail( bus() );
     }
 
+    @UiFactory
+    Transactions createTransactions()
+    {
+        return new Transactions( bus() );
+    }
+
     @Override
     protected void beforeGetModel()
     {
@@ -179,6 +188,7 @@ public class EditInvoiceView
 
         detail.fill( invoice );
         customer.fill( invoice.getCustomer() );
+        transactions.initFor( invoice.getOrderId(), invoice.getId() );
 
         InvoicePricing pricing = invoice.getPricing();
         items.fill( pricing == null ? null : pricing.getItems() );
@@ -287,6 +297,12 @@ public class EditInvoiceView
         sendInvoice.setEnabled( NEW == status && persisted );
         deleteInvoice.setEnabled( NEW == status && persisted );
         emailInvoice.setEnabled( NEW != status && persisted );
+    }
+
+    @Override
+    public void fill( @Nullable List<Transaction> transactions )
+    {
+        this.transactions.fill( transactions );
     }
 
     interface EditInvoiceViewUiBinder

@@ -19,6 +19,9 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
 import java.util.Date;
 
+/**
+ * Transaction that represents either a credit or debit operation.
+ */
 public final class Transaction
 {
     private Double amount;
@@ -43,6 +46,9 @@ public final class Transaction
 
     private String type;
 
+    /**
+     * The transaction amount absolute value.
+     **/
     public Double getAmount()
     {
         return amount;
@@ -54,6 +60,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The balance after the transaction.
+     **/
     public Double getBalance()
     {
         return balance;
@@ -65,6 +74,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The bank account associated with this transaction.
+     **/
     public TransactionBank getBankAccount()
     {
         return bankAccount;
@@ -76,6 +88,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The bill or invoice document settled by this transaction.
+     **/
     public Bill getBill()
     {
         return bill;
@@ -87,6 +102,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The date when the transaction was completed (status COMPLETED).
+     **/
     public Date getCompletedAt()
     {
         return completedAt;
@@ -98,6 +116,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The boolean indicating whether the payment has positive or negative amount; true - credit, false - debit.
+     **/
     public Boolean getCredit()
     {
         return credit;
@@ -109,6 +130,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The payment currency alphabetic code based on the ISO 4217.
+     **/
     public String getCurrency()
     {
         return currency;
@@ -120,6 +144,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The unique payment identification related to the associated bill.
+     **/
     public String getKey()
     {
         return key;
@@ -131,6 +158,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * A user provided payment reference.
+     **/
     public String getReference()
     {
         return reference;
@@ -142,6 +172,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The transaction status.
+     **/
     public String getStatus()
     {
         return status;
@@ -153,6 +186,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The payment type that has been used to make this payment.
+     **/
     public String getType()
     {
         return type;

@@ -17,12 +17,18 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+/**
+ * The bank account associated with this transaction.
+ */
 public final class TransactionBank
 {
     private String code;
 
     private String iban;
 
+    /**
+     * The bank identified by a bank code.
+     **/
     public String getCode()
     {
         return code;
@@ -34,6 +40,9 @@ public final class TransactionBank
         return this;
     }
 
+    /**
+     * The international bank account number.
+     **/
     public String getIban()
     {
         return iban;

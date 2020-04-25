@@ -16,7 +16,7 @@ public class InfiniteScrollLoader
 {
     private static MaterialLoader loader = new MaterialLoader( LoaderType.CIRCULAR);
 
-    private InfiniteScrollPanel parent;
+    private InfiniteScrollPanel<?> parent;
 
     public InfiniteScrollLoader(String message) {
         super(message);

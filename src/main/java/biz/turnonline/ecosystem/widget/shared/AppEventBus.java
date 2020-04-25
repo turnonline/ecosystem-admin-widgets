@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.shared;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.BillFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.PaymentProcessorFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
@@ -49,6 +50,8 @@ public class AppEventBus
 
     private final BillFacade billFacade;
 
+    private final PaymentProcessorFacade paymentProcessor;
+
     private final Configuration configuration;
 
     @Inject
@@ -56,12 +59,14 @@ public class AppEventBus
                         ProductBillingFacade productBilling,
                         SearchFacade searchFacade,
                         BillFacade billFacade,
+                        PaymentProcessorFacade paymentProcessor,
                         Configuration configuration )
     {
         this.accountSteward = accountSteward;
         this.productBilling = productBilling;
         this.searchFacade = searchFacade;
         this.billFacade = billFacade;
+        this.paymentProcessor = paymentProcessor;
         this.configuration = configuration;
     }
 
@@ -115,6 +120,14 @@ public class AppEventBus
     public BillFacade bill()
     {
         return billFacade;
+    }
+
+    /**
+     * Payment processor service facade.
+     */
+    public PaymentProcessorFacade payment()
+    {
+        return paymentProcessor;
     }
 
     /**

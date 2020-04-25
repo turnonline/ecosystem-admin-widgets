@@ -26,12 +26,13 @@ var Configuration = {
     ACCOUNT_STEWARD_API_ROOT: "https://account.turnonline.cloud/api/steward/v1",
     PRODUCT_BILLING_API_ROOT: "https://billing.turnonline.cloud/api/billing/v1",
     BILLING_PROCESSOR_API_ROOT: "https://bill.turnonline.cloud/api/bill/v1",
+    PAYMENT_PROCESSOR_API_ROOT: "https://payment.turnonline.cloud/api/payment/v1",
     BILLING_PROCESSOR_STORAGE: "https://bill.turnonline.cloud/storage/bill/v1",
     SEARCH_API_ROOT: "https://search.turnonline.cloud/api/search/v1",
     MAPS_API_KEY: ""
 };
 
-var token = window.localStorage.getItem("turnonline-token");
+var token = window.localStorage.getItem( "turnonline-token" );
 firebase = {
     auth: function () {
         return {

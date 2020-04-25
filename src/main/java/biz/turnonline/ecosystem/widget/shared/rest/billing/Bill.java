@@ -17,6 +17,9 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+/**
+ * The bill or invoice document settled by associated transaction.
+ */
 public final class Bill
 {
     private Long id;
@@ -25,6 +28,9 @@ public final class Bill
 
     private Long orderId;
 
+    /**
+     * The unique identification of the bill (cash register document).
+     **/
     public Long getId()
     {
         return id;
@@ -36,6 +42,9 @@ public final class Bill
         return this;
     }
 
+    /**
+     * The invoice identification, unique only for specified order.
+     **/
     public Long getInvoiceId()
     {
         return invoiceId;
@@ -47,6 +56,9 @@ public final class Bill
         return this;
     }
 
+    /**
+     * The unique identification of the order associated with the settled invoice.
+     **/
     public Long getOrderId()
     {
         return orderId;

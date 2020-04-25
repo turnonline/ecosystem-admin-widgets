@@ -35,6 +35,7 @@ import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.BillFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.PaymentProcessorFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchFacade;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import com.google.gwt.activity.shared.ActivityManager;
@@ -126,6 +127,13 @@ public abstract class BillingModule
     static ProductBillingFacade provideProductBilling()
     {
         return GWT.create( ProductBillingFacade.class );
+    }
+
+    @Singleton
+    @Provides
+    static PaymentProcessorFacade providePaymentProcessor()
+    {
+        return GWT.create( PaymentProcessorFacade.class );
     }
 
     @Singleton

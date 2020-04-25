@@ -17,12 +17,17 @@
 
 package biz.turnonline.ecosystem.widget.shared.ui;
 
+import biz.turnonline.ecosystem.widget.shared.event.TransactionListEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import com.google.gwt.dom.client.Style;
+import com.google.web.bindery.event.shared.EventBus;
+import gwt.material.design.client.data.DataSource;
+import gwt.material.design.client.data.loader.LoadCallback;
+import gwt.material.design.client.data.loader.LoadConfig;
 import gwt.material.design.client.ui.table.AbstractDataTable;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 
-import java.util.ArrayList;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -33,8 +38,12 @@ import java.util.List;
 public class Transactions
         extends MaterialDataTable<Transaction>
 {
-    public Transactions()
+    private final EventBus bus;
+
+    public Transactions( EventBus eventBus )
     {
+        this.bus = eventBus;
+
         getScaffolding().getTopPanel().removeFromParent();
         getScaffolding().getTableBody().getElement().getStyle().setHeight( 100, Style.Unit.PCT );
         ( ( AbstractDataTable.DefaultTableScaffolding ) getScaffolding() ).getXScrollPanel().removeFromParent();
@@ -53,9 +62,38 @@ public class Transactions
         addColumn( "Amount", amount ); // TODO: localize
     }
 
-    public void fill()
+    public void initFor( @Nullable Long orderId, @Nullable Long invoiceId )
     {
-        List<Transaction> transactions = new ArrayList<>();
-        setRowData( 0, transactions );
+        // clear table on a new invoice
+        clear();
+        if ( orderId != null && invoiceId != null )
+        {
+            bus.fireEvent( new TransactionListEvent( orderId, invoiceId ) );
+        }
+    }
+
+    public void fill( @Nullable List<Transaction> transactions )
+    {
+        if ( transactions == null || transactions.isEmpty() )
+        {
+            clear();
+        }
+        else
+        {
+            setDataSource( new DataSource<Transaction>()
+            {
+                @Override
+                public void load( LoadConfig<Transaction> loadConfig, LoadCallback<Transaction> callback )
+                {
+                    callback.onSuccess( new SmartTableLoadResult<>( transactions, loadConfig ) );
+                }
+
+                @Override
+                public boolean useRemoteSort()
+                {
+                    return false;
+                }
+            } );
+        }
     }
 }

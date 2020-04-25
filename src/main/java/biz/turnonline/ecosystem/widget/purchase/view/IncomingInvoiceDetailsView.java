@@ -28,6 +28,7 @@ import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -36,6 +37,7 @@ import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -43,8 +45,10 @@ import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * Incoming invoice detail view.
@@ -96,6 +100,12 @@ public class IncomingInvoiceDetailsView
         add( binder.createAndBindUi( this ) );
     }
 
+    @UiFactory
+    Transactions createTransactions()
+    {
+        return new Transactions( bus() );
+    }
+
     @Override
     protected void afterSetModel()
     {
@@ -103,6 +113,7 @@ public class IncomingInvoiceDetailsView
 
         detail.fill( invoice );
         creditor.fill( invoice.getCreditor() );
+        transactions.initFor( invoice.getOrderId(), invoice.getId() );
 
         InvoicePricing pricing = invoice.getPricing();
         items.reset();
@@ -145,6 +156,12 @@ public class IncomingInvoiceDetailsView
                 pricing.getTotalVatBase(),
                 pricing.getTotalPrice(),
                 pricing.getItems() );
+    }
+
+    @Override
+    public void fill( @Nullable List<Transaction> transactions )
+    {
+        this.transactions.fill( transactions );
     }
 
     interface EditInvoiceViewUiBinder

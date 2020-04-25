@@ -21,14 +21,18 @@ import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceListEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoiceDetails;
 import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
+import biz.turnonline.ecosystem.widget.shared.event.TransactionListEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Incoming invoice details presenter.
@@ -50,6 +54,7 @@ public class IncomingInvoiceDetailsPresenter
     {
         bus().addHandler( IncomingInvoiceListEvent.TYPE, this::goToList );
         bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
+        bus().addHandler( TransactionListEvent.TYPE, this::invoiceTransactions );
     }
 
     @Override
@@ -76,6 +81,12 @@ public class IncomingInvoiceDetailsPresenter
         view().update( event.getPricing() );
     }
 
+    private void invoiceTransactions( TransactionListEvent event )
+    {
+        bus().payment().getTransactions( event.getOrderId(), event.getInvoiceId(),
+                response -> view().fill( response.getItems() ) );
+    }
+
     private void setModel( IncomingInvoice response )
     {
         IncomingInvoiceDetails where = ( IncomingInvoiceDetails ) controller().getWhere();
@@ -99,5 +110,12 @@ public class IncomingInvoiceDetailsPresenter
          * @param pricing the recalculated price
          */
         void update( @Nonnull Pricing pricing );
+
+        /**
+         * Fills the transactions that are associated with this invoice.
+         *
+         * @param transactions the list of transaction
+         */
+        void fill( @Nullable List<Transaction> transactions );
     }
 }
