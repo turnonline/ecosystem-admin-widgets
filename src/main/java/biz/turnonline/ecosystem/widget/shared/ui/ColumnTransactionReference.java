@@ -15,15 +15,21 @@
  *
  */
 
-package biz.turnonline.ecosystem.widget.shared.rest.billing;
+package biz.turnonline.ecosystem.widget.shared.ui;
+
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 
 /**
- * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
+ * The column to render {@link Transaction#getReference()} as payment reference.
+ *
+ * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public enum PaymentMethod
+public class ColumnTransactionReference
+        extends NotSafeHtmlColumn<Transaction>
 {
-    CARD_PAYMENT,
-    CASH,
-    REFUND,
-    TRANSFER
+    @Override
+    public String getValue( Transaction transaction )
+    {
+        return transaction.getReference();
+    }
 }

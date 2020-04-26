@@ -557,6 +557,15 @@ public interface AppMessages
     @Key( value = "label.paymentMethod" )
     String labelPaymentMethod();
 
+    @Key( "label.paymentId" )
+    String labelPaymentId();
+
+    @Key( "label.paymentReference" )
+    String labelPaymentReference();
+
+    @Key( "label.noTransactions" )
+    String labelNoTransactions();
+
     @Key( value = "label.bankTransfer" )
     String labelBankTransfer();
 

@@ -18,7 +18,9 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
-import com.google.gwt.text.client.DoubleRenderer;
+import com.google.common.base.Strings;
+
+import static biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel.formatPrice;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
@@ -29,16 +31,41 @@ public class ColumnTransactionAmount
     @Override
     public String getValue( Transaction object )
     {
-        Double amount = object.getAmount();
         String currency = object.getCurrency();
+        String amount;
+        if ( !Strings.isNullOrEmpty( currency ) )
+        {
+            if ( object.getAmount() != null )
+            {
+                amount = formatPrice( currency, object.getAmount() );
+            }
+            else
+            {
+                amount = formatPrice( currency, 0.0 );
+            }
+        }
+        else
+        {
+            if ( object.getAmount() != null )
+            {
+                amount = String.valueOf( object.getAmount() );
+            }
+            else
+            {
+                amount = "0";
+            }
+        }
+
+
         boolean credit = object.getCredit() != null && object.getCredit();
         String color = credit ? "green-text" : "red-text";
 
         StringBuilder sb = new StringBuilder();
         sb.append( "<div class='" ).append( color ).append( "'>" );
+        sb.append( "<strong>" );
         sb.append( credit ? "+" : "-" ).append( " " );
-        sb.append( DoubleRenderer.instance().render( amount ) );
-        sb.append( " " ).append( currency );
+        sb.append( amount );
+        sb.append( "</strong>" );
         sb.append( "</div>" );
 
         return sb.toString();

@@ -31,7 +31,7 @@ public class PaymentMethodComboBox
 {
     private static final AppMessages messages = AppMessages.INSTANCE;
 
-    private static List<StaticCodeBook> types = new ArrayList<>();
+    private static final List<StaticCodeBook> types = new ArrayList<>();
 
     static
     {

@@ -17,11 +17,10 @@
 
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PaymentMethod;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.MaterialChip;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 import java.util.HashMap;
@@ -31,29 +30,22 @@ import java.util.Map;
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnTransactionPaymentMethod
-        extends WidgetColumn<Transaction, MaterialChip>
+        extends WidgetColumn<Transaction, MaterialIcon>
 {
-    private static final AppMessages messages = AppMessages.INSTANCE;
-
-    private static Map<String, String> localizationMap = new HashMap<>();
-
-    private static Map<String, IconType> iconTypeMap = new HashMap<>();
+    private static final Map<String, IconType> iconTypeMap = new HashMap<>();
 
     static
     {
-        localizationMap.put( PaymentMethod.TRANSFER.name(), messages.labelBankTransfer() );
-        localizationMap.put( PaymentMethod.CASH.name(), messages.labelCash() );
-        localizationMap.put( PaymentMethod.CARD_PAYMENT.name(), messages.labelCardPayment() );
-
         iconTypeMap.put( PaymentMethod.TRANSFER.name(), IconType.ACCOUNT_BALANCE );
         iconTypeMap.put( PaymentMethod.CASH.name(), IconType.ACCOUNT_BALANCE_WALLET );
         iconTypeMap.put( PaymentMethod.CARD_PAYMENT.name(), IconType.PAYMENT );
+        iconTypeMap.put( PaymentMethod.REFUND.name(), IconType.PAYMENT );
     }
 
     @Override
-    public MaterialChip getValue( Transaction object )
+    public MaterialIcon getValue( Transaction transaction )
     {
-        String form = object.getType();
-        return new MaterialChip( localizationMap.get( form ), iconTypeMap.get( form ) );
+        IconType iconType = iconTypeMap.get( transaction.getType() );
+        return new MaterialIcon( iconType == null ? IconType.ACCOUNT_BALANCE : iconType );
     }
 }
