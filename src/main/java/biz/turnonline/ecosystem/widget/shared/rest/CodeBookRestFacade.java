@@ -24,6 +24,8 @@ import biz.turnonline.ecosystem.widget.shared.rest.account.LegalForm;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillingUnit;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.BankCode;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.PaymentProcessorFacade;
 import com.google.gwt.core.client.GWT;
 import org.ctoolkit.gwt.client.facade.Items;
 
@@ -41,6 +43,8 @@ public class CodeBookRestFacade
 
     private static ProductBillingFacade productBillingFacade = GWT.create( ProductBillingFacade.class );
 
+    private static PaymentProcessorFacade paymentFacade = GWT.create( PaymentProcessorFacade.class );
+
     private static Map<Class<?>, List<?>> codeBookCache = new HashMap<>();
 
     private static Map<Class<?>, Retriever<?>> codeBookRetriever = new HashMap<>();
@@ -54,11 +58,13 @@ public class CodeBookRestFacade
         codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, callback ) );
         codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( "SK", callback ) );
         codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), "SK", callback ) );
+        codeBookRetriever.put( BankCode.class, ( Retriever<BankCode> ) callback -> paymentFacade.getBankAccounts( Configuration.get().getDomicile(), callback ) );
 
         codeBookWaitingList.put( Country.class, new ArrayList<>() );
         codeBookWaitingList.put( LegalForm.class, new ArrayList<>() );
         codeBookWaitingList.put( BillingUnit.class, new ArrayList<>() );
         codeBookWaitingList.put( VatRate.class, new ArrayList<>() );
+        codeBookWaitingList.put( BankCode.class, new ArrayList<>() );
     }
 
     @SuppressWarnings( "unchecked" )

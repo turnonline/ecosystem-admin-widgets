@@ -18,6 +18,7 @@
 package biz.turnonline.ecosystem.widget.shared.rest.payment;
 
 import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
@@ -25,8 +26,12 @@ import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.Options;
 import org.fusesource.restygwt.client.RestService;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 /**
@@ -39,6 +44,62 @@ import javax.ws.rs.QueryParam;
 public interface PaymentProcessorFacade
         extends RestService
 {
+    //////////////////////
+    ////// bank account //
+    //////////////////////
+
+    @GET
+    @Path( "bank-accounts" )
+    void getBankAccounts( @QueryParam( "offset" ) Integer offset,
+                          @QueryParam( "limit" ) Integer limit,
+                          SuccessCallback<Items<BankAccount>> callback );
+
+    @GET
+    @Path( "bank-accounts/{bank_account_id}" )
+    void findBankAccountById( @PathParam( "bank_account_id" ) Long bankAccountId,
+                              FacadeCallback<BankAccount> callback );
+
+    @POST
+    @Path( "bank-accounts" )
+    void createBankAccount( BankAccount bankAccount,
+                            FacadeCallback<BankAccount> callback );
+
+    @PUT
+    @Path( "bank-accounts/{bank_account_id}" )
+    void updateBankAccount( @PathParam( "bank_account_id" ) Long bankAccountId,
+                            BankAccount bankAccount,
+                            FacadeCallback<BankAccount> callback );
+
+    @PUT
+    @Path( "bank-accounts/{bank_account_id}/primary" )
+    void markBankAccountAsPrimary( @PathParam( "bank_account_id" ) Long bankAccountId,
+                                   FacadeCallback<BankAccount> callback );
+
+    @PUT
+    @Path( "bank-accounts/certificates/actual" )
+    void integrateWithBank( @QueryParam( "bank_code" ) String bankCode,
+                            Certificate certificate,
+                            FacadeCallback<Certificate> callback );
+
+    @GET
+    @Path( "bank-accounts/primary" )
+    void findBankAccountById( @QueryParam( "country" ) String country,
+                              FacadeCallback<BankAccount> callback );
+
+    @DELETE
+    @Path( "bank-accounts/{bank_account_id}" )
+    void deleteBankAccount( @PathParam( "bank_account_id" ) Long bankAccountId,
+                     FacadeCallback<Void> callback );
+
+    //////////////////////
+    ////// codebooks /////
+    //////////////////////
+
+    @GET
+    @Path( "codebook/bank-code" )
+    void getBankAccounts( @QueryParam( "country" ) String country,
+                          SuccessCallback<Items<BankCode>> callback );
+
     /**
      * Searches for transaction that match the filtering criteria.
      * The product billing {@link Transaction} has the same model as the payment processor transaction so reused.

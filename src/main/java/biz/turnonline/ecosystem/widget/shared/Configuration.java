@@ -98,6 +98,7 @@ public class Configuration
         ServiceRoots.add( BILLING_PROCESSOR_API_ROOT, dictionary.get( BILLING_PROCESSOR_API_ROOT ) );
         ServiceRoots.add( PAYMENT_PROCESSOR_API_ROOT, dictionary.get( PAYMENT_PROCESSOR_API_ROOT ) );
         ServiceRoots.add( SEARCH_API_ROOT, dictionary.get( SEARCH_API_ROOT ) );
+        ServiceRoots.add( PAYMENT_PROCESSOR_API_ROOT, dictionary.get( PAYMENT_PROCESSOR_API_ROOT ) );
 
         Defaults.setDateFormat( REST_DATE_FORMAT );
         Defaults.ignoreJsonNulls();

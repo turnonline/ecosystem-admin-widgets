@@ -113,7 +113,8 @@
                 <m:MaterialCollapsibleHeader>
                     <m:MaterialLink text="{msg.labelBankAccounts}" iconType="EURO_SYMBOL" iconPosition="LEFT" textColor="BLACK"/>
                 </m:MaterialCollapsibleHeader>
-                <m:MaterialCollapsibleBody>
+                <m:MaterialCollapsibleBody marginLeft="19" marginRight="19" marginTop="20" padding="0">
+                    <ma:BankAccountsPanel ui:field="bankAccounts"/>
                 </m:MaterialCollapsibleBody>
             </m:MaterialCollapsibleItem>
 

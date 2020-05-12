@@ -125,7 +125,7 @@ public class AppEventBus
     /**
      * Payment processor service facade.
      */
-    public PaymentProcessorFacade payment()
+    public PaymentProcessorFacade paymentProcessor()
     {
         return paymentProcessor;
     }

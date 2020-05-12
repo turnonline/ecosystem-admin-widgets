@@ -897,6 +897,9 @@ public interface AppMessages
     @Key( "msg.batch.created" )
     String msgBatchCreated( String name );
 
+    @Key( "msg.bankAccount.markedAsPrimary" )
+    String msgBankAccountMarkedAsPrimary(String name);
+
     // other
 
     @Key( value = "copyright" )

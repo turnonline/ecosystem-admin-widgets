@@ -137,7 +137,7 @@ public class EditInvoicePresenter
 
     private void invoiceTransactions( TransactionListEvent event )
     {
-        bus().payment().getTransactions( event.getOrderId(), event.getInvoiceId(),
+        bus().paymentProcessor().getTransactions( event.getOrderId(), event.getInvoiceId(),
                 response -> view().fill( response.getItems() ) );
     }
 

@@ -18,7 +18,10 @@
 package biz.turnonline.ecosystem.widget.myaccount.presenter;
 
 import biz.turnonline.ecosystem.widget.myaccount.event.CreateDomainEvent;
+import biz.turnonline.ecosystem.widget.myaccount.event.DeleteBankAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.DomainDeleteEvent;
+import biz.turnonline.ecosystem.widget.myaccount.event.MarkBankAccountAsPrimaryEvent;
+import biz.turnonline.ecosystem.widget.myaccount.event.SaveBankAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
@@ -26,6 +29,8 @@ import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.Bank;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.BankAccount;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.annotation.Nonnull;
@@ -55,12 +60,14 @@ public class SettingsPresenter
     @Override
     public void bind()
     {
+        // account
         bus().addHandler( SaveInvoicingEvent.TYPE,
                 event -> bus()
                         .account()
                         .update( bus().config().getLoginId(), event.getInvoicing(),
                                 ( response, failure ) -> success( messages.msgRecordUpdated(), failure ) ) );
 
+        // domains
         bus().addHandler( CreateDomainEvent.TYPE,
                 event -> bus()
                         .account()
@@ -77,6 +84,35 @@ public class SettingsPresenter
                 } );
 
         bus().addHandler( SelectDomainType.TYPE, event -> loadDomains( event.getType() ) );
+
+        // bank accounts
+        bus().addHandler( SaveBankAccountEvent.TYPE, event -> {
+            BankAccount bankAccount = event.getBankAccount();
+            if ( bankAccount.getId() == null )
+            {
+                bus().paymentProcessor().createBankAccount( bankAccount,
+                        ( response, failure ) -> bankAccountChange( bankAccount, messages.msgRecordCreated(), failure ) );
+            }
+            else
+            {
+                bus().paymentProcessor().updateBankAccount( bankAccount.getId(), bankAccount,
+                        ( response, failure ) -> bankAccountChange( bankAccount, messages.msgRecordUpdated(), failure ) );
+            }
+        } );
+
+        bus().addHandler( DeleteBankAccountEvent.TYPE, event -> {
+            BankAccount bankAccount = event.getBankAccount();
+
+            bus().paymentProcessor().deleteBankAccount( bankAccount.getId(),
+                    ( response, failure ) -> bankAccountChange( bankAccount, messages.msgRecordDeleted( bankAccount.getName() ), failure ) );
+        } );
+
+        bus().addHandler( MarkBankAccountAsPrimaryEvent.TYPE, event -> {
+            BankAccount bankAccount = event.getBankAccount();
+
+            bus().paymentProcessor().markBankAccountAsPrimary( bankAccount.getId(),
+                    ( response, failure ) -> bankAccountChange( bankAccount, messages.msgBankAccountMarkedAsPrimary( bankAccount.getName() ), failure ) );
+        } );
     }
 
     @Override
@@ -84,6 +120,7 @@ public class SettingsPresenter
     {
         bus().account().getInvoicingConfig( bus().config().getLoginId(), this::updateInvoicing );
         loadDomains( ROOT );
+        loadBankAccounts();
 
         onAfterBackingObject();
     }
@@ -143,6 +180,15 @@ public class SettingsPresenter
         }
     }
 
+    private void bankAccountChange( BankAccount bankAccount, String msg, FacadeCallback.Failure failure )
+    {
+        success( msg, failure );
+        if ( failure.isSuccess() )
+        {
+            loadBankAccounts();
+        }
+    }
+
     private void updateInvoicing( InvoicingConfig invoicing, FacadeCallback.Failure failure )
     {
         if ( failure.isFailure() )
@@ -160,9 +206,39 @@ public class SettingsPresenter
         }
     }
 
+    private void loadBankAccounts()
+    {
+        // TODO: remove
+        BankAccount bankAccount1 = new BankAccount();
+        bankAccount1.setCurrency( "EUR" );
+        bankAccount1.setName( "SLSP primary" );
+        bankAccount1.setBranch( "Bratislava - Tomasikova" );
+        bankAccount1.setIban( "123456789012345678901234" );
+        bankAccount1.setBic( "56785678" );
+        bankAccount1.setPrimary( true );
+        bankAccount1.setBank( new Bank() );
+        bankAccount1.getBank().setCode( "0900" );
+
+        BankAccount bankAccount2 = new BankAccount();
+        bankAccount2.setCurrency( "EUR" );
+        bankAccount2.setName( "VUB" );
+        bankAccount2.setIban( "123456789012345678901234" );
+        bankAccount2.setBic( "56785678" );
+        bankAccount2.setPrimary( false );
+        bankAccount2.setBank( new Bank() );
+        bankAccount2.getBank().setCode( "2200" );
+
+//        view().setBankAccounts( Arrays.asList( bankAccount1, bankAccount2 ) );
+
+
+        bus().paymentProcessor().getBankAccounts( 0, Integer.MAX_VALUE, response -> view().setBankAccounts( response.getItems() ) );
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<InvoicingConfig>
     {
         void setDomains( @Nonnull List<Domain> data, @Nonnull SelectDomainType.DT type );
+
+        void setBankAccounts( @Nonnull List<BankAccount> data );
     }
 }

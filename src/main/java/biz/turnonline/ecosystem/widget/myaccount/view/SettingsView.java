@@ -20,12 +20,14 @@ package biz.turnonline.ecosystem.widget.myaccount.view;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
+import biz.turnonline.ecosystem.widget.myaccount.ui.BankAccountsPanel;
 import biz.turnonline.ecosystem.widget.myaccount.ui.DomainsPanel;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfigBillingAddress;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfigBillingContact;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.BankAccount;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
@@ -126,6 +128,9 @@ public class SettingsView
     @UiField( provided = true )
     DomainsPanel domains;
 
+    @UiField( provided = true )
+    BankAccountsPanel bankAccounts;
+
     @Inject
     public SettingsView( @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                          AddressLookupListener addressLookup )
@@ -134,6 +139,7 @@ public class SettingsView
 
         this.breadcrumb = breadcrumb;
         this.domains = new DomainsPanel( bus() );
+        this.bankAccounts = new BankAccountsPanel( bus() );
 
         setActive( Route.MY_ACCOUNT );
 
@@ -274,6 +280,12 @@ public class SettingsView
     public void setDomains( @Nonnull List<Domain> data, @Nonnull SelectDomainType.DT type )
     {
         domains.setDomains( data, type );
+    }
+
+    @Override
+    public void setBankAccounts( @Nonnull List<BankAccount> data )
+    {
+        bankAccounts.setBankAccounts( data );
     }
 
     interface SettingsViewUiBinder
