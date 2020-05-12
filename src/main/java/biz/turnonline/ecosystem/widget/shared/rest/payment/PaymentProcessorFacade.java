@@ -28,6 +28,7 @@ import org.fusesource.restygwt.client.RestService;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -50,9 +51,9 @@ public interface PaymentProcessorFacade
 
     @GET
     @Path( "bank-accounts" )
-    void getBankAccounts( @QueryParam( "offset" ) Integer offset,
-                          @QueryParam( "limit" ) Integer limit,
-                          SuccessCallback<Items<BankAccount>> callback );
+    void getBankCodes( @QueryParam( "offset" ) Integer offset,
+                       @QueryParam( "limit" ) Integer limit,
+                       SuccessCallback<Items<BankAccount>> callback );
 
     @GET
     @Path( "bank-accounts/{bank_account_id}" )
@@ -76,8 +77,8 @@ public interface PaymentProcessorFacade
                                    FacadeCallback<BankAccount> callback );
 
     @PUT
-    @Path( "bank-accounts/certificates/actual" )
-    void integrateWithBank( @QueryParam( "bank_code" ) String bankCode,
+    @Path( "bank-accounts/{bank_code}/certificates/actual" )
+    void integrateWithBank( @PathParam( "bank_code" ) String bankCode,
                             Certificate certificate,
                             FacadeCallback<Certificate> callback );
 
@@ -97,8 +98,9 @@ public interface PaymentProcessorFacade
 
     @GET
     @Path( "codebook/bank-code" )
-    void getBankAccounts( @QueryParam( "country" ) String country,
-                          SuccessCallback<Items<BankCode>> callback );
+    void getBankCodes( @HeaderParam( "Accept-Language" ) String acceptLanguage,
+                       @QueryParam( "country" ) String country,
+                       SuccessCallback<Items<BankCode>> callback );
 
     /**
      * Searches for transaction that match the filtering criteria.

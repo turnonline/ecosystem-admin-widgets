@@ -53,6 +53,9 @@ public interface AppMessages
     @Key( value = "label.add" )
     String labelAdd();
 
+    @Key( value = "label.import" )
+    String labelImport();
+
     @Key( value = "label.delete" )
     String labelDelete();
 
@@ -313,6 +316,9 @@ public interface AppMessages
 
     @Key( value = "label.currency" )
     String labelCurrency();
+
+    @Key( value = "label.bank" )
+    String labelBank();
 
     @Key( value = "label.description" )
     String labelDescription();
@@ -689,6 +695,12 @@ public interface AppMessages
     @Key( "label.uploadBatchDescription" )
     String labelUploadBatchDescription();
 
+    @Key( "label.importBankAccount" )
+    String labelImportBankAccount();
+
+    @Key( "label.clientId" )
+    String labelClientId();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )
@@ -844,6 +856,21 @@ public interface AppMessages
     @Key( value = "tooltip.bill.edit" )
     String tooltipEditBill();
 
+    @Key( value = "tooltip.revolut.clientId" )
+    String tooltipRevolutClientIdTooltip();
+
+    @Key( value = "tooltip.bankAccount.save" )
+    String tooltipSaveBankAccount();
+
+    @Key( value = "tooltip.bankAccount.delete" )
+    String tooltipDeleteBankAccount();
+
+    @Key( value = "tooltip.bankAccount.markAsPrimary" )
+    String tooltipMarkBankAccountAsPrimary();
+
+    @Key( value = "tooltip.bankAccount.markedAsPrimary" )
+    String tooltipBankAccountIsMarkedAsPrimary();
+
     // messages
 
     @Key( value = "msg.recordDeleted" )
@@ -899,6 +926,9 @@ public interface AppMessages
 
     @Key( "msg.bankAccount.markedAsPrimary" )
     String msgBankAccountMarkedAsPrimary(String name);
+
+    @Key( "msg.bankAccountImported" )
+    String msgBankAccountImported(String name);
 
     // other
 

@@ -20,10 +20,10 @@ package biz.turnonline.ecosystem.widget.myaccount.ui;
 import biz.turnonline.ecosystem.widget.myaccount.event.DeleteBankAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.MarkBankAccountAsPrimaryEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveBankAccountEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.CodeBookRestFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Bank;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.BankAccount;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.BankCode;
-import biz.turnonline.ecosystem.widget.shared.ui.BankCodeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,6 +41,9 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Order overview card component.
@@ -70,7 +73,7 @@ public class BankAccountCard
     MaterialTextBox bic;
 
     @UiField
-    BankCodeComboBox bankCode;
+    MaterialTextBox bankCode;
 
     @UiField
     MaterialLink saveLink;
@@ -85,6 +88,10 @@ public class BankAccountCard
     MaterialIcon primary;
 
     private BankAccount bankAccount;
+
+    private List<BankCode> bankCodes;
+
+    private BankCode selectedBankCode;
 
     private EventBus bus;
 
@@ -128,9 +135,21 @@ public class BankAccountCard
     public void ibanAutocomplete( @SuppressWarnings( "unused" ) KeyUpEvent event )
     {
         String value = iban.getValue();
-        if (value != null && value.length() >= 8) {
+        if ( value != null && value.length() >= 8 )
+        {
             String bankCodeValue = value.substring( 4, 8 );
-            bankCode.setSingleValueByCode( bankCodeValue );
+
+            if ( bankCodes == null )
+            {
+                CodeBookRestFacade.getCodeBook( BankCode.class, response -> {
+                    bankCodes = response.getItems();
+                    setBankCode( bankCodeValue );
+                } );
+            }
+            else
+            {
+                setBankCode( bankCodeValue );
+            }
         }
     }
 
@@ -147,7 +166,7 @@ public class BankAccountCard
 
         iban.setValue( bankAccount.getIban() );
         bic.setValue( bankAccount.getBic() );
-        bankCode.setSingleValueByCode( bankAccount.getBank().getCode() );
+        bankCode.setValue( bankAccount.getBank().getLabel() );
 
         markAsPrimaryLink.setVisible( true );
         primary.setVisible( false );
@@ -161,6 +180,9 @@ public class BankAccountCard
         {
             markAsPrimaryLink.setVisible( false );
         }
+
+        boolean importedBankAccount = isImportedBankAccount( value.getBank().getCode() );
+        setReadOnly( importedBankAccount );
     }
 
     @Override
@@ -171,20 +193,20 @@ public class BankAccountCard
 
         bankAccount.setIban( iban.getValue() );
         bankAccount.setBic( bic.getValue() );
-        bankAccount.setBank( getBank( bankCode.getSingleValue() ) );
+        bankAccount.setBank( getBank() );
 
         return bankAccount;
     }
 
-    private Bank getBank( BankCode bankCode )
+    private Bank getBank()
     {
-        Bank bank = new Bank();
+        Bank bank = Optional.ofNullable( bankAccount.getBank() ).orElse( new Bank() );
 
-        if ( bankCode != null )
+        if ( selectedBankCode != null )
         {
-            bank.setCode( bankCode.getCode() );
-            bank.setCountry( bankCode.getCountry() );
-            bank.setLabel( bankCode.getLabel() );
+            bank.setCode( selectedBankCode.getCode() );
+            bank.setCountry( selectedBankCode.getCountry() );
+            bank.setLabel( selectedBankCode.getLabel() );
         }
 
         return bank;
@@ -193,5 +215,33 @@ public class BankAccountCard
     interface OrderCardUiBinder
             extends UiBinder<MaterialCard, BankAccountCard>
     {
+    }
+
+    private void setBankCode( String bankCodeValue )
+    {
+        BankCode bankCodeFiltered = bankCodes.stream()
+                .filter( bc -> bc.getCode().equals( bankCodeValue ) )
+                .findFirst()
+                .orElse( null );
+
+        if ( bankCodeFiltered != null )
+        {
+            selectedBankCode = bankCodeFiltered;
+            bankCode.setValue( bankCodeFiltered.getLabel() );
+        }
+    }
+
+    private boolean isImportedBankAccount( String bankCode) {
+        return Arrays.asList("REVO").contains( bankCode );
+    }
+
+    private void setReadOnly(boolean readOnly) {
+        name.setEnabled( !readOnly );
+        currency.setEnabled( !readOnly );
+        iban.setEnabled( !readOnly );
+        bic.setEnabled( !readOnly );
+
+        saveLink.setVisible( !readOnly );
+        deleteLink.setVisible( !readOnly );
     }
 }

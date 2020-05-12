@@ -20,11 +20,13 @@ package biz.turnonline.ecosystem.widget.myaccount.presenter;
 import biz.turnonline.ecosystem.widget.myaccount.event.CreateDomainEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.DeleteBankAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.DomainDeleteEvent;
+import biz.turnonline.ecosystem.widget.myaccount.event.ImportBankAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.MarkBankAccountAsPrimaryEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveBankAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
+import biz.turnonline.ecosystem.widget.myaccount.ui.ImportBankAccount;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
@@ -91,12 +93,12 @@ public class SettingsPresenter
             if ( bankAccount.getId() == null )
             {
                 bus().paymentProcessor().createBankAccount( bankAccount,
-                        ( response, failure ) -> bankAccountChange( bankAccount, messages.msgRecordCreated(), failure ) );
+                        ( response, failure ) -> bankAccountChange(  messages.msgRecordCreated(), failure ) );
             }
             else
             {
                 bus().paymentProcessor().updateBankAccount( bankAccount.getId(), bankAccount,
-                        ( response, failure ) -> bankAccountChange( bankAccount, messages.msgRecordUpdated(), failure ) );
+                        ( response, failure ) -> bankAccountChange(  messages.msgRecordUpdated(), failure ) );
             }
         } );
 
@@ -104,14 +106,21 @@ public class SettingsPresenter
             BankAccount bankAccount = event.getBankAccount();
 
             bus().paymentProcessor().deleteBankAccount( bankAccount.getId(),
-                    ( response, failure ) -> bankAccountChange( bankAccount, messages.msgRecordDeleted( bankAccount.getName() ), failure ) );
+                    ( response, failure ) -> bankAccountChange(  messages.msgRecordDeleted( bankAccount.getName() ), failure ) );
         } );
 
         bus().addHandler( MarkBankAccountAsPrimaryEvent.TYPE, event -> {
             BankAccount bankAccount = event.getBankAccount();
 
             bus().paymentProcessor().markBankAccountAsPrimary( bankAccount.getId(),
-                    ( response, failure ) -> bankAccountChange( bankAccount, messages.msgBankAccountMarkedAsPrimary( bankAccount.getName() ), failure ) );
+                    ( response, failure ) -> bankAccountChange( messages.msgBankAccountMarkedAsPrimary( bankAccount.getName() ), failure ) );
+        } );
+
+        bus().addHandler( ImportBankAccountEvent.TYPE, event -> {
+            ImportBankAccount importBankAccount = event.getImportBankAccount();
+
+            bus().paymentProcessor().integrateWithBank(importBankAccount.getBankCode(), importBankAccount.getCertificate(),
+                    ( response, failure ) -> bankAccountChange( messages.msgBankAccountImported( importBankAccount.getBankAccountName()), failure ));
         } );
     }
 
@@ -180,7 +189,7 @@ public class SettingsPresenter
         }
     }
 
-    private void bankAccountChange( BankAccount bankAccount, String msg, FacadeCallback.Failure failure )
+    private void bankAccountChange( String msg, FacadeCallback.Failure failure )
     {
         success( msg, failure );
         if ( failure.isSuccess() )
@@ -231,7 +240,7 @@ public class SettingsPresenter
 //        view().setBankAccounts( Arrays.asList( bankAccount1, bankAccount2 ) );
 
 
-        bus().paymentProcessor().getBankAccounts( 0, Integer.MAX_VALUE, response -> view().setBankAccounts( response.getItems() ) );
+        bus().paymentProcessor().getBankCodes( 0, Integer.MAX_VALUE, response -> view().setBankAccounts( response.getItems() ) );
     }
 
     public interface IView

@@ -1,5 +1,6 @@
 package biz.turnonline.ecosystem.widget.myaccount.ui;
 
+import biz.turnonline.ecosystem.widget.myaccount.event.ImportBankAccountEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Bank;
@@ -35,12 +36,21 @@ public class BankAccountsPanel
     @UiField
     MaterialButton btnNew;
 
+    @UiField
+    MaterialButton btnImport;
+
+    @UiField
+    ImportBankAccountWindow importBankAccountWindow;
+
     private EventBus bus;
 
     public BankAccountsPanel( EventBus bus )
     {
         initWidget( binder.createAndBindUi( this ) );
         this.bus = bus;
+
+        importBankAccountWindow.getBtnOk().addClickHandler( event
+                -> bus.fireEvent( new ImportBankAccountEvent( importBankAccountWindow.getValue() ) ) );
     }
 
     public void setBankAccounts( List<BankAccount> bankAccounts )
@@ -75,6 +85,12 @@ public class BankAccountsPanel
         bankAccount.setBank( new Bank() );
 
         addItem( bankAccount );
+    }
+
+    @UiHandler( "btnImport" )
+    public void importBankCode( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        importBankAccountWindow.open();
     }
 
     interface BankAccountsPanelUiBinder

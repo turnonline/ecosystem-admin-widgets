@@ -58,7 +58,7 @@ public class CodeBookRestFacade
         codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, callback ) );
         codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( "SK", callback ) );
         codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), "SK", callback ) );
-        codeBookRetriever.put( BankCode.class, ( Retriever<BankCode> ) callback -> paymentFacade.getBankAccounts( Configuration.get().getDomicile(), callback ) );
+        codeBookRetriever.put( BankCode.class, ( Retriever<BankCode> ) callback -> paymentFacade.getBankCodes( "SK", Configuration.get().getDomicile(), callback ) );
 
         codeBookWaitingList.put( Country.class, new ArrayList<>() );
         codeBookWaitingList.put( LegalForm.class, new ArrayList<>() );
