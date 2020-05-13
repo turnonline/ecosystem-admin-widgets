@@ -26,8 +26,8 @@
     <g:HTMLPanel>
         <acc:ImportBankAccountWindow ui:field="importBankAccountWindow"/>
 
-        <m:MaterialRow>
-            <m:MaterialColumn padding="0" marginLeft="-10" marginRight="-10" ui:field="grid"/>
+        <m:MaterialRow marginRight="-20">
+            <m:MaterialColumn padding="0" marginLeft="-10" marginRight="-10" width="100%" ui:field="grid"/>
         </m:MaterialRow>
 
         <m:MaterialButton ui:field="btnNew"

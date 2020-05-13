@@ -228,6 +228,11 @@ public class BankAccountCard
         {
             selectedBankCode = bankCodeFiltered;
             bankCode.setValue( bankCodeFiltered.getLabel() );
+
+            if (name.getValue().isEmpty())
+            {
+                name.setValue( bankCodeFiltered.getLabel() );
+            }
         }
     }
 
