@@ -44,6 +44,8 @@ public final class Transaction
 
     private String status;
 
+    private Long transactionId;
+
     private String type;
 
     /**
@@ -183,6 +185,20 @@ public final class Transaction
     public Transaction setStatus( String status )
     {
         this.status = status;
+        return this;
+    }
+
+    /**
+     * The identification of the transaction within payment processor service unique for single Ecosystem account.
+     */
+    public Long getTransactionId()
+    {
+        return transactionId;
+    }
+
+    public Transaction setTransactionId( Long transactionId )
+    {
+        this.transactionId = transactionId;
         return this;
     }
 

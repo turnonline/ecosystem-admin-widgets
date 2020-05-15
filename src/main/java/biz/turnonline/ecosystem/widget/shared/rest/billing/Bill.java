@@ -18,55 +18,55 @@
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
 /**
- * The bill or invoice document settled by associated transaction.
+ * Identification of the bill (receipt) or invoice document settled by associated transaction. Valid invoice identification includes order identification too.
  */
 public final class Bill
 {
-    private Long id;
+    private Long receipt;
 
-    private Long invoiceId;
+    private Long invoice;
 
-    private Long orderId;
+    private Long order;
 
     /**
-     * The unique identification of the bill (cash register document).
+     * The unique identification of the bill (receipt) within Billing Processor service.
      **/
-    public Long getId()
+    public Long getReceipt()
     {
-        return id;
+        return receipt;
     }
 
-    public Bill setId( Long id )
+    public Bill setReceipt( Long receipt )
     {
-        this.id = id;
+        this.receipt = receipt;
         return this;
     }
 
     /**
      * The invoice identification, unique only for specified order.
      **/
-    public Long getInvoiceId()
+    public Long getInvoice()
     {
-        return invoiceId;
+        return invoice;
     }
 
-    public Bill setInvoiceId( Long invoiceId )
+    public Bill setInvoice( Long invoice )
     {
-        this.invoiceId = invoiceId;
+        this.invoice = invoice;
         return this;
     }
 
     /**
      * The unique identification of the order associated with the settled invoice.
      **/
-    public Long getOrderId()
+    public Long getOrder()
     {
-        return orderId;
+        return order;
     }
 
-    public Bill setOrderId( Long orderId )
+    public Bill setOrder( Long order )
     {
-        this.orderId = orderId;
+        this.order = order;
         return this;
     }
 }

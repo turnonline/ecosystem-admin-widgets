@@ -20,7 +20,6 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public final class Invoice
@@ -57,8 +56,6 @@ public final class Invoice
     private InvoicePricing pricing;
 
     private String servingUrl;
-
-    private List<Deduction> settlements;
 
     private String status;
 
@@ -247,17 +244,6 @@ public final class Invoice
     public Invoice setServingUrl( String servingUrl )
     {
         this.servingUrl = servingUrl;
-        return this;
-    }
-
-    public List<Deduction> getSettlements()
-    {
-        return settlements;
-    }
-
-    public Invoice setSettlements( List<Deduction> settlements )
-    {
-        this.settlements = settlements;
         return this;
     }
 
