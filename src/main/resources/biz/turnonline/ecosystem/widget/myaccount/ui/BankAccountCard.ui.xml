@@ -26,31 +26,44 @@
                     marginTop="10" marginBottom="10"
                     paddingTop="15" paddingBottom="0">
 
-            <m:MaterialRow grid="s12 m12" paddingLeft="10" marginBottom="0">
-                <m:MaterialTextBox grid="s12 m5" ui:field="name" label="{msg.labelName}"/>
-                <s:CurrencyComboBox grid="s12 m2" ui:field="currency" label="{msg.labelCurrency}"/>
-                <m:MaterialTextBox grid="s12 m5" ui:field="bankCode" label="{msg.labelBank}" enabled="false"/>
-            </m:MaterialRow>
+        <m:MaterialRow grid="s12 m12" paddingLeft="10" marginBottom="0">
+            <m:MaterialTextBox grid="s12 m6" ui:field="name" label="{msg.labelName}"/>
+            <m:MaterialTextBox grid="s12 m6" ui:field="bankCode" label="{msg.labelBank}" readOnly="true"/>
+        </m:MaterialRow>
 
-            <m:MaterialRow grid="s12 m12" paddingLeft="10" marginBottom="0">
-                <mask:MaterialInputMask grid="s12 m8" ui:field="iban" label="IBAN" mask="AA00 0000 0000 0000 0000 0000"/>
-                <m:MaterialTextBox grid="s12 m4" ui:field="bic" label="BIC"/>
-            </m:MaterialRow>
+        <m:MaterialRow grid="s12 m12" paddingLeft="10" marginBottom="0">
+            <mask:MaterialInputMask grid="s12 m6" ui:field="iban" label="IBAN" mask="AA00 0000 0000 0000 0000 0000"/>
+            <m:MaterialTextBox grid="s12 m6" ui:field="bic" label="BIC"/>
+        </m:MaterialRow>
 
-            <m:MaterialRow marginBottom="0">
-                <m:MaterialColumn grid="s12 m12">
-                    <m:MaterialCardAction marginTop="0" marginBottom="10" padding="5">
-                        <m:MaterialLink ui:field="saveLink" iconColor="BLUE" paddingTop="10" iconType="SAVE" waves="DEFAULT"
-                                        marginLeft="0" tooltipDelayMs="700" tooltip="{msg.tooltipSaveBankAccount}"/>
-                        <m:MaterialLink ui:field="markAsPrimaryLink" iconColor="ORANGE" paddingTop="10" iconType="STAR" waves="DEFAULT"
-                                        marginLeft="0" tooltipDelayMs="700" tooltip="{msg.tooltipMarkBankAccountAsPrimary}"/>
-                        <m:MaterialLink ui:field="deleteLink" iconColor="RED" paddingTop="10" iconType="DELETE" waves="DEFAULT"
-                                        marginLeft="0" tooltipDelayMs="700" tooltip="{msg.tooltipDeleteBankAccount}"/>
+        <m:MaterialRow grid="s12 m12" paddingLeft="10" marginBottom="0">
+            <s:CurrencyComboBox grid="s12 m2" ui:field="currency" label="{msg.labelCurrency}"/>
+        </m:MaterialRow>
 
-                        <m:MaterialIcon ui:field="primary" iconType="STAR" iconColor="WHITE" textAlign="CENTER" marginTop="3" marginBottom="8" right="-5"
-                                        float="RIGHT" backgroundColor="ORANGE" tooltip="{msg.tooltipBankAccountIsMarkedAsPrimary}" type="FLOATING"/>
-                    </m:MaterialCardAction>
-                </m:MaterialColumn>
-            </m:MaterialRow>
+        <m:MaterialRow marginBottom="0">
+            <m:MaterialColumn grid="s12 m12">
+                <m:MaterialCardAction marginTop="0" marginBottom="10" padding="5">
+                    <m:MaterialLink ui:field="saveLink" iconColor="BLUE" paddingTop="10" iconType="SAVE" waves="DEFAULT"
+                                    marginLeft="0" tooltipDelayMs="700" tooltip="{msg.tooltipSaveBankAccount}"/>
+                    <m:MaterialLink ui:field="markAsPrimaryLink" iconColor="ORANGE" paddingTop="10" iconType="STAR"
+                                    waves="DEFAULT"
+                                    marginLeft="0" tooltipDelayMs="700"
+                                    tooltip="{msg.tooltipMarkBankAccountAsPrimary}"/>
+                    <m:MaterialLink ui:field="deleteLink" iconColor="RED" paddingTop="10" iconType="DELETE"
+                                    waves="DEFAULT"
+                                    marginLeft="0" tooltipDelayMs="700" tooltip="{msg.tooltipDeleteBankAccount}"/>
+
+                    <m:MaterialIcon ui:field="imported" iconType="CLOUD_DOWNLOAD" iconColor="BLUE" textAlign="CENTER"
+                                    marginTop="3" marginBottom="8" right="-5" iconSize="TINY"
+                                    float="RIGHT" backgroundColor="WHITE" shadow="0" border="1px solid #a0a0a033"
+                                    tooltip="{msg.tooltipBankAccountImported}" type="FLOATING"/>
+
+                    <m:MaterialIcon ui:field="primary" iconType="STAR" iconColor="ORANGE" textAlign="CENTER"
+                                    marginTop="3" marginBottom="8" right="-5" iconSize="TINY"
+                                    float="RIGHT" backgroundColor="WHITE" shadow="0" border="1px solid #a0a0a033"
+                                    tooltip="{msg.tooltipBankAccountIsMarkedAsPrimary}" type="FLOATING"/>
+                </m:MaterialCardAction>
+            </m:MaterialColumn>
+        </m:MaterialRow>
     </m:MaterialCard>
 </ui:UiBinder>

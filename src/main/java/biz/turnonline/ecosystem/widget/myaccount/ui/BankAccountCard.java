@@ -87,6 +87,9 @@ public class BankAccountCard
     @UiField
     MaterialIcon primary;
 
+    @UiField
+    MaterialIcon imported;
+
     private BankAccount bankAccount;
 
     private List<BankCode> bankCodes;
@@ -241,12 +244,14 @@ public class BankAccountCard
     }
 
     private void setReadOnly(boolean readOnly) {
-        name.setEnabled( !readOnly );
-        currency.setEnabled( !readOnly );
-        iban.setEnabled( !readOnly );
-        bic.setEnabled( !readOnly );
+        name.setReadOnly( readOnly );
+        currency.setReadOnly( readOnly );
+        iban.setReadOnly( readOnly );
+        bic.setReadOnly( readOnly );
 
         saveLink.setVisible( !readOnly );
         deleteLink.setVisible( !readOnly );
+
+        imported.setVisible( readOnly );
     }
 }

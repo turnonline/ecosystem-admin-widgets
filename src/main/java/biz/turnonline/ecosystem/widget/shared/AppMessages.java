@@ -871,6 +871,9 @@ public interface AppMessages
     @Key( value = "tooltip.bankAccount.markedAsPrimary" )
     String tooltipBankAccountIsMarkedAsPrimary();
 
+    @Key( value = "tooltip.bankAccount.imported" )
+    String tooltipBankAccountImported();
+
     // messages
 
     @Key( value = "msg.recordDeleted" )
