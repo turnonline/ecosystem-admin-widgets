@@ -34,6 +34,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialCardAction;
@@ -106,6 +107,7 @@ public class ProductOverviewCard
 
         card.setScrollspy( Products.getScrollspy( product ) );
 
+        title.getIcon().setIconSize( IconSize.SMALL );
         title.setText( product.getItemName() );
         snippet.setText( product.getSnippet() );
 
