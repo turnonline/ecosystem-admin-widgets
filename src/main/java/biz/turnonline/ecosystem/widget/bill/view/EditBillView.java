@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.bill.view;
 
+import biz.turnonline.ecosystem.widget.bill.event.ApproveBillEvent;
 import biz.turnonline.ecosystem.widget.bill.event.BackEvent;
 import biz.turnonline.ecosystem.widget.bill.event.DeleteBillEvent;
 import biz.turnonline.ecosystem.widget.bill.event.SaveBillEvent;
@@ -68,7 +69,10 @@ public class EditBillView
     BillSupplier supplier;
 
     @UiField
-    ConfirmationWindow confirmation;
+    ConfirmationWindow confirmationDelete;
+
+    @UiField
+    ConfirmationWindow confirmationApprove;
 
     @UiField
     MaterialButton btnSave;
@@ -78,6 +82,9 @@ public class EditBillView
 
     @UiField
     MaterialAnchorButton deleteBill;
+
+    @UiField
+    MaterialAnchorButton approveBill;
 
     private PlaceController controller;
 
@@ -96,7 +103,8 @@ public class EditBillView
 
         add( binder.createAndBindUi( this ) );
 
-        confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteBillEvent( getRawModel() ) ) );
+        confirmationDelete.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteBillEvent( getRawModel() ) ) );
+        confirmationApprove.getBtnOk().addClickHandler( event -> bus().fireEvent( new ApproveBillEvent( getRawModel() ) ) );
     }
 
     @Override
@@ -139,7 +147,13 @@ public class EditBillView
     @UiHandler( "deleteBill" )
     public void deleteBill( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
+        confirmationDelete.open( AppMessages.INSTANCE.questionDeleteRecord() );
+    }
+
+    @UiHandler( "approveBill" )
+    public void approveBill( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        confirmationApprove.open( AppMessages.INSTANCE.questionApproveBill() );
     }
 
     interface EditBillsViewUiBinder

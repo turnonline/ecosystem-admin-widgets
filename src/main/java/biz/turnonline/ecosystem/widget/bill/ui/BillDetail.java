@@ -54,7 +54,7 @@ public class BillDetail
     MaterialTextBox billNumber;
 
     @UiField
-    MaterialTextBox itemName;
+    MaterialTextBox description;
 
     @UiField
     MaterialDoubleBox totalPrice;
@@ -88,7 +88,7 @@ public class BillDetail
         initWidget( binder.createAndBindUi( this ) );
 
         billNumber.setReturnBlankAsNull( true );
-        itemName.setReturnBlankAsNull( true );
+        description.setReturnBlankAsNull( true );
         totalPrice.setReturnBlankAsNull( true );
 
         created.setReadOnly( true );
@@ -97,7 +97,7 @@ public class BillDetail
 
     public void bind( @Nonnull Bill bill )
     {
-        bill.setItemName( itemName.getValue() );
+        bill.setDescription( description.getValue() );
         bill.setBillNumber( billNumber.getValue() );
         bill.setDateOfIssue( dateOfIssue.getValue() );
         bill.setTotalPrice( totalPrice.getValue() );
@@ -115,7 +115,7 @@ public class BillDetail
 
     public void fill( @Nonnull Bill bill )
     {
-        itemName.setValue( bill.getItemName() );
+        description.setValue( bill.getDescription() );
         billNumber.setValue( bill.getBillNumber() );
         dateOfIssue.setValue( bill.getDateOfIssue() );
         totalPrice.setValue( bill.getTotalPrice() );

@@ -24,7 +24,8 @@
 
     <g:HTMLPanel>
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
-        <s:ConfirmationWindow ui:field="confirmation" iconType="DELETE"/>
+        <s:ConfirmationWindow ui:field="confirmationDelete" iconType="DELETE"/>
+        <s:ConfirmationWindow ui:field="confirmationApprove" iconType="ASSIGNMENT_TURNED_IN"/>
 
         <m:MaterialPanel shadow="1" margin="20" marginBottom="0">
             <b:EditBillTabs ui:field="tabs"/>
@@ -53,6 +54,9 @@
         <m:MaterialFAB>
             <m:MaterialAnchorButton type="FLOATING" iconType="DEHAZE" size="LARGE"/>
             <m:MaterialFABList>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="GREEN"
+                                        iconType="ASSIGNMENT_TURNED_IN" ui:field="approveBill"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipBillApprove}"/>
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
                                         iconType="DELETE" ui:field="deleteBill"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipBillDelete}"/>

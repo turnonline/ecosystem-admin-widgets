@@ -674,9 +674,6 @@ public interface AppMessages
     @Key( "label.cashRegisterDocument" )
     String labelCashRegisterDocument();
 
-    @Key( "label.incomingInvoice" )
-    String labelIncomingInvoice();
-
     @Key( "label.billType" )
     String labelBillType();
 
@@ -850,6 +847,9 @@ public interface AppMessages
     @Key( value = "tooltip.bill.delete" )
     String tooltipBillDelete();
 
+    @Key( value = "tooltip.bill.approve" )
+    String tooltipBillApprove();
+
     @Key( value = "tooltip.bill.list.refresh" )
     String tooltipBillListRefresh();
 
@@ -873,6 +873,12 @@ public interface AppMessages
 
     @Key( value = "tooltip.bankAccount.imported" )
     String tooltipBankAccountImported();
+
+    @Key( value = "tooltip.bill.approved" )
+    String tooltipBillApproved();
+
+    @Key( value = "tooltip.bill.waitingForApproval" )
+    String tooltipBillWaitingForApproval();
 
     // messages
 
@@ -933,6 +939,9 @@ public interface AppMessages
     @Key( "msg.bankAccountImported" )
     String msgBankAccountImported(String name);
 
+    @Key( "msg.billApproved" )
+    String msgBillApproved(String name);
+
     // other
 
     @Key( value = "copyright" )
@@ -981,6 +990,9 @@ public interface AppMessages
 
     @Key( value = "question.deleteRecord" )
     String questionDeleteRecord();
+
+    @Key( value = "question.approveBill" )
+    String questionApproveBill();
 
     @Key( "question.purchase.order.decline" )
     String questionPurchaseOrderDecline( String company );

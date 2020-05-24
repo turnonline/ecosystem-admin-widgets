@@ -42,7 +42,7 @@
         <m:MaterialCardContent minHeight="221px" paddingBottom="0" paddingTop="0">
             <m:MaterialRow grid="s12" marginBottom="5" paddingLeft="0">
                 <m:MaterialColumn grid="s12" paddingLeft="0">
-                    <m:MaterialLabel ui:field="itemName" fontSize="1.5em" fontWeight="BOLD"/>
+                    <m:MaterialLabel ui:field="description" fontSize="1.5em" fontWeight="BOLD"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
 
@@ -80,6 +80,11 @@
                 <m:MaterialCardAction marginTop="0" padding="5">
                     <m:MaterialLink ui:field="editLink" iconColor="BLUE" paddingTop="10" iconType="EDIT"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipEditBill}"/>
+
+                    <m:MaterialIcon ui:field="approved" iconColor="GREEN" iconType="ASSIGNMENT_TURNED_IN" textAlign="CENTER"
+                                    marginTop="3" marginBottom="8" right="-5" iconSize="TINY"
+                                    float="RIGHT" backgroundColor="WHITE" shadow="0" border="1px solid #a0a0a033"
+                                    type="FLOATING"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>
         </m:MaterialRow>

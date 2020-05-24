@@ -78,4 +78,10 @@ public interface BillFacade
     @Path( "bills/{bill_id}" )
     void deleteBill( @PathParam( "bill_id" ) Long billId,
                      FacadeCallback<Void> callback );
+
+    @POST
+    @Path( "bills/{bill_id}/approve" )
+    void approveBill( @PathParam( "bill_id" ) Long billId,
+                     FacadeCallback<Void> callback );
+
 }

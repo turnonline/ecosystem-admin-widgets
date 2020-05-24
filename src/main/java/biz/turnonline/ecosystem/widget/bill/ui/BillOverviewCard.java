@@ -35,9 +35,11 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
@@ -47,10 +49,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.INCOMING_INVOICE;
+import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.INVOICE;
 import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.RECEIPT;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
+import static gwt.material.design.client.constants.Color.RED;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
@@ -78,7 +81,7 @@ public class BillOverviewCard
     MaterialCard card;
 
     @UiField
-    MaterialLabel itemName;
+    MaterialLabel description;
 
     @UiField
     MaterialLabel billNumber;
@@ -98,6 +101,9 @@ public class BillOverviewCard
     @UiField
     MaterialLink editLink;
 
+    @UiField
+    MaterialIcon approved;
+
     private Bill bill;
 
     private AppMessages messages = AppMessages.INSTANCE;
@@ -109,7 +115,7 @@ public class BillOverviewCard
 
         initWidget( binder.createAndBindUi( this ) );
 
-        itemName.setText( Optional.ofNullable( bill.getItemName() ).orElse( "-" ) );
+        description.setText( Optional.ofNullable( bill.getDescription() ).orElse( "-" ) );
         billNumber.setText( Optional.ofNullable( bill.getBillNumber() ).orElse( "-" ) );
         type.setText( typeText( bill.getType().name() ) );
         type.setBackgroundColor( typeColor( bill.getType().name() ) );
@@ -136,6 +142,19 @@ public class BillOverviewCard
         else
         {
             billImage.setVisible( false );
+        }
+
+        if ( Optional.ofNullable( bill.isApproved() ).orElse( false ) )
+        {
+            approved.setIconColor( GREEN );
+            approved.setIconType( IconType.ASSIGNMENT_TURNED_IN );
+            approved.setTooltip( messages.tooltipBillApproved() );
+        }
+        else
+        {
+            approved.setIconColor( RED );
+            approved.setIconType( IconType.ASSIGNMENT_LATE );
+            approved.setTooltip( messages.tooltipBillWaitingForApproval() );
         }
 
         card.setScrollspy( Bills.getScrollspy( bill ) );
@@ -170,8 +189,9 @@ public class BillOverviewCard
             return messages.labelCashRegisterDocument();
         }
 
-        if (type.equalsIgnoreCase( INCOMING_INVOICE.name() )) {
-            return messages.labelIncomingInvoice();
+        if ( type.equalsIgnoreCase( INVOICE.name() ) )
+        {
+            return messages.labelInvoice();
         }
 
         return "-";

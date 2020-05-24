@@ -18,6 +18,7 @@
 package biz.turnonline.ecosystem.widget.shared.rest.bill;
 
 import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,8 @@ import java.util.Objects;
 public class Bill
         implements RelevantNullChecker
 {
+    private Boolean approved;
+
     private String billNumber;
 
     private Date createdDate;
@@ -37,7 +40,7 @@ public class Bill
 
     private Long id;
 
-    private String itemName;
+    private String description;
 
     private List<BillItem> items;
 
@@ -52,6 +55,26 @@ public class Bill
     private String currency;
 
     private List<Scan> scans;
+
+    public Bill approved( Boolean approved )
+    {
+        this.approved = approved;
+        return this;
+    }
+
+    /**
+     * The indication whether the bill has been approved to be sent to accountant or not.
+     **/
+    @JsonProperty( "approved" )
+    public Boolean isApproved()
+    {
+        return approved;
+    }
+
+    public void setApproved( Boolean approved )
+    {
+        this.approved = approved;
+    }
 
     public Bill billNumber( String billNumber )
     {
@@ -129,23 +152,23 @@ public class Bill
         this.id = id;
     }
 
-    public Bill itemName( String itemName )
+    public Bill description( String description )
     {
-        this.itemName = itemName;
+        this.description = description;
         return this;
     }
 
     /**
      * Bill name
      **/
-    public String getItemName()
+    public String getDescription()
     {
-        return itemName;
+        return description;
     }
 
-    public void setItemName( String itemName )
+    public void setDescription( String description )
     {
-        this.itemName = itemName;
+        this.description = description;
     }
 
     public Bill items( List<BillItem> items )
@@ -297,7 +320,7 @@ public class Bill
                 Objects.equals( this.createdDate, bill.createdDate ) &&
                 Objects.equals( this.dateOfIssue, bill.dateOfIssue ) &&
                 Objects.equals( this.id, bill.id ) &&
-                Objects.equals( this.itemName, bill.itemName ) &&
+                Objects.equals( this.description, bill.description ) &&
                 Objects.equals( this.items, bill.items ) &&
                 Objects.equals( this.modificationDate, bill.modificationDate ) &&
                 Objects.equals( this.supplier, bill.supplier ) &&
@@ -310,7 +333,7 @@ public class Bill
     @Override
     public int hashCode()
     {
-        return Objects.hash( billNumber, createdDate, dateOfIssue, id, itemName, items, modificationDate, supplier, totalPrice, type, currency, scans );
+        return Objects.hash( billNumber, createdDate, dateOfIssue, id, description, items, modificationDate, supplier, totalPrice, type, currency, scans );
     }
 
     @Override
@@ -321,7 +344,7 @@ public class Bill
                 "    createdDate: " + toIndentedString( createdDate ) + "\n" +
                 "    dateOfIssue: " + toIndentedString( dateOfIssue ) + "\n" +
                 "    id: " + toIndentedString( id ) + "\n" +
-                "    itemName: " + toIndentedString( itemName ) + "\n" +
+                "    description: " + toIndentedString( description ) + "\n" +
                 "    items: " + toIndentedString( items ) + "\n" +
                 "    modificationDate: " + toIndentedString( modificationDate ) + "\n" +
                 "    supplier: " + toIndentedString( supplier ) + "\n" +
@@ -353,7 +376,7 @@ public class Bill
     @Override
     public boolean allNull()
     {
-        return allNull( billNumber, createdDate, dateOfIssue, id, itemName,
+        return allNull( billNumber, createdDate, dateOfIssue, id, description,
                 items, modificationDate, supplier, totalPrice, type, currency, scans );
     }
 
@@ -364,7 +387,7 @@ public class Bill
     {
         RECEIPT( "RECEIPT" ),
 
-        INCOMING_INVOICE( "INCOMING_INVOICE" );
+        INVOICE( "INVOICE" );
 
         private String value;
 

@@ -35,7 +35,7 @@ public class BillTypeComboBox
     static
     {
         types.add( new StaticCodeBook( "RECEIPT", messages.labelCashRegisterDocument() ) );
-        types.add( new StaticCodeBook( "INCOMING_INVOICE", messages.labelIncomingInvoice() ) );
+        types.add( new StaticCodeBook( "INVOICE", messages.labelInvoice() ) );
     }
 
     @Override

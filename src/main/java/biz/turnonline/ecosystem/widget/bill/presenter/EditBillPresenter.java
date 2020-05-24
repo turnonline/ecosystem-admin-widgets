@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.bill.presenter;
 
+import biz.turnonline.ecosystem.widget.bill.event.ApproveBillEvent;
 import biz.turnonline.ecosystem.widget.bill.event.BackEvent;
 import biz.turnonline.ecosystem.widget.bill.event.DeleteBillEvent;
 import biz.turnonline.ecosystem.widget.bill.event.SaveBillEvent;
@@ -48,6 +49,7 @@ public class EditBillPresenter
         bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Bills() ) );
         bus().addHandler( SaveBillEvent.TYPE, this::save );
         bus().addHandler( DeleteBillEvent.TYPE, this::delete );
+        bus().addHandler( ApproveBillEvent.TYPE, this::approve );
     }
 
     @Override
@@ -97,8 +99,19 @@ public class EditBillPresenter
 
         bus().bill().deleteBill( bill.getId(),
                 ( SuccessCallback<Void> ) response -> {
-                    success( messages.msgRecordDeleted( bill.getItemName() ) );
+                    success( messages.msgRecordDeleted( bill.getDescription() ) );
                     controller().goTo( new Bills() );
+                } );
+    }
+
+    private void approve( ApproveBillEvent event )
+    {
+        Bill bill = event.getBill();
+
+        bus().bill().approveBill( bill.getId(),
+                ( SuccessCallback<Void> ) response -> {
+                    success( messages.msgBillApproved( bill.getDescription() ) );
+                    controller().goTo( new EditBill( bill.getId(), "tabDetail" ) );
                 } );
     }
 

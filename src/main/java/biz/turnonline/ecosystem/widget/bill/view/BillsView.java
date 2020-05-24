@@ -121,7 +121,7 @@ public class BillsView
         bill.setScans( Collections.singletonList(
                 new Scan().servingUrl( uploadItem.getServingUrl() ).storageName( uploadItem.getStorageName() )
         ) );
-        bill.setItemName( uploadItem.getFileName() );
+        bill.setDescription( uploadItem.getFileName() );
         bill.setDateOfIssue( new Date() );
         bill.setSupplier( new Supplier() );
         bill.setItems( new ArrayList<>() );

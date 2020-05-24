@@ -49,7 +49,7 @@ public class BillsPresenter
     {
         bus().addHandler( EditBillEvent.TYPE, event -> controller().goTo( new EditBill( event.getId(), "tabDetail" ) ) );
         bus().addHandler( NewBillEvent.TYPE, event -> {
-            success( messages.msgBatchCreated( event.getBill().getItemName() ) );
+            success( messages.msgBatchCreated( event.getBill().getDescription() ) );
             bus().bill().createBill( event.getBill(), ( response, failure ) -> {
             } );
         } );

@@ -34,7 +34,7 @@
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
                 <m:MaterialColumn grid="m12" paddingLeft="0">
-                    <m:MaterialTextBox ui:field="itemName" label="{msg.labelItemName}" paddingLeft="0"/>
+                    <m:MaterialTextBox ui:field="description" label="{msg.labelName}" paddingLeft="0"/>
                     <m:MaterialTextBox ui:field="billNumber" label="{msg.labelBillNumber}" paddingLeft="0"/>
 
                     <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
