@@ -27,11 +27,14 @@ import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
 import biz.turnonline.ecosystem.widget.shared.ui.BatchDropBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
+import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScrollLoader;
+import biz.turnonline.ecosystem.widget.shared.ui.PredefinedRange;
+import biz.turnonline.ecosystem.widget.shared.ui.PredefinedRangeListBox;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
-import biz.turnonline.ecosystem.widget.shared.ui.TimelinePanel;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -64,6 +67,9 @@ public class BillsView
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
 
+    @UiField
+    PredefinedRangeListBox range;
+
     @UiField( provided = true )
     BatchDropBox batchDropBox = new BatchDropBox( BILLING_PROCESSOR_STORAGE )
     {
@@ -75,12 +81,13 @@ public class BillsView
     };
 
     @UiField( provided = true )
-    TimelinePanel<Bill> timelinePanel = new TimelinePanel<Bill>( messages.labelBillLoading() )
+    InfiniteScroll<Bill> scroll = new InfiniteScroll<Bill>( 0, Integer.MAX_VALUE, 10000 )
     {
         @Override
-        protected Widget createCard( Bill model )
+        protected void onLoad()
         {
-            return BillsView.this.createCard( model );
+            super.onLoad();
+            scroll.addLoadedHandler( event -> getElement().getStyle().setProperty( "height", "auto" ) );
         }
     };
 
@@ -102,9 +109,24 @@ public class BillsView
         // refresh action setup
         breadcrumb.setRefreshTooltip( messages.tooltipBillListRefresh() );
         breadcrumb.setNavSectionVisible( true );
-        breadcrumb.addRefreshClickHandler( event -> timelinePanel.reload() );
+        breadcrumb.addRefreshClickHandler( event -> scroll.reload() );
 
         breadcrumb.setClearFilterVisible( false );
+
+        scroll.setOverflow( Style.Overflow.VISIBLE );
+        scroll.setRenderer( this::createCard );
+        scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelBillLoading() ) );
+
+        range.setSingleValue( PredefinedRange.CURRENT_MONTH );
+        range.addValueChangeHandler( event -> {
+            BillScrollCallback dataSource = ( BillScrollCallback ) scroll.getDataSource();
+
+            PredefinedRange.Range range = this.range.getSingleValue().getRangeSupplier().get();
+            dataSource.setFrom( range.getFrom() );
+            dataSource.setTo( range.getTo() );
+
+            scroll.reload();
+        });
     }
 
     private Widget createCard( Bill bill )
@@ -133,19 +155,13 @@ public class BillsView
     @Override
     public void scrollTo( @Nullable String scrollspy )
     {
-        timelinePanel.scrollTo( scrollspy );
+        scroll.scrollTo( scrollspy );
     }
 
     @Override
-    public void setDataSourceCurrentMonth( InfiniteScroll.Callback<Bill> callback )
+    public void setDataSource( BillScrollCallback callback )
     {
-        timelinePanel.setDataSourceCurrentMonth( callback );
-    }
-
-    @Override
-    public void setDataSourceLastMonths( InfiniteScroll.Callback<Bill> callback )
-    {
-        timelinePanel.setDataSourceLastMonths( callback );
+        scroll.setDataSource( callback );
     }
 
     @UiHandler( "newBill" )

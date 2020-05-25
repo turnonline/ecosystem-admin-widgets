@@ -27,7 +27,12 @@
         <m:MaterialColumn grid="m12" paddingLeft="20" paddingRight="20" marginTop="10">
             <s:BatchDropBox ui:field="batchDropBox"/>
         </m:MaterialColumn>
-        <s:TimelinePanel ui:field="timelinePanel"/>
+
+        <m:MaterialColumn grid="m12" paddingLeft="10" paddingRight="20">
+            <s:PredefinedRangeListBox ui:field="range" grid="s12 m2" minHeight="0" marginTop="0"/>
+        </m:MaterialColumn>
+
+        <s:InfiniteScroll ui:field="scroll" paddingLeft="10"/>
 
         <m:MaterialFAB>
             <m:MaterialAnchorButton type="FLOATING" size="LARGE" backgroundColor="GREEN" ui:field="newBill"

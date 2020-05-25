@@ -146,13 +146,13 @@ public class BillOverviewCard
 
         if ( Optional.ofNullable( bill.isApproved() ).orElse( false ) )
         {
-            approved.setIconColor( GREEN );
+            approved.setBackgroundColor( GREEN );
             approved.setIconType( IconType.ASSIGNMENT_TURNED_IN );
             approved.setTooltip( messages.tooltipBillApproved() );
         }
         else
         {
-            approved.setIconColor( RED );
+            approved.setBackgroundColor( RED );
             approved.setIconType( IconType.ASSIGNMENT_LATE );
             approved.setTooltip( messages.tooltipBillWaitingForApproval() );
         }

@@ -58,9 +58,9 @@
                                     float="RIGHT" backgroundColor="WHITE" shadow="0" border="1px solid #a0a0a033"
                                     tooltip="{msg.tooltipBankAccountImported}" type="FLOATING"/>
 
-                    <m:MaterialIcon ui:field="primary" iconType="STAR" iconColor="ORANGE" textAlign="CENTER"
-                                    marginTop="3" marginBottom="8" right="-5" iconSize="TINY"
-                                    float="RIGHT" backgroundColor="WHITE" shadow="0" border="1px solid #a0a0a033"
+                    <m:MaterialIcon ui:field="primary" iconType="STAR" iconColor="WHITE" textAlign="CENTER"
+                                    marginTop="3" marginBottom="8" right="-5"
+                                    float="RIGHT" backgroundColor="GREEN" shadow="0"
                                     tooltip="{msg.tooltipBankAccountIsMarkedAsPrimary}" type="FLOATING"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>

@@ -698,6 +698,24 @@ public interface AppMessages
     @Key( "label.clientId" )
     String labelClientId();
 
+    @Key( "label.range.currentMonth" )
+    String labelRangeCurrentMonth();
+
+    @Key( "label.range.lastMonth" )
+    String labelRangeLastMonth();
+
+    @Key( "label.range.lastThreeMonths" )
+    String labelRangeLastThreeMonths();
+
+    @Key( "label.range.lastSixMonths" )
+    String labelRangeLastSixMonths();
+
+    @Key( "label.range.all" )
+    String labelRangeAll();
+
+    @Key( "label.unbounded" )
+    String labelUnbounded();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )

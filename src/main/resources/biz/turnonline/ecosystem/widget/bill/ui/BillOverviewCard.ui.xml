@@ -81,9 +81,9 @@
                     <m:MaterialLink ui:field="editLink" iconColor="BLUE" paddingTop="10" iconType="EDIT"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipEditBill}"/>
 
-                    <m:MaterialIcon ui:field="approved" iconColor="GREEN" iconType="ASSIGNMENT_TURNED_IN" textAlign="CENTER"
-                                    marginTop="3" marginBottom="8" right="-5" iconSize="TINY"
-                                    float="RIGHT" backgroundColor="WHITE" shadow="0" border="1px solid #a0a0a033"
+                    <m:MaterialIcon ui:field="approved" iconColor="WHITE" iconType="ASSIGNMENT_TURNED_IN" textAlign="CENTER"
+                                    marginTop="3" marginBottom="8" right="-5"
+                                    float="RIGHT" backgroundColor="GREEN" shadow="0"
                                     type="FLOATING"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>

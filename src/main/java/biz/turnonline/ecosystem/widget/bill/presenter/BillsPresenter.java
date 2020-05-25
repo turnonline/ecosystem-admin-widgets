@@ -21,14 +21,16 @@ import biz.turnonline.ecosystem.widget.bill.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.bill.event.NewBillEvent;
 import biz.turnonline.ecosystem.widget.bill.place.Bills;
 import biz.turnonline.ecosystem.widget.bill.place.EditBill;
+import biz.turnonline.ecosystem.widget.bill.view.BillScrollCallback;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
-import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
-import biz.turnonline.ecosystem.widget.shared.ui.TimelinePanel;
 import com.google.gwt.place.shared.PlaceController;
+import org.ctoolkit.gwt.client.facade.Items;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,10 +56,21 @@ public class BillsPresenter
             } );
         } );
 
-        view().setDataSourceCurrentMonth( ( offset, limit, callback ) ->
-                bus().bill().getBills( offset, limit, TimelinePanel.firstDayOfCurrentMonth(), null, true, callback ) );
-        view().setDataSourceLastMonths( ( offset, limit, callback ) ->
-                bus().bill().getBills( offset, limit, null, TimelinePanel.lastDayOfPreviousMonth(), true, callback ) );
+        view().setDataSource( new BillScrollCallback()
+        {
+            @Override
+            public void load( int offset, int limit, Date from, Date to, SuccessCallback<Items<Bill>> callback )
+            {
+                bus().bill().getBills(
+                        offset,
+                        limit,
+                        from,
+                        to,
+                        true,
+                        callback
+                );
+            }
+        } );
     }
 
     @Override
@@ -77,8 +90,6 @@ public class BillsPresenter
     {
         void scrollTo( @Nullable String scrollspy );
 
-        void setDataSourceCurrentMonth( InfiniteScroll.Callback<Bill> callback );
-
-        void setDataSourceLastMonths( InfiniteScroll.Callback<Bill> callback );
+        void setDataSource( BillScrollCallback callback );
     }
 }
