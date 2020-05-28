@@ -20,9 +20,9 @@ package biz.turnonline.ecosystem.widget.billing.ui;
 import biz.turnonline.ecosystem.widget.billing.event.InvoiceStatusChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BankAccount;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PaymentMethodComboBox;
@@ -227,7 +227,7 @@ public class InvoiceDetail
                 .setFinalText( finalText.getValue() )
                 .setIntroductoryText( introductoryText.getValue() );
 
-        InvoicePayment payment = new InvoicePayment();
+        BillPayment payment = new BillPayment();
         payment.setDueDate( dueDate.getValue() )
                 .setType( paymentMethod.getSingleValueByCode() );
 
@@ -259,7 +259,7 @@ public class InvoiceDetail
     {
         this.invoice = invoice;
 
-        InvoicePayment payment = invoice.getPayment();
+        BillPayment payment = invoice.getPayment();
 
         created.setValue( invoice.getCreatedDate() );
         modified.setValue( invoice.getModificationDate() );
@@ -292,7 +292,7 @@ public class InvoiceDetail
 
         setStatus( currentStatus );
 
-        InvoicePricing pricing = invoice.getPricing();
+        BillPricing pricing = invoice.getPricing();
         if ( pricing == null )
         {
             updatePricing( null, null, null, null );

@@ -33,12 +33,6 @@ public final class ProductPublishing
 
     private String description;
 
-    private Boolean facebookLike;
-
-    private Boolean googlePlus;
-
-    private Boolean linkedInShare;
-
     private Date modificationDate;
 
     private List<ProductPicture> pictures;
@@ -86,39 +80,6 @@ public final class ProductPublishing
     public ProductPublishing setDescription( String description )
     {
         this.description = description;
-        return this;
-    }
-
-    public Boolean getFacebookLike()
-    {
-        return facebookLike;
-    }
-
-    public ProductPublishing setFacebookLike( Boolean facebookLike )
-    {
-        this.facebookLike = facebookLike;
-        return this;
-    }
-
-    public Boolean getGooglePlus()
-    {
-        return googlePlus;
-    }
-
-    public ProductPublishing setGooglePlus( Boolean googlePlus )
-    {
-        this.googlePlus = googlePlus;
-        return this;
-    }
-
-    public Boolean getLinkedInShare()
-    {
-        return linkedInShare;
-    }
-
-    public ProductPublishing setLinkedInShare( Boolean linkedInShare )
-    {
-        this.linkedInShare = linkedInShare;
         return this;
     }
 

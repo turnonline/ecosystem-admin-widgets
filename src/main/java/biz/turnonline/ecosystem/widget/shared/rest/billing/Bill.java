@@ -22,23 +22,25 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
  */
 public final class Bill
 {
-    private Long receipt;
+    private Long id;
 
     private Long invoice;
 
     private Long order;
 
+    private Long receipt;
+
     /**
-     * The unique identification of the bill (receipt) within Billing Processor service.
-     **/
-    public Long getReceipt()
+     * The unique identification of the bill within Billing Processor service.
+     */
+    public Long getId()
     {
-        return receipt;
+        return id;
     }
 
-    public Bill setReceipt( Long receipt )
+    public Bill setId( Long id )
     {
-        this.receipt = receipt;
+        this.id = id;
         return this;
     }
 
@@ -67,6 +69,20 @@ public final class Bill
     public Bill setOrder( Long order )
     {
         this.order = order;
+        return this;
+    }
+
+    /**
+     * The unique identification of the receipt within Product Billing service.
+     **/
+    public Long getReceipt()
+    {
+        return receipt;
+    }
+
+    public Bill setReceipt( Long receipt )
+    {
+        this.receipt = receipt;
         return this;
     }
 }

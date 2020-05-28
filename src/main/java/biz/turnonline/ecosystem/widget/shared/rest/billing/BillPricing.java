@@ -21,7 +21,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
 
 import java.util.List;
 
-public final class InvoicePricing
+public final class BillPricing
         implements RelevantNullChecker
 {
     private List<PricingItem> items;
@@ -39,7 +39,7 @@ public final class InvoicePricing
         return items;
     }
 
-    public InvoicePricing setItems( List<PricingItem> items )
+    public BillPricing setItems( List<PricingItem> items )
     {
         this.items = items;
         return this;
@@ -50,7 +50,7 @@ public final class InvoicePricing
         return rounding;
     }
 
-    public InvoicePricing setRounding( String rounding )
+    public BillPricing setRounding( String rounding )
     {
         this.rounding = rounding;
         return this;
@@ -61,7 +61,7 @@ public final class InvoicePricing
         return totalPrice;
     }
 
-    public InvoicePricing setTotalPrice( Double totalPrice )
+    public BillPricing setTotalPrice( Double totalPrice )
     {
         this.totalPrice = totalPrice;
         return this;
@@ -72,7 +72,7 @@ public final class InvoicePricing
         return totalPriceExclVat;
     }
 
-    public InvoicePricing setTotalPriceExclVat( Double totalPriceExclVat )
+    public BillPricing setTotalPriceExclVat( Double totalPriceExclVat )
     {
         this.totalPriceExclVat = totalPriceExclVat;
         return this;
@@ -83,7 +83,7 @@ public final class InvoicePricing
         return totalVatBase;
     }
 
-    public InvoicePricing setTotalVatBase( Double totalVatBase )
+    public BillPricing setTotalVatBase( Double totalVatBase )
     {
         this.totalVatBase = totalVatBase;
         return this;

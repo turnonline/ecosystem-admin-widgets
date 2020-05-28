@@ -21,13 +21,15 @@ import java.util.Date;
 /**
  * Expense payment details.
  */
-public class ExpensePayment
+public final class ExpenditurePayment
 {
     private BankAccount bankAccount;
 
     private Date dueDate;
 
-    private String key;
+    private Double totalAmount;
+
+    private Long transactionId;
 
     private String type;
 
@@ -39,9 +41,10 @@ public class ExpensePayment
         return bankAccount;
     }
 
-    public void setBankAccount( BankAccount bankAccount )
+    public ExpenditurePayment setBankAccount( BankAccount bankAccount )
     {
         this.bankAccount = bankAccount;
+        return this;
     }
 
     /**
@@ -52,22 +55,32 @@ public class ExpensePayment
         return dueDate;
     }
 
-    public void setDueDate( Date dueDate )
+    public ExpenditurePayment setDueDate( Date dueDate )
     {
         this.dueDate = dueDate;
+        return this;
     }
 
-    /**
-     * The expense payment identification.
-     **/
-    public String getKey()
+    public Double getTotalAmount()
     {
-        return key;
+        return totalAmount;
     }
 
-    public void setKey( String key )
+    public ExpenditurePayment setTotalAmount( Double totalAmount )
     {
-        this.key = key;
+        this.totalAmount = totalAmount;
+        return this;
+    }
+
+    public Long getTransactionId()
+    {
+        return transactionId;
+    }
+
+    public ExpenditurePayment setTransactionId( Long transactionId )
+    {
+        this.transactionId = transactionId;
+        return this;
     }
 
     /**
@@ -78,9 +91,9 @@ public class ExpensePayment
         return type;
     }
 
-    public void setType( String type )
+    public ExpenditurePayment setType( String type )
     {
         this.type = type;
+        return this;
     }
 }
-

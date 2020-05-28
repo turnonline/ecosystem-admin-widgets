@@ -31,8 +31,8 @@ import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
@@ -171,10 +171,10 @@ public class EditInvoiceView
         detail.bind( invoice );
         invoice.setCustomerIf( customer.bind( invoice.getCustomer() ) );
 
-        InvoicePricing pricing = invoice.getPricing();
+        BillPricing pricing = invoice.getPricing();
         if ( pricing == null )
         {
-            pricing = new InvoicePricing();
+            pricing = new BillPricing();
             invoice.setPricing( pricing );
         }
 
@@ -190,7 +190,7 @@ public class EditInvoiceView
         customer.fill( invoice.getCustomer() );
         transactions.initFor( invoice.getOrderId(), invoice.getId() );
 
-        InvoicePricing pricing = invoice.getPricing();
+        BillPricing pricing = invoice.getPricing();
         items.fill( pricing == null ? null : pricing.getItems() );
 
         setStatus( status( invoice ) );

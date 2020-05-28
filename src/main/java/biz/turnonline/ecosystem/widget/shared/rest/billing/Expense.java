@@ -19,14 +19,13 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Expense that represents a purchase outside of the Ecosystem.
- */
-public class Expense
+public final class Expense
 {
-    private Long bill;
+    private Bill bill;
 
     private String billNumber;
+
+    private String currency;
 
     private Date dateOfIssue;
 
@@ -34,23 +33,34 @@ public class Expense
 
     private List<PricingItem> items;
 
-    private ExpensePayment payment;
+    private BillPayment payment;
+
+    private String pin;
+
+    private String servingUrl;
 
     private Creditor supplier;
+
+    private Double totalPrice;
+
+    private Double totalPriceExclVat;
+
+    private Double totalVatBase;
 
     private String type;
 
     /**
      * The unique bill identification within Billing Processor service.
      **/
-    public Long getBill()
+    public Bill getBill()
     {
         return bill;
     }
 
-    public void setBill( Long bill )
+    public Expense setBill( Bill bill )
     {
         this.bill = bill;
+        return this;
     }
 
     /**
@@ -61,9 +71,21 @@ public class Expense
         return billNumber;
     }
 
-    public void setBillNumber( String billNumber )
+    public Expense setBillNumber( String billNumber )
     {
         this.billNumber = billNumber;
+        return this;
+    }
+
+    public String getCurrency()
+    {
+        return currency;
+    }
+
+    public Expense setCurrency( String currency )
+    {
+        this.currency = currency;
+        return this;
     }
 
     /**
@@ -74,9 +96,10 @@ public class Expense
         return dateOfIssue;
     }
 
-    public void setDateOfIssue( Date dateOfIssue )
+    public Expense setDateOfIssue( Date dateOfIssue )
     {
         this.dateOfIssue = dateOfIssue;
+        return this;
     }
 
     /**
@@ -87,9 +110,10 @@ public class Expense
         return dateOfTaxable;
     }
 
-    public void setDateOfTaxable( Date dateOfTaxable )
+    public Expense setDateOfTaxable( Date dateOfTaxable )
     {
         this.dateOfTaxable = dateOfTaxable;
+        return this;
     }
 
     /**
@@ -100,22 +124,46 @@ public class Expense
         return items;
     }
 
-    public void setItems( List<PricingItem> items )
+    public Expense setItems( List<PricingItem> items )
     {
         this.items = items;
+        return this;
     }
 
     /**
      * Expense payment details.
      **/
-    public ExpensePayment getPayment()
+    public BillPayment getPayment()
     {
         return payment;
     }
 
-    public void setPayment( ExpensePayment payment )
+    public Expense setPayment( BillPayment payment )
     {
         this.payment = payment;
+        return this;
+    }
+
+    public String getPin()
+    {
+        return pin;
+    }
+
+    public Expense setPin( String pin )
+    {
+        this.pin = pin;
+        return this;
+    }
+
+    public String getServingUrl()
+    {
+        return servingUrl;
+    }
+
+    public Expense setServingUrl( String servingUrl )
+    {
+        this.servingUrl = servingUrl;
+        return this;
     }
 
     /**
@@ -126,22 +174,56 @@ public class Expense
         return supplier;
     }
 
-    public void setSupplier( Creditor supplier )
+    public Expense setSupplier( Creditor supplier )
     {
         this.supplier = supplier;
+        return this;
+    }
+
+    public Double getTotalPrice()
+    {
+        return totalPrice;
+    }
+
+    public Expense setTotalPrice( Double totalPrice )
+    {
+        this.totalPrice = totalPrice;
+        return this;
+    }
+
+    public Double getTotalPriceExclVat()
+    {
+        return totalPriceExclVat;
+    }
+
+    public Expense setTotalPriceExclVat( Double totalPriceExclVat )
+    {
+        this.totalPriceExclVat = totalPriceExclVat;
+        return this;
+    }
+
+    public Double getTotalVatBase()
+    {
+        return totalVatBase;
+    }
+
+    public Expense setTotalVatBase( Double totalVatBase )
+    {
+        this.totalVatBase = totalVatBase;
+        return this;
     }
 
     /**
-     * The bill document type. It's case insensitive.
+     * The bill document type.
      **/
     public String getType()
     {
         return type;
     }
 
-    public void setType( String type )
+    public Expense setType( String type )
     {
         this.type = type;
+        return this;
     }
 }
-

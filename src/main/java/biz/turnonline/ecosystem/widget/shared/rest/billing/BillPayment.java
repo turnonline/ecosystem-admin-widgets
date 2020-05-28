@@ -21,7 +21,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
 
 import java.util.Date;
 
-public final class InvoicePayment
+public final class BillPayment
         implements RelevantNullChecker
 {
     private BankAccount bankAccount;
@@ -41,7 +41,7 @@ public final class InvoicePayment
         return bankAccount;
     }
 
-    public InvoicePayment setBankAccount( BankAccount bankAccount )
+    public BillPayment setBankAccount( BankAccount bankAccount )
     {
         this.bankAccount = bankAccount;
         return this;
@@ -52,7 +52,7 @@ public final class InvoicePayment
         return dueDate;
     }
 
-    public InvoicePayment setDueDate( Date dueDate )
+    public BillPayment setDueDate( Date dueDate )
     {
         this.dueDate = dueDate;
         return this;
@@ -63,7 +63,7 @@ public final class InvoicePayment
         return key;
     }
 
-    public InvoicePayment setKey( String key )
+    public BillPayment setKey( String key )
     {
         this.key = key;
         return this;
@@ -74,7 +74,7 @@ public final class InvoicePayment
         return totalAmount;
     }
 
-    public InvoicePayment setTotalAmount( Double totalAmount )
+    public BillPayment setTotalAmount( Double totalAmount )
     {
         this.totalAmount = totalAmount;
         return this;
@@ -85,7 +85,7 @@ public final class InvoicePayment
         return type;
     }
 
-    public InvoicePayment setType( String type )
+    public BillPayment setType( String type )
     {
         this.type = type;
         return this;
@@ -96,7 +96,7 @@ public final class InvoicePayment
         return variableSymbol;
     }
 
-    public InvoicePayment setVariableSymbol( Long variableSymbol )
+    public BillPayment setVariableSymbol( Long variableSymbol )
     {
         this.variableSymbol = variableSymbol;
         return this;

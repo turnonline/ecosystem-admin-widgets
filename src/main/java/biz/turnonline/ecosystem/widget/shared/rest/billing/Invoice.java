@@ -49,11 +49,11 @@ public final class Invoice
 
     private Long orderId;
 
-    private InvoicePayment payment;
+    private BillPayment payment;
 
     private String pin;
 
-    private InvoicePricing pricing;
+    private BillPricing pricing;
 
     private String servingUrl;
 
@@ -198,18 +198,18 @@ public final class Invoice
         return this;
     }
 
-    public InvoicePayment getPayment()
+    public BillPayment getPayment()
     {
         return payment;
     }
 
-    public Invoice setPayment( InvoicePayment payment )
+    public Invoice setPayment( BillPayment payment )
     {
         this.payment = payment;
         return this;
     }
 
-    public boolean setPaymentIf( InvoicePayment payment )
+    public boolean setPaymentIf( BillPayment payment )
     {
         return setIfNotAllNull( this::setPayment, payment );
     }
@@ -225,12 +225,12 @@ public final class Invoice
         return this;
     }
 
-    public InvoicePricing getPricing()
+    public BillPricing getPricing()
     {
         return pricing;
     }
 
-    public Invoice setPricing( InvoicePricing pricing )
+    public Invoice setPricing( BillPricing pricing )
     {
         this.pricing = pricing;
         return this;

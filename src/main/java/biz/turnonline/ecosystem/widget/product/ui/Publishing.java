@@ -92,9 +92,6 @@ public class Publishing
 
         publishing.setComingSoon( comingSoon.getValue() );
         publishing.setPublished( published.getValue() );
-        publishing.setFacebookLike( facebookLike.getValue() );
-        publishing.setGooglePlus( googlePlus.getValue() );
-        publishing.setLinkedInShare( linkedInShare.getValue() );
 
         uploader.bind( publishing );
         return publishing;
@@ -112,9 +109,6 @@ public class Publishing
 
         comingSoon.setValue( publishing.getComingSoon() != null ? publishing.getComingSoon() : false );
         published.setValue( publishing.getPublished() != null ? publishing.getPublished() : false );
-        facebookLike.setValue( publishing.getFacebookLike() != null ? publishing.getFacebookLike() : false );
-        googlePlus.setValue( publishing.getGooglePlus() != null ? publishing.getGooglePlus() : false );
-        linkedInShare.setValue( publishing.getLinkedInShare() != null ? publishing.getLinkedInShare() : false );
         uploader.fill( publishing );
     }
 

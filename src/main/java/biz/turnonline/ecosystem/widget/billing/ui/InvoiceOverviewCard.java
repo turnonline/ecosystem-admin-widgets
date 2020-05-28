@@ -22,9 +22,9 @@ import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.Invoices;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
@@ -158,7 +158,7 @@ public class InvoiceOverviewCard
         status.setText( statusText( statusEnum ) );
 
         // pricing
-        InvoicePayment payment = invoice.getPayment();
+        BillPayment payment = invoice.getPayment();
 
         if ( payment == null )
         {

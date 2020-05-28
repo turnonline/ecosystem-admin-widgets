@@ -25,8 +25,8 @@ import biz.turnonline.ecosystem.widget.purchase.ui.IncomingInvoiceDetails;
 import biz.turnonline.ecosystem.widget.purchase.ui.IncomingInvoiceDetailsTabs;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
@@ -115,7 +115,7 @@ public class IncomingInvoiceDetailsView
         creditor.fill( invoice.getCreditor() );
         transactions.initFor( invoice.getOrderId(), invoice.getId() );
 
-        InvoicePricing pricing = invoice.getPricing();
+        BillPricing pricing = invoice.getPricing();
         items.reset();
         items.fill( pricing == null ? null : pricing.getItems() );
 

@@ -32,6 +32,10 @@ public final class Transaction
 
     private Bill bill;
 
+    private Double billAmount;
+
+    private String billCurrency;
+
     private Date completedAt;
 
     private Boolean credit;
@@ -39,6 +43,8 @@ public final class Transaction
     private String currency;
 
     private String key;
+
+    private Merchant merchant;
 
     private String reference;
 
@@ -104,6 +110,28 @@ public final class Transaction
         return this;
     }
 
+    public Double getBillAmount()
+    {
+        return billAmount;
+    }
+
+    public Transaction setBillAmount( Double billAmount )
+    {
+        this.billAmount = billAmount;
+        return this;
+    }
+
+    public String getBillCurrency()
+    {
+        return billCurrency;
+    }
+
+    public Transaction setBillCurrency( String billCurrency )
+    {
+        this.billCurrency = billCurrency;
+        return this;
+    }
+
     /**
      * The date when the transaction was completed (status COMPLETED).
      **/
@@ -157,6 +185,17 @@ public final class Transaction
     public Transaction setKey( String key )
     {
         this.key = key;
+        return this;
+    }
+
+    public Merchant getMerchant()
+    {
+        return merchant;
+    }
+
+    public Transaction setMerchant( Merchant merchant )
+    {
+        this.merchant = merchant;
         return this;
     }
 

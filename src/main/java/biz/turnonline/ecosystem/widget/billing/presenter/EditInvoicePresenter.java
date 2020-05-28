@@ -29,8 +29,8 @@ import biz.turnonline.ecosystem.widget.shared.event.TransactionListEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
@@ -102,7 +102,7 @@ public class EditInvoicePresenter
     private Invoice newInvoice()
     {
         Invoice invoice = new Invoice();
-        invoice.setPricing( new InvoicePricing() );
+        invoice.setPricing( new BillPricing() );
         invoice.getPricing().setItems( new ArrayList<>() );
         invoice.getPricing().getItems().add( new PricingItem() );
 

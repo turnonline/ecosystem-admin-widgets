@@ -22,9 +22,9 @@ import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Creditor;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
@@ -150,7 +150,7 @@ public class IncomingInvoiceOverviewCard
         type.setText( typeText( invoice.getType() ) );
 
         // pricing
-        InvoicePayment payment = invoice.getPayment();
+        BillPayment payment = invoice.getPayment();
 
         if ( payment == null )
         {
@@ -207,7 +207,7 @@ public class IncomingInvoiceOverviewCard
         downloadLink.setVisible( hasImageUrl );
     }
 
-    private Color dueDateColor( @Nonnull InvoicePayment payment )
+    private Color dueDateColor( @Nonnull BillPayment payment )
     {
         Date date = payment.getDueDate();
         Double totalAmount = payment.getTotalAmount();

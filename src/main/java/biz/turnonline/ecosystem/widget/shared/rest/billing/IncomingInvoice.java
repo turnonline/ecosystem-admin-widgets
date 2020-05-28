@@ -39,11 +39,11 @@ public final class IncomingInvoice
 
     private Long orderId;
 
-    private InvoicePayment payment;
+    private BillPayment payment;
 
     private String pin;
 
-    private InvoicePricing pricing;
+    private BillPricing pricing;
 
     private String servingUrl;
 
@@ -148,12 +148,12 @@ public final class IncomingInvoice
         return this;
     }
 
-    public InvoicePayment getPayment()
+    public BillPayment getPayment()
     {
         return payment;
     }
 
-    public IncomingInvoice setPayment( InvoicePayment payment )
+    public IncomingInvoice setPayment( BillPayment payment )
     {
         this.payment = payment;
         return this;
@@ -170,12 +170,12 @@ public final class IncomingInvoice
         return this;
     }
 
-    public InvoicePricing getPricing()
+    public BillPricing getPricing()
     {
         return pricing;
     }
 
-    public IncomingInvoice setPricing( InvoicePricing pricing )
+    public IncomingInvoice setPricing( BillPricing pricing )
     {
         this.pricing = pricing;
         return this;

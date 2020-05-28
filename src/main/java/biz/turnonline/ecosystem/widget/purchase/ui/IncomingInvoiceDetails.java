@@ -18,9 +18,9 @@
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BankAccount;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePayment;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.InvoicePricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.ui.InvoiceTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.PaymentMethodComboBox;
@@ -152,7 +152,7 @@ public class IncomingInvoiceDetails
                 .setDateOfIssue( dateOfIssue.getValue() )
                 .setDateOfTaxable( dateOfTaxable.getValue() );
 
-        InvoicePayment payment = new InvoicePayment();
+        BillPayment payment = new BillPayment();
         payment.setDueDate( dueDate.getValue() )
                 .setType( paymentMethod.getSingleValueByCode() );
     }
@@ -161,7 +161,7 @@ public class IncomingInvoiceDetails
     {
         this.invoice = invoice;
 
-        InvoicePayment payment = invoice.getPayment();
+        BillPayment payment = invoice.getPayment();
 
         created.setValue( invoice.getCreatedDate() );
         modified.setValue( invoice.getModificationDate() );
@@ -179,7 +179,7 @@ public class IncomingInvoiceDetails
         dueDate.setValue( payment != null ? payment.getDueDate() : null );
         paymentMethod.setSingleValueByCode( payment != null ? payment.getType() : null );
 
-        InvoicePricing pricing = invoice.getPricing();
+        BillPricing pricing = invoice.getPricing();
         if ( pricing == null )
         {
             updatePricing( null, null, null, null );
