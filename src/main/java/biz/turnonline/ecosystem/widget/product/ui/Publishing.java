@@ -53,15 +53,6 @@ public class Publishing
     @UiField
     MaterialSwitch published;
 
-    @UiField
-    MaterialSwitch facebookLike;
-
-    @UiField
-    MaterialSwitch googlePlus;
-
-    @UiField
-    MaterialSwitch linkedInShare;
-
     // -- pictures
 
     @UiField( provided = true )

@@ -39,12 +39,6 @@
                 </m:MaterialRow>
 
                 <s:SectionTitle iconType="SHARE" title="{msg.labelSocial}"/>
-
-                <m:MaterialRow marginTop="10" marginLeft="-10">
-                    <m:MaterialSwitch ui:field="facebookLike" onLabel="{msg.labelFacebookLike}"/>
-                    <m:MaterialSwitch ui:field="googlePlus" onLabel="{msg.labelGooglePlus}"/>
-                    <m:MaterialSwitch ui:field="linkedInShare" onLabel="{msg.labelLinkedInShare}"/>
-                </m:MaterialRow>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">
