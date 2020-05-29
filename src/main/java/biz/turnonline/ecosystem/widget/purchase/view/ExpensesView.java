@@ -18,9 +18,9 @@
 package biz.turnonline.ecosystem.widget.purchase.view;
 
 import biz.turnonline.ecosystem.widget.purchase.event.ClearIncomingInvoicesFilterEvent;
-import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoicesPresenter;
-import biz.turnonline.ecosystem.widget.purchase.ui.IncomingInvoiceOverviewCard;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
+import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
+import biz.turnonline.ecosystem.widget.purchase.ui.ExpenseOverviewCard;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Expense;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScrollLoader;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
@@ -44,13 +44,13 @@ import javax.inject.Named;
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
- * Invoice list view implemented by infinite scroll where single invoice is rendered by {@link IncomingInvoiceOverviewCard}.
+ * Invoice list view implemented by infinite scroll where single invoice is rendered by {@link ExpenseOverviewCard}.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class IncomingInvoicesView
-        extends View<IncomingInvoice>
-        implements IncomingInvoicesPresenter.IView
+public class ExpensesView
+        extends View<Expense>
+        implements ExpensesPresenter.IView
 {
     private static InvoicesViewUiBinder binder = GWT.create( InvoicesViewUiBinder.class );
 
@@ -58,12 +58,12 @@ public class IncomingInvoicesView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
-    InfiniteScroll<IncomingInvoice> scroll;
+    InfiniteScroll<Expense> scroll;
 
     private int headerHeight;
 
     @Inject
-    public IncomingInvoicesView( @Named( "IncomingInvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
+    public ExpensesView( @Named( "IncomingInvoicesBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super();
 
@@ -95,7 +95,7 @@ public class IncomingInvoicesView
     }
 
     @Override
-    public void downloadInvoice( @Nonnull String url )
+    public void downloadDocument( @Nonnull String url )
     {
         JavaScriptObject newWindow = newWindow( "", "_blank", "" );
         setWindowTarget( newWindow, checkNotNull( url, "Invoice PDF URL can't be null" ) );
@@ -108,7 +108,7 @@ public class IncomingInvoicesView
     }
 
     @Override
-    public void setDataSource( InfiniteScroll.Callback<IncomingInvoice> callback )
+    public void setDataSource( InfiniteScroll.Callback<Expense> callback )
     {
         scroll.unload();
         scroll.setDataSource( callback );
@@ -126,15 +126,15 @@ public class IncomingInvoicesView
         breadcrumb.setClearFilterEnabled( enabled );
     }
 
-    private Widget createCard( IncomingInvoice invoice )
+    private Widget createCard( Expense invoice )
     {
         MaterialColumn column = new MaterialColumn( 12, 6, 6 );
-        column.add( new IncomingInvoiceOverviewCard( invoice, bus() ) );
+        column.add( new ExpenseOverviewCard( invoice, bus() ) );
         return column;
     }
 
     interface InvoicesViewUiBinder
-            extends UiBinder<HTMLPanel, IncomingInvoicesView>
+            extends UiBinder<HTMLPanel, ExpensesView>
     {
     }
 }

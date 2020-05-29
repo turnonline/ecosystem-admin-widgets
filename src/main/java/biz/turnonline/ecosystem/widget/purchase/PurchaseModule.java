@@ -17,15 +17,15 @@
 
 package biz.turnonline.ecosystem.widget.purchase;
 
+import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
 import biz.turnonline.ecosystem.widget.purchase.place.HistoryMapper;
-import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
+import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
-import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoicesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
+import biz.turnonline.ecosystem.widget.purchase.view.ExpensesView;
 import biz.turnonline.ecosystem.widget.purchase.view.IncomingInvoiceDetailsView;
-import biz.turnonline.ecosystem.widget.purchase.view.IncomingInvoicesView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrderDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrdersView;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
@@ -206,7 +206,7 @@ public abstract class PurchaseModule
         invoicesButton.setWaves( WavesType.LIGHT );
         invoicesButton.setPaddingRight( 0 );
         invoicesButton.setTooltip( messages.labelInvoices() );
-        invoicesButton.addClickHandler( event -> controller.goTo( new IncomingInvoices() ) );
+        invoicesButton.addClickHandler( event -> controller.goTo( new Expenses() ) );
 
         return invoicesButton;
     }
@@ -229,7 +229,7 @@ public abstract class PurchaseModule
 
     @Binds
     @Singleton
-    abstract IncomingInvoicesPresenter.IView provideIncomingInvoicesView( IncomingInvoicesView view );
+    abstract ExpensesPresenter.IView provideIncomingInvoicesView( ExpensesView view );
 
     @Binds
     @Singleton

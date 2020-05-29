@@ -17,9 +17,9 @@
 
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
-import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceListEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.ExpenseListEvent;
+import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
 import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoiceDetails;
-import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.shared.event.RecalculatedPricingEvent;
 import biz.turnonline.ecosystem.widget.shared.event.TransactionListEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -52,7 +52,7 @@ public class IncomingInvoiceDetailsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( IncomingInvoiceListEvent.TYPE, this::goToList );
+        bus().addHandler( ExpenseListEvent.TYPE, this::goToList );
         bus().addHandler( RecalculatedPricingEvent.TYPE, this::recalculated );
         bus().addHandler( TransactionListEvent.TYPE, this::invoiceTransactions );
     }
@@ -71,9 +71,9 @@ public class IncomingInvoiceDetailsPresenter
         onAfterBackingObject();
     }
 
-    private void goToList( IncomingInvoiceListEvent event )
+    private void goToList( ExpenseListEvent event )
     {
-        controller().goTo( new IncomingInvoices( event.getScrollspy() ) );
+        controller().goTo( new Expenses( event.getScrollspy() ) );
     }
 
     private void recalculated( RecalculatedPricingEvent event )

@@ -50,7 +50,8 @@ public final class Expense
     private String type;
 
     /**
-     * The unique bill identification within Billing Processor service.
+     * Identification of the bill (receipt) or invoice document.
+     * Valid invoice identification includes order identification too.
      **/
     public Bill getBill()
     {
@@ -77,6 +78,9 @@ public final class Expense
         return this;
     }
 
+    /**
+     * The currency alphabetic code based on the ISO 4217.
+     */
     public String getCurrency()
     {
         return currency;

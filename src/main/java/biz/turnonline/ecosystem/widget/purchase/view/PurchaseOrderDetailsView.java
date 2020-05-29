@@ -159,7 +159,7 @@ public class PurchaseOrderDetailsView
         IncomingInvoice invoice = lastInvoice.getInvoice();
         if ( invoice != null && invoice.getOrderId() != null && invoice.getId() != null )
         {
-            bus().fireEvent( new IncomingInvoiceDetailsEvent( invoice ) );
+            bus().fireEvent( new IncomingInvoiceDetailsEvent( invoice.getOrderId(), invoice.getId() ) );
         }
     }
 

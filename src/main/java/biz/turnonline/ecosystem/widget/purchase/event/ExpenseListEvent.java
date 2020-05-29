@@ -17,41 +17,49 @@
 
 package biz.turnonline.ecosystem.widget.purchase.event;
 
-import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
+import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Expense;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
 import com.google.gwt.event.shared.GwtEvent;
 
 import javax.annotation.Nullable;
 
 /**
- * Represents a request to show list of incoming invoices.
+ * Represents a request to show list of expenses.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class IncomingInvoiceListEvent
-        extends GwtEvent<IncomingInvoiceListEventHandler>
+public class ExpenseListEvent
+        extends GwtEvent<ExpenseListEventHandler>
 {
-    public static Type<IncomingInvoiceListEventHandler> TYPE = new Type<>();
+    public static Type<ExpenseListEventHandler> TYPE = new Type<>();
 
     private IncomingInvoice from;
 
-    public IncomingInvoiceListEvent( @Nullable IncomingInvoice from )
+    private Expense fromExpense;
+
+    public ExpenseListEvent( @Nullable IncomingInvoice from )
     {
         this.from = from;
     }
 
-    public Type<IncomingInvoiceListEventHandler> getAssociatedType()
+    public ExpenseListEvent( @Nullable Expense from )
+    {
+        this.fromExpense = from;
+    }
+
+    public Type<ExpenseListEventHandler> getAssociatedType()
     {
         return TYPE;
     }
 
     public String getScrollspy()
     {
-        return IncomingInvoices.getScrollspy( from );
+        return from != null ? Expenses.getScrollspy( from ) : Expenses.getScrollspy( fromExpense );
     }
 
-    protected void dispatch( IncomingInvoiceListEventHandler handler )
+    protected void dispatch( ExpenseListEventHandler handler )
     {
-        handler.onIncomingInvoiceList( this );
+        handler.onExpenseList( this );
     }
 }

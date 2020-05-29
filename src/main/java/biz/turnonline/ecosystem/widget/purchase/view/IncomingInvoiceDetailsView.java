@@ -17,7 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.view;
 
-import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceListEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.ExpenseListEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.CreditorPanel;
@@ -125,7 +125,7 @@ public class IncomingInvoiceDetailsView
     @UiHandler( "btnBack" )
     public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        bus().fireEvent( new IncomingInvoiceListEvent( getRawModel() ) );
+        bus().fireEvent( new ExpenseListEvent( getRawModel() ) );
     }
 
     @UiHandler( "viewOrder" )

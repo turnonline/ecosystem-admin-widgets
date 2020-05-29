@@ -17,6 +17,8 @@
 
 package biz.turnonline.ecosystem.widget.purchase.place;
 
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Bill;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Expense;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
 import com.google.common.base.Splitter;
 import com.google.gwt.place.shared.Place;
@@ -32,10 +34,10 @@ import java.util.List;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class IncomingInvoices
+public class Expenses
         extends Place
 {
-    public static final String PREFIX = "invoices";
+    public static final String PREFIX = "expenses";
 
     private static final String COLON_PREFIX = PREFIX + ":";
 
@@ -49,16 +51,16 @@ public class IncomingInvoices
 
     private String scrollspy;
 
-    public IncomingInvoices()
+    public Expenses()
     {
     }
 
-    public IncomingInvoices( String scrollspy )
+    public Expenses( String scrollspy )
     {
         this.scrollspy = scrollspy;
     }
 
-    public IncomingInvoices( Long orderId )
+    public Expenses( Long orderId )
     {
         this.orderId = orderId;
     }
@@ -66,6 +68,14 @@ public class IncomingInvoices
     public static String getScrollspy( @Nullable IncomingInvoice invoice )
     {
         return invoice == null ? null : scrollspy( invoice.getOrderId(), invoice.getId() );
+    }
+
+    public static String getScrollspy( @Nullable Expense expense )
+    {
+        Bill bill = expense == null ? null : expense.getBill();
+        Long orderId = bill == null ? null : bill.getOrder();
+        Long invoiceId = bill == null ? null : bill.getInvoice();
+        return ( orderId != null && invoiceId != null ) ? scrollspy( orderId, invoiceId ) : null;
     }
 
     private static String scrollspy( Long orderId, Long invoiceId )
@@ -86,7 +96,7 @@ public class IncomingInvoices
      */
     public static boolean isCurrentTokenScrollspy()
     {
-        Tokenizer tokenizer = new Tokenizer();
+        Expenses.Tokenizer tokenizer = new Expenses.Tokenizer();
         String token = History.getToken();
         if ( !token.startsWith( COLON_PREFIX ) )
         {
@@ -95,7 +105,7 @@ public class IncomingInvoices
 
         token = token.substring( COLON_PREFIX.length() );
 
-        IncomingInvoices place = tokenizer.getPlace( token );
+        Expenses place = tokenizer.getPlace( token );
         return token.isEmpty() || place.getScrollspy() != null;
     }
 
@@ -111,12 +121,12 @@ public class IncomingInvoices
 
     @Prefix( value = PREFIX )
     public static class Tokenizer
-            implements PlaceTokenizer<IncomingInvoices>
+            implements PlaceTokenizer<Expenses>
     {
         @Override
-        public IncomingInvoices getPlace( String token )
+        public Expenses getPlace( String token )
         {
-            IncomingInvoices place = new IncomingInvoices();
+            Expenses place = new Expenses();
             List<String> pieces = Splitter.on( "/" ).omitEmptyStrings().trimResults().splitToList( token );
 
             if ( pieces.contains( SCROLL ) )
@@ -136,7 +146,7 @@ public class IncomingInvoices
         }
 
         @Override
-        public String getToken( IncomingInvoices place )
+        public String getToken( Expenses place )
         {
             if ( place.getScrollspy() != null )
             {

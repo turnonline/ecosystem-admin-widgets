@@ -19,12 +19,12 @@ package biz.turnonline.ecosystem.widget.purchase.presenter;
 
 import biz.turnonline.ecosystem.widget.purchase.event.ClearIncomingInvoicesFilterEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceDetailsEvent;
+import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
 import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoiceDetails;
-import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Expense;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import com.google.gwt.place.shared.PlaceController;
 import org.ctoolkit.gwt.client.facade.Items;
@@ -38,16 +38,16 @@ import javax.inject.Inject;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class IncomingInvoicesPresenter
-        extends Presenter<IncomingInvoicesPresenter.IView>
+public class ExpensesPresenter
+        extends Presenter<ExpensesPresenter.IView>
 {
-    private InvoiceDataSource dataSource;
+    private ExpenseDataSource dataSource;
 
     @Inject
-    public IncomingInvoicesPresenter( IView view, PlaceController placeController )
+    public ExpensesPresenter( IView view, PlaceController placeController )
     {
         super( view, placeController );
-        setPlace( IncomingInvoices.class );
+        setPlace( Expenses.class );
     }
 
     @Override
@@ -57,23 +57,23 @@ public class IncomingInvoicesPresenter
                 controller().goTo( new IncomingInvoiceDetails( event.getOrderId(), event.getInvoiceId(), "tabDetails" ) )
         );
 
-        bus().addHandler( DownloadInvoiceEvent.TYPE, e -> view().downloadInvoice( e.downloadInvoiceUrl() ) );
+        bus().addHandler( DownloadInvoiceEvent.TYPE, e -> view().downloadDocument( e.downloadInvoiceUrl() ) );
         bus().addHandler( ClearIncomingInvoicesFilterEvent.TYPE, this::clearFilter );
 
-        view().setDataSource( dataSource = new InvoiceDataSource() );
+        view().setDataSource( dataSource = new ExpenseDataSource() );
     }
 
     private void clearFilter( ClearIncomingInvoicesFilterEvent event )
     {
         dataSource.filterBy( null );
         view().clear();
-        controller().goTo( new IncomingInvoices() );
+        controller().goTo( new Expenses() );
     }
 
     @Override
     protected void onBeforeBackingObject()
     {
-        IncomingInvoices where = ( IncomingInvoices ) controller().getWhere();
+        Expenses where = ( Expenses ) controller().getWhere();
         Long orderId = where.getOrderId();
         if ( dataSource.filterBy( orderId ) )
         {
@@ -86,7 +86,7 @@ public class IncomingInvoicesPresenter
     {
         onAfterBackingObject();
 
-        IncomingInvoices where = ( IncomingInvoices ) controller().getWhere();
+        Expenses where = ( Expenses ) controller().getWhere();
         if ( where.getScrollspy() != null )
         {
             view().scrollTo( where.getScrollspy() );
@@ -96,39 +96,39 @@ public class IncomingInvoicesPresenter
     }
 
     public interface IView
-            extends org.ctoolkit.gwt.client.view.IView<IncomingInvoice>
+            extends org.ctoolkit.gwt.client.view.IView<Expense>
     {
         /**
          * Downloads invoice PDF from the specified URL.
          *
          * @param url the full path to the invoice PDF
          */
-        void downloadInvoice( @Nonnull String url );
+        void downloadDocument( @Nonnull String url );
 
         void scrollTo( @Nullable String scrollspy );
 
         void clear();
 
-        void setDataSource( InfiniteScroll.Callback<IncomingInvoice> callback );
+        void setDataSource( InfiniteScroll.Callback<Expense> callback );
 
         void setClearFilterEnabled( boolean enabled );
     }
 
-    private class InvoiceDataSource
-            implements InfiniteScroll.Callback<IncomingInvoice>
+    private class ExpenseDataSource
+            implements InfiniteScroll.Callback<Expense>
     {
         private Long orderId;
 
         @Override
-        public void load( int offset, int limit, SuccessCallback<Items<IncomingInvoice>> callback )
+        public void load( int offset, int limit, SuccessCallback<Items<Expense>> callback )
         {
             if ( orderId == null )
             {
-                bus().billing().searchIncomingInvoices( offset, limit, true, callback );
+                bus().billing().searchExpenses( offset, limit, true, callback );
             }
             else
             {
-                bus().billing().listOrderIncomingInvoices( orderId, offset, limit, true, callback );
+                bus().billing().searchExpensesByOrder( offset, limit, true, orderId, callback );
             }
         }
 

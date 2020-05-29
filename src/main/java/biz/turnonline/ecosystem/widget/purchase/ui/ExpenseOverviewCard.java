@@ -19,12 +19,13 @@ package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceDetailsEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
-import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoices;
+import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Creditor;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Expense;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
@@ -55,16 +56,23 @@ import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
 import static gwt.material.design.client.constants.Color.WHITE;
 
 /**
- * Incoming invoice (purchases) overview card component.
+ * Expense overview card component. Covers the rendering of these expense types:
+ * <ul>
+ *     <li>RECEIPT</li>
+ *     <li>INVOICE</li>
+ * </ul>
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
+ * @see biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum
  */
-public class IncomingInvoiceOverviewCard
+public class ExpenseOverviewCard
         extends Composite
 {
     private static InvoiceCardUiBinder binder = GWT.create( InvoiceCardUiBinder.class );
 
     private static DateTimeFormat FORMATTER = DateTimeFormat.getFormat( "dd MMMM yyyy" );
+
+    private final AppMessages messages = AppMessages.INSTANCE;
 
     @UiField
     MaterialImage invoiceImage;
@@ -108,21 +116,19 @@ public class IncomingInvoiceOverviewCard
     @UiField
     MaterialButton btnCloseOverlay;
 
-    private AppMessages messages = AppMessages.INSTANCE;
-
-    public IncomingInvoiceOverviewCard( IncomingInvoice invoice, EventBus bus )
+    public ExpenseOverviewCard( Expense expense, EventBus bus )
     {
         initWidget( binder.createAndBindUi( this ) );
 
-        card.setScrollspy( IncomingInvoices.getScrollspy( invoice ) );
+        card.setScrollspy( Expenses.getScrollspy( expense ) );
 
-        // invoice image
-        boolean hasImageUrl = invoice.getServingUrl() != null;
+        // bill image
+        boolean hasImageUrl = expense.getServingUrl() != null;
         if ( hasImageUrl )
         {
-            invoiceImage.setUrl( invoice.getServingUrl() );
+            invoiceImage.setUrl( expense.getServingUrl() );
             invoiceImage.addClickHandler( e -> overlay.open( invoiceImage ) );
-            overlayImage.setUrl( invoice.getServingUrl() + "=s1200" );
+            overlayImage.setUrl( expense.getServingUrl() + "=s1200" );
             btnCloseOverlay.addClickHandler( e -> overlay.close() );
             overlay.addClickHandler( event -> overlay.close() );
         }
@@ -132,7 +138,7 @@ public class IncomingInvoiceOverviewCard
         }
 
         // creditor as a title
-        Creditor creditor = invoice.getCreditor();
+        Creditor creditor = expense.getSupplier();
         String name = "";
         if ( creditor != null )
         {
@@ -145,12 +151,12 @@ public class IncomingInvoiceOverviewCard
         }
         title.setText( name );
 
-        invoiceNumber.setText( invoice.getInvoiceNumber() );
-        type.setBackgroundColor( typeColor( invoice.getType() ) );
-        type.setText( typeText( invoice.getType() ) );
+        invoiceNumber.setText( expense.getBillNumber() );
+        type.setBackgroundColor( typeColor( expense.getType() ) );
+        type.setText( typeText( expense.getType() ) );
 
         // pricing
-        BillPayment payment = invoice.getPayment();
+        BillPayment payment = expense.getPayment();
 
         if ( payment == null )
         {
@@ -159,7 +165,7 @@ public class IncomingInvoiceOverviewCard
         }
         else
         {
-            amountToPay.setValue( payment.getTotalAmount(), invoice.getCurrency() );
+            amountToPay.setValue( payment.getTotalAmount(), expense.getCurrency() );
             Date due = payment.getDueDate();
 
             dueDate.setText( due == null ? "none" : FORMATTER.format( due ) );
@@ -177,32 +183,48 @@ public class IncomingInvoiceOverviewCard
         }
 
         // action event handlers
-        String scrollspyHistoryToken = IncomingInvoices.PREFIX + ":" + IncomingInvoices.getScrollspy( invoice );
+        String scrollspyHistoryToken = Expenses.PREFIX + ":" + Expenses.getScrollspy( expense );
+
+        Bill bill = expense.getBill();
+        Long orderId = bill == null ? null : bill.getOrder();
+        Long invoiceId = bill == null ? null : bill.getInvoice();
 
         editLink.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy
-            if ( IncomingInvoices.isCurrentTokenScrollspy() )
+            if ( Expenses.isCurrentTokenScrollspy() )
             {
                 // add record in to history (to manage scrolling to selected card once going back), but don't fire event
                 History.newItem( scrollspyHistoryToken, false );
             }
-            bus.fireEvent( new IncomingInvoiceDetailsEvent( invoice ) );
+            if ( orderId != null && invoiceId != null )
+            {
+                bus.fireEvent( new IncomingInvoiceDetailsEvent( orderId, invoiceId ) );
+            }
         } );
 
         viewOrder.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy
-            if ( IncomingInvoices.isCurrentTokenScrollspy() )
+            if ( Expenses.isCurrentTokenScrollspy() )
             {
                 // add record in to history (to manage scrolling to selected card once going back), but don't fire event
                 History.newItem( scrollspyHistoryToken, false );
             }
-            bus.fireEvent( new PurchaseOrderDetailEvent( invoice.getOrderId() ) );
+            if ( orderId != null )
+            {
+                bus.fireEvent( new PurchaseOrderDetailEvent( orderId ) );
+            }
         } );
 
         if ( hasImageUrl )
         {
-            downloadLink.addClickHandler( event ->
-                    bus.fireEvent( new DownloadInvoiceEvent( invoice.getOrderId(), invoice.getId(), invoice.getPin() ) ) );
+            String pin = expense.getPin();
+            if ( ( orderId != null && invoiceId != null && !Strings.isNullOrEmpty( pin ) ) )
+            {
+                boolean isAccount = creditor != null && creditor.getAccount() != null;
+                DownloadInvoiceEvent downloadEvent = new DownloadInvoiceEvent( orderId, invoiceId, pin, !isAccount );
+
+                downloadLink.addClickHandler( event -> bus.fireEvent( downloadEvent ) );
+            }
         }
         downloadLink.setVisible( hasImageUrl );
     }
@@ -252,7 +274,7 @@ public class IncomingInvoiceOverviewCard
     }
 
     interface InvoiceCardUiBinder
-            extends UiBinder<MaterialCard, IncomingInvoiceOverviewCard>
+            extends UiBinder<MaterialCard, ExpenseOverviewCard>
     {
     }
 }

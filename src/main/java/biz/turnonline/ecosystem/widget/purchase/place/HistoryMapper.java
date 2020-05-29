@@ -28,7 +28,7 @@ import com.google.gwt.place.shared.WithTokenizers;
 @WithTokenizers( {
         PurchaseOrders.Tokenizer.class,
         PurchaseOrderDetails.Tokenizer.class,
-        IncomingInvoices.Tokenizer.class,
+        Expenses.Tokenizer.class,
         IncomingInvoiceDetails.Tokenizer.class
 } )
 public interface HistoryMapper

@@ -59,7 +59,7 @@ public final class Bill
     }
 
     /**
-     * The unique identification of the order associated with the settled invoice.
+     * The unique identification of the order associated with the invoice.
      **/
     public Long getOrder()
     {

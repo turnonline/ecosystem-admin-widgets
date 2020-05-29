@@ -26,7 +26,7 @@ import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLI
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
- * Represents a request to download PDF of the specified invoice.
+ * Represents a request to download PDF of the specified (incoming) invoice.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
@@ -41,11 +41,19 @@ public class DownloadInvoiceEvent
 
     private final String pin;
 
+    private final boolean incoming;
+
     public DownloadInvoiceEvent( @Nonnull Long orderId, @Nonnull Long invoiceId, @Nonnull String pin )
+    {
+        this( orderId, invoiceId, pin, false );
+    }
+
+    public DownloadInvoiceEvent( @Nonnull Long orderId, @Nonnull Long invoiceId, @Nonnull String pin, boolean incoming )
     {
         this.orderId = checkNotNull( orderId, "Order ID can't be null" );
         this.invoiceId = checkNotNull( invoiceId, "Invoice ID can't be null" );
         this.pin = checkNotNull( pin, "Invoice PIN can't be null" );
+        this.incoming = incoming;
     }
 
     public Type<DownloadInvoiceEventHandler> getAssociatedType()
@@ -96,6 +104,7 @@ public class DownloadInvoiceEvent
                 + "/invoices/"
                 + getInvoiceId()
                 + "/"
-                + getPin();
+                + getPin()
+                + ( incoming ? "?incoming=true" : "" );
     }
 }

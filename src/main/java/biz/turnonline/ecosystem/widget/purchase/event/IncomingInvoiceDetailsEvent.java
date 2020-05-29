@@ -42,10 +42,10 @@ public class IncomingInvoiceDetailsEvent
 
     private final Long invoiceId;
 
-    public IncomingInvoiceDetailsEvent( @Nonnull IncomingInvoice invoice )
+    public IncomingInvoiceDetailsEvent( @Nonnull Long orderId, @Nonnull Long invoiceId )
     {
-        this.orderId = checkNotNull( invoice.getOrderId() );
-        this.invoiceId = checkNotNull( invoice.getId() );
+        this.orderId = checkNotNull( orderId, "Order ID can't be null" );
+        this.invoiceId = checkNotNull( invoiceId, "Invoice ID can't be null" );
     }
 
     public Type<IncomingInvoiceDetailsHandler> getAssociatedType()

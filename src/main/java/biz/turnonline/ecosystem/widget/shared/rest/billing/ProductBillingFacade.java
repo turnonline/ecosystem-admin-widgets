@@ -238,11 +238,19 @@ public interface ProductBillingFacade
                                FacadeCallback<Void> callback );
 
     @GET
-    @Path( "purchases/invoices" )
-    void searchIncomingInvoices( @QueryParam( "offset" ) Integer offset,
-                                 @QueryParam( "limit" ) Integer limit,
-                                 @QueryParam( "lightList" ) boolean lightList,
-                                 SuccessCallback<Items<IncomingInvoice>> callback );
+    @Path( "purchases/expenses" )
+    void searchExpenses( @QueryParam( "offset" ) Integer offset,
+                         @QueryParam( "limit" ) Integer limit,
+                         @QueryParam( "lightList" ) boolean lightList,
+                         SuccessCallback<Items<Expense>> callback );
+
+    @GET
+    @Path( "purchases/expenses" )
+    void searchExpensesByOrder( @QueryParam( "offset" ) Integer offset,
+                                @QueryParam( "limit" ) Integer limit,
+                                @QueryParam( "lightList" ) boolean lightList,
+                                @QueryParam( "orderId" ) Long orderId,
+                                SuccessCallback<Items<Expense>> callback );
 
     @GET
     @Path( "purchases/orders/{order_id}/invoices" )
