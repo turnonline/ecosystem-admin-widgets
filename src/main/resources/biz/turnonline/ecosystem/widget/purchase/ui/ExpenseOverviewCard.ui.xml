@@ -49,7 +49,7 @@
             <m:MaterialRow grid="s12" paddingLeft="0" marginBottom="0">
                 <m:MaterialColumn grid="s12 m8 l8" paddingLeft="0" paddingTop="5" paddingBottom="0">
                     <m:MaterialRow>
-                        <m:MaterialLabel ui:field="invoiceNumber" fontWeight="BOLD"/>
+                        <m:MaterialLabel ui:field="billNumber" fontWeight="BOLD"/>
                     </m:MaterialRow>
                     <m:MaterialRow>
                         <m:MaterialChip ui:field="type" textColor="WHITE" addStyleNames="truncate"/>
@@ -73,12 +73,14 @@
         <m:MaterialRow marginBottom="0">
             <m:MaterialColumn grid="s12 m12 l12">
                 <m:MaterialCardAction marginTop="0" padding="5">
-                    <m:MaterialLink ui:field="editLink" iconColor="BLUE" paddingTop="10" iconType="VISIBILITY"
-                                    marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipPurchaseInvoiceView}"/>
+                    <m:MaterialLink ui:field="viewBill" iconColor="BLUE" paddingTop="10" iconType="VISIBILITY"
+                                    marginLeft="10" tooltipDelayMs="700"/>
                     <m:MaterialLink ui:field="viewOrder" iconColor="BLUE" paddingTop="10" iconType="ASSIGNMENT_TURNED_IN"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipPurchaseOrderView}"/>
                     <m:MaterialLink ui:field="downloadLink" iconColor="BLUE" paddingTop="10" iconType="CLOUD_DOWNLOAD"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipInvoiceDownload}"/>
+                    <m:MaterialIcon ui:field="through" float="RIGHT" backgroundColor="WHITE" shadow="0" type="FLOATING"
+                                    tooltipDelayMs="700" textAlign="CENTER"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>
         </m:MaterialRow>

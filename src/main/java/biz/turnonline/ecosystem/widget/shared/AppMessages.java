@@ -191,6 +191,9 @@ public interface AppMessages
     @Key( value = "label.invoices" )
     String labelInvoices();
 
+    @Key( "label.expenses" )
+    String labelExpenses();
+
     @Key( "label.lastInvoice" )
     String labelLastInvoice();
 
@@ -671,8 +674,8 @@ public interface AppMessages
     @Key( "label.billNumber" )
     String labelBillNumber();
 
-    @Key( "label.cashRegisterDocument" )
-    String labelCashRegisterDocument();
+    @Key( "label.receipt" )
+    String labelReceipt();
 
     @Key( "label.billType" )
     String labelBillType();
@@ -856,6 +859,18 @@ public interface AppMessages
     @Key( "tooltip.purchase.invoice.view" )
     String tooltipPurchaseInvoiceView();
 
+    @Key( "tooltip.purchase.receipt.view" )
+    String tooltipPurchaseReceiptView();
+
+    @Key( "tooltip.purchase.ecosystem.inside" )
+    String tooltipPurchaseEcosystemInside();
+
+    @Key( "tooltip.purchase.ecosystem.outside" )
+    String tooltipPurchaseEcosystemOutside();
+
+    @Key( "tooltip.expense.list.refresh" )
+    String tooltipExpenseListRefresh();
+
     @Key( value = "tooltip.bill.new" )
     String tooltipNewBill();
 
@@ -952,13 +967,13 @@ public interface AppMessages
     String msgBatchCreated( String name );
 
     @Key( "msg.bankAccount.markedAsPrimary" )
-    String msgBankAccountMarkedAsPrimary(String name);
+    String msgBankAccountMarkedAsPrimary( String name );
 
     @Key( "msg.bankAccountImported" )
-    String msgBankAccountImported(String name);
+    String msgBankAccountImported( String name );
 
     @Key( "msg.billApproved" )
-    String msgBillApproved(String name);
+    String msgBillApproved( String name );
 
     // other
 

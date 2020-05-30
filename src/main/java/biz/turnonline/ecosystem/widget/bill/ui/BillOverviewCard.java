@@ -51,9 +51,10 @@ import java.util.Optional;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.INVOICE;
 import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.RECEIPT;
-import static gwt.material.design.client.constants.Color.BLUE;
+import static gwt.material.design.client.constants.Color.BROWN_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.RED;
+import static gwt.material.design.client.constants.Color.TEAL_LIGHTEN_2;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
@@ -176,17 +177,17 @@ public class BillOverviewCard
     {
         if ( type.equalsIgnoreCase( RECEIPT.name() ) )
         {
-            return GREEN;
+            return BROWN_LIGHTEN_2;
         }
 
-        return BLUE;
+        return TEAL_LIGHTEN_2;
     }
 
     private String typeText( String type )
     {
         if ( type.equalsIgnoreCase( RECEIPT.name() ) )
         {
-            return messages.labelCashRegisterDocument();
+            return messages.labelReceipt();
         }
 
         if ( type.equalsIgnoreCase( INVOICE.name() ) )

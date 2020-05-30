@@ -43,6 +43,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialDatePicker;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
@@ -54,6 +55,7 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.S
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static gwt.material.design.client.constants.Color.BLUE;
+import static gwt.material.design.client.constants.Color.BLUE_GREY_DARKEN_2;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_3;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_4;
@@ -63,6 +65,7 @@ import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
 import static gwt.material.design.client.constants.Color.RED_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.YELLOW;
+import static gwt.material.design.client.constants.IconType.CLOSE;
 
 /**
  * Purchase order overview card component.
@@ -115,6 +118,9 @@ public class PurchaseOrderOverviewCard
     @UiField
     MaterialImage creditorLogo;
 
+    @UiField
+    MaterialIcon through;
+
     private PurchaseOrder order;
 
     private AppMessages messages = AppMessages.INSTANCE;
@@ -146,6 +152,22 @@ public class PurchaseOrderOverviewCard
             }
         }
         title.setText( name );
+
+        // If there is no account, it represents a purchase outside of the Ecosystem
+        boolean withinEcosystem = creditor != null && creditor.getAccount() != null;
+
+        if ( withinEcosystem )
+        {
+            through.setIconType( IconType.EXPLICIT );
+            through.setIconColor( BLUE_GREY_DARKEN_2 );
+            through.setTooltip( messages.tooltipPurchaseEcosystemInside() );
+        }
+        else
+        {
+            through.setIconType( IconType.MOOD_BAD );
+            through.setIconColor( GREY );
+            through.setTooltip( messages.tooltipPurchaseEcosystemOutside() );
+        }
 
         // order periodicity
         OrderPeriodicity periodicityEnum = order.getPeriodicity() == null
@@ -197,22 +219,26 @@ public class PurchaseOrderOverviewCard
             case TRIALING:
             {
                 card.setBackgroundColor( Color.BLUE_GREY_LIGHTEN_5 );
+                through.setBackgroundColor( Color.BLUE_GREY_LIGHTEN_5 );
                 break;
             }
             case ACTIVE:
             {
                 card.setBackgroundColor( Color.WHITE );
+                through.setBackgroundColor( Color.WHITE );
                 break;
             }
             case SUSPENDED:
             case ISSUE:
             {
                 card.setBackgroundColor( Color.RED_LIGHTEN_5 );
+                through.setBackgroundColor( Color.RED_LIGHTEN_5 );
                 break;
             }
             case FINISHED:
             {
                 card.setBackgroundColor( Color.GREEN_LIGHTEN_5 );
+                through.setBackgroundColor( Color.GREEN_LIGHTEN_5 );
                 break;
             }
         }
@@ -326,7 +352,7 @@ public class PurchaseOrderOverviewCard
             }
             case ISSUE:
             {
-                return IconType.CLOSE;
+                return CLOSE;
             }
             case FINISHED:
             {

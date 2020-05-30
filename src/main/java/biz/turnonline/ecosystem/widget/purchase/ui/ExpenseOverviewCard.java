@@ -26,6 +26,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.billing.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Creditor;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Expense;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ExpenseThrough;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
@@ -37,29 +38,36 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconPosition;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Date;
 
-import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType.TAX_DOCUMENT;
 import static gwt.material.design.client.constants.Color.BLACK;
-import static gwt.material.design.client.constants.Color.BLUE;
+import static gwt.material.design.client.constants.Color.BLUE_GREY_DARKEN_2;
+import static gwt.material.design.client.constants.Color.BROWN_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
+import static gwt.material.design.client.constants.Color.TEAL_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.WHITE;
+import static gwt.material.design.client.constants.IconType.ASSIGNMENT;
+import static gwt.material.design.client.constants.IconType.RECEIPT;
 
 /**
  * Expense overview card component. Covers the rendering of these expense types:
  * <ul>
- *     <li>RECEIPT</li>
- *     <li>INVOICE</li>
+ *     <li>Receipt</li>
+ *     <li>Invoice</li>
  * </ul>
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -84,7 +92,7 @@ public class ExpenseOverviewCard
     MaterialImage creditorLogo;
 
     @UiField
-    MaterialLabel invoiceNumber;
+    MaterialLabel billNumber;
 
     @UiField
     MaterialChip type;
@@ -96,7 +104,7 @@ public class ExpenseOverviewCard
     PriceLabel amountToPay;
 
     @UiField
-    MaterialLink editLink;
+    MaterialLink viewBill;
 
     @UiField
     MaterialLink viewOrder;
@@ -116,11 +124,30 @@ public class ExpenseOverviewCard
     @UiField
     MaterialButton btnCloseOverlay;
 
+    @UiField
+    MaterialIcon through;
+
     public ExpenseOverviewCard( Expense expense, EventBus bus )
     {
         initWidget( binder.createAndBindUi( this ) );
 
         card.setScrollspy( Expenses.getScrollspy( expense ) );
+
+        Bill bill = expense.getBill();
+        boolean isInvoiceType = isInvoiceType( bill );
+
+        if ( ExpenseThrough.EXTERNAL.name().equals( expense.getThrough() ) )
+        {
+            through.setIconType( IconType.MOOD_BAD );
+            through.setIconColor( GREY );
+            through.setTooltip( messages.tooltipPurchaseEcosystemOutside() );
+        }
+        else if ( ExpenseThrough.ECOSYSTEM.name().equals( expense.getThrough() ) )
+        {
+            type.setIconType( IconType.EXPLICIT );
+            through.setIconColor( BLUE_GREY_DARKEN_2 );
+            through.setTooltip( messages.tooltipPurchaseEcosystemInside() );
+        }
 
         // bill image
         boolean hasImageUrl = expense.getServingUrl() != null;
@@ -151,9 +178,11 @@ public class ExpenseOverviewCard
         }
         title.setText( name );
 
-        invoiceNumber.setText( expense.getBillNumber() );
-        type.setBackgroundColor( typeColor( expense.getType() ) );
-        type.setText( typeText( expense.getType() ) );
+        billNumber.setText( expense.getBillNumber() );
+        type.setIconType( billIcon( bill ) );
+        type.setIconPosition( IconPosition.LEFT );
+        type.setBackgroundColor( billType( bill ) );
+        type.setText( billText( bill ) );
 
         // pricing
         BillPayment payment = expense.getPayment();
@@ -170,6 +199,7 @@ public class ExpenseOverviewCard
 
             dueDate.setText( due == null ? "none" : FORMATTER.format( due ) );
             dueDate.setBackgroundColor( dueDateColor( payment ) );
+            dueDate.setVisible( due != null );
 
             if ( dueDate.getBackgroundColor() == WHITE )
             {
@@ -185,11 +215,10 @@ public class ExpenseOverviewCard
         // action event handlers
         String scrollspyHistoryToken = Expenses.PREFIX + ":" + Expenses.getScrollspy( expense );
 
-        Bill bill = expense.getBill();
         Long orderId = bill == null ? null : bill.getOrder();
         Long invoiceId = bill == null ? null : bill.getInvoice();
 
-        editLink.addClickHandler( event -> {
+        viewBill.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy
             if ( Expenses.isCurrentTokenScrollspy() )
             {
@@ -227,6 +256,16 @@ public class ExpenseOverviewCard
             }
         }
         downloadLink.setVisible( hasImageUrl );
+        viewOrder.setVisible( isInvoiceType );
+
+        if ( isInvoiceType )
+        {
+            viewBill.setTooltip( messages.tooltipPurchaseInvoiceView() );
+        }
+        else
+        {
+            viewBill.setTooltip( messages.tooltipPurchaseReceiptView() );
+        }
     }
 
     private Color dueDateColor( @Nonnull BillPayment payment )
@@ -253,24 +292,51 @@ public class ExpenseOverviewCard
         }
     }
 
-    private Color typeColor( String type )
+    private IconType billIcon( Bill bill )
     {
-        if ( type.equalsIgnoreCase( TAX_DOCUMENT.name() ) )
+        if ( isInvoiceType( bill ) )
         {
-            return GREEN;
+            return ASSIGNMENT;
         }
-
-        return BLUE;
+        else
+        {
+            return RECEIPT;
+        }
     }
 
-    private String typeText( String type )
+    private Color billType( Bill bill )
     {
-        if ( type.equalsIgnoreCase( TAX_DOCUMENT.name() ) )
+        if ( isInvoiceType( bill ) )
         {
-            return messages.labelTaxDocument();
+            return TEAL_LIGHTEN_2;
+        }
+        else
+        {
+            // Receipt type
+            return BROWN_LIGHTEN_2;
+        }
+    }
+
+    private String billText( Bill bill )
+    {
+        if ( isInvoiceType( bill ) )
+        {
+            return messages.labelInvoice();
+        }
+        else
+        {
+            return messages.labelReceipt();
+        }
+    }
+
+    private boolean isInvoiceType( @Nullable Bill bill )
+    {
+        if ( bill == null )
+        {
+            return false;
         }
 
-        return messages.labelProforma();
+        return bill.getOrder() != null && bill.getInvoice() != null && bill.getReceipt() == null;
     }
 
     interface InvoiceCardUiBinder

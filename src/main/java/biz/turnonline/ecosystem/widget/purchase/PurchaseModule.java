@@ -193,7 +193,7 @@ public abstract class PurchaseModule
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelInvoices() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelExpenses() ) );
 
         return new ScaffoldBreadcrumb( items, controller, provideInvoicesNavigationLink( controller ) );
     }
@@ -205,7 +205,7 @@ public abstract class PurchaseModule
         invoicesButton.setIconColor( Color.BLACK );
         invoicesButton.setWaves( WavesType.LIGHT );
         invoicesButton.setPaddingRight( 0 );
-        invoicesButton.setTooltip( messages.labelInvoices() );
+        invoicesButton.setTooltip( messages.labelExpenses() );
         invoicesButton.addClickHandler( event -> controller.goTo( new Expenses() ) );
 
         return invoicesButton;

@@ -84,7 +84,7 @@ public class ExpensesView
         } );
 
         // refresh action setup
-        breadcrumb.setRefreshTooltip( messages.tooltipInvoiceListRefresh() );
+        breadcrumb.setRefreshTooltip( messages.tooltipExpenseListRefresh() );
         breadcrumb.setNavSectionVisible( true );
         breadcrumb.addRefreshClickHandler( event -> scroll.reload() );
 

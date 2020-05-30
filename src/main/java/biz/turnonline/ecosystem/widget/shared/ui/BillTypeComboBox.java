@@ -18,6 +18,7 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,8 @@ public class BillTypeComboBox
 
     static
     {
-        types.add( new StaticCodeBook( "RECEIPT", messages.labelCashRegisterDocument() ) );
-        types.add( new StaticCodeBook( "INVOICE", messages.labelInvoice() ) );
+        types.add( new StaticCodeBook( Bill.TypeEnum.RECEIPT.name(), messages.labelReceipt() ) );
+        types.add( new StaticCodeBook( Bill.TypeEnum.INVOICE.name(), messages.labelInvoice() ) );
     }
 
     @Override
@@ -47,6 +48,6 @@ public class BillTypeComboBox
     @Override
     protected String defaultValue()
     {
-        return "RECEIPT";
+        return Bill.TypeEnum.RECEIPT.name();
     }
 }

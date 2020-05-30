@@ -41,13 +41,13 @@ public final class Expense
 
     private Creditor supplier;
 
+    private String through;
+
     private Double totalPrice;
 
     private Double totalPriceExclVat;
 
     private Double totalVatBase;
-
-    private String type;
 
     /**
      * Identification of the bill (receipt) or invoice document.
@@ -170,9 +170,6 @@ public final class Expense
         return this;
     }
 
-    /**
-     * A business that delivered a product or service. It might be an account at Ecosystem but not necessarily.
-     **/
     public Creditor getSupplier()
     {
         return supplier;
@@ -181,6 +178,17 @@ public final class Expense
     public Expense setSupplier( Creditor supplier )
     {
         this.supplier = supplier;
+        return this;
+    }
+
+    public String getThrough()
+    {
+        return through;
+    }
+
+    public Expense setThrough( String through )
+    {
+        this.through = through;
         return this;
     }
 
@@ -214,20 +222,6 @@ public final class Expense
     public Expense setTotalVatBase( Double totalVatBase )
     {
         this.totalVatBase = totalVatBase;
-        return this;
-    }
-
-    /**
-     * The bill document type.
-     **/
-    public String getType()
-    {
-        return type;
-    }
-
-    public Expense setType( String type )
-    {
-        this.type = type;
         return this;
     }
 }
