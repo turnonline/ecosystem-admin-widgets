@@ -66,6 +66,7 @@ import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
 import static gwt.material.design.client.constants.Color.RED_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.YELLOW;
 import static gwt.material.design.client.constants.IconType.CLOSE;
+import static gwt.material.design.client.constants.IconType.DELETE;
 
 /**
  * Purchase order overview card component.
@@ -78,6 +79,12 @@ public class PurchaseOrderOverviewCard
     private static OrderCardUiBinder binder = GWT.create( OrderCardUiBinder.class );
 
     private final AppEventBus bus;
+
+    private final PurchaseOrder order;
+
+    private final AppMessages messages = AppMessages.INSTANCE;
+
+    private final boolean withinEcosystem;
 
     @UiField
     ConfirmationWindow confirmation;
@@ -121,10 +128,6 @@ public class PurchaseOrderOverviewCard
     @UiField
     MaterialIcon through;
 
-    private PurchaseOrder order;
-
-    private AppMessages messages = AppMessages.INSTANCE;
-
     public PurchaseOrderOverviewCard( @Nonnull PurchaseOrder order, @Nonnull AppEventBus bus )
     {
         this.bus = bus;
@@ -154,19 +157,23 @@ public class PurchaseOrderOverviewCard
         title.setText( name );
 
         // If there is no account, it represents a purchase outside of the Ecosystem
-        boolean withinEcosystem = creditor != null && creditor.getAccount() != null;
+        withinEcosystem = creditor != null && creditor.getAccount() != null;
 
         if ( withinEcosystem )
         {
             through.setIconType( IconType.EXPLICIT );
             through.setIconColor( BLUE_GREY_DARKEN_2 );
             through.setTooltip( messages.tooltipPurchaseEcosystemInside() );
+
+            decline.setIconType( CLOSE );
         }
         else
         {
             through.setIconType( IconType.MOOD_BAD );
             through.setIconColor( GREY );
             through.setTooltip( messages.tooltipPurchaseEcosystemOutside() );
+
+            decline.setIconType( DELETE );
         }
 
         // order periodicity
@@ -200,7 +207,6 @@ public class PurchaseOrderOverviewCard
 
         statusChanged( status );
 
-        confirmation.getBtnOk().setText( messages.labelDecline() );
         confirmation.getBtnOk().addClickHandler( this::declinedOrder );
     }
 
@@ -265,7 +271,16 @@ public class PurchaseOrderOverviewCard
     @UiHandler( "decline" )
     public void declineOrder( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDecline( order.formattedName() ) );
+        if ( withinEcosystem )
+        {
+            confirmation.getBtnOk().setText( messages.labelDecline() );
+            confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDecline( order.formattedName() ) );
+        }
+        else
+        {
+            confirmation.getBtnOk().setText( messages.labelDelete() );
+            confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDelete( order.formattedName() ) );
+        }
     }
 
     private void declinedOrder( @SuppressWarnings( "unused" ) ClickEvent ok )

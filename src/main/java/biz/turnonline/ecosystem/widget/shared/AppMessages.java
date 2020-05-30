@@ -1029,4 +1029,7 @@ public interface AppMessages
 
     @Key( "question.purchase.order.decline" )
     String questionPurchaseOrderDecline( String company );
+
+    @Key( "question.purchase.order.delete" )
+    String questionPurchaseOrderDelete( String p0 );
 }
