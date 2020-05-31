@@ -16,7 +16,6 @@
 
 package biz.turnonline.ecosystem.widget.purchase.event;
 
-import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
@@ -27,15 +26,15 @@ public class EditBillEvent
 {
     public static Type<EditBillEventHandler> TYPE = new Type<>();
 
-    private Bill bill;
+    private Long billId;
 
     public EditBillEvent()
     {
     }
 
-    public EditBillEvent( Bill bill )
+    public EditBillEvent( Long billId )
     {
-        this.bill = bill;
+        this.billId = billId;
     }
 
     public Type<EditBillEventHandler> getAssociatedType()
@@ -55,6 +54,6 @@ public class EditBillEvent
      */
     public Long getId()
     {
-        return bill == null ? null : bill.getId();
+        return billId;
     }
 }

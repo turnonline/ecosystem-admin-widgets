@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
+import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceDetailsEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
@@ -217,6 +218,7 @@ public class ExpenseOverviewCard
 
         Long orderId = bill == null ? null : bill.getOrder();
         Long invoiceId = bill == null ? null : bill.getInvoice();
+        Long receiptId = bill == null ? null : bill.getReceipt();
 
         viewBill.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy
@@ -228,6 +230,10 @@ public class ExpenseOverviewCard
             if ( orderId != null && invoiceId != null )
             {
                 bus.fireEvent( new IncomingInvoiceDetailsEvent( orderId, invoiceId ) );
+            }
+            else if ( receiptId != null )
+            {
+                bus.fireEvent( new EditBillEvent( receiptId ) );
             }
         } );
 

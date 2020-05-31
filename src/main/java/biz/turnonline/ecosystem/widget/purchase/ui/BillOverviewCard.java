@@ -169,7 +169,7 @@ public class BillOverviewCard
             // add record in to history (to manage scrolling to selected card once going back), but don't fire event
             History.newItem( Bills.PREFIX + ":" + Bills.getScrollspy( bill ), false );
         }
-        bus.fireEvent( new EditBillEvent( bill ) );
+        bus.fireEvent( new EditBillEvent( bill.getId() ) );
     }
 
     private Color typeColor( String type )

@@ -75,12 +75,18 @@ public class Expenses
         Bill bill = expense == null ? null : expense.getBill();
         Long orderId = bill == null ? null : bill.getOrder();
         Long invoiceId = bill == null ? null : bill.getInvoice();
-        return ( orderId != null && invoiceId != null ) ? scrollspy( orderId, invoiceId ) : null;
+        Long receiptId = bill == null ? null : bill.getReceipt();
+        return ( orderId != null && invoiceId != null ) ? scrollspy( orderId, invoiceId ) : scrollspy( receiptId );
     }
 
     private static String scrollspy( Long orderId, Long invoiceId )
     {
         return "/" + SCROLL + "/" + orderId + SEPARATOR + invoiceId;
+    }
+
+    private static String scrollspy( Long receiptId )
+    {
+        return receiptId == null ? "" : "/" + SCROLL + "/" + receiptId;
     }
 
     private static String order( Long orderId )
@@ -133,7 +139,15 @@ public class Expenses
             {
                 int index = pieces.indexOf( SCROLL );
                 String[] fullId = pieces.get( index + 1 ).split( SEPARATOR );
-                place.scrollspy = scrollspy( Long.valueOf( fullId[0] ), Long.valueOf( fullId[1] ) );
+
+                if ( fullId.length == 2 )
+                {
+                    place.scrollspy = scrollspy( Long.valueOf( fullId[0] ), Long.valueOf( fullId[1] ) );
+                }
+                else if ( fullId.length == 1 )
+                {
+                    place.scrollspy = scrollspy( Long.valueOf( fullId[0] ) );
+                }
             }
 
             if ( pieces.contains( ORDER ) )
