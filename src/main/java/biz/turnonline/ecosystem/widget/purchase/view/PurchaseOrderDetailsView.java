@@ -52,6 +52,8 @@ import java.util.List;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
+import static gwt.material.design.client.constants.IconType.CLOSE;
+import static gwt.material.design.client.constants.IconType.DELETE;
 
 /**
  * Purchase order detail view.
@@ -131,6 +133,28 @@ public class PurchaseOrderDetailsView
         {
             viewLastInvoice.setEnabled( false );
         }
+
+        if ( isOutsideEcosystem() )
+        {
+            decline.setIconType( DELETE );
+            decline.setTooltip( messages.tooltipPurchaseOrderDelete() );
+        }
+        else
+        {
+            decline.setIconType( CLOSE );
+            decline.setTooltip( messages.tooltipPurchaseOrderDecline() );
+        }
+    }
+
+    /**
+     * If there is no account (returns true), it represents a purchase outside of the Ecosystem.
+     *
+     * @return true if purchase outside Ecosystem
+     */
+    private boolean isOutsideEcosystem()
+    {
+        PurchaseOrder order = getRawModel();
+        return order.getCreditor() == null || order.getCreditor().getAccount() == null;
     }
 
     @UiHandler( "btnBack" )
@@ -140,10 +164,17 @@ public class PurchaseOrderDetailsView
     }
 
     @UiHandler( "decline" )
-    public void deleteContact( @SuppressWarnings( "unused" ) ClickEvent event )
+    public void deletePurchaseOrder( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         PurchaseOrder order = getRawModel();
-        confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDecline( order.formattedName() ) );
+        if ( isOutsideEcosystem() )
+        {
+            confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDelete( order.formattedName() ) );
+        }
+        else
+        {
+            confirmation.open( AppMessages.INSTANCE.questionPurchaseOrderDecline( order.formattedName() ) );
+        }
     }
 
     @UiHandler( "orderInvoices" )

@@ -832,6 +832,9 @@ public interface AppMessages
     @Key( "tooltip.purchase.order.decline" )
     String tooltipPurchaseOrderDecline();
 
+    @Key( "tooltip.purchase.order.delete" )
+    String tooltipPurchaseOrderDelete();
+
     @Key( "tooltip.invoice.send" )
     String tooltipInvoiceSend();
 

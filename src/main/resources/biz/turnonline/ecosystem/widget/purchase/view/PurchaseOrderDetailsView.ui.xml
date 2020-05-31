@@ -64,7 +64,7 @@
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipOrderPastInvoices}"/>
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
                                         iconType="CLOSE" ui:field="decline"
-                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipPurchaseOrderDecline}"/>
+                                        tooltipPosition="LEFT" tooltipDelayMs="700"/>
             </m:MaterialFABList>
         </m:MaterialFAB>
     </g:HTMLPanel>
