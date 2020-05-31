@@ -250,7 +250,6 @@ public class EditInvoiceView
     public void deleteInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
-
     }
 
     @UiHandler( "btnSendInvoice" )

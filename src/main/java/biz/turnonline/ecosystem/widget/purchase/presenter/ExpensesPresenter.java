@@ -18,6 +18,7 @@
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
 import biz.turnonline.ecosystem.widget.purchase.event.ClearIncomingInvoicesFilterEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.DeleteIncomingInvoiceEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceDetailsEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
 import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoiceDetails;
@@ -59,6 +60,7 @@ public class ExpensesPresenter
 
         bus().addHandler( DownloadInvoiceEvent.TYPE, e -> view().downloadDocument( e.downloadInvoiceUrl() ) );
         bus().addHandler( ClearIncomingInvoicesFilterEvent.TYPE, this::clearFilter );
+        bus().addHandler( DeleteIncomingInvoiceEvent.TYPE, this::deleteIncomingInvoice );
 
         view().setDataSource( dataSource = new ExpenseDataSource() );
     }
@@ -68,6 +70,14 @@ public class ExpensesPresenter
         dataSource.filterBy( null );
         view().clear();
         controller().goTo( new Expenses() );
+    }
+
+    private void deleteIncomingInvoice( DeleteIncomingInvoiceEvent event )
+    {
+        bus().billing().deleteIncomingInvoice( event.getOrderId(), event.getInvoiceId(), ( response, failure ) -> {
+            controller().goTo( new Expenses() );
+            success( messages.msgRecordDeleted( event.getInvoiceNumber() ), failure );
+        } );
     }
 
     @Override

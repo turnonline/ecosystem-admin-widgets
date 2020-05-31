@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.view;
 
+import biz.turnonline.ecosystem.widget.purchase.event.DeleteIncomingInvoiceEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.ExpenseListEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
@@ -24,11 +25,14 @@ import biz.turnonline.ecosystem.widget.purchase.ui.CreditorPanel;
 import biz.turnonline.ecosystem.widget.purchase.ui.IncomingInvoiceDetails;
 import biz.turnonline.ecosystem.widget.purchase.ui.IncomingInvoiceDetailsTabs;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
+import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.PricingItemsPanel;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -65,6 +69,9 @@ public class IncomingInvoiceDetailsView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
+    ConfirmationWindow confirmation;
+
+    @UiField
     IncomingInvoiceDetailsTabs tabs;
 
     @UiField
@@ -88,6 +95,9 @@ public class IncomingInvoiceDetailsView
     @UiField
     MaterialAnchorButton downloadInvoice;
 
+    @UiField
+    MaterialAnchorButton deleteInvoice;
+
     @Inject
     public IncomingInvoiceDetailsView( @Named( "ViewIncomingInvoiceBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
@@ -98,6 +108,11 @@ public class IncomingInvoiceDetailsView
         setActive( Route.PURCHASES );
 
         add( binder.createAndBindUi( this ) );
+
+        confirmation.getBtnOk().addClickHandler( event -> {
+            IncomingInvoice ii = getRawModel();
+            bus().fireEvent( new DeleteIncomingInvoiceEvent( ii.getOrderId(), ii.getId(), ii.getInvoiceNumber() ) );
+        } );
     }
 
     @UiFactory
@@ -120,6 +135,12 @@ public class IncomingInvoiceDetailsView
         items.fill( pricing == null ? null : pricing.getItems() );
 
         downloadInvoice.setEnabled( invoice.getPin() != null );
+
+        // If there is no account, it represents a purchase outside of the Ecosystem
+        boolean outsideEcosystem = invoice.getCreditor() == null || invoice.getCreditor().getAccount() == null;
+        BillPayment payment = invoice.getPayment();
+        deleteInvoice.setVisible( ( payment == null || !( payment.getTotalAmount() <= 0.0 ) ) && outsideEcosystem );
+
     }
 
     @UiHandler( "btnBack" )
@@ -140,6 +161,12 @@ public class IncomingInvoiceDetailsView
     {
         IncomingInvoice ii = getRawModel();
         bus().fireEvent( new DownloadInvoiceEvent( ii.getOrderId(), ii.getId(), ii.getPin() ) );
+    }
+
+    @UiHandler( "deleteInvoice" )
+    public void deleteInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        confirmation.open( AppMessages.INSTANCE.questionDeleteRecord() );
     }
 
     @Override

@@ -265,4 +265,10 @@ public interface ProductBillingFacade
     void getIncomingOrderInvoice( @PathParam( "order_id" ) Long orderId,
                                   @PathParam( "invoice_id" ) Long invoiceId,
                                   SuccessCallback<IncomingInvoice> callback );
+
+    @DELETE
+    @Path( "purchases/orders/{order_id}/invoices/{invoice_id}" )
+    void deleteIncomingInvoice( @PathParam( "order_id" ) Long orderId,
+                                @PathParam( "invoice_id" ) Long invoiceId,
+                                FacadeCallback<Void> callback );
 }
