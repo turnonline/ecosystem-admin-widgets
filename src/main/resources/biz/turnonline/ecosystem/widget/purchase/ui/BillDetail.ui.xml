@@ -1,0 +1,77 @@
+<!--
+  ~ Copyright (c) 2020 TurnOnline.biz s.r.o.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui"
+             xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.purchase.ui">
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m3">
+                <!--logo-->
+                <s:SectionTitle iconType="ADD_A_PHOTO" title="{msg.labelBillScan}"/>
+                <ui2:BillUploader ui:field="billUploader" marginBottom="20"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
+                <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
+
+                <m:MaterialColumn grid="m12" paddingLeft="0">
+                    <m:MaterialTextBox ui:field="description" label="{msg.labelName}" paddingLeft="0"/>
+                    <m:MaterialTextBox ui:field="billNumber" label="{msg.labelBillNumber}" paddingLeft="0"/>
+
+                    <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
+                        <m:MaterialDoubleBox ui:field="totalPrice" label="{msg.labelTotalPrice}" paddingLeft="0" grid="m8"/>
+                        <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" paddingLeft="0" paddingRight="0" grid="m4"/>
+                    </m:MaterialColumn>
+
+                    <s:BillTypeComboBox ui:field="billType" label="{msg.labelBillType}" grid="m8" paddingLeft="0"/>
+                    <m:MaterialDatePicker ui:field="dateOfIssue" placeholder="{msg.labelDateOfIssue}" grid="m8" paddingLeft="0"/>
+                </m:MaterialColumn>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="s12 m3">
+                <s:SectionTitle iconType="ACCESS_TIME" title="{msg.labelChanges}"/>
+
+                <m:MaterialDatePicker ui:field="created" grid="m8" placeholder="{msg.labelCreated}" paddingLeft="0"/>
+                <m:MaterialDatePicker ui:field="modified" grid="m8" placeholder="{msg.labelModified}" paddingLeft="0"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+
+        <m:MaterialRow>
+            <m:MaterialColumn grid="m12" marginBottom="10">
+                <s:SectionTitle iconType="LIST" title="{msg.labelItems}"/>
+            </m:MaterialColumn>
+
+            <m:MaterialColumn grid="m12">
+                <m:MaterialLink ui:field="addItem"
+                                shadow="0"
+                                waves="DEFAULT"
+                                text="{msg.labelAdd}"
+                                type="OUTLINED"
+                                iconType="ADD_CIRCLE"
+                                backgroundColor="WHITE"
+                                border="1px solid"
+                                textColor="GREEN"/>
+
+                <ui2:BillItems ui:field="items"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+    </g:HTMLPanel>
+</ui:UiBinder>
