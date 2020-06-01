@@ -218,7 +218,7 @@ public class ExpenseOverviewCard
 
         Long orderId = bill == null ? null : bill.getOrder();
         Long invoiceId = bill == null ? null : bill.getInvoice();
-        Long receiptId = bill == null ? null : bill.getReceipt();
+        Long billId = bill == null ? null : bill.getId();
 
         viewBill.addClickHandler( event -> {
             // don't add history record if there is already an another token not managing scrollspy
@@ -231,9 +231,9 @@ public class ExpenseOverviewCard
             {
                 bus.fireEvent( new IncomingInvoiceDetailsEvent( orderId, invoiceId ) );
             }
-            else if ( receiptId != null )
+            else if ( billId != null )
             {
-                bus.fireEvent( new EditBillEvent( receiptId ) );
+                bus.fireEvent( new EditBillEvent( billId ) );
             }
         } );
 
