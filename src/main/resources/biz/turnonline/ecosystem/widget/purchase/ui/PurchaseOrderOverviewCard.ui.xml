@@ -73,7 +73,7 @@
                     <m:MaterialLink ui:field="orderInvoices" iconColor="BLUE" paddingTop="10" iconType="ASSIGNMENT"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipOrderPastInvoices}"/>
                     <m:MaterialLink ui:field="decline" iconColor="RED" paddingTop="10" iconType="CLOSE"
-                                    marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipPurchaseOrderDecline}"/>
+                                    marginLeft="10" tooltipDelayMs="700"/>
                     <m:MaterialIcon ui:field="through" float="RIGHT" backgroundColor="WHITE" shadow="0" type="FLOATING"
                                     tooltipDelayMs="700" textAlign="CENTER"/>
                 </m:MaterialCardAction>

@@ -166,6 +166,7 @@ public class PurchaseOrderOverviewCard
             through.setTooltip( messages.tooltipPurchaseEcosystemInside() );
 
             decline.setIconType( CLOSE );
+            decline.setTooltip( messages.tooltipPurchaseOrderDecline() );
         }
         else
         {
@@ -174,6 +175,7 @@ public class PurchaseOrderOverviewCard
             through.setTooltip( messages.tooltipPurchaseEcosystemOutside() );
 
             decline.setIconType( DELETE );
+            decline.setTooltip( messages.tooltipPurchaseOrderDelete() );
         }
 
         // order periodicity
