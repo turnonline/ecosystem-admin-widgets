@@ -20,6 +20,8 @@ package biz.turnonline.ecosystem.widget.shared;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
+import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Window;
 import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
 import org.fusesource.restygwt.client.Defaults;
@@ -33,16 +35,6 @@ import static org.ctoolkit.gwt.client.Constants.REST_DATE_FORMAT;
 public class Configuration
 {
     public static final String CONFIGURATION_OBJECT = "Configuration";
-
-    public static final String DOMICILE = "DOMICILE";
-
-    public static final String CURRENCY = "CURRENCY";
-
-    public static final String VAT = "VAT";
-
-    public static final String LOGIN_ID = "LOGIN_ID";
-
-    public static final String LOGO = "LOGO";
 
     public static final String ACCOUNT_STEWARD_STORAGE = "ACCOUNT_STEWARD_STORAGE";
 
@@ -69,16 +61,6 @@ public class Configuration
 
     public static Configuration instance;
 
-    private String domicile;
-
-    private String currency;
-
-    private String vat;
-
-    private String loginId;
-
-    private String logo;
-
     private String mapsApiKey;
 
     /**
@@ -104,11 +86,6 @@ public class Configuration
         Defaults.ignoreJsonNulls();
 
         Configuration configuration = new Configuration();
-        configuration.setDomicile( dictionary.get( DOMICILE ) );
-        configuration.setCurrency( dictionary.get( CURRENCY ) );
-        configuration.setVat( dictionary.get( VAT ) );
-        configuration.setLoginId( dictionary.get( LOGIN_ID ) );
-        configuration.setLogo( dictionary.get( LOGO ) );
         configuration.setMapsApiKey( dictionary.get( MAPS_API_KEY ) );
 
         instance = configuration;
@@ -148,54 +125,39 @@ public class Configuration
         return listener;
     }
 
-    public String getDomicile()
+    public boolean isDevelopment()
     {
-        return domicile;
+        return Window.Location.getHostName().equals( "localhost" )
+                || Window.Location.getHostName().equals( "127.0.0.1" );
     }
 
-    public void setDomicile( String domicile )
+    public String getSignInUrl () {
+        return isDevelopment() ? "/signin.html" : "/sign-in";
+    }
+
+    public String getDomicile()
     {
-        this.domicile = domicile;
+        return Storage.getLocalStorageIfSupported().getItem( "turnonline::account::domicile" );
     }
 
     public String getCurrency()
     {
-        return currency;
-    }
-
-    public void setCurrency( String currency )
-    {
-        this.currency = currency;
+        return Storage.getLocalStorageIfSupported().getItem( "turnonline::account::currency" );
     }
 
     public String getVat()
     {
-        return vat;
-    }
-
-    public void setVat( String vat )
-    {
-        this.vat = vat;
+        return Storage.getLocalStorageIfSupported().getItem( "turnonline::account::vat" );
     }
 
     public String getLoginId()
     {
-        return loginId;
-    }
-
-    public void setLoginId( String loginId )
-    {
-        this.loginId = loginId;
+        return Storage.getLocalStorageIfSupported().getItem( "turnonline::account::id" );
     }
 
     public String getLogo()
     {
-        return logo;
-    }
-
-    public void setLogo( String logo )
-    {
-        this.logo = logo;
+        return Storage.getLocalStorageIfSupported().getItem( "turnonline::account::logo" );
     }
 
     public String getMapsApiKey()

@@ -24,8 +24,11 @@
 
     <title>widgets</title>
 
-    <script src="contact.widget/contact.widget.nocache.js"></script>
-    <script src="scripts/config.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
+
+    <script type="text/javascript" id="config" src="scripts/config.js"></script>
+    <script type="text/javascript" id="firebase_init" src="scripts/firebase.js"></script>
 
     <style>
         :focus {
@@ -46,5 +49,10 @@
 <script type="text/javascript" src="splash/splash.js"></script>
 
 <div id="widget-content"></div>
+
+<script type="text/javascript">
+    initWidget('contact.widget/contact.widget.nocache.js');
+</script>
+
 </body>
 </html>

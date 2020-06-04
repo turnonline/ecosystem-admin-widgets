@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest;
 
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import org.fusesource.restygwt.client.FailedResponseException;
@@ -148,7 +149,7 @@ public interface FacadeCallback<T>
 
             if ( fre.getStatusCode() == 401 )
             {
-                Window.Location.replace( "/login" );
+                Window.Location.replace( Configuration.get().getSignInUrl() );
             }
         }
     }
