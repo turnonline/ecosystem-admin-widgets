@@ -53,16 +53,12 @@
                 let email = currentUser.email;
 
                 currentUser.getIdToken().then( function ( accessToken ) {
-                    let accountUrl = Configuration.ACCOUNT_STEWARD_API_ROOT + "/accounts/" + email;
+                    let request = new XMLHttpRequest();
+                    request.addEventListener("loadend", function(data) {
+                        let resp = data.target;
 
-                    fetch( accountUrl, {
-                        headers: {
-                            'Authorization': 'Bearer ' + accessToken,
-                        }
-                    } ).then( response => {
-                        if ( response.status === 200 )
-                        {
-                            let account = response.json();
+                        if (resp.status === 200) {
+                            let account = JSON.parse(resp.response);
 
                             let id = account.id;
                             let domicile = "SK";
@@ -90,13 +86,18 @@
                             window.localStorage.setItem( "turnonline::account::vat", vat );
 
                             window.location.href = "/products.html";
-                        }
-                        else if ( response.status === 404 )
-                        {
-                            alert( "Account does not exists yet: " + email );
+                        } else if (resp.status === 404) {
+                            console.error( "Account does not exists yet: " + email );
+                            window.location.href = "/signin.html";
+                        } else {
+                            console.error("Error occur during loading account: " + resp.statusText);
                             window.location.href = "/signin.html";
                         }
-                    } );
+                    });
+
+                    request.open("GET", Configuration.ACCOUNT_STEWARD_API_ROOT + "/accounts/" + email);
+                    request.setRequestHeader("Authorization", "Bearer " + accessToken);
+                    request.send();
                 } );
 
                 // do not redirect - redirection will be executed when account data will be stored to local storage
