@@ -32,6 +32,13 @@
 </head>
 <body>
 
+<div id="account-loading" style="display: none;">
+    <div  style="text-align: center; margin-top: 10%;">
+        <span class="spinner-border"></span>
+        <span style="position: relative; top: -10px;margin-left: 10px;">Fetching account from account steward api. This may take a while. Please wait.</span>
+    </div>
+</div>
+
 <div style="margin-bottom: 40px;" id="firebaseui-auth-container"></div>
 
 <script type="text/javascript" src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
@@ -43,12 +50,33 @@
 <script type="text/javascript" id="config" src="scripts/config.js"></script>
 <script type="text/javascript" id="firebase_init" src="scripts/firebase.js"></script>
 
+<style type="text/css">
+    @keyframes spinner-border {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .spinner-border {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        vertical-align: text-bottom;
+        border: 0.25em solid #2196f3;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: spinner-border .75s linear infinite;
+    }
+</style>
+
 <script type="text/javascript" id="firebase_ui_init">
     // FirebaseUI config.
     var uiConfig = {
         callbacks: {
             // Called when the user has been successfully signed in.
             signInSuccessWithAuthResult: function ( authResult, redirectUrl ) {
+                document.getElementById("account-loading").removeAttribute("style");
+
                 let currentUser = authResult.user;
                 let email = currentUser.email;
 
