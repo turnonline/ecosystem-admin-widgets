@@ -27,6 +27,7 @@ import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
 import biz.turnonline.ecosystem.widget.myaccount.ui.ImportBankAccount;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
@@ -67,7 +68,10 @@ public class SettingsPresenter
                 event -> bus()
                         .account()
                         .update( bus().config().getLoginId(), event.getInvoicing(),
-                                ( response, failure ) -> success( messages.msgRecordUpdated(), failure ) ) );
+                                ( response, failure ) -> {
+                                    success( messages.msgRecordUpdated(), failure );
+                                    Configuration.get().setCurrency( event.getInvoicing().getCurrency() );
+                                } ) );
 
         // domains
         bus().addHandler( CreateDomainEvent.TYPE,
@@ -93,12 +97,12 @@ public class SettingsPresenter
             if ( bankAccount.getId() == null )
             {
                 bus().paymentProcessor().createBankAccount( bankAccount,
-                        ( response, failure ) -> bankAccountChange(  messages.msgRecordCreated(), failure ) );
+                        ( response, failure ) -> bankAccountChange( messages.msgRecordCreated(), failure ) );
             }
             else
             {
                 bus().paymentProcessor().updateBankAccount( bankAccount.getId(), bankAccount,
-                        ( response, failure ) -> bankAccountChange(  messages.msgRecordUpdated(), failure ) );
+                        ( response, failure ) -> bankAccountChange( messages.msgRecordUpdated(), failure ) );
             }
         } );
 
@@ -106,7 +110,7 @@ public class SettingsPresenter
             BankAccount bankAccount = event.getBankAccount();
 
             bus().paymentProcessor().deleteBankAccount( bankAccount.getId(),
-                    ( response, failure ) -> bankAccountChange(  messages.msgRecordDeleted( bankAccount.getName() ), failure ) );
+                    ( response, failure ) -> bankAccountChange( messages.msgRecordDeleted( bankAccount.getName() ), failure ) );
         } );
 
         bus().addHandler( MarkBankAccountAsPrimaryEvent.TYPE, event -> {
@@ -119,8 +123,8 @@ public class SettingsPresenter
         bus().addHandler( ImportBankAccountEvent.TYPE, event -> {
             ImportBankAccount importBankAccount = event.getImportBankAccount();
 
-            bus().paymentProcessor().integrateWithBank(importBankAccount.getBankCode(), importBankAccount.getCertificate(),
-                    ( response, failure ) -> bankAccountChange( messages.msgBankAccountImported( importBankAccount.getBankAccountName()), failure ));
+            bus().paymentProcessor().integrateWithBank( importBankAccount.getBankCode(), importBankAccount.getCertificate(),
+                    ( response, failure ) -> bankAccountChange( messages.msgBankAccountImported( importBankAccount.getBankAccountName() ), failure ) );
         } );
     }
 

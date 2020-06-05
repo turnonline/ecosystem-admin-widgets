@@ -209,6 +209,8 @@ public class MyAccountView
     @UiField
     LogoUploader logoUploader;
 
+    private boolean reloadPage;
+
     @Inject
     public MyAccountView( @Named( "MyAccountBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                           AddressLookupListener addressLookup )
@@ -303,6 +305,8 @@ public class MyAccountView
         } );
         postalStreet.add( new InputSearchIcon() );
         postalStreet.getElement().setAttribute( "autocomplete", "off" );
+
+        language.addValueChangeHandler( (event) -> reloadPage = true );
     }
 
     @Override
@@ -388,6 +392,8 @@ public class MyAccountView
     @Override
     protected void afterSetModel()
     {
+        this.reloadPage = false;
+
         Account account = getRawModel();
         email.setValue( account.getEmail() );
         contactEmail.setValue( account.getContactEmail() );
@@ -565,7 +571,7 @@ public class MyAccountView
     @UiHandler( "btnSave" )
     public void btnSaveClick( ClickEvent event )
     {
-        bus().fireEvent( new SaveAccountEvent( getModel() ) );
+        bus().fireEvent( new SaveAccountEvent( getModel(), reloadPage ) );
     }
 
     interface MyAccountViewUiBinder

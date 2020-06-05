@@ -21,6 +21,7 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import gwt.material.design.client.api.ApiRegistry;
 import gwt.material.design.incubator.client.google.addresslookup.api.AddressLookupApi;
@@ -131,7 +132,8 @@ public class Configuration
                 || Window.Location.getHostName().equals( "127.0.0.1" );
     }
 
-    public String getSignInUrl () {
+    public String getSignInUrl()
+    {
         return isDevelopment() ? "/signin.html" : "/sign-in";
     }
 
@@ -143,6 +145,11 @@ public class Configuration
     public String getCurrency()
     {
         return Storage.getLocalStorageIfSupported().getItem( "turnonline::account::currency" );
+    }
+
+    public void setCurrency( String currency )
+    {
+        Storage.getLocalStorageIfSupported().setItem( "turnonline::account::currency", currency );
     }
 
     public String getVat()
@@ -158,6 +165,16 @@ public class Configuration
     public String getLogo()
     {
         return Storage.getLocalStorageIfSupported().getItem( "turnonline::account::logo" );
+    }
+
+    public void setLogo( String logo )
+    {
+        Storage.getLocalStorageIfSupported().setItem( "turnonline::account::logo", logo );
+    }
+
+    public void setLocale( String locale )
+    {
+        Cookies.setCookie( "locale", locale );
     }
 
     public String getMapsApiKey()

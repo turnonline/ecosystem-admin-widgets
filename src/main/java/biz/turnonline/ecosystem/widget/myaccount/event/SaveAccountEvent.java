@@ -36,14 +36,22 @@ public class SaveAccountEvent
 
     private final Account account;
 
-    public SaveAccountEvent( @Nonnull Account account )
+    private final boolean reloadPage;
+
+    public SaveAccountEvent( @Nonnull Account account, boolean reloadPage )
     {
         this.account = checkNotNull( account, "Account cannot be null" );
+        this.reloadPage = reloadPage;
     }
 
     public Account getAccount()
     {
         return account;
+    }
+
+    public boolean isReloadPage()
+    {
+        return reloadPage;
     }
 
     public String getLoginId()

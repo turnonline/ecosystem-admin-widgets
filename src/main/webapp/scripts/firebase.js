@@ -33,6 +33,13 @@ function initFirebase()
 
 function initWidget( src )
 {
+    // <meta name="gwt:property" content="locale=${locale}">
+    let meta = document.createElement( "meta" );
+    meta.setAttribute( "name", "gwt:property" );
+    meta.setAttribute( "content", "locale=" + getCookie( "locale" ) );
+
+    document.head.appendChild(meta);
+
     firebase.auth().onAuthStateChanged( function ( user ) {
         if ( user )
         {
@@ -49,6 +56,12 @@ function initWidget( src )
             window.location.href = "/signin.html";
         }
     } );
+}
+
+function getCookie( name )
+{
+    var match = document.cookie.match( new RegExp( '(^| )' + name + '=([^;]+)' ) );
+    if ( match ) return match[2];
 }
 
 function logout()

@@ -19,12 +19,15 @@ package biz.turnonline.ecosystem.widget.myaccount.presenter;
 
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.place.MyAccount;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
 import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.Window;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 /**
  * My account presenter.
@@ -49,7 +52,22 @@ public class MyAccountPresenter
                         .account()
                         .update( event.getLoginId(),
                                 event.getAccount(),
-                                ( response, failure ) -> success( messages.msgRecordUpdated(), failure ) ) );
+                                ( response, failure ) -> {
+                                    success( messages.msgRecordUpdated(), failure );
+
+                                    Account account = event.getAccount();
+                                    Configuration.get().setLocale( account.getLocale() );
+
+                                    Optional.ofNullable( account.getBusiness() )
+                                            .flatMap( business -> Optional.ofNullable( business.getLogo() ) )
+                                            .flatMap( logo -> Optional.ofNullable( logo.getServingUrl() ) )
+                                            .ifPresent( url -> Configuration.get().setLogo( url ) );
+
+                                    if (event.isReloadPage())
+                                    {
+                                        Window.Location.reload();
+                                    }
+                                } ) );
     }
 
     @Override
