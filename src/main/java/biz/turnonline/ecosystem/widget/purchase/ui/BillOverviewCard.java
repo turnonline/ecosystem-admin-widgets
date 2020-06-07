@@ -104,9 +104,9 @@ public class BillOverviewCard
     @UiField
     MaterialIcon approved;
 
-    private Bill bill;
+    private final Bill bill;
 
-    private AppMessages messages = AppMessages.INSTANCE;
+    private final AppMessages messages = AppMessages.INSTANCE;
 
     public BillOverviewCard( @Nonnull Bill bill, AppEventBus bus )
     {
@@ -199,6 +199,11 @@ public class BillOverviewCard
 
     private String formatSupplier( Supplier supplier )
     {
+        if ( supplier == null )
+        {
+            return null;
+        }
+
         StringBuilder sb = new StringBuilder();
 
         if ( supplier.getBusinessName() != null )
@@ -208,7 +213,7 @@ public class BillOverviewCard
 
         if ( supplier.getCompanyId() != null )
         {
-            sb.append( sb.length() == 0 ? sb.append( supplier.getCompanyId() ) : " [" + bill.getSupplier().getCompanyId() + "]" );
+            sb.append( sb.length() == 0 ? sb.append( supplier.getCompanyId() ) : " [" + supplier.getCompanyId() + "]" );
         }
 
         if ( sb.length() == 0 )
