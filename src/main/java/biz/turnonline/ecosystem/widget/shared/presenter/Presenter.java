@@ -19,6 +19,8 @@ package biz.turnonline.ecosystem.widget.shared.presenter;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.Firebase;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.PlaceController;
@@ -37,6 +39,14 @@ public abstract class Presenter<V extends IView>
         extends BinderyPresenter<V>
 {
     protected AppMessages messages = AppMessages.INSTANCE;
+
+    @Override
+    protected void onBeforeBackingObject()
+    {
+        super.onBeforeBackingObject();
+
+        checkLoggedInUser();
+    }
 
     public Presenter( V view, PlaceController placeController )
     {
@@ -158,5 +168,16 @@ public abstract class Presenter<V extends IView>
     public void setTitle( String titleText )
     {
         Window.setTitle( titleText );
+    }
+
+    /**
+     * Check is user is logged in. If not redirect to sign in url
+     */
+    private void checkLoggedInUser()
+    {
+        if ( !Firebase.isUserLoggedIn() )
+        {
+            Window.Location.replace( Configuration.get().getSignInUrl() );
+        }
     }
 }

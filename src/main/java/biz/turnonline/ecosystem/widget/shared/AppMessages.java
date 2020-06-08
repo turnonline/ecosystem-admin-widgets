@@ -978,6 +978,9 @@ public interface AppMessages
     @Key( "msg.billApproved" )
     String msgBillApproved( String name );
 
+    @Key( "msg.unauthorized" )
+    String msgUnauthorized( );
+
     // other
 
     @Key( value = "copyright" )
