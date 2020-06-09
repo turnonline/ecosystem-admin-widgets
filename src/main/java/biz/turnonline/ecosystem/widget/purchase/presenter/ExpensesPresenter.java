@@ -19,6 +19,7 @@ package biz.turnonline.ecosystem.widget.purchase.presenter;
 
 import biz.turnonline.ecosystem.widget.purchase.event.ClearIncomingInvoicesFilterEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.DeleteIncomingInvoiceEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.DownloadReceiptEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceDetailsEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
 import biz.turnonline.ecosystem.widget.purchase.place.IncomingInvoiceDetails;
@@ -59,6 +60,7 @@ public class ExpensesPresenter
         );
 
         bus().addHandler( DownloadInvoiceEvent.TYPE, e -> view().downloadDocument( e.downloadInvoiceUrl() ) );
+        bus().addHandler( DownloadReceiptEvent.TYPE, e -> view().downloadDocument( e.downloadReceiptUrl() ) );
         bus().addHandler( ClearIncomingInvoicesFilterEvent.TYPE, this::clearFilter );
         bus().addHandler( DeleteIncomingInvoiceEvent.TYPE, this::deleteIncomingInvoice );
 
@@ -109,9 +111,9 @@ public class ExpensesPresenter
             extends org.ctoolkit.gwt.client.view.IView<Expense>
     {
         /**
-         * Downloads invoice PDF from the specified URL.
+         * Downloads PDF from the specified URL.
          *
-         * @param url the full path to the invoice PDF
+         * @param url the full path to the PDF
          */
         void downloadDocument( @Nonnull String url );
 

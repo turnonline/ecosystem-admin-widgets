@@ -98,7 +98,7 @@ public class ExpensesView
     public void downloadDocument( @Nonnull String url )
     {
         JavaScriptObject newWindow = newWindow( "", "_blank", "" );
-        setWindowTarget( newWindow, checkNotNull( url, "Invoice PDF URL can't be null" ) );
+        setWindowTarget( newWindow, checkNotNull( url, "PDF URL can't be null" ) );
     }
 
     @Override

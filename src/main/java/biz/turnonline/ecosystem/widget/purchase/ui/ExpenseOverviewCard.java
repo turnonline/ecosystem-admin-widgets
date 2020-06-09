@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
+import biz.turnonline.ecosystem.widget.purchase.event.DownloadReceiptEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.IncomingInvoiceDetailsEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
@@ -105,6 +106,9 @@ public class ExpenseOverviewCard
     PriceLabel amountToPay;
 
     @UiField
+    MaterialLabel totalPriceLabel;
+
+    @UiField
     MaterialLink viewBill;
 
     @UiField
@@ -188,7 +192,17 @@ public class ExpenseOverviewCard
         // pricing
         BillPayment payment = expense.getPayment();
 
-        if ( payment == null )
+        if ( !isInvoiceType )
+        {
+            amountToPay.setValue( expense.getTotalPrice(), expense.getCurrency() );
+            totalPriceLabel.setValue( messages.labelTotalPrice() );
+
+            Date dateOfIssue = expense.getDateOfIssue();
+            dueDate.setText( dateOfIssue == null ? "none" : FORMATTER.format( dateOfIssue ) );
+            dueDate.setBackgroundColor( GREEN );
+            dueDate.setVisible( dateOfIssue != null );
+        }
+        else if ( payment == null )
         {
             amountToPay.setText( "0" );
             dueDate.setVisible( false );
@@ -258,6 +272,11 @@ public class ExpenseOverviewCard
                 boolean isAccount = creditor != null && creditor.getAccount() != null;
                 DownloadInvoiceEvent downloadEvent = new DownloadInvoiceEvent( orderId, invoiceId, pin, !isAccount );
 
+                downloadLink.addClickHandler( event -> bus.fireEvent( downloadEvent ) );
+            }
+            else if ( bill.getReceipt() != null && !Strings.isNullOrEmpty( pin ) )
+            {
+                DownloadReceiptEvent downloadEvent = new DownloadReceiptEvent( bill.getReceipt(), pin );
                 downloadLink.addClickHandler( event -> bus.fireEvent( downloadEvent ) );
             }
         }

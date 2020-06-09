@@ -61,7 +61,7 @@
 
                 <m:MaterialColumn grid="s12 m4 l4" paddingLeft="0" paddingTop="20" paddingBottom="0">
                     <m:MaterialRow>
-                        <m:MaterialLabel text="{msg.labelAmountToPay}"/>
+                        <m:MaterialLabel ui:field="totalPriceLabel" text="{msg.labelAmountToPay}"/>
                     </m:MaterialRow>
                     <m:MaterialRow>
                         <s:PriceLabel ui:field="amountToPay" fontSize="1.2em" fontWeight="BOLD"/>
