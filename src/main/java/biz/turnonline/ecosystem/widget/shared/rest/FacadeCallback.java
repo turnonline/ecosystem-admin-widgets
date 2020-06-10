@@ -17,9 +17,9 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest;
 
-import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import com.google.gwt.http.client.Response;
-import gwt.material.design.client.ui.MaterialToast;
+import com.google.gwt.user.client.Window;
 import org.fusesource.restygwt.client.FailedResponseException;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -36,8 +36,6 @@ import org.fusesource.restygwt.client.MethodCallback;
 public interface FacadeCallback<T>
         extends MethodCallback<T>
 {
-    AppMessages messages = AppMessages.INSTANCE;
-
     /**
      * Called when asynchronous call completes either successfully or with an error.
      */
@@ -46,7 +44,7 @@ public interface FacadeCallback<T>
     @Override
     default void onFailure( Method method, Throwable exception )
     {
-        showMessageIfUnauthorized( exception );
+        redirectToLoginIfUnauthorized( exception );
 
         done( null, new Failure()
         {
@@ -143,7 +141,7 @@ public interface FacadeCallback<T>
         } );
     }
 
-    default void showMessageIfUnauthorized( Throwable exception )
+    default void redirectToLoginIfUnauthorized( Throwable exception )
     {
         if ( exception instanceof FailedResponseException )
         {
@@ -151,7 +149,7 @@ public interface FacadeCallback<T>
 
             if ( fre.getStatusCode() == 401 )
             {
-                MaterialToast.fireToast( messages.msgUnauthorized(), "red" );
+                Window.Location.replace( Configuration.get().getSignInUrl() );
             }
         }
     }
