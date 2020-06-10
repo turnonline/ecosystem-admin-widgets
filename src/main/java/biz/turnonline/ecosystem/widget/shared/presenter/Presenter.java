@@ -46,6 +46,15 @@ public abstract class Presenter<V extends IView>
     }
 
     /**
+     * Check whether current Firebase user exist.
+     *
+     * @return {@code true} if user is logged in
+     */
+    public static native boolean isUserLoggedIn() /*-{
+        return $wnd.firebase.auth().currentUser != null;
+    }-*/;
+
+    /**
      * <p>Show info message.</p>
      *
      * @param msg message to show in feedback panel

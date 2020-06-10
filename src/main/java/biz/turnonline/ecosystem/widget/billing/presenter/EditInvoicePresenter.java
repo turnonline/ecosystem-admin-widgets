@@ -29,12 +29,14 @@ import biz.turnonline.ecosystem.widget.shared.event.TransactionListEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessOrAbsorbCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.PricingItem;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import com.google.gwt.place.shared.PlaceController;
+import org.ctoolkit.gwt.client.facade.Items;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -138,7 +140,7 @@ public class EditInvoicePresenter
     private void invoiceTransactions( TransactionListEvent event )
     {
         bus().paymentProcessor().getTransactions( event.getOrderId(), event.getInvoiceId(),
-                response -> view().fill( response.getItems() ) );
+                ( SuccessOrAbsorbCallback<Items<Transaction>> ) response -> view().fill( response.getItems() ) );
     }
 
     public interface IView
