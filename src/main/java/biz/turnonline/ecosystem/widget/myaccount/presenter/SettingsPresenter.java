@@ -30,11 +30,12 @@ import biz.turnonline.ecosystem.widget.myaccount.ui.ImportBankAccount;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessOrAbsorbCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
-import biz.turnonline.ecosystem.widget.shared.rest.payment.Bank;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.BankAccount;
 import com.google.gwt.place.shared.PlaceController;
+import org.ctoolkit.gwt.client.facade.Items;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -221,30 +222,8 @@ public class SettingsPresenter
 
     private void loadBankAccounts()
     {
-        // TODO: remove
-        BankAccount bankAccount1 = new BankAccount();
-        bankAccount1.setCurrency( "EUR" );
-        bankAccount1.setName( "SLSP primary" );
-        bankAccount1.setBranch( "Bratislava - Tomasikova" );
-        bankAccount1.setIban( "123456789012345678901234" );
-        bankAccount1.setBic( "56785678" );
-        bankAccount1.setPrimary( true );
-        bankAccount1.setBank( new Bank() );
-        bankAccount1.getBank().setCode( "0900" );
-
-        BankAccount bankAccount2 = new BankAccount();
-        bankAccount2.setCurrency( "EUR" );
-        bankAccount2.setName( "VUB" );
-        bankAccount2.setIban( "123456789012345678901234" );
-        bankAccount2.setBic( "56785678" );
-        bankAccount2.setPrimary( false );
-        bankAccount2.setBank( new Bank() );
-        bankAccount2.getBank().setCode( "2200" );
-
-//        view().setBankAccounts( Arrays.asList( bankAccount1, bankAccount2 ) );
-
-
-        bus().paymentProcessor().getBankCodes( 0, Integer.MAX_VALUE, response -> view().setBankAccounts( response.getItems() ) );
+        bus().paymentProcessor().getBankAccounts( 0, Integer.MAX_VALUE,
+                ( SuccessOrAbsorbCallback<Items<BankAccount>> ) r -> view().setBankAccounts( r.getItems() ) );
     }
 
     public interface IView

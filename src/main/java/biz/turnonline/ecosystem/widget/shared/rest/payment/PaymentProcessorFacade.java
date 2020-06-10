@@ -51,9 +51,9 @@ public interface PaymentProcessorFacade
 
     @GET
     @Path( "bank-accounts" )
-    void getBankCodes( @QueryParam( "offset" ) Integer offset,
-                       @QueryParam( "limit" ) Integer limit,
-                       SuccessCallback<Items<BankAccount>> callback );
+    void getBankAccounts( @QueryParam( "offset" ) Integer offset,
+                          @QueryParam( "limit" ) Integer limit,
+                          SuccessCallback<Items<BankAccount>> callback );
 
     @GET
     @Path( "bank-accounts/{bank_account_id}" )
@@ -90,7 +90,7 @@ public interface PaymentProcessorFacade
     @DELETE
     @Path( "bank-accounts/{bank_account_id}" )
     void deleteBankAccount( @PathParam( "bank_account_id" ) Long bankAccountId,
-                     FacadeCallback<Void> callback );
+                            FacadeCallback<Void> callback );
 
     //////////////////////
     ////// codebooks /////

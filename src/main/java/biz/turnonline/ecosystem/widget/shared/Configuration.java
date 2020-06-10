@@ -113,7 +113,7 @@ public class Configuration
             @Override
             public void onFailure( Exception reason )
             {
-                GWT.log( "Error occur during registration google maps api", reason );
+                GWT.log( "Error occurred during registration google maps api", reason );
             }
 
             @Override
