@@ -17,11 +17,13 @@
 
 package biz.turnonline.ecosystem.widget.billing.ui;
 
+import biz.turnonline.ecosystem.widget.billing.event.EditInvoiceEvent;
 import biz.turnonline.ecosystem.widget.billing.event.EditOrderEvent;
 import biz.turnonline.ecosystem.widget.billing.place.Orders;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Customer;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Order;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.OrderStatus;
@@ -113,6 +115,9 @@ public class OrderOverviewCard
     MaterialLink pause;
 
     @UiField
+    MaterialLink issueInvoice;
+
+    @UiField
     MaterialImage debtorLogo;
 
     private Order order;
@@ -184,6 +189,7 @@ public class OrderOverviewCard
         nextBillingDate.setVisible( ( status == TRIALING || status == ACTIVE ) && order.getNextBillingDate() != null );
 
         statusChanged( status );
+        issueInvoice.setVisible( MANUALLY.name().equals( order.getPeriodicity() ) );
     }
 
     private void statusChanged( Order.Status status )
@@ -221,6 +227,19 @@ public class OrderOverviewCard
     {
         pause.setEnabled( false );
         callChangeStatus( SUSPENDED );
+    }
+
+    @UiHandler( "issueInvoice" )
+    public void issueInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        bus.billing().createOrderInvoice( order.getId(), new Invoice(), ( response, failure ) -> {
+            if ( failure.isSuccess() )
+            {
+                bus.fireEvent( new EditInvoiceEvent( response ) );
+            }
+
+            success( messages.msgInvoiceIssued(), failure );
+        } );
     }
 
     private void callChangeStatus( Order.Status status )
