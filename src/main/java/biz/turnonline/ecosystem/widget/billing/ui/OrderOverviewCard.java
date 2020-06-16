@@ -189,7 +189,7 @@ public class OrderOverviewCard
         nextBillingDate.setVisible( ( status == TRIALING || status == ACTIVE ) && order.getNextBillingDate() != null );
 
         statusChanged( status );
-        issueInvoice.setVisible( MANUALLY.name().equals( order.getPeriodicity() ) );
+        issueInvoice.setVisible( MANUALLY.name().equals( order.getPeriodicity() ) && (ACTIVE == status || TRIALING == status) );
     }
 
     private void statusChanged( Order.Status status )
