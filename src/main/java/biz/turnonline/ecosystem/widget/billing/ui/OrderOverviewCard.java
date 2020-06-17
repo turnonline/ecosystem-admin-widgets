@@ -189,7 +189,6 @@ public class OrderOverviewCard
         nextBillingDate.setVisible( ( status == TRIALING || status == ACTIVE ) && order.getNextBillingDate() != null );
 
         statusChanged( status );
-        issueInvoice.setVisible( MANUALLY.name().equals( order.getPeriodicity() ) && (ACTIVE == status || TRIALING == status) );
     }
 
     private void statusChanged( Order.Status status )
@@ -201,6 +200,7 @@ public class OrderOverviewCard
         // action buttons
         activate.setVisible( status == SUSPENDED || status == ISSUE );
         pause.setVisible( status == ACTIVE );
+        issueInvoice.setVisible( MANUALLY.name().equals( order.getPeriodicity() ) && (ACTIVE == status || TRIALING == status) );
     }
 
     @UiHandler( "editLink" )
