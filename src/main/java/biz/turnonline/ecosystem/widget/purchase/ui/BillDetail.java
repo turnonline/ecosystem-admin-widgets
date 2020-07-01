@@ -16,7 +16,6 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
-import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.BillItem;
@@ -139,7 +138,6 @@ public class BillDetail
     public void add( ClickEvent event )
     {
         BillItem item = new BillItem();
-        item.setCurrency( Configuration.get().getCurrency() );
         item.setAmount( 1D );
         items.addRow( item );
     }

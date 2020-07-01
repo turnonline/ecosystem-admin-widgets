@@ -17,16 +17,12 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.bill;
 
-import java.util.Objects;
-
 /**
  * The single row of the pricing item at a bill.
  */
 public class BillItem
 {
     private Double amount;
-
-    private String currency;
 
     private Double finalPrice;
 
@@ -59,25 +55,6 @@ public class BillItem
     public void setAmount( Double amount )
     {
         this.amount = amount;
-    }
-
-    public BillItem currency( String currency )
-    {
-        this.currency = currency;
-        return this;
-    }
-
-    /**
-     * The currency alphabetic code based on the ISO 4217. If not set, the account’s default currency will be set.
-     **/
-    public String getCurrency()
-    {
-        return currency;
-    }
-
-    public void setCurrency( String currency )
-    {
-        this.currency = currency;
     }
 
     public BillItem finalPrice( Double finalPrice )
@@ -213,43 +190,11 @@ public class BillItem
         this.unit = unit;
     }
 
-
-    @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
-            return true;
-        }
-        if ( o == null || getClass() != o.getClass() )
-        {
-            return false;
-        }
-        BillItem billItem = ( BillItem ) o;
-        return Objects.equals( this.amount, billItem.amount ) &&
-                Objects.equals( this.currency, billItem.currency ) &&
-                Objects.equals( this.finalPrice, billItem.finalPrice ) &&
-                Objects.equals( this.finalVat, billItem.finalVat ) &&
-                Objects.equals( this.id, billItem.id ) &&
-                Objects.equals( this.itemName, billItem.itemName ) &&
-                Objects.equals( this.priceExclVat, billItem.priceExclVat ) &&
-                Objects.equals( this.parentKey, billItem.parentKey ) &&
-                Objects.equals( this.unit, billItem.unit );
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash( amount, currency, finalPrice, finalVat, id, itemName, priceExclVat, parentKey, unit );
-    }
-
-
     @Override
     public String toString()
     {
         return "class BillItem {\n" +
                 "    amount: " + toIndentedString( amount ) + "\n" +
-                "    currency: " + toIndentedString( currency ) + "\n" +
                 "    finalPrice: " + toIndentedString( finalPrice ) + "\n" +
                 "    finalVat: " + toIndentedString( finalVat ) + "\n" +
                 "    id: " + toIndentedString( id ) + "\n" +

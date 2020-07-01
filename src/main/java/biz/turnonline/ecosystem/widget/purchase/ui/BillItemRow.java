@@ -18,7 +18,6 @@ package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.bill.BillItem;
 import biz.turnonline.ecosystem.widget.shared.ui.BillingUnitComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,8 +45,6 @@ public class BillItemRow
 
     private MaterialDoubleBox amount = new MaterialDoubleBox();
 
-    private CurrencyComboBox currency = new CurrencyComboBox();
-
     private BillingUnitComboBox unit = new BillingUnitComboBox();
 
     private MaterialDoubleBox priceExclVat = new MaterialDoubleBox();
@@ -69,19 +66,15 @@ public class BillItemRow
 
         TableData columnName = column( itemName );
         columnName.setPaddingLeft( 0 );
-        columnName.setWidth( "25%" );
+        columnName.setWidth( "30%" );
 
         TableData columnAmount = column( amount );
         columnAmount.setPaddingLeft( 0 );
         columnAmount.setWidth( "10%" );
 
-        TableData columnCurrency = column( currency );
-        columnCurrency.setPaddingLeft( 0 );
-        columnCurrency.setWidth( "10%" );
-
         TableData columnUnit = column( unit );
         columnUnit.setPaddingLeft( 0 );
-        columnUnit.setWidth( "10%" );
+        columnUnit.setWidth( "15%" );
 
         TableData columnVat = column( vat );
         columnVat.setPaddingLeft( 0 );
@@ -105,7 +98,6 @@ public class BillItemRow
     {
         model.setItemName( itemName.getValue() );
         model.setAmount( amount.getValue() );
-        model.setCurrency( currency.getSingleValue() );
         model.setUnit( unit.getSingleValueByCode() );
         model.setPriceExclVat( priceExclVat.getValue() );
         model.setFinalVat( vat.getSingleValueByCode() );
@@ -121,7 +113,6 @@ public class BillItemRow
 
         itemName.setValue( item.getItemName() );
         amount.setValue( item.getAmount() );
-        currency.setSingleValue( item.getCurrency() );
         unit.setSingleValueByCode( item.getUnit() );
         priceExclVat.setValue( item.getPriceExclVat() );
         vat.setSingleValueByCode( item.getFinalVat() );

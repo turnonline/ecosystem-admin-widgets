@@ -33,10 +33,9 @@ public class BillItems
 
     public BillItems()
     {
-        header( messages.labelItemName(), "25%" );
+        header( messages.labelItemName(), "30%" );
         header( messages.labelAmount(), "10%" );
-        header( messages.labelCurrency(), "10%" );
-        header( messages.labelUnit(), "10%" );
+        header( messages.labelUnit(), "15%" );
         header( messages.labelVat(), "10%" );
         header( messages.labelPriceExcludingVat(), "15%" );
         header( messages.labelPriceIncludingVat(), "15%" );
