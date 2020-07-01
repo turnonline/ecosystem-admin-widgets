@@ -39,8 +39,13 @@ public final class Pricing
 
     private Double totalPriceExclVat;
 
+    private Double totalVat;
+
     private Double totalVatBase;
 
+    /**
+     * The boolean indication whether these pricing items are subject to the reverse charge - VAT to be accounted for by the recipient as per Article 196 of Council Directive 2006/112/EC.
+     **/
     public Boolean getAppliedReverseCharge()
     {
         return appliedReverseCharge;
@@ -52,6 +57,9 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * The customer details mainly for the purpose of the reverse charge evaluation.
+     **/
     public PricingCustomer getCustomer()
     {
         return customer;
@@ -63,6 +71,9 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * True if any of the pricing item has successfully applied for discounted price.
+     **/
     public Boolean getDiscountApplied()
     {
         return discountApplied;
@@ -74,6 +85,9 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * The boolean indication whether any of the pricing item has defined a discount.
+     **/
     public Boolean getDiscountDefined()
     {
         return discountDefined;
@@ -85,6 +99,9 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * The list of the pricing items to be considered for calculation. The pricing items represents a tree and price is calculated recursively.
+     **/
     public List<PricingItem> getItems()
     {
         return items;
@@ -96,6 +113,9 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * The total price including VAT as it would be if no discount would be applied. If property discountApplied is false or missing, the sum will be the same as totalPrice.
+     **/
     public Double getNoDiscountTotalPrice()
     {
         return noDiscountTotalPrice;
@@ -107,6 +127,9 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * The total price excluding VAT as it would be if no discount would be applied. If property discountApplied is false or missing, the sum will be the same as totalPriceExclVat.
+     **/
     public Double getNoDiscountTotalPriceExclVat()
     {
         return noDiscountTotalPriceExclVat;
@@ -118,6 +141,9 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * The total price as a sum of all checked in pricing items and its amount. Including VAT.
+     **/
     public Double getTotalPrice()
     {
         return totalPrice;
@@ -129,6 +155,9 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * The total price as a sum of all checked in pricing items and its amount. The price is excluding VAT in case company is VAT payer, otherwise price is final and same as value of totalPrice property.
+     **/
     public Double getTotalPriceExclVat()
     {
         return totalPriceExclVat;
@@ -140,6 +169,23 @@ public final class Pricing
         return this;
     }
 
+    /**
+     * The total VAT as a result of the calculation of all checked in pricing items and its amount including target rounding mode.
+     **/
+    public Double getTotalVat()
+    {
+        return totalVat;
+    }
+
+    public Pricing setTotalVat( Double totalVat )
+    {
+        this.totalVat = totalVat;
+        return this;
+    }
+
+    /**
+     * The total VAT base as a result of the calculation of all checked in pricing items and its amount including target rounding mode.
+     **/
     public Double getTotalVatBase()
     {
         return totalVatBase;

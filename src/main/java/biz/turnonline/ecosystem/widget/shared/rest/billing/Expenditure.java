@@ -18,7 +18,6 @@
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
 import java.util.Date;
-import java.util.List;
 
 public final class Expenditure
 {
@@ -30,14 +29,17 @@ public final class Expenditure
 
     private Date dateOfTaxable;
 
-    private List<PricingItem> items;
-
     private ExpenditurePayment payment;
+
+    private ExpenditurePricing pricing;
 
     private Supplier supplier;
 
     private String type;
 
+    /**
+     * The unique bill identification within Billing Processor service.
+     **/
     public Long getBill()
     {
         return bill;
@@ -49,6 +51,9 @@ public final class Expenditure
         return this;
     }
 
+    /**
+     * Bill (receipt) number, or in case of incoming invoice its invoice number.
+     **/
     public String getBillNumber()
     {
         return billNumber;
@@ -60,6 +65,9 @@ public final class Expenditure
         return this;
     }
 
+    /**
+     * The bill issue date. RFC 3339
+     **/
     public Date getDateOfIssue()
     {
         return dateOfIssue;
@@ -71,6 +79,9 @@ public final class Expenditure
         return this;
     }
 
+    /**
+     * The date of taxable supplies. If not provided the date of issue will be used.
+     **/
     public Date getDateOfTaxable()
     {
         return dateOfTaxable;
@@ -82,17 +93,9 @@ public final class Expenditure
         return this;
     }
 
-    public List<PricingItem> getItems()
-    {
-        return items;
-    }
-
-    public Expenditure setItems( List<PricingItem> items )
-    {
-        this.items = items;
-        return this;
-    }
-
+    /**
+     * Expenditure payment details.
+     **/
     public ExpenditurePayment getPayment()
     {
         return payment;
@@ -104,6 +107,23 @@ public final class Expenditure
         return this;
     }
 
+    /**
+     * Expenditure pricing details.
+     **/
+    public ExpenditurePricing getPricing()
+    {
+        return pricing;
+    }
+
+    public Expenditure setPricing( ExpenditurePricing pricing )
+    {
+        this.pricing = pricing;
+        return this;
+    }
+
+    /**
+     * A business that delivered a product or service. Defined outside of the Ecosystem.
+     **/
     public Supplier getSupplier()
     {
         return supplier;
@@ -115,6 +135,9 @@ public final class Expenditure
         return this;
     }
 
+    /**
+     * The bill document type. It's case insensitive.
+     **/
     public String getType()
     {
         return type;

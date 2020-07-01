@@ -46,6 +46,8 @@ public final class PricingItem
 
     private String finalVat;
 
+    private Double finalVatAmount;
+
     private Double finalVatBase;
 
     private Long id;
@@ -82,6 +84,9 @@ public final class PricingItem
 
     private String vat;
 
+    /**
+     * The requested amount (quantity) of this item to be invoiced. For non leaf items only the integer of amount is being taken into account as it reflects number of child items. Higher precision is suitable only for leaf items.
+     **/
     public Double getAmount()
     {
         return amount;
@@ -93,6 +98,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The boolean indication whether this pricing item to include in to final price calculation or not.
+     **/
     public Boolean getCheckedIn()
     {
         return checkedIn;
@@ -104,6 +112,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The currency alphabetic code based on the ISO 4217. If not set, the account's default currency will be set.
+     **/
     public String getCurrency()
     {
         return currency;
@@ -115,6 +126,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The boolean indication whether this pricing item has already successfully applied for discounted price.
+     **/
     public Boolean getDiscountApplied()
     {
         return discountApplied;
@@ -126,6 +140,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The discount code provided by the client in order to apply for price discount. If discount has been defined and there is a match, the property discountApplied will return true.
+     **/
     public String getDiscountCode()
     {
         return discountCode;
@@ -137,6 +154,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The boolean indication whether associated product has defined a discount code.
+     **/
     public Boolean getDiscountCodeDefined()
     {
         return discountCodeDefined;
@@ -148,6 +168,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The boolean indication whether associated product has defined a discount.
+     **/
     public Boolean getDiscountDefined()
     {
         return discountDefined;
@@ -159,6 +182,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The final price including VAT as a result of the calculation of the item price excluding VAT (VAT base), selected VAT and amount.
+     **/
     public Double getFinalPrice()
     {
         return finalPrice;
@@ -170,6 +196,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The final price excluding VAT as the result of the calculation of the item price (excluding VAT) and amount.
+     **/
     public Double getFinalPriceExclVat()
     {
         return finalPriceExclVat;
@@ -181,6 +210,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The VAT value, associated with the final VAT rate.
+     **/
     public Double getFinalValueAddedTax()
     {
         return finalValueAddedTax;
@@ -192,6 +224,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The context sensitive (customer country etc) VAT code, taken from the VAT rate code book. The final VAT to be used for final price calculation.
+     **/
     public String getFinalVat()
     {
         return finalVat;
@@ -203,6 +238,23 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The final amount of VAT as a result of the calculation of this item and its amount including target rounding mode.
+     **/
+    public Double getFinalVatAmount()
+    {
+        return finalVatAmount;
+    }
+
+    public PricingItem setFinalVatAmount( Double finalVatAmount )
+    {
+        this.finalVatAmount = finalVatAmount;
+        return this;
+    }
+
+    /**
+     * The final VAT base as the result of the calculation of the item price excluding VAT and amount including rounding based on the rounding mode value.
+     **/
     public Double getFinalVatBase()
     {
         return finalVatBase;
@@ -214,6 +266,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The pricing item identification. Unique only with combination of the parent key.  The pricing resource might be a calculated in memory, thus no corresponding ID will be provided in this case.
+     **/
     public Long getId()
     {
         return id;
@@ -225,6 +280,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The inline item placed as a line at invoice, solely assembled by the service. Optionally, the content is language (Accept-Language) sensitive, but not for price. Will be present only for relevant 'itemType' (OrderItem , BillingItem).
+     **/
     public String getInline()
     {
         return inline;
@@ -236,6 +294,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The product name, a very short summary that will be used at invoice. By default taken from the associated product if any. If provided by the client, it will take precedence. However, specific behaviour might be different based on the concrete type of 'itemType' property.
+     **/
     public String getItemName()
     {
         return itemName;
@@ -247,6 +308,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The one of the supported item type. The type has an impact how item will be handled and might have a various configuration and properties (by subsidiary).  The root pricing item of the pricing tree structure must be one of the type: Standard, OrderItem, or BillingItem. Otherwise validation error will be returned as a bad request.
+     **/
     public String getItemType()
     {
         return itemType;
@@ -258,6 +322,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The product page URL once associated product has been published.
+     **/
     public String getItemUrl()
     {
         return itemUrl;
@@ -269,6 +336,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The pricing items tree. A non empty list defines a price of this item by its children as a sum of all its items. The price is calculated recursively.
+     **/
     public List<PricingItem> getItems()
     {
         return items;
@@ -280,6 +350,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The product specific metadata fields configuration. It's read only. Values are taken from the associated product if any. Product is the master, if you need different values, change those values at product level.
+     **/
     public ProductMetaFields getMetaFields()
     {
         return metaFields;
@@ -291,6 +364,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The order number of the item within list if defined. Managed by the client only.
+     **/
     public Integer getOrder()
     {
         return order;
@@ -302,6 +378,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The unique identification either of the parent pricing item or parent Order (Invoice etc). Pricing item resource might be imbedded item of another pricing item infinitely.  The pricing resource might be a calculated in memory, thus no corresponding ID will be provided in this case.
+     **/
     public String getParentKey()
     {
         return parentKey;
@@ -313,6 +392,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The product price for a single unit (meaning amount 1.0 as a quantity). The price is excluding VAT in case company is VAT payer, otherwise price is final.
+     **/
     public Double getPriceExclVat()
     {
         return priceExclVat;
@@ -324,6 +406,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The matching product from the product catalog (solely identified by ID). If found, product's properties will be used to populate this pricing item. If not found or missing, the provided pricing item properties will be processed as a non catalog product. Note, for this 'product' property only subset of the product's properties will be placed here (at least ID).
+     **/
     public PricingProduct getProduct()
     {
         return product;
@@ -335,6 +420,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The product short description, a brief overview (not appearing at invoice). The plain text only. Values taken from the associated product if any.
+     **/
     public String getSnippet()
     {
         return snippet;
@@ -346,6 +434,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * An optional subsidiary properties with single level (flat) structure - Map of values. Initial values taken from the associated product if any. Client is free to change it and manage it.
+     **/
     public Map<String, Object> getSubsidiary()
     {
         return subsidiary;
@@ -357,6 +448,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The thumbnail URL of the associated product picture once product has been published. Served from the content delivery network (CDN).
+     **/
     public String getThumbnailUrl()
     {
         return thumbnailUrl;
@@ -368,6 +462,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The code from the billing unit codebook - unit of measure at invoice.
+     **/
     public String getUnit()
     {
         return unit;
@@ -379,6 +476,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The current numeric representation of the value added tax (VAT) codebook item.
+     **/
     public Double getValueAddedTax()
     {
         return valueAddedTax;
@@ -390,6 +490,9 @@ public final class PricingItem
         return this;
     }
 
+    /**
+     * The VAT rate codebook value to be applied to calculate the final price of the product for domestic (seller) to domestic customer sale.
+     **/
     public String getVat()
     {
         return vat;

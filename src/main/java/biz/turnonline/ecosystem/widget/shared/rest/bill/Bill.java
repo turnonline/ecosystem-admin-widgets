@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A document that represent a scanned receipt or incoming invoice. The content of a bill (receipt) interpreted as data.
@@ -36,11 +35,13 @@ public class Bill
 
     private Date createdDate;
 
+    private String currency;
+
     private Date dateOfIssue;
 
-    private Long id;
-
     private String description;
+
+    private Long id;
 
     private List<BillItem> items;
 
@@ -50,17 +51,17 @@ public class Bill
 
     private Double totalPrice;
 
-    private TypeEnum type;
+    private Double totalVat;
 
-    private String currency;
+    private Double totalVatBase;
+
+    private Long transactionId;
+
+    private TypeEnum type;
 
     private List<Scan> scans;
 
-    public Bill approved( Boolean approved )
-    {
-        this.approved = approved;
-        return this;
-    }
+    private List<VatRateRow> vatRows;
 
     /**
      * The indication whether the bill has been approved to be sent to accountant or not.
@@ -76,12 +77,6 @@ public class Bill
         this.approved = approved;
     }
 
-    public Bill billNumber( String billNumber )
-    {
-        this.billNumber = billNumber;
-        return this;
-    }
-
     /**
      * Bill (receipt) number, or in case of incoming invoice an invoice number
      **/
@@ -93,12 +88,6 @@ public class Bill
     public void setBillNumber( String billNumber )
     {
         this.billNumber = billNumber;
-    }
-
-    public Bill createdDate( Date createdDate )
-    {
-        this.createdDate = createdDate;
-        return this;
     }
 
     /**
@@ -114,12 +103,6 @@ public class Bill
         this.createdDate = createdDate;
     }
 
-    public Bill dateOfIssue( Date dateOfIssue )
-    {
-        this.dateOfIssue = dateOfIssue;
-        return this;
-    }
-
     /**
      * The date when the cash register document has been issued. If not provided, the current date will be used. RFC 3339
      **/
@@ -131,12 +114,6 @@ public class Bill
     public void setDateOfIssue( Date dateOfIssue )
     {
         this.dateOfIssue = dateOfIssue;
-    }
-
-    public Bill id( Long id )
-    {
-        this.id = id;
-        return this;
     }
 
     /**
@@ -152,12 +129,6 @@ public class Bill
         this.id = id;
     }
 
-    public Bill description( String description )
-    {
-        this.description = description;
-        return this;
-    }
-
     /**
      * Bill name
      **/
@@ -169,12 +140,6 @@ public class Bill
     public void setDescription( String description )
     {
         this.description = description;
-    }
-
-    public Bill items( List<BillItem> items )
-    {
-        this.items = items;
-        return this;
     }
 
     /**
@@ -190,12 +155,6 @@ public class Bill
         this.items = items;
     }
 
-    public Bill modificationDate( Date modificationDate )
-    {
-        this.modificationDate = modificationDate;
-        return this;
-    }
-
     /**
      * The date of the last modification of the bill resource values. Managed solely by the service. RFC 3339
      **/
@@ -207,12 +166,6 @@ public class Bill
     public void setModificationDate( Date modificationDate )
     {
         this.modificationDate = modificationDate;
-    }
-
-    public Bill supplier( Supplier supplier )
-    {
-        this.supplier = supplier;
-        return this;
     }
 
     /**
@@ -228,14 +181,8 @@ public class Bill
         this.supplier = supplier;
     }
 
-    public Bill totalPrice( Double totalPrice )
-    {
-        this.totalPrice = totalPrice;
-        return this;
-    }
-
     /**
-     * The total price as a sum of all checked in bill items and its amount including target rounding mode. Including VAT.
+     * The total price as stated at bill.
      **/
     public Double getTotalPrice()
     {
@@ -247,14 +194,47 @@ public class Bill
         this.totalPrice = totalPrice;
     }
 
-    public Bill type( TypeEnum type )
+    /**
+     * The total VAT as stated at bill (in case the supplier is a VAT payer).
+     **/
+    public Double getTotalVat()
     {
-        this.type = type;
-        return this;
+        return totalVat;
+    }
+
+    public void setTotalVat( Double totalVat )
+    {
+        this.totalVat = totalVat;
     }
 
     /**
-     * Type of document
+     * The total VAT base as stated at bill (in case the supplier is a VAT payer).
+     **/
+    public Double getTotalVatBase()
+    {
+        return totalVatBase;
+    }
+
+    public void setTotalVatBase( Double totalVatBase )
+    {
+        this.totalVatBase = totalVatBase;
+    }
+
+    /**
+     * The identification of the transaction within Product Billing service associated with this bill if it has been already matched.
+     **/
+    public Long getTransactionId()
+    {
+        return transactionId;
+    }
+
+    public void setTransactionId( Long transactionId )
+    {
+        this.transactionId = transactionId;
+    }
+
+    /**
+     * Type of the bill document.
      **/
     public TypeEnum getType()
     {
@@ -264,12 +244,6 @@ public class Bill
     public void setType( TypeEnum type )
     {
         this.type = type;
-    }
-
-    public Bill currency( String currency )
-    {
-        this.currency = currency;
-        return this;
     }
 
     /**
@@ -285,12 +259,6 @@ public class Bill
         this.currency = currency;
     }
 
-    public Bill scans( List<Scan> scans )
-    {
-        this.scans = scans;
-        return this;
-    }
-
     /**
      * The list of scans associated with this bill.
      **/
@@ -304,36 +272,17 @@ public class Bill
         this.scans = scans;
     }
 
-    @Override
-    public boolean equals( Object o )
+    /**
+     * Summary per VAT rate.
+     **/
+    public List<VatRateRow> getVatRows()
     {
-        if ( this == o )
-        {
-            return true;
-        }
-        if ( o == null || getClass() != o.getClass() )
-        {
-            return false;
-        }
-        Bill bill = ( Bill ) o;
-        return Objects.equals( this.billNumber, bill.billNumber ) &&
-                Objects.equals( this.createdDate, bill.createdDate ) &&
-                Objects.equals( this.dateOfIssue, bill.dateOfIssue ) &&
-                Objects.equals( this.id, bill.id ) &&
-                Objects.equals( this.description, bill.description ) &&
-                Objects.equals( this.items, bill.items ) &&
-                Objects.equals( this.modificationDate, bill.modificationDate ) &&
-                Objects.equals( this.supplier, bill.supplier ) &&
-                Objects.equals( this.totalPrice, bill.totalPrice ) &&
-                Objects.equals( this.type, bill.type ) &&
-                Objects.equals( this.currency, bill.currency ) &&
-                Objects.equals( this.scans, bill.scans );
+        return vatRows;
     }
 
-    @Override
-    public int hashCode()
+    public void setVatRows( List<VatRateRow> vatRows )
     {
-        return Objects.hash( billNumber, createdDate, dateOfIssue, id, description, items, modificationDate, supplier, totalPrice, type, currency, scans );
+        this.vatRows = vatRows;
     }
 
     @Override
@@ -342,6 +291,7 @@ public class Bill
         return "class Bill {\n" +
                 "    billNumber: " + toIndentedString( billNumber ) + "\n" +
                 "    createdDate: " + toIndentedString( createdDate ) + "\n" +
+                "    currency: " + toIndentedString( currency ) + "\n" +
                 "    dateOfIssue: " + toIndentedString( dateOfIssue ) + "\n" +
                 "    id: " + toIndentedString( id ) + "\n" +
                 "    description: " + toIndentedString( description ) + "\n" +
@@ -349,9 +299,12 @@ public class Bill
                 "    modificationDate: " + toIndentedString( modificationDate ) + "\n" +
                 "    supplier: " + toIndentedString( supplier ) + "\n" +
                 "    totalPrice: " + toIndentedString( totalPrice ) + "\n" +
+                "    totalVat: " + toIndentedString( totalVat ) + "\n" +
+                "    totalVatBase: " + toIndentedString( totalVatBase ) + "\n" +
                 "    type: " + toIndentedString( type ) + "\n" +
-                "    currency: " + toIndentedString( currency ) + "\n" +
                 "    scans: " + toIndentedString( scans ) + "\n" +
+                "    transactionId: " + toIndentedString( transactionId ) + "\n" +
+                "    vatRows: " + toIndentedString( vatRows ) + "\n" +
                 "}";
     }
 
@@ -376,12 +329,12 @@ public class Bill
     @Override
     public boolean allNull()
     {
-        return allNull( billNumber, createdDate, dateOfIssue, id, description,
-                items, modificationDate, supplier, totalPrice, type, currency, scans );
+        return allNull( billNumber, createdDate, currency, dateOfIssue, id, description, items, modificationDate,
+                supplier, totalPrice, totalVat, totalVatBase, type, scans, transactionId, vatRows );
     }
 
     /**
-     * Type of document
+     * Type of the bill document.
      */
     public enum TypeEnum
     {
@@ -389,7 +342,7 @@ public class Bill
 
         INVOICE( "INVOICE" );
 
-        private String value;
+        private final String value;
 
         TypeEnum( String value )
         {
