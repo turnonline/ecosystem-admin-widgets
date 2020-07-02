@@ -158,6 +158,21 @@ public class BillSupplier
             postCode.setValue( supplier.getPostcode() );
             country.setSingleValueByCode( supplier.getCountry() );
         }
+
+        // evaluate as a last step
+        readOnly( bill.isApproved() == null ? false : bill.isApproved() );
+    }
+
+    public void readOnly( boolean approved )
+    {
+        businessName.setEnabled( !approved );
+        companyId.setEnabled( !approved );
+        taxId.setEnabled( !approved );
+        vatId.setEnabled( !approved );
+        street.setEnabled( !approved );
+        city.setEnabled( !approved );
+        postCode.setEnabled( !approved );
+        country.setEnabled( !approved );
     }
 
     interface SupplierUiBinder

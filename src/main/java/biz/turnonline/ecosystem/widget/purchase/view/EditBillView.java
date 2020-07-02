@@ -53,7 +53,7 @@ public class EditBillView
         extends View<Bill>
         implements EditBillPresenter.IView
 {
-    private static EditBillsViewUiBinder binder = GWT.create( EditBillsViewUiBinder.class );
+    private static final EditBillsViewUiBinder binder = GWT.create( EditBillsViewUiBinder.class );
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -85,7 +85,7 @@ public class EditBillView
     @UiField
     MaterialAnchorButton approveBill;
 
-    private PlaceController controller;
+    private final PlaceController controller;
 
     @Inject
     public EditBillView( @Named( "EditBillBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
@@ -132,13 +132,13 @@ public class EditBillView
     }
 
     @UiHandler( "btnBack" )
-    public void handleBack( ClickEvent event )
+    public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new BackEvent() );
     }
 
     @UiHandler( "btnSave" )
-    public void handleSave( ClickEvent event )
+    public void handleSave( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new SaveBillEvent( getModel() ) );
     }
@@ -153,6 +153,13 @@ public class EditBillView
     public void approveBill( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         confirmationApprove.open( AppMessages.INSTANCE.questionApproveBill() );
+    }
+
+    @Override
+    public void setReadOnly()
+    {
+        detail.readOnly( true );
+        supplier.readOnly( true );
     }
 
     interface EditBillsViewUiBinder

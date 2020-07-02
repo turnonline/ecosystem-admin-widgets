@@ -110,12 +110,16 @@ public class EditBillPresenter
         bus().bill().approveBill( bill.getId(),
                 ( SuccessCallback<Void> ) response -> {
                     success( messages.msgBillApproved( bill.getDescription() ) );
-                    controller().goTo( new EditBill( bill.getId(), "tabDetail" ) );
+                    view().setReadOnly();
                 } );
     }
 
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<Bill>
     {
+        /**
+         * Sets the bill supplier and its details form to read only.
+         */
+        void setReadOnly();
     }
 }

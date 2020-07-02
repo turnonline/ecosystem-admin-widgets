@@ -272,7 +272,7 @@ public class BillDetail
         }
 
         // evaluate as a last step
-        readOnly( bill );
+        readOnly( bill.isApproved() == null ? false : bill.isApproved() );
     }
 
     private void fillFromRow( @Nonnull Map<Double, VatRateRow> vatMap,
@@ -301,10 +301,8 @@ public class BillDetail
         }
     }
 
-    private void readOnly( @Nonnull Bill bill )
+    public void readOnly( boolean approved )
     {
-        boolean approved = bill.isApproved() == null ? false : bill.isApproved();
-
         addItem.setVisible( !approved );
 
         billNumber.setReadOnly( approved );
