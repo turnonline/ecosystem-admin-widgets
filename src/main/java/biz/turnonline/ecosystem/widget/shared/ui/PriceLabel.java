@@ -20,13 +20,15 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 import com.google.gwt.i18n.client.NumberFormat;
 import gwt.material.design.client.ui.MaterialLabel;
 
+import javax.annotation.Nullable;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class PriceLabel
         extends MaterialLabel
 {
-    public void setValue( Double price, String currency )
+    public void setValue( @Nullable Double price, @Nullable String currency )
     {
         setValue( format( price, currency ) );
     }

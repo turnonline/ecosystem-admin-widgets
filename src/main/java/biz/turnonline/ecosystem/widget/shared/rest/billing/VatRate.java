@@ -30,6 +30,11 @@ public final class VatRate
 
     private String locale;
 
+    private Double value;
+
+    /**
+     * The VAT rate code. It's case insensitive.
+     **/
     public String getCode()
     {
         return code;
@@ -41,6 +46,9 @@ public final class VatRate
         return this;
     }
 
+    /**
+     * The ISO 3166 alpha-2 country code. The country of the VAT rate that belongs to.
+     **/
     public String getDomicile()
     {
         return domicile;
@@ -52,6 +60,9 @@ public final class VatRate
         return this;
     }
 
+    /**
+     * The codebook value, VAT rate short name.
+     **/
     public String getLabel()
     {
         return label;
@@ -63,6 +74,9 @@ public final class VatRate
         return this;
     }
 
+    /**
+     * The label language. ISO 639 alpha-2 or alpha-3 language code.
+     **/
     public String getLocale()
     {
         return locale;
@@ -71,6 +85,20 @@ public final class VatRate
     public VatRate setLocale( String locale )
     {
         this.locale = locale;
+        return this;
+    }
+
+    /**
+     * The VAT rate as a number value.
+     **/
+    public Double getValue()
+    {
+        return value;
+    }
+
+    public VatRate setValue( Double value )
+    {
+        this.value = value;
         return this;
     }
 }

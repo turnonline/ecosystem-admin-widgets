@@ -311,6 +311,9 @@ public interface AppMessages
     @Key( "label.totalPriceExclVat" )
     String labelTotalPriceExclVat();
 
+    @Key( "label.totalVat" )
+    String labelTotalVat();
+
     @Key( "label.totalVatBase" )
     String labelTotalVatBase();
 
@@ -373,6 +376,9 @@ public interface AppMessages
 
     @Key( "label.changes" )
     String labelChanges();
+
+    @Key( "label.vatRecapitulation" )
+    String labelVatRecapitulation();
 
     @Key( "label.created" )
     String labelCreated();
@@ -481,6 +487,12 @@ public interface AppMessages
 
     @Key( value = "label.vatNonEU" )
     String labelVatNonEU();
+
+    @Key( "label.vatAmount" )
+    String labelVatAmount();
+
+    @Key( "label.sum" )
+    String labelSum();
 
     @Key( value = "label.domesticDelivery" )
     String labelDomesticDelivery();
