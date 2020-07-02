@@ -32,9 +32,13 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import gwt.material.design.addins.client.emptystate.MaterialEmptyState;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 import javax.annotation.Nonnull;
@@ -88,6 +92,9 @@ public class BillDetail
     MaterialLink addItem;
 
     @UiField
+    MaterialRow standardRow;
+
+    @UiField
     VatRateComboBox standardVatRate;
 
     @UiField
@@ -98,6 +105,9 @@ public class BillDetail
 
     @UiField
     MaterialDoubleBox standardSum;
+
+    @UiField
+    MaterialRow reducedRow;
 
     @UiField
     VatRateComboBox reducedVatRate;
@@ -112,10 +122,16 @@ public class BillDetail
     MaterialDoubleBox reducedSum;
 
     @UiField
+    MaterialRow zeroRow;
+
+    @UiField
     VatRateComboBox zeroVatRate;
 
     @UiField
     MaterialDoubleBox zeroExclVat;
+
+    @UiField
+    MaterialRow sumRow;
 
     @UiField
     MaterialDoubleBox sumTotalPriceExclVat;
@@ -126,9 +142,16 @@ public class BillDetail
     @UiField
     PriceLabel sumTotalPrice;
 
+    @UiField
+    MaterialEmptyState emptyRecapitulation;
+
     public BillDetail()
     {
         initWidget( binder.createAndBindUi( this ) );
+
+        emptyRecapitulation.setHeight( "20vh" );
+        emptyRecapitulation.setIconType( IconType.CLOSE );
+        emptyRecapitulation.setIconColor( Color.BLUE );
 
         billNumber.setReturnBlankAsNull( true );
         description.setReturnBlankAsNull( true );
@@ -223,6 +246,7 @@ public class BillDetail
         created.setValue( bill.getCreatedDate() );
         modified.setValue( bill.getModificationDate() );
 
+        items.setReadOnly( bill.isApproved() == null ? false : bill.isApproved() );
         items.setValue( bill.getItems() );
 
         zeroExclVat.reset();
@@ -246,6 +270,9 @@ public class BillDetail
             fillFromRow( vatMap, reducedVatRate, reducedExclVat, reducedVatAmount, reducedSum );
             fillFromRow( vatMap, standardVatRate, standardExclVat, standardVatAmount, standardSum );
         }
+
+        // evaluate as a last step
+        readOnly( bill );
     }
 
     private void fillFromRow( @Nonnull Map<Double, VatRateRow> vatMap,
@@ -272,6 +299,52 @@ public class BillDetail
                 sum.setValue( row.getPriceInclVat() );
             }
         }
+    }
+
+    private void readOnly( @Nonnull Bill bill )
+    {
+        boolean approved = bill.isApproved() == null ? false : bill.isApproved();
+
+        addItem.setVisible( !approved );
+
+        billNumber.setReadOnly( approved );
+        description.setReadOnly( approved );
+        totalPrice.setReadOnly( approved );
+        currency.setReadOnly( approved );
+        billType.setReadOnly( approved );
+        dateOfIssue.setReadOnly( approved );
+
+        standardExclVat.setReadOnly( approved );
+        standardVatAmount.setReadOnly( approved );
+        standardSum.setReadOnly( approved );
+
+        standardRow.setVisible( !( standardExclVat.getValue() == null
+                && standardVatAmount.getValue() == null
+                && standardSum.getValue() == null )
+                || !approved );
+
+        reducedExclVat.setReadOnly( approved );
+        reducedVatAmount.setReadOnly( approved );
+        reducedSum.setReadOnly( approved );
+
+        reducedRow.setVisible( !( reducedExclVat.getValue() == null
+                && reducedVatAmount.getValue() == null
+                && reducedSum.getValue() == null )
+                || !approved );
+
+        zeroExclVat.setReadOnly( approved );
+        zeroRow.setVisible( zeroExclVat.getValue() != null || !approved );
+
+        sumTotalPriceExclVat.setReadOnly( approved );
+        sumTotalVat.setReadOnly( approved );
+        sumRow.setVisible( !( sumTotalPriceExclVat.getValue() == null
+                && sumTotalVat.getValue() == null )
+                || !approved );
+
+        emptyRecapitulation.setVisible( !standardRow.isVisible()
+                && !reducedRow.isVisible()
+                && !zeroRow.isVisible()
+                && !sumRow.isVisible() );
     }
 
     @UiHandler( "addItem" )

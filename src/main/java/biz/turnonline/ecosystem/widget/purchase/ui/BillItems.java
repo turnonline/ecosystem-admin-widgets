@@ -31,6 +31,8 @@ public class BillItems
 {
     private static AppMessages messages = AppMessages.INSTANCE;
 
+    private boolean readOnly;
+
     public BillItems()
     {
         header( messages.labelItemName(), "30%" );
@@ -45,7 +47,7 @@ public class BillItems
     @Override
     protected Widget newItem()
     {
-        return new BillItemRow();
+        return new BillItemRow( readOnly );
     }
 
     private void header( String header, String width )
@@ -54,5 +56,10 @@ public class BillItems
         label.getElement().getStyle().setOverflow( Style.Overflow.AUTO );
 
         addHeader( label, width ).setPaddingLeft( 0 );
+    }
+
+    public void setReadOnly( boolean readOnly )
+    {
+        this.readOnly = readOnly;
     }
 }

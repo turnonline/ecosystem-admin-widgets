@@ -17,6 +17,7 @@
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui"
+             xmlns:a="urn:import:gwt.material.design.addins.client"
              xmlns:ui2="urn:import:biz.turnonline.ecosystem.widget.purchase.ui">
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
@@ -55,7 +56,8 @@
         </m:MaterialRow>
 
         <s:SectionTitle iconType="ATTACH_MONEY" title="{msg.labelVatRecapitulation}"/>
-        <m:MaterialRow>
+        <a:emptystate.MaterialEmptyState ui:field="emptyRecapitulation"/>
+        <m:MaterialRow ui:field="standardRow">
             <m:MaterialColumn grid="s12 m9">
                 <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
                     <s:VatRateComboBox ui:field="standardVatRate" paddingLeft="0" grid="m2"/>
@@ -65,7 +67,7 @@
                 </m:MaterialColumn>
             </m:MaterialColumn>
         </m:MaterialRow>
-        <m:MaterialRow>
+        <m:MaterialRow ui:field="reducedRow">
             <m:MaterialColumn grid="s12 m9">
                 <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
                     <s:VatRateComboBox ui:field="reducedVatRate" paddingLeft="0" grid="m2"/>
@@ -75,7 +77,7 @@
                 </m:MaterialColumn>
             </m:MaterialColumn>
         </m:MaterialRow>
-        <m:MaterialRow>
+        <m:MaterialRow ui:field="zeroRow">
             <m:MaterialColumn grid="s12 m9">
                 <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
                     <s:VatRateComboBox ui:field="zeroVatRate" paddingLeft="0" grid="m2"/>
@@ -83,15 +85,15 @@
                 </m:MaterialColumn>
             </m:MaterialColumn>
         </m:MaterialRow>
-        <m:MaterialRow>
+        <m:MaterialRow ui:field="sumRow" backgroundColor="BLUE_LIGHTEN_5">
             <m:MaterialColumn grid="s12 m9">
                 <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
                     <m:MaterialRow>
                         <g:Label ui:field="sum" text="{msg.labelTotalPrice}"/>
                     </m:MaterialRow>
-                    <m:MaterialDoubleBox ui:field="sumTotalPriceExclVat" label="{msg.labelTotalPriceExclVat}" paddingLeft="0" grid="m4"/>
-                    <m:MaterialDoubleBox ui:field="sumTotalVat" label="{msg.labelTotalVat}" paddingLeft="0" grid="m4"/>
-                    <s:PriceLabel ui:field="sumTotalPrice" paddingTop="30" grid="m4"/>
+                    <m:MaterialDoubleBox ui:field="sumTotalPriceExclVat" label="{msg.labelTotalPriceExclVat}" paddingLeft="0" grid="m3"/>
+                    <m:MaterialDoubleBox ui:field="sumTotalVat" label="{msg.labelTotalVat}" paddingLeft="0" grid="m3"/>
+                    <s:PriceLabel ui:field="sumTotalPrice" fontWeight="BOLD" paddingTop="30" grid="m3"/>
                 </m:MaterialColumn>
             </m:MaterialColumn>
         </m:MaterialRow>

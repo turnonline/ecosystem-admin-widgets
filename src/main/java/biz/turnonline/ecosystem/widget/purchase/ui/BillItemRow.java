@@ -41,22 +41,26 @@ public class BillItemRow
 {
     private BillItem model;
 
-    private MaterialTextBox itemName = new MaterialTextBox();
+    private final MaterialTextBox itemName = new MaterialTextBox();
 
-    private MaterialDoubleBox amount = new MaterialDoubleBox();
+    private final MaterialDoubleBox amount = new MaterialDoubleBox();
 
-    private BillingUnitComboBox unit = new BillingUnitComboBox();
+    private final BillingUnitComboBox unit = new BillingUnitComboBox();
 
-    private MaterialDoubleBox priceExclVat = new MaterialDoubleBox();
+    private final MaterialDoubleBox priceExclVat = new MaterialDoubleBox();
 
-    private VatRateComboBox vat = new VatRateComboBox();
+    private final VatRateComboBox vat = new VatRateComboBox();
 
-    private MaterialDoubleBox priceInclVat = new MaterialDoubleBox();
+    private final MaterialDoubleBox priceInclVat = new MaterialDoubleBox();
 
-    private MaterialButton remove = new MaterialButton();
+    private final MaterialButton remove = new MaterialButton();
 
-    public BillItemRow()
+    private final boolean readOnly;
+
+    public BillItemRow( boolean readOnly )
     {
+        this.readOnly = readOnly;
+
         remove.setIconType( IconType.DELETE );
         remove.setBackgroundColor( Color.RED );
         remove.setIconColor( Color.WHITE );
@@ -117,6 +121,14 @@ public class BillItemRow
         priceExclVat.setValue( item.getPriceExclVat() );
         vat.setSingleValueByCode( item.getFinalVat() );
         priceInclVat.setValue( item.getFinalPrice() );
+
+        itemName.setReadOnly( readOnly );
+        amount.setReadOnly( readOnly );
+        unit.setReadOnly( readOnly );
+        priceExclVat.setReadOnly( readOnly );
+        vat.setReadOnly( readOnly );
+        priceInclVat.setReadOnly( readOnly );
+        remove.setVisible( !readOnly );
     }
 
     // -- private helpers
