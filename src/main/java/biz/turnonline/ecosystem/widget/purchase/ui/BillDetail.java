@@ -18,7 +18,7 @@ package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
-import biz.turnonline.ecosystem.widget.shared.rest.bill.BillItem;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Item;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.VatRateRow;
 import biz.turnonline.ecosystem.widget.shared.ui.BillTypeComboBox;
@@ -311,6 +311,7 @@ public class BillDetail
         currency.setReadOnly( approved );
         billType.setReadOnly( approved );
         dateOfIssue.setReadOnly( approved );
+        items.setReadOnly( approved );
 
         standardExclVat.setReadOnly( approved );
         standardVatAmount.setReadOnly( approved );
@@ -348,8 +349,7 @@ public class BillDetail
     @UiHandler( "addItem" )
     public void add( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        BillItem item = new BillItem();
-        item.setAmount( 1D );
+        Item item = new Item();
         items.addRow( item );
     }
 

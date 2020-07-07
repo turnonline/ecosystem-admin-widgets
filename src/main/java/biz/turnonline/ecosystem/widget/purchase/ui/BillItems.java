@@ -17,7 +17,7 @@
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.rest.bill.BillItem;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Item;
 import biz.turnonline.ecosystem.widget.shared.ui.Repeater;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Label;
@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class BillItems
-        extends Repeater<BillItem>
+        extends Repeater<Item>
 {
     private static AppMessages messages = AppMessages.INSTANCE;
 
@@ -35,12 +35,11 @@ public class BillItems
 
     public BillItems()
     {
-        header( messages.labelItemName(), "30%" );
-        header( messages.labelAmount(), "10%" );
-        header( messages.labelUnit(), "15%" );
-        header( messages.labelVat(), "10%" );
+        header( messages.labelItemName(), "40%" );
+        header( messages.labelVat(), "15%" );
         header( messages.labelPriceExcludingVat(), "15%" );
-        header( messages.labelPriceIncludingVat(), "15%" );
+        header( messages.labelVatAmount(), "15%" );
+        header( messages.labelSum(), "15%" );
         header( "", "5%" );
     }
 
@@ -61,5 +60,10 @@ public class BillItems
     public void setReadOnly( boolean readOnly )
     {
         this.readOnly = readOnly;
+
+        getTbody().forEach( widget -> {
+            BillItemRow row = ( BillItemRow ) widget;
+            row.readOnly( readOnly );
+        } );
     }
 }

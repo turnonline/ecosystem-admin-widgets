@@ -43,7 +43,7 @@ public class Bill
 
     private Long id;
 
-    private List<BillItem> items;
+    private List<Item> items;
 
     private Date modificationDate;
 
@@ -145,12 +145,12 @@ public class Bill
     /**
      * Get items
      **/
-    public List<BillItem> getItems()
+    public List<Item> getItems()
     {
         return items;
     }
 
-    public void setItems( List<BillItem> items )
+    public void setItems( List<Item> items )
     {
         this.items = items;
     }

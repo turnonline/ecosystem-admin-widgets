@@ -18,53 +18,32 @@
 package biz.turnonline.ecosystem.widget.shared.rest.bill;
 
 /**
- * The single row of the pricing item at a bill.
+ * The single row (optional) of the item.
  */
-public class BillItem
+public class Item
 {
-    private Double amount;
-
     private Double finalPrice;
 
-    private String finalVat;
+    private Double finalVatAmount;
 
     private Long id;
 
     private String itemName;
 
-    private Double priceExclVat;
-
     private String parentKey;
 
-    private String unit;
+    private Double priceExclVat;
 
-    public BillItem amount( Double amount )
-    {
-        this.amount = amount;
-        return this;
-    }
+    private String vat;
 
-    /**
-     * The amount (quantity) of the single item at bill.
-     **/
-    public Double getAmount()
-    {
-        return amount;
-    }
-
-    public void setAmount( Double amount )
-    {
-        this.amount = amount;
-    }
-
-    public BillItem finalPrice( Double finalPrice )
+    public Item finalPrice( Double finalPrice )
     {
         this.finalPrice = finalPrice;
         return this;
     }
 
     /**
-     * The final price including VAT as a result of the calculation of the item price excluding VAT (VAT base), selected VAT and amount.
+     * The final price including VAT.
      **/
     public Double getFinalPrice()
     {
@@ -76,26 +55,26 @@ public class BillItem
         this.finalPrice = finalPrice;
     }
 
-    public BillItem finalVat( String finalVat )
+    public Item finalVatAmount( Double finalVatAmount )
     {
-        this.finalVat = finalVat;
+        this.finalVatAmount = finalVatAmount;
         return this;
     }
 
     /**
-     * The context sensitive (customer country etc) VAT code, taken from the VAT rate code book.
+     * The final amount of VAT.
      **/
-    public String getFinalVat()
+    public Double getFinalVatAmount()
     {
-        return finalVat;
+        return finalVatAmount;
     }
 
-    public void setFinalVat( String finalVat )
+    public void setFinalVatAmount( Double finalVatAmount )
     {
-        this.finalVat = finalVat;
+        this.finalVatAmount = finalVatAmount;
     }
 
-    public BillItem id( Long id )
+    public Item id( Long id )
     {
         this.id = id;
         return this;
@@ -114,14 +93,14 @@ public class BillItem
         this.id = id;
     }
 
-    public BillItem itemName( String itemName )
+    public Item itemName( String itemName )
     {
         this.itemName = itemName;
         return this;
     }
 
     /**
-     * Billing item name
+     * Single item name
      **/
     public String getItemName()
     {
@@ -133,26 +112,7 @@ public class BillItem
         this.itemName = itemName;
     }
 
-    public BillItem priceExclVat( Double priceExclVat )
-    {
-        this.priceExclVat = priceExclVat;
-        return this;
-    }
-
-    /**
-     * The product price for a single unit (meaning amount 1.0 as a quantity). The price is excluding VAT in case company is VAT payer, otherwise price is final.
-     **/
-    public Double getPriceExclVat()
-    {
-        return priceExclVat;
-    }
-
-    public void setPriceExclVat( Double priceExclVat )
-    {
-        this.priceExclVat = priceExclVat;
-    }
-
-    public BillItem parentKey( String parentKey )
+    public Item parentKey( String parentKey )
     {
         this.parentKey = parentKey;
         return this;
@@ -171,37 +131,55 @@ public class BillItem
         this.parentKey = parentKey;
     }
 
-    public BillItem unit( String unit )
+    public Item priceExclVat( Double priceExclVat )
     {
-        this.unit = unit;
+        this.priceExclVat = priceExclVat;
         return this;
     }
 
     /**
-     * The code from the billing unit codebook - unit of measure at invoice.
+     * The price excluding VAT in case company is VAT payer, otherwise price is final.
      **/
-    public String getUnit()
+    public Double getPriceExclVat()
     {
-        return unit;
+        return priceExclVat;
     }
 
-    public void setUnit( String unit )
+    public void setPriceExclVat( Double priceExclVat )
     {
-        this.unit = unit;
+        this.priceExclVat = priceExclVat;
+    }
+
+    public Item vat( String vat )
+    {
+        this.vat = vat;
+        return this;
+    }
+
+    /**
+     * The VAT code taken from the VAT rate code book.
+     **/
+    public String getVat()
+    {
+        return vat;
+    }
+
+    public void setVat( String vat )
+    {
+        this.vat = vat;
     }
 
     @Override
     public String toString()
     {
-        return "class BillItem {\n" +
-                "    amount: " + toIndentedString( amount ) + "\n" +
+        return "class Item {\n" +
                 "    finalPrice: " + toIndentedString( finalPrice ) + "\n" +
-                "    finalVat: " + toIndentedString( finalVat ) + "\n" +
+                "    finalVatAmount: " + toIndentedString( finalVatAmount ) + "\n" +
                 "    id: " + toIndentedString( id ) + "\n" +
                 "    itemName: " + toIndentedString( itemName ) + "\n" +
-                "    priceExclVat: " + toIndentedString( priceExclVat ) + "\n" +
                 "    parentKey: " + toIndentedString( parentKey ) + "\n" +
-                "    unit: " + toIndentedString( unit ) + "\n" +
+                "    priceExclVat: " + toIndentedString( priceExclVat ) + "\n" +
+                "    vat: " + toIndentedString( vat ) + "\n" +
                 "}";
     }
 
@@ -218,4 +196,3 @@ public class BillItem
         return o.toString().replace( "\n", "\n    " );
     }
 }
-

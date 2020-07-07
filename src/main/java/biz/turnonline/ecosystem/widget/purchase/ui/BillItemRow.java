@@ -16,8 +16,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.bill.BillItem;
-import biz.turnonline.ecosystem.widget.shared.ui.BillingUnitComboBox;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Item;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Widget;
@@ -37,19 +36,17 @@ import gwt.material.design.client.ui.table.TableRow;
  */
 public class BillItemRow
         extends TableRow
-        implements TakesValue<BillItem>
+        implements TakesValue<Item>
 {
-    private BillItem model;
+    private final MaterialDoubleBox vatAmount = new MaterialDoubleBox();
 
     private final MaterialTextBox itemName = new MaterialTextBox();
-
-    private final MaterialDoubleBox amount = new MaterialDoubleBox();
-
-    private final BillingUnitComboBox unit = new BillingUnitComboBox();
 
     private final MaterialDoubleBox priceExclVat = new MaterialDoubleBox();
 
     private final VatRateComboBox vat = new VatRateComboBox();
+
+    private Item model;
 
     private final MaterialDoubleBox priceInclVat = new MaterialDoubleBox();
 
@@ -70,15 +67,7 @@ public class BillItemRow
 
         TableData columnName = column( itemName );
         columnName.setPaddingLeft( 0 );
-        columnName.setWidth( "30%" );
-
-        TableData columnAmount = column( amount );
-        columnAmount.setPaddingLeft( 0 );
-        columnAmount.setWidth( "10%" );
-
-        TableData columnUnit = column( unit );
-        columnUnit.setPaddingLeft( 0 );
-        columnUnit.setWidth( "15%" );
+        columnName.setWidth( "40%" );
 
         TableData columnVat = column( vat );
         columnVat.setPaddingLeft( 0 );
@@ -87,6 +76,10 @@ public class BillItemRow
         TableData columnPriceExclVat = column( priceExclVat );
         columnPriceExclVat.setPaddingLeft( 0 );
         columnPriceExclVat.setWidth( "15%" );
+
+        TableData columnVatAmount = column( vatAmount );
+        columnVatAmount.setPaddingLeft( 0 );
+        columnVatAmount.setWidth( "15%" );
 
         TableData columnPriceInclVat = column( priceInclVat );
         columnPriceInclVat.setPaddingLeft( 0 );
@@ -98,36 +91,37 @@ public class BillItemRow
     }
 
     @Override
-    public BillItem getValue()
+    public Item getValue()
     {
         model.setItemName( itemName.getValue() );
-        model.setAmount( amount.getValue() );
-        model.setUnit( unit.getSingleValueByCode() );
         model.setPriceExclVat( priceExclVat.getValue() );
-        model.setFinalVat( vat.getSingleValueByCode() );
+        model.setVat( vat.getSingleValueByCode() );
+        model.setFinalVatAmount( vatAmount.getValue() );
         model.setFinalPrice( priceInclVat.getValue() );
 
         return model;
     }
 
     @Override
-    public void setValue( BillItem item )
+    public void setValue( Item item )
     {
         this.model = item;
 
         itemName.setValue( item.getItemName() );
-        amount.setValue( item.getAmount() );
-        unit.setSingleValueByCode( item.getUnit() );
         priceExclVat.setValue( item.getPriceExclVat() );
-        vat.setSingleValueByCode( item.getFinalVat() );
+        vat.setSingleValueByCode( item.getVat() );
+        vatAmount.setValue( item.getFinalVatAmount() );
         priceInclVat.setValue( item.getFinalPrice() );
 
+        readOnly( readOnly );
+    }
+
+    public void readOnly( boolean readOnly )
+    {
         itemName.setReadOnly( readOnly );
-        amount.setReadOnly( readOnly );
-        unit.setReadOnly( readOnly );
         priceExclVat.setReadOnly( readOnly );
         vat.setReadOnly( readOnly );
-        priceInclVat.setReadOnly( readOnly );
+        vatAmount.setReadOnly( readOnly );
         remove.setVisible( !readOnly );
     }
 
