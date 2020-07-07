@@ -335,7 +335,6 @@ public class BillDetail
         created.setValue( bill.getCreatedDate() );
         modified.setValue( bill.getModificationDate() );
 
-        items.setReadOnly( bill.isApproved() == null ? false : bill.isApproved() );
         items.setValue( bill.getItems(), bill.getCurrency() );
 
         zeroExclVat.reset();
@@ -401,6 +400,7 @@ public class BillDetail
     public void setReadOnly( boolean approved )
     {
         addItem.setVisible( !approved );
+        items.setReadOnly( approved );
 
         billNumber.setReadOnly( approved );
         description.setReadOnly( approved );

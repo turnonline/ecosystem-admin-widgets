@@ -54,6 +54,8 @@ import static gwt.material.design.client.constants.Color.BROWN_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.RED;
 import static gwt.material.design.client.constants.Color.TEAL_LIGHTEN_2;
+import static gwt.material.design.client.constants.IconType.EDIT;
+import static gwt.material.design.client.constants.IconType.VISIBILITY;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
@@ -149,12 +151,16 @@ public class BillOverviewCard
             approved.setBackgroundColor( GREEN );
             approved.setIconType( IconType.ASSIGNMENT_TURNED_IN );
             approved.setTooltip( messages.tooltipBillApproved() );
+
+            editLink.setIconType( VISIBILITY );
         }
         else
         {
             approved.setBackgroundColor( RED );
             approved.setIconType( IconType.ASSIGNMENT_LATE );
             approved.setTooltip( messages.tooltipBillWaitingForApproval() );
+
+            editLink.setIconType( EDIT );
         }
 
         card.setScrollspy( Bills.getScrollspy( bill ) );

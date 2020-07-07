@@ -82,7 +82,7 @@ public class EditBillPresenter
         {
             bus().bill().createBill( bill, ( SuccessCallback<Bill> ) response -> {
                 success( messages.msgRecordCreated() );
-                controller().goTo( new EditBill( response.getId(), "tabDetail" ) );
+                view().setModel( response );
             } );
         }
         else

@@ -45,6 +45,7 @@ import gwt.material.design.client.ui.MaterialButton;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Optional;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -129,6 +130,9 @@ public class EditBillView
         } );
 
         deleteBill.setEnabled( bill.getId() != null );
+        Boolean approved = Optional.ofNullable( bill.isApproved() ).orElse( false );
+        btnSave.setVisible( !approved );
+        approveBill.setEnabled( !approved && bill.getId() != null );
     }
 
     @UiHandler( "btnBack" )
@@ -160,6 +164,8 @@ public class EditBillView
     {
         detail.setReadOnly( true );
         supplier.readOnly( true );
+        btnSave.setVisible( false );
+        approveBill.setEnabled( false );
     }
 
     interface EditBillsViewUiBinder
