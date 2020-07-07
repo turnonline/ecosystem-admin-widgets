@@ -158,7 +158,7 @@ public class EditBillView
     @Override
     public void setReadOnly()
     {
-        detail.readOnly( true );
+        detail.setReadOnly( true );
         supplier.readOnly( true );
     }
 

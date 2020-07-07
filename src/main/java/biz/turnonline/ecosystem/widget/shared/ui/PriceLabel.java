@@ -28,6 +28,27 @@ import javax.annotation.Nullable;
 public class PriceLabel
         extends MaterialLabel
 {
+    private Double price;
+
+    public Double getPrice()
+    {
+        return price;
+    }
+
+    @Override
+    public void reset()
+    {
+        super.reset();
+        this.price = null;
+    }
+
+    @Override
+    public void clear()
+    {
+        super.clear();
+        this.price = null;
+    }
+
     public void setValue( @Nullable Double price, @Nullable String currency )
     {
         setValue( format( price, currency ) );
@@ -35,6 +56,8 @@ public class PriceLabel
 
     private String format( Double price, String currency )
     {
+        this.price = price;
+
         price = price != null ? price : 0D;
         return currency == null ? price.toString() : NumberFormat.getCurrencyFormat( currency ).format( price );
     }

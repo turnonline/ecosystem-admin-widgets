@@ -17,7 +17,9 @@
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Item;
+import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.constants.ButtonType;
@@ -29,6 +31,8 @@ import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.table.TableData;
 import gwt.material.design.client.ui.table.TableRow;
+
+import javax.annotation.Nullable;
 
 
 /**
@@ -46,17 +50,23 @@ public class BillItemRow
 
     private final VatRateComboBox vat = new VatRateComboBox();
 
-    private Item model;
-
-    private final MaterialDoubleBox priceInclVat = new MaterialDoubleBox();
+    private final PriceLabel priceInclVat = new PriceLabel();
 
     private final MaterialButton remove = new MaterialButton();
 
     private final boolean readOnly;
 
-    public BillItemRow( boolean readOnly )
+    private String currency;
+
+    private Item model;
+
+    public BillItemRow( boolean readOnly, @Nullable String currency )
     {
         this.readOnly = readOnly;
+        this.currency = currency;
+
+        priceInclVat.setFontWeight( Style.FontWeight.BOLD );
+        vatAmount.setPaddingRight( 20 );
 
         remove.setIconType( IconType.DELETE );
         remove.setBackgroundColor( Color.RED );
@@ -88,6 +98,20 @@ public class BillItemRow
         TableData columnRemove = column( remove );
         columnRemove.setPaddingRight( 0 );
         columnRemove.setWidth( "5%" );
+
+        priceExclVat.addChangeHandler( event -> calcRowPrice() );
+        vatAmount.addChangeHandler( event -> calcRowPrice() );
+    }
+
+    private void calcRowPrice()
+    {
+        Double pev = priceExclVat.getValue();
+        Double vat = vatAmount.getValue();
+
+        if ( pev != null && vat != null )
+        {
+            priceInclVat.setValue( pev + vat, currency );
+        }
     }
 
     @Override
@@ -97,7 +121,7 @@ public class BillItemRow
         model.setPriceExclVat( priceExclVat.getValue() );
         model.setVat( vat.getSingleValueByCode() );
         model.setFinalVatAmount( vatAmount.getValue() );
-        model.setFinalPrice( priceInclVat.getValue() );
+        model.setFinalPrice( priceInclVat.getPrice() );
 
         return model;
     }
@@ -111,12 +135,18 @@ public class BillItemRow
         priceExclVat.setValue( item.getPriceExclVat() );
         vat.setSingleValueByCode( item.getVat() );
         vatAmount.setValue( item.getFinalVatAmount() );
-        priceInclVat.setValue( item.getFinalPrice() );
+        priceInclVat.setValue( item.getFinalPrice(), currency );
 
-        readOnly( readOnly );
+        setReadOnly( readOnly );
     }
 
-    public void readOnly( boolean readOnly )
+    public void setCurrency( @Nullable String currency )
+    {
+        this.currency = currency;
+        priceInclVat.setValue( priceInclVat.getPrice(), currency );
+    }
+
+    public void setReadOnly( boolean readOnly )
     {
         itemName.setReadOnly( readOnly );
         priceExclVat.setReadOnly( readOnly );

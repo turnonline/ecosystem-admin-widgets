@@ -23,6 +23,9 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
@@ -32,6 +35,8 @@ public class BillItems
     private static AppMessages messages = AppMessages.INSTANCE;
 
     private boolean readOnly;
+
+    private String currency;
 
     public BillItems()
     {
@@ -46,7 +51,7 @@ public class BillItems
     @Override
     protected Widget newItem()
     {
-        return new BillItemRow( readOnly );
+        return new BillItemRow( readOnly, currency );
     }
 
     private void header( String header, String width )
@@ -57,13 +62,29 @@ public class BillItems
         addHeader( label, width ).setPaddingLeft( 0 );
     }
 
+    public void setValue( @Nullable List<Item> value, @Nullable String currency )
+    {
+        this.currency = currency;
+        super.setValue( value );
+    }
+
+    public void setCurrency( @Nullable String currency )
+    {
+        this.currency = currency;
+
+        getTbody().forEach( widget -> {
+            BillItemRow row = ( BillItemRow ) widget;
+            row.setCurrency( currency );
+        } );
+    }
+
     public void setReadOnly( boolean readOnly )
     {
         this.readOnly = readOnly;
 
         getTbody().forEach( widget -> {
             BillItemRow row = ( BillItemRow ) widget;
-            row.readOnly( readOnly );
+            row.setReadOnly( readOnly );
         } );
     }
 }

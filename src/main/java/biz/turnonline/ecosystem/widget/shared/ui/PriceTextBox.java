@@ -20,19 +20,44 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 import com.google.gwt.i18n.client.NumberFormat;
 import gwt.material.design.client.ui.MaterialTextBox;
 
+import javax.annotation.Nullable;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class PriceTextBox
         extends MaterialTextBox
 {
-    public void setValue( Double price, String currency )
+    private Double price;
+
+    public Double getPrice()
+    {
+        return price;
+    }
+
+    @Override
+    public void reset()
+    {
+        super.reset();
+        this.price = null;
+    }
+
+    @Override
+    public void clear()
+    {
+        super.clear();
+        this.price = null;
+    }
+
+    public void setValue( @Nullable Double price, @Nullable String currency )
     {
         setValue( format( price, currency ) );
     }
 
     private String format( Double price, String currency )
     {
+        this.price = price;
+
         price = price != null ? price : 0D;
         return currency == null ? price.toString() : NumberFormat.getCurrencyFormat( currency ).format( price );
     }

@@ -23,7 +23,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.VatRateRow;
 import biz.turnonline.ecosystem.widget.shared.ui.BillTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
-import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
+import biz.turnonline.ecosystem.widget.shared.ui.PriceTextBox;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -104,7 +104,7 @@ public class BillDetail
     MaterialDoubleBox standardVatAmount;
 
     @UiField
-    MaterialDoubleBox standardSum;
+    PriceTextBox standardSum;
 
     @UiField
     MaterialRow reducedRow;
@@ -119,7 +119,7 @@ public class BillDetail
     MaterialDoubleBox reducedVatAmount;
 
     @UiField
-    MaterialDoubleBox reducedSum;
+    PriceTextBox reducedSum;
 
     @UiField
     MaterialRow zeroRow;
@@ -140,7 +140,7 @@ public class BillDetail
     MaterialDoubleBox sumTotalVat;
 
     @UiField
-    PriceLabel sumTotalPrice;
+    PriceTextBox sumTotalPrice;
 
     @UiField
     MaterialEmptyState emptyRecapitulation;
@@ -156,12 +156,37 @@ public class BillDetail
         billNumber.setReturnBlankAsNull( true );
         description.setReturnBlankAsNull( true );
         totalPrice.setReturnBlankAsNull( true );
+        reducedSum.setReturnBlankAsNull( true );
+        standardSum.setReturnBlankAsNull( true );
+        sumTotalPrice.setReturnBlankAsNull( true );
 
         created.setReadOnly( true );
         modified.setReadOnly( true );
 
+        standardExclVat.addChangeHandler( event -> {
+            calcStandardPrice();
+            calcTotalPriceExclVat();
+        } );
+        standardVatAmount.addChangeHandler( event -> {
+            calcStandardPrice();
+            calcTotalVatAmount();
+        } );
+
+        reducedExclVat.addChangeHandler( event -> {
+            calcReducedPrice();
+            calcTotalPriceExclVat();
+        } );
+        reducedVatAmount.addChangeHandler( event -> {
+            calcReducedPrice();
+            calcTotalVatAmount();
+        } );
+
+        zeroExclVat.addChangeHandler( event -> calcTotalPriceExclVat() );
         totalPrice.addChangeHandler( e -> sumTotalPrice.setValue( totalPrice.getValue(), currency.getSingleValue() ) );
-        currency.addValueChangeHandler( e -> sumTotalPrice.setValue( totalPrice.getValue(), e.getValue().get( 0 ) ) );
+        currency.addValueChangeHandler( event -> changeCurrency() );
+
+        sumTotalPriceExclVat.addChangeHandler( event -> calcTotalPrice() );
+        sumTotalVat.addChangeHandler( event -> calcTotalPrice() );
 
         zeroVatRate.setReadOnly( true );
         zeroVatRate.setSingleValueByCode( "ZERO" );
@@ -171,6 +196,10 @@ public class BillDetail
 
         standardVatRate.setReadOnly( true );
         standardVatRate.setSingleValueByCode( "STANDARD" );
+
+        reducedSum.setReadOnly( true );
+        standardSum.setReadOnly( true );
+        sumTotalPrice.setReadOnly( true );
     }
 
     public void bind( @Nonnull Bill bill )
@@ -194,22 +223,82 @@ public class BillDetail
 
         // Fill VAT rate rows
         List<VatRateRow> vatRows = new ArrayList<>();
-        bindFrom( vatRows, zeroExclVat, null, zeroExclVat, zeroVatRate );
-        bindFrom( vatRows, reducedExclVat, reducedVatAmount, reducedSum, reducedVatRate );
-        bindFrom( vatRows, standardExclVat, standardVatAmount, standardSum, standardVatRate );
+        bindFrom( vatRows, zeroExclVat, null, zeroVatRate, zeroExclVat.getValue() );
+        bindFrom( vatRows, reducedExclVat, reducedVatAmount, reducedVatRate, reducedSum.getPrice() );
+        bindFrom( vatRows, standardExclVat, standardVatAmount, standardVatRate, standardSum.getPrice() );
 
         bill.setVatRows( vatRows.isEmpty() ? null : vatRows );
+    }
+
+    private void changeCurrency()
+    {
+        String currencyValue = currency.getSingleValue();
+
+        items.setCurrency( currencyValue );
+        sumTotalPrice.setValue( totalPrice.getValue(), currencyValue );
+        standardSum.setValue( standardSum.getPrice(), currencyValue );
+        reducedSum.setValue( reducedSum.getPrice(), currencyValue );
+        sumTotalPrice.setValue( sumTotalPrice.getPrice(), currencyValue );
+    }
+
+    private void calcStandardPrice()
+    {
+        Double pev = standardExclVat.getValue();
+        Double vat = standardVatAmount.getValue();
+        if ( pev != null && vat != null )
+        {
+            standardSum.setValue( pev + vat, currency.getSingleValue() );
+        }
+    }
+
+    private void calcReducedPrice()
+    {
+        Double pev = reducedExclVat.getValue();
+        Double vat = reducedVatAmount.getValue();
+        if ( pev != null && vat != null )
+        {
+            reducedSum.setValue( pev + vat, currency.getSingleValue() );
+        }
+    }
+
+    private void calcTotalPriceExclVat()
+    {
+        Double standard = standardExclVat.getValue() == null ? 0.0 : standardExclVat.getValue();
+        Double reduced = reducedExclVat.getValue() == null ? 0.0 : reducedExclVat.getValue();
+        Double zero = zeroExclVat.getValue() == null ? 0.0 : zeroExclVat.getValue();
+        sumTotalPriceExclVat.setValue( standard + reduced + zero );
+
+        calcTotalPrice();
+    }
+
+    private void calcTotalVatAmount()
+    {
+        Double standard = standardVatAmount.getValue() == null ? 0.0 : standardVatAmount.getValue();
+        Double reduced = reducedVatAmount.getValue() == null ? 0.0 : reducedVatAmount.getValue();
+        sumTotalVat.setValue( standard + reduced );
+
+        calcTotalPrice();
+    }
+
+    private void calcTotalPrice()
+    {
+        Double pev = sumTotalPriceExclVat.getValue();
+        Double vat = sumTotalVat.getValue();
+        if ( pev != null && vat != null )
+        {
+            sumTotalPrice.setValue( pev + vat, currency.getSingleValue() );
+            totalPrice.setValue( sumTotalPrice.getPrice() );
+        }
     }
 
     private void bindFrom( @Nonnull List<VatRateRow> vatRows,
                            @Nullable MaterialDoubleBox exclVatBox,
                            @Nullable MaterialDoubleBox vatAmountBox,
-                           @Nullable MaterialDoubleBox sumBox,
-                           @Nonnull VatRateComboBox vatRateBox )
+                           @Nonnull VatRateComboBox vatRateBox,
+                           @Nullable Double sum )
     {
         Double exclVat = exclVatBox == null ? null : exclVatBox.getValue();
         Double vatAmount = vatAmountBox == null ? null : vatAmountBox.getValue();
-        Double sum = sumBox == null ? null : sumBox.getValue();
 
         if ( exclVat != null || vatAmount != null || sum != null )
         {
@@ -247,7 +336,7 @@ public class BillDetail
         modified.setValue( bill.getModificationDate() );
 
         items.setReadOnly( bill.isApproved() == null ? false : bill.isApproved() );
-        items.setValue( bill.getItems() );
+        items.setValue( bill.getItems(), bill.getCurrency() );
 
         zeroExclVat.reset();
 
@@ -272,20 +361,21 @@ public class BillDetail
         }
 
         // evaluate as a last step
-        readOnly( bill.isApproved() == null ? false : bill.isApproved() );
+        setReadOnly( bill.isApproved() == null ? false : bill.isApproved() );
     }
 
     private void fillFromRow( @Nonnull Map<Double, VatRateRow> vatMap,
                               @Nonnull VatRateComboBox vatRate,
                               @Nullable MaterialDoubleBox exclVat,
                               @Nullable MaterialDoubleBox vatAmount,
-                              @Nullable MaterialDoubleBox sum )
+                              @Nullable PriceTextBox sum )
     {
         Double vatRateValue = vatRate.getSingleValue().getValue();
         VatRateRow row = vatRateValue == null ? null : vatMap.get( vatRateValue );
 
         if ( row != null )
         {
+            String currencyValue = currency.getSingleValue();
             if ( exclVat != null )
             {
                 exclVat.setValue( row.getVatBase() );
@@ -296,12 +386,19 @@ public class BillDetail
             }
             if ( sum != null )
             {
-                sum.setValue( row.getPriceInclVat() );
+                sum.setValue( row.getPriceInclVat(), currencyValue );
             }
         }
     }
 
-    public void readOnly( boolean approved )
+    @UiHandler( "addItem" )
+    public void add( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        Item item = new Item();
+        items.addRow( item );
+    }
+
+    public void setReadOnly( boolean approved )
     {
         addItem.setVisible( !approved );
 
@@ -315,7 +412,6 @@ public class BillDetail
 
         standardExclVat.setReadOnly( approved );
         standardVatAmount.setReadOnly( approved );
-        standardSum.setReadOnly( approved );
 
         standardRow.setVisible( !( standardExclVat.getValue() == null
                 && standardVatAmount.getValue() == null
@@ -324,7 +420,6 @@ public class BillDetail
 
         reducedExclVat.setReadOnly( approved );
         reducedVatAmount.setReadOnly( approved );
-        reducedSum.setReadOnly( approved );
 
         reducedRow.setVisible( !( reducedExclVat.getValue() == null
                 && reducedVatAmount.getValue() == null
@@ -344,13 +439,6 @@ public class BillDetail
                 && !reducedRow.isVisible()
                 && !zeroRow.isVisible()
                 && !sumRow.isVisible() );
-    }
-
-    @UiHandler( "addItem" )
-    public void add( @SuppressWarnings( "unused" ) ClickEvent event )
-    {
-        Item item = new Item();
-        items.addRow( item );
     }
 
     interface DetailUiBinder
