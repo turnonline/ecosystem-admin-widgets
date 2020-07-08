@@ -99,7 +99,7 @@
         </m:MaterialRow>
 
         <m:MaterialRow>
-            <m:MaterialColumn grid="m12" marginBottom="10">
+            <m:MaterialColumn ui:field="itemsLabel" grid="m12" marginBottom="10">
                 <s:SectionTitle iconType="LIST" title="{msg.labelItems}"/>
             </m:MaterialColumn>
 

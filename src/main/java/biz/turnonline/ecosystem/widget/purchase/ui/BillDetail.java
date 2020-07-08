@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import gwt.material.design.addins.client.emptystate.MaterialEmptyState;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialLink;
@@ -87,6 +88,9 @@ public class BillDetail
 
     @UiField
     BillItems items;
+
+    @UiField
+    MaterialColumn itemsLabel;
 
     @UiField
     MaterialLink addItem;
@@ -335,7 +339,14 @@ public class BillDetail
         created.setValue( bill.getCreatedDate() );
         modified.setValue( bill.getModificationDate() );
 
-        items.setValue( bill.getItems(), bill.getCurrency() );
+        boolean approved = bill.isApproved() == null ? false : bill.isApproved();
+        List<Item> billItems = bill.getItems();
+
+        items.setValue( billItems, bill.getCurrency() );
+        boolean showItems = !approved || billItems != null && !billItems.isEmpty();
+
+        items.setVisible( showItems );
+        itemsLabel.setVisible( showItems );
 
         zeroExclVat.reset();
 
@@ -360,7 +371,7 @@ public class BillDetail
         }
 
         // evaluate as a last step
-        setReadOnly( bill.isApproved() == null ? false : bill.isApproved() );
+        setReadOnly( approved );
     }
 
     private void fillFromRow( @Nonnull Map<Double, VatRateRow> vatMap,
