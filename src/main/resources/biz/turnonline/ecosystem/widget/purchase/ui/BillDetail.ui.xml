@@ -85,7 +85,7 @@
                 </m:MaterialColumn>
             </m:MaterialColumn>
         </m:MaterialRow>
-        <m:MaterialRow ui:field="sumRow" backgroundColor="BLUE_LIGHTEN_5">
+        <m:MaterialRow ui:field="sumRow" backgroundColor="BLUE_LIGHTEN_5" paddingTop="15">
             <m:MaterialColumn grid="s12 m9">
                 <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
                     <m:MaterialRow>
