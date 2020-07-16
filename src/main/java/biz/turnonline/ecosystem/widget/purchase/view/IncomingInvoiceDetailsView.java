@@ -29,6 +29,7 @@ import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Creditor;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.IncomingInvoice;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Pricing;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
@@ -160,7 +161,10 @@ public class IncomingInvoiceDetailsView
     public void downloadInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         IncomingInvoice ii = getRawModel();
-        bus().fireEvent( new DownloadInvoiceEvent( ii.getOrderId(), ii.getId(), ii.getPin() ) );
+        Creditor creditor = ii.getCreditor();
+        boolean isAccount = creditor != null && creditor.getAccount() != null;
+
+        bus().fireEvent( new DownloadInvoiceEvent( ii.getOrderId(), ii.getId(), ii.getPin(), !isAccount ) );
     }
 
     @UiHandler( "deleteInvoice" )
