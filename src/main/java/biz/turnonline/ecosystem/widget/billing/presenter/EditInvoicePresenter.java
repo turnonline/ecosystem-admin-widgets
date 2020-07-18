@@ -139,7 +139,7 @@ public class EditInvoicePresenter
 
     private void invoiceTransactions( TransactionListEvent event )
     {
-        bus().paymentProcessor().getTransactions( event.getOrderId(), event.getInvoiceId(),
+        bus().billing().getTransactions( event.getOrderId(), event.getInvoiceId(),
                 ( SuccessOrAbsorbCallback<Items<Transaction>> ) response -> view().fill( response.getItems() ) );
     }
 

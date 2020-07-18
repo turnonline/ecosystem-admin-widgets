@@ -83,7 +83,7 @@ public class IncomingInvoiceDetailsPresenter
 
     private void invoiceTransactions( TransactionListEvent event )
     {
-        bus().paymentProcessor().getTransactions( event.getOrderId(), event.getInvoiceId(),
+        bus().billing().getTransactions( event.getOrderId(), event.getInvoiceId(),
                 response -> view().fill( response.getItems() ) );
     }
 

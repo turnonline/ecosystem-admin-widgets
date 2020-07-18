@@ -21,7 +21,6 @@ import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.FirebaseAuthDispatcher;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
-import biz.turnonline.ecosystem.widget.shared.rest.billing.Transaction;
 import org.ctoolkit.gwt.client.facade.Items;
 import org.fusesource.restygwt.client.Options;
 import org.fusesource.restygwt.client.RestService;
@@ -101,20 +100,4 @@ public interface PaymentProcessorFacade
     void getBankCodes( @HeaderParam( "Accept-Language" ) String acceptLanguage,
                        @QueryParam( "country" ) String country,
                        SuccessCallback<Items<BankCode>> callback );
-
-    /**
-     * Searches for transaction that match the filtering criteria.
-     * The product billing {@link Transaction} has the same model as the payment processor transaction so reused.
-     *
-     * @param orderId   Identification of the order to search for transactions.
-     *                  If invoice Id is not provided, a transactions of all associated invoices will be in the results.
-     * @param invoiceId Identification of the invoice to search settled transactions.
-     *                  Order Id is being required for successful match.
-     * @param callback  the result callback
-     */
-    @GET
-    @Path( "transactions" )
-    void getTransactions( @QueryParam( "orderId" ) Long orderId,
-                          @QueryParam( "invoiceId" ) Long invoiceId,
-                          SuccessCallback<Items<Transaction>> callback );
 }
