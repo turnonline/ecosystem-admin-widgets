@@ -23,7 +23,7 @@
 
     <m:MaterialHeader>
         <m:MaterialNavBar ui:field="navBar" activates="sidenav" backgroundColor="BLUE">
-            <m:MaterialNavBrand ui:field="title" text="TurnOnline.biz Admin" fontSize="1.5em"/>
+            <m:MaterialNavBrand ui:field="title" text="ConnecSys" fontSize="1.5em"/>
             <s:FulltextSearch ui:field="search" placeholder="Search" display="INLINE_BLOCK"/>
 
             <m:MaterialNavSection float="RIGHT">
