@@ -26,6 +26,7 @@ import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
+import com.google.common.base.Strings;
 import com.google.gwt.place.shared.PlaceController;
 import org.ctoolkit.gwt.client.facade.Items;
 
@@ -65,7 +66,16 @@ public class InvoicesPresenter
     {
         bus().billing().deleteInvoice( event.getOrderId(), event.getInvoiceId(), ( response, failure ) -> {
             controller().goTo( new Invoices() );
-            success( messages.msgRecordDeleted( event.getInvoiceNumber() ), failure );
+
+            String invoiceNumber = event.getInvoiceNumber();
+            if ( Strings.isNullOrEmpty( invoiceNumber ) )
+            {
+                success( messages.msgInvoiceDeleted(), failure );
+            }
+            else
+            {
+                success( messages.msgInvoiceDeletedWith( invoiceNumber ), failure );
+            }
         } );
     }
 

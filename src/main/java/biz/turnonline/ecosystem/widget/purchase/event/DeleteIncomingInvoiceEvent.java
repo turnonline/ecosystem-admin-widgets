@@ -41,7 +41,7 @@ public class DeleteIncomingInvoiceEvent
     {
         this.orderId = checkNotNull( orderId, "Order ID can't be null" );
         this.invoiceId = checkNotNull( invoiceId, "Incoming invoice ID can't be null" );
-        this.invoiceNumber = checkNotNull( invoiceNumber, "Invoice number can't be null" );
+        this.invoiceNumber = invoiceNumber;
     }
 
     public Type<DeleteIncomingInvoiceEventHandler> getAssociatedType()
@@ -75,7 +75,7 @@ public class DeleteIncomingInvoiceEvent
     }
 
     /**
-     * Returns the invoice number.
+     * Returns the invoice number or {@code null} if it was not defined.
      *
      * @return the invoice number
      */

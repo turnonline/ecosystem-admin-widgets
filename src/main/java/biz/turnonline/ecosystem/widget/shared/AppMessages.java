@@ -930,6 +930,12 @@ public interface AppMessages
 
     // messages
 
+    @Key( "msg.invoiceDeleted" )
+    String msgInvoiceDeleted();
+
+    @Key( "msg.invoiceDeletedWith" )
+    String msgInvoiceDeletedWith( String detail );
+
     @Key( value = "msg.recordDeleted" )
     String msgRecordDeleted( String detail );
 
