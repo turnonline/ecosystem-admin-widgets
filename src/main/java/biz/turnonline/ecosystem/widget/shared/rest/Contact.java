@@ -22,6 +22,11 @@ package biz.turnonline.ecosystem.widget.shared.rest;
  */
 public interface Contact
 {
+    /**
+     * The business account unique identification within TurnOnline.biz Ecosystem.
+     **/
+    Long getAccountId();
+
     String getBusinessName();
 
     String getCcEmail();

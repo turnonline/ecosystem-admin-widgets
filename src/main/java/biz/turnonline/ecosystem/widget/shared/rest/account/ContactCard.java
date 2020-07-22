@@ -29,6 +29,8 @@ import java.util.Date;
 public class ContactCard
         implements Contact
 {
+    private Long accountId;
+
     private Long id;
 
     private String contactEmail;
@@ -84,6 +86,17 @@ public class ContactCard
     private Date modificationDate;
 
     private Image logo;
+
+    @Override
+    public Long getAccountId()
+    {
+        return accountId;
+    }
+
+    public void setAccountId( Long accountId )
+    {
+        this.accountId = accountId;
+    }
 
     /**
      * The contact unique identification.

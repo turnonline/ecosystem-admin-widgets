@@ -35,9 +35,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
@@ -46,6 +48,7 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Invoice.Status.valueOf;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.InvoiceType.TAX_DOCUMENT;
 import static gwt.material.design.client.constants.Color.BLUE;
+import static gwt.material.design.client.constants.Color.BLUE_GREY_DARKEN_2;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.ORANGE;
@@ -105,6 +108,9 @@ public class InvoiceOverviewCard
     @UiField
     MaterialButton btnCloseOverlay;
 
+    @UiField
+    MaterialIcon through;
+
     private AppMessages messages = AppMessages.INSTANCE;
 
     public InvoiceOverviewCard( Invoice invoice, EventBus bus )
@@ -148,6 +154,16 @@ public class InvoiceOverviewCard
             }
         }
         title.setText( name );
+
+        boolean isEcosystemCustomerAccount = customer != null && customer.getAccountId() != null;
+        through.setVisible( isEcosystemCustomerAccount );
+
+        if ( isEcosystemCustomerAccount )
+        {
+            through.setIconType( IconType.EXPLICIT );
+            through.setIconColor( BLUE_GREY_DARKEN_2 );
+            through.setTooltip( messages.tooltipCustomerEcosystemInside() );
+        }
 
         invoiceNumber.setText( invoice.getInvoiceNumber() );
         type.setBackgroundColor( typeColor( invoice.getType() ) );

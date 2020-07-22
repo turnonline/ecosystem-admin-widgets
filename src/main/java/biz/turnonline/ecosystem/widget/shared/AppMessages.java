@@ -886,6 +886,9 @@ public interface AppMessages
     @Key( "tooltip.expense.list.refresh" )
     String tooltipExpenseListRefresh();
 
+    @Key( "tooltip.customer.ecosystem.inside" )
+    String tooltipCustomerEcosystemInside();
+
     @Key( value = "tooltip.bill.new" )
     String tooltipNewBill();
 

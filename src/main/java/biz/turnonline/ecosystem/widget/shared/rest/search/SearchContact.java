@@ -25,6 +25,8 @@ import biz.turnonline.ecosystem.widget.shared.rest.Contact;
 public class SearchContact
         implements Contact
 {
+    private Long accountId;
+
     private String id = null;
 
     private String firstName = null;
@@ -38,6 +40,17 @@ public class SearchContact
     private String businessName = null;
 
     private String owner = null;
+
+    @Override
+    public Long getAccountId()
+    {
+        return accountId;
+    }
+
+    public void setAccountId( Long accountId )
+    {
+        this.accountId = accountId;
+    }
 
     public String getId()
     {

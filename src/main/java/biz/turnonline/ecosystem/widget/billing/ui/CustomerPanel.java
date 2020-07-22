@@ -39,12 +39,16 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
 import javax.annotation.Nullable;
+
+import static gwt.material.design.client.constants.Color.BLUE_GREY_DARKEN_2;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
@@ -135,6 +139,9 @@ public class CustomerPanel
 
     @UiField
     CountryComboBox postalCountry;
+
+    @UiField
+    MaterialIcon through;
 
     private EventBus eventBus;
 
@@ -299,6 +306,17 @@ public class CustomerPanel
         postalPostCode.setValue( postalAddress != null ? postalAddress.getPostcode() : null );
         postalPostCode.reload();
         postalCountry.setSingleValueByCode( postalAddress != null ? postalAddress.getCountry() : null );
+
+        if ( customer.getAccountId() != null )
+        {
+            through.setVisible( true );
+            through.setIconType( IconType.EXPLICIT );
+            through.setIconColor( BLUE_GREY_DARKEN_2 );
+        }
+        else
+        {
+            through.setVisible( false );
+        }
     }
 
     // -- private helpers

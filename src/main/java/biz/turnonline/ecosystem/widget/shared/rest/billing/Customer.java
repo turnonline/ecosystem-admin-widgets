@@ -69,6 +69,7 @@ public final class Customer
 
     public Customer( Contact contact )
     {
+        this.account = contact.getAccountId();
         this.businessName = contact.getBusinessName();
         this.ccEmail = contact.getCcEmail();
         this.city = contact.getCity();
@@ -86,10 +87,6 @@ public final class Customer
         this.vatId = contact.getVatId();
     }
 
-
-    /**
-     * @return value or {@code null} for none
-     */
     public Long getAccount()
     {
         return account;
@@ -99,6 +96,12 @@ public final class Customer
     {
         this.account = account;
         return this;
+    }
+
+    @Override
+    public Long getAccountId()
+    {
+        return getAccount();
     }
 
     public String getBusinessName()

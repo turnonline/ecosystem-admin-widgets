@@ -42,6 +42,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialDatePicker;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
@@ -56,6 +57,7 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.S
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static gwt.material.design.client.constants.Color.BLUE;
+import static gwt.material.design.client.constants.Color.BLUE_GREY_DARKEN_2;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_2;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_3;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_4;
@@ -120,6 +122,9 @@ public class OrderOverviewCard
     @UiField
     MaterialImage debtorLogo;
 
+    @UiField
+    MaterialIcon through;
+
     private Order order;
 
     private AppMessages messages = AppMessages.INSTANCE;
@@ -158,6 +163,16 @@ public class OrderOverviewCard
             }
         }
         title.setText( name );
+
+        boolean isEcosystemCustomerAccount = customer != null && customer.getAccountId() != null;
+        through.setVisible( isEcosystemCustomerAccount );
+
+        if ( isEcosystemCustomerAccount )
+        {
+            through.setIconType( IconType.EXPLICIT );
+            through.setIconColor( BLUE_GREY_DARKEN_2 );
+            through.setTooltip( messages.tooltipCustomerEcosystemInside() );
+        }
 
         // order periodicity
         OrderPeriodicity periodicityEnum = order.getPeriodicity() == null

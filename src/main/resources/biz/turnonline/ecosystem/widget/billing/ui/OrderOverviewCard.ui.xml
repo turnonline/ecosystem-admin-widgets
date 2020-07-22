@@ -75,6 +75,8 @@
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.descriptionOrderStatusSuspend}"/>
                     <m:MaterialLink ui:field="issueInvoice" iconColor="GREEN" paddingTop="10" iconType="PLAYLIST_ADD"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipOrderIssueInvoice}"/>
+                    <m:MaterialIcon ui:field="through" float="RIGHT" backgroundColor="WHITE" shadow="0" type="FLOATING"
+                                    tooltipDelayMs="700" textAlign="CENTER" visible="false"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>
         </m:MaterialRow>

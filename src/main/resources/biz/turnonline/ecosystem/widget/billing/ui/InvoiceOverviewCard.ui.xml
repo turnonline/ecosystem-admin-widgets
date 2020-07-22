@@ -79,6 +79,8 @@
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipEditOrder}"/>
                     <m:MaterialLink ui:field="downloadLink" iconColor="BLUE" paddingTop="10" iconType="CLOUD_DOWNLOAD"
                                     marginLeft="10"/>
+                    <m:MaterialIcon ui:field="through" float="RIGHT" backgroundColor="WHITE" shadow="0" type="FLOATING"
+                                    tooltipDelayMs="700" textAlign="CENTER" visible="false"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>
         </m:MaterialRow>
