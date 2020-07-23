@@ -113,9 +113,9 @@
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                             <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postCode"
                                                             placeholder="000 00" mask="000 00"/>
-                            <s:CountryComboBox label="{msg.labelCountry}" ui:field="country"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>
+                    <s:CountryComboBox label="{msg.labelCountry}" ui:field="country"/>
                 </m:MaterialColumn>
 
                 <!-- postal address-->
@@ -141,9 +141,9 @@
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
                             <ma:inputmask.MaterialInputMask label="{msg.labelPostCode}" ui:field="postalPostCode"
                                                             placeholder="000 00" mask="000 00"/>
-                            <s:CountryComboBox label="{msg.labelCountry}" ui:field="postalCountry"/>
                         </m:MaterialColumn>
                     </m:MaterialRow>
+                    <s:CountryComboBox label="{msg.labelCountry}" ui:field="postalCountry"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

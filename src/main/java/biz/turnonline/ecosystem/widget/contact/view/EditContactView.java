@@ -58,7 +58,7 @@ public class EditContactView
         extends View<ContactCard>
         implements EditContactPresenter.IView
 {
-    private static EditContactsViewUiBinder binder = GWT.create( EditContactsViewUiBinder.class );
+    private static final EditContactsViewUiBinder binder = GWT.create( EditContactsViewUiBinder.class );
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -175,6 +175,10 @@ public class EditContactView
     @UiField
     CountryComboBox postalCountry;
 
+    private final InputSearchIcon searchIconStreet;
+
+    private final InputSearchIcon searchIconPostalStreet;
+
     @Inject
     public EditContactView( @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                             AddressLookupListener addressLookup )
@@ -201,7 +205,8 @@ public class EditContactView
             postCode.reload();
             country.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
-        street.add( new InputSearchIcon() );
+        searchIconStreet = new InputSearchIcon();
+        street.add( searchIconStreet );
 
         postalStreet.addPlaceChangedHandler( event -> {
             PlaceResult place = postalStreet.getPlace();
@@ -212,7 +217,8 @@ public class EditContactView
             postalPostCode.reload();
             postalCountry.setSingleValueByCode( Maps.findAddressComponent( place, "country" ) );
         } );
-        postalStreet.add( new InputSearchIcon() );
+        searchIconPostalStreet = new InputSearchIcon();
+        postalStreet.add( searchIconPostalStreet );
 
         confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteContactEvent( getRawModel() ) ) );
     }
@@ -282,6 +288,7 @@ public class EditContactView
     protected void afterSetModel()
     {
         ContactCard contact = getRawModel();
+        setReadOnly( contact.getAccountId() != null );
 
         deleteContact.setEnabled( contact.getId() != null );
 
@@ -340,14 +347,53 @@ public class EditContactView
         postalSame.addValueChangeHandler( event -> handleHasPostalAddress() );
     }
 
+    /**
+     * If {@code true} sets all editable fields read only.
+     */
+    public void setReadOnly( boolean readOnly )
+    {
+        btnSave.setVisible( !readOnly );
+        company.setEnabled( !readOnly );
+        prefix.setReadOnly( readOnly );
+        firstName.setReadOnly( readOnly );
+        lastName.setReadOnly( readOnly );
+        suffix.setReadOnly( readOnly );
+        businessName.setReadOnly( readOnly );
+        companyId.setReadOnly( readOnly );
+        taxId.setReadOnly( readOnly );
+        vatId.setReadOnly( readOnly );
+        vatPayer.setEnabled( !readOnly );
+        phone.setReadOnly( readOnly );
+        email.setReadOnly( readOnly );
+        ccEmail.setReadOnly( readOnly );
+        numberOfDays.setReadOnly( readOnly );
+        logoUploader.setEnabled( !readOnly );
+        postalSame.setEnabled( !readOnly );
+        street.setReadOnly( readOnly );
+        city.setReadOnly( readOnly );
+        postCode.setReadOnly( readOnly );
+        country.setReadOnly( readOnly );
+        postalBusinessName.setReadOnly( readOnly );
+        postalPrefix.setReadOnly( readOnly );
+        postalFirstName.setReadOnly( readOnly );
+        postalLastName.setReadOnly( readOnly );
+        postalSuffix.setReadOnly( readOnly );
+        postalStreet.setReadOnly( readOnly );
+        postalCity.setReadOnly( readOnly );
+        postalPostCode.setReadOnly( readOnly );
+        postalCountry.setReadOnly( readOnly );
+        searchIconStreet.setVisible( !readOnly );
+        searchIconPostalStreet.setVisible( !readOnly );
+    }
+
     @UiHandler( "btnBack" )
-    public void handleBack( ClickEvent event )
+    public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new BackEvent() );
     }
 
     @UiHandler( "btnSave" )
-    public void handleSave( ClickEvent event )
+    public void handleSave( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new SaveContactEvent( getModel() ) );
     }
