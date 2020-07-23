@@ -56,6 +56,7 @@ public class BillsPresenter
             } );
         } );
 
+        DateTimeFormat formatter = DateTimeFormat.getFormat( "yyyy-MM-dd" );
         view().setDataSource( new BillScrollCallback()
         {
             @Override
@@ -64,8 +65,8 @@ public class BillsPresenter
                 bus().bill().getBills(
                         offset,
                         limit,
-                        DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_SHORT ).format( from ),
-                        DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_SHORT ).format( to ),
+                        formatter.format( from ),
+                        formatter.format( to ),
                         true,
                         callback
                 );
