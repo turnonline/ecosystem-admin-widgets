@@ -32,7 +32,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import java.util.Date;
 
 /**
  * The Bill resource REST facade service interface.
@@ -53,8 +52,8 @@ public interface BillFacade
     @Path( "bills" )
     void getBills( @QueryParam( "offset" ) Integer offset,
                    @QueryParam( "limit" ) Integer limit,
-                   @QueryParam( "from" ) Date dateOfIssueFrom,
-                   @QueryParam( "to" ) Date dateOfIssueTo,
+                   @QueryParam( "from" ) String dateOfIssueFrom,
+                   @QueryParam( "to" ) String dateOfIssueTo,
                    @QueryParam( "lightList" ) boolean lightList,
                    SuccessCallback<Items<Bill>> callback );
 

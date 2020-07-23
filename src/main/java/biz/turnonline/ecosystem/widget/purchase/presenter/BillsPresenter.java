@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.purchase.view.BillScrollCallback;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.place.shared.PlaceController;
 import org.ctoolkit.gwt.client.facade.Items;
 
@@ -63,8 +64,8 @@ public class BillsPresenter
                 bus().bill().getBills(
                         offset,
                         limit,
-                        from,
-                        to,
+                        DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_SHORT ).format( from ),
+                        DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_SHORT ).format( to ),
                         true,
                         callback
                 );

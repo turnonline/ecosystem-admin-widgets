@@ -17,7 +17,6 @@
 
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
@@ -26,15 +25,15 @@ import gwt.material.design.addins.client.fileuploader.MaterialUploadLabel;
 import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
 
+import static biz.turnonline.ecosystem.widget.shared.AppMessages.INSTANCE;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class BatchDropBox
         extends MaterialFileUploader
 {
-    private AppMessages messages = AppMessages.INSTANCE;
-
-    private String url;
+    private final String url;
 
     public BatchDropBox( String url )
     {
@@ -48,7 +47,7 @@ public class BatchDropBox
         setWidth( "100%" );
         setHeight( "200px" );
 
-        MaterialUploadLabel label = new MaterialUploadLabel( messages.labelUploadBatch(), messages.labelUploadBatchDescription() );
+        MaterialUploadLabel label = new MaterialUploadLabel( INSTANCE.labelUploadBatch(), INSTANCE.labelUploadBatchDescription() );
         label.setTop( 60 );
         label.setMinWidth( "40%" );
         add( label );
