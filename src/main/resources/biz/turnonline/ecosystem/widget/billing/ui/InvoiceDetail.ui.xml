@@ -23,7 +23,8 @@
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
-        <m:MaterialRow>
+        <addins:emptystate.MaterialEmptyState ui:field="noneInvoice" visible="false"/>
+        <m:MaterialRow ui:field="row1">
             <m:MaterialColumn grid="s12 m9">
                 <s:SectionTitle iconType="LINEAR_SCALE" title="{msg.labelInvoiceCurrentStatus}"/>
 
@@ -42,7 +43,7 @@
             </m:MaterialColumn>
         </m:MaterialRow>
 
-        <m:MaterialRow grid="s12 m12" backgroundColor="BLUE_LIGHTEN_5">
+        <m:MaterialRow ui:field="row2" grid="s12 m12" backgroundColor="BLUE_LIGHTEN_5">
             <s:SectionTitle iconType="MONETIZATION_ON" title="{msg.labelPrice}" iconMarginLeft="10"/>
 
             <m:MaterialTextBox ui:field="toPay" label="{msg.labelAmountToPay}" grid="m2" fontWeight="BOLD"/>
@@ -51,7 +52,7 @@
             <m:MaterialTextBox ui:field="priceInclVat" label="{msg.labelTotalPrice}" grid="m2"/>
         </m:MaterialRow>
 
-        <m:MaterialRow>
+        <m:MaterialRow ui:field="row3">
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
 
@@ -85,7 +86,7 @@
             </m:MaterialColumn>
         </m:MaterialRow>
 
-        <m:MaterialRow>
+        <m:MaterialRow ui:field="row4">
             <m:MaterialColumn grid="s12 m6">
                 <s:SectionTitle iconType="TEXT_FIELDS" title="{msg.labelInvoiceTexts}"/>
 

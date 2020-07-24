@@ -587,6 +587,9 @@ public interface AppMessages
     @Key( "label.noTransactions" )
     String labelNoTransactions();
 
+    @Key( "label.noneInvoice" )
+    String labelNoneInvoice();
+
     @Key( value = "label.bankTransfer" )
     String labelBankTransfer();
 

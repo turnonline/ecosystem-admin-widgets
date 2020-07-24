@@ -147,6 +147,10 @@ public class EditOrderPresenter
         {
             view().lastInvoice( invoices.get( 0 ) );
         }
+        else
+        {
+            view().lastInvoice( null );
+        }
 
         // init as last
         OrderPeriodicity periodicity;

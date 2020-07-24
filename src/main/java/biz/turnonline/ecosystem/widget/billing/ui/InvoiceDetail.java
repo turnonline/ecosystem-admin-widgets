@@ -36,12 +36,16 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
+import gwt.material.design.addins.client.emptystate.MaterialEmptyState;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialLongBox;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 
@@ -138,6 +142,21 @@ public class InvoiceDetail
     @UiField
     MaterialTextBox beneficiary;
 
+    @UiField
+    MaterialEmptyState noneInvoice;
+
+    @UiField
+    MaterialRow row1;
+
+    @UiField
+    MaterialRow row2;
+
+    @UiField
+    MaterialRow row3;
+
+    @UiField
+    MaterialRow row4;
+
     private Invoice invoice;
 
     private Invoice.Status currentStatus;
@@ -175,6 +194,11 @@ public class InvoiceDetail
         iban.setReturnBlankAsNull( true );
         bic.setReturnBlankAsNull( true );
         beneficiary.setReturnBlankAsNull( true );
+
+        noneInvoice.setHeight( "40vh" );
+        noneInvoice.setIconType( IconType.PLAYLIST_ADD );
+        noneInvoice.setIconColor( Color.GREEN );
+        noneInvoice.setTitle( messages.labelNoneInvoice() );
 
         Window.addResizeHandler( resizeEvent -> detectAndApplyOrientation() );
         detectAndApplyOrientation();
@@ -257,6 +281,12 @@ public class InvoiceDetail
 
     public void fill( @Nonnull Invoice invoice )
     {
+        noneInvoice.setVisible( false );
+        row1.setVisible( true );
+        row2.setVisible( true );
+        row3.setVisible( true );
+        row4.setVisible( true );
+
         this.invoice = invoice;
 
         BillPayment payment = invoice.getPayment();
@@ -330,6 +360,12 @@ public class InvoiceDetail
     public void clear()
     {
         invoice = null;
+
+        noneInvoice.setVisible( true );
+        row1.setVisible( false );
+        row2.setVisible( false );
+        row3.setVisible( false );
+        row4.setVisible( false );
     }
 
     /**
