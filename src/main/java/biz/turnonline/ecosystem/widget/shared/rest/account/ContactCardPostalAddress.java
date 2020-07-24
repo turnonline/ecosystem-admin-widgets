@@ -17,32 +17,35 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ContactCardPostalAddress
+        implements RelevantNullChecker
 {
-    private String businessName = null;
+    private String businessName;
 
-    private String prefix = null;
+    private String prefix;
 
-    private String firstName = null;
+    private String firstName;
 
-    private String lastName = null;
+    private String lastName;
 
-    private String suffix = null;
+    private String suffix;
 
-    private String street = null;
+    private String street;
 
-    private String city = null;
+    private String city;
 
-    private String country = null;
+    private String country;
 
-    private String postcode = null;
+    private String postcode;
 
-    private Double latitude = null;
+    private Double latitude;
 
-    private Double longitude = null;
+    private Double longitude;
 
     public String getBusinessName()
     {
@@ -152,5 +155,19 @@ public class ContactCardPostalAddress
     public void setLongitude( Double longitude )
     {
         this.longitude = longitude;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( businessName,
+                prefix,
+                firstName,
+                lastName,
+                suffix,
+                street,
+                city,
+                country,
+                postcode );
     }
 }

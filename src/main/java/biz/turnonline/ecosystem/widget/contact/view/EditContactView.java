@@ -33,6 +33,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -59,6 +60,10 @@ public class EditContactView
         implements EditContactPresenter.IView
 {
     private static final EditContactsViewUiBinder binder = GWT.create( EditContactsViewUiBinder.class );
+
+    private final InputSearchIcon searchIconStreet;
+
+    private final InputSearchIcon searchIconPostalStreet;
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -175,10 +180,6 @@ public class EditContactView
     @UiField
     CountryComboBox postalCountry;
 
-    private final InputSearchIcon searchIconStreet;
-
-    private final InputSearchIcon searchIconPostalStreet;
-
     @Inject
     public EditContactView( @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                             AddressLookupListener addressLookup )
@@ -220,6 +221,30 @@ public class EditContactView
         searchIconPostalStreet = new InputSearchIcon();
         postalStreet.add( searchIconPostalStreet );
 
+        prefix.setReturnBlankAsNull( true );
+        firstName.setReturnBlankAsNull( true );
+        lastName.setReturnBlankAsNull( true );
+        suffix.setReturnBlankAsNull( true );
+        businessName.setReturnBlankAsNull( true );
+        companyId.setReturnBlankAsNull( true );
+        taxId.setReturnBlankAsNull( true );
+        vatId.setReturnBlankAsNull( true );
+        phone.setReturnBlankAsNull( true );
+        email.setReturnBlankAsNull( true );
+        ccEmail.setReturnBlankAsNull( true );
+        numberOfDays.setReturnBlankAsNull( true );
+        street.setReturnBlankAsNull( true );
+        city.setReturnBlankAsNull( true );
+        postCode.setReturnBlankAsNull( true );
+        postalBusinessName.setReturnBlankAsNull( true );
+        postalPrefix.setReturnBlankAsNull( true );
+        postalFirstName.setReturnBlankAsNull( true );
+        postalLastName.setReturnBlankAsNull( true );
+        postalSuffix.setReturnBlankAsNull( true );
+        postalStreet.setReturnBlankAsNull( true );
+        postalCity.setReturnBlankAsNull( true );
+        postalPostCode.setReturnBlankAsNull( true );
+
         confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteContactEvent( getRawModel() ) ) );
     }
 
@@ -257,8 +282,11 @@ public class EditContactView
         // invoice address
         contact.setStreet( street.getValue() );
         contact.setCity( city.getValue() );
-        contact.setPostcode( postCode.getCleanValue() );
         contact.setCountry( country.getSingleValueByCode() );
+
+        // setReturnBlankAsNull is not working for getCleanValue()??
+        String postCodeValue = postCode.getCleanValue();
+        contact.setPostcode( Strings.isNullOrEmpty( postCodeValue ) ? null : postCodeValue );
 
         // postal address
         contact.setHasPostalAddress( !postalSame.getValue() );

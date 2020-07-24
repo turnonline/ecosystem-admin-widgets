@@ -18,6 +18,7 @@
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
 import biz.turnonline.ecosystem.widget.shared.rest.Contact;
+import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
 
 import java.util.Date;
 
@@ -27,7 +28,7 @@ import java.util.Date;
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ContactCard
-        implements Contact
+        implements Contact, RelevantNullChecker
 {
     private Long accountId;
 
@@ -460,5 +461,37 @@ public class ContactCard
     public void setLogo( Image logo )
     {
         this.logo = logo;
+    }
+
+    @Override
+    public boolean allNull()
+    {
+        return allNull( accountId,
+                contactEmail,
+                ccEmail,
+                contactPhone,
+                locale,
+                prefix,
+                firstName,
+                middleName,
+                lastName,
+                suffix,
+                street,
+                city,
+                country,
+                postcode,
+                latitude,
+                longitude,
+                hasPostalAddress,
+                postalAddress,
+                company,
+                businessName,
+                companyId,
+                taxId,
+                vatId,
+                vatPayer,
+                newsletter,
+                numberOfDays,
+                logo );
     }
 }
