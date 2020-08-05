@@ -16,7 +16,9 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.Resources;
+import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
@@ -37,9 +39,11 @@ public class BillUploader
         extends MaterialFileUploader
         implements TakesValue<Image>
 {
-    private MaterialImage preview = new MaterialImage( Resources.INSTANCE.noImage() );
+    private final MaterialImage preview = new MaterialImage( Resources.INSTANCE.noImage() );
 
     private Image model;
+
+    private Long billId;
 
     public BillUploader()
     {
@@ -77,6 +81,8 @@ public class BillUploader
                 setPreview( uploadItem );
             }
         } );
+
+        AppEventBus.get().addHandler( UploaderAssociatedIdChangeEvent.TYPE, event -> this.billId = event.getId() );
     }
 
     @Override
@@ -110,7 +116,7 @@ public class BillUploader
     {
         // setUrl and than load widget, otherwise firebase will be executed after widget initialization
         new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
-                    setUrl( url );
+                    setUrl( url + ( billId == null ? "" : "&id=" + billId ) );
                     super.load();
                 }, BILLING_PROCESSOR_STORAGE
         );

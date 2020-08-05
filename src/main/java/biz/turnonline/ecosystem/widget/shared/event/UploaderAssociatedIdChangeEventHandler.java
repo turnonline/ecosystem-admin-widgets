@@ -15,17 +15,17 @@
  *
  */
 
-package biz.turnonline.ecosystem.widget.product.event;
+package biz.turnonline.ecosystem.widget.shared.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * Product ID change event handler.
+ * Associated ID change event handler.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public interface ProductIdChangeEventHandler
+public interface UploaderAssociatedIdChangeEventHandler
         extends EventHandler
 {
-    void onProductIdChange( ProductIdChangeEvent event );
+    void onUploaderAssociatedIdChange( UploaderAssociatedIdChangeEvent event );
 }

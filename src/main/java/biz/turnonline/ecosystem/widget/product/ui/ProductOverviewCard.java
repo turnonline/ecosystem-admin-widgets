@@ -18,8 +18,8 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
-import biz.turnonline.ecosystem.widget.product.event.ProductIdChangeEvent;
 import biz.turnonline.ecosystem.widget.product.place.Products;
+import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductOverview;
@@ -182,7 +182,7 @@ public class ProductOverviewCard
                 // add record in to history (to manage scrolling to selected card once going back), but don't fire event
                 History.newItem( scrollspyHistoryToken, false );
             }
-            bus.fireEvent( new ProductIdChangeEvent( product.getId() ) );
+            bus.fireEvent( new UploaderAssociatedIdChangeEvent( product.getId() ) );
             bus.fireEvent( new EditProductEvent( product ) );
         } );
     }
