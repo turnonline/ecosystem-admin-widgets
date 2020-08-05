@@ -23,8 +23,8 @@
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
     <g:HTMLPanel>
-        <m:MaterialRow>
-            <m:MaterialColumn grid="s12 m3">
+        <m:MaterialRow marginBottom="0">
+            <m:MaterialColumn grid="s12 m6">
                 <!--logo-->
                 <s:SectionTitle iconType="ADD_A_PHOTO" title="{msg.labelBillScan}"/>
                 <ui2:BillUploader ui:field="billUploader" marginBottom="20"/>
@@ -55,50 +55,52 @@
             </m:MaterialColumn>
         </m:MaterialRow>
 
-        <s:SectionTitle iconType="ATTACH_MONEY" title="{msg.labelVatRecapitulation}"/>
-        <a:emptystate.MaterialEmptyState ui:field="emptyRecapitulation"/>
-        <m:MaterialRow ui:field="standardRow">
-            <m:MaterialColumn grid="s12 m9">
-                <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
-                    <s:VatRateComboBox ui:field="standardVatRate" paddingLeft="0" grid="m2"/>
-                    <m:MaterialDoubleBox ui:field="standardExclVat" label="{msg.labelPriceExcludingVat}" paddingLeft="0" grid="m3"/>
-                    <m:MaterialDoubleBox ui:field="standardVatAmount" label="{msg.labelVatAmount}" paddingLeft="0" grid="m3"/>
-                    <s:PriceTextBox ui:field="standardSum" label="{msg.labelSum}" paddingLeft="0" grid="m3"/>
+        <m:MaterialPanel ui:field="vatRecapitulation">
+            <s:SectionTitle iconType="ATTACH_MONEY" title="{msg.labelVatRecapitulation}"/>
+            <a:emptystate.MaterialEmptyState ui:field="emptyRecapitulation"/>
+            <m:MaterialRow ui:field="standardRow">
+                <m:MaterialColumn grid="s12 m9">
+                    <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
+                        <s:VatRateComboBox ui:field="standardVatRate" paddingLeft="0" grid="m2"/>
+                        <m:MaterialDoubleBox ui:field="standardExclVat" label="{msg.labelPriceExcludingVat}" paddingLeft="0" grid="m3"/>
+                        <m:MaterialDoubleBox ui:field="standardVatAmount" label="{msg.labelVatAmount}" paddingLeft="0" grid="m3"/>
+                        <s:PriceTextBox ui:field="standardSum" label="{msg.labelSum}" paddingLeft="0" grid="m3"/>
+                    </m:MaterialColumn>
                 </m:MaterialColumn>
-            </m:MaterialColumn>
-        </m:MaterialRow>
-        <m:MaterialRow ui:field="reducedRow">
-            <m:MaterialColumn grid="s12 m9">
-                <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
-                    <s:VatRateComboBox ui:field="reducedVatRate" paddingLeft="0" grid="m2"/>
-                    <m:MaterialDoubleBox ui:field="reducedExclVat" label="{msg.labelPriceExcludingVat}" paddingLeft="0" grid="m3"/>
-                    <m:MaterialDoubleBox ui:field="reducedVatAmount" label="{msg.labelVatAmount}" paddingLeft="0" grid="m3"/>
-                    <s:PriceTextBox ui:field="reducedSum" label="{msg.labelSum}" paddingLeft="0" grid="m3"/>
+            </m:MaterialRow>
+            <m:MaterialRow ui:field="reducedRow">
+                <m:MaterialColumn grid="s12 m9">
+                    <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
+                        <s:VatRateComboBox ui:field="reducedVatRate" paddingLeft="0" grid="m2"/>
+                        <m:MaterialDoubleBox ui:field="reducedExclVat" label="{msg.labelPriceExcludingVat}" paddingLeft="0" grid="m3"/>
+                        <m:MaterialDoubleBox ui:field="reducedVatAmount" label="{msg.labelVatAmount}" paddingLeft="0" grid="m3"/>
+                        <s:PriceTextBox ui:field="reducedSum" label="{msg.labelSum}" paddingLeft="0" grid="m3"/>
+                    </m:MaterialColumn>
                 </m:MaterialColumn>
-            </m:MaterialColumn>
-        </m:MaterialRow>
-        <m:MaterialRow ui:field="zeroRow">
-            <m:MaterialColumn grid="s12 m9">
-                <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
-                    <s:VatRateComboBox ui:field="zeroVatRate" paddingLeft="0" grid="m2"/>
-                    <m:MaterialDoubleBox ui:field="zeroExclVat" label="{msg.labelPriceExcludingVat}" paddingLeft="0" grid="m3"/>
+            </m:MaterialRow>
+            <m:MaterialRow ui:field="zeroRow">
+                <m:MaterialColumn grid="s12 m9">
+                    <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
+                        <s:VatRateComboBox ui:field="zeroVatRate" paddingLeft="0" grid="m2"/>
+                        <m:MaterialDoubleBox ui:field="zeroExclVat" label="{msg.labelPriceExcludingVat}" paddingLeft="0" grid="m3"/>
+                    </m:MaterialColumn>
                 </m:MaterialColumn>
-            </m:MaterialColumn>
-        </m:MaterialRow>
-        <m:MaterialRow ui:field="sumRow" backgroundColor="BLUE_LIGHTEN_5" paddingTop="15">
-            <m:MaterialColumn grid="s12 m9">
-                <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
-                    <m:MaterialRow>
-                        <g:Label ui:field="sum" text="{msg.labelTotalPrice}"/>
-                    </m:MaterialRow>
-                    <m:MaterialDoubleBox ui:field="sumTotalPriceExclVat" label="{msg.labelTotalPriceExclVat}" paddingLeft="0" grid="m3"/>
-                    <m:MaterialDoubleBox ui:field="sumTotalVat" label="{msg.labelTotalVat}" paddingLeft="0" grid="m3"/>
-                    <s:PriceTextBox ui:field="sumTotalPrice" label="{msg.labelSum}" fontWeight="BOLD" paddingLeft="0" grid="m3"/>
+            </m:MaterialRow>
+            <m:MaterialRow ui:field="sumRow" backgroundColor="BLUE_LIGHTEN_5" paddingTop="15">
+                <m:MaterialColumn grid="s12 m9">
+                    <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
+                        <m:MaterialRow>
+                            <g:Label ui:field="sum" text="{msg.labelTotalPrice}"/>
+                        </m:MaterialRow>
+                        <m:MaterialDoubleBox ui:field="sumTotalPriceExclVat" label="{msg.labelTotalPriceExclVat}" paddingLeft="0" grid="m3"/>
+                        <m:MaterialDoubleBox ui:field="sumTotalVat" label="{msg.labelTotalVat}" paddingLeft="0" grid="m3"/>
+                        <s:PriceTextBox ui:field="sumTotalPrice" label="{msg.labelSum}" fontWeight="BOLD" paddingLeft="0" grid="m3"/>
+                    </m:MaterialColumn>
                 </m:MaterialColumn>
-            </m:MaterialColumn>
-        </m:MaterialRow>
+            </m:MaterialRow>
+        </m:MaterialPanel>
 
-        <m:MaterialRow>
+        <m:MaterialRow ui:field="itemsPanel">
             <m:MaterialColumn ui:field="itemsLabel" grid="m12" marginBottom="10">
                 <s:SectionTitle iconType="LIST" title="{msg.labelItems}"/>
             </m:MaterialColumn>

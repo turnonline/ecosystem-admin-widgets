@@ -25,7 +25,7 @@
     <g:HTMLPanel>
         <m:MaterialRow>
             <!--bill scan-->
-            <m:MaterialColumn grid="s12 m3">
+            <m:MaterialColumn grid="s12 m6">
                 <s:SectionTitle iconType="PHOTO_CAMERA" title="{msg.labelBillScan}"/>
                 <m:MaterialImage ui:field="billScan" border="1px solid" textColor="GREY_LIGHTEN_1"/>
             </m:MaterialColumn>

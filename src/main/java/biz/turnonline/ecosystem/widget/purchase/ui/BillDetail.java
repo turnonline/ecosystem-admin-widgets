@@ -39,6 +39,7 @@ import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialTextBox;
 
@@ -87,6 +88,9 @@ public class BillDetail
     BillUploader billUploader;
 
     @UiField
+    MaterialRow itemsPanel;
+
+    @UiField
     BillItems items;
 
     @UiField
@@ -133,6 +137,9 @@ public class BillDetail
 
     @UiField
     MaterialDoubleBox zeroExclVat;
+
+    @UiField
+    MaterialPanel vatRecapitulation;
 
     @UiField
     MaterialRow sumRow;
@@ -184,6 +191,8 @@ public class BillDetail
             calcReducedPrice();
             calcTotalVatAmount();
         } );
+
+        billType.addValueChangeHandler( event -> handleBillTypeChanged() );
 
         zeroExclVat.addChangeHandler( event -> calcTotalPriceExclVat() );
         totalPrice.addChangeHandler( e -> sumTotalPrice.setValue( totalPrice.getValue(), currency.getSingleValue() ) );
@@ -372,6 +381,7 @@ public class BillDetail
 
         // evaluate as a last step
         setReadOnly( approved );
+        handleBillTypeChanged();
     }
 
     private void fillFromRow( @Nonnull Map<Double, VatRateRow> vatMap,
@@ -408,14 +418,31 @@ public class BillDetail
         items.addRow( item );
     }
 
+    private void handleBillTypeChanged()
+    {
+        itemsPanel.setVisible( false );
+        vatRecapitulation.setVisible( false );
+
+        if ( billType.getSingleValueByCode().equals( Bill.TypeEnum.RECEIPT.name() ) )
+        {
+            vatRecapitulation.setVisible( true );
+        }
+        if ( billType.getSingleValueByCode().equals( Bill.TypeEnum.INVOICE.name() ) )
+        {
+            itemsPanel.setVisible( true );
+        }
+    }
+
     public void setReadOnly( boolean approved )
     {
+        billUploader.setEnabled( !approved );
+
         addItem.setVisible( !approved );
         items.setReadOnly( approved );
 
         billNumber.setReadOnly( approved );
         description.setReadOnly( approved );
-        totalPrice.setReadOnly( approved );
+        totalPrice.setEnabled( false );
         currency.setReadOnly( approved );
         billType.setReadOnly( approved );
         dateOfIssue.setReadOnly( approved );
