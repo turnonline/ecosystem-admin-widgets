@@ -15,19 +15,19 @@
  *
  */
 
-package biz.turnonline.ecosystem.widget.product.event;
+package biz.turnonline.ecosystem.widget.shared.event;
 
-import biz.turnonline.ecosystem.widget.product.ui.ProductPictureUploader;
 import com.google.gwt.event.shared.GwtEvent;
+import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 
 import javax.annotation.Nonnull;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
 /**
- * This event is only a workaround how to deliver a Product.ID to the product picture uploader.
- * It's needed to be delivered before onAttach event of the {@link ProductPictureUploader}.
- * So make sure this event will be fired right before {@link EditProductEvent}.
+ * This event is only a workaround how to deliver an associated ID to the uploader.
+ * It's needed to be delivered before onAttach event of the {@link MaterialFileUploader}.
+ * So make sure this event will be fired right before event that will render widget with uploader component.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
@@ -36,11 +36,11 @@ public class ProductIdChangeEvent
 {
     public static Type<ProductIdChangeEventHandler> TYPE = new Type<>();
 
-    private final Long productId;
+    private final Long id;
 
-    public ProductIdChangeEvent( @Nonnull Long productId )
+    public ProductIdChangeEvent( @Nonnull Long id )
     {
-        this.productId = checkNotNull( productId );
+        this.id = checkNotNull( id );
     }
 
     public Type<ProductIdChangeEventHandler> getAssociatedType()
@@ -48,13 +48,18 @@ public class ProductIdChangeEvent
         return TYPE;
     }
 
-    public Long getProductId()
+    /**
+     * Returns the ID as an identification of a record that's being associated with the uploaded data.
+     *
+     * @return the associated ID
+     */
+    public Long getId()
     {
-        return productId;
+        return id;
     }
 
     protected void dispatch( ProductIdChangeEventHandler handler )
     {
-        handler.onProductIdChange( this );
+        handler.onBillIdChange( this );
     }
 }

@@ -41,15 +41,16 @@ import gwt.material.design.client.ui.MaterialAnchorButton;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class ContactsView
-        extends View
+        extends View<List<ContactCard>>
         implements ContactsPresenter.IView
 {
-    private static ContactsViewUiBinder binder = GWT.create( ContactsViewUiBinder.class );
+    private static final ContactsViewUiBinder binder = GWT.create( ContactsViewUiBinder.class );
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -102,7 +103,7 @@ public class ContactsView
         ColumnActions actions = new ColumnActions( bus() );
         actions.width( "5%" );
 
-        table.addColumn( "", type  );
+        table.addColumn( "", type );
         table.addColumn( messages.labelName(), name );
         table.addColumn( messages.labelAddress(), address );
         table.addColumn( messages.labelContacts(), contacts );
@@ -112,7 +113,7 @@ public class ContactsView
     }
 
     @UiHandler( "newContact" )
-    public void handleNew( ClickEvent event )
+    public void handleNew( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new EditContactEvent() );
     }

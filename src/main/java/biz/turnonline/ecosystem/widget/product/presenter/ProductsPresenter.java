@@ -30,6 +30,7 @@ import com.google.gwt.place.shared.PlaceController;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -72,7 +73,7 @@ public class ProductsPresenter
     }
 
     public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
+            extends org.ctoolkit.gwt.client.view.IView<List<Product>>
     {
         void scrollTo( @Nullable String scrollspy );
 

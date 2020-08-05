@@ -17,8 +17,8 @@
 
 package biz.turnonline.ecosystem.widget.product.ui;
 
-import biz.turnonline.ecosystem.widget.product.event.ProductIdChangeEvent;
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
+import biz.turnonline.ecosystem.widget.shared.event.ProductIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
@@ -96,7 +96,7 @@ public class ProductPictureUploader
             }
         } );
 
-        eventBus.addHandler( ProductIdChangeEvent.TYPE, event -> this.productId = event.getProductId() );
+        eventBus.addHandler( ProductIdChangeEvent.TYPE, event -> this.productId = event.getId() );
     }
 
     public void bind( ProductPublishing model )

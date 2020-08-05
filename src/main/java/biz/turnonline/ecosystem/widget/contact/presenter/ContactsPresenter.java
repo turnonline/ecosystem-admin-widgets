@@ -20,9 +20,11 @@ package biz.turnonline.ecosystem.widget.contact.presenter;
 import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -49,7 +51,7 @@ public class ContactsPresenter
     }
 
     public interface IView
-            extends org.ctoolkit.gwt.client.view.IView
+            extends org.ctoolkit.gwt.client.view.IView<List<ContactCard>>
     {
         void refresh();
     }

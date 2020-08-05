@@ -40,6 +40,7 @@ import gwt.material.design.client.ui.MaterialColumn;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * Product list view implemented by infinite scroll where single product is rendered by {@link ProductOverviewCard}.
@@ -47,10 +48,10 @@ import javax.inject.Named;
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
 public class ProductsView
-        extends View
+        extends View<List<Product>>
         implements ProductsPresenter.IView
 {
-    private static ProductsViewUiBinder binder = GWT.create( ProductsViewUiBinder.class );
+    private static final ProductsViewUiBinder binder = GWT.create( ProductsViewUiBinder.class );
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
