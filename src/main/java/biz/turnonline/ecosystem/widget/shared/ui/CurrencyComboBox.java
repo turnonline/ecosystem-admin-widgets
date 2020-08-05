@@ -24,7 +24,9 @@ import gwt.material.design.addins.client.combobox.MaterialComboBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
@@ -33,12 +35,17 @@ public class CurrencyComboBox
         extends MaterialComboBox<String>
 {
     private static final CurrencyCodeMapConstants currencies = GWT.create( CurrencyCodeMapConstants.class );
+    private static final CurrencyExtraCodeMapConstants currenciesExtra = GWT.create( CurrencyExtraCodeMapConstants.class );
 
     private static List<String> currencyList;
 
     static
     {
-        currencyList = new ArrayList<>( currencies.currencyMap().keySet() );
+        Set<String> uniqueCurrencies = new HashSet<>(  );
+        uniqueCurrencies.addAll( currencies.currencyMap().keySet() );
+        uniqueCurrencies.addAll( currenciesExtra.currencyMap().keySet() );
+
+        currencyList = new ArrayList<>( uniqueCurrencies );
         Collections.sort( currencyList );
     }
 
