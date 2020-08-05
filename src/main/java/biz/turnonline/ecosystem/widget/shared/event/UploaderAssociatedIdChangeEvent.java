@@ -31,19 +31,19 @@ import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public class ProductIdChangeEvent
-        extends GwtEvent<ProductIdChangeEventHandler>
+public class UploaderAssociatedIdChangeEvent
+        extends GwtEvent<UploaderAssociatedIdChangeEventHandler>
 {
-    public static Type<ProductIdChangeEventHandler> TYPE = new Type<>();
+    public static Type<UploaderAssociatedIdChangeEventHandler> TYPE = new Type<>();
 
     private final Long id;
 
-    public ProductIdChangeEvent( @Nonnull Long id )
+    public UploaderAssociatedIdChangeEvent( @Nonnull Long id )
     {
         this.id = checkNotNull( id );
     }
 
-    public Type<ProductIdChangeEventHandler> getAssociatedType()
+    public Type<UploaderAssociatedIdChangeEventHandler> getAssociatedType()
     {
         return TYPE;
     }
@@ -58,8 +58,8 @@ public class ProductIdChangeEvent
         return id;
     }
 
-    protected void dispatch( ProductIdChangeEventHandler handler )
+    protected void dispatch( UploaderAssociatedIdChangeEventHandler handler )
     {
-        handler.onBillIdChange( this );
+        handler.onUploaderAssociatedIdChange( this );
     }
 }

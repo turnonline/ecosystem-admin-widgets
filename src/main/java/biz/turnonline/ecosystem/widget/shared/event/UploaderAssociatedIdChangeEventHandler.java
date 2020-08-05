@@ -24,8 +24,8 @@ import com.google.gwt.event.shared.EventHandler;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public interface ProductIdChangeEventHandler
+public interface UploaderAssociatedIdChangeEventHandler
         extends EventHandler
 {
-    void onBillIdChange( ProductIdChangeEvent event );
+    void onUploaderAssociatedIdChange( UploaderAssociatedIdChangeEvent event );
 }

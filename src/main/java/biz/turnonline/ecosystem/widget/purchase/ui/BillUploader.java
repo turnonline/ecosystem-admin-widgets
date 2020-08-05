@@ -18,7 +18,7 @@ package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.Resources;
-import biz.turnonline.ecosystem.widget.shared.event.ProductIdChangeEvent;
+import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
@@ -82,7 +82,7 @@ public class BillUploader
             }
         } );
 
-        AppEventBus.get().addHandler( ProductIdChangeEvent.TYPE, event -> this.billId = event.getId() );
+        AppEventBus.get().addHandler( UploaderAssociatedIdChangeEvent.TYPE, event -> this.billId = event.getId() );
     }
 
     @Override
