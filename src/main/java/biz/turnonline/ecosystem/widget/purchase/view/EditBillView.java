@@ -133,6 +133,7 @@ public class EditBillView
         Boolean approved = Optional.ofNullable( bill.isApproved() ).orElse( false );
         btnSave.setVisible( !approved );
         approveBill.setEnabled( !approved && bill.getId() != null );
+        deleteBill.setEnabled( !approved && bill.getId() != null );
     }
 
     @UiHandler( "btnBack" )
