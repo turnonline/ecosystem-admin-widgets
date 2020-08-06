@@ -14,46 +14,54 @@ import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
 public class InfiniteScrollLoader
         extends gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader
 {
-    private static MaterialLoader loader = new MaterialLoader( LoaderType.CIRCULAR);
+    private static final MaterialLoader loader = new MaterialLoader( LoaderType.CIRCULAR );
 
     private InfiniteScrollPanel<?> parent;
 
-    public InfiniteScrollLoader(String message) {
-        super(message);
+    public InfiniteScrollLoader( String message )
+    {
+        super( message );
 
         OverlayOption overlayOption = OverlayOption.create();
         overlayOption.setBackgroundColor( Color.WHITE );
+        overlayOption.setOpacity( 0.0 );
         loader.setOverlayOption( overlayOption );
+        loader.setMessage( message );
+    }
+
+    @Override
+    protected void setupLoader()
+    {
     }
 
     /**
      * Will attach a loader to it's parent
      */
-    public void show() {
-        loader.setContainer(this);
+    public void show()
+    {
         loader.show();
-
-        parent.add(this);
+        parent.add( this );
     }
 
     /**
      * Will detach a loader to it's parent
      */
-    public void hide() {
-        loader.setContainer(this);
+    public void hide()
+    {
         loader.hide();
-
         removeFromParent();
     }
 
     /**
      * Will check if the loading indicator still attached to it's parent
      */
-    public boolean isLoading() {
+    public boolean isLoading()
+    {
         return isAttached();
     }
 
-    public void setParent(InfiniteScrollPanel parent) {
+    public void setParent( InfiniteScrollPanel parent )
+    {
         this.parent = parent;
     }
 }
