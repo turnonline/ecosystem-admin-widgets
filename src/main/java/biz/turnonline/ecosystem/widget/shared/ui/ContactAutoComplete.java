@@ -37,7 +37,7 @@ import java.util.List;
 public class ContactAutoComplete
         extends MaterialAutoComplete
 {
-    private static AppMessages messages = AppMessages.INSTANCE;
+    private static final AppMessages messages = AppMessages.INSTANCE;
 
     public ContactAutoComplete( EventBus eventBus )
     {
@@ -51,7 +51,7 @@ public class ContactAutoComplete
         parent.add( icon );
 
         getItemBox().getElement().setAttribute( "autocomplete", "off" );
-        getLabel().getElement().getStyle().setMarginLeft( -10, Style.Unit.PX );
+        getLabelWidget().getElement().getStyle().setMarginLeft( -10, Style.Unit.PX );
 
         setTooltip( messages.tooltipContactAutocomplete() );
     }

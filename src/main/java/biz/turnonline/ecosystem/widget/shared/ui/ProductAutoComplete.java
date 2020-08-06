@@ -53,7 +53,7 @@ public class ProductAutoComplete
 
         getItemBox().getElement().getStyle().setMarginTop( -6, Style.Unit.PX );
         getItemBox().getElement().setAttribute( "autocomplete", "off" );
-        getLabel().getElement().getStyle().setMarginLeft( -10, Style.Unit.PX );
+        getLabelWidget().getElement().getStyle().setMarginLeft( -10, Style.Unit.PX );
 
         setTooltip( messages.tooltipProductAutocomplete() );
     }

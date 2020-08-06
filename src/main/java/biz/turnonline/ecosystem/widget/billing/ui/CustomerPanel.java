@@ -56,7 +56,7 @@ import static gwt.material.design.client.constants.Color.BLUE_GREY_DARKEN_2;
 public class CustomerPanel
         extends Composite
 {
-    private static CustomerPanelUiBinder binder = GWT.create( CustomerPanelUiBinder.class );
+    private static final CustomerPanelUiBinder binder = GWT.create( CustomerPanelUiBinder.class );
 
     // person
 
@@ -143,7 +143,7 @@ public class CustomerPanel
     @UiField
     MaterialIcon through;
 
-    private EventBus eventBus;
+    private final EventBus eventBus;
 
     public CustomerPanel( EventBus eventBus, AddressLookupListener addressLookup )
     {
@@ -277,7 +277,7 @@ public class CustomerPanel
 
         // company
         businessName.getItemBox().setValue( customer.getBusinessName() );
-        businessName.getLabel().addStyleName( CssName.ACTIVE ); // fix visualization bug
+        businessName.getLabelWidget().addStyleName( CssName.ACTIVE ); // fix visualization bug
         companyId.setValue( customer.getCompanyId() );
         vatId.setValue( customer.getVatId() );
         taxId.setValue( customer.getTaxId() );

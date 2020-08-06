@@ -24,12 +24,13 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.masonry.MaterialMasonry;
+import gwt.material.design.client.data.DataSource;
+import gwt.material.design.client.data.loader.LoadCallback;
+import gwt.material.design.client.data.loader.LoadConfig;
+import gwt.material.design.client.data.loader.LoadResult;
+import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoadConfig;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollLoader;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
-import gwt.material.design.incubator.client.infinitescroll.data.DataSource;
-import gwt.material.design.incubator.client.infinitescroll.data.LoadCallback;
-import gwt.material.design.incubator.client.infinitescroll.data.LoadConfig;
-import gwt.material.design.incubator.client.infinitescroll.data.LoadResult;
 import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleManager;
 import org.ctoolkit.gwt.client.facade.Items;
 
@@ -71,7 +72,7 @@ public class InfiniteScroll<T>
      */
     public InfiniteScroll( int offset, int limit, int totalLength )
     {
-        this( new LoadConfig<>( offset, limit ), totalLength );
+        this( new InfiniteScrollLoadConfig( offset, limit ), totalLength );
     }
 
     /**
@@ -80,7 +81,7 @@ public class InfiniteScroll<T>
      * @param loadConfig  the initial load configuration (offset, limit)
      * @param totalLength the maximum number of results all together to be handled
      */
-    private InfiniteScroll( LoadConfig<T> loadConfig, int totalLength )
+    private InfiniteScroll( InfiniteScrollLoadConfig loadConfig, int totalLength )
     {
         super( null, loadConfig );
 
@@ -189,5 +190,11 @@ public class InfiniteScroll<T>
         }
 
         void load( int offset, int limit, SuccessCallback<Items<T>> callback );
+
+        @Override
+        default boolean useRemoteSort()
+        {
+            return false;
+        }
     }
 }

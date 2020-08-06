@@ -194,12 +194,12 @@ public class PurchaseOrderOverviewCard
         this.totalPrice.setValue( totalPrice, currency );
 
         // billing dates
-        lastBillingDate.getPlaceholderLabel().setFontSize( totalPriceExclVat.getFontSize() );
+        lastBillingDate.getLabelWidget().setFontSize( totalPriceExclVat.getFontSize() );
         lastBillingDate.setReadOnly( true );
         lastBillingDate.setValue( order.getLastBillingDate() );
         lastBillingDate.setVisible( order.getLastBillingDate() != null );
 
-        nextBillingDate.getPlaceholderLabel().setFontSize( totalPriceExclVat.getFontSize() );
+        nextBillingDate.getLabelWidget().setFontSize( totalPriceExclVat.getFontSize() );
         nextBillingDate.setReadOnly( true );
         nextBillingDate.setValue( order.getNextBillingDate() );
 
