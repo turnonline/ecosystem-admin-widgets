@@ -15,7 +15,7 @@
  *
  */
 
-package biz.turnonline.ecosystem.widget.shared.presenter;
+package biz.turnonline.ecosystem.widget.shared.ui;
 
 import org.ctoolkit.gwt.client.facade.TokenCallback;
 import org.fusesource.restygwt.client.ServiceRoots;
@@ -24,8 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Uploader token callback that manages a final upload URL incl. resolved {@code access_token}
- * as a query parameter.
+ * Uploader callback that takes a configured upload URL and current token.
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
@@ -51,12 +50,12 @@ public interface UploaderTokenCallback
     }
 
     /**
-     * Notification with full upload URL incl. token appended as a query parameter.
-     * If none token appended, user does not have an authenticated Firebase session.
+     * Notification with full upload URL and current token.
+     * If token is {@code null}, user does not have an authenticated Firebase session.
      *
      * @param url the full upload URL incl. token
      */
-    void then( @Nonnull String url );
+    void done( @Nonnull String url, @Nullable String token );
 
     /**
      * If key parameter is {@code null} the final URL will be relative.
@@ -65,6 +64,6 @@ public interface UploaderTokenCallback
     default void then( @Nullable String token, @Nullable String key )
     {
         String url = key == null ? "/" + UPLOAD_BASE_PATH : url( key );
-        then( url + ( token == null ? "" : "?access_token=" + token ) );
+        done( url, token );
     }
 }

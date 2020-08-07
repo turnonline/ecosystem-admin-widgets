@@ -17,13 +17,12 @@
 
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
-import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.addins.client.fileuploader.MaterialUploadLabel;
-import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
+
+import javax.annotation.Nonnull;
 
 import static biz.turnonline.ecosystem.widget.shared.AppMessages.INSTANCE;
 
@@ -31,13 +30,11 @@ import static biz.turnonline.ecosystem.widget.shared.AppMessages.INSTANCE;
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class BatchDropBox
-        extends MaterialFileUploader
+        extends UploaderWithAuthorization
 {
-    private final String url;
-
-    public BatchDropBox( String url )
+    public BatchDropBox( @Nonnull String urlKey )
     {
-        this.url = url;
+        super( urlKey );
 
         setShadow( 0 );
         setMarginTop( 10 );
@@ -55,13 +52,6 @@ public class BatchDropBox
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 
-        addAttachHandler( event -> {
-            if ( event.isAttached() )
-            {
-                new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) this::setUrl, url );
-            }
-        } );
-
         addSuccessHandler( event -> {
             UploadItem uploadItem = Uploader.handleAndGetUploadItem( event );
             if ( uploadItem != null )
@@ -74,16 +64,5 @@ public class BatchDropBox
     public void onUpload( UploadItem uploadItem )
     {
         // do nothing
-    }
-
-    @Override
-    public void load()
-    {
-        // setUrl and than load widget, otherwise firebase will be executed after widget initialization
-        new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
-                    setUrl( url );
-                    super.load();
-                }, url
-        );
     }
 }

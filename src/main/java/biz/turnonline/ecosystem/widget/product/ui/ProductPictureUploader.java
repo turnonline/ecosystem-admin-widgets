@@ -19,9 +19,9 @@ package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.RemovePictureEvent;
 import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
-import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
+import biz.turnonline.ecosystem.widget.shared.ui.UploaderWithAuthorization;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -39,9 +39,9 @@ import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialRow;
-import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -56,7 +56,11 @@ import static biz.turnonline.ecosystem.widget.shared.Configuration.PRODUCT_BILLI
 public class ProductPictureUploader
         extends Composite
 {
-    private static ImageUploaderUiBinder binder = GWT.create( ImageUploaderUiBinder.class );
+    private static final ImageUploaderUiBinder binder = GWT.create( ImageUploaderUiBinder.class );
+
+    private final Map<MaterialColumn, ProductPicture> imagesMap = new HashMap<>();
+
+    private final EventBus eventBus;
 
     @UiField
     MaterialRow images;
@@ -64,23 +68,17 @@ public class ProductPictureUploader
     private Long productId;
 
     @UiField( provided = true )
-    MaterialFileUploader uploader = new MaterialFileUploader()
+    MaterialFileUploader uploader = new UploaderWithAuthorization( PRODUCT_BILLING_STORAGE )
     {
         @Override
-        public void load()
+        protected void append( @Nonnull UploaderWithAuthorization.Headers headers )
         {
-            // setUrl and than load widget, otherwise firebase will be executed after widget initialization
-            new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
-                        setUrl( url + ( productId == null ? "" : "&productId=" + productId ) );
-                        super.load();
-                    }, PRODUCT_BILLING_STORAGE
-            );
+            if ( productId != null )
+            {
+                headers.setAssociatedId( String.valueOf( productId ) );
+            }
         }
     };
-
-    private Map<MaterialColumn, ProductPicture> imagesMap = new HashMap<>();
-
-    private EventBus eventBus;
 
     public ProductPictureUploader( EventBus eventBus )
     {

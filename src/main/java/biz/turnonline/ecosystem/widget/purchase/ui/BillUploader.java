@@ -19,16 +19,16 @@ package biz.turnonline.ecosystem.widget.purchase.ui;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
-import biz.turnonline.ecosystem.widget.shared.presenter.UploaderTokenCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
+import biz.turnonline.ecosystem.widget.shared.ui.UploaderWithAuthorization;
 import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.FlowPanel;
-import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.client.ui.MaterialImage;
-import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
 import org.ctoolkit.gwt.client.facade.UploadItem;
+
+import javax.annotation.Nonnull;
 
 import static biz.turnonline.ecosystem.widget.shared.Configuration.BILLING_PROCESSOR_STORAGE;
 
@@ -36,7 +36,7 @@ import static biz.turnonline.ecosystem.widget.shared.Configuration.BILLING_PROCE
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class BillUploader
-        extends MaterialFileUploader
+        extends UploaderWithAuthorization
         implements TakesValue<Image>
 {
     private final MaterialImage preview = new MaterialImage( Resources.INSTANCE.noImage() );
@@ -47,6 +47,7 @@ public class BillUploader
 
     public BillUploader()
     {
+        super( BILLING_PROCESSOR_STORAGE );
         setShadow( 0 );
         setMarginTop( 10 );
         setMarginBottom( 0 );
@@ -57,13 +58,6 @@ public class BillUploader
 
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
-
-        addAttachHandler( event -> {
-            if ( event.isAttached() )
-            {
-                new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) this::setUrl, BILLING_PROCESSOR_STORAGE );
-            }
-        } );
 
         FlowPanel previewWrapper = new FlowPanel();
         previewWrapper.addStyleName( "valign center" );
@@ -112,13 +106,11 @@ public class BillUploader
     }
 
     @Override
-    public void load()
+    protected void append( @Nonnull Headers headers )
     {
-        // setUrl and than load widget, otherwise firebase will be executed after widget initialization
-        new FirebaseAuthFacade().getIdToken( ( UploaderTokenCallback ) url -> {
-                    setUrl( url + ( billId == null ? "" : "&id=" + billId ) );
-                    super.load();
-                }, BILLING_PROCESSOR_STORAGE
-        );
+        if ( billId != null )
+        {
+            headers.setAssociatedId( String.valueOf( billId ) );
+        }
     }
 }
