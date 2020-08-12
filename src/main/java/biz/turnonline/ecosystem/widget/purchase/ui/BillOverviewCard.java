@@ -26,6 +26,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -118,6 +119,9 @@ public class BillOverviewCard
 
         initWidget( binder.createAndBindUi( this ) );
 
+        description.getElement().getStyle().setWhiteSpace( Style.WhiteSpace.NOWRAP );
+        description.getElement().getStyle().setOverflow( Style.Overflow.HIDDEN );
+        description.getElement().getStyle().setTextOverflow( Style.TextOverflow.ELLIPSIS );
         description.setText( Optional.ofNullable( bill.getDescription() ).orElse( "-" ) );
         billNumber.setText( Optional.ofNullable( bill.getBillNumber() ).orElse( "-" ) );
         type.setText( typeText( bill.getType().name() ) );
