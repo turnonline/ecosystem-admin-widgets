@@ -195,7 +195,6 @@ public class BillDetail
         billType.addValueChangeHandler( event -> handleBillTypeChanged() );
 
         zeroExclVat.addChangeHandler( event -> calcTotalPriceExclVat() );
-        totalPrice.addChangeHandler( e -> sumTotalPrice.setValue( totalPrice.getValue(), currency.getSingleValue() ) );
         currency.addValueChangeHandler( event -> changeCurrency() );
 
         sumTotalPriceExclVat.addChangeHandler( event -> calcTotalPrice() );
@@ -330,7 +329,7 @@ public class BillDetail
         description.setValue( bill.getDescription() );
         billNumber.setValue( bill.getBillNumber() );
         dateOfIssue.setValue( bill.getDateOfIssue() );
-        totalPrice.setValue( bill.getTotalPrice() );
+        totalPrice.setValue( bill.getTotalPrice() == null ? 0.0 : bill.getTotalPrice() );
         billType.setSingleValueByCode( bill.getType() != null ? bill.getType().name() : null );
         currency.setSingleValue( bill.getCurrency() );
         sumTotalPriceExclVat.setValue( bill.getTotalVatBase() );
@@ -348,7 +347,7 @@ public class BillDetail
         created.setValue( bill.getCreatedDate() );
         modified.setValue( bill.getModificationDate() );
 
-        boolean approved = bill.isApproved() == null ? false : bill.isApproved();
+        boolean approved = bill.isApproved() != null && bill.isApproved();
         List<Item> billItems = bill.getItems();
 
         items.setValue( billItems, bill.getCurrency() );
@@ -442,7 +441,14 @@ public class BillDetail
 
         billNumber.setReadOnly( approved );
         description.setReadOnly( approved );
-        totalPrice.setEnabled( false );
+        if ( approved )
+        {
+            totalPrice.setReadOnly( true );
+        }
+        else
+        {
+            totalPrice.setEnabled( false );
+        }
         currency.setReadOnly( approved );
         billType.setReadOnly( approved );
         dateOfIssue.setReadOnly( approved );

@@ -32,26 +32,20 @@
 
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="CHROME_READER_MODE" title="{msg.labelDescription}"/>
-
-                <m:MaterialColumn grid="m12" paddingLeft="0">
-                    <m:MaterialTextBox ui:field="description" label="{msg.labelName}" paddingLeft="0"/>
-                    <m:MaterialTextBox ui:field="billNumber" label="{msg.labelBillNumber}" paddingLeft="0"/>
-
-                    <m:MaterialColumn grid="m12" paddingLeft="0" paddingRight="0">
-                        <m:MaterialDoubleBox ui:field="totalPrice" label="{msg.labelTotalPrice}" paddingLeft="0" grid="m8"/>
-                        <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" paddingLeft="0" paddingRight="0" grid="m4"/>
-                    </m:MaterialColumn>
-
-                    <s:BillTypeComboBox ui:field="billType" label="{msg.labelBillType}" grid="m12" paddingLeft="0" paddingRight="0"/>
-                    <m:MaterialDatePicker ui:field="dateOfIssue" placeholder="{msg.labelDateOfIssue}" grid="m8" paddingLeft="0"/>
-                </m:MaterialColumn>
+                <m:MaterialTextBox ui:field="description" label="{msg.labelName}"/>
+                <m:MaterialTextBox ui:field="billNumber" label="{msg.labelBillNumber}"/>
+                <s:BillTypeComboBox ui:field="billType" label="{msg.labelBillType}"/>
+                <m:MaterialDatePicker ui:field="dateOfIssue" placeholder="{msg.labelDateOfIssue}"
+                                      paddingTop="5" paddingLeft="0" grid="m8"/>
+                <m:MaterialDoubleBox ui:field="totalPrice" label="{msg.labelTotalPrice}" paddingLeft="0" grid="m8"/>
+                <s:CurrencyComboBox ui:field="currency" label="{msg.labelCurrency}" paddingRight="0" grid="m4"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">
                 <s:SectionTitle iconType="ACCESS_TIME" title="{msg.labelChanges}"/>
 
-                <m:MaterialDatePicker ui:field="created" grid="m8" placeholder="{msg.labelCreated}" paddingLeft="0"/>
-                <m:MaterialDatePicker ui:field="modified" grid="m8" placeholder="{msg.labelModified}" paddingLeft="0"/>
+                <m:MaterialDatePicker ui:field="created" placeholder="{msg.labelCreated}"/>
+                <m:MaterialDatePicker ui:field="modified" placeholder="{msg.labelModified}"/>
             </m:MaterialColumn>
         </m:MaterialRow>
 
@@ -92,7 +86,8 @@
                         <m:MaterialRow>
                             <g:Label ui:field="sum" text="{msg.labelTotalPrice}"/>
                         </m:MaterialRow>
-                        <m:MaterialDoubleBox ui:field="sumTotalPriceExclVat" label="{msg.labelTotalPriceExclVat}" paddingLeft="0" grid="m3"/>
+                        <m:MaterialDoubleBox ui:field="sumTotalPriceExclVat" label="{msg.labelTotalPriceExclVat}" paddingLeft="0"
+                                             grid="m3"/>
                         <m:MaterialDoubleBox ui:field="sumTotalVat" label="{msg.labelTotalVat}" paddingLeft="0" grid="m3"/>
                         <s:PriceTextBox ui:field="sumTotalPrice" label="{msg.labelSum}" fontWeight="BOLD" paddingLeft="0" grid="m3"/>
                     </m:MaterialColumn>
