@@ -33,7 +33,7 @@ import org.ctoolkit.gwt.client.view.IView;
  *
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
-public abstract class Presenter<V extends IView>
+public abstract class Presenter<V extends IView<?>>
         extends BinderyPresenter<V>
 {
     protected AppMessages messages = AppMessages.INSTANCE;
@@ -42,7 +42,7 @@ public abstract class Presenter<V extends IView>
     {
         super( AppEventBus.get(), view, placeController );
 
-        setTitle( "TurnOnline.biz Administration" );
+        setTitle( messages.labelAppName() );
     }
 
     /**

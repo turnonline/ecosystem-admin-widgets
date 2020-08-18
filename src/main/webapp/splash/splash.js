@@ -8,11 +8,7 @@ image.src = "/launcher-icons/logo.png";
 
 var title = document.createElement("span");
 title.className = "title";
-title.innerHTML = "TurnOnline.biz Widgets";
-
-var description = document.createElement("span");
-description.className = "description";
-description.innerHTML = "TurnOnline.biz Ecosystem Administration Widgets";
+title.innerHTML = "ConnecSys App";
 
 var progress = document.createElement("div");
 progress.className = "progress";
@@ -23,7 +19,6 @@ progress.append(progressFill);
 
 splashContent.append(image);
 splashContent.append(title);
-splashContent.append(description);
 splashContent.append(progress);
 
 splashcontainer.append(splashContent);

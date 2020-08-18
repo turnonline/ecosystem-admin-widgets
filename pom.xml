@@ -252,14 +252,14 @@
     </dependencies>
 
     <properties>
-        <gwt-bom.version>2.9.0-20200805.125113-1</gwt-bom.version>
+        <gwt-bom.version>2.9.0</gwt-bom.version>
         <gwt-plugin.version>2.9.0</gwt-plugin.version>
         <!-- keep dagger-compiler and auto-factory version same as gwt-bom -->
         <dagger-compiler.version>2.28.3</dagger-compiler.version>
         <auto-factory.version>1.0-beta8</auto-factory.version>
         <!-- end annotationProcessor config -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-        <gwt-material.version>2.4.0-rc1</gwt-material.version>
+        <gwt-material.version>2.4.0</gwt-material.version>
     </properties>
 
 </project>

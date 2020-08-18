@@ -29,6 +29,9 @@ public interface AppMessages
     AppMessages INSTANCE = GWT.create( AppMessages.class );
 
     // labels
+    @Key( "label.appName" )
+    String labelAppName();
+
     @Key( value = "label.logout" )
     String labelLogout();
 
