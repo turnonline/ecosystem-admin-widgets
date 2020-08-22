@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.contact.event.SaveContactEvent;
 import biz.turnonline.ecosystem.widget.contact.presenter.EditContactPresenter;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCardPostalAddress;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
@@ -31,6 +32,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.ui.LogoUploader;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
+import biz.turnonline.ecosystem.widget.shared.ui.UploaderWithAuthorization;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.common.base.Strings;
@@ -49,6 +51,7 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -130,10 +133,6 @@ public class EditContactView
     @UiField
     MaterialIntegerBox numberOfDays;
 
-    // logo
-    @UiField
-    LogoUploader logoUploader;
-
     // invoice address
 
     @UiField
@@ -179,6 +178,27 @@ public class EditContactView
 
     @UiField
     CountryComboBox postalCountry;
+
+    /**
+     * Helper field that will be updated before BinderyView#setModel(T) called
+     *
+     * @see UploaderAssociatedIdChangeEvent
+     */
+    private Long logoContactId;
+
+    @UiField( provided = true )
+    LogoUploader logoUploader = new LogoUploader()
+    {
+        @Override
+        protected void append( @Nonnull UploaderWithAuthorization.Headers headers )
+        {
+            if ( logoContactId != null )
+            {
+                headers.setAssociatedId( String.valueOf( logoContactId ) );
+                headers.setLogoImage( String.valueOf( true ) );
+            }
+        }
+    };
 
     @Inject
     public EditContactView( @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
@@ -246,6 +266,7 @@ public class EditContactView
         postalPostCode.setReturnBlankAsNull( true );
 
         confirmation.getBtnOk().addClickHandler( event -> bus().fireEvent( new DeleteContactEvent( getRawModel() ) ) );
+        bus().addHandler( UploaderAssociatedIdChangeEvent.TYPE, event -> this.logoContactId = event.getId() );
     }
 
     @Override

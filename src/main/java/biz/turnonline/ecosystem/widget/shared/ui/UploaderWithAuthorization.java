@@ -93,6 +93,10 @@ public class UploaderWithAuthorization
      *     <li>Authorization - Bearer token</li>
      *     <li>vnd.turnon.cloud.associated-id - ID as an identification of a record
      *     that will be associated with the uploaded data</li>
+     *     <li>vnd.turnon.cloud.logo-image
+     *     - boolean value indicating whether uploaded image is being intended to be a logo</li>
+     *     <li>vnd.turnon.cloud.stamp-image
+     *     - boolean value indicating whether uploaded image is being intended to be a stamp</li>
      * </ul>
      */
     public static class Headers
@@ -112,6 +116,14 @@ public class UploaderWithAuthorization
 
         public final native void setAssociatedId( String billId ) /*-{
             this['vnd.turnon.cloud.associated-id'] = billId;
+        }-*/;
+
+        public final native void setLogoImage( String is ) /*-{
+            this['vnd.turnon.cloud.logo-image'] = is;
+        }-*/;
+
+        public final native void setStampImage( String is ) /*-{
+            this['vnd.turnon.cloud.stamp-image'] = is;
         }-*/;
     }
 }

@@ -33,6 +33,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.LogoUploader;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.ui.SectionTitle;
+import biz.turnonline.ecosystem.widget.shared.ui.UploaderWithAuthorization;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
@@ -51,6 +52,7 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -66,7 +68,7 @@ public class MyAccountView
         extends View<Account>
         implements MyAccountPresenter.IView
 {
-    private static MyAccountViewUiBinder binder = GWT.create( MyAccountViewUiBinder.class );
+    private static final MyAccountViewUiBinder binder = GWT.create( MyAccountViewUiBinder.class );
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -206,8 +208,16 @@ public class MyAccountView
     @UiField
     MaterialRow postalAddressPanel;
 
-    @UiField
-    LogoUploader logoUploader;
+    @UiField( provided = true )
+    LogoUploader logoUploader = new LogoUploader()
+    {
+        @Override
+        protected void append( @Nonnull UploaderWithAuthorization.Headers headers )
+        {
+            headers.setLogoImage( String.valueOf( true ) );
+            headers.setStampImage( String.valueOf( false ) );
+        }
+    };
 
     private boolean reloadPage;
 
@@ -306,7 +316,7 @@ public class MyAccountView
         postalStreet.add( new InputSearchIcon() );
         postalStreet.getElement().setAttribute( "autocomplete", "off" );
 
-        language.addValueChangeHandler( (event) -> reloadPage = true );
+        language.addValueChangeHandler( ( event ) -> reloadPage = true );
     }
 
     @Override
@@ -397,7 +407,7 @@ public class MyAccountView
         Account account = getRawModel();
         email.setValue( account.getEmail() );
         contactEmail.setValue( account.getContactEmail() );
-        company.setValue( account.getCompany() == null ? false : account.getCompany() );
+        company.setValue( account.getCompany() != null && account.getCompany() );
         language.setSingleValueByCode( account.getLocale() );
 
         prefix.setValue( account.getPrefix() );
@@ -428,7 +438,7 @@ public class MyAccountView
             companyId.setValue( business.getCompanyId() );
             taxId.setValue( business.getTaxId() );
             vatId.setValue( business.getVatId() );
-            vatPayer.setValue( business.getVatPayer() == null ? false : business.getVatPayer() );
+            vatPayer.setValue( business.getVatPayer() != null && business.getVatPayer() );
 
             companyStreet.setValue( business.getStreet() );
             companyCity.setValue( business.getCity() );
@@ -471,7 +481,7 @@ public class MyAccountView
 
         AccountPostalAddress postalAddress = account.getPostalAddress();
         Boolean hasPostalAddress = account.getHasPostalAddress();
-        postalAddressSame.setValue( hasPostalAddress == null ? true : hasPostalAddress );
+        postalAddressSame.setValue( hasPostalAddress == null || hasPostalAddress );
 
         if ( postalAddress == null )
         {

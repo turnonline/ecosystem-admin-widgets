@@ -19,6 +19,7 @@ package biz.turnonline.ecosystem.widget.contact.ui;
 
 import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.ButtonSize;
@@ -50,6 +51,7 @@ public class ColumnActions
         MaterialButton btnEdit = new MaterialButton();
         btnEdit.addClickHandler( event -> {
             event.stopPropagation();
+            eventBus.fireEvent( new UploaderAssociatedIdChangeEvent( value.getId() ) );
             eventBus.fireEvent( new EditContactEvent( value ) );
         } );
 

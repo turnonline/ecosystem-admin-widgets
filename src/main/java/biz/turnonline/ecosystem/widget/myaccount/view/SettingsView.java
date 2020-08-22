@@ -34,6 +34,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.ui.LogoUploader;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
+import biz.turnonline.ecosystem.widget.shared.ui.UploaderWithAuthorization;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
@@ -63,7 +64,7 @@ public class SettingsView
         extends View<InvoicingConfig>
         implements SettingsPresenter.IView
 {
-    private static SettingsViewUiBinder binder = GWT.create( SettingsViewUiBinder.class );
+    private static final SettingsViewUiBinder binder = GWT.create( SettingsViewUiBinder.class );
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -122,8 +123,16 @@ public class SettingsView
     @UiField
     MaterialTextArea finalText;
 
-    @UiField
-    LogoUploader stampUploader;
+    @UiField( provided = true )
+    LogoUploader stampUploader = new LogoUploader()
+    {
+        @Override
+        protected void append( @Nonnull UploaderWithAuthorization.Headers headers )
+        {
+            headers.setStampImage( String.valueOf( true ) );
+            headers.setLogoImage( String.valueOf( false ) );
+        }
+    };
 
     @UiField( provided = true )
     DomainsPanel domains;
@@ -227,7 +236,7 @@ public class SettingsView
         stampUploader.setValue( invoicing.getStamp() );
 
         Boolean hasBillingAddress = invoicing.getHasBillingAddress();
-        this.hasBillingAddress.setValue( hasBillingAddress == null ? false : hasBillingAddress );
+        this.hasBillingAddress.setValue( hasBillingAddress != null && hasBillingAddress );
 
         InvoicingConfigBillingAddress billingAddress = invoicing.getBillingAddress();
         if ( billingAddress != null )
