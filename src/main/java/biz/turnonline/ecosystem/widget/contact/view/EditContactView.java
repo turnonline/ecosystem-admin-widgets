@@ -179,26 +179,15 @@ public class EditContactView
     @UiField
     CountryComboBox postalCountry;
 
+    @UiField
+    LogoUploader logoUploader;
+
     /**
      * Helper field that will be updated before BinderyView#setModel(T) called
      *
      * @see UploaderAssociatedIdChangeEvent
      */
     private Long logoContactId;
-
-    @UiField( provided = true )
-    LogoUploader logoUploader = new LogoUploader()
-    {
-        @Override
-        protected void append( @Nonnull UploaderWithAuthorization.Headers headers )
-        {
-            if ( logoContactId != null )
-            {
-                headers.setAssociatedId( String.valueOf( logoContactId ) );
-                headers.setLogoImage( String.valueOf( true ) );
-            }
-        }
-    };
 
     @Inject
     public EditContactView( @Named( "EditContactBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
@@ -216,6 +205,9 @@ public class EditContactView
             street.load();
             postalStreet.load();
         } );
+
+        logoUploader.addBeforeUploaderInitCallback( () -> logoContactId = null );
+        logoUploader.addAppendHeadersCallback( this::append );
 
         street.addPlaceChangedHandler( event -> {
             PlaceResult place = street.getPlace();
@@ -329,6 +321,12 @@ public class EditContactView
             postalAddress.setPostcode( postalPostCode.getCleanValue() );
             postalAddress.setCountry( postalCountry.getSingleValueByCode() );
         }
+
+        if ( contact.getId() == null && logoContactId != null )
+        {
+            // Use case when the Contact just has been created while logo was uploaded
+            contact.setId( logoContactId );
+        }
     }
 
     @Override
@@ -430,6 +428,20 @@ public class EditContactView
         postalCountry.setReadOnly( readOnly );
         searchIconStreet.setVisible( !readOnly );
         searchIconPostalStreet.setVisible( !readOnly );
+    }
+
+    private void append( @Nonnull UploaderWithAuthorization.Headers headers )
+    {
+        if ( logoContactId != null )
+        {
+            headers.setAssociatedId( String.valueOf( logoContactId ) );
+            headers.setLogoImage( String.valueOf( true ) );
+        }
+        else
+        {
+            // make sure any previous value will be cleared
+            headers.setAssociatedId( null );
+        }
     }
 
     @UiHandler( "btnBack" )

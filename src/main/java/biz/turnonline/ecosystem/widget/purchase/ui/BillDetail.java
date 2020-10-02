@@ -225,6 +225,12 @@ public class BillDetail
         bill.setTotalVatBase( sumTotalPriceExclVat.getValue() );
         bill.setTotalVat( sumTotalVat.getValue() );
 
+        if ( bill.getId() == null && billUploader.getBillId() != null )
+        {
+            // Use case when the Bill just has been created while Blob was uploaded
+            bill.setId( billUploader.getBillId() );
+        }
+
         Scan scan = new Scan();
         scan.setOrder( 1 );
         scan.setServingUrl( billUploader.getValue().getServingUrl() );

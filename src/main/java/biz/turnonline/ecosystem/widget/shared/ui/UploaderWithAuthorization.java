@@ -18,12 +18,22 @@
 package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Configuration;
+import com.google.common.base.Strings;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsonUtils;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
+import gwt.material.design.addins.client.fileuploader.base.UploadFile;
+import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
+import gwt.material.design.addins.client.fileuploader.events.SuccessEvent;
 import org.ctoolkit.gwt.client.facade.FirebaseAuthFacade;
+import org.ctoolkit.gwt.client.facade.UploadItem;
+import org.ctoolkit.gwt.client.facade.UploadItemsResponse;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 
@@ -37,6 +47,12 @@ public class UploaderWithAuthorization
         extends MaterialFileUploader
 {
     private final String urlKey;
+
+    private final List<BeforeUploaderInitCallback> beforeInitCallbacks = new ArrayList<>();
+
+    private final List<AppendHeadersCallback> headerCallbacks = new ArrayList<>();
+
+    private final List<SuccessCallback> successCallbacks = new ArrayList<>();
 
     /**
      * Constructor.
@@ -56,6 +72,9 @@ public class UploaderWithAuthorization
 
     private void urlDone( @Nonnull String url, @Nullable String token )
     {
+        // this must be before header callbacks
+        beforeInitCallbacks.forEach( BeforeUploaderInitCallback::beforeInit );
+
         Headers headers = ( Headers ) getHeaders();
         if ( headers == null )
         {
@@ -70,21 +89,118 @@ public class UploaderWithAuthorization
             headers.setAuthorization( token );
         }
 
-        append( headers );
+        Headers finalHeaders = headers;
+        headerCallbacks.forEach( c -> c.append( finalHeaders ) );
 
         // First set URL and than load widget, otherwise firebase will be executed after widget initialization
         setUrl( url );
         super.load();
+        reset();
     }
 
     /**
-     * Override if you need to add an additional header key/value pair.
-     * Called right before {@link #load()} will be executed.
-     *
-     * @param headers instance to be populated
+     * Adds callback that will be called right before {@link #load()} will be executed and URL set.
      */
-    protected void append( @Nonnull Headers headers )
+    public void addBeforeUploaderInitCallback( BeforeUploaderInitCallback callback )
     {
+        beforeInitCallbacks.add( callback );
+    }
+
+    /**
+     * Adds callback that will be called right before {@link #load()} will be executed and URL set
+     * with possibility to adjust request headers.
+     */
+    public void addAppendHeadersCallback( AppendHeadersCallback callback )
+    {
+        headerCallbacks.add( callback );
+    }
+
+    /**
+     * Adds success callback to get a notification once upload has been successfully processed and its response parsed.
+     * <p>
+     * It ignores responses if
+     * <ul>
+     *     <li>response is Unauthorized (401)</li>
+     *     <li>response is not valid,  it's different as 201</li>
+     * </ul>
+     */
+    public void addSuccessCallback( SuccessCallback callback )
+    {
+        successCallbacks.add( callback );
+        addSuccessHandler( this::onSuccess );
+    }
+
+    private void onSuccess( SuccessEvent<UploadFile> event )
+    {
+        UploadResponse response = event.getResponse();
+        UploadItem uploadItem;
+
+        if ( response.getCode() == 401 )
+        {
+            GWT.log( "Unauthorized" );
+        }
+
+        if ( response.getCode() != 201 )
+        {
+            GWT.log( "Response code: " + response.getCode() );
+        }
+
+        UploadItemsResponse json = JsonUtils.safeEval( response.getBody() );
+        if ( json.getItems().length() > 0 )
+        {
+            uploadItem = json.getItems().get( 0 );
+        }
+        else
+        {
+            uploadItem = null;
+        }
+
+        if ( uploadItem != null )
+        {
+            String associatedId = uploadItem.getAssociatedId();
+            if ( !Strings.isNullOrEmpty( associatedId ) )
+            {
+                try
+                {
+                    Long id = Long.valueOf( associatedId );
+                    successCallbacks.forEach( e -> e.onSuccess( new UploadItemSuccessEvent( uploadItem, id ) ) );
+                }
+                catch ( NumberFormatException e )
+                {
+                    GWT.log( "Parsing of Associated ID failed for " + associatedId );
+                    successCallbacks.forEach( sc -> sc.onSuccess( new UploadItemSuccessEvent( uploadItem ) ) );
+                }
+            }
+        }
+    }
+
+    public interface BeforeUploaderInitCallback
+    {
+        /**
+         * Pre-set uploader to the default values right before {@link #load()} will be executed,
+         * authorization headers and URL set.
+         */
+        void beforeInit();
+    }
+
+    public interface AppendHeadersCallback
+    {
+        /**
+         * Called right before {@link #load()} will be executed.
+         *
+         * @param headers instance to be populated by client
+         */
+        void append( @Nonnull Headers headers );
+    }
+
+    public interface SuccessCallback
+    {
+        /**
+         * Called only if upload has been successfully processed and its response parsed.
+         *
+         * @param event the upload payload response
+         */
+        void onSuccess( UploadItemSuccessEvent event );
     }
 
     /**
@@ -125,5 +241,44 @@ public class UploaderWithAuthorization
         public final native void setStampImage( String is ) /*-{
             this['vnd.turnon.cloud.stamp-image'] = is;
         }-*/;
+    }
+
+    public static class UploadItemSuccessEvent
+    {
+        private final UploadItem uploadItem;
+
+        private final Long associatedId;
+
+        public UploadItemSuccessEvent( @Nonnull UploadItem uploadItem )
+        {
+            this( uploadItem, null );
+        }
+
+        public UploadItemSuccessEvent( @Nonnull UploadItem uploadItem, @Nullable Long associatedId )
+        {
+            this.uploadItem = checkNotNull( uploadItem, "Upload item can't be null" );
+            this.associatedId = associatedId;
+        }
+
+        /**
+         * Always returns upload item.
+         *
+         * @return the successful response of the processed upload
+         */
+        public UploadItem getUploadItem()
+        {
+            return uploadItem;
+        }
+
+        /**
+         * Returns ID that represents an identification of the concrete object
+         * that's being associated with the uploaded BLOB.
+         *
+         * @return the ID of the associated object or {@code null} if missing in the response
+         */
+        public Long getAssociatedId()
+        {
+            return associatedId;
+        }
     }
 }

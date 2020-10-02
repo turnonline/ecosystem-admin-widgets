@@ -19,7 +19,6 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
-import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -61,13 +60,7 @@ public class LogoUploader
         preview.setMaxHeight( "120px" );
         previewWrapper.add( preview );
 
-        addSuccessHandler( event -> {
-            UploadItem uploadItem = Uploader.handleAndGetUploadItem( event );
-            if ( uploadItem != null )
-            {
-                setPreview( uploadItem );
-            }
-        } );
+        addSuccessCallback( event -> setPreview( event.getUploadItem() ) );
     }
 
     @Override

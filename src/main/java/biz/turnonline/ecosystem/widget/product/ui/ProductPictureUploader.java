@@ -22,7 +22,6 @@ import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEv
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPicture;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.UploaderWithAuthorization;
-import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -30,7 +29,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
-import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.constants.IconType;
@@ -65,20 +63,10 @@ public class ProductPictureUploader
     @UiField
     MaterialRow images;
 
-    private Long productId;
-
     @UiField( provided = true )
-    MaterialFileUploader uploader = new UploaderWithAuthorization( PRODUCT_BILLING_STORAGE )
-    {
-        @Override
-        protected void append( @Nonnull UploaderWithAuthorization.Headers headers )
-        {
-            if ( productId != null )
-            {
-                headers.setAssociatedId( String.valueOf( productId ) );
-            }
-        }
-    };
+    UploaderWithAuthorization uploader = new UploaderWithAuthorization( PRODUCT_BILLING_STORAGE );
+
+    private Long productId;
 
     public ProductPictureUploader( EventBus eventBus )
     {
@@ -86,15 +74,24 @@ public class ProductPictureUploader
 
         this.eventBus = eventBus;
 
-        uploader.addSuccessHandler( event -> {
-            UploadItem uploadItem = Uploader.handleAndGetUploadItem( event );
-            if ( uploadItem != null )
-            {
-                addImage( uploadItem );
-            }
+        uploader.addBeforeUploaderInitCallback( () -> productId = null );
+        uploader.addAppendHeadersCallback( this::append );
+        uploader.addSuccessCallback( event -> {
+            addImage( event.getUploadItem() );
+            productId = event.getAssociatedId();
         } );
 
         eventBus.addHandler( UploaderAssociatedIdChangeEvent.TYPE, event -> this.productId = event.getId() );
+    }
+
+    /**
+     * The product ID that that's associated with product's images.
+     *
+     * @return the product ID.
+     */
+    public Long getProductId()
+    {
+        return productId;
     }
 
     public void bind( ProductPublishing model )
@@ -187,6 +184,19 @@ public class ProductPictureUploader
         column.add( image );
 
         imagesMap.put( column, productPicture );
+    }
+
+    private void append( @Nonnull UploaderWithAuthorization.Headers headers )
+    {
+        if ( productId != null )
+        {
+            headers.setAssociatedId( String.valueOf( productId ) );
+        }
+        else
+        {
+            // make sure any previous value will be cleared
+            headers.setAssociatedId( null );
+        }
     }
 
     interface ImageUploaderUiBinder

@@ -103,6 +103,16 @@ public class Publishing
         uploader.fill( publishing );
     }
 
+    /**
+     * The product ID that that's associated with product's images.
+     *
+     * @return the product ID.
+     */
+    public Long getProductId()
+    {
+        return uploader.getProductId();
+    }
+
     interface PublishingUiBinder
             extends UiBinder<HTMLPanel, Publishing>
     {

@@ -21,7 +21,7 @@ import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.ui.UploaderWithAuthorization;
-import biz.turnonline.ecosystem.widget.shared.util.Uploader;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -48,6 +48,12 @@ public class BillUploader
     public BillUploader()
     {
         super( BILLING_PROCESSOR_STORAGE );
+
+        addBeforeUploaderInitCallback( () -> {
+            billId = null;
+            GWT.log( "BeforeUploaderInitCallback done" );
+        } );
+        addAppendHeadersCallback( this::append );
         setShadow( 0 );
         setMarginTop( 10 );
         setMarginBottom( 0 );
@@ -68,15 +74,17 @@ public class BillUploader
         previewWrapper.getElement().getStyle().setOverflow( Style.Overflow.SCROLL );
         previewWrapper.add( preview );
 
-        addSuccessHandler( event -> {
-            UploadItem uploadItem = Uploader.handleAndGetUploadItem( event );
-            if ( uploadItem != null )
-            {
-                setPreview( uploadItem );
-            }
+        addSuccessCallback( event -> {
+            setPreview( event.getUploadItem() );
+            billId = event.getAssociatedId();
         } );
 
         AppEventBus.get().addHandler( UploaderAssociatedIdChangeEvent.TYPE, event -> this.billId = event.getId() );
+    }
+
+    public Long getBillId()
+    {
+        return billId;
     }
 
     @Override
@@ -89,7 +97,8 @@ public class BillUploader
     public void setValue( Image value )
     {
         this.model = value;
-        preview.setUrl( value != null && value.getServingUrl() != null ? value.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
+        preview.setUrl( value != null && value.getServingUrl() != null ?
+                value.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
     }
 
     private void setPreview( UploadItem uploadItem )
@@ -105,12 +114,16 @@ public class BillUploader
         preview.setUrl( uploadItem.getServingUrl() );
     }
 
-    @Override
-    protected void append( @Nonnull Headers headers )
+    private void append( @Nonnull Headers headers )
     {
         if ( billId != null )
         {
             headers.setAssociatedId( String.valueOf( billId ) );
+        }
+        else
+        {
+            // make sure any previous value will be cleared
+            headers.setAssociatedId( null );
         }
     }
 }

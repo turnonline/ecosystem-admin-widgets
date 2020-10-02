@@ -17,7 +17,6 @@
 
 package biz.turnonline.ecosystem.widget.shared.ui;
 
-import biz.turnonline.ecosystem.widget.shared.util.Uploader;
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.fileuploader.MaterialUploadLabel;
 import org.ctoolkit.gwt.client.facade.UploadItem;
@@ -52,13 +51,7 @@ public class BatchDropBox
         setPadding( 10 );
         addStyleName( "valign-wrapper" );
 
-        addSuccessHandler( event -> {
-            UploadItem uploadItem = Uploader.handleAndGetUploadItem( event );
-            if ( uploadItem != null )
-            {
-                onUpload( uploadItem );
-            }
-        } );
+        addSuccessCallback( event -> onUpload( event.getUploadItem() ) );
     }
 
     public void onUpload( UploadItem uploadItem )

@@ -65,9 +65,13 @@ import static gwt.material.design.client.constants.IconType.VISIBILITY;
 public class BillOverviewCard
         extends Composite
 {
-    private static BillCardUiBinder binder = GWT.create( BillCardUiBinder.class );
+    private static final BillCardUiBinder binder = GWT.create( BillCardUiBinder.class );
 
     private final AppEventBus bus;
+
+    private final Bill bill;
+
+    private final AppMessages messages = AppMessages.INSTANCE;
 
     @UiField
     MaterialImage billImage;
@@ -108,10 +112,6 @@ public class BillOverviewCard
     @UiField
     MaterialIcon approved;
 
-    private final Bill bill;
-
-    private final AppMessages messages = AppMessages.INSTANCE;
-
     public BillOverviewCard( @Nonnull Bill bill, AppEventBus bus )
     {
         this.bill = bill;
@@ -124,11 +124,12 @@ public class BillOverviewCard
         description.getElement().getStyle().setTextOverflow( Style.TextOverflow.ELLIPSIS );
         description.setText( Optional.ofNullable( bill.getDescription() ).orElse( "-" ) );
         billNumber.setText( Optional.ofNullable( bill.getBillNumber() ).orElse( "-" ) );
-        type.setText( typeText( bill.getType().name() ) );
-        type.setBackgroundColor( typeColor( bill.getType().name() ) );
+        type.setText( typeText( bill.getType() ) );
+        type.setBackgroundColor( typeColor( bill.getType() ) );
         totalPrice.setValue( bill.getTotalPrice(), bill.getCurrency() );
         supplier.setValue( formatSupplier( bill.getSupplier() ) );
-        dateOfIssue.setValue( DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_FULL ).format( bill.getDateOfIssue() ) );
+        DateTimeFormat format = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_FULL );
+        dateOfIssue.setValue( bill.getDateOfIssue() == null ? null : format.format( bill.getDateOfIssue() ) );
 
         // bill image
         List<Scan> scans = Optional.ofNullable( bill.getScans() ).orElse( new ArrayList<>() );
@@ -184,9 +185,9 @@ public class BillOverviewCard
         bus.fireEvent( new EditBillEvent( bill.getId() ) );
     }
 
-    private Color typeColor( String type )
+    private Color typeColor( Bill.TypeEnum type )
     {
-        if ( type.equalsIgnoreCase( RECEIPT.name() ) )
+        if ( RECEIPT == type )
         {
             return BROWN_LIGHTEN_2;
         }
@@ -194,14 +195,14 @@ public class BillOverviewCard
         return TEAL_LIGHTEN_2;
     }
 
-    private String typeText( String type )
+    private String typeText( Bill.TypeEnum type )
     {
-        if ( type.equalsIgnoreCase( RECEIPT.name() ) )
+        if ( RECEIPT == type )
         {
             return messages.labelReceipt();
         }
 
-        if ( type.equalsIgnoreCase( INVOICE.name() ) )
+        if ( INVOICE == type )
         {
             return messages.labelInvoice();
         }

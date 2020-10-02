@@ -123,16 +123,8 @@ public class SettingsView
     @UiField
     MaterialTextArea finalText;
 
-    @UiField( provided = true )
-    LogoUploader stampUploader = new LogoUploader()
-    {
-        @Override
-        protected void append( @Nonnull UploaderWithAuthorization.Headers headers )
-        {
-            headers.setStampImage( String.valueOf( true ) );
-            headers.setLogoImage( String.valueOf( false ) );
-        }
-    };
+    @UiField
+    LogoUploader stampUploader;
 
     @UiField( provided = true )
     DomainsPanel domains;
@@ -154,6 +146,7 @@ public class SettingsView
 
         add( binder.createAndBindUi( this ) );
 
+        stampUploader.addAppendHeadersCallback( this::append );
         numberOfDays.setReturnBlankAsNull( true );
         billingBusinessName.setReturnBlankAsNull( true );
         billingAddressStreet.setReturnBlankAsNull( true );
@@ -267,6 +260,12 @@ public class SettingsView
         billingAddressCity.setEnabled( isBillingAddress );
         billingAddressPostcode.setEnabled( isBillingAddress );
         billingAddressCountry.setEnabled( isBillingAddress );
+    }
+
+    private void append( @Nonnull UploaderWithAuthorization.Headers headers )
+    {
+        headers.setStampImage( String.valueOf( true ) );
+        headers.setLogoImage( String.valueOf( false ) );
     }
 
     @UiHandler( "hasBillingAddress" )

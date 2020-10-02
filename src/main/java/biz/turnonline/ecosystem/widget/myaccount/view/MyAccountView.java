@@ -208,16 +208,8 @@ public class MyAccountView
     @UiField
     MaterialRow postalAddressPanel;
 
-    @UiField( provided = true )
-    LogoUploader logoUploader = new LogoUploader()
-    {
-        @Override
-        protected void append( @Nonnull UploaderWithAuthorization.Headers headers )
-        {
-            headers.setLogoImage( String.valueOf( true ) );
-            headers.setStampImage( String.valueOf( false ) );
-        }
-    };
+    @UiField
+    LogoUploader logoUploader;
 
     private boolean reloadPage;
 
@@ -232,6 +224,7 @@ public class MyAccountView
 
         add( binder.createAndBindUi( this ) );
 
+        logoUploader.addAppendHeadersCallback( this::append );
         contactEmail.setReturnBlankAsNull( true );
         prefix.setReturnBlankAsNull( true );
         firstName.setReturnBlankAsNull( true );
@@ -555,6 +548,12 @@ public class MyAccountView
     private void handlePostalAddressVisibility()
     {
         postalAddressPanel.setVisible( !postalAddressSame.getValue() );
+    }
+
+    private void append( @Nonnull UploaderWithAuthorization.Headers headers )
+    {
+        headers.setLogoImage( String.valueOf( true ) );
+        headers.setStampImage( String.valueOf( false ) );
     }
 
     @UiHandler( "company" )

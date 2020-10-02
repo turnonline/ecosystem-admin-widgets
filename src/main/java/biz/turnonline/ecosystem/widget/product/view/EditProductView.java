@@ -130,6 +130,12 @@ public class EditProductView
         product.setPricing( pricing.bind( product.getPricing() ) );
         product.setInvoicingIf( invoicing.bind( product.getInvoicing() ) );
         product.setEventIf( event.bind( product.getEvent() ) );
+
+        if ( product.getId() == null && publishing.getProductId() != null )
+        {
+            // Use case when the Product just has been created while image was uploaded
+            product.setId( publishing.getProductId() );
+        }
     }
 
     @Override
