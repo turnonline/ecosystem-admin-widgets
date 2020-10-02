@@ -61,7 +61,7 @@ public class BillsView
         extends View<List<Bill>>
         implements BillsPresenter.IView
 {
-    private static BillsViewUiBinder binder = GWT.create( BillsViewUiBinder.class );
+    private static final BillsViewUiBinder binder = GWT.create( BillsViewUiBinder.class );
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -125,7 +125,7 @@ public class BillsView
             dataSource.setTo( range.getTo() );
 
             scroll.reload();
-        });
+        } );
     }
 
     private Widget createCard( Bill bill )

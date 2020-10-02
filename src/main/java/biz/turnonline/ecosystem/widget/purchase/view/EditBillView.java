@@ -56,6 +56,8 @@ public class EditBillView
 {
     private static final EditBillsViewUiBinder binder = GWT.create( EditBillsViewUiBinder.class );
 
+    private final PlaceController controller;
+
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
 
@@ -86,8 +88,6 @@ public class EditBillView
     @UiField
     MaterialAnchorButton approveBill;
 
-    private final PlaceController controller;
-
     @Inject
     public EditBillView( @Named( "EditBillBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                          PlaceController controller,
@@ -108,19 +108,15 @@ public class EditBillView
     }
 
     @Override
-    protected void beforeGetModel()
+    protected void beforeGetModel( Bill bill )
     {
-        Bill bill = getRawModel();
-
         detail.bind( bill );
         supplier.bind( bill );
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( Bill bill )
     {
-        Bill bill = getRawModel();
-
         detail.fill( bill );
         supplier.fill( bill );
 

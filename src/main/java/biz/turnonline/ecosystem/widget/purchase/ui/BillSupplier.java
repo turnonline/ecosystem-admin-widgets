@@ -46,7 +46,7 @@ import java.util.Optional;
 public class BillSupplier
         extends Composite
 {
-    private static SupplierUiBinder binder = GWT.create( SupplierUiBinder.class );
+    private static final SupplierUiBinder binder = GWT.create( SupplierUiBinder.class );
 
     @UiField
     MaterialImage billScan = new MaterialImage( Resources.INSTANCE.noImage() );
@@ -84,9 +84,7 @@ public class BillSupplier
         initWidget( binder.createAndBindUi( this ) );
 
         // Loading google map API
-        addressLookup.onLoad( () -> {
-            street.load();
-        } );
+        addressLookup.onLoad( () -> street.load() );
 
         businessName.setReturnBlankAsNull( true );
         companyId.setReturnBlankAsNull( true );
@@ -160,7 +158,7 @@ public class BillSupplier
         }
 
         // evaluate as a last step
-        readOnly( bill.isApproved() == null ? false : bill.isApproved() );
+        readOnly( bill.isApproved() != null && bill.isApproved() );
     }
 
     public void readOnly( boolean approved )

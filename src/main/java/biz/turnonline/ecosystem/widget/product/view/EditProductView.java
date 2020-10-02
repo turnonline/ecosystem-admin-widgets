@@ -122,10 +122,8 @@ public class EditProductView
     }
 
     @Override
-    protected void beforeGetModel()
+    protected void beforeGetModel( Product product )
     {
-        Product product = getRawModel();
-
         detail.bind( product );
         product.setPublishingIf( content.bind( product.getPublishing() ) );
         product.setPublishingIf( publishing.bind( product.getPublishing() ) );
@@ -135,10 +133,8 @@ public class EditProductView
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( Product product )
     {
-        Product product = getRawModel();
-
         detail.fill( product );
         content.fill( product.getPublishing() );
         publishing.fill( product.getPublishing() );

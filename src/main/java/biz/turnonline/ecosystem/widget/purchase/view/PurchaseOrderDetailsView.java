@@ -111,9 +111,8 @@ public class PurchaseOrderDetailsView
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( PurchaseOrder order )
     {
-        PurchaseOrder order = getRawModel();
         detail.fill( order );
         creditor.fill( order.getCreditor() );
 

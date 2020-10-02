@@ -79,9 +79,9 @@ import static gwt.material.design.client.constants.IconType.RECEIPT;
 public class ExpenseOverviewCard
         extends Composite
 {
-    private static InvoiceCardUiBinder binder = GWT.create( InvoiceCardUiBinder.class );
+    private static final InvoiceCardUiBinder binder = GWT.create( InvoiceCardUiBinder.class );
 
-    private static DateTimeFormat FORMATTER = DateTimeFormat.getFormat( "dd MMMM yyyy" );
+    private static final DateTimeFormat FORMATTER = DateTimeFormat.getFormat( "dd MMMM yyyy" );
 
     private final AppMessages messages = AppMessages.INSTANCE;
 

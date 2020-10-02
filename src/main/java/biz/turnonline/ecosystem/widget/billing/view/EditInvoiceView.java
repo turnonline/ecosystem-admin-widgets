@@ -164,10 +164,8 @@ public class EditInvoiceView
     }
 
     @Override
-    protected void beforeGetModel()
+    protected void beforeGetModel( Invoice invoice )
     {
-        Invoice invoice = getRawModel();
-
         detail.bind( invoice );
         invoice.setCustomerIf( customer.bind( invoice.getCustomer() ) );
 
@@ -182,10 +180,8 @@ public class EditInvoiceView
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( Invoice invoice )
     {
-        Invoice invoice = getRawModel();
-
         detail.fill( invoice );
         customer.fill( invoice.getCustomer() );
         transactions.initFor( invoice.getOrderId(), invoice.getId() );

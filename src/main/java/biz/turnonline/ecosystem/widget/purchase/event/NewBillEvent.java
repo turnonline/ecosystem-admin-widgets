@@ -25,9 +25,9 @@ import com.google.gwt.event.shared.GwtEvent;
 public class NewBillEvent
         extends GwtEvent<NewBillEventHandler>
 {
-    public static Type<NewBillEventHandler> TYPE = new Type<NewBillEventHandler>();
+    public static Type<NewBillEventHandler> TYPE = new Type<>();
 
-    private Bill bill;
+    private final Bill bill;
 
     public NewBillEvent( Bill bill )
     {

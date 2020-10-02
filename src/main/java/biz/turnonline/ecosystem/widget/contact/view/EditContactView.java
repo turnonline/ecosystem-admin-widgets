@@ -270,10 +270,8 @@ public class EditContactView
     }
 
     @Override
-    protected void beforeGetModel()
+    protected void beforeGetModel( ContactCard contact )
     {
-        ContactCard contact = getRawModel();
-
         contact.setCompany( company.getValue() );
 
         // person
@@ -334,9 +332,8 @@ public class EditContactView
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( ContactCard contact )
     {
-        ContactCard contact = getRawModel();
         setReadOnly( contact.getAccountId() != null );
 
         deleteContact.setEnabled( contact.getId() != null );

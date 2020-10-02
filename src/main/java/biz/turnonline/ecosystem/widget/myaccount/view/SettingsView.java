@@ -190,10 +190,8 @@ public class SettingsView
     }
 
     @Override
-    protected void beforeGetModel()
+    protected void beforeGetModel( InvoicingConfig invoicing )
     {
-        InvoicingConfig invoicing = getRawModel();
-
         invoicing.setCurrency( currency.getSingleValue() );
         invoicing.setIntroductoryText( introductoryText.getValue() );
         invoicing.setFinalText( finalText.getValue() );
@@ -225,10 +223,8 @@ public class SettingsView
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( InvoicingConfig invoicing )
     {
-        InvoicingConfig invoicing = getRawModel();
-
         currency.setSingleValue( invoicing.getCurrency() );
         introductoryText.setValue( invoicing.getIntroductoryText() );
         finalText.setValue( invoicing.getFinalText() );

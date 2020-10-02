@@ -320,10 +320,8 @@ public class MyAccountView
     }
 
     @Override
-    protected void beforeGetModel()
+    protected void beforeGetModel( Account account )
     {
-        Account account = getRawModel();
-
         // basic account
         account.setContactEmail( contactEmail.getValue() );
         account.setCompany( company.getValue() );
@@ -400,11 +398,10 @@ public class MyAccountView
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( Account account )
     {
         this.reloadPage = false;
 
-        Account account = getRawModel();
         email.setValue( account.getEmail() );
         contactEmail.setValue( account.getContactEmail() );
         company.setValue( account.getCompany() != null && account.getCompany() );

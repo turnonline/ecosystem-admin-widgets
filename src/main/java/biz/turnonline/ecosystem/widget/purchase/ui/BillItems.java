@@ -32,7 +32,7 @@ import java.util.List;
 public class BillItems
         extends Repeater<Item>
 {
-    private static AppMessages messages = AppMessages.INSTANCE;
+    private static final AppMessages messages = AppMessages.INSTANCE;
 
     private boolean readOnly;
 

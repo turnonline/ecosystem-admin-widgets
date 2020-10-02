@@ -155,7 +155,7 @@
         <dependency>
             <groupId>org.ctoolkit.gwt</groupId>
             <artifactId>ctoolkit-tinygwt</artifactId>
-            <version>0.9</version>
+            <version>0.10</version>
             <scope>provided</scope>
         </dependency>
 
@@ -259,7 +259,7 @@
         <auto-factory.version>1.0-beta8</auto-factory.version>
         <!-- end annotationProcessor config -->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-        <gwt-material.version>2.4.0</gwt-material.version>
+        <gwt-material.version>2.4.1</gwt-material.version>
     </properties>
 
 </project>

@@ -123,10 +123,8 @@ public class IncomingInvoiceDetailsView
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( IncomingInvoice invoice )
     {
-        IncomingInvoice invoice = getRawModel();
-
         detail.fill( invoice );
         creditor.fill( invoice.getCreditor() );
         transactions.initFor( invoice.getOrderId(), invoice.getId() );

@@ -149,20 +149,16 @@ public class EditOrderView
     }
 
     @Override
-    protected void beforeGetModel()
+    protected void beforeGetModel( Order order )
     {
-        Order order = getRawModel();
-
         detail.bind( order );
         order.setCustomerIf( customer.bind( order.getCustomer() ) );
         order.setItems( items.bind() );
     }
 
     @Override
-    protected void afterSetModel()
+    protected void afterSetModel( Order order )
     {
-        Order order = getRawModel();
-
         detail.fill( order );
         customer.fill( order.getCustomer() );
 
