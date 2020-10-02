@@ -16,7 +16,7 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
-import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+import org.ctoolkit.gwt.client.facade.RelevantNullChecker;
 
 import java.util.List;
 import java.util.Map;

@@ -17,7 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.account;
 
-import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+import org.ctoolkit.gwt.client.facade.RelevantNullChecker;
 
 import java.util.function.Consumer;
 

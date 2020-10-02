@@ -17,7 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
-import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
+import org.ctoolkit.gwt.client.facade.RelevantNullChecker;
 
 public final class PricingProduct
         implements RelevantNullChecker

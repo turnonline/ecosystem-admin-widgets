@@ -17,8 +17,8 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.bill;
 
-import biz.turnonline.ecosystem.widget.shared.rest.RelevantNullChecker;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.ctoolkit.gwt.client.facade.RelevantNullChecker;
 
 import java.util.Date;
 import java.util.List;
