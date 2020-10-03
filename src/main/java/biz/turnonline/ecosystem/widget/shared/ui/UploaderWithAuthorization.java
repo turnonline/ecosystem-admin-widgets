@@ -238,6 +238,10 @@ public class UploaderWithAuthorization
             this['vnd.turnon.cloud.logo-image'] = is;
         }-*/;
 
+        public final native void setCreateContact( String is ) /*-{
+            this['vnd.turnon.cloud.create-contact'] = is;
+        }-*/;
+
         public final native void setStampImage( String is ) /*-{
             this['vnd.turnon.cloud.stamp-image'] = is;
         }-*/;

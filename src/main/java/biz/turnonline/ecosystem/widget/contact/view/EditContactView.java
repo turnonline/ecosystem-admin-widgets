@@ -336,7 +336,7 @@ public class EditContactView
 
         deleteContact.setEnabled( contact.getId() != null );
 
-        company.setValue( contact.getCompany() );
+        company.setValue( contact.getCompany() != null && contact.getCompany() );
 
         // person
         prefix.setValue( contact.getPrefix() );
@@ -349,7 +349,7 @@ public class EditContactView
         companyId.setValue( contact.getCompanyId() );
         vatId.setValue( contact.getVatId() );
         taxId.setValue( contact.getTaxId() );
-        vatPayer.setValue( contact.getVatPayer() );
+        vatPayer.setValue( contact.getVatPayer() != null && contact.getVatPayer() );
 
         // contacts
         phone.setValue( contact.getContactPhone() );
@@ -370,7 +370,7 @@ public class EditContactView
         country.setSingleValueByCode( contact.getCountry() );
 
         // postal address
-        postalSame.setValue( !contact.getHasPostalAddress() );
+        postalSame.setValue( !( contact.getHasPostalAddress() != null && contact.getHasPostalAddress() ) );
 
         ContactCardPostalAddress postalAddress = contact.getPostalAddress();
         postalBusinessName.setValue( postalAddress != null ? postalAddress.getBusinessName() : null );
@@ -435,13 +435,15 @@ public class EditContactView
         if ( logoContactId != null )
         {
             headers.setAssociatedId( String.valueOf( logoContactId ) );
-            headers.setLogoImage( String.valueOf( true ) );
         }
         else
         {
             // make sure any previous value will be cleared
             headers.setAssociatedId( null );
+            headers.setCreateContact( String.valueOf( true ) );
         }
+
+        headers.setLogoImage( String.valueOf( true ) );
     }
 
     @UiHandler( "btnBack" )
