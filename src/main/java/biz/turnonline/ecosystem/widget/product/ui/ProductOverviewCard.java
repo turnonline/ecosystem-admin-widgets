@@ -19,7 +19,6 @@ package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.Products;
-import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductOverview;
@@ -60,7 +59,7 @@ public class ProductOverviewCard
 {
     private static final int MIN_HEIGHT = 220;
 
-    private static ProductOverviewCardUiBinder binder = GWT.create( ProductOverviewCardUiBinder.class );
+    private static final ProductOverviewCardUiBinder binder = GWT.create( ProductOverviewCardUiBinder.class );
 
     @UiField
     MaterialCard card;
@@ -182,7 +181,6 @@ public class ProductOverviewCard
                 // add record in to history (to manage scrolling to selected card once going back), but don't fire event
                 History.newItem( scrollspyHistoryToken, false );
             }
-            bus.fireEvent( new UploaderAssociatedIdChangeEvent( product.getId() ) );
             bus.fireEvent( new EditProductEvent( product ) );
         } );
     }

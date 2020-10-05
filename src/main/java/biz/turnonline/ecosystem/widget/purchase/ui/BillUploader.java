@@ -21,7 +21,6 @@ import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.ui.UploaderWithAuthorization;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -49,10 +48,6 @@ public class BillUploader
     {
         super( BILLING_PROCESSOR_STORAGE );
 
-        addBeforeUploaderInitCallback( () -> {
-            billId = null;
-            GWT.log( "BeforeUploaderInitCallback done" );
-        } );
         addAppendHeadersCallback( this::append );
         setShadow( 0 );
         setMarginTop( 10 );

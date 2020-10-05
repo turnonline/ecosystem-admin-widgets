@@ -206,7 +206,6 @@ public class EditContactView
             postalStreet.load();
         } );
 
-        logoUploader.addBeforeUploaderInitCallback( () -> logoContactId = null );
         logoUploader.addAppendHeadersCallback( this::append );
 
         street.addPlaceChangedHandler( event -> {
@@ -435,6 +434,7 @@ public class EditContactView
         if ( logoContactId != null )
         {
             headers.setAssociatedId( String.valueOf( logoContactId ) );
+            headers.setCreateContact( null );
         }
         else
         {

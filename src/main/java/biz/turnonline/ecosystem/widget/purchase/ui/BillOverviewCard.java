@@ -20,7 +20,6 @@ import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Bills;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
-import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
@@ -181,7 +180,6 @@ public class BillOverviewCard
             // add record in to history (to manage scrolling to selected card once going back), but don't fire event
             History.newItem( Bills.PREFIX + ":" + Bills.getScrollspy( bill ), false );
         }
-        bus.fireEvent( new UploaderAssociatedIdChangeEvent( bill.getId() ) );
         bus.fireEvent( new EditBillEvent( bill.getId() ) );
     }
 

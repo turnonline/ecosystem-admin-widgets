@@ -24,7 +24,6 @@ import biz.turnonline.ecosystem.widget.purchase.event.PurchaseOrderDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.event.DownloadInvoiceEvent;
-import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillPayment;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Creditor;
@@ -248,7 +247,6 @@ public class ExpenseOverviewCard
             }
             else if ( billId != null )
             {
-                bus.fireEvent( new UploaderAssociatedIdChangeEvent( billId ) );
                 bus.fireEvent( new EditBillEvent( billId ) );
             }
         } );

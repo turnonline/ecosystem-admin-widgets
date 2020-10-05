@@ -21,6 +21,7 @@ import biz.turnonline.ecosystem.widget.purchase.event.NewBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Bills;
 import biz.turnonline.ecosystem.widget.purchase.place.EditBill;
 import biz.turnonline.ecosystem.widget.purchase.view.BillScrollCallback;
+import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
@@ -49,7 +50,10 @@ public class BillsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( EditBillEvent.TYPE, event -> controller().goTo( new EditBill( event.getId(), "tabDetail" ) ) );
+        bus().addHandler( EditBillEvent.TYPE, event -> {
+            bus().fireEvent( new UploaderAssociatedIdChangeEvent( event.getId() ) );
+            controller().goTo( new EditBill( event.getId(), "tabDetail" ) );
+        } );
         bus().addHandler( NewBillEvent.TYPE, event -> {
             success( messages.msgBatchCreated( event.getBill().getDescription() ) );
             bus().bill().createBill( event.getBill(), ( response, failure ) -> {

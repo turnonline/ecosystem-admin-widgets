@@ -48,8 +48,6 @@ public class UploaderWithAuthorization
 {
     private final String urlKey;
 
-    private final List<BeforeUploaderInitCallback> beforeInitCallbacks = new ArrayList<>();
-
     private final List<AppendHeadersCallback> headerCallbacks = new ArrayList<>();
 
     private final List<SuccessCallback> successCallbacks = new ArrayList<>();
@@ -72,9 +70,6 @@ public class UploaderWithAuthorization
 
     private void urlDone( @Nonnull String url, @Nullable String token )
     {
-        // this must be before header callbacks
-        beforeInitCallbacks.forEach( BeforeUploaderInitCallback::beforeInit );
-
         Headers headers = ( Headers ) getHeaders();
         if ( headers == null )
         {
@@ -96,14 +91,6 @@ public class UploaderWithAuthorization
         setUrl( url );
         super.load();
         reset();
-    }
-
-    /**
-     * Adds callback that will be called right before {@link #load()} will be executed and URL set.
-     */
-    public void addBeforeUploaderInitCallback( BeforeUploaderInitCallback callback )
-    {
-        beforeInitCallbacks.add( callback );
     }
 
     /**
@@ -138,11 +125,13 @@ public class UploaderWithAuthorization
         if ( response.getCode() == 401 )
         {
             GWT.log( "Unauthorized" );
+            return;
         }
 
         if ( response.getCode() != 201 )
         {
             GWT.log( "Response code: " + response.getCode() );
+            return;
         }
 
         UploadItemsResponse json = JsonUtils.safeEval( response.getBody() );
@@ -172,15 +161,6 @@ public class UploaderWithAuthorization
                 }
             }
         }
-    }
-
-    public interface BeforeUploaderInitCallback
-    {
-        /**
-         * Pre-set uploader to the default values right before {@link #load()} will be executed,
-         * authorization headers and URL set.
-         */
-        void beforeInit();
     }
 
     public interface AppendHeadersCallback

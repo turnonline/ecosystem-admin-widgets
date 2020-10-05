@@ -21,6 +21,7 @@ import biz.turnonline.ecosystem.widget.product.event.DeleteProductEvent;
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.EditProduct;
 import biz.turnonline.ecosystem.widget.product.place.Products;
+import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
@@ -47,8 +48,10 @@ public class ProductsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( EditProductEvent.TYPE, event ->
-                controller().goTo( new EditProduct( event.getId(), "tabDetail" ) ) );
+        bus().addHandler( EditProductEvent.TYPE, event -> {
+            bus().fireEvent( new UploaderAssociatedIdChangeEvent( event.getId() ) );
+            controller().goTo( new EditProduct( event.getId(), "tabDetail" ) );
+        } );
 
         bus().addHandler( DeleteProductEvent.TYPE, event ->
                 bus().billing().deleteProduct( event.getProduct().getId(), ( SuccessCallback<Void> ) response -> {

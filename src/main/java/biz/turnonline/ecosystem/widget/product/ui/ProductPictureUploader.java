@@ -74,7 +74,6 @@ public class ProductPictureUploader
 
         this.eventBus = eventBus;
 
-        uploader.addBeforeUploaderInitCallback( () -> productId = null );
         uploader.addAppendHeadersCallback( this::append );
         uploader.addSuccessCallback( event -> {
             addImage( event.getUploadItem() );

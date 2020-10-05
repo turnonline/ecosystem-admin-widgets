@@ -20,9 +20,7 @@ package biz.turnonline.ecosystem.widget.shared.event;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 
-import javax.annotation.Nonnull;
-
-import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
+import javax.annotation.Nullable;
 
 /**
  * This event is only a workaround how to deliver an associated ID to the uploader.
@@ -38,9 +36,9 @@ public class UploaderAssociatedIdChangeEvent
 
     private final Long id;
 
-    public UploaderAssociatedIdChangeEvent( @Nonnull Long id )
+    public UploaderAssociatedIdChangeEvent( @Nullable Long id )
     {
-        this.id = checkNotNull( id );
+        this.id = id;
     }
 
     public Type<UploaderAssociatedIdChangeEventHandler> getAssociatedType()
@@ -50,8 +48,9 @@ public class UploaderAssociatedIdChangeEvent
 
     /**
      * Returns the ID as an identification of a record that's being associated with the uploaded data.
+     * If {@code null} it represents a new record.
      *
-     * @return the associated ID
+     * @return the associated ID or {@code null}
      */
     public Long getId()
     {

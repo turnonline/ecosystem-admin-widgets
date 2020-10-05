@@ -19,6 +19,7 @@ package biz.turnonline.ecosystem.widget.contact.presenter;
 
 import biz.turnonline.ecosystem.widget.contact.event.EditContactEvent;
 import biz.turnonline.ecosystem.widget.contact.place.EditContact;
+import biz.turnonline.ecosystem.widget.shared.event.UploaderAssociatedIdChangeEvent;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import com.google.gwt.place.shared.PlaceController;
@@ -41,7 +42,10 @@ public class ContactsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( EditContactEvent.TYPE, event -> controller().goTo( new EditContact( event.getId() ) ) );
+        bus().addHandler( EditContactEvent.TYPE, event -> {
+            bus().fireEvent( new UploaderAssociatedIdChangeEvent( event.getId() ) );
+            controller().goTo( new EditContact( event.getId() ) );
+        } );
     }
 
     @Override
