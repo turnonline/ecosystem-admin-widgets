@@ -20,6 +20,7 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 import biz.turnonline.ecosystem.widget.shared.event.RestCallEvent;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -41,7 +42,9 @@ import static gwt.material.design.client.base.viewport.Resolution.LAPTOP_4K;
 public class ScaffoldHeader
         extends Composite
 {
-    private static ScaffoldHeaderUiBinder binder = GWT.create( ScaffoldHeaderUiBinder.class );
+    private static final ScaffoldHeaderUiBinder binder = GWT.create( ScaffoldHeaderUiBinder.class );
+
+    private static final String RESIZE_DIRECTIVE = "=s80-c";
 
     @UiField( provided = true )
     FulltextSearch search;
@@ -70,11 +73,33 @@ public class ScaffoldHeader
         initWidget( binder.createAndBindUi( this ) );
 
         String userEmail = getFirebaseCurrentUserData( "email" );
-        String userPhotoUrl = getFirebaseCurrentUserData( "photoURL" );
+        String photoURL = getFirebaseCurrentUserData( "photoURL" );
+        String avatarUrl;
+
+        if ( photoURL == null || photoURL.startsWith( "data:image" ) )
+        {
+            avatarUrl = photoURL;
+        }
+        else
+        {
+            int length = RESIZE_DIRECTIVE.length();
+            String directive = photoURL.length() > length ? photoURL.substring( photoURL.length() - length ) : photoURL;
+            RegExp regExp = RegExp.compile( "^=s[0-9]{2}-c$" );
+            if ( regExp.exec( directive ) != null )
+            {
+                // already has a directive to re-size the image
+                avatarUrl = photoURL;
+            }
+            else
+            {
+                // adds directive to re-size the image
+                avatarUrl = photoURL + RESIZE_DIRECTIVE;
+            }
+        }
 
         this.email.setText( userEmail );
         this.email.setHref( Route.MY_ACCOUNT.url() );
-        avatar.setUrl( userPhotoUrl.startsWith( "data:image" ) ? userPhotoUrl : userPhotoUrl + "=s40-c" );
+        avatar.setUrl( avatarUrl );
         avatar.getElement().setAttribute( "width", "40" );
 
         btnSettings.setHref( Route.SETTINGS.url() );
@@ -90,11 +115,6 @@ public class ScaffoldHeader
         modifyForMobile();
         modifyForTablet();
         modifyForLaptop();
-    }
-
-    public MaterialNavBrand getNavBrand()
-    {
-        return title;
     }
 
     public void setActive( Route route )
