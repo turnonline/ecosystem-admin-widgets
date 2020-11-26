@@ -40,6 +40,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialButton;
 
@@ -91,7 +92,8 @@ public class EditBillView
     @Inject
     public EditBillView( @Named( "EditBillBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                          PlaceController controller,
-                         AddressLookupListener addressLookup )
+                         AddressLookupListener addressLookup,
+                         EventBus eventBus)
     {
         super();
 
@@ -99,7 +101,7 @@ public class EditBillView
         this.controller = controller;
         setActive( Route.BILLS );
 
-        supplier = new BillSupplier( addressLookup );
+        supplier = new BillSupplier( eventBus, addressLookup );
 
         add( binder.createAndBindUi( this ) );
 

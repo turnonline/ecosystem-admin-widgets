@@ -17,21 +17,32 @@
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.Resources;
+import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
+import biz.turnonline.ecosystem.widget.shared.rest.search.SearchContact;
+import biz.turnonline.ecosystem.widget.shared.ui.ContactAutoComplete;
 import biz.turnonline.ecosystem.widget.shared.ui.CountryComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InputSearchIcon;
 import biz.turnonline.ecosystem.widget.shared.util.Maps;
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
@@ -46,6 +57,8 @@ import java.util.Optional;
 public class BillSupplier
         extends Composite
 {
+    private static final AppMessages messages = AppMessages.INSTANCE;
+
     private static final SupplierUiBinder binder = GWT.create( SupplierUiBinder.class );
 
     @UiField
@@ -53,8 +66,8 @@ public class BillSupplier
 
     // company
 
-    @UiField
-    MaterialTextBox businessName;
+    @UiField( provided = true )
+    ContactAutoComplete businessName;
 
     @UiField
     MaterialTextBox companyId;
@@ -79,14 +92,18 @@ public class BillSupplier
     @UiField
     CountryComboBox country;
 
-    public BillSupplier( AddressLookupListener addressLookup )
+    private final EventBus eventBus;
+
+    public BillSupplier( EventBus eventBus, AddressLookupListener addressLookup )
     {
+        this.eventBus = eventBus;
+        businessName = createAutocomplete();
+
         initWidget( binder.createAndBindUi( this ) );
 
         // Loading google map API
         addressLookup.onLoad( () -> street.load() );
 
-        businessName.setReturnBlankAsNull( true );
         companyId.setReturnBlankAsNull( true );
         taxId.setReturnBlankAsNull( true );
         vatId.setReturnBlankAsNull( true );
@@ -111,7 +128,7 @@ public class BillSupplier
     {
         Supplier supplier = new Supplier();
 
-        supplier.setBusinessName( businessName.getValue() );
+        supplier.setBusinessName( Strings.isNullOrEmpty( businessName.getItemBox().getValue() ) ? null : businessName.getItemBox().getValue() );
         supplier.setCompanyId( companyId.getValue() );
         supplier.setTaxId( taxId.getValue() );
         supplier.setVatId( vatId.getValue() );
@@ -146,7 +163,7 @@ public class BillSupplier
         }
         else
         {
-            businessName.setValue( supplier.getBusinessName() );
+            businessName.getItemBox().setValue( supplier.getBusinessName() );
             companyId.setValue( supplier.getCompanyId() );
             taxId.setValue( supplier.getTaxId() );
             vatId.setValue( supplier.getVatId() );
@@ -156,6 +173,8 @@ public class BillSupplier
             postCode.setValue( supplier.getPostcode() );
             country.setSingleValueByCode( supplier.getCountry() );
         }
+
+        businessName.getLabelWidget().addStyleName( CssName.ACTIVE ); // fix visualization bug
 
         // evaluate as a last step
         readOnly( bill.isApproved() != null && bill.isApproved() );
@@ -176,5 +195,51 @@ public class BillSupplier
     interface SupplierUiBinder
             extends UiBinder<HTMLPanel, BillSupplier>
     {
+    }
+
+    private ContactAutoComplete createAutocomplete()
+    {
+        ContactAutoComplete contactAutoComplete = new ContactAutoComplete( eventBus );
+        contactAutoComplete.setTooltip( messages.tooltipSupplierAutocomplete() );
+        contactAutoComplete.addSelectionHandler( event -> {
+            SearchContact contact = ( ( ContactAutoComplete.ContactSuggest ) event.getSelectedItem() ).getContact();
+            fillFrom( contact );
+        } );
+
+        return contactAutoComplete;
+    }
+
+    // -- private helpers
+
+    private void fillFrom( SearchContact searchContact )
+    {
+        ( ( AppEventBus ) eventBus ).account()
+                .findById( Configuration.get().getLoginId(), Long.valueOf( searchContact.getId() ), this::updateView );
+    }
+
+    private void updateView( ContactCard contact, FacadeCallback.Failure failure )
+    {
+        if ( failure.isSuccess() )
+        {
+            businessName.getItemBox().setValue( contact.getBusinessName() );
+            companyId.setValue( contact.getCompanyId() );
+            taxId.setValue( contact.getTaxId() );
+            vatId.setValue( contact.getVatId() );
+            street.setValue( contact.getStreet() );
+            city.setValue( contact.getCity() );
+            postCode.setValue( contact.getPostcode() );
+            country.setSingleValueByCode( contact.getCountry() );
+        }
+        else
+        {
+            if ( failure.isNotFound() )
+            {
+                MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRecordDoesNotExists(), "red" );
+            }
+            else
+            {
+                MaterialToast.fireToast( AppMessages.INSTANCE.msgErrorRemoteServiceCall(), "red" );
+            }
+        }
     }
 }

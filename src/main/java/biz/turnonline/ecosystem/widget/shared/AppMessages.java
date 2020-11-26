@@ -820,6 +820,9 @@ public interface AppMessages
     @Key( value = "tooltip.contactAutocomplete" )
     String tooltipContactAutocomplete();
 
+    @Key( value = "tooltip.supplierAutocomplete" )
+    String tooltipSupplierAutocomplete();
+
     @Key( "tooltip.order.issueInvoice" )
     String tooltipOrderIssueInvoice();
 

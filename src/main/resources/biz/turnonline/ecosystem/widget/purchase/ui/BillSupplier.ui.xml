@@ -35,7 +35,7 @@
                 <s:SectionTitle iconType="BUSINESS" title="{msg.labelCompany}"/>
 
                 <m:MaterialColumn grid="m12" paddingLeft="0">
-                    <m:MaterialTextBox ui:field="businessName" label="{msg.labelBusinessName}" paddingLeft="0"/>
+                    <s:ContactAutoComplete label="{msg.labelBusinessName}" ui:field="businessName" paddingLeft="0"/>
 
                     <m:MaterialRow>
                         <m:MaterialColumn grid="s12 m6" paddingLeft="0">
