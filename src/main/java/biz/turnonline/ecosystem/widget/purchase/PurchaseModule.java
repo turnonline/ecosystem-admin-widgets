@@ -26,12 +26,14 @@ import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.view.BillsView;
 import biz.turnonline.ecosystem.widget.purchase.view.EditBillView;
 import biz.turnonline.ecosystem.widget.purchase.view.ExpensesView;
 import biz.turnonline.ecosystem.widget.purchase.view.IncomingInvoiceDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrderDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrdersView;
+import biz.turnonline.ecosystem.widget.purchase.view.TransactionsView;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
@@ -248,6 +250,18 @@ public abstract class PurchaseModule
         return new ScaffoldBreadcrumb( items, placeController );
     }
 
+    @Provides
+    @Singleton
+    @Named( "TransactionsBreadcrumb" )
+    static ScaffoldBreadcrumb provideTransactionsBreadcrumb( PlaceController placeController )
+    {
+        List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.COMPARE_ARROWS, messages.labelTransactions() ) );
+
+        return new ScaffoldBreadcrumb( items, placeController );
+    }
+
     @Binds
     @Singleton
     abstract ActivityMapper provideActivityMapper( PurchaseController controller );
@@ -279,4 +293,8 @@ public abstract class PurchaseModule
     @Binds
     @Singleton
     abstract EditBillPresenter.IView provideEditBillView( EditBillView view );
+
+    @Binds
+    @Singleton
+    abstract TransactionsPresenter.IView provideTransactionsView( TransactionsView view );
 }

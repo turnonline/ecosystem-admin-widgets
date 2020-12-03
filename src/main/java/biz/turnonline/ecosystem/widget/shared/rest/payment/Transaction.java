@@ -27,6 +27,9 @@ import java.util.Objects;
  */
 public class Transaction
 {
+    @JsonProperty( "transactionId" )
+    private String transactionId;
+
     @JsonProperty( "amount" )
     private Double amount;
 
@@ -59,6 +62,29 @@ public class Transaction
 
     @JsonProperty( "type" )
     private String type;
+
+    @JsonProperty( "merchant" )
+    private Merchant merchant;
+
+    public Transaction transactionId( String transactionId )
+    {
+        this.transactionId = transactionId;
+        return this;
+    }
+
+    /**
+     * The transaction id
+     **/
+    @JsonProperty( "transactionId" )
+    public String getTransactionId()
+    {
+        return transactionId;
+    }
+
+    public void setTransactionId( String transactionId )
+    {
+        this.transactionId = transactionId;
+    }
 
     public Transaction amount( Double amount )
     {
@@ -280,6 +306,26 @@ public class Transaction
         this.type = type;
     }
 
+    public Transaction merchant( Merchant merchant )
+    {
+        this.merchant = merchant;
+        return this;
+    }
+
+    /**
+     * The merchant
+     **/
+    @JsonProperty( "merchant" )
+    public Merchant getMerchant()
+    {
+        return merchant;
+    }
+
+    public void setMerchant( Merchant merchant )
+    {
+        this.merchant = merchant;
+    }
+
     @Override
     public boolean equals( Object o )
     {
@@ -292,25 +338,28 @@ public class Transaction
             return false;
         }
         Transaction transaction = ( Transaction ) o;
-        return Objects.equals( this.amount, transaction.amount ) &&
+        return Objects.equals( this.transactionId, transaction.transactionId ) &&
+                Objects.equals( this.amount, transaction.amount ) &&
                 Objects.equals( this.bill, transaction.bill ) &&
                 Objects.equals( this.credit, transaction.credit ) &&
                 Objects.equals( this.currency, transaction.currency ) &&
                 Objects.equals( this.key, transaction.key ) &&
                 Objects.equals( this.status, transaction.status ) &&
-                Objects.equals( this.type, transaction.type );
+                Objects.equals( this.type, transaction.type ) &&
+                Objects.equals( this.merchant, transaction.merchant );
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash( amount, bill, credit, currency, key, status, type );
+        return Objects.hash( transactionId, amount, bill, credit, currency, key, status, type, merchant );
     }
 
     @Override
     public String toString()
     {
         return "class Transaction {\n" +
+                "    transactionId: " + toIndentedString( transactionId ) + "\n" +
                 "    amount: " + toIndentedString( amount ) + "\n" +
                 "    balance: " + toIndentedString( balance ) + "\n" +
                 "    bankAccount: " + toIndentedString( bankAccount ) + "\n" +
@@ -322,6 +371,7 @@ public class Transaction
                 "    key: " + toIndentedString( key ) + "\n" +
                 "    status: " + toIndentedString( status ) + "\n" +
                 "    type: " + toIndentedString( type ) + "\n" +
+                "    merchant: " + toIndentedString( merchant ) + "\n" +
                 "}";
     }
 

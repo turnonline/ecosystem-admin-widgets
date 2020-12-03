@@ -30,7 +30,8 @@ import com.google.gwt.place.shared.WithTokenizers;
         PurchaseOrders.Tokenizer.class,
         PurchaseOrderDetails.Tokenizer.class,
         Expenses.Tokenizer.class,
-        IncomingInvoiceDetails.Tokenizer.class
+        IncomingInvoiceDetails.Tokenizer.class,
+        Transactions.Tokenizer.class
 } )
 public interface HistoryMapper
         extends PlaceHistoryMapper

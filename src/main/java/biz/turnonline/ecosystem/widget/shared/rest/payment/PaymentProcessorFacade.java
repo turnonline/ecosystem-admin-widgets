@@ -92,6 +92,18 @@ public interface PaymentProcessorFacade
                             FacadeCallback<Void> callback );
 
     //////////////////////
+    ////// transactions /////
+    //////////////////////
+
+    @GET
+    @Path( "transactions" )
+    void getTransactions( @QueryParam( "offset" ) Integer offset,
+                          @QueryParam( "limit" ) Integer limit,
+                          @QueryParam( "operation" ) String operation,
+                          @QueryParam( "type" ) String type,
+                          SuccessCallback<Items<Transaction>> callback );
+
+    //////////////////////
     ////// codebooks /////
     //////////////////////
 

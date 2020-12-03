@@ -80,6 +80,11 @@
                     <m:MaterialLink ui:field="editLink" iconColor="BLUE" paddingTop="10" iconType="EDIT"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipEditBill}"/>
 
+                    <m:MaterialIcon ui:field="paired" iconColor="WHITE" iconType="COMPARE_ARROWS" textAlign="CENTER"
+                                    marginTop="3" marginBottom="8" right="-5"
+                                    float="RIGHT" backgroundColor="BLUE" shadow="0"
+                                    type="FLOATING"/>
+
                     <m:MaterialIcon ui:field="approved" iconColor="WHITE" iconType="ASSIGNMENT_TURNED_IN" textAlign="CENTER"
                                     marginTop="3" marginBottom="8" right="-5"
                                     float="RIGHT" backgroundColor="GREEN" shadow="0"

@@ -30,6 +30,8 @@ import gwt.material.design.client.ui.table.MaterialDataTable;
 public class SmartTable<T>
         extends MaterialDataTable<T>
 {
+    private MaterialDataPager<T> pager;
+
     public SmartTable()
     {
         setSelectionType( SelectionType.NONE );
@@ -43,7 +45,7 @@ public class SmartTable<T>
     {
         setDataSource( dataSource );
 
-        MaterialDataPager<T> pager = new MaterialDataPager<T>( this, dataSource )
+        pager = new MaterialDataPager<T>( this, dataSource )
         {
             @Override
             protected void updateUi()
@@ -56,6 +58,8 @@ public class SmartTable<T>
             }
         };
         add( pager );
+
+        pager.setLimitOptions( 5, 10, 20, 50, 100 );
     }
 
     public void refresh()
@@ -72,5 +76,10 @@ public class SmartTable<T>
         super.build();
 
         getScaffolding().getTopPanel().setVisible( false );
+    }
+
+    public MaterialDataPager<T> getPager()
+    {
+        return pager;
     }
 }

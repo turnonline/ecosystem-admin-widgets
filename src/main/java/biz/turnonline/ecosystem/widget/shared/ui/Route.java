@@ -31,6 +31,7 @@ public enum Route
     CONTACTS( "/contacts", "contacts", 6 ),
     PURCHASES( "/purchases", "invoices", 7 ),
     BILLS( "/purchases", "bills", 8 ),
+    TRANSACTIONS( "/purchases", "transactions", 9 ),
     LOGOUT( "/logout" );
 
     private final String url;

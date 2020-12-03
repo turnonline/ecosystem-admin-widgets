@@ -22,6 +22,7 @@ import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import org.ctoolkit.gwt.client.presenter.PresenterController;
 
 import javax.inject.Inject;
@@ -40,8 +41,9 @@ public class PurchaseController
                                ExpensesPresenter invoices,
                                IncomingInvoiceDetailsPresenter invoiceDetails,
                                BillsPresenter bills,
-                               EditBillPresenter editBill )
+                               EditBillPresenter editBill,
+                               TransactionsPresenter transactions )
     {
-        super( orders, orderDetail, invoices, invoiceDetails, bills, editBill );
+        super( orders, orderDetail, invoices, invoiceDetails, bills, editBill, transactions );
     }
 }

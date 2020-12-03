@@ -111,6 +111,9 @@ public class BillOverviewCard
     @UiField
     MaterialIcon approved;
 
+    @UiField
+    MaterialIcon paired;
+
     public BillOverviewCard( @Nonnull Bill bill, AppEventBus bus )
     {
         this.bill = bill;
@@ -166,6 +169,17 @@ public class BillOverviewCard
             approved.setTooltip( messages.tooltipBillWaitingForApproval() );
 
             editLink.setIconType( EDIT );
+        }
+
+        if ( bill.getTransactionId() == null )
+        {
+            paired.setBackgroundColor( Color.GREY );
+            paired.setTooltip( messages.tooltipBillNotPaired() );
+        }
+        else
+        {
+            paired.setBackgroundColor( GREEN );
+            paired.setTooltip( messages.tooltipBillPaired() );
         }
 
         card.setScrollspy( Bills.getScrollspy( bill ) );

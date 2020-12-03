@@ -329,6 +329,9 @@ public interface AppMessages
     @Key( value = "label.bank" )
     String labelBank();
 
+    @Key( value = "label.merchant" )
+    String labelMerchant();
+
     @Key( value = "label.description" )
     String labelDescription();
 
@@ -737,6 +740,9 @@ public interface AppMessages
     @Key( "label.unbounded" )
     String labelUnbounded();
 
+    @Key( "label.completedAt" )
+    String labelCompletedAt();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )
@@ -939,6 +945,15 @@ public interface AppMessages
 
     @Key( value = "tooltip.bill.waitingForApproval" )
     String tooltipBillWaitingForApproval();
+
+    @Key( value = "tooltip.transaction.list.refresh" )
+    String tooltipTransactionListRefresh();
+
+    @Key( value = "tooltip.bill.paired" )
+    String tooltipBillPaired();
+
+    @Key( value = "tooltip.bill.notPaired" )
+    String tooltipBillNotPaired();
 
     // messages
 
