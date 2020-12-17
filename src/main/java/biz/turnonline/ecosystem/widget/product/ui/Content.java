@@ -29,6 +29,14 @@ import gwt.material.design.addins.client.richeditor.MaterialRichEditor;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
+import static gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton.BOLD;
+import static gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton.FULLSCREEN;
+import static gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton.ITALIC;
+import static gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton.REDO;
+import static gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton.STYLE;
+import static gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton.UL;
+import static gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton.UNDO;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
@@ -44,6 +52,14 @@ public class Content
     public Content()
     {
         initWidget( binder.createAndBindUi( this ) );
+        editor.setStyleOptions( STYLE, BOLD, ITALIC, UL );
+        editor.setCkMediaOptions();
+        editor.setFontOptions();
+        editor.setColorOptions();
+        editor.setParaOptions();
+        editor.setHeightOptions();
+        editor.setMiscOptions();
+        editor.setUndoOptions( UNDO, REDO, FULLSCREEN );
     }
 
     public ProductPublishing bind( @Nullable ProductPublishing publishing )
