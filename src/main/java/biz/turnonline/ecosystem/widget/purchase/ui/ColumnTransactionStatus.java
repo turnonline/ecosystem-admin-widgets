@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.TransactionStatus;
 import gwt.material.design.client.constants.Color;
@@ -34,6 +35,8 @@ import java.util.Map;
 public class ColumnTransactionStatus
         extends WidgetColumn<Transaction, MaterialChip>
 {
+    private static final AppMessages messages = AppMessages.INSTANCE;
+
     private static final Map<String, Color> colorMap = new HashMap<>();
     private static final Map<String, IconType> iconMap = new HashMap<>();
     private static final Map<String, String> localizationMap = new HashMap<>();
@@ -54,13 +57,12 @@ public class ColumnTransactionStatus
         iconMap.put( TransactionStatus.FAILED.name(), IconType.ERROR_OUTLINE );
         iconMap.put( TransactionStatus.REVERTED.name(), IconType.UNDO );
 
-        // TODO: localize
-        localizationMap.put( TransactionStatus.CREATED.name(), "Created" );
-        localizationMap.put( TransactionStatus.PENDING.name(), "Pending" );
-        localizationMap.put( TransactionStatus.COMPLETED.name(), "Completed" );
-        localizationMap.put( TransactionStatus.DECLINED.name(), "Declined" );
-        localizationMap.put( TransactionStatus.FAILED.name(), "Failed" );
-        localizationMap.put( TransactionStatus.REVERTED.name(), "Reverted" );
+        localizationMap.put( TransactionStatus.CREATED.name(), messages.labelTransactionStatusCreated() );
+        localizationMap.put( TransactionStatus.PENDING.name(), messages.labelTransactionStatusPending() );
+        localizationMap.put( TransactionStatus.COMPLETED.name(), messages.labelTransactionStatusCompleted() );
+        localizationMap.put( TransactionStatus.DECLINED.name(), messages.labelTransactionStatusDeclined() );
+        localizationMap.put( TransactionStatus.FAILED.name(), messages.labelTransactionStatusFailed() );
+        localizationMap.put( TransactionStatus.REVERTED.name(), messages.labelTransactionStatusReverted() );
     }
 
     @Override

@@ -21,8 +21,8 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
-public interface BackEventHandler
+public interface BackBillEventHandler
         extends EventHandler
 {
-    void onBack( BackEvent event );
+    void onBack( BackBillEvent event );
 }

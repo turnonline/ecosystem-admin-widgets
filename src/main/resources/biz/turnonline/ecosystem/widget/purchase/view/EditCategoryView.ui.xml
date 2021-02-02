@@ -1,0 +1,91 @@
+<!--
+  ~ Copyright (c) 2020 TurnOnline.biz s.r.o.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:s='urn:import:biz.turnonline.ecosystem.widget.shared.ui'
+             xmlns:p='urn:import:biz.turnonline.ecosystem.widget.purchase.ui'
+>
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <s:ConfirmationWindow ui:field="confirmationDelete" iconType="DELETE"/>
+
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginBottom="20" marginTop="20">
+            <m:MaterialRow>
+                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                    <m:MaterialRow marginBottom="0" paddingTop="0" paddingBottom="10" paddingLeft="10" paddingRight="10">
+                        <m:MaterialContainer marginBottom="10">
+                            <s:SectionTitle title="Settings" iconType="SETTINGS"/>
+                        </m:MaterialContainer>
+
+                        <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                            <m:MaterialTextBox label="{msg.labelName}" ui:field="name" iconType="LABEL" iconColor="GREY"/>
+                        </m:MaterialColumn>
+                        <m:MaterialColumn grid="s12 m2" paddingLeft="0">
+                            <m:MaterialTextBox label="{msg.labelColor}" ui:field="color"/>
+                        </m:MaterialColumn>
+                        <m:MaterialColumn grid="s12 m4" paddingLeft="0">
+                            <m:MaterialSwitch onLabel="{msg.labelPropagate}" ui:field="propagate" paddingTop="20" marginLeft="-5"/>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+                </m:MaterialColumn>
+
+                <m:MaterialColumn grid="s12 m6" paddingLeft="0">
+                    <m:MaterialRow marginBottom="0" paddingTop="0" paddingBottom="10" paddingLeft="10" paddingRight="10">
+                        <m:MaterialContainer marginBottom="10">
+                            <s:SectionTitle title="Filters" iconType="ZOOM_IN"/>
+                        </m:MaterialContainer>
+
+                        <m:MaterialColumn grid="s12 m12" paddingLeft="0">
+                            <m:MaterialLink ui:field="addFilter"
+                                            shadow="0"
+                                            waves="DEFAULT"
+                                            text="{msg.labelAdd}"
+                                            type="OUTLINED"
+                                            iconType="ADD_CIRCLE"
+                                            backgroundColor="WHITE"
+                                            border="1px solid"
+                                            textColor="GREEN"/>
+
+                            <p:CategoryFilters ui:field="filters"/>
+                        </m:MaterialColumn>
+                    </m:MaterialRow>
+                </m:MaterialColumn>
+            </m:MaterialRow>
+        </m:MaterialPanel>
+
+        <m:MaterialRow paddingLeft="20" float="LEFT">
+            <m:MaterialButton ui:field="btnSave" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="BLUE"
+                              textColor="WHITE" iconType="CHECK" tooltip="{msg.tooltipSaveCategory}"
+                              text="{msg.labelSave}"/>
+            <m:MaterialButton ui:field="btnBack" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="WHITE"
+                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBackList}"
+                              text="{msg.labelBack}"/>
+        </m:MaterialRow>
+
+        <m:MaterialFAB>
+            <m:MaterialAnchorButton type="FLOATING" iconType="DEHAZE" size="LARGE"/>
+            <m:MaterialFABList>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="RED"
+                                        iconType="DELETE" ui:field="deleteCategory"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipCategoryDelete}"/>
+            </m:MaterialFABList>
+        </m:MaterialFAB>
+    </g:HTMLPanel>
+</ui:UiBinder>

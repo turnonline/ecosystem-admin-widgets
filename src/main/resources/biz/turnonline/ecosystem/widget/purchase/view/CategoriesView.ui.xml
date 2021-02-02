@@ -28,13 +28,16 @@
             <ui2:SmartTable ui:field="table"/>
         </m:MaterialRow>
 
+        <m:MaterialRow paddingLeft="20" float="LEFT">
+            <m:MaterialButton ui:field="btnBack" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="WHITE"
+                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBackList}"
+                              text="{msg.labelBack}"/>
+        </m:MaterialRow>
+
         <m:MaterialFAB>
-            <m:MaterialAnchorButton type="FLOATING" iconType="DEHAZE" size="LARGE"/>
-            <m:MaterialFABList>
-                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="GREEN"
-                                        iconType="LOCAL_OFFER" ui:field="categories"
-                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipCategories}"/>
-            </m:MaterialFABList>
+            <m:MaterialAnchorButton type="FLOATING" size="LARGE" backgroundColor="GREEN" ui:field="newCategory"
+                                    iconType="ADD" tooltipPosition="LEFT" tooltip="{msg.tooltipNewCategory}"
+                                    tooltipDelayMs="700"/>
         </m:MaterialFAB>
     </g:HTMLPanel>
 </ui:UiBinder>

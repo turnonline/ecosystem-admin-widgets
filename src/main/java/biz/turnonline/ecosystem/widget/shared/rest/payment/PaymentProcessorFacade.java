@@ -112,4 +112,38 @@ public interface PaymentProcessorFacade
     void getBankCodes( @HeaderParam( "Accept-Language" ) String acceptLanguage,
                        @QueryParam( "country" ) String country,
                        SuccessCallback<Items<BankCode>> callback );
+
+    ///////////////////////
+    ////// categories /////
+    ///////////////////////
+
+    @GET
+    @Path( "categories" )
+    void getCategories( SuccessCallback<Items<Category>> callback );
+
+    @GET
+    @Path( "categories/{category_id}" )
+    void findCategoryById( @PathParam( "category_id" ) Long categoryId,
+                           FacadeCallback<Category> callback );
+
+    @POST
+    @Path( "categories" )
+    void createCategory( Category category,
+                         FacadeCallback<Category> callback );
+
+    @PUT
+    @Path( "categories/{category_id}" )
+    void updateCategory( @PathParam( "category_id" ) Long categoryId,
+                         Category category,
+                         FacadeCallback<Category> callback );
+
+    @DELETE
+    @Path( "categories/{category_id}" )
+    void deleteCategory( @PathParam( "category_id" ) Long categoryId,
+                         FacadeCallback<Void> callback );
+
+    @GET
+    @Path( "categories/transactions/{transaction_id}" )
+    void getCategoriesForTransaction( @PathParam( "transaction_id" ) String transactionId,
+                                      SuccessCallback<Items<Category>> callback );
 }

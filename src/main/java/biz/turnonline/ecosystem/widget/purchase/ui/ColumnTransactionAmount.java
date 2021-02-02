@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
+import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.PaymentMethod;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
 import com.google.gwt.dom.client.Style;
@@ -36,7 +37,10 @@ import java.util.Map;
 public class ColumnTransactionAmount
         extends WidgetColumn<Transaction, MaterialColumn>
 {
+    private static final AppMessages messages = AppMessages.INSTANCE;
+
     private static final Map<String, IconType> iconTypeMap = new HashMap<>();
+    private static final Map<String, String> iconTypeTextMap = new HashMap<>();
 
     static
     {
@@ -44,6 +48,11 @@ public class ColumnTransactionAmount
         iconTypeMap.put( PaymentMethod.CASH.name(), IconType.ACCOUNT_BALANCE_WALLET );
         iconTypeMap.put( PaymentMethod.CARD_PAYMENT.name(), IconType.PAYMENT );
         iconTypeMap.put( PaymentMethod.REFUND.name(), IconType.PAYMENT );
+
+        iconTypeTextMap.put( PaymentMethod.TRANSFER.name(), messages.labelPaymentMethodTransfer() );
+        iconTypeTextMap.put( PaymentMethod.CASH.name(), messages.labelPaymentMethodCash() );
+        iconTypeTextMap.put( PaymentMethod.CARD_PAYMENT.name(), messages.labelPaymentMethodCardPayment() );
+        iconTypeTextMap.put( PaymentMethod.REFUND.name(), messages.labelPaymentMethodRefund() );
     }
 
     @Override
@@ -59,8 +68,10 @@ public class ColumnTransactionAmount
         {
             // type icon
             IconType iconType = iconTypeMap.get( object.getType() );
+            String tooltip = iconTypeTextMap.get( object.getType() );
+
             MaterialIcon icon = new MaterialIcon( iconType == null ? IconType.ACCOUNT_BALANCE : iconType );
-            icon.setTooltip( object.getType() ); // TODO: localize
+            icon.setTooltip( tooltip == null ? object.getType() : tooltip  );
             icon.getElement().getStyle().setPosition( Style.Position.RELATIVE );
             icon.getElement().getStyle().setTop( 7, Style.Unit.PX );
             icon.getElement().getStyle().setMarginRight( 5, Style.Unit.PX );

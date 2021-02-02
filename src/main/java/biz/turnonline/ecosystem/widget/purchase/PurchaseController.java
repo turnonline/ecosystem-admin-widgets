@@ -17,7 +17,9 @@
 package biz.turnonline.ecosystem.widget.purchase;
 
 import biz.turnonline.ecosystem.widget.purchase.presenter.BillsPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.CategoriesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.EditBillPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.EditCategoryPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
@@ -38,12 +40,22 @@ public class PurchaseController
     @Inject
     public PurchaseController( PurchaseOrdersPresenter orders,
                                PurchaseOrderDetailsPresenter orderDetail,
-                               ExpensesPresenter invoices,
-                               IncomingInvoiceDetailsPresenter invoiceDetails,
+                               ExpensesPresenter expenses,
+                               IncomingInvoiceDetailsPresenter incomingInvoiceDetails,
                                BillsPresenter bills,
                                EditBillPresenter editBill,
-                               TransactionsPresenter transactions )
+                               TransactionsPresenter transactions,
+                               CategoriesPresenter categories,
+                               EditCategoryPresenter editCategory )
     {
-        super( orders, orderDetail, invoices, invoiceDetails, bills, editBill, transactions );
+        super( orders,
+                orderDetail,
+                expenses,
+                incomingInvoiceDetails,
+                bills,
+                editBill,
+                transactions,
+                categories,
+                editCategory );
     }
 }

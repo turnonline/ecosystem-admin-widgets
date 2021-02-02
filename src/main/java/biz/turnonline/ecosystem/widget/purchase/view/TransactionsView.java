@@ -17,9 +17,11 @@
 
 package biz.turnonline.ecosystem.widget.purchase.view;
 
+import biz.turnonline.ecosystem.widget.purchase.event.CategoriesEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionAmount;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionBank;
+import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCategories;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCompletedAt;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionMerchant;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionStatus;
@@ -31,9 +33,12 @@ import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.ui.SmartTable;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import gwt.material.design.client.ui.MaterialAnchorButton;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,13 +59,16 @@ public class TransactionsView
     @UiField
     SmartTable<Transaction> table;
 
+    @UiField
+    MaterialAnchorButton categories;
+
     @Inject
     public TransactionsView( @Named( "TransactionsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
         super();
 
         this.breadcrumb = breadcrumb;
-        setActive( Route.CONTACTS );
+        setActive( Route.TRANSACTIONS );
 
         add( binder.createAndBindUi( this ) );
         initTable();
@@ -82,29 +90,39 @@ public class TransactionsView
     private void initTable()
     {
         ColumnTransactionStatus status = new ColumnTransactionStatus();
-        status.width( "10%" );
+        status.width( "5%" );
 
         ColumnTransactionAmount amount = new ColumnTransactionAmount();
         amount.width( "10%" );
 
         ColumnTransactionCompletedAt completedAt = new ColumnTransactionCompletedAt();
-        completedAt.width("10%");
+        completedAt.width( "10%" );
 
         ColumnTransactionBank bank = new ColumnTransactionBank();
-        bank.width("10%");
+        bank.width( "10%" );
 
         ColumnTransactionMerchant merchant = new ColumnTransactionMerchant();
-        merchant.width("10%");
+        merchant.width( "10%" );
+
+        ColumnTransactionCategories categories = new ColumnTransactionCategories( bus() );
+        categories.width("10%");
 
         table.addColumn( messages.labelStatus(), status );
         table.addColumn( messages.labelPayment(), amount );
         table.addColumn( messages.labelCompletedAt(), completedAt );
         table.addColumn( messages.labelBank(), bank );
         table.addColumn( messages.labelMerchant(), merchant );
+        table.addColumn( messages.labelCategories(), categories );
 
         table.configure( new TransactionsDataSource( ( AppEventBus ) bus() ) );
         table.getPager().setLimit( 100 );
         table.getPager().getRowSelection().setVisible( false );
+    }
+
+    @UiHandler( "categories" )
+    public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        bus().fireEvent( new CategoriesEvent() );
     }
 
     interface TransactionsViewUiBinder

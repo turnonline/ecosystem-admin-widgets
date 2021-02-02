@@ -19,7 +19,9 @@ package biz.turnonline.ecosystem.widget.shared.rest.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -65,6 +67,9 @@ public class Transaction
 
     @JsonProperty( "merchant" )
     private Merchant merchant;
+
+    @JsonProperty( "categories" )
+    private List<TransactionCategory> categories = new ArrayList<>();
 
     public Transaction transactionId( String transactionId )
     {
@@ -324,6 +329,20 @@ public class Transaction
     public void setMerchant( Merchant merchant )
     {
         this.merchant = merchant;
+    }
+
+    /**
+     * The categories list
+     **/
+    @JsonProperty( "categories" )
+    public List<TransactionCategory> getCategories()
+    {
+        return categories;
+    }
+
+    public void setCategories( List<TransactionCategory> categories )
+    {
+        this.categories = categories;
     }
 
     @Override

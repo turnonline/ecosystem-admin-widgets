@@ -17,7 +17,7 @@
 package biz.turnonline.ecosystem.widget.purchase.view;
 
 import biz.turnonline.ecosystem.widget.purchase.event.ApproveBillEvent;
-import biz.turnonline.ecosystem.widget.purchase.event.BackEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.BackBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.DeleteBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.SaveBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.EditBill;
@@ -137,7 +137,7 @@ public class EditBillView
     @UiHandler( "btnBack" )
     public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        bus().fireEvent( new BackEvent() );
+        bus().fireEvent( new BackBillEvent() );
     }
 
     @UiHandler( "btnSave" )

@@ -17,7 +17,7 @@
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
 import biz.turnonline.ecosystem.widget.purchase.event.ApproveBillEvent;
-import biz.turnonline.ecosystem.widget.purchase.event.BackEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.BackBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.DeleteBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.SaveBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Bills;
@@ -45,7 +45,7 @@ public class EditBillPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( BackEvent.TYPE, event -> controller().goTo( new Bills() ) );
+        bus().addHandler( BackBillEvent.TYPE, event -> controller().goTo( new Bills() ) );
         bus().addHandler( SaveBillEvent.TYPE, this::save );
         bus().addHandler( DeleteBillEvent.TYPE, this::delete );
         bus().addHandler( ApproveBillEvent.TYPE, this::approve );

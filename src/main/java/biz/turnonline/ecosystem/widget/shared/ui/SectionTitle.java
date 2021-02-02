@@ -69,6 +69,10 @@ public class SectionTitle
         this.title.setTextColor( color );
     }
 
+    public void setMarginBottom(String value) {
+
+    }
+
     interface SectionTitleUiBinder
             extends UiBinder<MaterialSection, SectionTitle>
     {

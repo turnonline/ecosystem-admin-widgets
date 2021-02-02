@@ -92,6 +92,9 @@ public interface AppMessages
     @Key( value = "label.transactions" )
     String labelTransactions();
 
+    @Key( value = "label.categories" )
+    String labelCategories();
+
     @Key( value = "label.payment" )
     String labelPayment();
 
@@ -112,6 +115,9 @@ public interface AppMessages
 
     @Key( value = "label.name" )
     String labelName();
+
+    @Key( value = "label.color" )
+    String labelColor();
 
     @Key( value = "label.firstName" )
     String labelFirstName();
@@ -464,6 +470,12 @@ public interface AppMessages
     @Key( value = "label.value" )
     String labelValue();
 
+    @Key( value = "label.operation" )
+    String labelOperation();
+
+    @Key( value = "label.propertyValue" )
+    String labelPropertyValue();
+
     @Key( value = "label.discountType" )
     String labelDiscountType();
 
@@ -743,6 +755,63 @@ public interface AppMessages
     @Key( "label.completedAt" )
     String labelCompletedAt();
 
+    @Key( "label.filters" )
+    String labelFilters();
+
+    @Key( "label.propagate" )
+    String labelPropagate();
+
+    @Key( value = "label.editCategory" )
+    String labelEditCategory();
+
+    @Key( value = "label.propertyName.name" )
+    String labelPropertyNameName();
+
+    @Key( value = "label.propertyName.amount" )
+    String labelPropertyNameAmount();
+
+    @Key( value = "label.propertyName.currency" )
+    String labelPropertyNameCurrency();
+
+    @Key( value = "label.propertyName.credit" )
+    String labelPropertyNameCredit();
+
+    @Key( value = "label.propertyName.counterpartyIban" )
+    String labelPropertyNameCounterpartyIban();
+
+    @Key( value = "label.propertyName.reference" )
+    String labelPropertyNameReference();
+
+    @Key( value = "label.transactionStatus.created" )
+    String labelTransactionStatusCreated();
+
+    @Key( value = "label.transactionStatus.pending" )
+    String labelTransactionStatusPending();
+
+    @Key( value = "label.transactionStatus.completed" )
+    String labelTransactionStatusCompleted();
+
+    @Key( value = "label.transactionStatus.declined" )
+    String labelTransactionStatusDeclined();
+
+    @Key( value = "label.transactionStatus.failed" )
+    String labelTransactionStatusFailed();
+
+    @Key( value = "label.transactionStatus.reverted" )
+    String labelTransactionStatusReverted();
+
+    @Key( value = "label.paymentMethod.transfer" )
+    String labelPaymentMethodTransfer();
+
+    @Key( value = "label.paymentMethod.cash" )
+    String labelPaymentMethodCash();
+
+    @Key( value = "label.paymentMethod.cardPayment" )
+    String labelPaymentMethodCardPayment();
+
+    @Key( value = "label.paymentMethod.refund" )
+    String labelPaymentMethodRefund();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )
@@ -949,11 +1018,32 @@ public interface AppMessages
     @Key( value = "tooltip.transaction.list.refresh" )
     String tooltipTransactionListRefresh();
 
+    @Key( value = "tooltip.categories.list.refresh" )
+    String tooltipCategoriesListRefresh();
+
     @Key( value = "tooltip.bill.paired" )
     String tooltipBillPaired();
 
     @Key( value = "tooltip.bill.notPaired" )
     String tooltipBillNotPaired();
+
+    @Key( value = "tooltip.transaction.categories" )
+    String tooltipCategories();
+
+    @Key( value = "tooltip.category.edit" )
+    String tooltipEditCategory();
+
+    @Key( value = "tooltip.category.resolve" )
+    String tooltipCategoryResolve();
+
+    @Key( value = "tooltip.category.new" )
+    String tooltipNewCategory();
+
+    @Key( value = "tooltip.category.save" )
+    String tooltipSaveCategory();
+
+    @Key( value = "tooltip.category.delete" )
+    String tooltipCategoryDelete();
 
     // messages
 

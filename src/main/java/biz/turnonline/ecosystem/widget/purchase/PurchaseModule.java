@@ -17,18 +17,24 @@
 package biz.turnonline.ecosystem.widget.purchase;
 
 import biz.turnonline.ecosystem.widget.purchase.place.Bills;
+import biz.turnonline.ecosystem.widget.purchase.place.Categories;
 import biz.turnonline.ecosystem.widget.purchase.place.Expenses;
 import biz.turnonline.ecosystem.widget.purchase.place.HistoryMapper;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
+import biz.turnonline.ecosystem.widget.purchase.place.Transactions;
 import biz.turnonline.ecosystem.widget.purchase.presenter.BillsPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.CategoriesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.EditBillPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.EditCategoryPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.view.BillsView;
+import biz.turnonline.ecosystem.widget.purchase.view.CategoriesView;
 import biz.turnonline.ecosystem.widget.purchase.view.EditBillView;
+import biz.turnonline.ecosystem.widget.purchase.view.EditCategoryView;
 import biz.turnonline.ecosystem.widget.purchase.view.ExpensesView;
 import biz.turnonline.ecosystem.widget.purchase.view.IncomingInvoiceDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrderDetailsView;
@@ -262,6 +268,33 @@ public abstract class PurchaseModule
         return new ScaffoldBreadcrumb( items, placeController );
     }
 
+    @Provides
+    @Singleton
+    @Named( "CategoriesBreadcrumb" )
+    static ScaffoldBreadcrumb provideCategoriesBreadcrumb( PlaceController placeController )
+    {
+        List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Transactions(), IconType.COMPARE_ARROWS, messages.labelTransactions() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LOCAL_OFFER, messages.labelCategories() ) );
+
+        return new ScaffoldBreadcrumb( items, placeController );
+    }
+
+    @Provides
+    @Singleton
+    @Named( "EditCategoryBreadcrumb" )
+    static ScaffoldBreadcrumb provideEditCategoryBreadcrumb( PlaceController placeController )
+    {
+        List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Transactions(), IconType.COMPARE_ARROWS, messages.labelTransactions() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Categories(), IconType.LOCAL_OFFER, messages.labelCategories() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditCategory() ) );
+
+        return new ScaffoldBreadcrumb( items, placeController );
+    }
+
     @Binds
     @Singleton
     abstract ActivityMapper provideActivityMapper( PurchaseController controller );
@@ -297,4 +330,12 @@ public abstract class PurchaseModule
     @Binds
     @Singleton
     abstract TransactionsPresenter.IView provideTransactionsView( TransactionsView view );
+
+    @Binds
+    @Singleton
+    abstract CategoriesPresenter.IView provideCategoriesView( CategoriesView view );
+
+    @Binds
+    @Singleton
+    abstract EditCategoryPresenter.IView provideEditCategoryView( EditCategoryView view );
 }

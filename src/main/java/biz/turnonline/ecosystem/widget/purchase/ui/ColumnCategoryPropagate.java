@@ -15,29 +15,26 @@
  *
  */
 
-package biz.turnonline.ecosystem.widget.shared.ui;
+package biz.turnonline.ecosystem.widget.purchase.ui;
 
-import java.util.List;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.Category;
+import gwt.material.design.client.ui.MaterialCheckBox;
+import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
-public abstract class StaticCodeBookListBox
-        extends CodeBookComboBox<StaticCodeBook>
+public class ColumnCategoryPropagate
+        extends WidgetColumn<Category, MaterialCheckBox>
 {
-    public StaticCodeBookListBox()
+    @Override
+    public MaterialCheckBox getValue( Category object )
     {
-        super( StaticCodeBook.class );
-        setHideSearch( true );
-        setMultiple( false );
-    }
+        MaterialCheckBox cell = new MaterialCheckBox();
 
-    protected abstract List<StaticCodeBook> values();
+        cell.setEnabled( false );
+        cell.setValue( object.isPropagate() );
 
-    protected void initialize( String code )
-    {
-        setItems( values() );
-        itemsLoaded();
-        setSingleValueByCode( code );
+        return cell;
     }
 }
