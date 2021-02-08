@@ -35,10 +35,10 @@
 
                 <m:MaterialRow marginTop="10" marginLeft="-10">
                     <m:MaterialSwitch ui:field="comingSoon" onLabel="{msg.labelComingSoon}"/>
-                    <m:MaterialSwitch ui:field="published" onLabel="{msg.labelPublished}"/>
+                    <m:MaterialSwitch ui:field="published" onLabel="{msg.labelPublished}" marginTop="-10"/>
+                    <s:CategoryComboBox ui:field="categories" label="{msg.labelCategory}" marginTop="32" paddingLeft="10"/>
                 </m:MaterialRow>
 
-                <s:SectionTitle iconType="SHARE" title="{msg.labelSocial}"/>
             </m:MaterialColumn>
 
             <m:MaterialColumn grid="s12 m3">

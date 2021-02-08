@@ -39,6 +39,8 @@ public final class ProductPublishing
 
     private Boolean published;
 
+    private String category;
+
     public ProductDomain getAt()
     {
         return at;
@@ -116,9 +118,19 @@ public final class ProductPublishing
         return this;
     }
 
+    public String getCategory()
+    {
+        return category;
+    }
+
+    public void setCategory( String category )
+    {
+        this.category = category;
+    }
+
     @Override
     public boolean allNull()
     {
-        return allNull( at, description, pictures );
+        return allNull( at, description, pictures, category );
     }
 }

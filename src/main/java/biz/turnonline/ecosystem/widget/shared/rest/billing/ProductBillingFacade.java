@@ -215,6 +215,11 @@ public interface ProductBillingFacade
                       @HeaderParam( "Accept-Language" ) String acceptLanguage,
                       SuccessCallback<Items<VatRate>> callback );
 
+    @GET
+    @Path( "codebook/categories" )
+    void getCategories( @HeaderParam( "Accept-Language" ) String acceptLanguage,
+                          SuccessCallback<Items<Category>> callback );
+
     //////////////////////
     ///// purchases //////
     //////////////////////

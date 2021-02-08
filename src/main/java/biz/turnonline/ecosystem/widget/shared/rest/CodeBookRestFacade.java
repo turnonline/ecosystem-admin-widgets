@@ -22,6 +22,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.account.AccountStewardFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Country;
 import biz.turnonline.ecosystem.widget.shared.rest.account.LegalForm;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.BillingUnit;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Category;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductBillingFacade;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.VatRate;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.BankCode;
@@ -59,12 +60,14 @@ public class CodeBookRestFacade
         codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( "SK", callback ) );
         codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), "SK", callback ) );
         codeBookRetriever.put( BankCode.class, ( Retriever<BankCode> ) callback -> paymentFacade.getBankCodes( "SK", Configuration.get().getDomicile(), callback ) );
+        codeBookRetriever.put( Category.class, ( Retriever<Category> ) callback -> productBillingFacade.getCategories( "SK", callback ) );
 
         codeBookWaitingList.put( Country.class, new ArrayList<>() );
         codeBookWaitingList.put( LegalForm.class, new ArrayList<>() );
         codeBookWaitingList.put( BillingUnit.class, new ArrayList<>() );
         codeBookWaitingList.put( VatRate.class, new ArrayList<>() );
         codeBookWaitingList.put( BankCode.class, new ArrayList<>() );
+        codeBookWaitingList.put( Category.class, new ArrayList<>() );
     }
 
     @SuppressWarnings( "unchecked" )

@@ -18,6 +18,7 @@
 package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
+import biz.turnonline.ecosystem.widget.shared.ui.CategoryComboBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -53,6 +54,11 @@ public class Publishing
     @UiField
     MaterialSwitch published;
 
+    // -- categories
+
+    @UiField
+    CategoryComboBox categories;
+
     // -- pictures
 
     @UiField( provided = true )
@@ -84,6 +90,8 @@ public class Publishing
         publishing.setComingSoon( comingSoon.getValue() );
         publishing.setPublished( published.getValue() );
 
+        publishing.setCategory( categories.getSingleValueByCode() );
+
         uploader.bind( publishing );
         return publishing;
     }
@@ -97,6 +105,8 @@ public class Publishing
 
         atName.setValue( publishing.getAt() != null ? publishing.getAt().getName() : null );
         atUri.setValue( publishing.getAt() != null ? publishing.getAt().getUri() : null );
+
+        categories.setSingleValueByCode( publishing.getCategory() );
 
         comingSoon.setValue( publishing.getComingSoon() != null ? publishing.getComingSoon() : false );
         published.setValue( publishing.getPublished() != null ? publishing.getPublished() : false );

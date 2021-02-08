@@ -15,18 +15,18 @@
  *
  */
 
-package biz.turnonline.ecosystem.widget.shared.rest;
+package biz.turnonline.ecosystem.widget.shared.ui;
+
+import biz.turnonline.ecosystem.widget.shared.rest.billing.Category;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
-public interface CodeBook
+public class CategoryComboBox
+        extends CodeBookComboBox<Category>
 {
-    String getCode();
-
-    String getLabel();
-
-    default String getDescription(){
-        return null;
+    public CategoryComboBox()
+    {
+        super( Category.class );
     }
 }

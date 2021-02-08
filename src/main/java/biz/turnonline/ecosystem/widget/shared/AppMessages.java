@@ -95,6 +95,9 @@ public interface AppMessages
     @Key( value = "label.categories" )
     String labelCategories();
 
+    @Key( value = "label.category" )
+    String labelCategory();
+
     @Key( value = "label.payment" )
     String labelPayment();
 

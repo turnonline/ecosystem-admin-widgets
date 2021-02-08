@@ -43,6 +43,12 @@ class CodeBookComboBox<T extends CodeBook>
     {
         Option option = super.buildOption( text, value );
         option.setText( value.getLabel() );
+
+        if (value.getDescription() != null)
+        {
+            option.setTooltip(value.getDescription());
+        }
+
         return option;
     }
 
