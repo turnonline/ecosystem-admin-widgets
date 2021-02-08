@@ -27,11 +27,9 @@ import gwt.material.design.addins.client.bubble.MaterialBubble;
 import gwt.material.design.client.constants.ButtonSize;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.Position;
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialContainer;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
@@ -63,9 +61,9 @@ public class ColumnTransactionCategories
         bubble.setPosition( Position.LEFT );
         bubble.setBackgroundColor( Color.WHITE );
         bubble.setVisible( false );
-        bubble.getElement().getStyle().setMarginTop( -6, Style.Unit.PX );
+        bubble.getElement().getStyle().setMarginTop( 0, Style.Unit.PX );
         bubble.getElement().getStyle().setPosition( Style.Position.ABSOLUTE );
-        bubble.addClickHandler( event -> bubble.setVisible( false ) );
+        bubble.addMouseOutHandler( event -> bubble.setVisible( false ) );
         content.add( bubble );
 
         content.add( getBtnResolve( object, bubble ) );
@@ -79,13 +77,7 @@ public class ColumnTransactionCategories
                 container.getElement().getStyle().setDisplay( Style.Display.INLINE_BLOCK );
                 content.add( container );
 
-                MaterialChip badge = new MaterialChip();
-                badge.setIconType( IconType.LABEL );
-                badge.setIconPosition( IconPosition.LEFT );
-                badge.setText( category.getName() );
-                badge.setTextColor( Color.WHITE );
-                badge.getElement().getStyle().setBackgroundColor( category.getColor() );
-
+                CategoryBadge badge = new CategoryBadge(category);
                 container.add( badge );
             } );
         }
@@ -96,7 +88,7 @@ public class ColumnTransactionCategories
     private MaterialButton getBtnResolve( Transaction value, MaterialBubble bubble )
     {
         MaterialButton btnCheckCategories = new MaterialButton();
-        btnCheckCategories.addClickHandler( event -> {
+        btnCheckCategories.addMouseOverHandler( event -> {
             event.stopPropagation();
             eventBus.paymentProcessor().getCategoriesForTransaction( value.getTransactionId(), response -> {
                 bubble.clear();
@@ -105,7 +97,7 @@ public class ColumnTransactionCategories
                     MaterialContainer container = new MaterialContainer();
                     bubble.add( container );
 
-                    CategoryChip badge = new CategoryChip( category );
+                    CategoryBadge badge = new CategoryBadge( category );
                     container.add( badge );
                 } );
 

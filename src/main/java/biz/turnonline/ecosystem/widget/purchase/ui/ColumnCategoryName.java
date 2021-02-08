@@ -18,18 +18,18 @@
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Category;
-import gwt.material.design.client.ui.MaterialChip;
+import biz.turnonline.ecosystem.widget.shared.ui.Badge;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnCategoryName
-        extends WidgetColumn<Category, MaterialChip>
+        extends WidgetColumn<Category, Badge>
 {
     @Override
-    public MaterialChip getValue( Category object )
+    public Badge getValue( Category object )
     {
-        return new CategoryChip( object );
+        return new CategoryBadge( object );
     }
 }
