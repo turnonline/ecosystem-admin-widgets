@@ -126,6 +126,15 @@
                     <ma:DomainsPanel ui:field="domains"/>
                 </m:MaterialCollapsibleBody>
             </m:MaterialCollapsibleItem>
+
+            <m:MaterialCollapsibleItem>
+                <m:MaterialCollapsibleHeader>
+                    <m:MaterialLink text="{msg.labelWhyThisStore}" iconType="ADD_SHOPPING_CART" iconPosition="LEFT" textColor="BLACK"/>
+                </m:MaterialCollapsibleHeader>
+                <m:MaterialCollapsibleBody marginLeft="19" marginRight="19" marginTop="20" padding="0">
+                    <ma:WhyPanel ui:field="why"/>
+                </m:MaterialCollapsibleBody>
+            </m:MaterialCollapsibleItem>
         </m:MaterialCollapsible>
     </g:HTMLPanel>
 </ui:UiBinder>

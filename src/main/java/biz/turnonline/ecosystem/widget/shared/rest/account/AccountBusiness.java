@@ -19,6 +19,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.account;
 
 import org.ctoolkit.gwt.client.facade.RelevantNullChecker;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class AccountBusiness
@@ -51,6 +52,8 @@ public class AccountBusiness
     private Domain domain;
 
     private Image logo;
+
+    private Map<String, String> why;
 
     /**
      * The company business name. It's mandatory for business account sign-up.
@@ -316,6 +319,16 @@ public class AccountBusiness
     public void setLogo( Image logo )
     {
         this.logo = logo;
+    }
+
+    public Map<String, String> getWhy()
+    {
+        return why;
+    }
+
+    public void setWhy( Map<String, String> why )
+    {
+        this.why = why;
     }
 
     /**

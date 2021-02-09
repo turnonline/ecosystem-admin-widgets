@@ -22,7 +22,9 @@ import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.presenter.SettingsPresenter;
 import biz.turnonline.ecosystem.widget.myaccount.ui.BankAccountsPanel;
 import biz.turnonline.ecosystem.widget.myaccount.ui.DomainsPanel;
+import biz.turnonline.ecosystem.widget.myaccount.ui.WhyPanel;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfigBillingAddress;
@@ -132,6 +134,9 @@ public class SettingsView
     @UiField( provided = true )
     BankAccountsPanel bankAccounts;
 
+    @UiField( provided = true )
+    WhyPanel why;
+
     @Inject
     public SettingsView( @Named( "SettingsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb,
                          AddressLookupListener addressLookup )
@@ -141,6 +146,7 @@ public class SettingsView
         this.breadcrumb = breadcrumb;
         this.domains = new DomainsPanel( bus() );
         this.bankAccounts = new BankAccountsPanel( bus() );
+        this.why = new WhyPanel( bus() );
 
         setActive( Route.MY_ACCOUNT );
 
@@ -290,6 +296,12 @@ public class SettingsView
     public void setBankAccounts( @Nonnull List<BankAccount> data )
     {
         bankAccounts.setBankAccounts( data );
+    }
+
+    @Override
+    public void setAccount( @Nonnull Account account )
+    {
+        why.setValue( account );
     }
 
     interface SettingsViewUiBinder

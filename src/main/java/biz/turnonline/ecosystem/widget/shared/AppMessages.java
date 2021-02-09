@@ -815,6 +815,18 @@ public interface AppMessages
     @Key( value = "label.paymentMethod.refund" )
     String labelPaymentMethodRefund();
 
+    @Key( "label.whyThisStore" )
+    String labelWhyThisStore();
+
+    @Key( "label.slovak" )
+    String labelSlovak();
+
+    @Key( "label.czech" )
+    String labelCzech();
+
+    @Key( "label.english" )
+    String labelEnglish();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )
@@ -1115,6 +1127,12 @@ public interface AppMessages
 
     @Key( "msg.billApproved" )
     String msgBillApproved( String name );
+
+    @Key( "msg.why" )
+    String why();
+
+    @Key( "msg.whyCreated" )
+    String msgWhyCreated();
 
     // other
 

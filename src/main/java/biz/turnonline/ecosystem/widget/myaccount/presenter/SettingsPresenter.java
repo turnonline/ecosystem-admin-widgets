@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.myaccount.event.ImportBankAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.MarkBankAccountAsPrimaryEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveBankAccountEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SaveInvoicingEvent;
+import biz.turnonline.ecosystem.widget.myaccount.event.SaveWhyEvent;
 import biz.turnonline.ecosystem.widget.myaccount.event.SelectDomainType;
 import biz.turnonline.ecosystem.widget.myaccount.place.Settings;
 import biz.turnonline.ecosystem.widget.myaccount.ui.ImportBankAccount;
@@ -31,6 +32,7 @@ import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.SuccessOrAbsorbCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Account;
 import biz.turnonline.ecosystem.widget.shared.rest.account.Domain;
 import biz.turnonline.ecosystem.widget.shared.rest.account.InvoicingConfig;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.BankAccount;
@@ -127,6 +129,14 @@ public class SettingsPresenter
             bus().paymentProcessor().integrateWithBank( importBankAccount.getBankCode(), importBankAccount.getCertificate(),
                     ( response, failure ) -> bankAccountChange( messages.msgBankAccountImported( importBankAccount.getBankAccountName() ), failure ) );
         } );
+
+        // why
+        bus().addHandler( SaveWhyEvent.TYPE, event -> {
+            Account account = event.getAccount();
+
+            bus().account().update( bus().config().getLoginId(), account,
+                    ( response, failure ) -> accountChange( messages.msgWhyCreated(), failure ) );
+        } );
     }
 
     @Override
@@ -135,6 +145,7 @@ public class SettingsPresenter
         bus().account().getInvoicingConfig( bus().config().getLoginId(), this::updateInvoicing );
         loadDomains( ROOT );
         loadBankAccounts();
+        loadAccount();
 
         onAfterBackingObject();
     }
@@ -203,6 +214,15 @@ public class SettingsPresenter
         }
     }
 
+    private void accountChange( String msg, FacadeCallback.Failure failure )
+    {
+        success( msg, failure );
+        if ( failure.isSuccess() )
+        {
+            loadAccount();
+        }
+    }
+
     private void updateInvoicing( InvoicingConfig invoicing, FacadeCallback.Failure failure )
     {
         if ( failure.isFailure() )
@@ -226,11 +246,18 @@ public class SettingsPresenter
                 ( SuccessOrAbsorbCallback<Items<BankAccount>> ) r -> view().setBankAccounts( r.getItems() ) );
     }
 
+    private void loadAccount() {
+        bus().account().getAccount( bus().config().getLoginId(),
+                ( SuccessOrAbsorbCallback<Account> ) r -> view().setAccount( r ));
+    }
+
     public interface IView
             extends org.ctoolkit.gwt.client.view.IView<InvoicingConfig>
     {
         void setDomains( @Nonnull List<Domain> data, @Nonnull SelectDomainType.DT type );
 
         void setBankAccounts( @Nonnull List<BankAccount> data );
+
+        void setAccount(@Nonnull Account account);
     }
 }
