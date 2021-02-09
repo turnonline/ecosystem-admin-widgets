@@ -28,6 +28,8 @@ import gwt.material.design.incubator.client.google.addresslookup.api.AddressLook
 import org.fusesource.restygwt.client.Defaults;
 import org.fusesource.restygwt.client.ServiceRoots;
 
+import java.util.Optional;
+
 import static org.ctoolkit.gwt.client.Constants.REST_DATE_FORMAT;
 
 /**
@@ -175,6 +177,11 @@ public class Configuration
     public void setLocale( String locale )
     {
         Cookies.setCookie( "locale", locale );
+    }
+
+    public String getLocale()
+    {
+        return Optional.ofNullable( Cookies.getCookie( "locale" ) ).orElse( "en" );
     }
 
     public String getMapsApiKey()

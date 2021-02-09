@@ -28,6 +28,7 @@ import org.fusesource.restygwt.client.RestService;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -131,20 +132,24 @@ public interface AccountStewardFacade
     @GET
     @Path( "codebook/countries" )
     void getCountries( @QueryParam( "version" ) String version,
+                       @HeaderParam( "Accept-Language" ) String acceptLanguage,
                        SuccessCallback<Items<Country>> callback );
 
     @GET
     @Path( "codebook/countries/{code}" )
     void getCountry( @PathParam( "code" ) String code,
+                     @HeaderParam( "Accept-Language" ) String acceptLanguage,
                      MethodCallback<Country> callback );
 
     @GET
     @Path( "codebook/legalforms" )
     void getLegalForms( @QueryParam( "version" ) String version,
+                        @HeaderParam( "Accept-Language" ) String acceptLanguage,
                         SuccessCallback<Items<LegalForm>> callback );
 
     @GET
     @Path( "codebook/legalforms/{code}" )
     void getLegalForm( @PathParam( "code" ) String code,
+                       @HeaderParam( "Accept-Language" ) String acceptLanguage,
                        MethodCallback<LegalForm> callback );
 }

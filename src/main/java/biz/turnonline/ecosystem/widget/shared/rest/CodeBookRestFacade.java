@@ -54,13 +54,15 @@ public class CodeBookRestFacade
 
     static
     {
+        String locale = Configuration.get().getLocale();
+
         // codeBook retrievers
-        codeBookRetriever.put( Country.class, ( Retriever<Country> ) callback -> accountStewardFacade.getCountries( null, callback ) );
-        codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, callback ) );
-        codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( "SK", callback ) );
-        codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), "SK", callback ) );
-        codeBookRetriever.put( BankCode.class, ( Retriever<BankCode> ) callback -> paymentFacade.getBankCodes( "SK", Configuration.get().getDomicile(), callback ) );
-        codeBookRetriever.put( Category.class, ( Retriever<Category> ) callback -> productBillingFacade.getCategories( "SK", callback ) );
+        codeBookRetriever.put( Country.class, ( Retriever<Country> ) callback -> accountStewardFacade.getCountries( null, locale, callback ) );
+        codeBookRetriever.put( LegalForm.class, ( Retriever<LegalForm> ) callback -> accountStewardFacade.getLegalForms( null, locale, callback ) );
+        codeBookRetriever.put( BillingUnit.class, ( Retriever<BillingUnit> ) callback -> productBillingFacade.getBillingUnits( locale, callback ) );
+        codeBookRetriever.put( VatRate.class, ( Retriever<VatRate> ) callback -> productBillingFacade.getVatRates( Configuration.get().getDomicile(), locale, callback ) );
+        codeBookRetriever.put( BankCode.class, ( Retriever<BankCode> ) callback -> paymentFacade.getBankCodes( locale, Configuration.get().getDomicile(), callback ) );
+        codeBookRetriever.put( Category.class, ( Retriever<Category> ) callback -> productBillingFacade.getCategories( locale, callback ) );
 
         codeBookWaitingList.put( Country.class, new ArrayList<>() );
         codeBookWaitingList.put( LegalForm.class, new ArrayList<>() );
