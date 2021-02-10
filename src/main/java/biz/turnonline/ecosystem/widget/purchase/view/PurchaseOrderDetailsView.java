@@ -103,7 +103,7 @@ public class PurchaseOrderDetailsView
 
         this.breadcrumb = breadcrumb;
         items = new PricingItemsPanel( AppEventBus.get(), PricingItemsPanel.Context.VIEW_ONLY );
-        setActive( Route.CONTACTS );
+        setActive( Route.PURCHASES );
 
         add( binder.createAndBindUi( this ) );
 

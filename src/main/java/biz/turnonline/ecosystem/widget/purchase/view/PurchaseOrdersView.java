@@ -65,7 +65,7 @@ public class PurchaseOrdersView
         super();
 
         this.breadcrumb = breadcrumb;
-        setActive( Route.ORDERS );
+        setActive( Route.PURCHASES );
 
         add( binder.createAndBindUi( this ) );
 
