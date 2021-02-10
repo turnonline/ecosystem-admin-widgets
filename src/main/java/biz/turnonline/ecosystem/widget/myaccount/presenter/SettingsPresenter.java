@@ -135,14 +135,13 @@ public class SettingsPresenter
             Account account = event.getAccount();
 
             bus().account().update( bus().config().getLoginId(), account,
-                    ( response, failure ) -> accountChange( messages.msgWhyCreated(), failure ) );
+                    ( response, failure ) -> success( messages.msgWhyCreated(), failure ) );
         } );
     }
 
     @Override
     public void onBackingObject()
     {
-        bus().account().getInvoicingConfig( bus().config().getLoginId(), this::updateInvoicing );
         loadDomains( ROOT );
         loadBankAccounts();
         loadAccount();
@@ -214,29 +213,25 @@ public class SettingsPresenter
         }
     }
 
-    private void accountChange( String msg, FacadeCallback.Failure failure )
-    {
-        success( msg, failure );
-        if ( failure.isSuccess() )
-        {
-            loadAccount();
-        }
-    }
-
-    private void updateInvoicing( InvoicingConfig invoicing, FacadeCallback.Failure failure )
+    private void setAccount( Account account, FacadeCallback.Failure failure )
     {
         if ( failure.isFailure() )
         {
             view().setModel( new InvoicingConfig() );
-
-            if ( !failure.isNotFound() )
+            if ( failure.isNotFound() )
+            {
+                error( messages.msgErrorRecordDoesNotExists() );
+            }
+            else
             {
                 error( messages.msgErrorRemoteServiceCall() );
             }
         }
         else
         {
-            view().setModel( invoicing );
+            InvoicingConfig invoicing = account.getInvoicing();
+            view().setModel( invoicing == null ? new InvoicingConfig() : invoicing );
+            view().setAccount( account );
         }
     }
 
@@ -246,9 +241,9 @@ public class SettingsPresenter
                 ( SuccessOrAbsorbCallback<Items<BankAccount>> ) r -> view().setBankAccounts( r.getItems() ) );
     }
 
-    private void loadAccount() {
-        bus().account().getAccount( bus().config().getLoginId(),
-                ( SuccessOrAbsorbCallback<Account> ) r -> view().setAccount( r ));
+    private void loadAccount()
+    {
+        bus().account().getAccount( bus().config().getLoginId(), this::setAccount );
     }
 
     public interface IView
@@ -258,6 +253,6 @@ public class SettingsPresenter
 
         void setBankAccounts( @Nonnull List<BankAccount> data );
 
-        void setAccount(@Nonnull Account account);
+        void setAccount( @Nonnull Account account );
     }
 }
