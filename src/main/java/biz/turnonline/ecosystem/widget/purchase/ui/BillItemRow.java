@@ -85,15 +85,15 @@ public class BillItemRow
 
         TableData columnPriceExclVat = column( priceExclVat );
         columnPriceExclVat.setPaddingLeft( 0 );
-        columnPriceExclVat.setWidth( "15%" );
+        columnPriceExclVat.setWidth( "17%" );
 
         TableData columnVatAmount = column( vatAmount );
         columnVatAmount.setPaddingLeft( 0 );
-        columnVatAmount.setWidth( "15%" );
+        columnVatAmount.setWidth( "17%" );
 
         TableData columnPriceInclVat = column( priceInclVat );
         columnPriceInclVat.setPaddingLeft( 0 );
-        columnPriceInclVat.setWidth( "15%" );
+        columnPriceInclVat.setWidth( "11%" );
 
         TableData columnRemove = column( remove );
         columnRemove.setPaddingRight( 0 );

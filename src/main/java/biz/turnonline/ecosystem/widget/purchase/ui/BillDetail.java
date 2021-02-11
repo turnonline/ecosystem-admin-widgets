@@ -16,10 +16,8 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
-import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Item;
-import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.VatRateRow;
 import biz.turnonline.ecosystem.widget.shared.ui.BillTypeComboBox;
 import biz.turnonline.ecosystem.widget.shared.ui.CurrencyComboBox;
@@ -46,10 +44,8 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -83,9 +79,6 @@ public class BillDetail
 
     @UiField
     MaterialDatePicker modified;
-
-    @UiField
-    BillUploader billUploader;
 
     @UiField
     MaterialRow itemsPanel;
@@ -224,19 +217,6 @@ public class BillDetail
         bill.setCurrency( currency.getSingleValue() );
         bill.setTotalVatBase( sumTotalPriceExclVat.getValue() );
         bill.setTotalVat( sumTotalVat.getValue() );
-
-        if ( bill.getId() == null && billUploader.getBillId() != null )
-        {
-            // Use case when the Bill just has been created while Blob was uploaded
-            bill.setId( billUploader.getBillId() );
-        }
-
-        Scan scan = new Scan();
-        scan.setOrder( 1 );
-        scan.setServingUrl( billUploader.getValue().getServingUrl() );
-        scan.setStorageName( billUploader.getValue().getStorageName() );
-        bill.setScans( Collections.singletonList( scan ) );
-
         bill.setItems( items.getValue() );
 
         // Fill VAT rate rows
@@ -341,15 +321,6 @@ public class BillDetail
         sumTotalPriceExclVat.setValue( bill.getTotalVatBase() );
         sumTotalVat.setValue( bill.getTotalVat() );
         sumTotalPrice.setValue( bill.getTotalPrice(), bill.getCurrency() );
-
-        List<Scan> scans = Optional.ofNullable( bill.getScans() ).orElse( new ArrayList<>() );
-        Scan scan = scans.isEmpty() ? new Scan() : scans.get( 0 );
-
-        Image image = new Image();
-        image.setServingUrl( scan.getServingUrl() );
-        image.setStorageName( scan.getStorageName() );
-        billUploader.setValue( image );
-
         created.setValue( bill.getCreatedDate() );
         modified.setValue( bill.getModificationDate() );
 
@@ -440,8 +411,6 @@ public class BillDetail
 
     public void setReadOnly( boolean approved )
     {
-        billUploader.setEnabled( !approved );
-
         addItem.setVisible( !approved );
         items.setReadOnly( approved );
 

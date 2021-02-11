@@ -24,14 +24,8 @@
 
     <g:HTMLPanel>
         <m:MaterialRow>
-            <!--bill scan-->
-            <m:MaterialColumn grid="s12 m6">
-                <s:SectionTitle iconType="PHOTO_CAMERA" title="{msg.labelBillScan}"/>
-                <m:MaterialImage ui:field="billScan" border="1px solid" textColor="GREY_LIGHTEN_1"/>
-            </m:MaterialColumn>
-
             <!--company-->
-            <m:MaterialColumn grid="s12 m3">
+            <m:MaterialColumn grid="s12 m6">
                 <s:SectionTitle iconType="BUSINESS" title="{msg.labelCompany}"/>
 
                 <m:MaterialColumn grid="m12" paddingLeft="0">
@@ -48,7 +42,7 @@
             </m:MaterialColumn>
 
             <!-- address-->
-            <m:MaterialColumn grid="s12 m3">
+            <m:MaterialColumn grid="s12 m6">
                 <s:SectionTitle iconType="HOME" title="{msg.labelAddress}"/>
 
                 <map:AddressLookup label="{msg.labelStreet}" ui:field="street" tooltip="{msg.tooltipAddressAutocomplete}"/>

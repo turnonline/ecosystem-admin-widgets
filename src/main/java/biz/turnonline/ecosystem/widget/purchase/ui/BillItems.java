@@ -42,9 +42,9 @@ public class BillItems
     {
         header( messages.labelItemName(), "40%" );
         header( messages.labelVat(), "15%" );
-        header( messages.labelPriceExcludingVat(), "15%" );
-        header( messages.labelVatAmount(), "15%" );
-        header( messages.labelSum(), "15%" );
+        header( messages.labelPriceExcludingVat(), "17%" );
+        header( messages.labelVatAmount(), "17%" );
+        header( messages.labelSum(), "11%" );
         header( "", "5%" );
     }
 

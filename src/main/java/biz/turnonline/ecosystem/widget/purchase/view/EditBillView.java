@@ -24,10 +24,13 @@ import biz.turnonline.ecosystem.widget.purchase.place.EditBill;
 import biz.turnonline.ecosystem.widget.purchase.presenter.EditBillPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.BillDetail;
 import biz.turnonline.ecosystem.widget.purchase.ui.BillSupplier;
+import biz.turnonline.ecosystem.widget.purchase.ui.BillUploader;
 import biz.turnonline.ecosystem.widget.purchase.ui.EditBillTabs;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.account.Image;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
@@ -46,6 +49,9 @@ import gwt.material.design.client.ui.MaterialButton;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -61,6 +67,9 @@ public class EditBillView
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
+
+    @UiField
+    BillUploader billUploader;
 
     @UiField
     EditBillTabs tabs;
@@ -114,6 +123,18 @@ public class EditBillView
     {
         detail.bind( bill );
         supplier.bind( bill );
+
+        if ( bill.getId() == null && billUploader.getBillId() != null )
+        {
+            // Use case when the Bill just has been created while Blob was uploaded
+            bill.setId( billUploader.getBillId() );
+        }
+
+        Scan scan = new Scan();
+        scan.setOrder( 1 );
+        scan.setServingUrl( billUploader.getValue().getServingUrl() );
+        scan.setStorageName( billUploader.getValue().getStorageName() );
+        bill.setScans( Collections.singletonList( scan ) );
     }
 
     @Override
@@ -132,6 +153,15 @@ public class EditBillView
         btnSave.setVisible( !approved );
         approveBill.setEnabled( !approved && bill.getId() != null );
         deleteBill.setEnabled( !approved && bill.getId() != null );
+
+        List<Scan> scans = Optional.ofNullable( bill.getScans() ).orElse( new ArrayList<>() );
+        Scan scan = scans.isEmpty() ? new Scan() : scans.get( 0 );
+
+        Image image = new Image();
+        image.setServingUrl( scan.getServingUrl() );
+        image.setStorageName( scan.getStorageName() );
+        billUploader.setValue( image );
+        billUploader.setEnabled( !approved );
     }
 
     @UiHandler( "btnBack" )

@@ -50,31 +50,31 @@ public class BillUploader
 
         addAppendHeadersCallback( this::append );
         setShadow( 0 );
-        setMarginTop( 10 );
         setMarginBottom( 0 );
         setBorder( "1px dashed #ccc" );
         getElement().getStyle().setCursor( Style.Cursor.POINTER );
+        getElement().getStyle().setHeight( 100, Style.Unit.PCT );
 
         setAcceptedFiles( "image/*,application/pdf" );
 
         setPadding( 10 );
-        addStyleName( "valign-wrapper" );
 
         FlowPanel previewWrapper = new FlowPanel();
-        previewWrapper.addStyleName( "valign center" );
-        previewWrapper.getElement().getStyle().setProperty( "margin", "auto" );
+        previewWrapper.getElement().getStyle().setTextAlign( Style.TextAlign.CENTER );
+        previewWrapper.add( preview );
         add( previewWrapper );
 
-        previewWrapper.getElement().getStyle().setHeight( 100, Style.Unit.PCT );
-        previewWrapper.getElement().getStyle().setOverflow( Style.Overflow.SCROLL );
-        previewWrapper.add( preview );
+        noImagePreviewSize();
 
         addSuccessCallback( event -> {
             setPreview( event.getUploadItem() );
             billId = event.getAssociatedId();
         } );
 
-        AppEventBus.get().addHandler( UploaderAssociatedIdChangeEvent.TYPE, event -> this.billId = event.getId() );
+        AppEventBus.get().addHandler( UploaderAssociatedIdChangeEvent.TYPE, event -> {
+            this.billId = event.getId();
+            addAppendHeadersCallback( this::append );
+        } );
     }
 
     public Long getBillId()
@@ -93,7 +93,18 @@ public class BillUploader
     {
         this.model = value;
         preview.setUrl( value != null && value.getServingUrl() != null ?
-                value.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
+                servingUrlOriginalSize( value.getServingUrl() ) :
+                Resources.INSTANCE.noImage().getSafeUri().asString()
+        );
+
+        if ( value != null && value.getServingUrl() != null )
+        {
+            originalPreviewSize();
+        }
+        else
+        {
+            noImagePreviewSize();
+        }
     }
 
     private void setPreview( UploadItem uploadItem )
@@ -106,7 +117,24 @@ public class BillUploader
         model.setServingUrl( uploadItem.getServingUrl() );
         model.setStorageName( uploadItem.getStorageName() );
 
-        preview.setUrl( uploadItem.getServingUrl() );
+        preview.setUrl( servingUrlOriginalSize( uploadItem.getServingUrl() ) );
+
+        originalPreviewSize();
+    }
+
+    private void originalPreviewSize()
+    {
+        preview.getElement().getStyle().setWidth( 100, Style.Unit.PCT );
+    }
+
+    private void noImagePreviewSize()
+    {
+        preview.getElement().getStyle().setWidth( 20, Style.Unit.PCT );
+    }
+
+    private String servingUrlOriginalSize( String url )
+    {
+        return url + "=s0";
     }
 
     private void append( @Nonnull Headers headers )

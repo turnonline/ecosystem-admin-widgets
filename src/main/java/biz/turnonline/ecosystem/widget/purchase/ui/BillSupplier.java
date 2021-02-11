@@ -20,11 +20,9 @@ import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
-import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.rest.FacadeCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.account.ContactCard;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
-import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchContact;
 import biz.turnonline.ecosystem.widget.shared.ui.ContactAutoComplete;
@@ -40,16 +38,12 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.client.constants.CssName;
-import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookup;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
@@ -60,9 +54,6 @@ public class BillSupplier
     private static final AppMessages messages = AppMessages.INSTANCE;
 
     private static final SupplierUiBinder binder = GWT.create( SupplierUiBinder.class );
-
-    @UiField
-    MaterialImage billScan = new MaterialImage( Resources.INSTANCE.noImage() );
 
     // company
 
@@ -143,11 +134,6 @@ public class BillSupplier
 
     public void fill( @Nonnull Bill bill )
     {
-        List<Scan> scans = Optional.ofNullable( bill.getScans() ).orElse( new ArrayList<>() );
-        Scan scan = scans.isEmpty() ? new Scan() : scans.get( 0 );
-
-        billScan.setUrl( scan.getServingUrl() != null ? scan.getServingUrl() : Resources.INSTANCE.noImage().getSafeUri().asString() );
-
         Supplier supplier = bill.getSupplier();
         if ( supplier == null )
         {
