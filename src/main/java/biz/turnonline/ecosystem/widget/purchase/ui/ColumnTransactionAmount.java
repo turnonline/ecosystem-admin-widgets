@@ -23,6 +23,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.InlineHTML;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -59,34 +60,40 @@ public class ColumnTransactionAmount
     public MaterialColumn getValue( Transaction object )
     {
         MaterialColumn content = new MaterialColumn();
+        renderAmount( content, object );
 
-        boolean credit = object.isCredit();
-        Double amount = object.getAmount();
-        String currency = object.getCurrency();
+        return content;
+    }
+
+    public static void renderAmount( MaterialWidget parent, Transaction transaction )
+    {
+        parent.clear();
+
+        boolean credit = transaction.isCredit();
+        Double amount = transaction.getAmount();
+        String currency = transaction.getCurrency();
 
         if ( currency != null && amount != null )
         {
             // type icon
-            IconType iconType = iconTypeMap.get( object.getType() );
-            String tooltip = iconTypeTextMap.get( object.getType() );
+            IconType iconType = iconTypeMap.get( transaction.getType() );
+            String tooltip = iconTypeTextMap.get( transaction.getType() );
 
             MaterialIcon icon = new MaterialIcon( iconType == null ? IconType.ACCOUNT_BALANCE : iconType );
-            icon.setTooltip( tooltip == null ? object.getType() : tooltip  );
+            icon.setTooltip( tooltip == null ? transaction.getType() : tooltip );
             icon.getElement().getStyle().setPosition( Style.Position.RELATIVE );
             icon.getElement().getStyle().setTop( 7, Style.Unit.PX );
             icon.getElement().getStyle().setMarginRight( 5, Style.Unit.PX );
-            content.add( icon );
+            parent.add( icon );
 
             // formatted amount
             String formatted = NumberFormat.getCurrencyFormat( currency ).format( amount );
 
             InlineHTML amountHtml = new InlineHTML();
             amountHtml.setHTML( ( credit ? "+" : "-" ) + formatted );
-            content.add( amountHtml );
+            parent.add( amountHtml );
 
-            content.addStyleName( credit ? "green-text" : "red-text");
+            parent.addStyleName( credit ? "green-text" : "red-text" );
         }
-
-        return content;
     }
 }

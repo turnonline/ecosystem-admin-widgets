@@ -39,8 +39,11 @@ public class ColumnTransactionMerchant
         if ( merchant != null )
         {
             MaterialLabel bankCode = new MaterialLabel( merchant.getName() );
-            bankCode.setTooltip( merchant.getCity() );
             content.add( bankCode );
+
+            if (merchant.getCity() != null) {
+                bankCode.setTooltip( merchant.getCity() );
+            }
         }
 
         return content;

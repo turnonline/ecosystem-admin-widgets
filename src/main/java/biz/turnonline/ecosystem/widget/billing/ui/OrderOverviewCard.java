@@ -58,10 +58,10 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.T
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.BLUE_GREY_DARKEN_2;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_2;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_3;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_4;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_5;
+import static gwt.material.design.client.constants.Color.CYAN;
+import static gwt.material.design.client.constants.Color.CYAN_DARKEN_1;
+import static gwt.material.design.client.constants.Color.CYAN_DARKEN_2;
+import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_1;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
@@ -178,7 +178,9 @@ public class OrderOverviewCard
         OrderPeriodicity periodicityEnum = order.getPeriodicity() == null
                 ? MANUALLY : OrderPeriodicity.valueOf( order.getPeriodicity() );
 
-        periodicity.setBackgroundColor( periodicityColor( periodicityEnum ) );
+        periodicity.setBackgroundColor( Color.WHITE );
+        periodicity.setTextColor( periodicityColor( periodicityEnum ) );
+        periodicity.setBorder( "1px solid" );
         periodicity.setText( periodicityText( periodicityEnum ) );
 
         // total price at order of current items
@@ -208,7 +210,9 @@ public class OrderOverviewCard
 
     private void statusChanged( Order.Status status )
     {
-        orderStatus.setBackgroundColor( statusColor( status ) );
+        orderStatus.setTextColor( statusColor( status ) );
+        orderStatus.setBackgroundColor( Color.WHITE );
+        orderStatus.setBorder( "1px solid" );
         orderStatus.setText( statusText( status ) );
         orderStatus.setIconType( statusIconType( status ) );
 
@@ -373,15 +377,15 @@ public class OrderOverviewCard
         switch ( periodicity )
         {
             case ANNUALLY:
-                return CYAN_LIGHTEN_2;
+                return CYAN;
             case SEMI_ANNUALLY:
-                return CYAN_LIGHTEN_3;
+                return CYAN_LIGHTEN_1;
             case QUARTERLY:
             case MONTHLY:
             case WEEKLY:
-                return CYAN_LIGHTEN_4;
+                return CYAN_DARKEN_1;
             case MANUALLY:
-                return CYAN_LIGHTEN_5;
+                return CYAN_DARKEN_2;
         }
         String error = "Unknown order periodicity: " + periodicity;
         GWT.log( error );

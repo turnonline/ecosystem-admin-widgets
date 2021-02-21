@@ -30,6 +30,7 @@ import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionDetailPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.view.BillsView;
 import biz.turnonline.ecosystem.widget.purchase.view.CategoriesView;
@@ -39,6 +40,7 @@ import biz.turnonline.ecosystem.widget.purchase.view.ExpensesView;
 import biz.turnonline.ecosystem.widget.purchase.view.IncomingInvoiceDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrderDetailsView;
 import biz.turnonline.ecosystem.widget.purchase.view.PurchaseOrdersView;
+import biz.turnonline.ecosystem.widget.purchase.view.TransactionDetailView;
 import biz.turnonline.ecosystem.widget.purchase.view.TransactionsView;
 import biz.turnonline.ecosystem.widget.shared.AddressLookupListener;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
@@ -270,6 +272,19 @@ public abstract class PurchaseModule
 
     @Provides
     @Singleton
+    @Named( "TransactionDetailBreadcrumb" )
+    static ScaffoldBreadcrumb provideTransactionDetailBreadcrumb( PlaceController placeController )
+    {
+        List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Transactions(), IconType.COMPARE_ARROWS, messages.labelTransactions() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelTransactionDetail() ) );
+
+        return new ScaffoldBreadcrumb( items, placeController );
+    }
+
+    @Provides
+    @Singleton
     @Named( "CategoriesBreadcrumb" )
     static ScaffoldBreadcrumb provideCategoriesBreadcrumb( PlaceController placeController )
     {
@@ -330,6 +345,10 @@ public abstract class PurchaseModule
     @Binds
     @Singleton
     abstract TransactionsPresenter.IView provideTransactionsView( TransactionsView view );
+
+    @Binds
+    @Singleton
+    abstract TransactionDetailPresenter.IView provideTransactionDetailView( TransactionDetailView view );
 
     @Binds
     @Singleton

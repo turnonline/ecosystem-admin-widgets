@@ -32,6 +32,7 @@ import com.google.gwt.place.shared.WithTokenizers;
         Expenses.Tokenizer.class,
         IncomingInvoiceDetails.Tokenizer.class,
         Transactions.Tokenizer.class,
+        TransactionDetail.Tokenizer.class,
         Categories.Tokenizer.class,
         EditCategory.Tokenizer.class
 } )

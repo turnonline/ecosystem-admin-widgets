@@ -186,7 +186,9 @@ public class ExpenseOverviewCard
         billNumber.setText( expense.getBillNumber() );
         type.setIconType( billIcon( bill ) );
         type.setIconPosition( IconPosition.LEFT );
-        type.setBackgroundColor( billType( bill ) );
+        type.setTextColor( billType( bill ) );
+        type.setBackgroundColor( WHITE );
+        type.setBorder( "1px solid" );
         type.setText( billText( bill ) );
 
         // pricing
@@ -199,7 +201,9 @@ public class ExpenseOverviewCard
 
             Date dateOfIssue = expense.getDateOfIssue();
             dueDate.setText( dateOfIssue == null ? "none" : FORMATTER.format( dateOfIssue ) );
-            dueDate.setBackgroundColor( GREEN );
+            dueDate.setBackgroundColor( WHITE );
+            dueDate.setTextColor( GREEN );
+            dueDate.setBorder( "1px solid" );
             dueDate.setVisible( dateOfIssue != null );
         }
         else if ( payment == null )

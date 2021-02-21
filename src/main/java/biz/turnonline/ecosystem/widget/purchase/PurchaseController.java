@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.IncomingInvoiceDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrderDetailsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.PurchaseOrdersPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionDetailPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import org.ctoolkit.gwt.client.presenter.PresenterController;
 
@@ -45,6 +46,7 @@ public class PurchaseController
                                BillsPresenter bills,
                                EditBillPresenter editBill,
                                TransactionsPresenter transactions,
+                               TransactionDetailPresenter transactionDetail,
                                CategoriesPresenter categories,
                                EditCategoryPresenter editCategory )
     {
@@ -55,6 +57,7 @@ public class PurchaseController
                 bills,
                 editBill,
                 transactions,
+                transactionDetail,
                 categories,
                 editCategory );
     }

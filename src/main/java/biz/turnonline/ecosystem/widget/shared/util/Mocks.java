@@ -17,10 +17,17 @@
 
 package biz.turnonline.ecosystem.widget.shared.util;
 
+import biz.turnonline.ecosystem.widget.shared.rest.payment.Bill;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.Merchant;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.TransactionBank;
+import biz.turnonline.ecosystem.widget.shared.rest.payment.TransactionCategory;
 import biz.turnonline.ecosystem.widget.shared.rest.search.GlobalItemType;
 import biz.turnonline.ecosystem.widget.shared.rest.search.SearchGlobal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -94,5 +101,55 @@ public class Mocks
         list.add( o2 );
 
         return list;
+    }
+
+    public static Transaction transaction()
+    {
+        Transaction transaction = new Transaction();
+
+        transaction.setTransactionId( 5662784121470976L );
+        transaction.setAmount( 959.24 );
+        transaction.setBalance( 100000D );
+        transaction.setCredit( false );
+        transaction.setCurrency( "EUR" );
+        transaction.setReference( "/VS1100012021/SS/KS" );
+        transaction.setStatus( "COMPLETED" );
+        transaction.setType( "TRANSFER" );
+        transaction.setCompletedAt( new Date() );
+
+        TransactionBank bankAccount = new TransactionBank();
+        bankAccount.setCode( "REVO" );
+        bankAccount.setIban( "LT04 1234 5678 9812 4321" );
+        transaction.setBankAccount( bankAccount );
+
+        Merchant merchant = new Merchant();
+        merchant.setCategory( "Gas" );
+        merchant.setName( "To Daňový úrad Trnava DPH" );
+        merchant.setCity( "Bratislava" );
+        transaction.setMerchant( merchant );
+
+        Bill bill = new Bill();
+        bill.setInvoiceId( 1L );
+        bill.setOrderId( 2L );
+        transaction.setBill( bill );
+
+        TransactionCategory transactionCategory1 = new TransactionCategory();
+        transactionCategory1.setColor( "#cc0000" );
+        transactionCategory1.setName( "Gas" );
+        transactionCategory1.setPropagate( true );
+
+        TransactionCategory transactionCategory2 = new TransactionCategory();
+        transactionCategory2.setColor( "#00cc00" );
+        transactionCategory2.setName( "Money loundry" );
+        transactionCategory2.setPropagate( true );
+
+        TransactionCategory transactionCategory3 = new TransactionCategory();
+        transactionCategory3.setColor( "#0000cc" );
+        transactionCategory3.setName( "Tax prepayment" );
+        transactionCategory3.setPropagate( true );
+
+        transaction.setCategories( Arrays.asList(transactionCategory1, transactionCategory2, transactionCategory3) );
+
+        return transaction;
     }
 }

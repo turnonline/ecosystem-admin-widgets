@@ -103,6 +103,11 @@ public interface PaymentProcessorFacade
                           @QueryParam( "type" ) String type,
                           SuccessCallback<Items<Transaction>> callback );
 
+    @GET
+    @Path( "transactions/{transaction_id}" )
+    void findTransactionById( @PathParam( "transaction_id" ) Long transactionId,
+                          SuccessCallback<Transaction> callback );
+
     //////////////////////
     ////// codebooks /////
     //////////////////////
@@ -144,6 +149,6 @@ public interface PaymentProcessorFacade
 
     @GET
     @Path( "categories/transactions/{transaction_id}" )
-    void getCategoriesForTransaction( @PathParam( "transaction_id" ) String transactionId,
+    void getCategoriesForTransaction( @PathParam( "transaction_id" ) Long transactionId,
                                       SuccessCallback<Items<Category>> callback );
 }

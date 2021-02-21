@@ -44,7 +44,7 @@
                     <m:MaterialChip ui:field="periodicity" textColor="BLACK" iconType="REPEAT" iconPosition="LEFT"/>
                 </m:MaterialRow>
                 <m:MaterialRow>
-                    <m:MaterialChip ui:field="id" backgroundColor="BLUE_GREY_LIGHTEN_4" textColor="BLACK"
+                    <m:MaterialChip ui:field="id" textColor="BLUE_GREY_LIGHTEN_1" backgroundColor="WHITE" border="1px solid"
                                     tooltip="{msg.tooltipPurchaseOrderNumber}" tooltipPosition="BOTTOM" tooltipDelayMs="500"/>
                 </m:MaterialRow>
             </m:MaterialColumn>

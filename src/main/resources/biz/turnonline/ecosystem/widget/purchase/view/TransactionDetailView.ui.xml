@@ -1,0 +1,102 @@
+<!--
+  ~  Copyright (c) 2020 TurnOnline.biz s.r.o.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:m='urn:import:gwt.material.design.client.ui'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b='urn:import:gwt.material.design.addins.client.bubble'
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui"
+             xmlns:p="urn:import:biz.turnonline.ecosystem.widget.purchase.ui">
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+        <m:MaterialPanel shadow="1" marginLeft="20" marginRight="20" marginTop="20">
+            <m:MaterialRow>
+                <m:MaterialColumn grid="s12 m3">
+                    <s:SectionTitle iconType="VISIBILITY" title="{msg.labelDetail}" paddingBottom="10"/>
+                    <m:MaterialLongBox ui:field="transactionId" readOnly="true" label="Transaction ID"/>
+                    <p:TransactionAmountBox ui:field="amount" grid="s12 m6" label="Amount" paddingLeft="0"/>
+                    <s:PriceTextBox ui:field="balance" readOnly="true" grid="s12 m6" label="Balance" paddingLeft="0"/>
+                    <m:MaterialTextBox ui:field="reference" grid="s12 m12" readOnly="true" label="Reference" paddingLeft="0"/>
+                </m:MaterialColumn>
+
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialContainer grid="s12 m12" paddingLeft="0">
+                        <s:SectionTitle iconType="ACCOUNT_BALANCE" title="{msg.labelBank}" paddingBottom="10"/>
+                    </m:MaterialContainer>
+                    <m:MaterialTextBox ui:field="bankAccountCode" grid="s12 m4" readOnly="true" label="Code" paddingLeft="0"/>
+                    <m:MaterialTextBox ui:field="bankAccountIban" grid="s12 m8" readOnly="true" label="IBAN" paddingLeft="0"/>
+
+                    <m:MaterialContainer grid="s12 m12" paddingLeft="0">
+                        <s:SectionTitle iconType="DATE_RANGE" title="{msg.labelDates}" paddingBottom="10"/>
+                    </m:MaterialContainer>
+                    <m:MaterialDatePicker ui:field="completedAt" grid="s12 m12" readOnly="true" label="Completed at" paddingLeft="0"/>
+                </m:MaterialColumn>
+
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialContainer grid="s12 m12" paddingLeft="0">
+                        <s:SectionTitle iconType="PERSON_OUTLINE" title="{msg.labelMerchant}" paddingBottom="10"/>
+                    </m:MaterialContainer>
+                    <m:MaterialTextBox ui:field="merchantName" grid="s12 m12" readOnly="true" label="Name" paddingLeft="0"/>
+                    <m:MaterialTextBox ui:field="merchantCity" grid="s12 m12" readOnly="true" label="City" paddingLeft="0"/>
+                    <m:MaterialTextBox ui:field="merchantCategory" grid="s12 m12" readOnly="true" label="Category" paddingLeft="0"/>
+                </m:MaterialColumn>
+
+                <m:MaterialColumn grid="s12 m3">
+                    <m:MaterialContainer grid="s10 m10" paddingLeft="0" paddingBottom="10">
+                        <s:SectionTitle iconType="LINEAR_SCALE" title="{msg.labelStatus}"/>
+                    </m:MaterialContainer>
+                    <p:TransactionStatusChip ui:field="status" paddingBottom="10"/>
+
+                    <m:MaterialContainer>
+                        <m:MaterialContainer grid="s10 m10" paddingLeft="0">
+                            <s:SectionTitle iconType="LOCAL_OFFER" title="{msg.labelCategories}"/>
+                        </m:MaterialContainer>
+
+                        <m:MaterialButton ui:field="btnResolveCategories"
+                                          type="FLAT"
+                                          float="RIGHT"
+                                          iconType="YOUTUBE_SEARCHED_FOR"
+                                          iconColor="ORANGE"
+                                          size="MEDIUM"
+                                          marginTop="10"
+                                          tooltip="{msg.tooltipCategoryResolve}"
+                                          grid="s2 m2"/>
+                    </m:MaterialContainer>
+
+                    <m:MaterialContainer ui:field="categories" marginTop="10"/>
+
+                    <b:MaterialBubble ui:field="bubble"
+                                      float="LEFT"
+                                      position="LEFT"
+                                      backgroundColor="WHITE"
+                                      visible="false"
+                                      paddingTop="5"
+                                      paddingBottom="5"
+                                      marginTop="10"/>
+                </m:MaterialColumn>
+            </m:MaterialRow>
+        </m:MaterialPanel>
+
+        <m:MaterialRow paddingLeft="20" float="LEFT">
+            <m:MaterialButton ui:field="btnBack" marginRight="10" type="FLAT" waves="DEFAULT" backgroundColor="WHITE"
+                              textColor="DEFAULT" iconType="ARROW_BACK" tooltip="{msg.tooltipBackList}"
+                              text="{msg.labelBack}"/>
+        </m:MaterialRow>
+    </g:HTMLPanel>
+</ui:UiBinder>

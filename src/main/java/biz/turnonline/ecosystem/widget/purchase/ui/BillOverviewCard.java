@@ -17,6 +17,7 @@
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Bills;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
@@ -51,10 +52,9 @@ import java.util.Optional;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.INVOICE;
 import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.RECEIPT;
-import static gwt.material.design.client.constants.Color.BROWN_LIGHTEN_2;
+import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.RED;
-import static gwt.material.design.client.constants.Color.TEAL_LIGHTEN_2;
 import static gwt.material.design.client.constants.IconType.EDIT;
 import static gwt.material.design.client.constants.IconType.VISIBILITY;
 
@@ -126,8 +126,10 @@ public class BillOverviewCard
         description.getElement().getStyle().setTextOverflow( Style.TextOverflow.ELLIPSIS );
         description.setText( Optional.ofNullable( bill.getDescription() ).orElse( "-" ) );
         billNumber.setText( Optional.ofNullable( bill.getBillNumber() ).orElse( "-" ) );
+        type.setBorder( "1px solid" );
         type.setText( typeText( bill.getType() ) );
-        type.setBackgroundColor( typeColor( bill.getType() ) );
+        type.setTextColor( typeColor( bill.getType() ) );
+        type.setBackgroundColor( Color.WHITE );
         totalPrice.setValue( bill.getTotalPrice(), bill.getCurrency() );
         supplier.setValue( formatSupplier( bill.getSupplier() ) );
         DateTimeFormat format = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_FULL );
@@ -197,14 +199,23 @@ public class BillOverviewCard
         bus.fireEvent( new EditBillEvent( bill.getId() ) );
     }
 
+    @UiHandler( "paired" )
+    public void pairedLink( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        if ( bill.getTransactionId() != null )
+        {
+            bus.fireEvent( new TransactionDetailEvent( bill.getTransactionId() ) );
+        }
+    }
+
     private Color typeColor( Bill.TypeEnum type )
     {
         if ( RECEIPT == type )
         {
-            return BROWN_LIGHTEN_2;
+            return BLUE;
         }
 
-        return TEAL_LIGHTEN_2;
+        return GREEN;
     }
 
     private String typeText( Bill.TypeEnum type )

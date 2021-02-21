@@ -25,6 +25,7 @@ import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCategories;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCompletedAt;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionMerchant;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionStatus;
+import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionsActions;
 import biz.turnonline.ecosystem.widget.purchase.ui.TransactionsDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
@@ -90,10 +91,10 @@ public class TransactionsView
     private void initTable()
     {
         ColumnTransactionStatus status = new ColumnTransactionStatus();
-        status.width( "5%" );
+        status.width( "10%" );
 
         ColumnTransactionAmount amount = new ColumnTransactionAmount();
-        amount.width( "10%" );
+        amount.width( "5%" );
 
         ColumnTransactionCompletedAt completedAt = new ColumnTransactionCompletedAt();
         completedAt.width( "10%" );
@@ -105,7 +106,10 @@ public class TransactionsView
         merchant.width( "10%" );
 
         ColumnTransactionCategories categories = new ColumnTransactionCategories( bus() );
-        categories.width("10%");
+        categories.width("5%");
+
+        ColumnTransactionsActions actions = new ColumnTransactionsActions(bus());
+        actions.width("5%");
 
         table.addColumn( messages.labelStatus(), status );
         table.addColumn( messages.labelPayment(), amount );
@@ -113,6 +117,7 @@ public class TransactionsView
         table.addColumn( messages.labelBank(), bank );
         table.addColumn( messages.labelMerchant(), merchant );
         table.addColumn( messages.labelCategories(), categories );
+        table.addColumn( actions );
 
         table.configure( new TransactionsDataSource( ( AppEventBus ) bus() ) );
         table.getPager().setLimit( 100 );

@@ -30,7 +30,7 @@ import java.util.Objects;
 public class Transaction
 {
     @JsonProperty( "transactionId" )
-    private String transactionId;
+    private Long transactionId;
 
     @JsonProperty( "amount" )
     private Double amount;
@@ -71,7 +71,7 @@ public class Transaction
     @JsonProperty( "categories" )
     private List<TransactionCategory> categories = new ArrayList<>();
 
-    public Transaction transactionId( String transactionId )
+    public Transaction transactionId( Long transactionId )
     {
         this.transactionId = transactionId;
         return this;
@@ -81,12 +81,12 @@ public class Transaction
      * The transaction id
      **/
     @JsonProperty( "transactionId" )
-    public String getTransactionId()
+    public Long getTransactionId()
     {
         return transactionId;
     }
 
-    public void setTransactionId( String transactionId )
+    public void setTransactionId( Long transactionId )
     {
         this.transactionId = transactionId;
     }

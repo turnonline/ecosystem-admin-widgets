@@ -69,8 +69,9 @@ public class SectionTitle
         this.title.setTextColor( color );
     }
 
-    public void setMarginBottom(String value) {
-
+    public void setPaddingBottom( double value) {
+        icon.setPaddingBottom( value );
+        title.setPaddingBottom( value );
     }
 
     interface SectionTitleUiBinder

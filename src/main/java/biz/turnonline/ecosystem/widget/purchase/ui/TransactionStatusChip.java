@@ -1,29 +1,12 @@
-/*
- *  Copyright (c) 2020 TurnOnline.biz s.r.o.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.TransactionStatus;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialChip;
-import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +14,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
-public class ColumnTransactionStatus
-        extends WidgetColumn<Transaction, MaterialChip>
+public class TransactionStatusChip extends MaterialChip
 {
     private static final AppMessages messages = AppMessages.INSTANCE;
 
@@ -64,12 +46,23 @@ public class ColumnTransactionStatus
         localizationMap.put( TransactionStatus.REVERTED.name(), messages.labelTransactionStatusReverted() );
     }
 
-    @Override
-    public MaterialChip getValue( Transaction object )
+    public void setValue( Transaction transaction )
     {
-        TransactionStatusChip badge = new TransactionStatusChip();
-        badge.setValue( object );
+        String status = transaction.getStatus();
+        String text = localizationMap.get( status );
 
-        return badge;
+        if ( text != null )
+        {
+            setText( text );
+            setTextColor( colorMap.get( status ) );
+            setBorder( "1px solid" );
+            setBackgroundColor( Color.WHITE );
+            setIconType( iconMap.get( status ) );
+            setIconPosition( IconPosition.LEFT );
+        }
+        else
+        {
+            setVisible( false );
+        }
     }
 }

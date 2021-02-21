@@ -166,11 +166,15 @@ public class InvoiceOverviewCard
         }
 
         invoiceNumber.setText( invoice.getInvoiceNumber() );
-        type.setBackgroundColor( typeColor( invoice.getType() ) );
+        type.setBackgroundColor( Color.WHITE );
+        type.setTextColor(  typeColor( invoice.getType() ) );
+        type.setBorder( "1px solid" );
         type.setText( typeText( invoice.getType() ) );
 
         Invoice.Status statusEnum = invoice.getStatus() == null ? NEW : valueOf( invoice.getStatus() );
-        status.setBackgroundColor( statusColor( statusEnum ) );
+        status.setBackgroundColor( Color.WHITE );
+        status.setTextColor( statusColor( statusEnum ) );
+        status.setBorder( "1px solid" );
         status.setText( statusText( statusEnum ) );
 
         // pricing

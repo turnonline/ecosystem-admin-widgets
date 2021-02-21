@@ -92,6 +92,9 @@ public interface AppMessages
     @Key( value = "label.transactions" )
     String labelTransactions();
 
+    @Key( value = "label.transactionDetail" )
+    String labelTransactionDetail();
+
     @Key( value = "label.categories" )
     String labelCategories();
 
@@ -1032,6 +1035,9 @@ public interface AppMessages
 
     @Key( value = "tooltip.transaction.list.refresh" )
     String tooltipTransactionListRefresh();
+
+    @Key( value = "tooltip.transaction.detail" )
+    String tooltipTransactionDetail();
 
     @Key( value = "tooltip.categories.list.refresh" )
     String tooltipCategoriesListRefresh();

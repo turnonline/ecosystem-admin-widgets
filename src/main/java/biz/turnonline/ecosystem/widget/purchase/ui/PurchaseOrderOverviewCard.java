@@ -182,7 +182,9 @@ public class PurchaseOrderOverviewCard
         OrderPeriodicity periodicityEnum = order.getPeriodicity() == null
                 ? MANUALLY : OrderPeriodicity.valueOf( order.getPeriodicity() );
 
-        periodicity.setBackgroundColor( periodicityColor( periodicityEnum ) );
+        periodicity.setBackgroundColor( Color.WHITE );
+        periodicity.setTextColor( periodicityColor( periodicityEnum ) );
+        periodicity.setBorder( "1px solid" );
         periodicity.setText( periodicityText( periodicityEnum ) );
 
         // total price at order of current items
@@ -214,8 +216,10 @@ public class PurchaseOrderOverviewCard
 
     private void statusChanged( Order.Status status )
     {
-        orderStatus.setBackgroundColor( statusColor( status ) );
+        orderStatus.setBackgroundColor( Color.WHITE );
+        orderStatus.setTextColor( statusColor( status ) );
         orderStatus.setText( statusText( status ) );
+        orderStatus.setBorder( "1px solid" );
         orderStatus.setIconType( statusIconType( status ) );
 
         // action buttons
