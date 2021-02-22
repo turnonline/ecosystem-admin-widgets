@@ -56,10 +56,10 @@ import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.T
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 import static gwt.material.design.client.constants.Color.BLUE;
 import static gwt.material.design.client.constants.Color.BLUE_GREY_DARKEN_2;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_2;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_3;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_4;
-import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_5;
+import static gwt.material.design.client.constants.Color.CYAN;
+import static gwt.material.design.client.constants.Color.CYAN_DARKEN_1;
+import static gwt.material.design.client.constants.Color.CYAN_DARKEN_2;
+import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_1;
 import static gwt.material.design.client.constants.Color.GREEN;
 import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
@@ -390,15 +390,15 @@ public class PurchaseOrderOverviewCard
         switch ( periodicity )
         {
             case ANNUALLY:
-                return CYAN_LIGHTEN_2;
+                return CYAN;
             case SEMI_ANNUALLY:
-                return CYAN_LIGHTEN_3;
+                return CYAN_LIGHTEN_1;
             case QUARTERLY:
             case MONTHLY:
             case WEEKLY:
-                return CYAN_LIGHTEN_4;
+                return CYAN_DARKEN_1;
             case MANUALLY:
-                return CYAN_LIGHTEN_5;
+                return CYAN_DARKEN_2;
         }
         String error = "Unknown purchase order periodicity: " + periodicity;
         GWT.log( error );
