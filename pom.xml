@@ -25,7 +25,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>biz.turnonline.ecosystem</groupId>
     <artifactId>ecosystem-admin-widgets</artifactId>
-    <version>0.22-SNAPSHOT</version>
+    <version>0.23-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>TurnOnline.biz Ecosystem Administration</name>
     <description>TurnOnline.biz Ecosystem Administration GWT based widgets, distributed as zip</description>
