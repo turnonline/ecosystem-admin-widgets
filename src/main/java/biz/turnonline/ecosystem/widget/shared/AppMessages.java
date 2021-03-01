@@ -353,6 +353,9 @@ public interface AppMessages
     @Key( value = "label.amount" )
     String labelAmount();
 
+    @Key( value = "label.balance" )
+    String labelBalance();
+
     @Key( value = "label.unit" )
     String labelUnit();
 
@@ -805,6 +808,18 @@ public interface AppMessages
 
     @Key( value = "label.transactionStatus.reverted" )
     String labelTransactionStatusReverted();
+
+    @Key( value = "label.transactionId" )
+    String labelTransactionId();
+
+    @Key( value = "label.transactionReference" )
+    String labelTransactionReference();
+
+    @Key( value = "label.bankCode" )
+    String labelBankCode();
+
+    @Key( value = "label.iban" )
+    String labelIban();
 
     @Key( value = "label.paymentMethod.transfer" )
     String labelPaymentMethodTransfer();
