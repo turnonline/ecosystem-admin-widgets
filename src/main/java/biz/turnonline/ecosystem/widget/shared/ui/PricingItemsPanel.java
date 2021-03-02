@@ -82,9 +82,9 @@ import static gwt.material.design.client.constants.IconType.PERSONAL_VIDEO;
 public class PricingItemsPanel
         extends Composite
 {
-    private static AppMessages messages = AppMessages.INSTANCE;
+    private static final AppMessages messages = AppMessages.INSTANCE;
 
-    private static ItemsUiBinder binder = GWT.create( ItemsUiBinder.class );
+    private static final ItemsUiBinder binder = GWT.create( ItemsUiBinder.class );
 
     private final Context context;
 
@@ -136,9 +136,9 @@ public class PricingItemsPanel
 
     private TreeItemWithModel selectedTreeItem;
 
-    private AppEventBus bus;
+    private final AppEventBus bus;
 
-    private PricingItemMapper mapper;
+    private final PricingItemMapper mapper;
 
     private String currency;
 
@@ -437,6 +437,7 @@ public class PricingItemsPanel
 
         root.setPriceExclVat( priceExclVat == null ? 0.0 : priceExclVat );
         root.setUnit( unit == null ? "ITEM" : unit );
+        root.setProduct( product.getId() == null ? null : new PricingProduct().setId( product.getId() ) );
 
         List<PricingItem> rootAsList = new ArrayList<>();
         rootAsList.add( root );

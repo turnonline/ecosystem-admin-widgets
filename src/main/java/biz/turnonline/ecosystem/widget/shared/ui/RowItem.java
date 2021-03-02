@@ -61,13 +61,15 @@ import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 class RowItem
         extends Composite
 {
-    private static AppMessages messages = AppMessages.INSTANCE;
+    private static final AppMessages messages = AppMessages.INSTANCE;
 
-    private static ItemUiBinder binder = GWT.create( ItemUiBinder.class );
+    private static final ItemUiBinder binder = GWT.create( ItemUiBinder.class );
 
     private final EventBus bus;
 
     private final TreeItemWithModel treeItem;
+
+    private final HasValue<String> itemName;
 
     @UiField
     MaterialCheckBox checkedIn;
@@ -95,8 +97,6 @@ class RowItem
 
     @UiField
     TableData deleteColumn;
-
-    private HasValue<String> itemName;
 
     private boolean originCheckedInEnabled;
 
@@ -250,7 +250,7 @@ class RowItem
     public void fill( @Nonnull PricingItem model )
     {
         // by default checked in marked to be included in to calculation
-        checkedIn.setValue( model.getCheckedIn() == null ? true : model.getCheckedIn() );
+        checkedIn.setValue( model.getCheckedIn() == null || model.getCheckedIn() );
         itemName.setValue( model.getItemName() );
         amount.setValue( model.getAmount() != null ? model.getAmount() : 1D );
         priceExclVat.setValue( model.getPriceExclVat() );
