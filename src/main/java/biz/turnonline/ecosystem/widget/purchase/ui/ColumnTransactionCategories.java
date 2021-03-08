@@ -22,14 +22,11 @@ import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.TransactionCategory;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.addins.client.bubble.MaterialBubble;
-import gwt.material.design.client.constants.ButtonSize;
-import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.constants.Position;
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialContainer;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
@@ -48,7 +45,7 @@ public class ColumnTransactionCategories
 
     public ColumnTransactionCategories( EventBus eventBus )
     {
-        this.eventBus = (AppEventBus)eventBus;
+        this.eventBus = ( AppEventBus ) eventBus;
     }
 
     @Override
@@ -57,66 +54,73 @@ public class ColumnTransactionCategories
         MaterialColumn content = new MaterialColumn();
 
         MaterialBubble bubble = new MaterialBubble();
-        bubble.setFloat( Style.Float.LEFT );
-        bubble.setPosition( Position.LEFT );
         bubble.setBackgroundColor( Color.WHITE );
+        bubble.setPadding( 0 );
         bubble.setVisible( false );
-        bubble.getElement().getStyle().setMarginTop( 0, Style.Unit.PX );
-        bubble.getElement().getStyle().setPosition( Style.Position.ABSOLUTE );
-        bubble.addMouseOutHandler( event -> bubble.setVisible( false ) );
+        bubble.getElement().getStyle().setMarginTop( 14, Style.Unit.PX );
+        bubble.setShadow( 0 );
+        bubble.setOpacity( 0.6 );
         content.add( bubble );
 
-        content.add( getBtnResolve( object, bubble ) );
+        MaterialContainer categoriesContainer = new MaterialContainer();
+        content.add( categoriesContainer );
 
         List<TransactionCategory> categories = object.getCategories();
         if ( categories != null )
         {
             categories.forEach( category -> {
                 MaterialContainer container = new MaterialContainer();
-                container.setMarginBottom( 5 );
+                container.setMarginRight( 5 );
                 container.getElement().getStyle().setDisplay( Style.Display.INLINE_BLOCK );
-                content.add( container );
+                categoriesContainer.add( container );
 
-                CategoryBadge badge = new CategoryBadge(category);
+                CategoryBadge badge = new CategoryBadge( category );
                 container.add( badge );
             } );
         }
+        else
+        {
+            InlineHTML child = new InlineHTML( "&nbsp;" );
+            child.getElement().getStyle().setPadding( 10, Style.Unit.PX );
+            child.getElement().getStyle().setDisplay( Style.Display.BLOCK );
+            categoriesContainer.add( child );
+        }
+
+        content.addMouseOverHandler( event -> showCategories( event, object, categoriesContainer, bubble ) );
+        content.addMouseOutHandler( event -> hideCategories( categoriesContainer, bubble ) );
 
         return content;
     }
 
-    private MaterialButton getBtnResolve( Transaction value, MaterialBubble bubble )
+    private void hideCategories( MaterialContainer categories, MaterialBubble bubble )
     {
-        MaterialButton btnCheckCategories = new MaterialButton();
-        btnCheckCategories.addMouseOverHandler( event -> {
-            event.stopPropagation();
-            eventBus.paymentProcessor().getCategoriesForTransaction( value.getTransactionId(), response -> {
-                bubble.clear();
+        bubble.setVisible( false );
+        categories.setVisible( true );
+    }
 
-                response.getItems().forEach( category -> {
-                    MaterialContainer container = new MaterialContainer();
-                    bubble.add( container );
+    private void showCategories( MouseOverEvent event, Transaction value, MaterialContainer categories, MaterialBubble bubble )
+    {
+        if ( !event.getNativeEvent().getCtrlKey() )
+        {
+            return;
+        }
 
-                    CategoryBadge badge = new CategoryBadge( category );
-                    container.add( badge );
-                } );
+        eventBus.paymentProcessor().getCategoriesForTransaction( value.getTransactionId(), response -> {
+            bubble.clear();
 
-                if (!response.getItems().isEmpty())
-                {
-                    bubble.setVisible( true );
-                }
+            response.getItems().forEach( category -> {
+                MaterialContainer container = new MaterialContainer();
+                bubble.add( container );
+
+                CategoryBadge badge = new CategoryBadge( category );
+                container.add( badge );
             } );
+
+            if ( !response.getItems().isEmpty() )
+            {
+                bubble.setVisible( true );
+                categories.setVisible( false );
+            }
         } );
-
-        btnCheckCategories.setType( ButtonType.FLAT );
-
-        btnCheckCategories.setIconType( IconType.YOUTUBE_SEARCHED_FOR );
-        btnCheckCategories.setIconColor( Color.ORANGE );
-        btnCheckCategories.setSize( ButtonSize.MEDIUM );
-        btnCheckCategories.setPadding( 0 );
-
-        btnCheckCategories.setTooltip( messages.tooltipCategoryResolve() );
-
-        return btnCheckCategories;
     }
 }

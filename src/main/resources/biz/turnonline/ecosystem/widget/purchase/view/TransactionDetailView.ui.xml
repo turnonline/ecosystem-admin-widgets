@@ -64,31 +64,20 @@
                     <p:TransactionStatusChip ui:field="status" paddingBottom="10"/>
 
                     <m:MaterialContainer>
-                        <m:MaterialContainer grid="s10 m10" paddingLeft="0">
-                            <s:SectionTitle iconType="LOCAL_OFFER" title="{msg.labelCategories}"/>
+                        <m:MaterialContainer grid="s12 m12" paddingLeft="0">
+                            <s:SectionTitle iconType="LOCAL_OFFER" title="{msg.labelCategories}" ui:field="categoryTitle"/>
                         </m:MaterialContainer>
-
-                        <m:MaterialButton ui:field="btnResolveCategories"
-                                          type="FLAT"
-                                          float="RIGHT"
-                                          iconType="YOUTUBE_SEARCHED_FOR"
-                                          iconColor="ORANGE"
-                                          size="MEDIUM"
-                                          marginTop="10"
-                                          tooltip="{msg.tooltipCategoryResolve}"
-                                          grid="s2 m2"/>
                     </m:MaterialContainer>
 
-                    <m:MaterialContainer ui:field="categories" marginTop="10"/>
-
                     <b:MaterialBubble ui:field="bubble"
-                                      float="LEFT"
-                                      position="LEFT"
-                                      backgroundColor="WHITE"
+                                      grid="s12 m12"
                                       visible="false"
-                                      paddingTop="5"
-                                      paddingBottom="5"
-                                      marginTop="10"/>
+                                      shadow="0"
+                                      backgroundColor="WHITE"
+                                      opacity="0.6"
+                                      marginTop="11"/>
+
+                    <m:MaterialContainer ui:field="categories" marginTop="10" grid="s12 m12"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

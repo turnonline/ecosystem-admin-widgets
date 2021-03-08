@@ -26,6 +26,7 @@ import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceTextBox;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
+import biz.turnonline.ecosystem.widget.shared.ui.SectionTitle;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -92,10 +93,10 @@ public class TransactionDetailView
     MaterialContainer categories;
 
     @UiField
-    MaterialBubble bubble;
+    SectionTitle categoryTitle;
 
     @UiField
-    MaterialButton btnResolveCategories;
+    MaterialBubble bubble;
 
     @UiField( provided = true )
     ScaffoldBreadcrumb breadcrumb;
@@ -115,6 +116,9 @@ public class TransactionDetailView
         add( binder.createAndBindUi( this ) );
 
         categories.getElement().getStyle().setDisplay( Style.Display.INLINE_BLOCK );
+
+        categoryTitle.getTitleComponent().addMouseOverHandler( this::showCategories );
+        categoryTitle.getTitleComponent().addMouseOutHandler( this::hideCategories );
     }
 
     @Override
@@ -169,16 +173,18 @@ public class TransactionDetailView
         bus().fireEvent( new BackTransactionEvent() );
     }
 
-    @UiHandler( "btnResolveCategories" )
-    public void handleBubbleMouseOut( @SuppressWarnings( "unused" ) MouseOutEvent event )
+    public void hideCategories( MouseOutEvent event )
     {
         bubble.setVisible( false );
+        categories.setVisible( true );
     }
 
-    @UiHandler( "btnResolveCategories" )
-    public void handleResolveCategoriesOver( @SuppressWarnings( "unused" ) MouseOverEvent event )
+    public void showCategories( MouseOverEvent event )
     {
-        event.stopPropagation();
+        if (!event.getNativeEvent().getCtrlKey() ) {
+            return;
+        }
+
         ( ( AppEventBus ) bus() ).paymentProcessor().getCategoriesForTransaction( getRawModel().getTransactionId(), response -> {
             bubble.clear();
 
@@ -193,6 +199,7 @@ public class TransactionDetailView
             if ( !response.getItems().isEmpty() )
             {
                 bubble.setVisible( true );
+                categories.setVisible( false );
             }
         } );
     }

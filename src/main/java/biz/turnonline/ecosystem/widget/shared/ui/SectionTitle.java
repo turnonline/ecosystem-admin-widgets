@@ -58,6 +58,11 @@ public class SectionTitle
         this.title.setDescription( title );
     }
 
+    public MaterialTitle getTitleComponent()
+    {
+        return title;
+    }
+
     public void setIconMarginLeft( double marginLeft )
     {
         icon.setMarginLeft( marginLeft );
