@@ -23,13 +23,16 @@
     <g:HTMLPanel>
         <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
 
-        <m:MaterialColumn grid="m12" paddingLeft="20" paddingRight="20" marginTop="10">
-            <s:BatchDropBox ui:field="batchDropBox"/>
-        </m:MaterialColumn>
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s12 m12" paddingLeft="20" paddingRight="20" marginTop="10">
+                <s:BatchDropBox ui:field="batchDropBox"/>
+            </m:MaterialColumn>
 
-        <m:MaterialColumn grid="m12" paddingLeft="10" paddingRight="20">
-            <s:PredefinedRangeListBox ui:field="range" grid="s12 m2" minHeight="0" marginTop="0"/>
-        </m:MaterialColumn>
+            <m:MaterialColumn grid="s12 m12" paddingLeft="10" paddingRight="0">
+                <s:PredefinedRangeListBox ui:field="range" grid="s12 m6 l3" minHeight="0" marginTop="0"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+
 
         <s:InfiniteScroll ui:field="scroll" paddingLeft="10"/>
 

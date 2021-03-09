@@ -45,7 +45,7 @@ public class BatchDropBox
 
         MaterialUploadLabel label = new MaterialUploadLabel( INSTANCE.labelUploadBatch(), INSTANCE.labelUploadBatchDescription() );
         label.setTop( 60 );
-        label.setMinWidth( "40%" );
+        label.setWidth( "95%" );
         add( label );
 
         setPadding( 10 );

@@ -176,7 +176,8 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb provideViewPurchaseOrderBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.LOCAL_OFFER, messages.labelPurchases() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT_TURNED_IN, messages.labelOrder() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
@@ -188,8 +189,8 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb provideViewIncomingInvoiceBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.LOCAL_OFFER, messages.labelPurchases() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelInvoice() ) );
 
         return new ScaffoldBreadcrumb( items, placeController );
@@ -201,10 +202,10 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb providePurchaseOrdersBreadcrumb( PlaceController controller )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.LOCAL_OFFER, messages.labelPurchases() ) );
 
-        return new ScaffoldBreadcrumb( items, controller, provideInvoicesNavigationLink( controller ) );
+        return new ScaffoldBreadcrumb( items, controller );
     }
 
     @Provides
@@ -213,11 +214,10 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb provideIncomingInvoicesBreadcrumb( PlaceController controller )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.ASSIGNMENT_TURNED_IN, messages.labelOrders() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.ASSIGNMENT, messages.labelExpenses() ) );
 
-        return new ScaffoldBreadcrumb( items, controller, provideInvoicesNavigationLink( controller ) );
+        return new ScaffoldBreadcrumb( items, controller );
     }
 
     private static MaterialLink provideInvoicesNavigationLink( PlaceController controller )
@@ -239,7 +239,7 @@ public abstract class PurchaseModule
     static ScaffoldBreadcrumb provideEditBillBreadcrumb( PlaceController placeController )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new Bills(), IconType.RECEIPT, messages.labelBills() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.LIST, messages.labelEditBill() ) );
 
@@ -249,13 +249,13 @@ public abstract class PurchaseModule
     @Provides
     @Singleton
     @Named( "BillsBreadcrumb" )
-    static ScaffoldBreadcrumb provideBillsBreadcrumb( PlaceController placeController )
+    static ScaffoldBreadcrumb provideBillsBreadcrumb( PlaceController controller )
     {
         List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
-        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( new PurchaseOrders(), IconType.SHOPPING_CART, messages.labelPurchases() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
         items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.RECEIPT, messages.labelBills() ) );
 
-        return new ScaffoldBreadcrumb( items, placeController );
+        return new ScaffoldBreadcrumb( items, controller );
     }
 
     @Provides

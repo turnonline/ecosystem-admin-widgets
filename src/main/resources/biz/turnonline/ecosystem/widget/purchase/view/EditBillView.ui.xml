@@ -28,7 +28,7 @@
         <s:ConfirmationWindow ui:field="confirmationApprove" iconType="ASSIGNMENT_TURNED_IN"/>
 
         <m:MaterialRow>
-            <m:MaterialColumn grid="s12 m5" paddingRight="0">
+            <m:MaterialColumn grid="s12 m5" paddingRight="10">
                 <m:MaterialContainer marginLeft="10" paddingTop="20">
                     <a:note.MaterialNote iconType="ADD_A_PHOTO" text="{msg.labelBillScan}"/>
                     <ui2:BillUploader ui:field="billUploader" marginBottom="20" marginTop="2"/>

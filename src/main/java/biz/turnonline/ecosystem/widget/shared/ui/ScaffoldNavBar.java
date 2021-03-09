@@ -57,8 +57,9 @@ public class ScaffoldNavBar
         nav().add( newNavLink( messages.labelOrders(), Route.ORDERS.url(), IconType.ASSIGNMENT_TURNED_IN ) );
         nav().add( newNavLink( messages.labelProducts(), Route.PRODUCTS.url(), IconType.TABLET_MAC ) );
         nav().add( newNavLinkWithSeparator( messages.labelContacts(), Route.CONTACTS.url(), IconType.CONTACT_PHONE ) );
-        nav().add( newNavLink( messages.labelPurchases(), Route.PURCHASES.url(), IconType.SHOPPING_CART ) );
+//        nav().add( newNavLink( messages.labelPurchases(), Route.PURCHASES.url(), IconType.LOCAL_OFFER ) );
         nav().add( newNavLink( messages.labelBills(), Route.BILLS.url(), IconType.RECEIPT ) );
+        nav().add( newNavLinkWithSeparator( messages.labelExpenses(), Route.EXPENSES.url(), IconType.ASSIGNMENT ) );
         nav().add( newNavLinkWithSeparator( messages.labelTransactions(), Route.TRANSACTIONS.url(), IconType.COMPARE_ARROWS ) );
         nav().add( newNavLink( messages.labelLogout(), Route.LOGOUT.url(), IconType.POWER_SETTINGS_NEW ) );
 

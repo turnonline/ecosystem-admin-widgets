@@ -68,7 +68,7 @@ public class ExpensesView
         super();
 
         this.breadcrumb = breadcrumb;
-        setActive( Route.PURCHASES );
+        setActive( Route.EXPENSES );
 
         add( binder.createAndBindUi( this ) );
 

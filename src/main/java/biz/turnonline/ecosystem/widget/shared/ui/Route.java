@@ -29,8 +29,9 @@ public enum Route
     ORDERS( "/billing", "orders", 4 ),
     PRODUCTS( "/products", "products", 5 ),
     CONTACTS( "/contacts", "contacts", 6 ),
-    PURCHASES( "/purchases", "invoices", 7 ),
-    BILLS( "/purchases", "bills", 8 ),
+    PURCHASES( "/purchases", "invoices", 7 ), // TODO: fix order of items bellow when Purchases will be visible again
+    BILLS( "/purchases", "bills", 7 ),
+    EXPENSES( "/purchases", "expenses", 8 ),
     TRANSACTIONS( "/purchases", "transactions", 9 ),
     LOGOUT( "/logout" );
 
