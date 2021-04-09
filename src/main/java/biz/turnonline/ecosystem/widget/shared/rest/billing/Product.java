@@ -46,6 +46,9 @@ public final class Product
 
     private String snippet;
 
+    /**
+     * A date when the product has been created. Populated by the service.
+     **/
     public Date getCreatedDate()
     {
         return createdDate;
@@ -57,6 +60,9 @@ public final class Product
         return this;
     }
 
+    /**
+     * The product extension by event specification.
+     **/
     public Event getEvent()
     {
         return event;
@@ -73,6 +79,9 @@ public final class Product
         setIfNotAllNull( this::setEvent, event );
     }
 
+    /**
+     * The unique product identification.
+     **/
     public Long getId()
     {
         return id;
@@ -84,6 +93,9 @@ public final class Product
         return this;
     }
 
+    /**
+     * The set of invoicing rules to be used once product will be placed at the invoice.
+     **/
     public ProductInvoicing getInvoicing()
     {
         return invoicing;
@@ -100,6 +112,9 @@ public final class Product
         setIfNotAllNull( this::setInvoicing, invoicing );
     }
 
+    /**
+     * The product name, very short summary that might be placed at invoice as a billing item or used as a title at web page if published.
+     **/
     public String getItemName()
     {
         return itemName;
@@ -111,6 +126,9 @@ public final class Product
         return this;
     }
 
+    /**
+     * The product specific metadata fields configuration.
+     **/
     public ProductMetaFields getMetaFields()
     {
         return metaFields;
@@ -127,6 +145,9 @@ public final class Product
         setIfNotAllNull( this::setMetaFields, metaFields );
     }
 
+    /**
+     * The last modification date of the product properties. Populated by the service.
+     **/
     public Date getModificationDate()
     {
         return modificationDate;
@@ -138,6 +159,9 @@ public final class Product
         return this;
     }
 
+    /**
+     * Product overview, a highlighted properties that might be taken from the sub resources.
+     **/
     public ProductOverview getOverview()
     {
         return overview;
@@ -149,6 +173,9 @@ public final class Product
         return this;
     }
 
+    /**
+     * The product pricing.
+     **/
     public ProductPricing getPricing()
     {
         return pricing;
@@ -160,6 +187,9 @@ public final class Product
         return this;
     }
 
+    /**
+     * The product's additional configuration for public use.
+     **/
     public ProductPublishing getPublishing()
     {
         return publishing;
@@ -176,6 +206,9 @@ public final class Product
         setIfNotAllNull( this::setPublishing, publishing );
     }
 
+    /**
+     * The product short description, a brief overview (not appearing at invoice). The plain text only.
+     **/
     public String getSnippet()
     {
         return snippet;

@@ -20,7 +20,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 import java.util.Date;
 
 /**
- * Transaction that represents either a credit or debit operation.
+ * Transaction that represents either a credit or debit operation.  Two transactions are being considered the same if the following properties are same: * The ID of the authenticated account * Transaction ID
  */
 public final class Transaction
 {
@@ -41,6 +41,8 @@ public final class Transaction
     private Boolean credit;
 
     private String currency;
+
+    private Long id;
 
     private String key;
 
@@ -97,7 +99,7 @@ public final class Transaction
     }
 
     /**
-     * The bill or invoice document settled by this transaction.
+     * Identification of the bill (receipt) or invoice document settled by this transaction.
      **/
     public Bill getBill()
     {
@@ -110,6 +112,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The billing amount for cross-currency payment. If missing the transaction represents a single currency payment.
+     **/
     public Double getBillAmount()
     {
         return billAmount;
@@ -121,6 +126,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * The billing currency for cross-currency payment. If missing the transaction represents a single currency payment.
+     **/
     public String getBillCurrency()
     {
         return billCurrency;
@@ -175,7 +183,21 @@ public final class Transaction
     }
 
     /**
-     * The unique payment identification related to the associated bill.
+     * The unique transaction identification within Product Billing service.
+     **/
+    public Long getId()
+    {
+        return id;
+    }
+
+    public Transaction setId( Long id )
+    {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * The unique payment identification related to associated bill.
      **/
     public String getKey()
     {
@@ -188,6 +210,9 @@ public final class Transaction
         return this;
     }
 
+    /**
+     * Get merchant
+     **/
     public Merchant getMerchant()
     {
         return merchant;
@@ -229,7 +254,7 @@ public final class Transaction
 
     /**
      * The identification of the transaction within payment processor service unique for single Ecosystem account.
-     */
+     **/
     public Long getTransactionId()
     {
         return transactionId;

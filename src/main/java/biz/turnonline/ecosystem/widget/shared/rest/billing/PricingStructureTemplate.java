@@ -41,6 +41,9 @@ public final class PricingStructureTemplate
 
     private String unit;
 
+    /**
+     * The initial amount (quantity) of the pricing item property.
+     **/
     public Double getAmount()
     {
         return amount;
@@ -52,6 +55,9 @@ public final class PricingStructureTemplate
         return this;
     }
 
+    /**
+     * The initial state of the pricing item property. If not provided, true will be used as a default value.
+     **/
     public Boolean getCheckedIn()
     {
         return checkedIn;
@@ -63,6 +69,9 @@ public final class PricingStructureTemplate
         return this;
     }
 
+    /**
+     * The identification of the structure item, unique only within product.
+     **/
     public Integer getId()
     {
         return id;
@@ -74,6 +83,9 @@ public final class PricingStructureTemplate
         return this;
     }
 
+    /**
+     * The product partial item name, a very short summary that might be placed at invoice. The plain text only. Overrides the product itemName if defined.
+     **/
     public String getItemName()
     {
         return itemName;
@@ -85,17 +97,9 @@ public final class PricingStructureTemplate
         return this;
     }
 
-    public String getItemType()
-    {
-        return itemType;
-    }
-
-    public PricingStructureTemplate setItemType( String itemType )
-    {
-        this.itemType = itemType;
-        return this;
-    }
-
+    /**
+     * Pricing item tree structure definition. Important note; once you provide the structure, an update on items property must always provide the full expected structure, it does not support the PATCH semantics. However if items property won't be provided at all, the backend structure remains.
+     **/
     public List<PricingStructureTemplate> getItems()
     {
         return items;
@@ -107,6 +111,23 @@ public final class PricingStructureTemplate
         return this;
     }
 
+    /**
+     * The expected item's type of the pricing item property.
+     **/
+    public String getItemType()
+    {
+        return itemType;
+    }
+
+    public PricingStructureTemplate setItemType( String itemType )
+    {
+        this.itemType = itemType;
+        return this;
+    }
+
+    /**
+     * The initial order number of the item within list if defined.
+     **/
     public Integer getOrder()
     {
         return order;
@@ -118,6 +139,9 @@ public final class PricingStructureTemplate
         return this;
     }
 
+    /**
+     * The partial price for a single unit (meaning amount 1.0 as a quantity). The price is excluding VAT in case company is VAT payer, otherwise price is final. Only the leaf items defines the price, the rest are being calculated recursively based on the children (items property) if defined.
+     **/
     public Double getPriceExclVat()
     {
         return priceExclVat;
@@ -129,6 +153,9 @@ public final class PricingStructureTemplate
         return this;
     }
 
+    /**
+     * An initial (and optional) subsidiary properties of the product item. A flat, single level structure (Map of values) in JSON format that will be saved as it is given. It will be returned as part of the pricing item if defined.
+     **/
     public Map<String, Object> getSubsidiary()
     {
         return subsidiary;
@@ -140,6 +167,9 @@ public final class PricingStructureTemplate
         return this;
     }
 
+    /**
+     * The billing unit code. If not provided, parent's item value will be used.
+     **/
     public String getUnit()
     {
         return unit;

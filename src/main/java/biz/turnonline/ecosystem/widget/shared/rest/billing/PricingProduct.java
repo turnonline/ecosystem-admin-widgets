@@ -26,6 +26,10 @@ public final class PricingProduct
 
     private Integer templateId;
 
+
+    /**
+     * The unique product identification within product catalog, provided by the client to populate this pricing item if any. If not found, the response won't contain the product property at all.
+     **/
     public Long getId()
     {
         return id;
@@ -37,6 +41,9 @@ public final class PricingProduct
         return this;
     }
 
+    /**
+     * The identification of the structure template item (PricingStructureTemplate) if defined. Unique only within product. If template ID is present, this pricing item will be initialized based on values of the corresponding structure item that serves as a template.
+     **/
     public Integer getTemplateId()
     {
         return templateId;

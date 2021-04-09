@@ -34,9 +34,9 @@ public final class PurchaseOrder
 
     private Long id;
 
-    private String invoiceType;
-
     private List<IncomingInvoice> invoices;
+
+    private String invoiceType;
 
     private List<PricingItem> items;
 
@@ -56,8 +56,13 @@ public final class PurchaseOrder
 
     private Double totalPriceExclVat;
 
+    private Double totalVatAmount;
+
     private Double totalVatBase;
 
+    /**
+     * The date of first invoice issue. Might be selected by the user.
+     **/
     public Date getBeginOn()
     {
         return beginOn;
@@ -69,6 +74,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * A date when purchase order has been created. Populated by the service.
+     **/
     public Date getCreatedDate()
     {
         return createdDate;
@@ -80,6 +88,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The account that represents a business at TurnOnline.biz Ecosystem to whom money will be credited.
+     **/
     public Creditor getCreditor()
     {
         return creditor;
@@ -91,6 +102,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The currency alphabetic code based on the ISO 4217. The value is being based on the order item that is first within the list. If list is empty, none currency will be set.
+     **/
     public String getCurrency()
     {
         return currency;
@@ -102,6 +116,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * Invoiced customer.
+     **/
     public Customer getCustomer()
     {
         return customer;
@@ -113,6 +130,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The unique purchase order identification.
+     **/
     public Long getId()
     {
         return id;
@@ -124,17 +144,9 @@ public final class PurchaseOrder
         return this;
     }
 
-    public String getInvoiceType()
-    {
-        return invoiceType;
-    }
-
-    public PurchaseOrder setInvoiceType( String invoiceType )
-    {
-        this.invoiceType = invoiceType;
-        return this;
-    }
-
+    /**
+     * List of already issued invoices based on this Order, where number of records is limited by value from the query parameter. By default no invoices will be included in the response until the query parameter 'invoices' will be present with a positive integer value. This number represents a limit of max number of expected incoming invoices to be included in the result.  If no incoming invoice yet has been issued, the property 'invoices' will be missing in the result whatever was the value of query parameter.  Ordered by incoming invoice modification date (descending).
+     **/
     public List<IncomingInvoice> getInvoices()
     {
         return invoices;
@@ -146,6 +158,23 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * Get invoiceType
+     **/
+    public String getInvoiceType()
+    {
+        return invoiceType;
+    }
+
+    public PurchaseOrder setInvoiceType( String invoiceType )
+    {
+        this.invoiceType = invoiceType;
+        return this;
+    }
+
+    /**
+     * The list of order items to be placed at invoice. Taken either as a product from the product catalog or a custom definition.  The root pricing item of the pricing tree structure must be either type of OrderItem or Standard (PricingItem ‘itemType’ property value). Otherwise validation error will be returned as a bad request.
+     **/
     public List<PricingItem> getItems()
     {
         return items;
@@ -157,6 +186,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The last billing date. An invoicing that has been already executed.  Set by the service.
+     **/
     public Date getLastBillingDate()
     {
         return lastBillingDate;
@@ -168,6 +200,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The date of the last modification of purchase order values. Managed solely by the service. RFC 3339
+     **/
     public Date getModificationDate()
     {
         return modificationDate;
@@ -179,6 +214,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The next (future) billing date. A concrete value is being based on the periodicity and evaluated by the service.
+     **/
     public Date getNextBillingDate()
     {
         return nextBillingDate;
@@ -190,6 +228,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The number of days to calculate due date. An user defined value.
+     **/
     public Integer getNumberOfDays()
     {
         return numberOfDays;
@@ -201,6 +242,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The current periodicity of the purchase order.
+     **/
     public String getPeriodicity()
     {
         return periodicity;
@@ -212,6 +256,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The current status of the purchase order.  Client is allowed to set only one of the following value: TRIALING, ACTIVE, SUSPENDED.
+     **/
     public String getStatus()
     {
         return status;
@@ -223,6 +270,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The purchase order total price as a sum of all checked in order items and its amount including target rounding mode. Including VAT.
+     **/
     public Double getTotalPrice()
     {
         return totalPrice;
@@ -234,6 +284,9 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The purchase order total price as a sum of all checked in order items and its amount including target rounding mode. The price is excluding VAT in case company is VAT payer, otherwise price is final and same as value of totalPrice property.
+     **/
     public Double getTotalPriceExclVat()
     {
         return totalPriceExclVat;
@@ -245,6 +298,23 @@ public final class PurchaseOrder
         return this;
     }
 
+    /**
+     * The purchase order total amount of VAT as a sum of all checked in order items including target rounding mode.
+     **/
+    public Double getTotalVatAmount()
+    {
+        return totalVatAmount;
+    }
+
+    public PurchaseOrder setTotalVatAmount( Double totalVatAmount )
+    {
+        this.totalVatAmount = totalVatAmount;
+        return this;
+    }
+
+    /**
+     * The purchase order total VAT base as a sum of all checked in order items and its amount.
+     **/
     public Double getTotalVatBase()
     {
         return totalVatBase;

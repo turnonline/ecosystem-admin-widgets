@@ -47,11 +47,12 @@ public final class Expense
 
     private Double totalPriceExclVat;
 
+    private Double totalVatAmount;
+
     private Double totalVatBase;
 
     /**
-     * Identification of the bill (receipt) or invoice document.
-     * Valid invoice identification includes order identification too.
+     * Identification of the bill (receipt or invoice) document.
      **/
     public Bill getBill()
     {
@@ -80,7 +81,7 @@ public final class Expense
 
     /**
      * The currency alphabetic code based on the ISO 4217.
-     */
+     **/
     public String getCurrency()
     {
         return currency;
@@ -148,6 +149,9 @@ public final class Expense
         return this;
     }
 
+    /**
+     * The secret hash associated solely with this bill that has to be used to download original PDF.
+     **/
     public String getPin()
     {
         return pin;
@@ -159,6 +163,9 @@ public final class Expense
         return this;
     }
 
+    /**
+     * The full URL of the bill picture as it appears in accounting system. Served from the CDN.
+     **/
     public String getServingUrl()
     {
         return servingUrl;
@@ -170,6 +177,9 @@ public final class Expense
         return this;
     }
 
+    /**
+     * A business that delivered a product or service. It might be an account at Ecosystem but not necessarily.
+     **/
     public Creditor getSupplier()
     {
         return supplier;
@@ -181,6 +191,9 @@ public final class Expense
         return this;
     }
 
+    /**
+     * A purchase that has been made through: ECOSYSTEM represents a purchase between business accounts of the Ecosystem. EXTERNAL represents a purchase outside of the Ecosystem.
+     **/
     public String getThrough()
     {
         return through;
@@ -192,6 +205,9 @@ public final class Expense
         return this;
     }
 
+    /**
+     * The total price as a sum of all checked in pricing items and its amount including target rounding mode. Including VAT.
+     **/
     public Double getTotalPrice()
     {
         return totalPrice;
@@ -203,6 +219,9 @@ public final class Expense
         return this;
     }
 
+    /**
+     * The total price as a sum of all checked in pricing items and its amount including target rounding mode. The price is excluding VAT in case company is VAT payer, otherwise price is final and same as value of totalPrice property.
+     **/
     public Double getTotalPriceExclVat()
     {
         return totalPriceExclVat;
@@ -214,6 +233,23 @@ public final class Expense
         return this;
     }
 
+    /**
+     * The total amount of VAT as a sum of all checked in pricing items and its amount.
+     **/
+    public Double getTotalVatAmount()
+    {
+        return totalVatAmount;
+    }
+
+    public Expense setTotalVatAmount( Double totalVatAmount )
+    {
+        this.totalVatAmount = totalVatAmount;
+        return this;
+    }
+
+    /**
+     * The total VAT base as a sum of all checked in pricing items and its amount.
+     **/
     public Double getTotalVatBase()
     {
         return totalVatBase;

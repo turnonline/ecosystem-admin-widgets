@@ -27,6 +27,8 @@ public final class ProductPublishing
 {
     private ProductDomain at;
 
+    private String category;
+
     private Boolean comingSoon;
 
     private Date createdDate;
@@ -39,8 +41,9 @@ public final class ProductPublishing
 
     private Boolean published;
 
-    private String category;
-
+    /**
+     * The domain where a product will be publicly available, once published. If no value has been provided the seller’s default domain will be set. The client might select only from existing domains provided by associated account.
+     **/
     public ProductDomain getAt()
     {
         return at;
@@ -52,6 +55,23 @@ public final class ProductPublishing
         return this;
     }
 
+    /**
+     * The product categorisation from the (mobile) app user perspective. A value taken from the product category code-book.
+     **/
+    public String getCategory()
+    {
+        return category;
+    }
+
+    public ProductPublishing setCategory( String category )
+    {
+        this.category = category;
+        return this;
+    }
+
+    /**
+     * The boolean indication whether to communicate publicly the product availability as coming soon.
+     **/
     public Boolean getComingSoon()
     {
         return comingSoon;
@@ -63,6 +83,9 @@ public final class ProductPublishing
         return this;
     }
 
+    /**
+     * A date when product's publishing has been created. Populated by the service.
+     **/
     public Date getCreatedDate()
     {
         return createdDate;
@@ -74,6 +97,9 @@ public final class ProductPublishing
         return this;
     }
 
+    /**
+     * The product description for public use. It might be any plain text or HTML document.
+     **/
     public String getDescription()
     {
         return description;
@@ -85,6 +111,9 @@ public final class ProductPublishing
         return this;
     }
 
+    /**
+     * The last modification date of the product properties. Populated by the service.
+     **/
     public Date getModificationDate()
     {
         return modificationDate;
@@ -96,6 +125,9 @@ public final class ProductPublishing
         return this;
     }
 
+    /**
+     * The list of the pictures associated with this product.
+     **/
     public List<ProductPicture> getPictures()
     {
         return pictures;
@@ -107,6 +139,9 @@ public final class ProductPublishing
         return this;
     }
 
+    /**
+     * The boolean indication whether to publish this product or not.
+     **/
     public Boolean getPublished()
     {
         return published;
@@ -116,16 +151,6 @@ public final class ProductPublishing
     {
         this.published = published;
         return this;
-    }
-
-    public String getCategory()
-    {
-        return category;
-    }
-
-    public void setCategory( String category )
-    {
-        this.category = category;
     }
 
     @Override

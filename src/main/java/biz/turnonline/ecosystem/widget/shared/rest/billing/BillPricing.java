@@ -32,8 +32,13 @@ public final class BillPricing
 
     private Double totalPriceExclVat;
 
+    private Double totalVatAmount;
+
     private Double totalVatBase;
 
+    /**
+     * The list of billing items placed at bill (pricing item with 'itemType' property value BillingItem, OrderItem or Standard for new item). Otherwise validation error will be returned as a bad request.  Once processed by the service it will be always returned as a flat structure of billing items (no tree), a simple list of items listed at bill.   All of the values as a snapshot of the calculated values at the time of the billing item creation. Billing item values might change while invoice has a status NEW.
+     **/
     public List<PricingItem> getItems()
     {
         return items;
@@ -78,6 +83,23 @@ public final class BillPricing
         return this;
     }
 
+    /**
+     * The invoice total amount of VAT as a sum of all checked in billing items including target rounding mode.
+     **/
+    public Double getTotalVatAmount()
+    {
+        return totalVatAmount;
+    }
+
+    public BillPricing setTotalVatAmount( Double totalVatAmount )
+    {
+        this.totalVatAmount = totalVatAmount;
+        return this;
+    }
+
+    /**
+     * The invoice total VAT base as a sum of all billing items and its amount including target rounding mode.
+     **/
     public Double getTotalVatBase()
     {
         return totalVatBase;

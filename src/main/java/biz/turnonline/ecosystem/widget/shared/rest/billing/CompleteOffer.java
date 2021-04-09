@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 TurnOnline.biz s.r.o.
+ *  Copyright (c) 2021 TurnOnline.biz s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
-import org.ctoolkit.gwt.client.facade.RelevantNullChecker;
-
 import java.util.Date;
 import java.util.List;
 
-public final class Order
-        implements RelevantNullChecker
+/**
+ * The complete definition of the offer that is based on order.
+ */
+public class CompleteOffer
 {
     private Date beginOn;
 
@@ -35,13 +35,13 @@ public final class Order
 
     private Long id;
 
-    private List<Invoice> invoices;
-
     private String invoiceType;
 
     private List<PricingItem> items;
 
     private Date lastBillingDate;
+
+    private String logo;
 
     private Date modificationDate;
 
@@ -51,7 +51,15 @@ public final class Order
 
     private String periodicity;
 
+    private String picture;
+
+    private String snippet;
+
     private String status;
+
+    private Creditor supplier;
+
+    private String title;
 
     private Double totalPrice;
 
@@ -62,28 +70,28 @@ public final class Order
     private Double totalVatBase;
 
     /**
-     * The date of first invoice issue. Might be selected by the user.
+     * Proposal of the start date if applicable.
      **/
     public Date getBeginOn()
     {
         return beginOn;
     }
 
-    public Order setBeginOn( Date beginOn )
+    public CompleteOffer setBeginOn( Date beginOn )
     {
         this.beginOn = beginOn;
         return this;
     }
 
     /**
-     * A date when order has been created. Populated by the service.
+     * A date when offer has been created. Populated by the service.
      **/
     public Date getCreatedDate()
     {
         return createdDate;
     }
 
-    public Order setCreatedDate( Date createdDate )
+    public CompleteOffer setCreatedDate( Date createdDate )
     {
         this.createdDate = createdDate;
         return this;
@@ -97,7 +105,7 @@ public final class Order
         return currency;
     }
 
-    public Order setCurrency( String currency )
+    public CompleteOffer setCurrency( String currency )
     {
         this.currency = currency;
         return this;
@@ -111,43 +119,23 @@ public final class Order
         return customer;
     }
 
-    public Order setCustomer( Customer customer )
+    public CompleteOffer setCustomer( Customer customer )
     {
         this.customer = customer;
         return this;
     }
 
-    public void setCustomerIf( Customer customer )
-    {
-        setIfNotAllNull( this::setCustomer, customer );
-    }
-
     /**
-     * The unique order identification.
+     * The unique offer identification.
      **/
     public Long getId()
     {
         return id;
     }
 
-    public Order setId( Long id )
+    public CompleteOffer setId( Long id )
     {
         this.id = id;
-        return this;
-    }
-
-
-    /**
-     * List of already issued invoices based on this Order, where number of records is limited by value from the query parameter. By default no invoices will be included in the response until the query parameter 'invoices' will be present with a positive integer value (check whether it's supported by endpoint). This number represents a limit of max number of expected invoices to be included in the result.  If no invoice yet has been issued, the property 'invoices' will be missing in the result whatever was the value of query parameter.  Ordered by invoice modification date (descending).
-     **/
-    public List<Invoice> getInvoices()
-    {
-        return invoices;
-    }
-
-    public Order setInvoices( List<Invoice> invoices )
-    {
-        this.invoices = invoices;
         return this;
     }
 
@@ -159,7 +147,7 @@ public final class Order
         return invoiceType;
     }
 
-    public Order setInvoiceType( String invoiceType )
+    public CompleteOffer setInvoiceType( String invoiceType )
     {
         this.invoiceType = invoiceType;
         return this;
@@ -173,7 +161,7 @@ public final class Order
         return items;
     }
 
-    public Order setItems( List<PricingItem> items )
+    public CompleteOffer setItems( List<PricingItem> items )
     {
         this.items = items;
         return this;
@@ -187,21 +175,35 @@ public final class Order
         return lastBillingDate;
     }
 
-    public Order setLastBillingDate( Date lastBillingDate )
+    public CompleteOffer setLastBillingDate( Date lastBillingDate )
     {
         this.lastBillingDate = lastBillingDate;
         return this;
     }
 
     /**
-     * The date of the last modification of order values. Managed solely by the service. RFC 3339
+     * The supplier's company logo, a full URL of the image served from CDN.
+     **/
+    public String getLogo()
+    {
+        return logo;
+    }
+
+    public CompleteOffer setLogo( String logo )
+    {
+        this.logo = logo;
+        return this;
+    }
+
+    /**
+     * The date of the last modification of offer values. Managed solely by the service. RFC 3339
      **/
     public Date getModificationDate()
     {
         return modificationDate;
     }
 
-    public Order setModificationDate( Date modificationDate )
+    public CompleteOffer setModificationDate( Date modificationDate )
     {
         this.modificationDate = modificationDate;
         return this;
@@ -215,7 +217,7 @@ public final class Order
         return nextBillingDate;
     }
 
-    public Order setNextBillingDate( Date nextBillingDate )
+    public CompleteOffer setNextBillingDate( Date nextBillingDate )
     {
         this.nextBillingDate = nextBillingDate;
         return this;
@@ -229,136 +231,150 @@ public final class Order
         return numberOfDays;
     }
 
-    public Order setNumberOfDays( Integer numberOfDays )
+    public CompleteOffer setNumberOfDays( Integer numberOfDays )
     {
         this.numberOfDays = numberOfDays;
         return this;
     }
 
     /**
-     * The current periodicity of the order.
+     * The current periodicity of the offer.
      **/
     public String getPeriodicity()
     {
         return periodicity;
     }
 
-    public Order setPeriodicity( String periodicity )
+    public CompleteOffer setPeriodicity( String periodicity )
     {
         this.periodicity = periodicity;
         return this;
     }
 
     /**
-     * The current status of the order.  Client is allowed to set only one of the following value: TRIALING, ACTIVE, SUSPENDED.
+     * The serving URL of the picture associated with the offer. Served from the content delivery network (CDN).
+     **/
+    public String getPicture()
+    {
+        return picture;
+    }
+
+    public CompleteOffer setPicture( String picture )
+    {
+        this.picture = picture;
+        return this;
+    }
+
+    /**
+     * The short description of the offer. It might be a short description one of the product from the order. Alternatively it might be also a direct message to the target customer. The max length is set to 500 characters.
+     **/
+    public String getSnippet()
+    {
+        return snippet;
+    }
+
+    public CompleteOffer setSnippet( String snippet )
+    {
+        this.snippet = snippet;
+        return this;
+    }
+
+    /**
+     * The current status of the offer.  Client is allowed to set only one of the following value: TRIALING, ACTIVE, SUSPENDED.
      **/
     public String getStatus()
     {
         return status;
     }
 
-    public Order setStatus( String status )
+    public CompleteOffer setStatus( String status )
     {
         this.status = status;
         return this;
     }
 
     /**
-     * The order total price as a sum of all checked in order items and its amount including target rounding mode. Including VAT.
+     * The supplier account that represents a business at TurnOnline.biz Ecosystem.
+     **/
+    public Creditor getSupplier()
+    {
+        return supplier;
+    }
+
+    public CompleteOffer setSupplier( Creditor supplier )
+    {
+        this.supplier = supplier;
+        return this;
+    }
+
+    /**
+     * The offer title. A text that should take an user attention. The max length is set to 100 characters.
+     **/
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public CompleteOffer setTitle( String title )
+    {
+        this.title = title;
+        return this;
+    }
+
+    /**
+     * The offer total price as a sum of all checked in order items and its amount including target rounding mode. Including VAT.
      **/
     public Double getTotalPrice()
     {
         return totalPrice;
     }
 
-    public Order setTotalPrice( Double totalPrice )
+    public CompleteOffer setTotalPrice( Double totalPrice )
     {
         this.totalPrice = totalPrice;
         return this;
     }
 
     /**
-     * The order total price as a sum of all checked in order items and its amount including target rounding mode. The price is excluding VAT in case company is VAT payer, otherwise price is final and same as value of totalPrice property.
+     * The offer total price as a sum of all checked in order items and its amount including target rounding mode. The price is excluding VAT in case company is VAT payer, otherwise price is final and same as value of totalPrice property.
      **/
     public Double getTotalPriceExclVat()
     {
         return totalPriceExclVat;
     }
 
-    public Order setTotalPriceExclVat( Double totalPriceExclVat )
+    public CompleteOffer setTotalPriceExclVat( Double totalPriceExclVat )
     {
         this.totalPriceExclVat = totalPriceExclVat;
         return this;
     }
 
     /**
-     * The order total amount of VAT as a sum of all checked in order items including target rounding mode.
+     * The offer total amount of VAT as a sum of all checked in order items including target rounding mode.
      **/
     public Double getTotalVatAmount()
     {
         return totalVatAmount;
     }
 
-    public Order setTotalVatAmount( Double totalVatAmount )
+    public CompleteOffer setTotalVatAmount( Double totalVatAmount )
     {
         this.totalVatAmount = totalVatAmount;
         return this;
     }
 
     /**
-     * The order total VAT base as a sum of all checked in order items and its amount.
+     * The offer total VAT base as a sum of all checked in order items and its amount.
      **/
     public Double getTotalVatBase()
     {
         return totalVatBase;
     }
 
-    public Order setTotalVatBase( Double totalVatBase )
+    public CompleteOffer setTotalVatBase( Double totalVatBase )
     {
         this.totalVatBase = totalVatBase;
         return this;
     }
-
-    @Override
-    public boolean allNull()
-    {
-        return allNull( beginOn,
-                customer,
-                invoiceType,
-                items,
-                numberOfDays,
-                periodicity,
-                status
-        );
-    }
-
-    public enum Status
-    {
-        /**
-         * A service or subscription in trialing state, a trial run.
-         */
-        TRIALING,
-
-        /**
-         * A new or active order. It is not in a trial and there is no overdue payment.
-         */
-        ACTIVE,
-
-        /**
-         * Either creditor or debtor has paused the execution.
-         */
-        SUSPENDED,
-
-        /**
-         * Set by system if there is an overdue payment.
-         * The most recent payment for some reason has failed or debtor has refused the purchase order.
-         */
-        ISSUE,
-
-        /**
-         * A non recurring purchase order that has been completed. Generally it means an ordered product has been paid.
-         * A subscription that has been expired due to running its normal life cycle.
-         */
-        FINISHED
-    }
 }
+

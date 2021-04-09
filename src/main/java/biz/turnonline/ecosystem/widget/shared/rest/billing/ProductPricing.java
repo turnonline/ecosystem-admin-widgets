@@ -45,6 +45,9 @@ public final class ProductPricing
 
     private String vatNonEU;
 
+    /**
+     * The currency alphabetic code based on the ISO 4217. If no value has been provided the seller's domicile default will be set.
+     **/
     public String getCurrency()
     {
         return currency;
@@ -56,6 +59,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * The optional list of discount definition. The one which will match will be applied. Currently only single discount can be applied to discount item price.
+     **/
     public List<ProductDiscount> getDiscounts()
     {
         return discounts;
@@ -67,6 +73,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * The boolean indication whether the product is marked as 'domestic delivery'. It might have an impact how is the VAT handled in the final price.
+     **/
     public Boolean getDomesticDelivery()
     {
         return domesticDelivery;
@@ -78,6 +87,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * An extra property with recalculated pricing item tree based on the current product's values with default structure. It will be recalculated on demand, see header 'vnd.turnon.cloud.calc-pricing-items'. However in case the product is being delivered as a Pub / Sub event, this pricing item tree will be included by default. Root itemType will be always 'Standard'.
+     **/
     public PricingItem getItems()
     {
         return items;
@@ -89,6 +101,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * The product catalog price for a single unit (meaning amount 1.0 as a quantity). The price is excluding VAT in case company is VAT payer, otherwise price is final.
+     **/
     public Double getPriceExclVat()
     {
         return priceExclVat;
@@ -100,6 +115,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * An initial (and optional) subsidiary properties of the product item. A flat, single level structure (Map of values) in JSON format that will be saved as it is given. It will be returned as part of the pricing item if defined.
+     **/
     public Map<String, Object> getSubsidiary()
     {
         return subsidiary;
@@ -111,6 +129,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * An additional product pricing if more complex pricing structure is being required. A non empty list will define the price of this pricing priceExclVat property. Only the leaf items defines the price, the rest are being calculated recursively from the leaf item to root item.
+     **/
     public List<PricingStructureTemplate> getTemplate()
     {
         return template;
@@ -122,6 +143,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * The VAT rate codebook value to be applied to calculate the final price of the product for domestic (seller) to domestic customer sale.
+     **/
     public String getVat()
     {
         return vat;
@@ -133,6 +157,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * The VAT rate codebook value to be applied to calculate the final price of the product  for domestic (seller) to EU based customer sale.
+     **/
     public String getVatEU()
     {
         return vatEU;
@@ -144,6 +171,9 @@ public final class ProductPricing
         return this;
     }
 
+    /**
+     * The VAT rate codebook value to be applied to calculate the final price of the product  for domestic (seller) to non EU based customer sale.
+     **/
     public String getVatNonEU()
     {
         return vatNonEU;

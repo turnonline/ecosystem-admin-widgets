@@ -39,7 +39,7 @@ public final class Pricing
 
     private Double totalPriceExclVat;
 
-    private Double totalVat;
+    private Double totalVatAmount;
 
     private Double totalVatBase;
 
@@ -172,14 +172,14 @@ public final class Pricing
     /**
      * The total VAT as a result of the calculation of all checked in pricing items and its amount including target rounding mode.
      **/
-    public Double getTotalVat()
+    public Double getTotalVatAmount()
     {
-        return totalVat;
+        return totalVatAmount;
     }
 
-    public Pricing setTotalVat( Double totalVat )
+    public Pricing setTotalVatAmount( Double totalVatAmount )
     {
-        this.totalVat = totalVat;
+        this.totalVatAmount = totalVatAmount;
         return this;
     }
 

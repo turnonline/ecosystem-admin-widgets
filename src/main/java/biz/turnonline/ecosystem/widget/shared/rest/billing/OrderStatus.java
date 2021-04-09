@@ -17,10 +17,16 @@
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+/**
+ * Client is allowed to change and set only these values: * TRIALING * ACTIVE * SUSPENDED
+ */
 public final class OrderStatus
 {
     private String status;
 
+    /**
+     * The current status of the order.
+     **/
     public String getStatus()
     {
         return status;

@@ -27,12 +27,15 @@ public final class ExpenditurePricing
 
     private Double totalPrice;
 
-    private Double totalVat;
+    private Double totalVatAmount;
 
     private Double totalVatBase;
 
     private List<VatRateRow> vatRows;
 
+    /**
+     * The currency alphabetic code based on the ISO 4217.
+     **/
     public String getCurrency()
     {
         return currency;
@@ -44,6 +47,9 @@ public final class ExpenditurePricing
         return this;
     }
 
+    /**
+     * The optional list of billing items at bill (always BillingItem 'itemType')
+     **/
     public List<PricingItem> getItems()
     {
         return items;
@@ -55,6 +61,9 @@ public final class ExpenditurePricing
         return this;
     }
 
+    /**
+     * The total price as stated at bill.
+     **/
     public Double getTotalPrice()
     {
         return totalPrice;
@@ -66,17 +75,23 @@ public final class ExpenditurePricing
         return this;
     }
 
-    public Double getTotalVat()
+    /**
+     * The total VAT as stated at bill (in case the supplier is a VAT payer).
+     **/
+    public Double getTotalVatAmount()
     {
-        return totalVat;
+        return totalVatAmount;
     }
 
-    public ExpenditurePricing setTotalVat( Double totalVat )
+    public ExpenditurePricing setTotalVatAmount( Double totalVatAmount )
     {
-        this.totalVat = totalVat;
+        this.totalVatAmount = totalVatAmount;
         return this;
     }
 
+    /**
+     * The total VAT base as stated at bill (in case the supplier is a VAT payer).
+     **/
     public Double getTotalVatBase()
     {
         return totalVatBase;
@@ -88,6 +103,9 @@ public final class ExpenditurePricing
         return this;
     }
 
+    /**
+     * Summary per VAT rate.
+     **/
     public List<VatRateRow> getVatRows()
     {
         return vatRows;

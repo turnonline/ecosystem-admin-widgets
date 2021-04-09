@@ -25,6 +25,9 @@ public final class PricingCustomer
 
     private Boolean vatPayer;
 
+    /**
+     * The customer country code (ISO 3166 alpha-2). It’s case insensitive.
+     **/
     public String getCountry()
     {
         return country;
@@ -36,6 +39,9 @@ public final class PricingCustomer
         return this;
     }
 
+    /**
+     * The login email address within address book as the customer's identification.
+     **/
     public String getEmail()
     {
         return email;
@@ -47,6 +53,9 @@ public final class PricingCustomer
         return this;
     }
 
+    /**
+     * The boolean indication whether customer's company is registered as VAT payer. The missing value or false means company it’s not a VAT payer.
+     **/
     public Boolean getVatPayer()
     {
         return vatPayer;

@@ -27,6 +27,9 @@ public final class ProductPicture
 
     private String storageName;
 
+    /**
+     * The order number how pictures should be organised. If it's not supplied by the client, it will be numbered in the order as it was provided. Order number must be unique within list.
+     **/
     public Integer getOrder()
     {
         return order;
@@ -38,6 +41,9 @@ public final class ProductPicture
         return this;
     }
 
+    /**
+     * The full URL of the picture served from the content delivery network (CDN). Provided by the service once an image (storageName) has been uploaded.
+     **/
     public String getServingUrl()
     {
         return servingUrl;
@@ -49,6 +55,9 @@ public final class ProductPicture
         return this;
     }
 
+    /**
+     * The full path to the picture. It's an identification in the underlying storage. This property acts as a list item identification.
+     **/
     public String getStorageName()
     {
         return storageName;

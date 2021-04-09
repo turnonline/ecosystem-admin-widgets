@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 TurnOnline.biz s.r.o.
+ *  Copyright (c) 2021 TurnOnline.biz s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,46 +19,31 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
 import org.ctoolkit.gwt.client.facade.RelevantNullChecker;
 
-import java.util.List;
-
-public final class ProductMetaFields
+/**
+ * Offer customer.
+ */
+public class OfferCustomer
         implements RelevantNullChecker
 {
-    private List<String> available;
-
-    private List<String> mandatory;
+    private Long account;
 
     /**
-     * The list of available fields (supplied by client).
+     * The user account identification - TurnOnline.biz Ecosystem account ID.
      **/
-    public List<String> getAvailable()
+    public Long getAccount()
     {
-        return available;
+        return account;
     }
 
-    public ProductMetaFields setAvailable( List<String> available )
+    public void setAccount( Long account )
     {
-        this.available = available;
-        return this;
-    }
-
-    /**
-     * The list of mandatory fields as subset of the available fields (supplied by client).
-     **/
-    public List<String> getMandatory()
-    {
-        return mandatory;
-    }
-
-    public ProductMetaFields setMandatory( List<String> mandatory )
-    {
-        this.mandatory = mandatory;
-        return this;
+        this.account = account;
     }
 
     @Override
     public boolean allNull()
     {
-        return allNull( available, mandatory );
+        return allNull( account );
     }
 }
+
