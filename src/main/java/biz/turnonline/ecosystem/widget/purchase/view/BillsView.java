@@ -17,13 +17,10 @@
 package biz.turnonline.ecosystem.widget.purchase.view;
 
 import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
-import biz.turnonline.ecosystem.widget.purchase.event.NewBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.BillsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.BillOverviewCard;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
-import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
-import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
 import biz.turnonline.ecosystem.widget.shared.ui.BatchDropBox;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScrollLoader;
@@ -42,14 +39,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialAnchorButton;
 import gwt.material.design.client.ui.MaterialColumn;
-import org.ctoolkit.gwt.client.facade.UploadItem;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Configuration.BILLING_PROCESSOR_STORAGE;
@@ -70,14 +63,7 @@ public class BillsView
     PredefinedRangeListBox range;
 
     @UiField( provided = true )
-    BatchDropBox batchDropBox = new BatchDropBox( BILLING_PROCESSOR_STORAGE )
-    {
-        @Override
-        public void onUpload( UploadItem uploadItem )
-        {
-            BillsView.this.createNewBill( uploadItem );
-        }
-    };
+    BatchDropBox batchDropBox = new BatchDropBox( BILLING_PROCESSOR_STORAGE );
 
     @UiField( provided = true )
     InfiniteScroll<Bill> scroll = new InfiniteScroll<Bill>( 0, Integer.MAX_VALUE, 10000 )
@@ -133,22 +119,6 @@ public class BillsView
         MaterialColumn column = new MaterialColumn( 12, 6, 6 );
         column.add( new BillOverviewCard( bill, ( AppEventBus ) bus() ) );
         return column;
-    }
-
-    private void createNewBill( UploadItem uploadItem )
-    {
-        Bill bill = new Bill();
-
-        bill.setScans( Collections.singletonList(
-                new Scan().servingUrl( uploadItem.getServingUrl() ).storageName( uploadItem.getStorageName() )
-        ) );
-        bill.setDescription( uploadItem.getFileName() );
-        bill.setDateOfIssue( new Date() );
-        bill.setSupplier( new Supplier() );
-        bill.setItems( new ArrayList<>() );
-        bill.setType( Bill.TypeEnum.RECEIPT );
-
-        bus().fireEvent( new NewBillEvent( bill ) );
     }
 
     @Override
