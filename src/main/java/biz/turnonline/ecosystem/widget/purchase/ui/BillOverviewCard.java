@@ -21,6 +21,8 @@ import biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Bills;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.Feature;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
@@ -183,6 +185,7 @@ public class BillOverviewCard
             paired.setBackgroundColor( GREEN );
             paired.setTooltip( messages.tooltipBillPaired() );
         }
+        paired.setVisible( Configuration.get().isFeatureEnabled( Feature.Name.PAYMENT_PROCESSOR_API_ENABLED ) );
 
         card.setScrollspy( Bills.getScrollspy( bill ) );
     }

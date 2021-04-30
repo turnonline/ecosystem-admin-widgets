@@ -19,6 +19,7 @@ package biz.turnonline.ecosystem.widget.shared.ui;
 
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
+import biz.turnonline.ecosystem.widget.shared.Feature;
 import biz.turnonline.ecosystem.widget.shared.Resources;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -60,7 +61,10 @@ public class ScaffoldNavBar
 //        nav().add( newNavLink( messages.labelPurchases(), Route.PURCHASES.url(), IconType.LOCAL_OFFER ) );
         nav().add( newNavLink( messages.labelBills(), Route.BILLS.url(), IconType.RECEIPT ) );
         nav().add( newNavLinkWithSeparator( messages.labelExpenses(), Route.EXPENSES.url(), IconType.ASSIGNMENT ) );
-        nav().add( newNavLinkWithSeparator( messages.labelTransactions(), Route.TRANSACTIONS.url(), IconType.COMPARE_ARROWS ) );
+        if (Configuration.get().isFeatureEnabled( Feature.Name.PAYMENT_PROCESSOR_API_ENABLED ))
+        {
+            nav().add( newNavLinkWithSeparator( messages.labelTransactions(), Route.TRANSACTIONS.url(), IconType.COMPARE_ARROWS ) );
+        }
         nav().add( newNavLink( messages.labelLogout(), Route.LOGOUT.url(), IconType.POWER_SETTINGS_NEW ) );
 
         // logo

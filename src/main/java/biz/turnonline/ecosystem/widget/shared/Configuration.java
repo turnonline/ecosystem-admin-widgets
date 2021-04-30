@@ -28,6 +28,8 @@ import gwt.material.design.incubator.client.google.addresslookup.api.AddressLook
 import org.fusesource.restygwt.client.Defaults;
 import org.fusesource.restygwt.client.ServiceRoots;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.ctoolkit.gwt.client.Constants.REST_DATE_FORMAT;
@@ -66,6 +68,8 @@ public class Configuration
 
     private String mapsApiKey;
 
+    private final List<Feature> features = new ArrayList<>();
+
     /**
      * Builds {@link Configuration} instance taken from the {@link Dictionary}.
      *
@@ -89,6 +93,7 @@ public class Configuration
         Defaults.ignoreJsonNulls();
 
         Configuration configuration = new Configuration();
+        configuration.resolveFeatures( dictionary );
         configuration.setMapsApiKey( dictionary.get( MAPS_API_KEY ) );
 
         instance = configuration;
@@ -197,5 +202,27 @@ public class Configuration
     public String getLegalForm()
     {
         return LEGAL_FORM;
+    }
+
+    public boolean isFeatureEnabled( Feature.Name name ) {
+        return features.stream()
+                .filter( feature -> feature.getName().equals( name ) )
+                .map( Feature::isEnabled )
+                .findFirst()
+                .orElse( false );
+    }
+
+    private void resolveFeatures( Dictionary dictionary )
+    {
+        dictionary.keySet().forEach( key -> {
+            String value = dictionary.get( key );
+
+            if ( key.startsWith( "FEATURE__" ) )
+            {
+                boolean enabled = Boolean.parseBoolean( value );
+                Optional<Feature.Name> name = Feature.Name.fromKey( key );
+                name.ifPresent( n -> features.add( new Feature( n, enabled ) ) );
+            }
+        } );
     }
 }
