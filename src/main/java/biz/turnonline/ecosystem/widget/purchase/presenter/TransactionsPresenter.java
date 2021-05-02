@@ -43,7 +43,13 @@ public class TransactionsPresenter
     @Override
     public void bind()
     {
-        bus().addHandler( TransactionDetailEvent.TYPE, event -> controller().goTo( new TransactionDetail( event.getId() ) ) );
+        bus().addHandler( TransactionDetailEvent.TYPE, event -> {
+            Long productBillingTransactionId = event.getId();
+            bus().billing().getTransactionById( productBillingTransactionId, response -> {
+                Long transactionId = response.getTransactionId();
+                controller().goTo( new TransactionDetail( transactionId ) );
+            } );
+        } );
     }
 
     @Override

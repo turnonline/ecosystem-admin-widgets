@@ -291,4 +291,9 @@ public interface ProductBillingFacade
     void getTransactions( @QueryParam( "orderId" ) Long orderId,
                           @QueryParam( "invoiceId" ) Long invoiceId,
                           SuccessCallback<Items<Transaction>> callback );
+
+    @GET
+    @Path( "transactions/{transaction_id}" )
+    void getTransactionById( @PathParam( "transaction_id" ) Long transactionId,
+                          SuccessCallback<Transaction> callback );
 }
