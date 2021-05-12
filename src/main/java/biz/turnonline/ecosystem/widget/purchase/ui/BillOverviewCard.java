@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent.TransactionSource.BILLING;
 import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.INVOICE;
 import static biz.turnonline.ecosystem.widget.shared.rest.bill.Bill.TypeEnum.RECEIPT;
 import static gwt.material.design.client.constants.Color.BLUE;
@@ -207,7 +208,7 @@ public class BillOverviewCard
     {
         if ( bill.getTransactionId() != null )
         {
-            bus.fireEvent( new TransactionDetailEvent( bill.getTransactionId() ) );
+            bus.fireEvent( new TransactionDetailEvent( bill.getTransactionId(), BILLING ) );
         }
     }
 

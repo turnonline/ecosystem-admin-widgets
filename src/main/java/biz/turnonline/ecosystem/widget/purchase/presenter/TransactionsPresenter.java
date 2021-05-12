@@ -18,6 +18,7 @@
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
 import biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent.TransactionSource;
 import biz.turnonline.ecosystem.widget.purchase.place.TransactionDetail;
 import biz.turnonline.ecosystem.widget.purchase.place.Transactions;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -25,7 +26,9 @@ import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
 import com.google.gwt.place.shared.PlaceController;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
@@ -33,22 +36,26 @@ import java.util.List;
 public class TransactionsPresenter
         extends Presenter<TransactionsPresenter.IView>
 {
+    private final Map<TransactionSource, TransactionIdResolver> transactionIdResolverMap = new HashMap<>();
+
     @Inject
     public TransactionsPresenter( IView view, PlaceController placeController )
     {
         super( view, placeController );
         setPlace( Transactions.class );
+
+        transactionIdResolverMap.put( TransactionSource.PAYMENT, this::goToDetail );
+        transactionIdResolverMap.put( TransactionSource.BILLING, id -> bus().billing().getTransactionById( id, response -> goToDetail( response.getTransactionId() ) ) );
     }
 
     @Override
     public void bind()
     {
         bus().addHandler( TransactionDetailEvent.TYPE, event -> {
-            Long productBillingTransactionId = event.getId();
-            bus().billing().getTransactionById( productBillingTransactionId, response -> {
-                Long transactionId = response.getTransactionId();
-                controller().goTo( new TransactionDetail( transactionId ) );
-            } );
+            Long id = event.getId();
+            TransactionSource source = event.getSource();
+
+            transactionIdResolverMap.get( source ).resolve( id );
         } );
     }
 
@@ -62,5 +69,16 @@ public class TransactionsPresenter
             extends org.ctoolkit.gwt.client.view.IView<List<Transaction>>
     {
         void refresh();
+    }
+
+    @FunctionalInterface
+    private interface TransactionIdResolver
+    {
+        void resolve( Long id );
+    }
+
+    private void goToDetail( Long id )
+    {
+        controller().goTo( new TransactionDetail( id ) );
     }
 }

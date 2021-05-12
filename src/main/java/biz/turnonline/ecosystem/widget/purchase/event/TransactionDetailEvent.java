@@ -12,9 +12,12 @@ public class TransactionDetailEvent
 
     private final Long id;
 
-    public TransactionDetailEvent( Long id )
+    private final TransactionSource source;
+
+    public TransactionDetailEvent( Long id, TransactionSource source )
     {
         this.id = id;
+        this.source = source;
     }
 
     public Type<TransactionDetailEventHandler> getAssociatedType()
@@ -30,5 +33,27 @@ public class TransactionDetailEvent
     public Long getId()
     {
         return id;
+    }
+
+    @Override
+    public TransactionSource getSource()
+    {
+        return source;
+    }
+
+    /**
+     * Source of transaction id - for various source different approach of transaction loading is applied
+     */
+    public enum TransactionSource {
+        /**
+         * Take ID as is an send it to transaction detail page
+         */
+        PAYMENT,
+
+        /**
+         * Take ID and find transaction via billing service, use transactionId from response
+         * as value which will be send to transaction detail page
+         */
+        BILLING;
     }
 }

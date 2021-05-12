@@ -29,6 +29,8 @@ import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
+import static biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent.TransactionSource.PAYMENT;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
@@ -50,7 +52,7 @@ public class ColumnTransactionsActions
         MaterialButton btnEdit = new MaterialButton();
         btnEdit.addClickHandler( event -> {
             event.stopPropagation();
-            eventBus.fireEvent( new TransactionDetailEvent( value.getTransactionId() ) );
+            eventBus.fireEvent( new TransactionDetailEvent( value.getTransactionId(), PAYMENT ) );
         } );
 
         btnEdit.setType( ButtonType.FLOATING );
