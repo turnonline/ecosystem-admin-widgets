@@ -93,6 +93,8 @@ public class ColumnTransactionAmount
             amountHtml.setHTML( ( credit ? "+" : "-" ) + formatted );
             parent.add( amountHtml );
 
+            parent.removeStyleName( "green-text" );
+            parent.removeStyleName( "red-text" );
             parent.addStyleName( credit ? "green-text" : "red-text" );
         }
     }
