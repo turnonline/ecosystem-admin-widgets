@@ -69,8 +69,8 @@ public class BillsPresenter
                 bus().bill().getBills(
                         offset,
                         limit,
-                        formatter.format( from ),
-                        formatter.format( to ),
+                        from != null ? formatter.format( from ) : null,
+                        to != null ? formatter.format( to ) : null,
                         true,
                         callback
                 );
