@@ -146,7 +146,7 @@ public class BillOverviewCard
         billImage.getElement().getStyle().setProperty( "margin", "auto" );
         if ( hasImageUrl )
         {
-            billImage.setUrl( scan.getServingUrl() );
+            billImage.setUrl( scan.getServingUrl() + "=s0");
             billImage.addClickHandler( e -> overlay.open( billImage ) );
             overlayImage.setUrl( scan.getServingUrl() + "=s1200" );
             btnCloseOverlay.addClickHandler( e -> overlay.close() );
