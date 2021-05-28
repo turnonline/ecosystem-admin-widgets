@@ -22,13 +22,17 @@ import biz.turnonline.ecosystem.widget.shared.rest.payment.PaymentMethod;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.ui.InlineHTML;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,6 +72,19 @@ public class ColumnTransactionAmount
     public static void renderAmount( MaterialWidget parent, Transaction transaction )
     {
         parent.clear();
+        parent.setPaddingLeft( 0 );
+
+        MaterialColumn amountParent = new MaterialColumn();
+        amountParent.setGrid( "s12 m12" );
+        amountParent.setMarginBottom( 10 );
+        amountParent.setPaddingLeft( 0 );
+        parent.add( amountParent );
+
+        MaterialColumn completedAtParent = new MaterialColumn();
+        completedAtParent.setGrid( "s12 m12" );
+        completedAtParent.setFontSize( 80, Style.Unit.PCT );
+        completedAtParent.setPaddingLeft( 0 );
+        parent.add( completedAtParent );
 
         boolean credit = transaction.isCredit();
         Double amount = transaction.getAmount();
@@ -84,18 +101,37 @@ public class ColumnTransactionAmount
             icon.getElement().getStyle().setPosition( Style.Position.RELATIVE );
             icon.getElement().getStyle().setTop( 7, Style.Unit.PX );
             icon.getElement().getStyle().setMarginRight( 5, Style.Unit.PX );
-            parent.add( icon );
+            amountParent.add( icon );
 
             // formatted amount
             String formatted = NumberFormat.getCurrencyFormat( currency ).format( amount );
 
             InlineHTML amountHtml = new InlineHTML();
             amountHtml.setHTML( ( credit ? "+" : "-" ) + formatted );
-            parent.add( amountHtml );
+            amountParent.add( amountHtml );
 
-            parent.removeStyleName( "green-text" );
-            parent.removeStyleName( "red-text" );
-            parent.addStyleName( credit ? "green-text" : "red-text" );
+            amountParent.removeStyleName( "green-text" );
+            amountParent.removeStyleName( "red-text" );
+            amountParent.addStyleName( credit ? "green-text" : "red-text" );
+        }
+
+        Date completedAt = transaction.getCompletedAt();
+        if ( completedAt != null )
+        {
+            MaterialIcon icon = new MaterialIcon( IconType.DATE_RANGE );
+            icon.setIconColor( Color.GREY );
+            icon.setFontSize( 100, Style.Unit.PCT );
+            icon.setLayoutPosition( Style.Position.RELATIVE );
+            icon.setTop( -5 );
+            completedAtParent.add( icon );
+
+            DateTimeFormat format = DateTimeFormat.getFormat( DateTimeFormat.PredefinedFormat.DATE_TIME_MEDIUM );
+            MaterialLabel label = new MaterialLabel( format.format( completedAt ) );
+            label.getElement().getStyle().setDisplay( Style.Display.INLINE_BLOCK );
+            label.getElement().getStyle().setPosition( Style.Position.RELATIVE );
+            label.getElement().getStyle().setTop( -6, Style.Unit.PX );
+            label.setTextColor( Color.GREY );
+            completedAtParent.add( label );
         }
     }
 }

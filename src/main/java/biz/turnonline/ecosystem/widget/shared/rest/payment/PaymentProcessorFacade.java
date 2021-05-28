@@ -101,6 +101,8 @@ public interface PaymentProcessorFacade
                           @QueryParam( "limit" ) Integer limit,
                           @QueryParam( "operation" ) String operation,
                           @QueryParam( "type" ) String type,
+                          @QueryParam( "from" ) String from,
+                          @QueryParam( "to" ) String to,
                           SuccessCallback<Items<Transaction>> callback );
 
     @GET

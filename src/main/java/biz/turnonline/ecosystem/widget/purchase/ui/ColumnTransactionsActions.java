@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
+import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
@@ -27,6 +28,7 @@ import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 import static biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent.TransactionSource.PAYMENT;
@@ -35,7 +37,7 @@ import static biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEv
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
 public class ColumnTransactionsActions
-        extends WidgetColumn<Transaction, MaterialButton>
+        extends WidgetColumn<Transaction, MaterialColumn>
 {
     private final EventBus eventBus;
 
@@ -47,8 +49,34 @@ public class ColumnTransactionsActions
     }
 
     @Override
-    public MaterialButton getValue( Transaction value )
+    public MaterialColumn getValue( Transaction value )
     {
+        MaterialColumn parent = new MaterialColumn();
+
+        // bill redirect
+        MaterialButton btnViewBill = new MaterialButton();
+        btnViewBill.addClickHandler( event -> {
+            event.stopPropagation();
+            if ( hasBill( value ) )
+            {
+                eventBus.fireEvent( new EditBillEvent( value.getBill().getId() ) );
+            }
+        } );
+
+        btnViewBill.setType( ButtonType.FLOATING );
+        btnViewBill.setBackgroundColor( Color.WHITE );
+
+        btnViewBill.setIconType( IconType.RECEIPT );
+        btnViewBill.setIconColor( Color.GREY_DARKEN_2 );
+        btnViewBill.setWaves( WavesType.DEFAULT );
+        btnViewBill.setSize( ButtonSize.MEDIUM );
+
+        btnViewBill.setTooltip( messages.tooltipEditBill() );
+        btnViewBill.setMarginRight( 10 );
+        btnViewBill.setVisible( hasBill( value ) );
+        parent.add( btnViewBill );
+
+        // edit
         MaterialButton btnEdit = new MaterialButton();
         btnEdit.addClickHandler( event -> {
             event.stopPropagation();
@@ -64,7 +92,13 @@ public class ColumnTransactionsActions
         btnEdit.setSize( ButtonSize.MEDIUM );
 
         btnEdit.setTooltip( messages.tooltipTransactionDetail() );
+        parent.add( btnEdit );
 
-        return btnEdit;
+        return parent;
+    }
+
+    private boolean hasBill( Transaction value )
+    {
+        return value.getBill() != null && value.getBill().getId() != null;
     }
 }

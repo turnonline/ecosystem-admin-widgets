@@ -52,6 +52,7 @@ public class ColumnTransactionCategories
     public MaterialColumn getValue( Transaction object )
     {
         MaterialColumn content = new MaterialColumn();
+        content.setPaddingLeft( 0 );
 
         MaterialBubble bubble = new MaterialBubble();
         bubble.setBackgroundColor( Color.WHITE );

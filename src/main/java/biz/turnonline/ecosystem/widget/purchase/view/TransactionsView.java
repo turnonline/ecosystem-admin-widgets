@@ -20,15 +20,15 @@ package biz.turnonline.ecosystem.widget.purchase.view;
 import biz.turnonline.ecosystem.widget.purchase.event.CategoriesEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionAmount;
-import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionBank;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCategories;
-import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCompletedAt;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionMerchant;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionStatus;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionsActions;
 import biz.turnonline.ecosystem.widget.purchase.ui.TransactionsDataSource;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
+import biz.turnonline.ecosystem.widget.shared.ui.PredefinedRange;
+import biz.turnonline.ecosystem.widget.shared.ui.PredefinedRangeListBox;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.ui.SmartTable;
@@ -58,6 +58,9 @@ public class TransactionsView
     ScaffoldBreadcrumb breadcrumb;
 
     @UiField
+    PredefinedRangeListBox range;
+
+    @UiField
     SmartTable<Transaction> table;
 
     @UiField
@@ -80,6 +83,17 @@ public class TransactionsView
         breadcrumb.addRefreshClickHandler( event -> refresh() );
 
         breadcrumb.setClearFilterVisible( false );
+
+        range.setSingleValue( PredefinedRange.CURRENT_MONTH );
+        range.addValueChangeHandler( event -> {
+            PredefinedRange.Range range = this.range.getSingleValue().getRangeSupplier().get();
+
+            TransactionsDataSource dataSource = (TransactionsDataSource) table.getDataSource();
+            dataSource.setFrom( range.getFrom() );
+            dataSource.setTo( range.getTo() );
+
+            refresh();
+        } );
     }
 
     @Override
@@ -91,30 +105,22 @@ public class TransactionsView
     private void initTable()
     {
         ColumnTransactionStatus status = new ColumnTransactionStatus();
-        status.width( "10%" );
+        status.width( "20%" );
 
         ColumnTransactionAmount amount = new ColumnTransactionAmount();
-        amount.width( "5%" );
-
-        ColumnTransactionCompletedAt completedAt = new ColumnTransactionCompletedAt();
-        completedAt.width( "10%" );
-
-        ColumnTransactionBank bank = new ColumnTransactionBank();
-        bank.width( "10%" );
+        amount.width( "20%" );
 
         ColumnTransactionMerchant merchant = new ColumnTransactionMerchant();
-        merchant.width( "10%" );
+        merchant.width( "30%" );
 
         ColumnTransactionCategories categories = new ColumnTransactionCategories( bus() );
-        categories.width("5%");
+        categories.width("25%");
 
         ColumnTransactionsActions actions = new ColumnTransactionsActions(bus());
         actions.width("5%");
 
         table.addColumn( messages.labelStatus(), status );
         table.addColumn( messages.labelPayment(), amount );
-        table.addColumn( messages.labelCompletedAt(), completedAt );
-        table.addColumn( messages.labelBank(), bank );
         table.addColumn( messages.labelMerchant(), merchant );
         table.addColumn( messages.labelCategories(), categories );
         table.addColumn( actions );

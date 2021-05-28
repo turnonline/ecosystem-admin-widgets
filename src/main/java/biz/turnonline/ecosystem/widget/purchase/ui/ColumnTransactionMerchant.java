@@ -33,6 +33,7 @@ public class ColumnTransactionMerchant
     public MaterialColumn getValue( Transaction object )
     {
         MaterialColumn content = new MaterialColumn();
+        content.setPaddingLeft( 0 );
 
         Merchant merchant = object.getMerchant();
 
