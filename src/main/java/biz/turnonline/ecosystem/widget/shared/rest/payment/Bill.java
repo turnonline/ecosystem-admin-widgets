@@ -29,6 +29,9 @@ public class Bill
     @JsonProperty( "id" )
     private Long id;
 
+    @JsonProperty( "receipt" )
+    private Long receipt;
+
     @JsonProperty( "invoiceId" )
     private Long invoiceId;
 
@@ -53,6 +56,20 @@ public class Bill
     public void setId( Long id )
     {
         this.id = id;
+    }
+
+    /**
+     * The receipt identification
+     **/
+    @JsonProperty( "receipt" )
+    public Long getReceipt()
+    {
+        return receipt;
+    }
+
+    public void setReceipt( Long receipt )
+    {
+        this.receipt = receipt;
     }
 
     public Bill invoiceId( Long invoiceId )
@@ -108,6 +125,7 @@ public class Bill
         }
         Bill bill = ( Bill ) o;
         return Objects.equals( this.id, bill.id ) &&
+                Objects.equals( this.receipt, bill.receipt ) &&
                 Objects.equals( this.invoiceId, bill.invoiceId ) &&
                 Objects.equals( this.orderId, bill.orderId );
     }
@@ -124,6 +142,7 @@ public class Bill
     {
         return "class Bill {\n" +
                 "    id: " + toIndentedString( id ) + "\n" +
+                "    receipt: " + toIndentedString( receipt ) + "\n" +
                 "    invoiceId: " + toIndentedString( invoiceId ) + "\n" +
                 "    orderId: " + toIndentedString( orderId ) + "\n" +
                 "}";

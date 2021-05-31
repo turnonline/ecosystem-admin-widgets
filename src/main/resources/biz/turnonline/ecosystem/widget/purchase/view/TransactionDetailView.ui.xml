@@ -78,6 +78,15 @@
                                       marginTop="11"/>
 
                     <m:MaterialContainer ui:field="categories" marginTop="10" grid="s12 m12"/>
+
+                    <m:MaterialContainer>
+                        <m:MaterialContainer grid="s12 m12" paddingLeft="0" marginBottom="10">
+                            <s:SectionTitle iconType="LINK" title="Links"/>
+                        </m:MaterialContainer>
+                    </m:MaterialContainer>
+
+                    <m:MaterialButton ui:field="btnRedirectToBill" marginRight="10" type="FLOATING" backgroundColor="WHITE"
+                                      iconType="RECEIPT" iconColor="GREY_DARKEN_2" waves="DEFAULT" size="MEDIUM" tooltip="{msg.tooltipEditBill}"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

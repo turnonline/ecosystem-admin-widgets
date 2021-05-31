@@ -17,6 +17,7 @@
 package biz.turnonline.ecosystem.widget.purchase.view;
 
 import biz.turnonline.ecosystem.widget.purchase.event.BackTransactionEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionDetailPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.CategoryBadge;
 import biz.turnonline.ecosystem.widget.purchase.ui.TransactionAmountBox;
@@ -104,6 +105,9 @@ public class TransactionDetailView
     @UiField
     MaterialButton btnBack;
 
+    @UiField
+    MaterialButton btnRedirectToBill;
+
     @Inject
     public TransactionDetailView( @Named( "TransactionDetailBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
@@ -165,12 +169,20 @@ public class TransactionDetailView
                 categories.add( badge );
             } );
         }
+
+        btnRedirectToBill.setVisible( transaction.getBill() != null && transaction.getBill().getReceipt() != null );
     }
 
     @UiHandler( "btnBack" )
     public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new BackTransactionEvent() );
+    }
+
+    @UiHandler( "btnRedirectToBill" )
+    public void handleRedirectToBill( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        bus().fireEvent( new EditBillEvent(getRawModel().getBill().getReceipt()) );
     }
 
     public void hideCategories( MouseOutEvent event )

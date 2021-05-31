@@ -17,10 +17,16 @@
 
 package biz.turnonline.ecosystem.widget.purchase.ui;
 
-import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
+import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.payment.Transaction;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import gwt.material.design.client.constants.ButtonSize;
 import gwt.material.design.client.constants.ButtonType;
@@ -29,6 +35,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialColumn;
+import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 import static biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent.TransactionSource.PAYMENT;
@@ -49,20 +56,20 @@ public class ColumnTransactionsActions
     }
 
     @Override
-    public MaterialColumn getValue( Transaction value )
+    public MaterialColumn getValue( Transaction transaction )
     {
         MaterialColumn parent = new MaterialColumn();
+        parent.setFloat( Style.Float.RIGHT );
 
-        // bill redirect
+        // bill detail overview
+        MaterialRow bubbleParent = new MaterialRow();
+        bubbleParent.setLayoutPosition( Style.Position.ABSOLUTE );
+        bubbleParent.getElement().getStyle().setMarginLeft( -50, Style.Unit.EM );
+        bubbleParent.addClickHandler( DomEvent::stopPropagation );
+        RootPanel.get().addDomHandler( event -> bubbleParent.clear(), ClickEvent.getType() );
+        parent.add( bubbleParent );
+
         MaterialButton btnViewBill = new MaterialButton();
-        btnViewBill.addClickHandler( event -> {
-            event.stopPropagation();
-            if ( hasBill( value ) )
-            {
-                eventBus.fireEvent( new EditBillEvent( value.getBill().getId() ) );
-            }
-        } );
-
         btnViewBill.setType( ButtonType.FLOATING );
         btnViewBill.setBackgroundColor( Color.WHITE );
 
@@ -71,16 +78,17 @@ public class ColumnTransactionsActions
         btnViewBill.setWaves( WavesType.DEFAULT );
         btnViewBill.setSize( ButtonSize.MEDIUM );
 
-        btnViewBill.setTooltip( messages.tooltipEditBill() );
+        btnViewBill.setTooltip( messages.tooltipBillPaired() );
         btnViewBill.setMarginRight( 10 );
-        btnViewBill.setVisible( hasBill( value ) );
+        btnViewBill.setVisible( hasBill( transaction ) );
+        btnViewBill.addClickHandler( event -> addMouseOverBubbleForBill( bubbleParent, transaction ) );
         parent.add( btnViewBill );
 
         // edit
         MaterialButton btnEdit = new MaterialButton();
         btnEdit.addClickHandler( event -> {
             event.stopPropagation();
-            eventBus.fireEvent( new TransactionDetailEvent( value.getTransactionId(), PAYMENT ) );
+            eventBus.fireEvent( new TransactionDetailEvent( transaction.getTransactionId(), PAYMENT ) );
         } );
 
         btnEdit.setType( ButtonType.FLOATING );
@@ -99,6 +107,17 @@ public class ColumnTransactionsActions
 
     private boolean hasBill( Transaction value )
     {
-        return value.getBill() != null && value.getBill().getId() != null;
+        return value.getBill() != null && value.getBill().getReceipt() != null;
+    }
+
+    private void addMouseOverBubbleForBill( MaterialRow parent, Transaction transaction )
+    {
+        AppEventBus appEventBus = ( AppEventBus ) eventBus;
+        Long billId = transaction.getBill().getReceipt();
+
+        appEventBus.bill().findBillById( billId, ( SuccessCallback<Bill> ) response -> {
+            parent.clear();
+            parent.add( new BillOverviewCard( response, appEventBus ) );
+        } );
     }
 }
