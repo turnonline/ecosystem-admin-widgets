@@ -104,6 +104,9 @@ public interface AppMessages
     @Key( value = "label.payment" )
     String labelPayment();
 
+    @Key( value = "label.counterparty" )
+    String labelCounterparty();
+
     @Key( value = "label.status" )
     String labelStatus();
 

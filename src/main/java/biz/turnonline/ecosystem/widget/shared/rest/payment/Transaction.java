@@ -71,6 +71,9 @@ public class Transaction
     @JsonProperty( "categories" )
     private List<TransactionCategory> categories = new ArrayList<>();
 
+    @JsonProperty( "counterparty" )
+    private CounterpartyBankAccount counterparty;
+
     public Transaction transactionId( Long transactionId )
     {
         this.transactionId = transactionId;
@@ -343,6 +346,20 @@ public class Transaction
     public void setCategories( List<TransactionCategory> categories )
     {
         this.categories = categories;
+    }
+
+    /**
+     * Counterparty bank account
+     */
+    @JsonProperty( "counterparty" )
+    public CounterpartyBankAccount getCounterparty()
+    {
+        return counterparty;
+    }
+
+    public void setCounterparty( CounterpartyBankAccount counterparty )
+    {
+        this.counterparty = counterparty;
     }
 
     @Override

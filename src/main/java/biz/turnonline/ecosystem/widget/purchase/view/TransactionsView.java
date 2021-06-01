@@ -21,7 +21,7 @@ import biz.turnonline.ecosystem.widget.purchase.event.CategoriesEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionAmount;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCategories;
-import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionMerchant;
+import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCounterparty;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionStatus;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionsActions;
 import biz.turnonline.ecosystem.widget.purchase.ui.TransactionsDataSource;
@@ -110,7 +110,7 @@ public class TransactionsView
         ColumnTransactionAmount amount = new ColumnTransactionAmount();
         amount.width( "20%" );
 
-        ColumnTransactionMerchant merchant = new ColumnTransactionMerchant();
+        ColumnTransactionCounterparty merchant = new ColumnTransactionCounterparty();
         merchant.width( "30%" );
 
         ColumnTransactionCategories categories = new ColumnTransactionCategories( bus() );
@@ -121,7 +121,7 @@ public class TransactionsView
 
         table.addColumn( messages.labelStatus(), status );
         table.addColumn( messages.labelPayment(), amount );
-        table.addColumn( messages.labelMerchant(), merchant );
+        table.addColumn( messages.labelCounterparty(), merchant );
         table.addColumn( messages.labelCategories(), categories );
         table.addColumn( actions );
 
