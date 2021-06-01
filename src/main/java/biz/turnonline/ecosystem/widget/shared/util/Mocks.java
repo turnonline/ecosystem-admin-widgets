@@ -129,8 +129,8 @@ public class Mocks
         transaction.setMerchant( merchant );
 
         Bill bill = new Bill();
-        bill.setInvoiceId( 1L );
-        bill.setOrderId( 2L );
+        bill.setInvoice( 1L );
+        bill.setOrder( 2L );
         transaction.setBill( bill );
 
         TransactionCategory transactionCategory1 = new TransactionCategory();

@@ -26,37 +26,14 @@ import java.util.Objects;
  */
 public class Bill
 {
-    @JsonProperty( "id" )
-    private Long id;
-
     @JsonProperty( "receipt" )
     private Long receipt;
 
-    @JsonProperty( "invoiceId" )
-    private Long invoiceId;
+    @JsonProperty( "invoice" )
+    private Long invoice;
 
-    @JsonProperty( "orderId" )
-    private Long orderId;
-
-    public Bill id( Long id )
-    {
-        this.id = id;
-        return this;
-    }
-
-    /**
-     * The unique identification of the bill (cash register document).
-     **/
-    @JsonProperty( "id" )
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId( Long id )
-    {
-        this.id = id;
-    }
+    @JsonProperty( "order" )
+    private Long order;
 
     /**
      * The receipt identification
@@ -74,42 +51,42 @@ public class Bill
 
     public Bill invoiceId( Long invoiceId )
     {
-        this.invoiceId = invoiceId;
+        this.invoice = invoiceId;
         return this;
     }
 
     /**
      * The invoice identification, unique only for specified order.
      **/
-    @JsonProperty( "invoiceId" )
-    public Long getInvoiceId()
+    @JsonProperty( "invoice" )
+    public Long getInvoice()
     {
-        return invoiceId;
+        return invoice;
     }
 
-    public void setInvoiceId( Long invoiceId )
+    public void setInvoice( Long invoice )
     {
-        this.invoiceId = invoiceId;
+        this.invoice = invoice;
     }
 
     public Bill orderId( Long orderId )
     {
-        this.orderId = orderId;
+        this.order = orderId;
         return this;
     }
 
     /**
      * The unique identification of the order associated with the settled invoice.
      **/
-    @JsonProperty( "orderId" )
-    public Long getOrderId()
+    @JsonProperty( "order" )
+    public Long getOrder()
     {
-        return orderId;
+        return order;
     }
 
-    public void setOrderId( Long orderId )
+    public void setOrder( Long order )
     {
-        this.orderId = orderId;
+        this.order = order;
     }
 
     @Override
@@ -124,16 +101,15 @@ public class Bill
             return false;
         }
         Bill bill = ( Bill ) o;
-        return Objects.equals( this.id, bill.id ) &&
-                Objects.equals( this.receipt, bill.receipt ) &&
-                Objects.equals( this.invoiceId, bill.invoiceId ) &&
-                Objects.equals( this.orderId, bill.orderId );
+        return Objects.equals( this.receipt, bill.receipt ) &&
+                Objects.equals( this.invoice, bill.invoice ) &&
+                Objects.equals( this.order, bill.order );
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash( id, invoiceId, orderId );
+        return Objects.hash( invoice, order );
     }
 
 
@@ -141,10 +117,9 @@ public class Bill
     public String toString()
     {
         return "class Bill {\n" +
-                "    id: " + toIndentedString( id ) + "\n" +
                 "    receipt: " + toIndentedString( receipt ) + "\n" +
-                "    invoiceId: " + toIndentedString( invoiceId ) + "\n" +
-                "    orderId: " + toIndentedString( orderId ) + "\n" +
+                "    invoice: " + toIndentedString( invoice ) + "\n" +
+                "    order: " + toIndentedString( order ) + "\n" +
                 "}";
     }
 
