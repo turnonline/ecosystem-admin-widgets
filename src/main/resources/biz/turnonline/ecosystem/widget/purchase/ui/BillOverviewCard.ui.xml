@@ -18,6 +18,7 @@
              xmlns:m='urn:import:gwt.material.design.client.ui'
              xmlns:addins='urn:import:gwt.material.design.addins.client'
              xmlns:s='urn:import:biz.turnonline.ecosystem.widget.shared.ui'
+             xmlns:p='urn:import:biz.turnonline.ecosystem.widget.purchase.ui'
 >
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
@@ -41,7 +42,7 @@
         <m:MaterialCardContent minHeight="221px" paddingBottom="0" paddingTop="0">
             <m:MaterialRow grid="s12" marginBottom="5" paddingLeft="0">
                 <m:MaterialColumn grid="s12" paddingLeft="0">
-                    <m:MaterialLabel ui:field="description" fontSize="1.5em" fontWeight="BOLD"/>
+                    <s:EditableMaterialLabel ui:field="description" fontSize="1.5em" fontWeight="BOLD"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
 
@@ -79,6 +80,8 @@
                 <m:MaterialCardAction marginTop="0" padding="5">
                     <m:MaterialLink ui:field="editLink" iconColor="BLUE" paddingTop="10" iconType="EDIT"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipEditBill}"/>
+
+                    <p:BillCompactUploader ui:field="uploader" height="60px"/>
 
                     <m:MaterialIcon ui:field="paired" iconColor="WHITE" iconType="COMPARE_ARROWS" textAlign="CENTER"
                                     marginTop="3" marginBottom="8" right="-5"

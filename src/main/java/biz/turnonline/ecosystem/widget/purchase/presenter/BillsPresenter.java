@@ -16,6 +16,7 @@
 
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
+import biz.turnonline.ecosystem.widget.purchase.event.ApproveAllBillsEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.NewBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.place.Bills;
@@ -57,6 +58,15 @@ public class BillsPresenter
         bus().addHandler( NewBillEvent.TYPE, event -> {
             success( messages.msgBatchCreated( event.getBill().getDescription() ) );
             bus().bill().createBill( event.getBill(), ( response, failure ) -> {
+            } );
+        } );
+        bus().addHandler( ApproveAllBillsEvent.TYPE, event -> {
+            event.getBills().forEach( bill -> {
+                if ( !bill.isApproved() )
+                {
+                    bus().bill().approveBill( bill.getId(), ( SuccessCallback<Void> ) response
+                            -> success(messages.msgBillApproved( bill.getDescription() )) );
+                }
             } );
         } );
 

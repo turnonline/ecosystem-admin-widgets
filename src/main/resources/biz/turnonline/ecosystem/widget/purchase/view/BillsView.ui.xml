@@ -28,8 +28,15 @@
                 <s:BatchDropBox ui:field="batchDropBox"/>
             </m:MaterialColumn>
 
-            <m:MaterialColumn grid="s12 m12" paddingLeft="10" paddingRight="0">
+            <m:MaterialColumn grid="s8 m10" paddingLeft="10" paddingRight="0">
                 <s:PredefinedRangeListBox ui:field="range" grid="s12 m6 l3" minHeight="0" marginTop="0"/>
+            </m:MaterialColumn>
+            <m:MaterialColumn grid="s4 m2" paddingRight="20" marginTop="10">
+                <m:MaterialButton ui:field="approveAll" iconType="PLAYLIST_ADD_CHECK" type="OUTLINED" waves="DEFAULT" float="RIGHT"
+                                  backgroundColor="WHITE" textColor="GREEN" border="1px solid #4caf50" tooltip="{msg.tooltipApproveAllBills}"
+                                  text="{msg.labelApproveAll}"/>
+
+                <s:ConfirmationWindow ui:field="approveAllConfirmation"/>
             </m:MaterialColumn>
         </m:MaterialRow>
 

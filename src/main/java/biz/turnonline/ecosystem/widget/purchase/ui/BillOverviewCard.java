@@ -23,9 +23,11 @@ import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.AppMessages;
 import biz.turnonline.ecosystem.widget.shared.Configuration;
 import biz.turnonline.ecosystem.widget.shared.Feature;
+import biz.turnonline.ecosystem.widget.shared.rest.SuccessCallback;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Scan;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Supplier;
+import biz.turnonline.ecosystem.widget.shared.ui.EditableMaterialLabel;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceLabel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -91,7 +93,7 @@ public class BillOverviewCard
     MaterialCard card;
 
     @UiField
-    MaterialLabel description;
+    EditableMaterialLabel description;
 
     @UiField
     MaterialLabel billNumber;
@@ -117,6 +119,9 @@ public class BillOverviewCard
     @UiField
     MaterialIcon paired;
 
+    @UiField
+    BillCompactUploader uploader;
+
     public BillOverviewCard( @Nonnull Bill bill, AppEventBus bus )
     {
         this.bill = bill;
@@ -124,9 +129,31 @@ public class BillOverviewCard
 
         initWidget( binder.createAndBindUi( this ) );
 
+        uploader.addUploadedHandler( event -> {
+            Bill updated = event.getBill();
+            bus.bill().updateBill( updated.getId(), updated, ( SuccessCallback<Bill> ) BillOverviewCard.this::initialize );
+        } );
+
         description.getElement().getStyle().setWhiteSpace( Style.WhiteSpace.NOWRAP );
         description.getElement().getStyle().setOverflow( Style.Overflow.HIDDEN );
         description.getElement().getStyle().setTextOverflow( Style.TextOverflow.ELLIPSIS );
+        description.setCursor( Style.Cursor.TEXT );
+        description.setEmptyValue( "-" );
+        description.addBlurHandler( event -> {
+            if ( description.isValueChanged() )
+            {
+                bill.setDescription( description.getText() );
+                bus.bill().updateBill( bill.getId(), bill, ( SuccessCallback<Bill> ) response -> {
+                    // noop
+                } );
+            }
+        } );
+
+        initialize( bill );
+    }
+
+    private void initialize( Bill bill )
+    {
         description.setText( Optional.ofNullable( bill.getDescription() ).orElse( "-" ) );
         billNumber.setText( Optional.ofNullable( bill.getBillNumber() ).orElse( "-" ) );
         type.setBorder( "1px solid" );
@@ -146,7 +173,7 @@ public class BillOverviewCard
         billImage.getElement().getStyle().setProperty( "margin", "auto" );
         if ( hasImageUrl )
         {
-            billImage.setUrl( scan.getServingUrl() + "=s0");
+            billImage.setUrl( scan.getServingUrl() + "=s0" );
             billImage.addClickHandler( e -> overlay.open( billImage ) );
             overlayImage.setUrl( scan.getServingUrl() + "=s1200" );
             btnCloseOverlay.addClickHandler( e -> overlay.close() );
@@ -189,6 +216,9 @@ public class BillOverviewCard
         paired.setVisible( Configuration.get().isFeatureEnabled( Feature.Name.PAYMENT_PROCESSOR_API_ENABLED ) );
 
         card.setScrollspy( Bills.getScrollspy( bill ) );
+
+        uploader.setBill( bill );
+
     }
 
     @UiHandler( "editLink" )

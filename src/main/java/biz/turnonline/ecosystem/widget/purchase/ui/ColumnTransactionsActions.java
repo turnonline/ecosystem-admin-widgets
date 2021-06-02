@@ -63,9 +63,12 @@ public class ColumnTransactionsActions
 
         // bill detail overview
         MaterialRow bubbleParent = new MaterialRow();
-        bubbleParent.setLayoutPosition( Style.Position.ABSOLUTE );
+        bubbleParent.setWidth( "50%" );
+        bubbleParent.setLayoutPosition( Style.Position.FIXED );
         bubbleParent.getElement().getStyle().setMarginLeft( -50, Style.Unit.EM );
+        bubbleParent.getElement().getStyle().setBottom( 10, Style.Unit.PX );
         bubbleParent.addClickHandler( DomEvent::stopPropagation );
+        bubbleParent.getElement().getStyle().setZIndex( 10 );
         RootPanel.get().addDomHandler( event -> bubbleParent.clear(), ClickEvent.getType() );
         parent.add( bubbleParent );
 

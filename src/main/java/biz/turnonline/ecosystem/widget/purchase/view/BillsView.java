@@ -16,12 +16,14 @@
 
 package biz.turnonline.ecosystem.widget.purchase.view;
 
+import biz.turnonline.ecosystem.widget.purchase.event.ApproveAllBillsEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.EditBillEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.BillsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.BillOverviewCard;
 import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.rest.bill.Bill;
 import biz.turnonline.ecosystem.widget.shared.ui.BatchDropBox;
+import biz.turnonline.ecosystem.widget.shared.ui.ConfirmationWindow;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScroll;
 import biz.turnonline.ecosystem.widget.shared.ui.InfiniteScrollLoader;
 import biz.turnonline.ecosystem.widget.shared.ui.PredefinedRange;
@@ -38,11 +40,13 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialAnchorButton;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialColumn;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Configuration.BILLING_PROCESSOR_STORAGE;
@@ -62,6 +66,9 @@ public class BillsView
     @UiField
     PredefinedRangeListBox range;
 
+    @UiField
+    MaterialButton approveAll;
+
     @UiField( provided = true )
     BatchDropBox batchDropBox = new BatchDropBox( BILLING_PROCESSOR_STORAGE );
 
@@ -78,6 +85,11 @@ public class BillsView
 
     @UiField
     MaterialAnchorButton newBill;
+
+    @UiField
+    ConfirmationWindow approveAllConfirmation;
+
+    private List<Bill> cachedResults = new ArrayList<>();
 
     @Inject
     public BillsView( @Named( "BillsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
@@ -98,9 +110,13 @@ public class BillsView
 
         breadcrumb.setClearFilterVisible( false );
 
+        approveAllConfirmation.getBtnOk()
+                .addClickHandler( event -> bus().fireEvent( new ApproveAllBillsEvent( cachedResults ) ) );
+
         scroll.setOverflow( Style.Overflow.VISIBLE );
         scroll.setRenderer( this::createCard );
         scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelBillLoading() ) );
+        scroll.addLoadedHandler( e -> cachedResults = e.getResult().getData() );
 
         range.setSingleValue( PredefinedRange.CURRENT_MONTH );
         range.addValueChangeHandler( event -> {
@@ -137,6 +153,36 @@ public class BillsView
     public void handleNew( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new EditBillEvent() );
+    }
+
+    @UiHandler( "approveAll" )
+    public void handleApproveAll( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        if ( cachedResults.isEmpty() )
+        {
+            return;
+        }
+
+        approveAllConfirmation.open( new ConfirmationWindow.Question()
+        {
+            @Override
+            public int selectedRecords()
+            {
+                return cachedResults.size();
+            }
+
+            @Override
+            public String msgOneRecord()
+            {
+                return msgMultipleRecords();
+            }
+
+            @Override
+            public String msgMultipleRecords()
+            {
+                return messages.questionApproveSelectedBills( selectedRecords() );
+            }
+        } );
     }
 
     interface BillsViewUiBinder

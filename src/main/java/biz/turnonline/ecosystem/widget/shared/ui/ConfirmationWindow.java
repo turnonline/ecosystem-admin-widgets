@@ -139,7 +139,10 @@ public class ConfirmationWindow
     {
         int selectedRecords();
 
-        String name();
+        default String name()
+        {
+            return null;
+        }
 
         default String msgOneRecord()
         {

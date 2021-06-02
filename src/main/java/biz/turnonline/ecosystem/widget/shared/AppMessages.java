@@ -848,6 +848,9 @@ public interface AppMessages
     @Key( "label.english" )
     String labelEnglish();
 
+    @Key( "label.approveAll" )
+    String labelApproveAll();
+
     // tooltips
 
     @Key( value = "tooltip.contactListRefresh" )
@@ -1021,6 +1024,9 @@ public interface AppMessages
     @Key( value = "tooltip.bill.approve" )
     String tooltipBillApprove();
 
+    @Key( value = "tooltip.bill.approveAll" )
+    String tooltipApproveAllBills();
+
     @Key( value = "tooltip.bill.list.refresh" )
     String tooltipBillListRefresh();
 
@@ -1083,6 +1089,9 @@ public interface AppMessages
 
     @Key( value = "tooltip.category.delete" )
     String tooltipCategoryDelete();
+
+    @Key( value = "tooltip.upload.bill" )
+    String tooltipUploadBill();
 
     // messages
 
@@ -1209,6 +1218,9 @@ public interface AppMessages
 
     @Key( value = "question.approveBill" )
     String questionApproveBill();
+
+    @Key( value = "question.approveSelectedBills")
+    String questionApproveSelectedBills(int records);
 
     @Key( "question.purchase.order.decline" )
     String questionPurchaseOrderDecline( String company );
