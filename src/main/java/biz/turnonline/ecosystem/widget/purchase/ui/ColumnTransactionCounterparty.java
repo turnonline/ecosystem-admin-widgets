@@ -27,6 +27,8 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
+import java.util.Optional;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
@@ -52,6 +54,7 @@ public class ColumnTransactionCounterparty
             }
         }
 
+        boolean credit = Optional.ofNullable( transaction.isCredit() ).orElse( false );
         String ownerIban = resolveOwnIban( transaction );
         String counterpartyIban = resolveCounterpartyIban( transaction );
 
@@ -74,7 +77,7 @@ public class ColumnTransactionCounterparty
             MaterialIcon direction = new MaterialIcon();
             direction.setIconColor( Color.GREY );
             direction.setIconFontSize( 80, Style.Unit.PCT );
-            direction.setIconType( transaction.isCredit() ? IconType.ARROW_BACK : IconType.ARROW_FORWARD );
+            direction.setIconType( credit ? IconType.ARROW_BACK : IconType.ARROW_FORWARD );
             direction.setMarginRight( 5 );
             transfer.add( direction );
 
@@ -90,7 +93,7 @@ public class ColumnTransactionCounterparty
 
     private String resolveOwnIban( Transaction transaction )
     {
-        return transaction.getBankAccount().getIban();
+        return transaction.getBankAccount() != null ? transaction.getBankAccount().getIban() : null;
     }
 
     private String resolveCounterpartyIban( Transaction transaction )

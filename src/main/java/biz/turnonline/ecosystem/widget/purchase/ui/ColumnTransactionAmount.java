@@ -35,6 +35,7 @@ import gwt.material.design.client.ui.table.cell.WidgetColumn;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
@@ -86,7 +87,7 @@ public class ColumnTransactionAmount
         completedAtParent.setPaddingLeft( 0 );
         parent.add( completedAtParent );
 
-        boolean credit = transaction.isCredit();
+        boolean credit = Optional.ofNullable( transaction.isCredit() ).orElse( false );
         Double amount = transaction.getAmount();
         String currency = transaction.getCurrency();
 
