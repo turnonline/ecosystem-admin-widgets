@@ -173,9 +173,9 @@ public class BillOverviewCard
         billImage.getElement().getStyle().setProperty( "margin", "auto" );
         if ( hasImageUrl )
         {
-            billImage.setUrl( scan.getServingUrl() + "=s0" );
+            billImage.setUrl( scan.getServingUrl() );
             billImage.addClickHandler( e -> overlay.open( billImage ) );
-            overlayImage.setUrl( scan.getServingUrl() + "=s1200" );
+            overlayImage.setUrl( scan.getServingUrl() + "=s0" );
             btnCloseOverlay.addClickHandler( e -> overlay.close() );
             btnCloseOverlay.getElement().getStyle().setProperty( "margin", "auto" );
             btnCloseOverlay.setMarginBottom( 10 );
