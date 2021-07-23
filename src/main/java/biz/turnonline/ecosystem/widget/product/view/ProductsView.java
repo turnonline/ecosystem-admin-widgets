@@ -71,7 +71,6 @@ public class ProductsView
 
         add( binder.createAndBindUi( this ) );
 
-        scroll.enableMasonry();
         scroll.setRenderer( this::createCard );
         scroll.setInfiniteScrollLoader( new InfiniteScrollLoader( messages.labelProductLoading() ) );
 
@@ -93,8 +92,7 @@ public class ProductsView
 
     private Widget createCard( Product product )
     {
-        MaterialColumn column = new MaterialColumn( 12, 6, 4 );
-        column.setPadding( 0 );
+        MaterialColumn column = new MaterialColumn( 12, 6, 6 );
         column.add( new ProductOverviewCard( product, bus() ) );
         return column;
     }

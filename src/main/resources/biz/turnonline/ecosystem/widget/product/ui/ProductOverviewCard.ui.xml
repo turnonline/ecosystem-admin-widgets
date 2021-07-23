@@ -21,13 +21,15 @@
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
-    <m:MaterialCard ui:field="card" margin="5" marginTop="10" paddingTop="0" orientation="PORTRAIT">
-        <m:MaterialCardImage ui:field="cardImage" padding="0" width="100%" borderBottom="1px solid a0a0a033">
-            <m:MaterialImage ui:field="thumbnail"/>
+    <m:MaterialCard minHeight="290px" ui:field="card" detectOrientation="true"
+                    marginTop="10" marginBottom="10"
+                    paddingTop="15" paddingBottom="0">
+        <m:MaterialCardImage paddingLeft="10">
+            <m:MaterialImage ui:field="thumbnail" height="auto"/>
         </m:MaterialCardImage>
 
         <m:MaterialCardContent ui:field="content" textColor="BLACK" padding="10" paddingBottom="0">
-            <m:MaterialCardTitle ui:field="title" fontSize="1.2em" fontWeight="BOLD"
+            <m:MaterialCardTitle ui:field="title" fontSize="1.5em" fontWeight="BOLD"
                                  padding="0" addStyleNames="truncate"
                                  iconType="LOCK" iconColor="RED" iconPosition="RIGHT" iconSize="MEDIUM"/>
             <m:MaterialTextArea ui:field="snippet" readOnly="true" resizeRule="AUTO" marginTop="0"/>

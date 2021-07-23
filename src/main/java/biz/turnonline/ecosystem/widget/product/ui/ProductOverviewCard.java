@@ -19,6 +19,7 @@ package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.Products;
+import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductOverview;
@@ -38,7 +39,6 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialCardAction;
 import gwt.material.design.client.ui.MaterialCardContent;
-import gwt.material.design.client.ui.MaterialCardImage;
 import gwt.material.design.client.ui.MaterialCardTitle;
 import gwt.material.design.client.ui.MaterialCollection;
 import gwt.material.design.client.ui.MaterialDatePicker;
@@ -69,9 +69,6 @@ public class ProductOverviewCard
 
     @UiField
     MaterialTextArea snippet;
-
-    @UiField
-    MaterialCardImage cardImage;
 
     @UiField
     MaterialImage thumbnail;
@@ -116,7 +113,11 @@ public class ProductOverviewCard
             String url = overview.getThumbnailUrl();
             if ( url != null )
             {
-                thumbnail.setUrl( url + "=s" + ( MIN_HEIGHT * 2 ) + "-c" );
+                thumbnail.setUrl( url + "=s" + ( MIN_HEIGHT * 2 ) );
+            }
+            else
+            {
+                thumbnail.setUrl( Resources.INSTANCE.noImage().getSafeUri().asString() );
             }
 
             if ( overview.getPublished() != null && overview.getPublished() )
@@ -126,10 +127,7 @@ public class ProductOverviewCard
             }
         }
 
-        cardImage.setVisible( !Strings.isNullOrEmpty( thumbnail.getUrl() ) );
-
         card.setMinHeight( MIN_HEIGHT + "px" );
-        thumbnail.setMinHeight( MIN_HEIGHT + "px" );
         content.setMinHeight( MIN_HEIGHT + "px" );
 
         // product pricing
