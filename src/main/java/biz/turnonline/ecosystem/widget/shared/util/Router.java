@@ -43,19 +43,20 @@ public class Router
         detailFragments.put( Route.ORDERS, "edit-order" );
         detailFragments.put( Route.PRODUCTS, "edit-product" );
         detailFragments.put( Route.CONTACTS, "edit-contact" );
+        detailFragments.put( Route.TRANSACTIONS, "transaction-detail" );
     }
 
-    public static void routeToList( Route route )
+    public static void routeToList( Route route, Target target )
     {
-        routeTo( route, listFragments.get( route ), new String[]{} );
+        routeTo( route, listFragments.get( route ), new String[]{}, target );
     }
 
-    public static void routeToDetail( Route route, String[] tokens )
+    public static void routeToDetail( Route route, String[] tokens, Target target )
     {
-        routeTo( route, detailFragments.get( route ), tokens );
+        routeTo( route, detailFragments.get( route ), tokens, target );
     }
 
-    public static void routeTo( Route route, String routePrefix, String[] tokens )
+    public static void routeTo( Route route, String routePrefix, String[] tokens, Target target )
     {
         StringBuilder url = new StringBuilder();
         url.append( route.path() );
@@ -73,6 +74,23 @@ public class Router
             url.append( token );
         }
 
-        Window.Location.replace( url.toString() );
+        Window.open( url.toString(), target.getTargetAttribute(), null );
+    }
+
+    public enum Target {
+        SELF("_self"),
+        NEW_WINDOW("_blank");
+
+        private final String targetAttribute;
+
+        Target( String targetAttribute )
+        {
+            this.targetAttribute = targetAttribute;
+        }
+
+        public String getTargetAttribute()
+        {
+            return targetAttribute;
+        }
     }
 }

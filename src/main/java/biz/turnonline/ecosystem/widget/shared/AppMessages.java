@@ -1093,6 +1093,9 @@ public interface AppMessages
     @Key( value = "tooltip.upload.bill" )
     String tooltipUploadBill();
 
+    @Key( value = "tooltip.invoice.paymentPending" )
+    String tooltipInvoicePaymentPending(String key);
+
     // messages
 
     @Key( "msg.invoiceDeleted" )

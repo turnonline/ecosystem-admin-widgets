@@ -70,15 +70,19 @@ public class Transactions
         amount.width( "20%" );
 
         ColumnTransactionKey key = new ColumnTransactionKey();
-        key.width( "25%" );
+        key.width( "20%" );
 
         ColumnTransactionReference reference = new ColumnTransactionReference();
         reference.width( "40%" );
+
+        ColumnTransactionActions actions = new ColumnTransactionActions();
+        actions.width( "5%" );
 
         table.addColumn( messages.labelPaymentMethod(), paymentMethod );
         table.addColumn( messages.labelAmount(), amount );
         table.addColumn( messages.labelPaymentId(), key );
         table.addColumn( messages.labelPaymentReference(), reference );
+        table.addColumn( actions );
 
         emptyState = new MaterialEmptyState();
         emptyState.setHeight( "40vh" );

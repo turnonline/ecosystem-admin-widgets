@@ -29,7 +29,8 @@
             <m:MaterialRow>
                 <m:MaterialColumn grid="s12 m3">
                     <s:SectionTitle iconType="VISIBILITY" title="{msg.labelDetail}" paddingBottom="10"/>
-                    <m:MaterialLongBox ui:field="transactionId" readOnly="true" label="{msg.labelTransactionId}"/>
+                    <m:MaterialLongBox ui:field="transactionId" grid="s12 m6" readOnly="true" label="{msg.labelTransactionId}" paddingLeft="0"/>
+                    <m:MaterialTextBox ui:field="key" grid="s12 m6" readOnly="true" label="{msg.labelVariableSymbol}" paddingLeft="0"/>
                     <p:TransactionAmountBox ui:field="amount" grid="s12 m6" label="{msg.labelAmount}" paddingLeft="0"/>
                     <s:PriceTextBox ui:field="balance" readOnly="true" grid="s12 m6" label="{msg.labelBalance}" paddingLeft="0"/>
                     <m:MaterialTextBox ui:field="reference" grid="s12 m12" readOnly="true" label="{msg.labelTransactionReference}" paddingLeft="0"/>
@@ -87,6 +88,10 @@
 
                     <m:MaterialButton ui:field="btnRedirectToBill" marginRight="10" type="FLOATING" backgroundColor="WHITE"
                                       iconType="RECEIPT" iconColor="GREY_DARKEN_2" waves="DEFAULT" size="MEDIUM" tooltip="{msg.tooltipEditBill}"/>
+                    <m:MaterialButton ui:field="btnRedirectToInvoice" marginRight="10" type="FLOATING" backgroundColor="WHITE"
+                                      iconType="ASSIGNMENT" iconColor="GREY_DARKEN_2" waves="DEFAULT" size="MEDIUM" tooltip="{msg.tooltipEditInvoice}"/>
+                    <m:MaterialButton ui:field="btnRedirectToOrder" marginRight="10" type="FLOATING" backgroundColor="WHITE"
+                                      iconType="ASSIGNMENT_TURNED_IN" iconColor="GREY_DARKEN_2" waves="DEFAULT" size="MEDIUM" tooltip="{msg.tooltipEditOrder}"/>
                 </m:MaterialColumn>
             </m:MaterialRow>
         </m:MaterialPanel>

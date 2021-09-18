@@ -75,6 +75,47 @@ public class ColumnTransactionAmount
         parent.clear();
         parent.setPaddingLeft( 0 );
 
+        boolean isInvoiceDraft = transaction.getBill() != null
+                && transaction.getBill().getInvoice() != null
+                && transaction.getAmount() == null;
+
+        if ( isInvoiceDraft )
+        {
+            renderInvoiceDraftTransaction( transaction, parent );
+        }
+        else
+        {
+            renderRegularTransaction( transaction, parent );
+        }
+    }
+
+    private static void renderInvoiceDraftTransaction( Transaction transaction, MaterialWidget parent )
+    {
+        MaterialColumn iconParent = new MaterialColumn();
+        iconParent.setGrid( "s12 m12" );
+        iconParent.setPaddingLeft( 0 );
+        iconParent.setPaddingTop( 5 );
+        parent.add( iconParent );
+
+        MaterialColumn infoParent = new MaterialColumn();
+        infoParent.setGrid( "s12 m12" );
+        infoParent.setFontSize( 80, Style.Unit.PCT );
+        infoParent.setPaddingLeft( 0 );
+        parent.add( infoParent );
+
+        MaterialIcon icon = new MaterialIcon( IconType.ACCESS_TIME, Color.DEEP_ORANGE_ACCENT_1, Color.WHITE );
+        iconParent.add( icon );
+
+        MaterialLabel label = new MaterialLabel( messages.tooltipInvoicePaymentPending( transaction.getKey() ) );
+        label.getElement().getStyle().setDisplay( Style.Display.INLINE_BLOCK );
+        label.getElement().getStyle().setPosition( Style.Position.RELATIVE );
+        label.getElement().getStyle().setTop( -6, Style.Unit.PX );
+        label.setTextColor( Color.DEEP_ORANGE_ACCENT_1 );
+        infoParent.add( label );
+    }
+
+    private static void renderRegularTransaction( Transaction transaction, MaterialWidget parent )
+    {
         MaterialColumn amountParent = new MaterialColumn();
         amountParent.setGrid( "s12 m12" );
         amountParent.setMarginBottom( 10 );

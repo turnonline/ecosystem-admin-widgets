@@ -46,6 +46,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static biz.turnonline.ecosystem.widget.shared.util.Router.Target.SELF;
+
 /**
  * @author <a href="mailto:pohorelec@turnonline.biz">Jozef Pohorelec</a>
  */
@@ -80,15 +82,15 @@ public class FulltextSearch
         iconMap.put( GlobalItemType.INVOICE, IconType.ASSIGNMENT );
         iconMap.put( GlobalItemType.ORDER, IconType.ASSIGNMENT_TURNED_IN );
 
-        listRedirectionMap.put( GlobalItemType.CONTACT, global -> Router.routeToList( Route.CONTACTS ) );
-        listRedirectionMap.put( GlobalItemType.PRODUCT, global -> Router.routeToList( Route.PRODUCTS ) );
-        listRedirectionMap.put( GlobalItemType.INVOICE, global -> Router.routeToList( Route.INVOICES ) );
-        listRedirectionMap.put( GlobalItemType.ORDER, global -> Router.routeToList( Route.ORDERS ) );
+        listRedirectionMap.put( GlobalItemType.CONTACT, global -> Router.routeToList( Route.CONTACTS, SELF ) );
+        listRedirectionMap.put( GlobalItemType.PRODUCT, global -> Router.routeToList( Route.PRODUCTS, SELF ) );
+        listRedirectionMap.put( GlobalItemType.INVOICE, global -> Router.routeToList( Route.INVOICES, SELF ) );
+        listRedirectionMap.put( GlobalItemType.ORDER, global -> Router.routeToList( Route.ORDERS, SELF ) );
 
-        detailRedirectionMap.put( GlobalItemType.CONTACT, global -> Router.routeToDetail( Route.CONTACTS, new String[]{global.getId()} ) );
-        detailRedirectionMap.put( GlobalItemType.PRODUCT, global -> Router.routeToDetail( Route.PRODUCTS, new String[]{global.getId(), "tabDetail"} ) );
-        detailRedirectionMap.put( GlobalItemType.INVOICE, global -> Router.routeToDetail( Route.INVOICES, new String[]{global.getId(), "tabDetail"} ) );
-        detailRedirectionMap.put( GlobalItemType.ORDER, global -> Router.routeToDetail( Route.ORDERS, new String[]{global.getId(), "tabDetail"} ) );
+        detailRedirectionMap.put( GlobalItemType.CONTACT, global -> Router.routeToDetail( Route.CONTACTS, new String[]{global.getId()}, SELF ) );
+        detailRedirectionMap.put( GlobalItemType.PRODUCT, global -> Router.routeToDetail( Route.PRODUCTS, new String[]{global.getId(), "tabDetail"}, SELF ) );
+        detailRedirectionMap.put( GlobalItemType.INVOICE, global -> Router.routeToDetail( Route.INVOICES, new String[]{global.getId(), "tabDetail"}, SELF ) );
+        detailRedirectionMap.put( GlobalItemType.ORDER, global -> Router.routeToDetail( Route.ORDERS, new String[]{global.getId(), "tabDetail"}, SELF ) );
 
         searchOrderMap.put( GlobalItemType.CONTACT, 3 );
         searchOrderMap.put( GlobalItemType.PRODUCT, 4 );

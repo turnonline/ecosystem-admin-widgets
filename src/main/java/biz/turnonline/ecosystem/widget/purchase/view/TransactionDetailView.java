@@ -28,6 +28,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.PriceTextBox;
 import biz.turnonline.ecosystem.widget.shared.ui.Route;
 import biz.turnonline.ecosystem.widget.shared.ui.ScaffoldBreadcrumb;
 import biz.turnonline.ecosystem.widget.shared.ui.SectionTitle;
+import biz.turnonline.ecosystem.widget.shared.util.Router;
 import biz.turnonline.ecosystem.widget.shared.view.View;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -48,6 +49,8 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import static biz.turnonline.ecosystem.widget.shared.util.Router.Target.NEW_WINDOW;
+
 /**
  * @author <a href="mailto:medvegy@turnonline.biz">Aurel Medvegy</a>
  */
@@ -59,6 +62,9 @@ public class TransactionDetailView
 
     @UiField
     MaterialLongBox transactionId;
+
+    @UiField
+    MaterialTextBox key;
 
     @UiField
     TransactionStatusChip status;
@@ -108,6 +114,12 @@ public class TransactionDetailView
     @UiField
     MaterialButton btnRedirectToBill;
 
+    @UiField
+    MaterialButton btnRedirectToInvoice;
+
+    @UiField
+    MaterialButton btnRedirectToOrder;
+
     @Inject
     public TransactionDetailView( @Named( "TransactionDetailBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
     {
@@ -119,6 +131,10 @@ public class TransactionDetailView
 
         add( binder.createAndBindUi( this ) );
 
+        btnRedirectToBill.setVisible( false );
+        btnRedirectToInvoice.setVisible( false );
+        btnRedirectToOrder.setVisible( false );
+
         categories.getElement().getStyle().setDisplay( Style.Display.INLINE_BLOCK );
 
         categoryTitle.getTitleComponent().addMouseOverHandler( this::showCategories );
@@ -129,6 +145,7 @@ public class TransactionDetailView
     protected void afterSetModel( Transaction transaction )
     {
         transactionId.setValue( transaction.getTransactionId() );
+        key.setValue( transaction.getKey() );
         status.setValue( transaction );
         amount.setValue( transaction );
         balance.setValue( transaction.getBalance(), transaction.getCurrency() );
@@ -171,6 +188,8 @@ public class TransactionDetailView
         }
 
         btnRedirectToBill.setVisible( transaction.getBill() != null && transaction.getBill().getReceipt() != null );
+        btnRedirectToInvoice.setVisible( transaction.getBill() != null && transaction.getBill().getOrder() != null && transaction.getBill().getInvoice() != null );
+        btnRedirectToOrder.setVisible( transaction.getBill() != null && transaction.getBill().getInvoice() != null );
     }
 
     @UiHandler( "btnBack" )
@@ -182,7 +201,25 @@ public class TransactionDetailView
     @UiHandler( "btnRedirectToBill" )
     public void handleRedirectToBill( @SuppressWarnings( "unused" ) ClickEvent event )
     {
-        bus().fireEvent( new EditBillEvent(getRawModel().getBill().getReceipt()) );
+        bus().fireEvent( new EditBillEvent( getRawModel().getBill().getReceipt() ) );
+    }
+
+    @UiHandler( "btnRedirectToInvoice" )
+    public void handleRedirectToInvoice( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        Router.routeToDetail( Route.INVOICES, new String[]{
+                        getRawModel().getBill().getOrder().toString(),
+                        getRawModel().getBill().getInvoice().toString(),
+                        "tabDetail"},
+                NEW_WINDOW );
+    }
+
+    @UiHandler( "btnRedirectToOrder" )
+    public void handleRedirectToOrder( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        Router.routeToDetail( Route.ORDERS,
+                new String[]{getRawModel().getBill().getOrder().toString(), "tabDetail"},
+                NEW_WINDOW );
     }
 
     public void hideCategories( MouseOutEvent event )
@@ -193,7 +230,8 @@ public class TransactionDetailView
 
     public void showCategories( MouseOverEvent event )
     {
-        if (!event.getNativeEvent().getCtrlKey() ) {
+        if ( !event.getNativeEvent().getCtrlKey() )
+        {
             return;
         }
 
