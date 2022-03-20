@@ -379,7 +379,7 @@ public class MyAccountView
         postalAddress.setCity( postalCity.getValue() );
         postalAddress.setPostcode( postalPostcode.getValue() );
 
-        account.setHasPostalAddress( postalAddressSame.getValue() );
+        account.setHasPostalAddress( !postalAddressSame.getValue() );
         if ( account.setPostalAddressIf( postalAddress ) )
         {
             // set only if there are another values, sending default values makes no sense
@@ -471,7 +471,7 @@ public class MyAccountView
 
         AccountPostalAddress postalAddress = account.getPostalAddress();
         Boolean hasPostalAddress = account.getHasPostalAddress();
-        postalAddressSame.setValue( hasPostalAddress == null || hasPostalAddress );
+        postalAddressSame.setValue( hasPostalAddress != null && !hasPostalAddress );
 
         if ( postalAddress == null )
         {
