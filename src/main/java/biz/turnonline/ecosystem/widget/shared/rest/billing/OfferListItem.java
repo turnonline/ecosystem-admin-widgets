@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2021 TurnOnline.biz s.r.o.
+ *  Copyright (c) 2022 TurnOnline.biz s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
@@ -20,7 +19,7 @@ package biz.turnonline.ecosystem.widget.shared.rest.billing;
 import java.util.Date;
 
 /**
- * Offer list item.
+ * Model definition for OfferListItem.
  */
 public class OfferListItem
 {
@@ -28,13 +27,19 @@ public class OfferListItem
 
     private Customer customer;
 
+    private Date expiration;
+
     private Long id;
 
     private String logo;
 
     private Date modificationDate;
 
+    private Boolean multipleRecipients;
+
     private String snippet;
+
+    private Sponsor sponsor;
 
     private Creditor supplier;
 
@@ -58,9 +63,10 @@ public class OfferListItem
         return currency;
     }
 
-    public void setCurrency( String currency )
+    public OfferListItem setCurrency( String currency )
     {
         this.currency = currency;
+        return this;
     }
 
     /**
@@ -71,9 +77,21 @@ public class OfferListItem
         return customer;
     }
 
-    public void setCustomer( Customer customer )
+    public OfferListItem setCustomer( Customer customer )
     {
         this.customer = customer;
+        return this;
+    }
+
+    public Date getExpiration()
+    {
+        return expiration;
+    }
+
+    public OfferListItem setExpiration( Date expiration )
+    {
+        this.expiration = expiration;
+        return this;
     }
 
     /**
@@ -84,9 +102,10 @@ public class OfferListItem
         return id;
     }
 
-    public void setId( Long id )
+    public OfferListItem setId( Long id )
     {
         this.id = id;
+        return this;
     }
 
     /**
@@ -97,9 +116,10 @@ public class OfferListItem
         return logo;
     }
 
-    public void setLogo( String logo )
+    public OfferListItem setLogo( String logo )
     {
         this.logo = logo;
+        return this;
     }
 
     /**
@@ -110,9 +130,21 @@ public class OfferListItem
         return modificationDate;
     }
 
-    public void setModificationDate( Date modificationDate )
+    public OfferListItem setModificationDate( Date modificationDate )
     {
         this.modificationDate = modificationDate;
+        return this;
+    }
+
+    public Boolean getMultipleRecipients()
+    {
+        return multipleRecipients;
+    }
+
+    public OfferListItem setMultipleRecipients( Boolean multipleRecipients )
+    {
+        this.multipleRecipients = multipleRecipients;
+        return this;
     }
 
     /**
@@ -123,9 +155,21 @@ public class OfferListItem
         return snippet;
     }
 
-    public void setSnippet( String snippet )
+    public OfferListItem setSnippet( String snippet )
     {
         this.snippet = snippet;
+        return this;
+    }
+
+    public Sponsor getSponsor()
+    {
+        return sponsor;
+    }
+
+    public OfferListItem setSponsor( Sponsor sponsor )
+    {
+        this.sponsor = sponsor;
+        return this;
     }
 
     /**
@@ -136,9 +180,10 @@ public class OfferListItem
         return supplier;
     }
 
-    public void setSupplier( Creditor supplier )
+    public OfferListItem setSupplier( Creditor supplier )
     {
         this.supplier = supplier;
+        return this;
     }
 
     /**
@@ -149,9 +194,10 @@ public class OfferListItem
         return thumbnail;
     }
 
-    public void setThumbnail( String thumbnail )
+    public OfferListItem setThumbnail( String thumbnail )
     {
         this.thumbnail = thumbnail;
+        return this;
     }
 
     /**
@@ -162,9 +208,10 @@ public class OfferListItem
         return title;
     }
 
-    public void setTitle( String title )
+    public OfferListItem setTitle( String title )
     {
         this.title = title;
+        return this;
     }
 
     /**
@@ -175,9 +222,10 @@ public class OfferListItem
         return totalPrice;
     }
 
-    public void setTotalPrice( Double totalPrice )
+    public OfferListItem setTotalPrice( Double totalPrice )
     {
         this.totalPrice = totalPrice;
+        return this;
     }
 
     /**
@@ -188,9 +236,10 @@ public class OfferListItem
         return totalPriceExclVat;
     }
 
-    public void setTotalPriceExclVat( Double totalPriceExclVat )
+    public OfferListItem setTotalPriceExclVat( Double totalPriceExclVat )
     {
         this.totalPriceExclVat = totalPriceExclVat;
+        return this;
     }
 
     /**
@@ -201,9 +250,10 @@ public class OfferListItem
         return totalVatAmount;
     }
 
-    public void setTotalVatAmount( Double totalVatAmount )
+    public OfferListItem setTotalVatAmount( Double totalVatAmount )
     {
         this.totalVatAmount = totalVatAmount;
+        return this;
     }
 
     /**
@@ -214,9 +264,9 @@ public class OfferListItem
         return totalVatBase;
     }
 
-    public void setTotalVatBase( Double totalVatBase )
+    public OfferListItem setTotalVatBase( Double totalVatBase )
     {
         this.totalVatBase = totalVatBase;
+        return this;
     }
 }
-

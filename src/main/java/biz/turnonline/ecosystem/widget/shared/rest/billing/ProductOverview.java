@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 TurnOnline.biz s.r.o.
+ *  Copyright (c) 2022 TurnOnline.biz s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,14 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
 
+/**
+ * Model definition for ProductOverview.
+ */
 public final class ProductOverview
 {
     private String about;
+
+    private String category;
 
     private String productUrl;
 
@@ -35,6 +39,17 @@ public final class ProductOverview
     public ProductOverview setAbout( String about )
     {
         this.about = about;
+        return this;
+    }
+
+    public String getCategory()
+    {
+        return category;
+    }
+
+    public ProductOverview setCategory( String category )
+    {
+        this.category = category;
         return this;
     }
 

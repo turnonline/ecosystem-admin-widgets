@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 TurnOnline.biz s.r.o.
+ *  Copyright (c) 2022 TurnOnline.biz s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package biz.turnonline.ecosystem.widget.shared.rest.billing;
@@ -38,9 +37,13 @@ public final class Transaction
 
     private Date completedAt;
 
+    private TransactionCounterparty counterparty;
+
     private Boolean credit;
 
     private String currency;
+
+    private ExchangeRate exchangeRate;
 
     private Long id;
 
@@ -154,6 +157,17 @@ public final class Transaction
         return this;
     }
 
+    public TransactionCounterparty getCounterparty()
+    {
+        return counterparty;
+    }
+
+    public Transaction setCounterparty( TransactionCounterparty counterparty )
+    {
+        this.counterparty = counterparty;
+        return this;
+    }
+
     /**
      * The boolean indicating whether the payment has positive or negative amount; true - credit, false - debit.
      **/
@@ -179,6 +193,17 @@ public final class Transaction
     public Transaction setCurrency( String currency )
     {
         this.currency = currency;
+        return this;
+    }
+
+    public ExchangeRate getExchangeRate()
+    {
+        return exchangeRate;
+    }
+
+    public Transaction setExchangeRate( ExchangeRate exchangeRate )
+    {
+        this.exchangeRate = exchangeRate;
         return this;
     }
 

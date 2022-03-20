@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2021 TurnOnline.biz s.r.o.
+ *  Copyright (c) 2022 TurnOnline.biz s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,12 @@ public class CompleteOffer
 
     private Customer customer;
 
+    private String description;
+
+    private Date expiration;
+
+    private Integer expirationDays;
+
     private Long id;
 
     private String invoiceType;
@@ -45,6 +51,8 @@ public class CompleteOffer
 
     private Date modificationDate;
 
+    private Boolean multipleRecipients;
+
     private Date nextBillingDate;
 
     private Integer numberOfDays;
@@ -54,6 +62,8 @@ public class CompleteOffer
     private String picture;
 
     private String snippet;
+
+    private Sponsor sponsor;
 
     private String status;
 
@@ -122,6 +132,39 @@ public class CompleteOffer
     public CompleteOffer setCustomer( Customer customer )
     {
         this.customer = customer;
+        return this;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public CompleteOffer setDescription( String description )
+    {
+        this.description = description;
+        return this;
+    }
+
+    public Date getExpiration()
+    {
+        return expiration;
+    }
+
+    public CompleteOffer setExpiration( Date expiration )
+    {
+        this.expiration = expiration;
+        return this;
+    }
+
+    public Integer getExpirationDays()
+    {
+        return expirationDays;
+    }
+
+    public CompleteOffer setExpirationDays( Integer expirationDays )
+    {
+        this.expirationDays = expirationDays;
         return this;
     }
 
@@ -209,6 +252,17 @@ public class CompleteOffer
         return this;
     }
 
+    public Boolean getMultipleRecipients()
+    {
+        return multipleRecipients;
+    }
+
+    public CompleteOffer setMultipleRecipients( Boolean multipleRecipients )
+    {
+        this.multipleRecipients = multipleRecipients;
+        return this;
+    }
+
     /**
      * The next (future) billing date. A concrete value is being based on the periodicity and evaluated by the service.
      **/
@@ -276,6 +330,17 @@ public class CompleteOffer
     public CompleteOffer setSnippet( String snippet )
     {
         this.snippet = snippet;
+        return this;
+    }
+
+    public Sponsor getSponsor()
+    {
+        return sponsor;
+    }
+
+    public CompleteOffer setSponsor( Sponsor sponsor )
+    {
+        this.sponsor = sponsor;
         return this;
     }
 
@@ -377,4 +442,3 @@ public class CompleteOffer
         return this;
     }
 }
-
