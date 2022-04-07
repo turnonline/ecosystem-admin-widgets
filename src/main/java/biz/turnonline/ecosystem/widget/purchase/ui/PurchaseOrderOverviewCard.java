@@ -61,6 +61,7 @@ import static gwt.material.design.client.constants.Color.CYAN_DARKEN_1;
 import static gwt.material.design.client.constants.Color.CYAN_DARKEN_2;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_1;
 import static gwt.material.design.client.constants.Color.GREEN;
+import static gwt.material.design.client.constants.Color.GREEN_DARKEN_2;
 import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
 import static gwt.material.design.client.constants.Color.RED_LIGHTEN_2;
@@ -248,6 +249,7 @@ public class PurchaseOrderOverviewCard
                 break;
             }
             case FINISHED:
+            case COMPLETED:
             {
                 card.setBackgroundColor( Color.GREEN_LIGHTEN_5 );
                 through.setBackgroundColor( Color.GREEN_LIGHTEN_5 );
@@ -320,6 +322,10 @@ public class PurchaseOrderOverviewCard
             {
                 return GREEN;
             }
+            case COMPLETED:
+            {
+                return GREEN_DARKEN_2;
+            }
         }
 
         return GREY;
@@ -349,6 +355,10 @@ public class PurchaseOrderOverviewCard
             {
                 return messages.descriptionOrderStatusFinished();
             }
+            case COMPLETED:
+            {
+                return messages.descriptionOrderStatusCompleted();
+            }
         }
         String error = "Unknown purchase order status: " + status;
         GWT.log( error );
@@ -376,6 +386,10 @@ public class PurchaseOrderOverviewCard
                 return CLOSE;
             }
             case FINISHED:
+            {
+                return IconType.MONETIZATION_ON;
+            }
+            case COMPLETED:
             {
                 return IconType.CHECK_CIRCLE;
             }

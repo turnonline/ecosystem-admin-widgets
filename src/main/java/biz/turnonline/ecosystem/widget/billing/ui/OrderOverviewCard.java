@@ -63,6 +63,7 @@ import static gwt.material.design.client.constants.Color.CYAN_DARKEN_1;
 import static gwt.material.design.client.constants.Color.CYAN_DARKEN_2;
 import static gwt.material.design.client.constants.Color.CYAN_LIGHTEN_1;
 import static gwt.material.design.client.constants.Color.GREEN;
+import static gwt.material.design.client.constants.Color.GREEN_DARKEN_2;
 import static gwt.material.design.client.constants.Color.GREY;
 import static gwt.material.design.client.constants.Color.RED_DARKEN_2;
 import static gwt.material.design.client.constants.Color.RED_LIGHTEN_2;
@@ -219,7 +220,7 @@ public class OrderOverviewCard
         // action buttons
         activate.setVisible( status == SUSPENDED || status == ISSUE );
         pause.setVisible( status == ACTIVE );
-        issueInvoice.setVisible( MANUALLY.name().equals( order.getPeriodicity() ) && (ACTIVE == status || TRIALING == status) );
+        issueInvoice.setVisible( MANUALLY.name().equals( order.getPeriodicity() ) && ( ACTIVE == status || TRIALING == status ) );
     }
 
     @UiHandler( "editLink" )
@@ -307,6 +308,10 @@ public class OrderOverviewCard
             {
                 return GREEN;
             }
+            case COMPLETED:
+            {
+                return GREEN_DARKEN_2;
+            }
         }
 
         return GREY;
@@ -336,6 +341,10 @@ public class OrderOverviewCard
             {
                 return messages.descriptionOrderStatusFinished();
             }
+            case COMPLETED:
+            {
+                return messages.descriptionOrderStatusCompleted();
+            }
         }
         String error = "Unknown order status: " + status;
         GWT.log( error );
@@ -363,6 +372,10 @@ public class OrderOverviewCard
                 return IconType.CLOSE;
             }
             case FINISHED:
+            {
+                return IconType.ATTACH_MONEY;
+            }
+            case COMPLETED:
             {
                 return IconType.CHECK_CIRCLE;
             }

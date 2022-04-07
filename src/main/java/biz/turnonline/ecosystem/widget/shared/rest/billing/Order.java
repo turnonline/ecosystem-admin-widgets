@@ -332,6 +332,9 @@ public final class Order
         );
     }
 
+    /**
+     * Order statuses
+     */
     public enum Status
     {
         /**
@@ -340,7 +343,7 @@ public final class Order
         TRIALING,
 
         /**
-         * A new or active order. It is not in a trial and there is no overdue payment.
+         * A new or active order. It is not in a trial and there is no overdue (recurring) payment.
          */
         ACTIVE,
 
@@ -356,9 +359,16 @@ public final class Order
         ISSUE,
 
         /**
-         * A non recurring purchase order that has been completed. Generally it means an ordered product has been paid.
+         * A non-recurring purchase order that has been finished and is ready to be delivered.
+         * Generally it means an ordered product has been paid.
+         */
+        FINISHED,
+
+        /**
+         * Order has been shipped/picked up, and receipt is confirmed.
+         * The client has paid for their products, thus the order is being considered completed.
          * A subscription that has been expired due to running its normal life cycle.
          */
-        FINISHED
+        COMPLETED
     }
 }

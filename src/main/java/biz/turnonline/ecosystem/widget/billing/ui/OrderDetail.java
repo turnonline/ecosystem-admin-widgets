@@ -52,6 +52,7 @@ import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.COMPLETED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.FINISHED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
@@ -245,7 +246,7 @@ public class OrderDetail
         suspended.setSuccessText( messages.descriptionOrderStatusSuspend() );
         stepper.reset();
 
-        readOnly( FINISHED == currentStatus );
+        readOnly( FINISHED == currentStatus || COMPLETED == currentStatus );
 
         if ( activeHandler != null )
         {
@@ -299,13 +300,21 @@ public class OrderDetail
                 break;
             }
             case FINISHED:
+            case COMPLETED:
                 stepper.nextStep();
                 stepper.nextStep();
                 stepper.nextStep();
 
                 active.setSuccessText( messages.descriptionOrderStatusActive() );
                 suspended.setSuccessText( messages.descriptionOrderStatusSuspended() );
-                finished.setSuccessText( messages.descriptionOrderStatusFinished() );
+                if ( currentStatus == FINISHED )
+                {
+                    finished.setSuccessText( messages.descriptionOrderStatusFinished() );
+                }
+                else
+                {
+                    finished.setSuccessText( messages.descriptionOrderStatusCompleted() );
+                }
 
                 break;
         }

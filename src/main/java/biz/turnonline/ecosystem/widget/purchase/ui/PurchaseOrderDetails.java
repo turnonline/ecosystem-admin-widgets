@@ -44,8 +44,11 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.Preconditions.checkNotNull;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.FINISHED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ISSUE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.OrderPeriodicity.MANUALLY;
 
 /**
@@ -196,7 +199,10 @@ public class PurchaseOrderDetails
             currentStatus = SUSPENDED;
         }
 
-        nextBillingDate.setVisible( currentStatus != FINISHED );
+        nextBillingDate.setVisible( currentStatus == TRIALING
+                || currentStatus == ACTIVE
+                || currentStatus == SUSPENDED
+                || currentStatus == ISSUE );
 
         setStatus( currentStatus );
         updatePricing( order.getTotalPriceExclVat(), order.getTotalVatBase(), order.getTotalPrice(), order.getItems() );
@@ -249,13 +255,21 @@ public class PurchaseOrderDetails
                 break;
             }
             case FINISHED:
+            case COMPLETED:
                 stepper.nextStep();
                 stepper.nextStep();
                 stepper.nextStep();
 
                 active.setSuccessText( messages.descriptionOrderStatusActive() );
                 suspended.setSuccessText( messages.descriptionOrderStatusSuspended() );
-                finished.setSuccessText( messages.descriptionOrderStatusFinished() );
+                if ( currentStatus == FINISHED )
+                {
+                    finished.setSuccessText( messages.descriptionOrderStatusFinished() );
+                }
+                else
+                {
+                    finished.setSuccessText( messages.descriptionOrderStatusCompleted() );
+                }
 
                 break;
         }

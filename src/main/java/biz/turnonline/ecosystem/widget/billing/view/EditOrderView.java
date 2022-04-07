@@ -62,6 +62,7 @@ import java.util.Date;
 import java.util.List;
 
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.COMPLETED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.FINISHED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
@@ -166,7 +167,7 @@ public class EditOrderView
         items.fill( order.getItems() );
 
         Order.Status status = order.getStatus() == null ? SUSPENDED : Order.Status.valueOf( order.getStatus() );
-        items.setReadOnly( FINISHED == status );
+        items.setReadOnly( FINISHED == status || COMPLETED == status );
 
         evalActionButtonsEnable( status );
 

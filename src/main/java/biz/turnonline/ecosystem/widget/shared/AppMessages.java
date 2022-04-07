@@ -1196,6 +1196,9 @@ public interface AppMessages
     @Key( "description.order.status.finished" )
     String descriptionOrderStatusFinished();
 
+    @Key( "description.order.status.completed" )
+    String descriptionOrderStatusCompleted();
+
     @Key( "description.invoice.status.new" )
     String descriptionInvoiceStatusNew();
 
