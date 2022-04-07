@@ -949,6 +949,9 @@ public interface AppMessages
     @Key( "tooltip.order.delete" )
     String tooltipOrderDelete();
 
+    @Key( "tooltip.order.setCompleted" )
+    String tooltipOrderSetCompleted();
+
     @Key( "tooltip.order.number" )
     String tooltipOrderNumber();
 
@@ -1145,6 +1148,9 @@ public interface AppMessages
 
     @Key( "msg.order.status.suspended" )
     String msgOrderStatusSuspended();
+
+    @Key( "msg.order.status.completed" )
+    String msgOrderStatusCompleted();
 
     @Key( "msg.purchase.order.declined" )
     String msgPurchaseOrderDeclined();

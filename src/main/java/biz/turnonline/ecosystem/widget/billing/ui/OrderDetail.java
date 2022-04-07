@@ -310,10 +310,12 @@ public class OrderDetail
                 if ( currentStatus == FINISHED )
                 {
                     finished.setSuccessText( messages.descriptionOrderStatusFinished() );
+                    finished.setTitle( FINISHED.name() );
                 }
                 else
                 {
                     finished.setSuccessText( messages.descriptionOrderStatusCompleted() );
+                    finished.setTitle( COMPLETED.name() );
                 }
 
                 break;

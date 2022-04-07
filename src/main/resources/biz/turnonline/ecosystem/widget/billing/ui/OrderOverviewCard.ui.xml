@@ -77,6 +77,8 @@
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipOrderIssueInvoice}"/>
                     <m:MaterialIcon ui:field="through" float="RIGHT" backgroundColor="WHITE" shadow="0" type="FLOATING"
                                     tooltipDelayMs="700" textAlign="CENTER" visible="false"/>
+                    <m:MaterialLink ui:field="markDelivered" iconColor="GREEN_DARKEN_2" paddingTop="10" iconType="CHECK_CIRCLE"
+                                    marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipOrderSetCompleted}"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>
         </m:MaterialRow>

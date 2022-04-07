@@ -52,6 +52,8 @@ import javax.annotation.Nonnull;
 import static biz.turnonline.ecosystem.widget.shared.presenter.Presenter.success;
 import static biz.turnonline.ecosystem.widget.shared.presenter.Presenter.warn;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ACTIVE;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.COMPLETED;
+import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.FINISHED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.ISSUE;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.SUSPENDED;
 import static biz.turnonline.ecosystem.widget.shared.rest.billing.Order.Status.TRIALING;
@@ -125,6 +127,9 @@ public class OrderOverviewCard
 
     @UiField
     MaterialIcon through;
+
+    @UiField
+    MaterialLink markDelivered;
 
     private Order order;
 
@@ -205,6 +210,7 @@ public class OrderOverviewCard
         // order status
         Order.Status status = order.getStatus() == null ? SUSPENDED : Order.Status.valueOf( order.getStatus() );
         nextBillingDate.setVisible( ( status == TRIALING || status == ACTIVE ) && order.getNextBillingDate() != null );
+        markDelivered.setVisible( status == FINISHED );
 
         statusChanged( status );
     }
@@ -221,6 +227,7 @@ public class OrderOverviewCard
         activate.setVisible( status == SUSPENDED || status == ISSUE );
         pause.setVisible( status == ACTIVE );
         issueInvoice.setVisible( MANUALLY.name().equals( order.getPeriodicity() ) && ( ACTIVE == status || TRIALING == status ) );
+        markDelivered.setVisible( status == FINISHED );
     }
 
     @UiHandler( "editLink" )
@@ -262,6 +269,12 @@ public class OrderOverviewCard
         } );
     }
 
+    @UiHandler( "markDelivered" )
+    public void markDelivered( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        callChangeStatus( COMPLETED );
+    }
+
     private void callChangeStatus( Order.Status status )
     {
         OrderStatus os = new OrderStatus();
@@ -276,6 +289,10 @@ public class OrderOverviewCard
             if ( ACTIVE == status )
             {
                 success( messages.msgOrderStatusActive(), failure );
+            }
+            if ( COMPLETED == status )
+            {
+                success( messages.msgOrderStatusCompleted(), failure );
             }
             else if ( SUSPENDED == status )
             {
