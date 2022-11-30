@@ -38,6 +38,19 @@
         <tag>HEAD</tag>
     </scm>
 
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <name>Central Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>turnonline-snapshots</id>
+            <name>TurnOnline.biz private snapshots repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <issueManagement>
         <url>https://github.com/turnonline/ecosystem-admin-widgets/issues</url>
     </issueManagement>
@@ -56,6 +69,14 @@
     </developers>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>com.google.cloud.artifactregistry</groupId>
+                <artifactId>artifactregistry-maven-wagon</artifactId>
+                <version>2.1.0</version>
+            </extension>
+        </extensions>
+
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -71,11 +92,11 @@
                     <execution>
                         <configuration>
                             <modules>
-                                <module>biz.turnonline.ecosystem.widget.Contact</module>
-                                <module>biz.turnonline.ecosystem.widget.Product</module>
-                                <module>biz.turnonline.ecosystem.widget.Billing</module>
+<!--                                <module>biz.turnonline.ecosystem.widget.Contact</module>-->
+<!--                                <module>biz.turnonline.ecosystem.widget.Product</module>-->
+<!--                                <module>biz.turnonline.ecosystem.widget.Billing</module>-->
                                 <module>biz.turnonline.ecosystem.widget.Purchase</module>
-                                <module>biz.turnonline.ecosystem.widget.MyAccount</module>
+<!--                                <module>biz.turnonline.ecosystem.widget.MyAccount</module>-->
                             </modules>
                         </configuration>
                         <goals>
@@ -228,6 +249,11 @@
         <dependency>
             <groupId>com.github.gwtmaterialdesign</groupId>
             <artifactId>gwt-material-table</artifactId>
+            <version>${gwt-material.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-am4charts</artifactId>
             <version>${gwt-material.version}</version>
         </dependency>
 

@@ -19,6 +19,8 @@ package biz.turnonline.ecosystem.widget.shared.rest;
 
 import com.github.nmorel.gwtjackson.client.JsonDeserializationContext;
 import com.github.nmorel.gwtjackson.client.ObjectMapper;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsonUtils;
 
 /**
  * JSON convenient methods to serialize and deserialize objects.
@@ -46,5 +48,11 @@ public class JSON
     {
         String string = JSON.stringify( object, mapper );
         return JSON.parse( string, mapper );
+    }
+
+    public static <T> JavaScriptObject toJavaScriptObject( T data, ObjectMapper<T> objectMapper )
+    {
+        String rawJson = JSON.stringify( data, objectMapper );
+        return JsonUtils.safeEval( rawJson );
     }
 }

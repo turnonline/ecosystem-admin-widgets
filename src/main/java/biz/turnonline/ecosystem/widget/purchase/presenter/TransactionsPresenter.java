@@ -17,8 +17,10 @@
 
 package biz.turnonline.ecosystem.widget.purchase.presenter;
 
+import biz.turnonline.ecosystem.widget.purchase.event.StatisticsEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent;
 import biz.turnonline.ecosystem.widget.purchase.event.TransactionDetailEvent.TransactionSource;
+import biz.turnonline.ecosystem.widget.purchase.place.Dashboard;
 import biz.turnonline.ecosystem.widget.purchase.place.TransactionDetail;
 import biz.turnonline.ecosystem.widget.purchase.place.Transactions;
 import biz.turnonline.ecosystem.widget.shared.presenter.Presenter;
@@ -57,6 +59,8 @@ public class TransactionsPresenter
 
             transactionIdResolverMap.get( source ).resolve( id );
         } );
+
+        bus().addHandler( StatisticsEvent.TYPE, event -> controller().goTo( new Dashboard() ) );
     }
 
     @Override

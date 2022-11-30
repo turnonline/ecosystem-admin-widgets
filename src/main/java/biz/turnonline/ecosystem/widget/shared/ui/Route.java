@@ -23,16 +23,17 @@ import com.google.gwt.user.client.Window;
  */
 public enum Route
 {
-    MY_ACCOUNT( "/my-account", "my-account", 1 ),
-    SETTINGS( "/my-account", "my-account/settings", 2 ),
-    INVOICES( "/billing", "invoices", 3 ),
-    ORDERS( "/billing", "orders", 4 ),
-    PRODUCTS( "/products", "products", 5 ),
-    CONTACTS( "/contacts", "contacts", 6 ),
-    PURCHASES( "/purchases", "invoices", 7 ), // TODO: fix order of items bellow when Purchases will be visible again
-    BILLS( "/purchases", "bills", 7 ),
-    EXPENSES( "/purchases", "expenses", 8 ),
-    TRANSACTIONS( "/purchases", "transactions", 9 ),
+    DASHBOARD( "/purchases", "dashboard", 1 ),
+    MY_ACCOUNT( "/my-account", "my-account", 2 ),
+    SETTINGS( "/my-account", "my-account/settings", 3 ),
+    INVOICES( "/billing", "invoices", 4 ),
+    ORDERS( "/billing", "orders", 5 ),
+    PRODUCTS( "/products", "products", 6 ),
+    CONTACTS( "/contacts", "contacts", 7 ),
+    PURCHASES( "/purchases", "invoices", 8 ), // TODO: fix order of items bellow when Purchases will be visible again
+    BILLS( "/purchases", "bills", 8 ),
+    EXPENSES( "/purchases", "expenses", 9 ),
+    TRANSACTIONS( "/purchases", "transactions", 10 ),
     LOGOUT( "/logout" );
 
     private final String url;

@@ -25,12 +25,15 @@ public class PredefinedRangeListBox
         localization.put( PredefinedRange.LAST_MONTH, messages.labelRangeLastMonth() );
         localization.put( PredefinedRange.LAST_3_MONTHS, messages.labelRangeLastThreeMonths() );
         localization.put( PredefinedRange.LAST_6_MONTHS, messages.labelRangeLastSixMonths() );
+        localization.put( PredefinedRange.CURRENT_YEAR, messages.labelRangeCurrentYear() );
+        localization.put( PredefinedRange.LAST_YEAR, messages.labelRangeLastYear());
         localization.put( PredefinedRange.ALL, messages.labelRangeAll() );
     }
 
     public PredefinedRangeListBox()
     {
         setItems( Arrays.asList( PredefinedRange.values() ) );
+        setLabel( messages.labelDateRange() );
 
         addValueChangeHandler( event -> setHelperText( formattedRange() ) );
     }

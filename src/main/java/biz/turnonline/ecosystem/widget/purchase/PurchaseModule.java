@@ -24,6 +24,7 @@ import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.purchase.place.Transactions;
 import biz.turnonline.ecosystem.widget.purchase.presenter.BillsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.CategoriesPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.DashboardPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.EditBillPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.EditCategoryPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
@@ -34,6 +35,7 @@ import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionDetailPrese
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.view.BillsView;
 import biz.turnonline.ecosystem.widget.purchase.view.CategoriesView;
+import biz.turnonline.ecosystem.widget.purchase.view.DashboardView;
 import biz.turnonline.ecosystem.widget.purchase.view.EditBillView;
 import biz.turnonline.ecosystem.widget.purchase.view.EditCategoryView;
 import biz.turnonline.ecosystem.widget.purchase.view.ExpensesView;
@@ -310,6 +312,18 @@ public abstract class PurchaseModule
         return new ScaffoldBreadcrumb( items, placeController );
     }
 
+    @Provides
+    @Singleton
+    @Named( "DashboardViewBreadcrumb" )
+    static ScaffoldBreadcrumb provideDashboardViewBreadcrumb( PlaceController placeController )
+    {
+        List<ScaffoldBreadcrumb.BreadcrumbItem> items = new ArrayList<>();
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.HOME, messages.labelHome() ) );
+        items.add( new ScaffoldBreadcrumb.BreadcrumbItem( IconType.DASHBOARD, messages.labelDashboard() ) );
+
+        return new ScaffoldBreadcrumb( items, placeController );
+    }
+
     @Binds
     @Singleton
     abstract ActivityMapper provideActivityMapper( PurchaseController controller );
@@ -357,4 +371,8 @@ public abstract class PurchaseModule
     @Binds
     @Singleton
     abstract EditCategoryPresenter.IView provideEditCategoryView( EditCategoryView view );
+
+    @Binds
+    @Singleton
+    abstract DashboardPresenter.IView provideDashboardView( DashboardView view );
 }

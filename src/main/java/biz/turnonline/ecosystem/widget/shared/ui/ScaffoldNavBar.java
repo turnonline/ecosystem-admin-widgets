@@ -52,6 +52,7 @@ public class ScaffoldNavBar
     {
         initWidget( binder.createAndBindUi( this ) );
 
+        nav().add( newNavLink( messages.labelDashboard(), Route.DASHBOARD.url(), IconType.DASHBOARD ) );
         nav().add( newNavLink( messages.labelMyAccount(), Route.MY_ACCOUNT.url(), IconType.PERSON ) );
         nav().add( newNavLinkWithSeparator( messages.labelSettings(), Route.SETTINGS.url(), IconType.SETTINGS ) );
         nav().add( newNavLink( messages.labelInvoices(), Route.INVOICES.url(), IconType.ASSIGNMENT ) );

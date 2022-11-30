@@ -26,7 +26,7 @@
 
         <m:MaterialRow marginBottom="0" marginTop="10">
             <m:MaterialColumn grid="s12 m12" paddingLeft="10" paddingRight="0">
-                <s:PredefinedRangeListBox ui:field="range" grid="s12 m6 l3" minHeight="0" marginTop="0"/>
+                <s:PredefinedRangeListBox ui:field="range" grid="s12 m6 l3" minHeight="0"/>
             </m:MaterialColumn>
         </m:MaterialRow>
 
@@ -40,6 +40,9 @@
                 <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="GREEN"
                                         iconType="LOCAL_OFFER" ui:field="categories"
                                         tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipCategories}"/>
+                <m:MaterialAnchorButton type="FLOATING" waves="LIGHT" backgroundColor="PURPLE"
+                                        iconType="PIE_CHART" ui:field="statistics"
+                                        tooltipPosition="LEFT" tooltipDelayMs="700" tooltip="{msg.tooltipStatistics}"/>
             </m:MaterialFABList>
         </m:MaterialFAB>
     </g:HTMLPanel>

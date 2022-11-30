@@ -18,6 +18,7 @@
 package biz.turnonline.ecosystem.widget.purchase.view;
 
 import biz.turnonline.ecosystem.widget.purchase.event.CategoriesEvent;
+import biz.turnonline.ecosystem.widget.purchase.event.StatisticsEvent;
 import biz.turnonline.ecosystem.widget.purchase.presenter.TransactionsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionAmount;
 import biz.turnonline.ecosystem.widget.purchase.ui.ColumnTransactionCategories;
@@ -65,6 +66,9 @@ public class TransactionsView
 
     @UiField
     MaterialAnchorButton categories;
+
+    @UiField
+    MaterialAnchorButton statistics;
 
     @Inject
     public TransactionsView( @Named( "TransactionsBreadcrumb" ) ScaffoldBreadcrumb breadcrumb )
@@ -131,9 +135,15 @@ public class TransactionsView
     }
 
     @UiHandler( "categories" )
-    public void handleBack( @SuppressWarnings( "unused" ) ClickEvent event )
+    public void handleCategories( @SuppressWarnings( "unused" ) ClickEvent event )
     {
         bus().fireEvent( new CategoriesEvent() );
+    }
+
+    @UiHandler( "statistics" )
+    public void handleStatistics( @SuppressWarnings( "unused" ) ClickEvent event )
+    {
+        bus().fireEvent( new StatisticsEvent() );
     }
 
     interface TransactionsViewUiBinder

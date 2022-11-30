@@ -173,6 +173,9 @@ public interface AppMessages
     @Key( value = "label.myAccount" )
     String labelMyAccount();
 
+    @Key( value = "label.dashboard" )
+    String labelDashboard();
+
     @Key( value = "label.companyAccount" )
     String labelCompanyAccount();
 
@@ -596,6 +599,9 @@ public interface AppMessages
     @Key( value = "label.dates" )
     String labelDates();
 
+    @Key( value = "label.dateRange" )
+    String labelDateRange();
+
     @Key( value = "label.dateOfIssue" )
     String labelDateOfIssue();
 
@@ -758,6 +764,12 @@ public interface AppMessages
     @Key( "label.range.lastSixMonths" )
     String labelRangeLastSixMonths();
 
+    @Key( "label.range.currentYear" )
+    String labelRangeCurrentYear();
+
+    @Key( "label.range.lastYear" )
+    String labelRangeLastYear();
+
     @Key( "label.range.all" )
     String labelRangeAll();
 
@@ -850,6 +862,27 @@ public interface AppMessages
 
     @Key( "label.approveAll" )
     String labelApproveAll();
+
+    @Key( "label.credit" )
+    String labelCredit();
+
+    @Key( "label.debit" )
+    String labelDebit();
+
+    @Key( "label.diff" )
+    String labelDiff();
+
+    @Key( "label.IncomeVsExpensesHistogramChart" )
+    String labelIncomeVsExpensesHistogramChart();
+
+    @Key( "label.incomeVsExpensesTotalChart" )
+    String labelIncomeVsExpensesTotalChart();
+
+    @Key( "label.expensesByCategoryChart" )
+    String labelExpensesByCategoryChart();
+
+    @Key( "label.searchTransactionsToExclude" )
+    String labelSearchTransactionsToExclude();
 
     // tooltips
 
@@ -1077,6 +1110,9 @@ public interface AppMessages
 
     @Key( value = "tooltip.transaction.categories" )
     String tooltipCategories();
+
+    @Key( value = "tooltip.transaction.statistics" )
+    String tooltipStatistics();
 
     @Key( value = "tooltip.category.edit" )
     String tooltipEditCategory();

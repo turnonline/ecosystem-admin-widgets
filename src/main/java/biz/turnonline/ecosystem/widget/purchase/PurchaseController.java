@@ -18,6 +18,7 @@ package biz.turnonline.ecosystem.widget.purchase;
 
 import biz.turnonline.ecosystem.widget.purchase.presenter.BillsPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.CategoriesPresenter;
+import biz.turnonline.ecosystem.widget.purchase.presenter.DashboardPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.EditBillPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.EditCategoryPresenter;
 import biz.turnonline.ecosystem.widget.purchase.presenter.ExpensesPresenter;
@@ -48,7 +49,8 @@ public class PurchaseController
                                TransactionsPresenter transactions,
                                TransactionDetailPresenter transactionDetail,
                                CategoriesPresenter categories,
-                               EditCategoryPresenter editCategory )
+                               EditCategoryPresenter editCategory,
+                               DashboardPresenter dashboard )
     {
         super( orders,
                 orderDetail,
@@ -59,6 +61,7 @@ public class PurchaseController
                 transactions,
                 transactionDetail,
                 categories,
-                editCategory );
+                editCategory,
+                dashboard);
     }
 }

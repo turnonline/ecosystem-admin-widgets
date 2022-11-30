@@ -12,6 +12,10 @@ public enum PredefinedRange
     LAST_MONTH( () -> new Range( firstDayOfPreviousMonth(), lastDayOfPreviousMonth() ) ),
     LAST_3_MONTHS( () -> new Range( firstDayOfPreviousThreeMonths(), lastDayOfCurrentMonth() ) ),
     LAST_6_MONTHS( () -> new Range( firstDayOfPreviousSixMonths(), lastDayOfCurrentMonth() ) ),
+
+    CURRENT_YEAR( () -> new Range( firstDayOfCurrentYear(), lastDayOfCurrentYear() ) ),
+    LAST_YEAR( () -> new Range( firstDayOfLastYear(), lastDayOfLastYear() ) ),
+
     ALL( () -> new Range( null, null ) );
 
     private RangeSupplier rangeSupplier;
@@ -99,5 +103,38 @@ public enum PredefinedRange
         lastDayOfPreviousMonthDate.setDate( lastDayOfPreviousMonthDate.getDate() - 1 );
 
         return lastDayOfPreviousMonthDate;
+    }
+
+    public static Date firstDayOfCurrentYear() {
+        Date firstDayOfCurrentYear = new Date();
+        firstDayOfCurrentYear.setDate( 1 );
+        firstDayOfCurrentYear.setMonth( 0 );
+
+        return firstDayOfCurrentYear;
+    }
+
+    public static Date lastDayOfCurrentYear() {
+        Date firstDayOfCurrentYear = new Date();
+        firstDayOfCurrentYear.setHours( 0 );
+        firstDayOfCurrentYear.setMinutes( 0 );
+        firstDayOfCurrentYear.setSeconds( 0 );
+        firstDayOfCurrentYear.setMonth( 11 );
+        firstDayOfCurrentYear.setDate( 31 );
+
+        return firstDayOfCurrentYear;
+    }
+
+    public static Date firstDayOfLastYear() {
+        Date firstDayOfLastYear = firstDayOfCurrentYear();
+        firstDayOfLastYear.setYear( firstDayOfCurrentYear().getYear() - 1);
+
+        return firstDayOfLastYear;
+    }
+
+    public static Date lastDayOfLastYear() {
+        Date lastDayOfLastYear = lastDayOfCurrentYear();
+        lastDayOfLastYear.setYear( firstDayOfCurrentYear().getYear() - 1);
+
+        return lastDayOfLastYear;
     }
 }

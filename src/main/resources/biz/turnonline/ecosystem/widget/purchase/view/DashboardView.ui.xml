@@ -1,0 +1,55 @@
+<!--
+  ~  Copyright (c) 2020 TurnOnline.biz s.r.o.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:s="urn:import:biz.turnonline.ecosystem.widget.shared.ui"
+             xmlns:p="urn:import:biz.turnonline.ecosystem.widget.purchase.ui"
+             xmlns:m="urn:import:gwt.material.design.client.ui">
+
+    <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
+
+    <g:HTMLPanel>
+        <s:ScaffoldBreadcrumb ui:field="breadcrumb"/>
+
+        <m:MaterialRow marginBottom="0" marginTop="10">
+            <m:MaterialColumn grid="s12 m12" paddingLeft="10" paddingRight="0">
+                <s:PredefinedRangeListBox ui:field="range" grid="s12 m4 l3" minHeight="0"/>
+                <p:TransactionFullTextSearch ui:field="transactionExcluder" grid="s12 m8 l9" label="{msg.labelSearchTransactionsToExclude}"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+
+        <m:MaterialPanel textAlign="CENTER" ui:field="loader">
+            <m:MaterialPreLoader size="SMALL" textAlign="CENTER">
+                <m:MaterialSpinner color="BLUE"/>
+                <m:MaterialSpinner color="RED"/>
+            </m:MaterialPreLoader>
+        </m:MaterialPanel>
+
+        <m:MaterialRow ui:field="chartsRoot">
+            <m:MaterialColumn grid="s12 m12" padding="0">
+                <p:CreditsVsDebitsHistogramChart chartTitle="{msg.labelIncomeVsExpensesHistogramChart}" ui:field="incomeVsExpensesHistogram" height="400px"/>
+            </m:MaterialColumn>
+            <m:MaterialColumn grid="s12 m6" padding="0">
+                <p:CreditsVsDebitsTotalChart chartTitle="{msg.labelIncomeVsExpensesTotalChart}" ui:field="incomeVsExpensesTotalChart" height="400px"/>
+            </m:MaterialColumn>
+            <m:MaterialColumn grid="s12 m6" padding="0">
+                <p:DebitsByCategoryChart chartTitle="{msg.labelExpensesByCategoryChart}" ui:field="expensesByCategoryChart" height="400px"/>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+
+    </g:HTMLPanel>
+</ui:UiBinder>

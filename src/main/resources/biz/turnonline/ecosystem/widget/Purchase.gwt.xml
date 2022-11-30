@@ -36,6 +36,8 @@
     <inherits name="gwt.material.design.incubator.AddinsIncubator"/>
     <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
 
+    <inherits name="gwt.material.design.amcharts.GwtMaterialAmCharts"/>
+
     <source path="shared"/>
     <source path="purchase"/>
 

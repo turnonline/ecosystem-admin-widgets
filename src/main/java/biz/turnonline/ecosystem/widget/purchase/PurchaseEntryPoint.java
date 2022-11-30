@@ -20,7 +20,10 @@ package biz.turnonline.ecosystem.widget.purchase;
 import biz.turnonline.ecosystem.widget.purchase.place.PurchaseOrders;
 import biz.turnonline.ecosystem.widget.shared.DaggerComponent;
 import biz.turnonline.ecosystem.widget.shared.DaggerEntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.Place;
+import gwt.material.design.amcore.client.Am4Core;
+import gwt.material.design.amcore.client.theme.AnimatedTheme;
 
 /**
  * The purchases widget application entry point.
@@ -36,5 +39,13 @@ public class PurchaseEntryPoint
     protected DaggerComponent component()
     {
         return DaggerPurchaseComponent.create();
+    }
+
+    @Override
+    public void onModuleLoad()
+    {
+        super.onModuleLoad();
+
+        Am4Core.useTheme( GWT.create( AnimatedTheme.class ) );
     }
 }
