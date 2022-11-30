@@ -23,7 +23,7 @@ import com.google.gwt.user.client.Window;
  */
 public enum Route
 {
-    DASHBOARD( "/dashboard", "dashboard", 1 ),
+    DASHBOARD( "/purchases", "dashboard", 1 ),
     MY_ACCOUNT( "/my-account", "my-account", 2 ),
     SETTINGS( "/my-account", "my-account/settings", 3 ),
     INVOICES( "/billing", "invoices", 4 ),
