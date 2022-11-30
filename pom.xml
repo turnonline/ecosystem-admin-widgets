@@ -92,11 +92,11 @@
                     <execution>
                         <configuration>
                             <modules>
-<!--                                <module>biz.turnonline.ecosystem.widget.Contact</module>-->
-<!--                                <module>biz.turnonline.ecosystem.widget.Product</module>-->
-<!--                                <module>biz.turnonline.ecosystem.widget.Billing</module>-->
+                                <module>biz.turnonline.ecosystem.widget.Contact</module>
+                                <module>biz.turnonline.ecosystem.widget.Product</module>
+                                <module>biz.turnonline.ecosystem.widget.Billing</module>
                                 <module>biz.turnonline.ecosystem.widget.Purchase</module>
-<!--                                <module>biz.turnonline.ecosystem.widget.MyAccount</module>-->
+                                <module>biz.turnonline.ecosystem.widget.MyAccount</module>
                             </modules>
                         </configuration>
                         <goals>
