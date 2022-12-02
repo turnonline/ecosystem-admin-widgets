@@ -28,6 +28,7 @@ import biz.turnonline.ecosystem.widget.shared.ui.PriceTextBox;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
@@ -39,12 +40,13 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialCardAction;
 import gwt.material.design.client.ui.MaterialCardContent;
+import gwt.material.design.client.ui.MaterialCardImage;
 import gwt.material.design.client.ui.MaterialCardTitle;
-import gwt.material.design.client.ui.MaterialCollection;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 
 import javax.annotation.Nonnull;
@@ -71,6 +73,9 @@ public class ProductOverviewCard
     MaterialTextArea snippet;
 
     @UiField
+    MaterialCardImage thumbnailWrapper;
+
+    @UiField
     MaterialImage thumbnail;
 
     @UiField
@@ -83,7 +88,7 @@ public class ProductOverviewCard
     VatRateComboBox vat;
 
     @UiField
-    MaterialCollection eventCard;
+    MaterialPanel eventCard;
 
     @UiField
     MaterialDatePicker eventOn;
@@ -106,6 +111,7 @@ public class ProductOverviewCard
         title.getIcon().setIconSize( IconSize.SMALL );
         title.setText( product.getItemName() );
         snippet.setText( product.getSnippet() );
+        snippet.getValueBoxBase().getElement().getStyle().setPadding( 0, Style.Unit.PX );
 
         ProductOverview overview = product.getOverview();
         if ( overview != null )
@@ -126,9 +132,11 @@ public class ProductOverviewCard
                 title.setIconType( IconType.LOCK_OPEN );
             }
         }
+        thumbnailWrapper.getElement().setAttribute( "style", "padding-bottom: 10px; padding-left: 10px;width: 15% !important;" );
 
         card.setMinHeight( MIN_HEIGHT + "px" );
         content.setMinHeight( MIN_HEIGHT + "px" );
+        content.getElement().setAttribute("style", "padding: 0px 10px; width: 85% !important;" );
 
         // product pricing
         ProductPricing pricing = product.getPricing();
@@ -165,10 +173,6 @@ public class ProductOverviewCard
         }
 
         eventCard.setVisible( beginOn );
-        if ( beginOn )
-        {
-            cardAction.setBorderTop( "0" );
-        }
 
         // action event handlers
         String scrollspyHistoryToken = Products.PREFIX + ":" + Products.getScrollspy( product );

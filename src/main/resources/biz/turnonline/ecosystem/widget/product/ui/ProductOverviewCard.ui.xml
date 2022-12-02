@@ -21,34 +21,33 @@
 
     <ui:with field="msg" type="biz.turnonline.ecosystem.widget.shared.AppMessages"/>
 
-    <m:MaterialCard minHeight="290px" ui:field="card" detectOrientation="true"
+    <m:MaterialCard minHeight="150px" ui:field="card" detectOrientation="true"
                     marginTop="10" marginBottom="10"
-                    paddingTop="15" paddingBottom="0">
-        <m:MaterialCardImage paddingLeft="10">
+                    paddingTop="10" paddingBottom="0">
+        <m:MaterialCardImage ui:field="thumbnailWrapper" paddingLeft="10" paddingBottom="10">
             <m:MaterialImage ui:field="thumbnail" height="auto"/>
         </m:MaterialCardImage>
 
-        <m:MaterialCardContent ui:field="content" textColor="BLACK" padding="10" paddingBottom="0">
+        <m:MaterialCardContent ui:field="content" textColor="BLACK" padding="10" paddingBottom="0" paddingTop="0" >
             <m:MaterialCardTitle ui:field="title" fontSize="1.5em" fontWeight="BOLD"
                                  padding="0" addStyleNames="truncate"
                                  iconType="LOCK" iconColor="RED" iconPosition="RIGHT" iconSize="MEDIUM"/>
-            <m:MaterialTextArea ui:field="snippet" readOnly="true" resizeRule="AUTO" marginTop="0"/>
-            <m:MaterialRow margin="0">
+            <m:MaterialTextArea ui:field="snippet" readOnly="true" resizeRule="AUTO" marginTop="0" padding="0"/>
+            <m:MaterialRow margin="0" marginLeft="-10">
                 <s:PriceTextBox ui:field="priceExclVat" label="{msg.labelPriceExcludingVat}"
-                                   fontWeight="BOLD" grid="m6"/>
+                                fontWeight="BOLD" grid="s12 l2"/>
                 <s:VatRateComboBox ui:field="vat" label="{msg.labelVat}"
-                                   fontWeight="BOLD" grid="m6"/>
+                                   fontWeight="BOLD" grid="s12 l2"/>
+
+                <m:MaterialPanel ui:field="eventCard" grid="s12 l8" borderRadius="0" margin="0" borderLeft="0"
+                                 borderRight="0">
+                    <m:MaterialIcon iconType="DATE_RANGE" iconColor="BLUE"/>
+                    <m:MaterialDatePicker ui:field="eventOn" readOnly="true" margin="0" paddingLeft="5" display="INLINE_BLOCK" layoutPosition="RELATIVE" top="-7"/>
+                    <m:MaterialIcon iconType="LOCATION_ON" iconColor="RED"/>
+                    <m:MaterialLabel ui:field="locationName"  paddingLeft="5" display="INLINE_BLOCK" layoutPosition="RELATIVE" top="-7"/>
+                </m:MaterialPanel>
             </m:MaterialRow>
         </m:MaterialCardContent>
-
-        <m:MaterialCollection ui:field="eventCard" borderRadius="0" margin="0" borderLeft="0" borderRight="0">
-            <m:MaterialCollectionItem>
-                <m:MaterialIcon iconType="DATE_RANGE" iconColor="BLUE"/>
-                <m:MaterialDatePicker ui:field="eventOn" readOnly="true" margin="0"/>
-                <m:MaterialIcon iconType="LOCATION_ON" iconColor="RED"/>
-                <m:MaterialLabel ui:field="locationName"/>
-            </m:MaterialCollectionItem>
-        </m:MaterialCollection>
 
         <m:MaterialRow marginBottom="0">
             <m:MaterialColumn grid="s12 m12 l12">

@@ -92,7 +92,7 @@ public class ProductsView
 
     private Widget createCard( Product product )
     {
-        MaterialColumn column = new MaterialColumn( 12, 6, 6 );
+        MaterialColumn column = new MaterialColumn( 12, 12, 12 );
         column.add( new ProductOverviewCard( product, bus() ) );
         return column;
     }
