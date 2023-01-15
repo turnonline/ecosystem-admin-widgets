@@ -52,8 +52,10 @@
         <m:MaterialRow marginBottom="0">
             <m:MaterialColumn grid="s12 m12 l12">
                 <m:MaterialCardAction ui:field="cardAction" marginTop="0" padding="0">
-                    <m:MaterialLink ui:field="edit" iconColor="BLUE" paddingTop="10" iconType="EDIT" padding="5"
+                    <m:MaterialLink ui:field="edit" iconColor="BLUE" paddingTop="10" iconType="EDIT" padding="5" paddingRight="0"
                                     marginLeft="10" tooltipDelayMs="700" tooltip="{msg.tooltipEditProduct}"/>
+                    <m:MaterialLink ui:field="togglePublish" iconColor="GREEN" paddingTop="10" iconType="PUBLIC" padding="5" paddingLeft="0"
+                                    marginLeft="0" tooltipDelayMs="700" tooltip="{msg.tooltipTogglePublishProduct}"/>
                 </m:MaterialCardAction>
             </m:MaterialColumn>
         </m:MaterialRow>

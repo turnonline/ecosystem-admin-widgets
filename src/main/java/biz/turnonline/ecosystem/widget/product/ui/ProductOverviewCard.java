@@ -19,11 +19,13 @@ package biz.turnonline.ecosystem.widget.product.ui;
 
 import biz.turnonline.ecosystem.widget.product.event.EditProductEvent;
 import biz.turnonline.ecosystem.widget.product.place.Products;
+import biz.turnonline.ecosystem.widget.shared.AppEventBus;
 import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Event;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.Product;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductOverview;
 import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPricing;
+import biz.turnonline.ecosystem.widget.shared.rest.billing.ProductPublishing;
 import biz.turnonline.ecosystem.widget.shared.ui.PriceTextBox;
 import biz.turnonline.ecosystem.widget.shared.ui.VatRateComboBox;
 import com.google.common.base.Strings;
@@ -34,6 +36,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.constants.IconType;
@@ -50,6 +53,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextArea;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * {@link Product} overview card component.
@@ -102,10 +106,35 @@ public class ProductOverviewCard
     @UiField
     MaterialLink edit;
 
+    @UiField
+    MaterialLink togglePublish;
+
+    private Product product;
+
+    private HandlerRegistration togglePushHandler;
+
     public ProductOverviewCard( @Nonnull Product product, @Nonnull EventBus bus )
     {
-        initWidget( binder.createAndBindUi( this ) );
+        this.product = product;
 
+        initWidget( binder.createAndBindUi( this ) );
+        init( bus );
+
+        // action event handlers
+        String scrollspyHistoryToken = Products.PREFIX + ":" + Products.getScrollspy( product );
+        edit.addClickHandler( e -> {
+            // don't add history record if there is already an another token not managing scrollspy
+            if ( Products.isCurrentTokenScrollspy() )
+            {
+                // add record in to history (to manage scrolling to selected card once going back), but don't fire event
+                History.newItem( scrollspyHistoryToken, false );
+            }
+            bus.fireEvent( new EditProductEvent( product ) );
+        } );
+    }
+
+    private void init( @Nonnull EventBus bus )
+    {
         card.setScrollspy( Products.getScrollspy( product ) );
 
         title.getIcon().setIconSize( IconSize.SMALL );
@@ -131,12 +160,17 @@ public class ProductOverviewCard
                 title.setIconColor( Color.GREEN );
                 title.setIconType( IconType.LOCK_OPEN );
             }
+            else
+            {
+                title.setIconColor( Color.RED );
+                title.setIconType( IconType.LOCK );
+            }
         }
         thumbnailWrapper.getElement().setAttribute( "style", "padding-bottom: 10px; padding-left: 10px;width: 15% !important;" );
 
         card.setMinHeight( MIN_HEIGHT + "px" );
         content.setMinHeight( MIN_HEIGHT + "px" );
-        content.getElement().setAttribute("style", "padding: 0px 10px; width: 85% !important;" );
+        content.getElement().setAttribute( "style", "padding: 0px 10px; width: 85% !important;" );
 
         // product pricing
         ProductPricing pricing = product.getPricing();
@@ -174,16 +208,29 @@ public class ProductOverviewCard
 
         eventCard.setVisible( beginOn );
 
-        // action event handlers
-        String scrollspyHistoryToken = Products.PREFIX + ":" + Products.getScrollspy( product );
-        edit.addClickHandler( e -> {
-            // don't add history record if there is already an another token not managing scrollspy
-            if ( Products.isCurrentTokenScrollspy() )
-            {
-                // add record in to history (to manage scrolling to selected card once going back), but don't fire event
-                History.newItem( scrollspyHistoryToken, false );
-            }
-            bus.fireEvent( new EditProductEvent( product ) );
+        togglePublish.setVisible( product.getOverview() != null );
+
+        if ( togglePushHandler != null )
+        {
+            togglePushHandler.removeHandler();
+        }
+        togglePushHandler = togglePublish.addClickHandler( e -> {
+
+            ProductPublishing publishing = new ProductPublishing();
+            publishing.setPublished( !Optional.of( product.getOverview().getPublished() ).orElse( false ) );
+
+            AppEventBus appEventBus = ( AppEventBus ) bus;
+            appEventBus.billing().updateProductPublishing(
+                    product.getId(),
+                    publishing,
+                    ( response, failure ) -> {
+                        // refresh product
+                        appEventBus.billing().findProductById( product.getId(), false, ( resp, fail ) -> {
+                            ProductOverviewCard.this.product = resp;
+                            init( bus );
+                        } );
+                    }
+            );
         } );
     }
 

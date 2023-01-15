@@ -75,6 +75,12 @@ public interface ProductBillingFacade
                         Product product,
                         FacadeCallback<Product> callback );
 
+    @PUT
+    @Path( "products/{product_id}/publishing" )
+    void updateProductPublishing( @PathParam( "product_id" ) Long productId,
+                                  ProductPublishing productPublishing,
+                                  FacadeCallback<ProductPublishing> callback );
+
     @DELETE
     @Path( "products/{product_id}" )
     void deleteProduct( @PathParam( "product_id" ) Long productId,
@@ -218,7 +224,7 @@ public interface ProductBillingFacade
     @GET
     @Path( "codebook/categories" )
     void getCategories( @HeaderParam( "Accept-Language" ) String acceptLanguage,
-                          SuccessCallback<Items<Category>> callback );
+                        SuccessCallback<Items<Category>> callback );
 
     //////////////////////
     ///// purchases //////
@@ -295,5 +301,5 @@ public interface ProductBillingFacade
     @GET
     @Path( "transactions/{transaction_id}" )
     void getTransactionById( @PathParam( "transaction_id" ) Long transactionId,
-                          SuccessCallback<Transaction> callback );
+                             SuccessCallback<Transaction> callback );
 }

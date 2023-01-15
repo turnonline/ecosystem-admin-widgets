@@ -919,6 +919,9 @@ public interface AppMessages
     @Key( value = "tooltip.edit.product" )
     String tooltipEditProduct();
 
+    @Key( value = "tooltip.toggle.publish.product" )
+    String tooltipTogglePublishProduct();
+
     @Key( value = "tooltip.delete.product" )
     String tooltipDeleteProduct();
 
