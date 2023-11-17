@@ -53,25 +53,25 @@ public interface ProductBillingFacade
     void getProducts( @QueryParam( "offset" ) Integer offset,
                       @QueryParam( "limit" ) Integer limit,
                       @QueryParam( "lightList" ) boolean lightList,
-                      @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
+                      @HeaderParam( "Vnd-ConnecSys-Calc-Pricing-Items" ) boolean calcPricingItems,
                       SuccessCallback<Items<Product>> callback );
 
     @GET
     @Path( "products/{product_id}" )
     void findProductById( @PathParam( "product_id" ) Long productId,
-                          @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
+                          @HeaderParam( "Vnd-ConnecSys-Calc-Pricing-Items" ) boolean calcPricingItems,
                           FacadeCallback<Product> callback );
 
     @POST
     @Path( "products" )
-    void createProduct( @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
+    void createProduct( @HeaderParam( "Vnd-ConnecSys-Calc-Pricing-Items" ) boolean calcPricingItems,
                         Product product,
                         FacadeCallback<Product> callback );
 
     @PUT
     @Path( "products/{product_id}" )
     void updateProduct( @PathParam( "product_id" ) Long productId,
-                        @HeaderParam( "vnd.turnon.cloud.calc-pricing-items" ) boolean calcPricingItems,
+                        @HeaderParam( "Vnd-ConnecSys-Calc-Pricing-Items" ) boolean calcPricingItems,
                         Product product,
                         FacadeCallback<Product> callback );
 
@@ -183,7 +183,7 @@ public interface ProductBillingFacade
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
     void sendInvoice( @PathParam( "order_id" ) Long orderId,
                       @PathParam( "invoice_id" ) Long invoiceId,
-                      @HeaderParam( "vnd.turnon.cloud.send-invoice" ) Boolean sendInvoice,
+                      @HeaderParam( "Vnd-ConnecSys-Send-Invoice" ) Boolean sendInvoice,
                       Invoice invoice,
                       FacadeCallback<Invoice> callback );
 
@@ -191,8 +191,8 @@ public interface ProductBillingFacade
     @Path( "orders/{order_id}/invoices/{invoice_id}" )
     void emailInvoice( @PathParam( "order_id" ) Long orderId,
                        @PathParam( "invoice_id" ) Long invoiceId,
-                       @HeaderParam( "vnd.turnon.cloud.send-invoice" ) Boolean sendInvoice,
-                       @HeaderParam( "vnd.turnon.cloud.contact-email" ) String email,
+                       @HeaderParam( "Vnd-ConnecSys-Send-Invoice" ) Boolean sendInvoice,
+                       @HeaderParam( "Vnd-ConnecSys-Contact-Email" ) String email,
                        Invoice invoice,
                        FacadeCallback<Invoice> callback );
 

@@ -187,11 +187,11 @@ public class UploaderWithAuthorization
      * The {@link MaterialFileUploader} related headers:
      * <ul>
      *     <li>Authorization - Bearer token</li>
-     *     <li>vnd.turnon.cloud.associated-id - ID as an identification of a record
+     *     <li>Vnd-ConnecSys-Associated-Id - ID as an identification of a record
      *     that will be associated with the uploaded data</li>
-     *     <li>vnd.turnon.cloud.logo-image
+     *     <li>Vnd-ConnecSys-Logo-Image
      *     - boolean value indicating whether uploaded image is being intended to be a logo</li>
-     *     <li>vnd.turnon.cloud.stamp-image
+     *     <li>Vnd-ConnecSys-Stamp-Image
      *     - boolean value indicating whether uploaded image is being intended to be a stamp</li>
      * </ul>
      */
@@ -211,19 +211,19 @@ public class UploaderWithAuthorization
         }-*/;
 
         public final native void setAssociatedId( String billId ) /*-{
-            this['vnd.turnon.cloud.associated-id'] = billId;
+            this['Vnd-ConnecSys-Associated-Id'] = billId;
         }-*/;
 
         public final native void setLogoImage( String is ) /*-{
-            this['vnd.turnon.cloud.logo-image'] = is;
+            this['Vnd-ConnecSys-Logo-Image'] = is;
         }-*/;
 
         public final native void setCreateContact( String is ) /*-{
-            this['vnd.turnon.cloud.create-contact'] = is;
+            this['Vnd-ConnecSys-Create-Contact'] = is;
         }-*/;
 
         public final native void setStampImage( String is ) /*-{
-            this['vnd.turnon.cloud.stamp-image'] = is;
+            this['Vnd-ConnecSys-Stamp-Image'] = is;
         }-*/;
     }
 

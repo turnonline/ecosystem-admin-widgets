@@ -88,7 +88,7 @@ public final class ProductPricing
     }
 
     /**
-     * An extra property with recalculated pricing item tree based on the current product's values with default structure. It will be recalculated on demand, see header 'vnd.turnon.cloud.calc-pricing-items'. However in case the product is being delivered as a Pub / Sub event, this pricing item tree will be included by default. Root itemType will be always 'Standard'.
+     * An extra property with recalculated pricing item tree based on the current product's values with default structure. It will be recalculated on demand, see header 'Vnd-ConnecSys-Calc-Pricing-Items'. However in case the product is being delivered as a Pub / Sub event, this pricing item tree will be included by default. Root itemType will be always 'Standard'.
      **/
     public PricingItem getItems()
     {
