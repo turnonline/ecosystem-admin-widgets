@@ -17,6 +17,7 @@
 
 package biz.turnonline.ecosystem.widget.shared.ui;
 
+import biz.turnonline.ecosystem.widget.shared.Resources;
 import biz.turnonline.ecosystem.widget.shared.event.RestCallEvent;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -76,7 +77,11 @@ public class ScaffoldHeader
         String photoURL = getFirebaseCurrentUserData( "photoURL" );
         String avatarUrl;
 
-        if ( photoURL == null || photoURL.startsWith( "data:image" ) )
+        if ( photoURL == null )
+        {
+            avatarUrl = Resources.INSTANCE.noImage().getSafeUri().asString();
+        }
+        else if ( photoURL.startsWith( "data:image" ) )
         {
             avatarUrl = photoURL;
         }
