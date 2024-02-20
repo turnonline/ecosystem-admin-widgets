@@ -186,7 +186,13 @@ public class Configuration
 
     public String getLocale()
     {
-        return Optional.ofNullable( Cookies.getCookie( "locale" ) ).orElse( "en" );
+        String locale = Cookies.getCookie( "locale" );
+        if ( locale == null || "undefined".equals( locale ) )
+        {
+            return "en";
+        }
+
+        return locale;
     }
 
     public String getMapsApiKey()
@@ -204,7 +210,8 @@ public class Configuration
         return LEGAL_FORM;
     }
 
-    public boolean isFeatureEnabled( Feature.Name name ) {
+    public boolean isFeatureEnabled( Feature.Name name )
+    {
         return features.stream()
                 .filter( feature -> feature.getName().equals( name ) )
                 .map( Feature::isEnabled )
